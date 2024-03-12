@@ -135,7 +135,7 @@ J2(J) Industries
 * 02_COAL        Coal
 * 03_OIL         Crude petroleum
 * 04_GAS         Natural gas Gas distribution
- 05_MINING      Mined and quarried goods
+* 05_MINING      Mined and quarried goods
  06_FOODPRO     Food beverages and tobacco products
  07_TEXTILES    Textile and leather products
  08_WOODPRO     Wood products
@@ -147,7 +147,7 @@ J2(J) Industries
  14_NONFERR     Non-ferrous metal products
  15_MACHINE     Fabricated metal products Electronic and electrical equipment Machinery and equipment
  16_TRANSEQ     Motor vehicles Other transport equipment
- 17_OTHERIND    Other manufactured products Water supply
+* 17_OTHERIND    Other manufactured products Water supply
 * 18_TnD         Transmission and Distribution
 * 19_eNuclear    Nuclear generation
 * 20_eCoal       Coal generation
@@ -157,7 +157,7 @@ J2(J) Industries
 * 24_eSolar      Solar generation
 * 25_eHydro      Hydro generation
 * 26_eOther      Other generation
- 27_CONSTRUC    Construction
+* 27_CONSTRUC    Construction
  28_LTRP        Land transport service(road rail)
  29_WTRP        Water transport service
  30_ATRP        Air transport service
@@ -170,9 +170,10 @@ J3(J) Energy Industries
  02_COAL        Coal
  03_OIL         Crude petroleum
  04_GAS         Natural gas Gas distribution
-* 05_MINING      Mined and quarried goods
+ 05_MINING      Mined and quarried goods
  10_PETROLCOAL  Petroleum and coal products
  13_IRONSTL     Primary iron and steel products
+ 17_OTHERIND    Other manufactured products Water supply
  18_TnD         Transmission and Distribution
  19_eNuclear    Nuclear generation
  20_eCoal       Coal generation
@@ -182,6 +183,8 @@ J3(J) Energy Industries
  24_eSolar      Solar generation
  25_eHydro      Hydro generation
  26_eOther      Other generation
+ 27_CONSTRUC    Construction
+
 /
 
 J4(J) Energy Transformation Industries
@@ -275,6 +278,27 @@ Z3(Z)
 * 17_PAO Pacific OECD
 /
 
+Z4(Z)
+/
+ 01_KOR Korea
+ 02_CHN China
+ 03_JPN Japan
+ 04_RUS Russian Federation
+ 05_MNG Mongolia
+ 06_PRK Peoples Republic of Korea
+ 07_NAM North America
+ 08_LAM Latin America and the Caribbean
+ 09_WEU Western Europe
+ 10_EEU Central and Eastern Europe
+ 11_FSU Former Soviet Union
+ 12_MEA Middle East and North Africa
+ 13_AFR Sub-Saharan Africa
+ 14_CPA Centrally Planned Asia and China
+ 15_SAS South Asia
+ 16_PAS Other Pacific Asia
+ 17_PAO Pacific OECD
+/
+
 NEA(Z)
 /
  01_KOR Korea
@@ -283,17 +307,6 @@ NEA(Z)
  04_RUS Russian Federation
  05_MNG Mongolia
  06_PRK Peoples Republic of Korea
-* 07_NAM North America
-* 08_LAM Latin America and the Caribbean
-* 09_WEU Western Europe
-* 10_EEU Central and Eastern Europe
-* 11_FSU Former Soviet Union
-* 12_MEA Middle East and North Africa
-* 13_AFR Sub-Saharan Africa
-* 14_CPA Centrally Planned Asia and China
-* 15_SAS South Asia
-* 16_PAS Other Pacific Asia
-* 17_PAO Pacific OECD
 /
 
 *==============================================================================
@@ -304,6 +317,8 @@ NEA(Z)
 TIME Time periods
 /
 2019*2050
+*2019*2038
+*2019*2025
 *2019
 /
 T(time)
@@ -326,7 +341,6 @@ AlIAS (ENE,ENE2)
 *Parameter EndTime /2008/;
 *Parameter EndTime /2020/;
 Parameter EndTime /2050/;
-
 
 *$EXIT
 
@@ -415,11 +429,15 @@ PARAMETER
  exogro(z,time)       Exogenous growth factor for exogenously growing variables except labor
  growthz(z)           Steady state grwoth
  AEEI(z,time)
-
+ TREND(z,time)
+ CTAX_61(z,time)
  CTAX_145(z,time)
  CTAX_285(z,time)
  CTAX_425(z,time)
  CTAX_565(z,time)
+ 
+ B_ENER_t(j,z,time)
+
 *==============================================================================
 *  2.2 Variables - Benchmark
 *==============================================================================
@@ -583,14 +601,21 @@ Scalar
 *  includes data for some variables and substitution elasticities.
 
 $LOAD CO, CGO, DDO, DEPO, DIO, DSO, DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, XSO, XSO_I, XSTO,
-$LOAD g_GDP, g_POP, AEEI, CTAX_145, CTAX_285, CTAX_425, CTAX_565, RKDO, TDHO, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, 
+$LOAD g_GDP, g_POP, AEEI, TREND, CTAX_61, CTAX_145, CTAX_285, CTAX_425, CTAX_565, RKDO, TDHO, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, 
 $LOAD tmrg, sigma_M1, sigma_M2, sigma_VA, POPO
 
 display sigma_M1, sigma_M2 ;
 
 sigma_M1('04_GAS',Z) = 6;
-sigma_M2('03_OIL',Z) = 6;
-sigma_M2('04_GAS',Z) = 6;
+
+sigma_M2('03_OIL',Z) = 2;
+sigma_M2('04_GAS',Z) = 2;
+
+sigma_M1('03_OIL','06_PRK') = 0.5;
+
+*sigma_M1('10_PETROLCOAL','05_mng') = 6;
+
+*sigma_M2('19_CONSTRUC',Z) = 0.5;
 
 display sigma_M1, sigma_M2 ;
 
@@ -601,6 +626,8 @@ display sigma_M1, sigma_M2 ;
 * (see www.gtap.agecon.purdue.edu/resources/download/5679.pdf)
 * With RES = 10000, model results are in tens of billions (10G$)
 RES              = 10000;
+*RES              = 1;
+
 
 * NOTE: In GTAP parlance, "agents' prices" are prices paid by buyers, and
 *       "market prices" are prices received by sellers.
@@ -723,6 +750,12 @@ $LOAD sigma_KD, sigma_LD, sigma_KLE, sigma_X1, sigma_X2, sigma_X3, sigma_X0, sig
 
 sigma_INV(k,j,z) = 2;
 *$exit
+
+*sigma_VA('03_OIL','06_PRK') = 2;
+
+sigma_Y('03_OIL','06_PRK') = 1.01;
+
+
 *------------------------------------------------------------------------------
 * CES - composite capital
 * We assume that the elasticity between the different type of capital
@@ -731,6 +764,10 @@ sigma_INV(k,j,z) = 2;
 * the Excel file VAL_PAR.xls and delete following line:
  sigma_KD(j,z)   = 2*sigma_VA(j,z);
 * sigma_KD(j,z)   = 0.5;
+
+* sigma_KD('27_CONSTRUC', '05_MNG') = 0.2;
+*27_CONSTRUC 05_MNG  2.52
+
 *------------------------------------------------------------------------------
 * CES - composite labor
 * We assume that the elasticity between the different type of labor
@@ -745,7 +782,6 @@ sigma_INV(k,j,z) = 2;
 * sigma_KLE(j,z)  = 0.5 ;
 * sigma_ENER(j,z) = 0.5 ;
  sigma_ENER(j,z) = 0.9 ;
-
 * sigma_ENER(j,z) = 2.0 ;
  
 *------------------------------------------------------------------------------
@@ -1218,6 +1254,8 @@ sigma_INV(k,j,z) = 2;
                  = CEO(j,z)/{SUM[ene$DEO(ene,j,z),beta_ENER(ene,j,z)*DEO(ene,j,z)
                    **(-rho_ENER(j,z))]**(-1/rho_ENER(j,z))};
 
+ B_ENER_t(j,z,time) = B_ENER(j,z)*(1/AEEI(z,'2019'));
+ 
 *==============================================================================
 *    4.6.3.5 Value added
 *==============================================================================
@@ -1323,7 +1361,7 @@ $offtext
  sh1O(z)         = [SHO(z)/YDHO(z)];
 
 * sh0O(z)         = SHO(z)-sh1O(z)*YDHO(z);
-sh0O(z) =0 ;
+ sh0O(z) =0 ;
 *==============================================================================
 *  4.10 Re-calibration of indexed transfers and parameters
 *==============================================================================
@@ -1461,14 +1499,29 @@ Parameters
 
 ;
 
- CO2FACTOR(ene,j,z) = 0 ;
+* CO2FACTOR(ene,j,z) = 0 ;
  CO2FACTOR('02_COAL',j,z)$DEO('02_COAL',j,z) = [sum(p_coal,CO2IO(p_coal,j,z))/DEO('02_COAL',j,z)]*(1000/(10**8));
-
  CO2FACTOR('04_GAS',j,z)$DEO('04_GAS',j,z) = [sum(p_gas,CO2IO(p_gas,j,z))/DEO('04_GAS',j,z)]*(1000/(10**8));
-
  CO2FACTOR('10_PETROLCOAL',j,z)$DEO('10_PETROLCOAL',j,z) = [sum(p_oilproduct,CO2IO(p_oilproduct,j,z))/DEO('10_PETROLCOAL',j,z)]*(1000/(10**8));
 
+* CO2FACTOR('02_COAL',j,z)$DEO('02_COAL',j,z) = [sum(p_coal,CO2IO(p_coal,j,z))/DEO('02_COAL',j,z)]*10/100;
+* CO2FACTOR('04_GAS',j,z)$DEO('04_GAS',j,z) = [sum(p_gas,CO2IO(p_gas,j,z))/DEO('04_GAS',j,z)]*10/100;
+* CO2FACTOR('10_PETROLCOAL',j,z)$DEO('10_PETROLCOAL',j,z) = [sum(p_oilproduct,CO2IO(p_oilproduct,j,z))/DEO('10_PETROLCOAL',j,z)]*10/100;
+
+*PetrolCoal
  CO2FACTOR('10_PETROLCOAL','10_PETROLCOAL',z) = 0;
+
+*PRK
+ CO2FACTOR('02_COAL','01_AGRICULT','06_PRK')        = CO2FACTOR('02_COAL','01_AGRICULT','05_MNG');
+ CO2FACTOR('10_PETROLCOAL','01_AGRICULT','06_PRK')  = CO2FACTOR('10_PETROLCOAL','01_AGRICULT','05_MNG');
+ CO2FACTOR('02_COAL','28_LTRP','06_PRK')            = CO2FACTOR('02_COAL','28_LTRP','05_MNG');
+ CO2FACTOR('02_COAL','17_OTHERIND','06_PRK')        = CO2FACTOR('02_COAL','17_OTHERIND','05_MNG');
+
+*RUS
+ CO2FACTOR('02_COAL','08_WOODPRO','04_RUS')         = CO2FACTOR('02_COAL','08_WOODPRO','10_EEU');
+
+*LAM
+ CO2FACTOR('04_GAS','02_COAL','08_LAM')             = CO2FACTOR('04_GAS','02_COAL','07_NAM');
 
  CTAX0(z) = 0 ;
 
@@ -1480,6 +1533,7 @@ Parameters
 execute_unload 'CO2FACTOR_w-t',
  CO2FACTOR, CO2FACTOR2 ;
 
+execute_unload 'MNG_CONST';
 *$exit
 
 *==============================================================================
@@ -1831,7 +1885,7 @@ EQUATIONS
  EQ9_1(ene,j3,z,t)..  DE(ene,j3,z,t) =e= aij2(ene,j3,z)*CE(j3,z,t) ;
 
  EQ9_2(ene,j2,z,t)..  DE(ene,j2,z,t) =e= [beta_ENER(ene,j2,z)*PCE(j2,z,t)/((P4(ene,j2,z,t)+PC(ene,z,t)*CTAX(z,t)*CO2FACTOR2(ene,j2,z,t)))]
-                                   **sigma_ENER(j2,z)*B_ENER(j2,z)**(sigma_ENER(j2,z)-1)
+                                   **sigma_ENER(j2,z)*B_ENER_t(j2,z,t)**(sigma_ENER(j2,z)-1)
                                    *CE(j2,z,t);
 
 *==============================================================================
@@ -2216,7 +2270,6 @@ $OFFTEXT
 *option cns = Snopt;
 *option cns = Ipopt;
 *option NLP = Ipopt;
-
 *option cns = path;
 *option cns = conopt4;
 *option NLP = conopt4;
@@ -2226,13 +2279,15 @@ $OFFTEXT
 *option iterlim = 100;
 *option iterlim = 0;
 
+*option lmmxsf = t ;
+
 * Eliminating display of solution makes it easier to check whether model solves
 * and to identify year when it crashes.
-*option profile=1;
-option profile=3;
+option profile=1;
+*option profile=3;
 *option profiletol=10;
 
-option limrow=0, limcol=0, solprint = off;
+*option limrow=0, limcol=0, solprint = off;
 *$Offlisting
 *$Offsymlist
 *$Offinclude 
@@ -2272,7 +2327,7 @@ $INCLUDE BAU_RESULTS_240306_GTAP11.gms
 *==============================================================================
 *   6.3 Simulation scenarios and Results
 *==============================================================================
-*$INCLUDE SIM_SOLVE_240306_GTAP11.gms
-*$INCLUDE SIM_RESULTS_240306_GTAP11.gms
+$INCLUDE SIM_SOLVE_240306_GTAP11.gms
+$INCLUDE SIM_RESULTS_240306_GTAP11.gms
 
 $exit

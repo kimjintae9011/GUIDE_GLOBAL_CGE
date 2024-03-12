@@ -344,7 +344,11 @@ PARAMETER
  gamma_LES(i,z)       Marginal share of commodity i in household consumption budget
  exogro(z,time)       Exogenous growth factor for exogenously growing variables except labor
  growthz(z)           Steady state grwoth
+ AEEI(z,time)
 
+
+ B_ENER_t(j,z,time)
+ 
 *==============================================================================
 *  2.2 Variables - Benchmark
 *==============================================================================
@@ -508,7 +512,7 @@ Scalar
 *  includes data for some variables and substitution elasticities.
 
 $LOAD CO, CGO, DDO, DEPO, DIO, DSO, DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, XSO, XSO_I, XSTO,
-$LOAD g_GDP, g_POP, RKDO, TDHO, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, 
+$LOAD g_GDP, g_POP, AEEI, RKDO, TDHO, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, 
 $LOAD tmrg, sigma_M1, sigma_M2, sigma_VA, POPO
 
 display sigma_M1, sigma_M2 ;
@@ -526,6 +530,7 @@ display sigma_M1, sigma_M2 ;
 * (see www.gtap.agecon.purdue.edu/resources/download/5679.pdf)
 * With RES = 10000, model results are in tens of billions (10G$)
 RES              = 10000;
+*RES              = 1;
 
 * NOTE: In GTAP parlance, "agents' prices" are prices paid by buyers, and
 *       "market prices" are prices received by sellers.
@@ -646,7 +651,9 @@ $CALL gdxxrw Input_w-t/JointB_VAL_230411_PAR.xls @Input_w-t/JointB_POWER_PAR.txt
 $GDXIN Input_w-t/JointB_VAL_230411_PAR.gdx
 $LOAD sigma_KD, sigma_LD, sigma_KLE, sigma_X1, sigma_X2, sigma_X3, sigma_X0, sigma_y, sigma_inv, PARZ
 
- sigma_INV(k,j,z) = 2; 
+* sigma_INV(k,j,z) = 2; 
+ sigma_INV(k,j,z) = 1; 
+
 *------------------------------------------------------------------------------
 * CES - composite capital
 * We assume that the elasticity between the different type of capital
@@ -1142,6 +1149,8 @@ $LOAD sigma_KD, sigma_LD, sigma_KLE, sigma_X1, sigma_X2, sigma_X3, sigma_X0, sig
  B_ENER(j,z)$CEO(j,z)
                  = CEO(j,z)/{SUM[ene$DEO(ene,j,z),beta_ENER(ene,j,z)*DEO(ene,j,z)
                    **(-rho_ENER(j,z))]**(-1/rho_ENER(j,z))};
+
+ B_ENER_t(j,z,time) = B_ENER(j,z)*(1/AEEI(z,'2019'));
 
 *==============================================================================
 *    4.6.3.5 Value added
@@ -1696,7 +1705,7 @@ EQUATIONS
  EQ9_1(ene,j3,z,t)..  DE(ene,j3,z,t)   =e= aij2(ene,j3,z)*CE(j3,z,t) ;
 
  EQ9_2(ene,j2,z,t)..  DE(ene,j2,z,t) =e= [beta_ENER(ene,j2,z)*PCE(j2,z,t)/P4(ene,j2,z,t)]
-                                   **sigma_ENER(j2,z)*B_ENER(j2,z)**(sigma_ENER(j2,z)-1)
+                                   **sigma_ENER(j2,z)*B_ENER_t(j2,z,t)**(sigma_ENER(j2,z)-1)
                                    *CE(j2,z,t);
 
 *==============================================================================
@@ -2208,6 +2217,9 @@ $Offtext
 *                       = GDP_BP_REAL.l(z,time-1)*[1+growthz(z)];
                        = GDP_BP_REAL.l(z,time-1)*[1+g_GDP(z,time)];
 
+ GDP_BP_REAL.fx('06_PRK',time)$[ord(time) gt 1]
+                       = GDP_BP_REAL.l('06_PRK',time-1)*[1+g_POP('06_PRK',time)];
+
  A_VA.L(z,t1)          = 1;
  A_VA.L(z,time)$[ord(time) gt 1]
                        = A_VA.L(z,time-1);
@@ -2228,12 +2240,15 @@ $Offtext
  sh1.fx(z,t1)        = sh1O(z);
  sh1.fx(z,time)$[ord(time) gt 1]
 *                     = sh1.l(z,time-1)*[1+g_SDR(z,time-1)];
-                     = sh1.l(z,time-1);
+*                     = sh1.l(z,time-1);
+                     = sh1.l(z,time-1)*[1+growthz(z)];
+
 
  sh0.l(z,t1)         = sh0O(z);
  sh0.l(z,time)$[ord(time) gt 1]
 *                     = sh0.l(z,time-1)*exogro(z,time)/exogro(z,time-1);
-                     = sh0.l(z,time-1);
+*                     = sh0.l(z,time-1);
+                     = sh0.l(z,time-1)*[1+growthz(z)];
 
 *==============================================================================
 *   6.1.3 Closures
@@ -2261,11 +2276,18 @@ $offtext
  CABX.FX(z1,time)$[ord(time) gt 1]
 *                      = CABX.l(z1,time-1)*[1+growthz(z1)];
                       = CABX.l(z1,time-1)*[1+g_GDP(z1,time)];
+
+ CABX.FX('06_PRK',time)$[ord(time) gt 1]
+                      = CABX.l('06_PRK',time-1)*[1+g_POP('06_PRK',time)];
  
  CMIN.FX(i,z,t1)      = CMINO(i,z);
  CMIN.FX(i,z,time)$[ord(time) gt 1]
 *                      = CMIN.l(i,z,time-1)*[1+growthz(z)];
                       = CMIN.l(i,z,time-1)*[1+g_POP(z,time)];
+
+ CMIN.FX(i,'06_PRK',time)$[ord(time) gt 1]
+                      = CMIN.l(i,'06_PRK',time-1)*[1+g_POP('06_PRK',time)];
+
 
  KD.fx(k,j,z,t1)$KDO(k,j,z)
                      = KDO(k,j,z);
@@ -2316,6 +2338,7 @@ PARAMETER
  INDX(k,j,z,time) Volume of new type k capital investment to industry j in region z
  sh0X(z,time)     Intercept (household savings)
  sh1X(z,time)     Household savings rate
+ phi_BAU(z,time)
 ;
 
  A_VA_RES(z,time)        = A_VA.l(z,time);
@@ -2324,9 +2347,10 @@ PARAMETER
  INDX(k,pub,z,time)      = IND.l(k,pub,z,time);
  sh1X(z,time)            = sh1.l(z,time);
  sh0X(z,time)            = sh0.l(z,time);
+ phi_BAU(z,time)         = phi.l(z,time);
 
-execute_unload 'Input_w-t/B_line_240219_GTAP11b.gdx',
+execute_unload 'Input_w-t/B_line_240306_GTAP11b.gdx',
  A_VA_RES, GX, G_REALX, INDX, delta, XST, VA, LS, KS, LD, KD, IND, EX, g_GDP, g_POP, GDP_BP, RC, IT, SH, SG, CABX, R, PK, sigma_LD, sigma_INV,
- sh1X, sh0X ;
+ sh1X, sh0X, phi_BAU ;
  
 *execute_unload 'CalB_Check'  ;

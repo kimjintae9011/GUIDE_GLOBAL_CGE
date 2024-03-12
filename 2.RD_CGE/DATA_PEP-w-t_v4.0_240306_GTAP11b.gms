@@ -162,7 +162,7 @@ BUS(J) Private industries
  28_LTRP        Land transport service(road rail)
  29_WTRP        Water transport service
  30_ATRP        Air transport service
-* 31_SER         Service
+ 31_SER         Service
 /
 
 TRP(J) TRANSPORT
@@ -204,7 +204,7 @@ PUB(J) Public industries
 * 28_LTRP        Land transport service(road rail)
 * 29_WTRP        Water transport service
 * 30_ATRP        Air transport service
- 31_SER         Service
+* 31_SER         Service
 /
 
 
@@ -1086,15 +1086,22 @@ PARAMETER
  TOT_POP(z,time)         Total population from 1980 to 2050 based on the PEP w aggregation
  TOT_POP_GTAP8(reg,time) Total population from 1980 to 2050 based on the GTAP8 aggregation
  AEEI(z,time)            Autonomous energy efficiency improvement
+ TREND(z,time)           Value to Physical quantity
+ CTAX_61(z,time)
  CTAX_145(z,time)
  CTAX_285(z,time)
  CTAX_425(z,time)
  CTAX_565(z,time)
 ;
 
-$call gdxxrw Input_w-t\240125_Projection.xlsx @Input_w-t\Projection.txt trace=0 output=Input_w-t\240125_Projection 
+$call gdxxrw Input_w-t\240125_Projection.xlsx @Input_w-t\Projection.txt output = Input_w-t\240125_Projection.gdx 
 $gdxIn Input_w-t\240125_Projection.gdx
-$load GDP, TOT_POP, AEEI, CTAX_145, CTAX_285, CTAX_425, CTAX_565
+$load GDP, TOT_POP, AEEI, TREND, CTAX_61, CTAX_145, CTAX_285, CTAX_425, CTAX_565
+
+*$CALL gdxxrw Input_w-t\JointB_VAL_230411_PAR.xls @Input_w-t\JointB_POWER_PAR.txt Rdim=2 Cdim=1 output = Input_w-t\JointB_VAL_230411_PAR.gdx
+*$GDXIN Input_w-t\JointB_VAL_230411_PAR.gdx
+*$LOAD sigma_KD, sigma_LD, sigma_KLE, sigma_X1, sigma_X2, sigma_X3, sigma_X0, sigma_y, sigma_inv, PARZ
+
 
 *==============================================================================
 * 4.1 Real GDP projections
@@ -1157,4 +1164,4 @@ execute_unload 'Input_w-t\DATA_AGG-2019_240306_w-t-GTAP11.gdx',
  sigma_M1, sigma_M2, sigma_VA,Q_GTAP, SH_Q, ESUBD, DDO_Matrix
 
 *Parameters used in PEP w-t only
- g_GDP, g_POP, AEEI, CTAX_145, CTAX_285, CTAX_425, CTAX_565 ;
+ g_GDP, g_POP, AEEI, TREND, CTAX_61, CTAX_145, CTAX_285, CTAX_425, CTAX_565 ;

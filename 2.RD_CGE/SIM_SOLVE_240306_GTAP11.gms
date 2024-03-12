@@ -10,6 +10,7 @@
 * paths. The solution values of A_VA are stored as parameter A_VA_RES.
 *-------------------------------------------------------------------------------
 
+$Ontext
 PARAMETER
  A_VA_RES(z,time)     Value of A_VA to reproduce real GDP projections
  GX(z,time)           Current government expenditures on goods and services in region z
@@ -17,13 +18,16 @@ PARAMETER
  INDX(k,j,z,time)     Volume of new type k capital investment to industry j in region z
  sh0X(z,time)     Intercept (household savings)
  sh1X(z,time)     Household savings rate
+ phi_BAU(z,time)
 ;
 
-$GDXIN Input_w-t\B_line_240219_GTAP11b.gdx
+$GDXIN Input_w-t\B_line_240306_GTAP11b.gdx
 *$LOAD A_VA_RES, sh0X, sh1X, GX, G_REALX, INDX
-$LOAD A_VA_RES, GX, G_REALX, INDX, sh1X, sh0X
+$LOAD A_VA_RES, GX, G_REALX, INDX, sh1X, sh0X, phi_BAU
 
 display  A_VA_RES;
+
+$Offtext
 *$EXIT
 
 *==============================================================================
@@ -89,22 +93,24 @@ T(time) = YES;
 *==============================================================================
 *   6.2.1.4 Other exogenous variables
 *==============================================================================
- G_REAL.FX(z,time)   = G_REALX(z,time);
+ G_REAL.FX(z,time)    = G_REALX(z,time);
  IND.fx(k,pub,z,time) = INDX(k,pub,z,time);
- sh0.fx(z,time)      = sh0X(z,time);
- sh1.fx(z,time)      = sh1X(z,time);
+ phi.fx(z,time)       = phi_BAU(z,time);
+  
+ sh0.fx(z,time)       = sh0X(z,time);
+ sh1.fx(z,time)       = sh1X(z,time);
 * ttdh0.fx(z,time)    = ttdh0O(z)*exogro(z,time);
- phi.fx(z,time)       = phiO(z);
- ttdh0.fx(z,time)    = ttdh0O(z);
- ttdh1.fx(z,time)    = ttdh1O(z);
- ttic.fx(i,z,time)   = tticO(i,z);
- ttik.fx(k,j,z,time) = ttikO(k,j,z);
- ttim.fx(i,zj,z,time)= ttimO(i,zj,z);
- ttip.fx(j,z,time)   = ttipO(j,z);
- ttiw.fx(l,j,z,time) = ttiwO(l,j,z);
- ttix.fx(i,z,zj,time)= ttixO(i,z,zj);
+* phi.fx(z,time)       = phiO(z);
+ ttdh0.fx(z,time)     = ttdh0O(z);
+ ttdh1.fx(z,time)     = ttdh1O(z);
+ ttic.fx(i,z,time)    = tticO(i,z);
+ ttik.fx(k,j,z,time)  = ttikO(k,j,z);
+ ttim.fx(i,zj,z,time) = ttimO(i,zj,z);
+ ttip.fx(j,z,time)    = ttipO(j,z);
+ ttiw.fx(l,j,z,time)  = ttiwO(l,j,z);
+ ttix.fx(i,z,zj,time) = ttixO(i,z,zj);
 * CTAX.fX(z,time)     = CTAX1(z,time);
- CTAX.fX(z,time)     = CTAX0(z);
+ CTAX.fX(z,time)      = CTAX0(z);
 
 *==============================================================================
 *   6.2.2.1 Initialisation
@@ -132,7 +138,7 @@ $Ontext
 
  KD.LO(k,j,z,time)$(ord(time) gt 1)   = 0.00001*KD.L(k,j,z,time-1);
  KDC.LO(j,z,time)$(ord(time) gt 1)    = 0.00001*KDC.L(j,z,time-1);
- VA.LO(j,z,time)$(ord(time) gt 1)      = 0.00001*VA.L(j,z,time-1);
+ VA.LO(j,z,time)$(ord(time) gt 1)     = 0.00001*VA.L(j,z,time-1);
 
  XS.LO(j,i,z,time)$(ord(time) gt 1)   = 0.00001*XS.L(j,i,z,time-1);
  XS_I.LO(i,z,time)$(ord(time) gt 1)   = 0.00001*XS_I.L(i,z,time-1);
@@ -209,11 +215,17 @@ $offtext
  CABX.FX(z1,time)$[ord(time) gt 1]
 *                     = CABX.l(z1,time-1)*[1+growthz(z1)];
                      = CABX.l(z1,time-1)*[1+g_GDP(z1,time)];
+
+ CABX.FX('06_PRK',time)$[ord(time) gt 1]
+                      = CABX.l('06_PRK',time-1)*[1+g_POP('06_PRK',time)];
                       
  CMIN.FX(i,z,t1)     = CMINO(i,z);
  CMIN.FX(i,z,time)$[ord(time) gt 1]
 *                     = CMIN.l(i,z,time-1)*[1+growthz(z)];
                       = CMIN.l(i,z,time-1)*[1+g_GDP(z,time)];
+
+ CMIN.FX(i,'06_PRK',time)$[ord(time) gt 1]
+                      = CMIN.l(i,'06_PRK',time-1)*[1+g_POP('06_PRK',time)];
                       
  KD.fx(k,j,z,t1)$KDO(k,j,z)
                      = KDO(k,j,z);
@@ -233,16 +245,59 @@ $offtext
 *==============================================================================
 *   CTAX
 *============================================================================== 
-
  CTAX.fX(z,t1)              = CTAX0(z);
  CTAX.fx(z,time)$[ord(time) gt 1]
-*                            = CTAX_145(z,time);
-                             = CTAX0(z);  
+*                            = CTAX_61(z4,time); 
+                            = CTAX_145(z,time);  
+*                            = CTAX_285(z,time);  
+*                            = CTAX_425(z,time);  
+*                            = CTAX_565(z4,time); 
 
- CTAX.fX('01_KOR',t1)       = CTAX0('01_KOR');
- CTAX.fx('01_KOR',time)$[ord(time) gt 1]
-                            = CTAX_145('01_KOR',time);  
+ CTAX.fx('05_MNG',time)$[ord(time) gt 3]
+                            = 0.001 + 0.002*[ord(time)]-0.006; 
 
+ CTAX.fx('06_PRK',time)$[ord(time) gt 3]
+                            = 0.001 + 0.002*[ord(time)]-0.006;  
+
+*======== CTAX_285 ========================================
+* CTAX.fx('14_CPA',time)$[ord(time) gt 1]
+*                             = CTAX_145('14_CPA',time); 
+
+* CTAX.fx('08_LAM',time)$[ord(time) gt 1]
+*                             = CTAX_145('08_LAM',time); 
+
+*======== CTAX_425 ========================================
+* CTAX.fx('02_CHN',time)$[ord(time) gt 1]
+*                             = CTAX_285('02_CHN',time);
+                             
+* CTAX.fx('01_KOR',time)$[ord(time) gt 1]
+*                             = CTAX_285('01_KOR',time); 
+
+
+* CTAX.fx('01_KOR',time)$[ord(time) gt 1]
+*                            = CTAX_145('01_KOR',time);  
+
+* CTAX.fx('02_CHN',time)$[ord(time) gt 1]
+*                            = CTAX_61('02_CHN',time);  
+*                            = CTAX_145('02_CHN',time);  
+*                            = CTAX_285('02_CHN',time);  
+
+* CTAX.fx('03_JPN',time)$[ord(time) gt 1]
+*                            = CTAX_145('03_JPN',time);  
+
+* CTAX.fx('04_RUS',time)$[ord(time) gt 1]
+*                            = CTAX_145('04_RUS',time);  
+
+* CTAX.fx('05_MNG',time)$[ord(time) gt 1]
+*                            = CTAX_145('05_MNG',time);  
+
+* CTAX.fx('06_PRK',time)$[ord(time) gt 1]
+*                            = CTAX_145('06_PRK',time);  
+
+* CTAX.fX('01_KOR',t1)       = CTAX0('01_KOR');
+* CTAX.fx('01_KOR',time)$[ord(time) gt 1]
+*                            = CTAX_145('01_KOR',time);  
+*                            = CTAX_285('01_KOR',time);  
 *                            = CTAX_425('01_KOR',time);  
 *                            = CTAX_565('01_KOR',time);  
 
@@ -257,14 +312,19 @@ $offtext
 * CTAX.fx('01_KOR',time)$[ord(time) gt 3]
 *                            =0.2;
 
-*  ttip.fx('31_SER','01_KOR',time)$[ord(time) gt 1]
-*                        = ttip.L('31_SER','01_KOR',time-1)*(1+0.01) ;
+* ttip.fx('31_SER','01_KOR',time)$[ord(time) gt 1]
+*                            = ttip.L('31_SER','01_KOR',time-1)*(1+0.01) ;
 
 * ttic.fx(i,'01_KOR',time)$[ord(time) gt 1]
-*                    = ttic.L(i,'01_KOR',time-1)*(1+0.05) ;
+*                            = ttic.L(i,'01_KOR',time-1)*(1+0.05) ;
 
-*  ttim.FX(ene,zj,'01_KOR',time)$[ord(time) gt 1]
-*                    =   ttim.l(ene,zj,'01_KOR',time-1)*1.1 ;
+* ttim.FX(ene,zj,'01_KOR',time)$[ord(time) gt 1]
+*                            =   ttim.l(ene,zj,'01_KOR',time-1)*1.1 ;
+
+*==============================================================================
+*   AEEI
+*============================================================================== 
+
 
 *==============================================================================
 *   6.2.2.3 Resolution

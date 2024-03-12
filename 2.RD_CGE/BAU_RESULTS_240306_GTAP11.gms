@@ -147,7 +147,7 @@ PARAMETER
  valNE(product,j,z,time,scen) Non-energy consumption by energy products 
  valEH(product,z,time,scen)   Household energy consumption by energy products
  
- valTFC(product,time,z,scen)  Total final energy consumption by regions
+ valTFC(time,z,scen)  Total final energy consumption by regions
  
  valNEA_TFC(product,time,scen) NEA's total final energy consumption by energy products
  valKOR_TFC(product,time,scen) Korea's total final energy consumption by energy products
@@ -438,23 +438,30 @@ PARAMETER
  
 *====================================Energy&GHGs=====================================================================
 
- valEE(p_coal,j,z,time,'bau')           =  EEI(p_coal,j,z)*AEEI(z,time)*DE.L('02_COAL',j,z,time);
- valEE(p_oil,j,z,time,'bau')            =  EEI(p_oil,j,z)*AEEI(z,time)*DE.L('03_OIL',j,z,time);
- valEE(p_gas,j,z,time,'bau')            =  EEI(p_gas,j,z)*AEEI(z,time)*DE.L('04_GAS',j,z,time);
- valEE(p_oilproduct,j,z,time,'bau')     =  EEI(p_oilproduct,j,z)*AEEI(z,time)*DE.L('10_PETROLCOAL',j,z,time);
- valEE(p_elecheat,j,z,time,'bau')       =  EEI(p_elecheat,j,z)*AEEI(z,time)*DE.L('18_ELEC',j,z,time);
+ valEE(p_coal,j,z,time,'bau')           =  EEI(p_coal,j,z)*TREND(z,time)*DE.L('02_COAL',j,z,time);
+ valEE(p_oil,j,z,time,'bau')            =  EEI(p_oil,j,z)*TREND(z,time)*DE.L('03_OIL',j,z,time);
+ valEE(p_gas,j,z,time,'bau')            =  EEI(p_gas,j,z)*TREND(z,time)*DE.L('04_GAS',j,z,time);
+ valEE(p_oilproduct,j,z,time,'bau')     =  EEI(p_oilproduct,j,z)*TREND(z,time)*DE.L('10_PETROLCOAL',j,z,time);
+ valEE(p_elecheat,j,z,time,'bau')       =  EEI(p_elecheat,j,z)*TREND(z,time)*DE.L('18_ELEC',j,z,time);
 
- valNE(p_coal,j,z,time,'bau')           =  NEI(p_coal,j,z)*AEEI(z,time)*DE.L('02_COAL',j,z,time);
- valNE(p_oil,j,z,time,'bau')            =  NEI(p_oil,j,z)*AEEI(z,time)*DE.L('03_OIL',j,z,time);
- valNE(p_gas,j,z,time,'bau')            =  NEI(p_gas,j,z)*AEEI(z,time)*DE.L('04_GAS',j,z,time);
- valNE(p_oilproduct,j,z,time,'bau')     =  NEI(p_oilproduct,j,z)*AEEI(z,time)*DE.L('10_PETROLCOAL',j,z,time);
- valNE(p_elecheat,j,z,time,'bau')       =  NEI(p_elecheat,j,z)*AEEI(z,time)*DE.L('18_ELEC',j,z,time);
+ valNE(p_coal,j,z,time,'bau')           =  NEI(p_coal,j,z)*TREND(z,time)*DE.L('02_COAL',j,z,time);
+ valNE(p_oil,j,z,time,'bau')            =  NEI(p_oil,j,z)*TREND(z,time)*DE.L('03_OIL',j,z,time);
+ valNE(p_gas,j,z,time,'bau')            =  NEI(p_gas,j,z)*TREND(z,time)*DE.L('04_GAS',j,z,time);
+ valNE(p_oilproduct,j,z,time,'bau')     =  NEI(p_oilproduct,j,z)*TREND(z,time)*DE.L('10_PETROLCOAL',j,z,time);
+ valNE(p_elecheat,j,z,time,'bau')       =  NEI(p_elecheat,j,z)*TREND(z,time)*DE.L('18_ELEC',j,z,time);
 
- valEH(p_coal,z,time,'bau')             =  EHI(p_coal,z)*AEEI(z,time)*C.L('02_COAL',z,time);
- valEH(p_oil,z,time,'bau')              =  EHI(p_oil,z)*AEEI(z,time)*C.L('03_OIL',z,time);
- valEH(p_gas,z,time,'bau')              =  EHI(p_gas,z)*AEEI(z,time)*C.L('04_GAS',z,time); 
- valEH(p_oilproduct,z,time,'bau')       =  EHI(p_oilproduct,z)*AEEI(z,time)*C.L('10_PETROLCOAL',z,time);
- valEH(p_elecheat,z,time,'bau')         =  EHI(p_elecheat,z)*AEEI(z,time)*C.L('18_ELEC',z,time);
+ valEH(p_coal,z,time,'bau')             =  EHI(p_coal,z)*TREND(z,time)*C.L('02_COAL',z,time);
+ valEH(p_oil,z,time,'bau')              =  EHI(p_oil,z)*TREND(z,time)*C.L('03_OIL',z,time);
+ valEH(p_gas,z,time,'bau')              =  EHI(p_gas,z)*TREND(z,time)*C.L('04_GAS',z,time); 
+ valEH(p_oilproduct,z,time,'bau')       =  EHI(p_oilproduct,z)*TREND(z,time)*C.L('10_PETROLCOAL',z,time);
+ valEH(p_elecheat,z,time,'bau')         =  EHI(p_elecheat,z)*TREND(z,time)*C.L('18_ELEC',z,time);
+
+ valTFC(time,z,'bau')                   = sum(product, valEH(product,z,time,'bau') + Sum(j5,valEE(product,j5,z,time,'bau'))+Sum(j,valNE(product,j,z,time,'bau')));
+ valNEA_TFC(product,time,'bau')         = sum(NEA,valEH(product,NEA,time,'bau')) + Sum((j5,NEA),valEE(product,j5,NEA,time,'bau'))+Sum((j,NEA),valNE(product,j,NEA,time,'bau'));
+
+ valKOR_TFC(product,time,'bau')         = valEH(product,'01_KOR',time,'bau') + Sum(j5,valEE(product,j5,'01_KOR',time,'bau'))+Sum(j,valNE(product,j,'01_KOR',time,'bau'));
+ valCHN_TFC(product,time,'bau')         = valEH(product,'02_CHN',time,'bau') + Sum(j5,valEE(product,j5,'02_CHN',time,'bau'))+Sum(j,valNE(product,j,'02_CHN',time,'bau'));
+ valJPN_TFC(product,time,'bau')         = valEH(product,'03_JPN',time,'bau') + Sum(j5,valEE(product,j5,'03_JPN',time,'bau'))+Sum(j,valNE(product,j,'03_JPN',time,'bau'));
 
  valCO2I(product,j,z,time,'bau')        = valEE(product,j,z,time,'bau')*41.868*GHGsEF(product,'CO2EF')*1*(44/12)*0.001*GWP('CO2EF') ;
  valCO2NE(product,j,z,time,'bau')       = valNE(product,j,z,time,'bau')*41.868*GHGsEF(product,'CO2EF')*1*(44/12)*0.001*GWP('CO2EF')*(1-GHGsEF(product,'Stored_rate')) ;
@@ -470,13 +477,6 @@ PARAMETER
 
  valTCO2(z,time,'bau')                  = valTCO2H(z,time,'bau') + valTCO2I(z,time,'bau') +valTCO2NE(z,time,'bau') ;
  valGlobal_CO2(time,'bau')              = sum(z, valTCO2(z,time,'bau'));
-
- valTFC(product,time,z,'bau')           = valEH(product,z,time,'bau') + Sum(j5,valEE(product,j5,z,time,'bau'))+Sum(j,valNE(product,j,z,time,'bau'));
- valNEA_TFC(product,time,'bau')         = sum(NEA,valEH(product,NEA,time,'bau')) + Sum((j5,NEA),valEE(product,j5,NEA,time,'bau'))+Sum((j,NEA),valNE(product,j,NEA,time,'bau'));
-
- valKOR_TFC(product,time,'bau')         = valEH(product,'01_KOR',time,'bau') + Sum(j5,valEE(product,j5,'01_KOR',time,'bau'))+Sum(j,valNE(product,j,'01_KOR',time,'bau'));
- valCHN_TFC(product,time,'bau')         = valEH(product,'02_CHN',time,'bau') + Sum(j5,valEE(product,j5,'02_CHN',time,'bau'))+Sum(j,valNE(product,j,'02_CHN',time,'bau'));
- valJPN_TFC(product,time,'bau')         = valEH(product,'03_JPN',time,'bau') + Sum(j5,valEE(product,j5,'03_JPN',time,'bau'))+Sum(j,valNE(product,j,'03_JPN',time,'bau'));
 
  valPOWER(power,i,z,time,scen)          = XS.l(power,i,z,time);
 

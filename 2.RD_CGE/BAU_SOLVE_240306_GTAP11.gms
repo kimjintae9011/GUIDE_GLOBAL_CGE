@@ -17,11 +17,12 @@ PARAMETER
  INDX(k,j,z,time)     Volume of new type k capital investment to industry j in region z
  sh0X(z,time)     Intercept (household savings)
  sh1X(z,time)     Household savings rate
+ phi_BAU(z,time)
 ;
 
-$GDXIN Input_w-t\B_line_240219_GTAP11b.gdx
+$GDXIN Input_w-t\B_line_240306_GTAP11b.gdx
 *$LOAD A_VA_RES, sh0X, sh1X, GX, G_REALX, INDX
-$LOAD A_VA_RES, GX, G_REALX, INDX, sh1X, sh0X
+$LOAD A_VA_RES, GX, G_REALX, INDX, sh1X, sh0X, phi_BAU
 
 display  A_VA_RES;
 *$EXIT
@@ -65,12 +66,11 @@ $offtext
 *==============================================================================
  G_REAL.FX(z,time)    = G_REALX(z,time);
  IND.fx(k,pub,z,time) = INDX(k,pub,z,time);
-
+ phi.fx(z,time)       = phi_BAU(z,time);
 
  sh0.fx(z,time)      = sh0X(z,time);
  sh1.fx(z,time)      = sh1X(z,time);
 * ttdh0.fx(z,time)    = ttdh0O(z)*exogro(z,time);
- phi.fx(z,time)       = phiO(z);
  ttdh0.fx(z,time)    = ttdh0O(z);
  ttdh1.fx(z,time)    = ttdh1O(z);
  ttic.fx(i,z,time)   = tticO(i,z);
@@ -197,11 +197,17 @@ $offtext
  CABX.FX(z1,time)$[ord(time) gt 1]
 *                     = CABX.l(z1,time-1)*[1+growthz(z1)];
                      = CABX.l(z1,time-1)*[1+g_GDP(z1,time)];
+
+ CABX.FX('06_PRK',time)$[ord(time) gt 1]
+                      = CABX.l('06_PRK',time-1)*[1+g_POP('06_PRK',time)];
                       
  CMIN.FX(i,z,t1)     = CMINO(i,z);
  CMIN.FX(i,z,time)$[ord(time) gt 1]
 *                     = CMIN.l(i,z,time-1)*[1+growthz(z)];
                       = CMIN.l(i,z,time-1)*[1+g_GDP(z,time)];
+
+ CMIN.FX(i,'06_PRK',time)$[ord(time) gt 1]
+                      = CMIN.l(i,'06_PRK',time-1)*[1+g_POP('06_PRK',time)];
                       
  KD.fx(k,j,z,t1)$KDO(k,j,z)
                      = KDO(k,j,z);

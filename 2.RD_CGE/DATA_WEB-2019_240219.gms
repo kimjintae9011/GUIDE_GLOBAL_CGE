@@ -1,4 +1,3 @@
-
 Set flow, commodity
 
 flow flow
@@ -427,9 +426,9 @@ f34_EOILGASEX   Oil and gas extraction
 
 f_gas(flow)
 /
-f21_TGASWKS     Gas works
+f21_TGASWKS     Includes the manufacture of town gas
 f34_EOILGASEX   Oil and gas extraction
-f36_EGASWKS     Gas works
+f36_EGASWKS     Represents the energy which is used in gas works
 /
 
 f_mining(flow)
@@ -879,7 +878,7 @@ display Coal_DIO, CoalR_DIO, CoalR_CO ;
 *Gas
  Gas_DIO(p_gas,'01_AGRICULT',z) = sum((f_agri), WEB(f_agri, p_gas, z));
  Gas_DIO(p_gas,'02_COAL',z) = -1*sum((f_coa), WEB(f_coa, p_gas, z));
- Gas_DIO(p_gas,'03_OIL',z) = -1*sum((f_oil), WEB(f_oil, p_gas, z));
+ Gas_DIO(p_gas,'03_OIL',z) = 0;
  Gas_DIO(p_gas,'04_GAS',z) = -1*sum((f_gas), WEB(f_gas, p_gas, z));
  Gas_DIO(p_gas,'05_MINING',z) = sum((f_mining), WEB(f_mining, p_gas, z));
  Gas_DIO(p_gas,'06_FOODPRO',z) = sum((f_foodpro), WEB(f_foodpro, p_gas, z));
@@ -926,7 +925,7 @@ display Gas_DIO, GasR_DIO, GasR_CO ;
  Oil_DIO(p_oil,'01_AGRICULT',z) = sum((f_agri), WEB(f_agri, p_oil, z));
  Oil_DIO(p_oil,'02_COAL',z) = -1*sum((f_coa), WEB(f_coa, p_oil, z));
  Oil_DIO(p_oil,'03_OIL',z) = -1*sum((f_oil), WEB(f_oil, p_oil, z));
- Oil_DIO(p_oil,'04_GAS',z) = -1*sum((f_gas), WEB(f_gas, p_oil, z));
+ Oil_DIO(p_oil,'04_GAS',z) = 0;
  Oil_DIO(p_oil,'05_MINING',z) = sum((f_mining), WEB(f_mining, p_oil, z));
  Oil_DIO(p_oil,'06_FOODPRO',z) = sum((f_foodpro), WEB(f_foodpro, p_oil, z));
  Oil_DIO(p_oil,'07_TEXTILES',z) = sum((f_textiles), WEB(f_textiles, p_oil, z));
@@ -969,7 +968,7 @@ display Oil_DIO, OilR_DIO ;
  Oilp_DIO(p_oilproduct,'01_AGRICULT',z) = sum((f_agri), WEB(f_agri, p_oilproduct, z));
  Oilp_DIO(p_oilproduct,'02_COAL',z) = -1*sum((f_coa), WEB(f_coa, p_oilproduct, z));
  Oilp_DIO(p_oilproduct,'03_OIL',z) = -1*sum((f_oil), WEB(f_oil, p_oilproduct, z));
- Oilp_DIO(p_oilproduct,'04_GAS',z) = -1*sum((f_gas), WEB(f_gas, p_oilproduct, z));
+ Oilp_DIO(p_oilproduct,'04_GAS',z) = 0;
  Oilp_DIO(p_oilproduct,'05_MINING',z) = sum((f_mining), WEB(f_mining, p_oilproduct, z));
  Oilp_DIO(p_oilproduct,'06_FOODPRO',z) = sum((f_foodpro), WEB(f_foodpro, p_oilproduct, z));
  Oilp_DIO(p_oilproduct,'07_TEXTILES',z) = sum((f_textiles), WEB(f_textiles, p_oilproduct, z));
@@ -1018,7 +1017,7 @@ display Oilp_DIO, Oilp_CO, OilpR_DIO, OilpR_CO ;
 *Electricity/Heat
  Elec_DIO(p_elecheat,'01_AGRICULT',z) = sum((f_agri), WEB(f_agri, p_elecheat, z));
  Elec_DIO(p_elecheat,'02_COAL',z) = -1*sum((f_coa), WEB(f_coa, p_elecheat, z));
- Elec_DIO(p_elecheat,'03_OIL',z) = -1*sum((f_oil), WEB(f_oil, p_elecheat, z));
+ Elec_DIO(p_elecheat,'03_OIL',z) = 0;
  Elec_DIO(p_elecheat,'04_GAS',z) = -1*sum((f_gas), WEB(f_gas, p_elecheat, z));
  Elec_DIO(p_elecheat,'05_MINING',z) = sum((f_mining), WEB(f_mining, p_elecheat, z));
  Elec_DIO(p_elecheat,'06_FOODPRO',z) = sum((f_foodpro), WEB(f_foodpro, p_elecheat, z));

@@ -1464,7 +1464,20 @@ Parameters
 
  CO2FACTOR('10_PETROLCOAL',j,z)$DEO('10_PETROLCOAL',j,z) = [sum(p_oilproduct,CO2IO(p_oilproduct,j,z))/DEO('10_PETROLCOAL',j,z)]*(1000/(10**8));
 
+*PetrolCoal
  CO2FACTOR('10_PETROLCOAL','10_PETROLCOAL',z) = 0;
+
+*PRK
+ CO2FACTOR('02_COAL','01_AGRICULT','06_PRK')        = CO2FACTOR('02_COAL','01_AGRICULT','05_MNG');
+ CO2FACTOR('10_PETROLCOAL','01_AGRICULT','06_PRK')  = CO2FACTOR('10_PETROLCOAL','01_AGRICULT','05_MNG');
+ CO2FACTOR('02_COAL','28_LTRP','06_PRK')            = CO2FACTOR('02_COAL','28_LTRP','05_MNG');
+ CO2FACTOR('02_COAL','17_OTHERIND','06_PRK')        = CO2FACTOR('02_COAL','17_OTHERIND','05_MNG');
+
+*RUS
+ CO2FACTOR('02_COAL','08_WOODPRO','04_RUS')         = CO2FACTOR('02_COAL','08_WOODPRO','10_EEU');
+
+*LAM
+ CO2FACTOR('04_GAS','02_COAL','08_LAM')             = CO2FACTOR('04_GAS','02_COAL','07_NAM');
 
  CTAX0(z) = 0 ;
 
@@ -1476,6 +1489,9 @@ Parameters
 execute_unload 'CO2FACTOR_w-t',
  CO2FACTOR, CO2FACTOR2 ;
 
+execute_unload 'MNG_CONST_GTAP10';
+
+*$exit
 *$exit
 
 *==============================================================================
@@ -2257,8 +2273,8 @@ SCEN  List of scenarios
 *==============================================================================
 *  6.2 BAU scenario and Results
 *==============================================================================
-$INCLUDE BAU_SOLVE_240219.gms
-$INCLUDE BAU_RESULTS_240219.gms
+*$INCLUDE BAU_SOLVE_240219.gms
+*$INCLUDE BAU_RESULTS_240219.gms
 
 * The user may run the BAU scenario with the command line parameter s=bau
 * to save the solution and exit at this point.
@@ -2268,7 +2284,7 @@ $INCLUDE BAU_RESULTS_240219.gms
 *==============================================================================
 *   6.3 Simulation scenarios and Results
 *==============================================================================
-*$INCLUDE SIM_SOLVE_240219.gms
-*$INCLUDE SIM_RESULTS_240219.gms
+$INCLUDE SIM_SOLVE_240219.gms
+$INCLUDE SIM_RESULTS_240219.gms
 
 $exit

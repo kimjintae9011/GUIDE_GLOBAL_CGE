@@ -148,7 +148,7 @@ J2(J) Industries
  14_NONFERR     Non-ferrous metal products
  15_MACHINE     Fabricated metal products Electronic and electrical equipment Machinery and equipment
  16_TRANSEQ     Motor vehicles Other transport equipment
- 17_OTHERIND    Other manufactured products Water supply
+* 17_OTHERIND    Other manufactured products Water supply
 *  18_TnD         Transmission and Distribution
 *  19_eNuclear    Nuclear generation
 *  20_eCoal       Coal generation
@@ -175,6 +175,7 @@ J3(J) Energy Industries
  05_MINING      Mined and quarried goods
 * 09_PAPERPRO    Paper products
  10_PETROLCOAL  Petroleum and coal products
+ 17_OTHERIND    Other manufactured products Water supply
  18_TnD         Transmission and Distribution
  19_eNuclear    Nuclear generation
  20_eCoal       Coal generation
@@ -1333,17 +1334,20 @@ Parameters
  CO2FACTOR('04_GAS',j,z)$DEO('04_GAS',j,z) = [sum(p_gas,CO2IO(p_gas,j,z))/DEO('04_GAS',j,z)]*(1000/(10**8));
  CO2FACTOR('10_PETROLCOAL',j,z)$DEO('10_PETROLCOAL',j,z) = [sum(p_oilproduct,CO2IO(p_oilproduct,j,z))/DEO('10_PETROLCOAL',j,z)]*(1000/(10**8));
 
-* CO2FACTOR('02_COAL','17_OTHERIND',z) = 0;
-* CO2FACTOR(ene,'17_OTHERIND',z) = 0;
+*PetrolCoal
  CO2FACTOR('10_PETROLCOAL','10_PETROLCOAL',z) = 0;
-* CO2FACTOR(ene,j,'06_PRK') = 0;
 
-* CO2FACTOR('10_PETROLCOAL',j,z)$DEO('10_PETROLCOAL',j,z) = sum(p_oilproduct,CO2IO(p_oilproduct,j,z))/ DEO('10_PETROLCOAL',j,z) ;
-* 02_COAL         Coal
-* 03_OIL          Crude petroleum
-* 04_GAS          Natural gas
-* 10_PETROLCOAL   Petroleum and coal products
-* 18_ELEC         Electricity
+*PRK
+ CO2FACTOR('02_COAL','01_AGRICULT','06_PRK')        = CO2FACTOR('02_COAL','01_AGRICULT','05_MNG');
+ CO2FACTOR('10_PETROLCOAL','01_AGRICULT','06_PRK')  = CO2FACTOR('10_PETROLCOAL','01_AGRICULT','05_MNG');
+ CO2FACTOR('02_COAL','28_LTRP','06_PRK')            = CO2FACTOR('02_COAL','28_LTRP','05_MNG');
+ CO2FACTOR('02_COAL','17_OTHERIND','06_PRK')        = CO2FACTOR('02_COAL','17_OTHERIND','05_MNG');
+
+*RUS
+ CO2FACTOR('02_COAL','08_WOODPRO','04_RUS')         = CO2FACTOR('02_COAL','08_WOODPRO','10_EEU');
+
+*LAM
+ CO2FACTOR('04_GAS','02_COAL','08_LAM')             = CO2FACTOR('04_GAS','02_COAL','07_NAM');
 
  CTAX0(z) = 0 ;
  TCTAX0(z) = 0;
@@ -2479,7 +2483,7 @@ $offtext
 
 *option cns = path;
 *option cns = conopt4;
-option NLP = conopt4;
+*option NLP = conopt4;
 *option NLP = minos;
 *option NLP = pathnlp ;
 
@@ -2491,11 +2495,11 @@ option NLP = conopt4;
 MODEL PEPW1 World wide static model /all/ ;
 PEPW1.holdfixed=1;
 PEPW1.TOLINFREP = 0.0001;
-*SOLVE PEPW1 USING CNS;
+SOLVE PEPW1 USING CNS;
 *SOLVE PEPW1 USING MCP;
-SOLVE PEPW1 USING nlp MAXIMIZING OBJ;
+*SOLVE PEPW1 USING nlp MAXIMIZING OBJ;
 
-$exit
+*$exit
 *==============================================================================
 * numeraire shock
 *==============================================================================
@@ -2523,12 +2527,16 @@ $offtext
 
 loop(sim,
 
-CTAX.FX('01_KOR') = 0 + 0.1*[ord(sim)]-0.1;
+*CTAX.FX('01_KOR') = 0 + 0.1*[ord(sim)]-0.1;
+CTAX.FX('09_WEU') = 0 + 0.5*[ord(sim)]-0.5;
+
+*CTAX.FX(z) = 0 + 0.1*[ord(sim)]-0.1;
+
 *Unit: 100$/ton
 
 * ttic.fx(i,'01_KOR')= 0 + 0.01*[ord(sim)]-0.01 ;
 * ttim.FX(i,zj,z)  = ttimO(i,zj,z);
-*ttim.FX(ene,zj,'01_KOR') =   ttimO(ene,zj,'01_KOR')*10*[ord(sim)] ;
+* ttim.FX(ene,zj,'01_KOR') =   ttimO(ene,zj,'01_KOR')*10*[ord(sim)] ;
 
 SOLVE PEPW1 USING CNS;
 *SOLVE PEPW1 USING nlp MAXIMIZING OBJ;
@@ -2851,6 +2859,4 @@ execute_unload 'Output_w-1/results_PEP-w-1_v4.0_GTAP11_240214_CTAX.gdx',
  sigma_X3
  sigma_X4
  sigma_Y
-
-
  ;

@@ -52,12 +52,6 @@
         },
         {
             "codecMib": 106,
-            "file": "Model_PEP-w-t_v4.1_240219_CTAX.lst",
-            "name": "Model_PEP-w-t_v4.1_240219_CTAX.lst",
-            "type": "lst"
-        },
-        {
-            "codecMib": 106,
             "file": "SIM_RESULTS_240219.gms",
             "name": "SIM_RESULTS_240219.gms",
             "type": "gms"
