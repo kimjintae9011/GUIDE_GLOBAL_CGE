@@ -512,7 +512,7 @@ Scalar
 *  includes data for some variables and substitution elasticities.
 
 $LOAD CO, CGO, DDO, DEPO, DIO, DSO, DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, XSO, XSO_I, XSTO,
-$LOAD g_GDP, g_POP, AEEI, RKDO, TDHO, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, 
+$LOAD g_GDP, g_POP, g_SDR, AEEI, RKDO, TDHO, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, 
 $LOAD tmrg, sigma_M1, sigma_M2, sigma_VA, POPO
 
 display sigma_M1, sigma_M2 ;
@@ -1253,15 +1253,16 @@ $offtext
 *==============================================================================
 *  4.9 Parameters of the household savings function
 *==============================================================================
-* sh1O(z)         = [SHO(z)+SGO(z)]/GDP_IBO(z);
- sh1O(z)         = SHO(z)/YDHO(z);
+sh1O(z)         = SHO(z)/YDHO(z);
  sh0O(z)         = 0 ;
+
+* sh1O(z)         = [SHO(z)+SGO(z)]/GDP_IBO(z);
 * sh0O(z)         = SHO(z)-sh1O(z)*YDHO(z);
 
 *==============================================================================
 *  4.10 Re-calibration of indexed transfers and parameters
 *==============================================================================
-* sh0O(z)         = sh0O(z)/PIXCONO(z)**eta;
+ sh0O(z)         = sh0O(z)/PIXCONO(z)**eta;
  ttdh0O(z)       = ttdh0O(z)/PIXCONO(z)**eta;
 
 *==============================================================================
@@ -1724,8 +1725,8 @@ EQUATIONS
  EQ14(z,t)..       CTH(z,t) =e= YDH(z,t)-SH(z,t);
 
 * CALEQ1(z,t)..     SH(z,t)+SG(z,t) =e= sh1(z,t)*GDP_IB(z,t);
-* CALEQ1(z,t)..     SH(z,t)+SG(z,t) =e= sh1(z,t)*GDP_IB(z,t);
 
+* EQ15(z,t)..        SH(z,t)+SG(z,t) =e= sh1(z,t)*GDP_IB(z,t);
  EQ15(z,t)..       SH(z,t) =e= sh1(z,t)*YDH(z,t);
 * EQ15(z,t)..       SH(z,t) =e= PIXCON(z,t)**eta*sh0(z,t)+sh1(z,t)*YDH(z,t);
 
@@ -2111,11 +2112,10 @@ $OFFTEXT
 
 * Eliminating display of solution makes it easier to check whether model solves
 * and to identify year when it crashes.
-*option limrow=0, limcol=0, solprint = off;
+option limrow=0, limcol=0, solprint = off;
 *option limrow=0, limcol=0, iterlim= 100 ;
+*option limrow=100 ;
 *option reslim = 1000;
-
-option limrow=100 ;
 
 MODEL PEPWT World wide dynamic model /all/ ;
 PEPWT.holdfixed=1;
@@ -2224,30 +2224,17 @@ $Offtext
  A_VA.L(z,time)$[ord(time) gt 1]
                        = A_VA.L(z,time-1);
 
-* SH.fx(z,t1)        = SHO(z);
-* SH.fx(z,time)$[ord(time) gt 1]
-*                     = SH.l(z,time-1)*[1+growthz(z)];
-*                     = SH.l(z,time-1)*[1+g_GDP(z,time)];  
-
-* CG.fx(i,z,t1)        = CGO(i,z);
-* CG.fx(i,z,time)$[ord(time) gt 1]
-*                      = CG.l(i,z,time-1)*[1+growthz(z)];
-*                      = CG.l(i,z,time-1)*[1+g_GDP(z,time)]; 
-
 * Domestic savings rates are made to follow the evolution anticipated by FBQF
 * and the intercept for the household savings function is endogenously
 * determined from the added constraint labeled CALEQ1:
  sh1.fx(z,t1)        = sh1O(z);
  sh1.fx(z,time)$[ord(time) gt 1]
-*                     = sh1.l(z,time-1)*[1+g_SDR(z,time-1)];
-*                     = sh1.l(z,time-1);
-                     = sh1.l(z,time-1)*[1+growthz(z)];
-
+                     = sh1.l(z,time-1)*[1+g_SDR(z,time-1)];
+*                     = sh1.l(z,time-1)*[1+growthz(z)];
 
  sh0.l(z,t1)         = sh0O(z);
  sh0.l(z,time)$[ord(time) gt 1]
 *                     = sh0.l(z,time-1)*exogro(z,time)/exogro(z,time-1);
-*                     = sh0.l(z,time-1);
                      = sh0.l(z,time-1)*[1+growthz(z)];
 
 *==============================================================================
@@ -2279,7 +2266,7 @@ $offtext
 
  CABX.FX('06_PRK',time)$[ord(time) gt 1]
                       = CABX.l('06_PRK',time-1)*[1+g_POP('06_PRK',time)];
- 
+
  CMIN.FX(i,z,t1)      = CMINO(i,z);
  CMIN.FX(i,z,time)$[ord(time) gt 1]
 *                      = CMIN.l(i,z,time-1)*[1+growthz(z)];

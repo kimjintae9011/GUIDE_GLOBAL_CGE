@@ -1,5 +1,6 @@
 par=GDP             rng=GDP_Projection!A1:CN18
-par=TOT_POP       rng=TOT_POP_Projection!A1:CN18
+par=TOT_POP      rng=TOT_POP_Projection!A1:CN18
+par=g_SDR          rng=g_SDR!A1:CN18
 par=AEEI             rng=AEEI!A1:CN18
 par=TREND          rng=TREND!A1:CN18
 par=CTAX_61       rng=CTAX_61!A1:CN18

@@ -147,7 +147,7 @@ J2(J) Industries
  14_NONFERR     Non-ferrous metal products
  15_MACHINE     Fabricated metal products Electronic and electrical equipment Machinery and equipment
  16_TRANSEQ     Motor vehicles Other transport equipment
-* 17_OTHERIND    Other manufactured products Water supply
+ 17_OTHERIND    Other manufactured products Water supply
 * 18_TnD         Transmission and Distribution
 * 19_eNuclear    Nuclear generation
 * 20_eCoal       Coal generation
@@ -157,7 +157,7 @@ J2(J) Industries
 * 24_eSolar      Solar generation
 * 25_eHydro      Hydro generation
 * 26_eOther      Other generation
-* 27_CONSTRUC    Construction
+ 27_CONSTRUC    Construction
  28_LTRP        Land transport service(road rail)
  29_WTRP        Water transport service
  30_ATRP        Air transport service
@@ -173,7 +173,7 @@ J3(J) Energy Industries
  05_MINING      Mined and quarried goods
  10_PETROLCOAL  Petroleum and coal products
  13_IRONSTL     Primary iron and steel products
- 17_OTHERIND    Other manufactured products Water supply
+* 17_OTHERIND    Other manufactured products Water supply
  18_TnD         Transmission and Distribution
  19_eNuclear    Nuclear generation
  20_eCoal       Coal generation
@@ -183,7 +183,7 @@ J3(J) Energy Industries
  24_eSolar      Solar generation
  25_eHydro      Hydro generation
  26_eOther      Other generation
- 27_CONSTRUC    Construction
+* 27_CONSTRUC    Construction
 
 /
 
@@ -601,7 +601,7 @@ Scalar
 *  includes data for some variables and substitution elasticities.
 
 $LOAD CO, CGO, DDO, DEPO, DIO, DSO, DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, XSO, XSO_I, XSTO,
-$LOAD g_GDP, g_POP, AEEI, TREND, CTAX_61, CTAX_145, CTAX_285, CTAX_425, CTAX_565, RKDO, TDHO, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, 
+$LOAD g_GDP, g_POP, g_SDR, AEEI, TREND, CTAX_61, CTAX_145, CTAX_285, CTAX_425, CTAX_565, RKDO, TDHO, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, 
 $LOAD tmrg, sigma_M1, sigma_M2, sigma_VA, POPO
 
 display sigma_M1, sigma_M2 ;
@@ -2283,11 +2283,11 @@ $OFFTEXT
 
 * Eliminating display of solution makes it easier to check whether model solves
 * and to identify year when it crashes.
-option profile=1;
+*option profile=1;
 *option profile=3;
 *option profiletol=10;
 
-*option limrow=0, limcol=0, solprint = off;
+option limrow=0, limcol=0, solprint = off;
 *$Offlisting
 *$Offsymlist
 *$Offinclude 
