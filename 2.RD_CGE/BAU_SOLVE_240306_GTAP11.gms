@@ -223,9 +223,23 @@ $offtext
 *   CTAX
 *============================================================================== 
 
-* CTAX.fX(z,t1)       = CTAX0(z);
-* CTAX.fx(z,time)$[ord(time) gt 1]
-*                     = CTAX1(z,time);  
+* CTAX.fx('01_KOR',time)$[ord(time) gt 1]
+*                            = CTAX_145('01_KOR',time);  
+
+*==============================================================================
+*   AEEI
+*============================================================================== 
+* B_ENER_t(j2,'01_KOR',time) = B_ENER(j2,'01_KOR')*(AEEI_low('01_KOR',time));
+* beta_KLE2_t(j2,z,time) = beta_KLE2(j2,z)*AEEI(z,time);
+* aij2_t(ene,j3,'01_KOR',time)  =  aij2(ene,j3,'01_KOR')*AEEI_low('01_KOR',time) ;
+* io2_t(j,'01_KOR',time) = io2(j,'01_KOR')*(1/AEEI_low('01_KOR',time)) ;
+
+* io2_t(j,'01_KOR',t1)   = io2(j,'01_KOR');
+* io2_t(j,'01_KOR',time)$[ord(time) gt 1]
+*                        =  io2_t(j,'01_KOR',time-1)*[1- 0.01 ];
+
+AEEI(z,time) = AEEI_low(z,time);
+CO2FACTOR2(ene,j2,z,time) = CO2FACTOR(ene,j2,z)*AEEI(z,time);
 
 *==============================================================================
 *   6.2.2.3 Resolution

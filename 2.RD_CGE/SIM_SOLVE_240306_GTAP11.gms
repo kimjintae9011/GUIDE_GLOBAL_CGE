@@ -243,8 +243,26 @@ $offtext
 *                     = SH.l(z,time-1)*[1+g_GDP(z,time)];                       
 
 *==============================================================================
+*   AEEI
+*============================================================================== 
+* B_ENER_t(j2,'01_KOR',time) = B_ENER(j2,'01_KOR')*(AEEI_high('01_KOR',time));
+* io2_t(j,'01_KOR',time) = io2(j,'01_KOR')*AEEI_high('01_KOR',time) ;
+
+* io2_t(j,'01_KOR',t1)   = io2(j,'01_KOR');
+* io2_t(j,'01_KOR',time)$[ord(time) gt 1]
+*                        =  io2_t(j,'01_KOR',time-1)*[1-0.02 ];
+
+*CO2FACTOR2(ene,j2,'01_KOR',t1)   = CO2FACTOR(ene,j2,'01_KOR');
+*CO2FACTOR2(ene,j2,'01_KOR',time)$[ord(time) gt 1]
+*                        =  CO2FACTOR2(ene,j2,'01_KOR',time-1)*[1-0.02];
+
+AEEI(z,time) = AEEI_High(z,time);
+CO2FACTOR2(ene,j2,z,time) = CO2FACTOR(ene,j2,z)*AEEI(z,time);
+
+*==============================================================================
 *   CTAX
 *============================================================================== 
+$Ontext
  CTAX.fX(z,t1)              = CTAX0(z);
  CTAX.fx(z,time)$[ord(time) gt 1]
 *                            = CTAX_61(z4,time); 
@@ -259,6 +277,7 @@ $offtext
  CTAX.fx('06_PRK',time)$[ord(time) gt 3]
                             = 0.001 + 0.002*[ord(time)]-0.006;  
 
+$Offtext
 *======== CTAX_285 ========================================
 * CTAX.fx('14_CPA',time)$[ord(time) gt 1]
 *                             = CTAX_145('14_CPA',time); 
@@ -274,8 +293,8 @@ $offtext
 *                             = CTAX_285('01_KOR',time); 
 
 
-* CTAX.fx('01_KOR',time)$[ord(time) gt 1]
-*                            = CTAX_145('01_KOR',time);  
+ CTAX.fx('01_KOR',time)$[ord(time) gt 1]
+                            = CTAX_145('01_KOR',time);  
 
 * CTAX.fx('02_CHN',time)$[ord(time) gt 1]
 *                            = CTAX_61('02_CHN',time);  
@@ -320,10 +339,6 @@ $offtext
 
 * ttim.FX(ene,zj,'01_KOR',time)$[ord(time) gt 1]
 *                            =   ttim.l(ene,zj,'01_KOR',time-1)*1.1 ;
-
-*==============================================================================
-*   AEEI
-*============================================================================== 
 
 
 *==============================================================================

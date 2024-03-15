@@ -177,7 +177,8 @@ PARAMETER
  valElecGen(j,z,time,scen) Electricity generation by power plants
 
  valCTAX(z,time,scen) CTAX
-
+ valEndo_CO2(ene,j,z,time,scen) ktCO2
+ valEndo_TotalCO2(z,time,scen)  ktCO2
 *==============================================================================
 *Display of changes
 *==============================================================================
@@ -438,23 +439,23 @@ PARAMETER
  
 *====================================Energy&GHGs=====================================================================
 
- valEE(p_coal,j,z,time,'bau')           =  EEI(p_coal,j,z)*TREND(z,time)*DE.L('02_COAL',j,z,time);
- valEE(p_oil,j,z,time,'bau')            =  EEI(p_oil,j,z)*TREND(z,time)*DE.L('03_OIL',j,z,time);
- valEE(p_gas,j,z,time,'bau')            =  EEI(p_gas,j,z)*TREND(z,time)*DE.L('04_GAS',j,z,time);
- valEE(p_oilproduct,j,z,time,'bau')     =  EEI(p_oilproduct,j,z)*TREND(z,time)*DE.L('10_PETROLCOAL',j,z,time);
- valEE(p_elecheat,j,z,time,'bau')       =  EEI(p_elecheat,j,z)*TREND(z,time)*DE.L('18_ELEC',j,z,time);
+ valEE(p_coal,j,z,time,'bau')           =  EEI(p_coal,j,z)*TREND(z,time)*DE.L('02_COAL',j,z,time)*AEEI(z,time);
+ valEE(p_oil,j,z,time,'bau')            =  EEI(p_oil,j,z)*TREND(z,time)*DE.L('03_OIL',j,z,time)*AEEI(z,time);
+ valEE(p_gas,j,z,time,'bau')            =  EEI(p_gas,j,z)*TREND(z,time)*DE.L('04_GAS',j,z,time)*AEEI(z,time);
+ valEE(p_oilproduct,j,z,time,'bau')     =  EEI(p_oilproduct,j,z)*TREND(z,time)*DE.L('10_PETROLCOAL',j,z,time)*AEEI(z,time);
+ valEE(p_elecheat,j,z,time,'bau')       =  EEI(p_elecheat,j,z)*TREND(z,time)*DE.L('18_ELEC',j,z,time)*AEEI(z,time);
 
- valNE(p_coal,j,z,time,'bau')           =  NEI(p_coal,j,z)*TREND(z,time)*DE.L('02_COAL',j,z,time);
- valNE(p_oil,j,z,time,'bau')            =  NEI(p_oil,j,z)*TREND(z,time)*DE.L('03_OIL',j,z,time);
- valNE(p_gas,j,z,time,'bau')            =  NEI(p_gas,j,z)*TREND(z,time)*DE.L('04_GAS',j,z,time);
- valNE(p_oilproduct,j,z,time,'bau')     =  NEI(p_oilproduct,j,z)*TREND(z,time)*DE.L('10_PETROLCOAL',j,z,time);
- valNE(p_elecheat,j,z,time,'bau')       =  NEI(p_elecheat,j,z)*TREND(z,time)*DE.L('18_ELEC',j,z,time);
+ valNE(p_coal,j,z,time,'bau')           =  NEI(p_coal,j,z)*TREND(z,time)*DE.L('02_COAL',j,z,time)*AEEI(z,time);
+ valNE(p_oil,j,z,time,'bau')            =  NEI(p_oil,j,z)*TREND(z,time)*DE.L('03_OIL',j,z,time)*AEEI(z,time);
+ valNE(p_gas,j,z,time,'bau')            =  NEI(p_gas,j,z)*TREND(z,time)*DE.L('04_GAS',j,z,time)*AEEI(z,time);
+ valNE(p_oilproduct,j,z,time,'bau')     =  NEI(p_oilproduct,j,z)*TREND(z,time)*DE.L('10_PETROLCOAL',j,z,time)*AEEI(z,time);
+ valNE(p_elecheat,j,z,time,'bau')       =  NEI(p_elecheat,j,z)*TREND(z,time)*DE.L('18_ELEC',j,z,time)*AEEI(z,time);
 
- valEH(p_coal,z,time,'bau')             =  EHI(p_coal,z)*TREND(z,time)*C.L('02_COAL',z,time);
- valEH(p_oil,z,time,'bau')              =  EHI(p_oil,z)*TREND(z,time)*C.L('03_OIL',z,time);
- valEH(p_gas,z,time,'bau')              =  EHI(p_gas,z)*TREND(z,time)*C.L('04_GAS',z,time); 
- valEH(p_oilproduct,z,time,'bau')       =  EHI(p_oilproduct,z)*TREND(z,time)*C.L('10_PETROLCOAL',z,time);
- valEH(p_elecheat,z,time,'bau')         =  EHI(p_elecheat,z)*TREND(z,time)*C.L('18_ELEC',z,time);
+ valEH(p_coal,z,time,'bau')             =  EHI(p_coal,z)*TREND(z,time)*C.L('02_COAL',z,time)*AEEI(z,time);
+ valEH(p_oil,z,time,'bau')              =  EHI(p_oil,z)*TREND(z,time)*C.L('03_OIL',z,time)*AEEI(z,time);
+ valEH(p_gas,z,time,'bau')              =  EHI(p_gas,z)*TREND(z,time)*C.L('04_GAS',z,time)*AEEI(z,time); 
+ valEH(p_oilproduct,z,time,'bau')       =  EHI(p_oilproduct,z)*TREND(z,time)*C.L('10_PETROLCOAL',z,time)*AEEI(z,time);
+ valEH(p_elecheat,z,time,'bau')         =  EHI(p_elecheat,z)*TREND(z,time)*C.L('18_ELEC',z,time)*AEEI(z,time);
 
  valTFC(time,z,'bau')                   = sum(product, valEH(product,z,time,'bau') + Sum(j5,valEE(product,j5,z,time,'bau'))+Sum(j,valNE(product,j,z,time,'bau')));
  valNEA_TFC(product,time,'bau')         = sum(NEA,valEH(product,NEA,time,'bau')) + Sum((j5,NEA),valEE(product,j5,NEA,time,'bau'))+Sum((j,NEA),valNE(product,j,NEA,time,'bau'));
@@ -490,6 +491,9 @@ PARAMETER
  valElecGen('26_eOther',z,time,'bau')   = DS.l('26_eOther','18_ELEC',z,time)*EGIOtherGWh('26_eOther',z); 
 
  valCTAX(z,time,'bau') = CTAX.l(z,time) ;
+
+ valEndo_CO2(ene,j,z,time,'bau') = DE.L(ene,j,z,time)*CO2FACTOR2(ene,j,z,time)*10*1000;
+ valEndo_TotalCO2(z,time,'bau')  = sum((ene,j), valEndo_CO2(ene,j,z,time,'bau'));
 
 *==============================================================================
 *  7 (volume) CO2 emission variables
@@ -639,7 +643,11 @@ PARAMETER
  valElecGen,
  valCTAX,
  EEI,
- AEEI
+ AEEI_low,
+ AEEI_high,
+ B_ENER_t,
+ valEndo_CO2,
+ valEndo_TotalCO2
 * valCO2H,
 * valCH4I,
 * valCH4H,

@@ -70,12 +70,6 @@
         },
         {
             "codecMib": 106,
-            "file": "CAL_B_line_PEP-w-t_v4.1_240306_GTAP11b.lst",
-            "name": "CAL_B_line_PEP-w-t_v4.1_240306_GTAP11b.lst",
-            "type": "lst"
-        },
-        {
-            "codecMib": 106,
             "file": "DATA_PEP-w-t_v4.0_240306_GTAP11b.gms",
             "name": "DATA_PEP-w-t_v4.0_240306_GTAP11b.gms",
             "type": "gms"
@@ -91,6 +85,12 @@
             "file": "DATA_WEB-2019_240219.gms",
             "name": "DATA_WEB-2019_240219.gms",
             "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "MNG_CONST.gdx",
+            "name": "MNG_CONST.gdx",
+            "type": "gdx"
         },
         {
             "codecMib": 106,

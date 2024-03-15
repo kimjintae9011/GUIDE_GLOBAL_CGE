@@ -354,6 +354,7 @@ PARAMETER
  A_K(z)               Scale parameter (investment function)
  aij(i,j,z)           Input output coefficient
  aij2(i,j,z)          Input output coefficient (intermediate energy)
+ aij2_t(i,j,z,time)   Input output coefficient (intermediate energy)
  B_KD(j,z)            Scale parameter (CES - composite capital)
  B_LD(j,z)            Scale parameter (CES - composite labor)
  B_M1(i,z)            Scale parameter (CES - composite commodity)
@@ -376,6 +377,8 @@ PARAMETER
  beta_M2(i,zj,z)      Share parameter (CES - composite import)
  beta_VA(j,z)         Share parameter (CES - value added)
  beta_KLE(j,z)        Share parameter (CES - KLE composite)
+ beta_KLE2(j,z)
+ beta_KLE2_t(j,z,time)
  beta_ENER(ene,j,z)   Share parameter (CES - ENER composite)
  delta(z)             Depreciation rate of capital in country z
  eta                  Price elasticity of indexed transfers and parameters
@@ -385,6 +388,7 @@ PARAMETER
  gamma_LES(i,z)       Marginal share of commodity i in household consumption budget
  io(j,z)              Coefficient (Leontief - intermediate consumption)
  io2(j,z)             Coefficient (Leontief - intermediate energy consumption)
+ io2_t(j,z,time) 
  v(j,z)               value added Coefficient (Leontief)
  v2(j,z)              KLE Share parameter (Leontief)
  kmob                 Flag parameter (1 if capital is mobile)
@@ -429,6 +433,9 @@ PARAMETER
  exogro(z,time)       Exogenous growth factor for exogenously growing variables except labor
  growthz(z)           Steady state grwoth
  AEEI(z,time)
+ AEEI_low(z,time)     Autonomous energy efficiency improvement
+ AEEI_high(z,time)    Autonomous energy efficiency improvement
+
  TREND(z,time)
  CTAX_61(z,time)
  CTAX_145(z,time)
@@ -601,7 +608,7 @@ Scalar
 *  includes data for some variables and substitution elasticities.
 
 $LOAD CO, CGO, DDO, DEPO, DIO, DSO, DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, XSO, XSO_I, XSTO,
-$LOAD g_GDP, g_POP, g_SDR, AEEI, TREND, CTAX_61, CTAX_145, CTAX_285, CTAX_425, CTAX_565, RKDO, TDHO, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, 
+$LOAD g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, TREND, CTAX_61, CTAX_145, CTAX_285, CTAX_425, CTAX_565, RKDO, TDHO, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, 
 $LOAD tmrg, sigma_M1, sigma_M2, sigma_VA, POPO
 
 display sigma_M1, sigma_M2 ;
@@ -1119,6 +1126,8 @@ sigma_Y('03_OIL','06_PRK') = 1.01;
  aij(nene,j,z)   = DIO(nene,j,z)/CIO(j,z);
  aij2(ene,j,z)   = DEO(ene,j,z)/CEO(j,z);
 
+ aij2_t(ene,j,z,time) =  aij2(ene,j,z)*AEEI_low(z,'2019') ;
+ io2_t(j,z,time) = io2(j,z)*AEEI_low(z,'2019') ;
 *==============================================================================
 *   4.6.2 Calibration of CET parameters
 *==============================================================================
@@ -1254,7 +1263,7 @@ sigma_Y('03_OIL','06_PRK') = 1.01;
                  = CEO(j,z)/{SUM[ene$DEO(ene,j,z),beta_ENER(ene,j,z)*DEO(ene,j,z)
                    **(-rho_ENER(j,z))]**(-1/rho_ENER(j,z))};
 
- B_ENER_t(j,z,time) = B_ENER(j,z)*(1/AEEI(z,'2019'));
+ B_ENER_t(j,z,time) = B_ENER(j,z)*(1/AEEI_low(z,'2019'));
  
 *==============================================================================
 *    4.6.3.5 Value added
@@ -1288,11 +1297,16 @@ sigma_Y('03_OIL','06_PRK') = 1.01;
                   {PVAO(j,z)*VAO(j,z)**(rho_KLE(j,z)+1)+
                    PCEO(j,z)*CEO(j,z)**(rho_KLE(j,z)+1)};
 
+ beta_KLE2(j,z)$KLEO(j,z)
+                 = 1-beta_KLE(j,z); 
+
  B_KLE(j,z)$KLEO(j,z)
                  = KLEO(j,z)
                    /{[beta_KLE(j,z)*VAO(j,z)**(-rho_KLE(j,z))+
-                   (1-beta_KLE(j,z))*CEO(j,z)**(-rho_KLE(j,z))
+                   (beta_KLE2(j,z))*CEO(j,z)**(-rho_KLE(j,z))
                    ]**(-1/rho_KLE(j,z))};
+
+ beta_KLE2_t(j,z,time) = beta_KLE2(j,z)*AEEI_low(z,'2019');
 
 *==============================================================================
 *   4.6.4 Calibration of LES parameters
@@ -1496,7 +1510,6 @@ Parameters
  CO2FACTOR2(ene,j,z,time) Time series CO2 emissions factor (tCO2 per 100$)
  CTAX0(z)                 initial Carbon tax $ per ton CO2
  TCTAX0(z)                initial Government Revenue from Carbon tax
-
 ;
 
 * CO2FACTOR(ene,j,z) = 0 ;
@@ -1709,6 +1722,7 @@ EQUATIONS
  EQ9(i,j,z,time)         Leontief - demand for commodity i by sector j
  EQ9_1(i,j,z,time)       Leontief - demand for commodity i by sector j
  EQ9_2(i,j,z,time)       CES between energy commodities categories
+* EQ9_3(j2,z,time)
  EQ10(z,time)            Household total income
  EQ11(z,time)            Household labor income
  EQ12(z,time)            Household capital income
@@ -1842,7 +1856,9 @@ EQUATIONS
 
  EQ2(j,z,t)..      CI(j,z,t) =e= io(j,z)*XST(j,z,t);
  
- EQ2_1(j3,z,t)..   CE(j3,z,t) =e= io2(j3,z)*XST(j3,z,t);
+* EQ2_1(j3,z,t)..   CE(j3,z,t) =e= io2(j3,z)*XST(j3,z,t);
+ EQ2_1(j3,z,t)..   CE(j3,z,t) =e= io2_t(j3,z,t)*XST(j3,z,t);
+
 
  EQ3(j,z,t)..      VA(j,z,t) =e= A_VA(z,t)*B_VA(j,z)*{
                     [beta_VA(j,z)*LDC(j,z,t)**(-rho_VA(j,z))]$LDCO(j,z)
@@ -1850,8 +1866,11 @@ EQUATIONS
                                                    }**(-1/rho_VA(j,z));
 
  EQ3_1(j2,z,t)..   KLE(j2,z,t) =e= B_KLE(j2,z)*{
-                    [beta_KLE(j2,z)*VA(j2,z,t)**(-rho_KLE(j2,z))]$VAO(j2,z)
-                   +[(1-beta_KLE(j2,z))*CE(j2,z,t)**(-rho_KLE(j2,z))]$CEO(j2,z)
+*                    [beta_KLE(j2,z)*VA(j2,z,t)**(-rho_KLE(j2,z))]$VAO(j2,z)
+*                   +[(beta_KLE2(j2,z))*CE(j2,z,t)**(-rho_KLE(j2,z))]$CEO(j2,z)
+*                                                   }**(-1/rho_KLE(j2,z));
+                    [(1-beta_KLE2_t(j2,z,t))*VA(j2,z,t)**(-rho_KLE(j2,z))]$VAO(j2,z)
+                   +[(beta_KLE2_t(j2,z,t))*CE(j2,z,t)**(-rho_KLE(j2,z))]$CEO(j2,z)
                                                    }**(-1/rho_KLE(j2,z));
 
  EQ4(j,z,t)$[LDCO(j,z) and KDCO(j,z)]..
@@ -1859,7 +1878,9 @@ EQUATIONS
                               *[RC(j,z,t)/WC(j,z,t)]}**sigma_VA(j,z)*KDC(j,z,t);
 
  EQ4_1(j2,z,t)$[VAO(j2,z) and CEO(j2,z)]..
-                 VA(j2,z,t) =e= {[beta_KLE(j2,z)/(1-beta_KLE(j2,z))]
+*                 VA(j2,z,t) =e= {[beta_KLE(j2,z)/(beta_KLE2(j2,z))]
+*                              *[PCE(j2,z,t)/PVA(j2,z,t)]}**sigma_KLE(j2,z)*CE(j2,z,t);
+                 VA(j2,z,t) =e= {[(1-beta_KLE2_t(j2,z,t))/(beta_KLE2_t(j2,z,t))]
                               *[PCE(j2,z,t)/PVA(j2,z,t)]}**sigma_KLE(j2,z)*CE(j2,z,t);
 
  EQ5(j,z,t)$LDCO(j,z)..
@@ -1882,9 +1903,13 @@ EQUATIONS
 
  EQ9(nene,j,z,t)..    DI(nene,j,z,t) =e= aij(nene,j,z)*CI(j,z,t) ;
 
- EQ9_1(ene,j3,z,t)..  DE(ene,j3,z,t) =e= aij2(ene,j3,z)*CE(j3,z,t) ;
+ EQ9_1(ene,j3,z,t)..  DE(ene,j3,z,t) =e= aij2_t(ene,j3,z,t)*CE(j3,z,t) ;
 
- EQ9_2(ene,j2,z,t)..  DE(ene,j2,z,t) =e= [beta_ENER(ene,j2,z)*PCE(j2,z,t)/((P4(ene,j2,z,t)+PC(ene,z,t)*CTAX(z,t)*CO2FACTOR2(ene,j2,z,t)))]
+* EQ9_3(j2,z,t)..      CE(j2,z,t) =e= B_ENER_t(j2,z,t)*SUM[ene,beta_ENER(ene,j2,z)
+*                                *DE(ene,j2,z,t)**(-rho_ENER(j2,z))]**(-1/rho_ENER(j2,z));
+
+* EQ9_2(ene,j2,z,t)..  DE(ene,j2,z,t) =e= [beta_ENER(ene,j2,z)*PCE(j2,z,t)/((P4(ene,j2,z,t)+PC(ene,z,t)*CTAX(z,t)*CO2FACTOR2(ene,j2,z,t)))]
+ EQ9_2(ene,j2,z,t)..  DE(ene,j2,z,t) =e= [beta_ENER(ene,j2,z)*PCE(j2,z,t)/((P4(ene,j2,z,t)+P4(ene,j2,z,t)*CTAX(z,t)*CO2FACTOR2(ene,j2,z,t)))]
                                    **sigma_ENER(j2,z)*B_ENER_t(j2,z,t)**(sigma_ENER(j2,z)-1)
                                    *CE(j2,z,t);
 

@@ -150,6 +150,9 @@ PARAMETER
  valElecGen(j,z,time,scen) Electricity generation by power plants
 
  valCTAX(z,time,scen) CTAX
+
+ valEndo_CO2(ene,j,z,time,scen) ktCO2
+ valEndo_TotalCO2(z,time,scen)  ktCO2
 ;
 
 
@@ -270,15 +273,15 @@ PARAMETER
  valYHL(z,time,'sim')        = YHL.l(z,time);
  valYROW(z,time,'sim')       = YROW.l(z,time);
 
- valEE(p_coal,j,z,time,'sim') =  EEI(p_coal,j,z)*TREND(z,time)*DE.L('02_COAL',j,z,time);
- valEE(p_oil,j,z,time,'sim')  =  EEI(p_oil,j,z)*TREND(z,time)*DE.L('03_OIL',j,z,time);
- valEE(p_gas,j,z,time,'sim')  =  EEI(p_gas,j,z)*TREND(z,time)*DE.L('04_GAS',j,z,time);
- valEE(p_oilproduct,j,z,time,'sim')  =  EEI(p_oilproduct,j,z)*TREND(z,time)*DE.L('10_PETROLCOAL',j,z,time);
- valEE(p_elecheat,j,z,time,'sim')  =  EEI(p_elecheat,j,z)*TREND(z,time)*DI.L('18_ELEC',j,z,time);
+ valEE(p_coal,j,z,time,'sim') =  EEI(p_coal,j,z)*TREND(z,time)*DE.L('02_COAL',j,z,time)*AEEI(z,time);
+ valEE(p_oil,j,z,time,'sim')  =  EEI(p_oil,j,z)*TREND(z,time)*DE.L('03_OIL',j,z,time)*AEEI(z,time);
+ valEE(p_gas,j,z,time,'sim')  =  EEI(p_gas,j,z)*TREND(z,time)*DE.L('04_GAS',j,z,time)*AEEI(z,time);
+ valEE(p_oilproduct,j,z,time,'sim')  =  EEI(p_oilproduct,j,z)*TREND(z,time)*DE.L('10_PETROLCOAL',j,z,time)*AEEI(z,time);
+ valEE(p_elecheat,j,z,time,'sim')  =  EEI(p_elecheat,j,z)*TREND(z,time)*DI.L('18_ELEC',j,z,time)*AEEI(z,time);
 
- valNE(p_coal,j,z,time,'sim') =  NEI(p_coal,j,z)*TREND(z,time)*DE.L('02_COAL',j,z,time);
- valNE(p_oil,j,z,time,'sim')  =  NEI(p_oil,j,z)*TREND(z,time)*DE.L('03_OIL',j,z,time);
- valNE(p_gas,j,z,time,'sim')  =  NEI(p_gas,j,z)*TREND(z,time)*DE.L('04_GAS',j,z,time);
+ valNE(p_coal,j,z,time,'sim') =  NEI(p_coal,j,z)*TREND(z,time)*DE.L('02_COAL',j,z,time)*AEEI(z,time);
+ valNE(p_oil,j,z,time,'sim')  =  NEI(p_oil,j,z)*TREND(z,time)*DE.L('03_OIL',j,z,time)*AEEI(z,time);
+ valNE(p_gas,j,z,time,'sim')  =  NEI(p_gas,j,z)*TREND(z,time)*DE.L('04_GAS',j,z,time)*AEEI(z,time);
  valNE(p_oilproduct,j,z,time,'sim')  =  NEI(p_oilproduct,j,z)*TREND(z,time)*DE.L('10_PETROLCOAL',j,z,time);
  valNE(p_elecheat,j,z,time,'sim')  =  NEI(p_elecheat,j,z)*TREND(z,time)*DE.L('18_ELEC',j,z,time);
 
@@ -322,6 +325,9 @@ PARAMETER
  valElecGen('26_eOther',z,time,'sim')   = DS.l('26_eOther','18_ELEC',z,time)*EGIOtherGWh('26_eOther',z); 
  
  valCTAX(z,time,'sim')                  = CTAX.L(z,time) ;
+
+ valEndo_CO2(ene,j,z,time,'sim') = DE.L(ene,j,z,time)*CO2FACTOR2(ene,j,z,time)*10*1000;
+ valEndo_TotalCO2(z,time,'sim')  = sum((ene,j),valEndo_CO2(ene,j,z,time,'sim'));
 
  execute_unload 'Output_w-t\Simulation_Results_240306_GTAP11.gdx',
  valA_VA,
@@ -453,7 +459,9 @@ PARAMETER
  valJPN_TFC,
  valPOWER,
  valElecGen,
- valCTAX
+ valCTAX,
+ valEndo_CO2,
+ valEndo_TotalCO2
 * valCO2H,
 * valCH4I,
 * valCH4H,
