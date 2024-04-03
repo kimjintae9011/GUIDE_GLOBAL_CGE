@@ -345,7 +345,10 @@ PARAMETER
  exogro(z,time)       Exogenous growth factor for exogenously growing variables except labor
  growthz(z)           Steady state grwoth
  AEEI(z,time)
+ AEEI_low(z,time)     Autonomous energy efficiency improvement
+ AEEI_high(z,time)    Autonomous energy efficiency improvement
 
+ CTAX_Cal(z,time)
 
  B_ENER_t(j,z,time)
  
@@ -512,7 +515,7 @@ Scalar
 *  includes data for some variables and substitution elasticities.
 
 $LOAD CO, CGO, DDO, DEPO, DIO, DSO, DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, XSO, XSO_I, XSTO,
-$LOAD g_GDP, g_POP, g_SDR, AEEI, RKDO, TDHO, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, 
+$LOAD g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, CTAX_Cal, RKDO, TDHO, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, 
 $LOAD tmrg, sigma_M1, sigma_M2, sigma_VA, POPO
 
 display sigma_M1, sigma_M2 ;
@@ -1150,7 +1153,7 @@ $LOAD sigma_KD, sigma_LD, sigma_KLE, sigma_X1, sigma_X2, sigma_X3, sigma_X0, sig
                  = CEO(j,z)/{SUM[ene$DEO(ene,j,z),beta_ENER(ene,j,z)*DEO(ene,j,z)
                    **(-rho_ENER(j,z))]**(-1/rho_ENER(j,z))};
 
- B_ENER_t(j,z,time) = B_ENER(j,z)*(1/AEEI(z,'2019'));
+ B_ENER_t(j,z,time) = B_ENER(j,z)*(1/AEEI_low(z,'2019'));
 
 *==============================================================================
 *    4.6.3.5 Value added
@@ -1362,6 +1365,52 @@ execute_unload 'EQ4_MINING_GTAP11' ;
 *$EXIT
 
 *==============================================================================
+*  4.12 CO2FACTOR and CTAX
+*==============================================================================
+Parameters
+ CO2FACTOR(ene,j,z)       CO2 emissions factor (tCO2 per 100$)
+ CO2FACTOR2(ene,j,z,time) Time series CO2 emissions factor (tCO2 per 100$)
+ CTAX0(z)                 initial Carbon tax $ per ton CO2
+ TCTAX0(z)                initial Government Revenue from Carbon tax
+;
+
+* CO2FACTOR(ene,j,z) = 0 ;
+ CO2FACTOR('02_COAL',j,z)$DEO('02_COAL',j,z) = [sum(p_coal,CO2IO(p_coal,j,z))/DEO('02_COAL',j,z)]*(1000/(10**8));
+ CO2FACTOR('04_GAS',j,z)$DEO('04_GAS',j,z) = [sum(p_gas,CO2IO(p_gas,j,z))/DEO('04_GAS',j,z)]*(1000/(10**8));
+ CO2FACTOR('10_PETROLCOAL',j,z)$DEO('10_PETROLCOAL',j,z) = [sum(p_oilproduct,CO2IO(p_oilproduct,j,z))/DEO('10_PETROLCOAL',j,z)]*(1000/(10**8));
+
+* CO2FACTOR('02_COAL',j,z)$DEO('02_COAL',j,z) = [sum(p_coal,CO2IO(p_coal,j,z))/DEO('02_COAL',j,z)]*10/100;
+* CO2FACTOR('04_GAS',j,z)$DEO('04_GAS',j,z) = [sum(p_gas,CO2IO(p_gas,j,z))/DEO('04_GAS',j,z)]*10/100;
+* CO2FACTOR('10_PETROLCOAL',j,z)$DEO('10_PETROLCOAL',j,z) = [sum(p_oilproduct,CO2IO(p_oilproduct,j,z))/DEO('10_PETROLCOAL',j,z)]*10/100;
+
+*PetrolCoal
+ CO2FACTOR('10_PETROLCOAL','10_PETROLCOAL',z) = 0;
+
+*PRK
+ CO2FACTOR('02_COAL','01_AGRICULT','06_PRK')        = CO2FACTOR('02_COAL','01_AGRICULT','05_MNG');
+ CO2FACTOR('10_PETROLCOAL','01_AGRICULT','06_PRK')  = CO2FACTOR('10_PETROLCOAL','01_AGRICULT','05_MNG');
+ CO2FACTOR('02_COAL','28_LTRP','06_PRK')            = CO2FACTOR('02_COAL','28_LTRP','05_MNG');
+ CO2FACTOR('02_COAL','17_OTHERIND','06_PRK')        = CO2FACTOR('02_COAL','17_OTHERIND','05_MNG');
+
+*RUS
+ CO2FACTOR('02_COAL','08_WOODPRO','04_RUS')         = CO2FACTOR('02_COAL','08_WOODPRO','10_EEU');
+
+*LAM
+ CO2FACTOR('04_GAS','02_COAL','08_LAM')             = CO2FACTOR('04_GAS','02_COAL','07_NAM');
+
+ CTAX0(z) = 0 ;
+
+ TCTAX0(z) = 0;
+
+* CO2FACTOR2(ene,j,z,time) = CO2FACTOR(ene,j,z)*AEEI(z,time);
+ CO2FACTOR2(ene,j,z,time) = CO2FACTOR(ene,j,z);
+
+execute_unload 'CO2FACTOR_w-t',
+ CO2FACTOR, CO2FACTOR2 ;
+*$exit
+
+
+*==============================================================================
 * 5 Model
 *==============================================================================
 *  5.1 Variable declarations
@@ -1411,6 +1460,7 @@ VARIABLES
  XST(j,z,time)           Total aggregate output of industry j in region z
  POWERQ(z,time)          Total power output in region z
  OBJ
+ 
 *==============================================================================
 *   5.1.2 Price variables
 *==============================================================================
@@ -1451,7 +1501,8 @@ VARIABLES
  W(l,z,time)             Wage rate of type l labor in region z
  WC(j,z,time)            Wage rate of industry j composite labor in region z
  WTI(l,j,z,time)         Wage rate paid z by industry j for type l labor in region including payroll taxes
-
+ CTAX(Z,time)            Carbon tax in region z
+ 
 *==============================================================================
 *   5.1.3 Nominal (value) variables
 *==============================================================================
@@ -1469,6 +1520,7 @@ VARIABLES
  SH(z,time)              Household savings in region z
  SROW(z,time)            Rest-of-the-world savings with respect to region z
  TDH(z,time)             Household income taxes in region z
+ TCTAX(z,time)           Government revenuse from Carbon tax
  TIC(i,z,time)           Government revenue from indirect taxes on commodity i in region z
  TICT(z,time)            Total government receipts of indirect taxes on commodities in region z
  TIK(k,j,z,time)         Government revenue from taxes on type k capital used by industry j in region z
@@ -1539,6 +1591,7 @@ EQUATIONS
 * CALEQ1(z,time)          Aggregate domestic savings
  EQ15(z,time)            Household savings
  EQ16(z,time)            Government total income
+ EQ16_1(z,time)          Government revenue from Ctax
  EQ17(z,time)            Total government receipts of taxes on production
  EQ18(z,time)            Government receipts of indirect taxes on wages
  EQ19(z,time)            Government receipts of indirect taxes on capital
@@ -1705,16 +1758,22 @@ EQUATIONS
 
  EQ9_1(ene,j3,z,t)..  DE(ene,j3,z,t)   =e= aij2(ene,j3,z)*CE(j3,z,t) ;
 
- EQ9_2(ene,j2,z,t)..  DE(ene,j2,z,t) =e= [beta_ENER(ene,j2,z)*PCE(j2,z,t)/P4(ene,j2,z,t)]
+* EQ9_2(ene,j2,z,t)..  DE(ene,j2,z,t) =e= [beta_ENER(ene,j2,z)*PCE(j2,z,t)/P4(ene,j2,z,t)]
+*                                   **sigma_ENER(j2,z)*B_ENER_t(j2,z,t)**(sigma_ENER(j2,z)-1)
+*                                   *CE(j2,z,t);
+
+ EQ9_2(ene,j2,z,t)..  DE(ene,j2,z,t) =e= [beta_ENER(ene,j2,z)*PCE(j2,z,t)/((P4(ene,j2,z,t)+P4(ene,j2,z,t)*CTAX(z,t)*CO2FACTOR2(ene,j2,z,t)))]
                                    **sigma_ENER(j2,z)*B_ENER_t(j2,z,t)**(sigma_ENER(j2,z)-1)
                                    *CE(j2,z,t);
+
 
 *==============================================================================
 *   5.3.2 Income and savings
 *==============================================================================
 *    5.3.2.1 Households
 *==============================================================================
- EQ10(z,t)..       YH(z,t) =e= YHL(z,t)+YHK(z,t);
+* EQ10(z,t)..       YH(z,t) =e= YHL(z,t)+YHK(z,t);
+ EQ10(z,t)..       YH(z,t) =e= YHL(z,t)+YHK(z,t)+TCTAX(z,t);
 
  EQ11(z,t)..       YHL(z,t) =e= SUM[(l,j)$LDO(l,j,z),W(l,z,t)*LD(l,j,z,t)];
 
@@ -1733,7 +1792,9 @@ EQUATIONS
 *==============================================================================
 *    5.3.2.2 Government
 *==============================================================================
- EQ16(z,t)..       YG(z,t) =e= TDH(z,t)+TPRODN(z,t)+TPRCTS(z,t) ;
+ EQ16(z,t)..       YG(z,t) =e= TDH(z,t)+TPRODN(z,t)+TPRCTS(z,t)+TCTAX(z,t);
+
+ EQ16_1(z,t)..     TCTAX(z,t) =e= sum((ene,j), PC(ene,z,t)*CTAX(z,t)*CO2FACTOR2(ene,j,z,t)*DE(ene,j,z,t));
 
  EQ17(z,t)..       TPRODN(z,t) =e= TIWT(z,t)+TIKT(z,t)+TIPT(z,t);
 
@@ -1773,8 +1834,7 @@ EQUATIONS
  EQ31(i,z,zj,t)$EXO(i,z,zj)..
                  TIX(i,z,zj,t) =e= ttix(i,z,zj,t)*PE(i,z,zj,t)*EX(i,z,zj,t);
 
- EQ32(z,t)..       SG(z,t) =e= YG(z,t)-G(z,t);
-* EQ32(z,t)..       SG(z,t) =e= YG(z,t)- sum(i,PC(i,z,t)*CG(i,z,t));
+ EQ32(z,t)..       SG(z,t) =e= YG(z,t)-G(z,t)-TCTAX(z,t);
 
 *==============================================================================
 *    5.3.2.4 Rest of the world
@@ -1910,9 +1970,7 @@ $OFFTEXT
 
  EQ51(j,z,t)..     PCI(j,z,t)*CI(j,z,t) =e= SUM[nene,PC(nene,z,t)*DI(nene,j,z,t)];
 
- EQ51_1(j,z,t)..   PCE(j,z,t)*CE(j,z,t) =e= SUM[ene,PC(ene,z,t)*DE(ene,j,z,t)];
-
-* EQ51_1(j,z)..   PCE(j,z)*CE(j,z) =e= SUM[ene,P4(ene,j,z)*DE(ene,j,z)];
+ EQ51_1(j,z,t)..   PCE(j,z,t)*CE(j,z,t) =e= SUM[ene,PC(ene,z,t)*DE(ene,j,z,t) + PC(ene,z,t)*CTAX(z,t)*CO2FACTOR2(ene,j,z,t)*DE(ene,j,z,t)];
 
  EQ52(j,z,t)..     PVA(j,z,t)*VA(j,z,t) =e= [WC(j,z,t)*LDC(j,z,t)]$LDCO(j,z)
                                      +[RC(j,z,t)*KDC(j,z,t)]$KDCO(j,z);
@@ -2039,7 +2097,7 @@ $OFFTEXT
                 +SUM[(i,zj)$EXO(i,z,zj),e(z,t)*PWX(i,z,zj,t)*EX(i,z,zj,t)]
                 +SUM[i$MRGNO(i,z),e(z,t)*PWMG(i,t)*MRGN(i,z,t)]
                 -SUM[(i,zj)$IMO(i,zj,z),e(z,t)*IM(i,zj,z,t)
-                    *(PWM(i,zj,z,t)+SUM[ij,PWMG(ij,t)*tmrg(ij,i,zj,z)])];
+                    *(PWM(i,zj,z,t)+SUM[ij,PWMG(ij,t)*tmrg(ij,i,zj,z)])]-TCTAX(z,t);
 
  EQ85(t)..          GDP_BP_W(t) =e= SUM[z,GDP_BP(z,t)/e(z,t)];
 
@@ -2065,8 +2123,6 @@ $OFFTEXT
 *==============================================================================
 *   5.3.8 Dynamic equations
 *==============================================================================
-* EQ84(k,j,z,t).. KD(k,j,z,t) =e= KD(k,j,z,t-1)*(1-delta(z))+IND(k,j,z,t-1);
-
  EQ94(z,t)..     IT(z,t) =e= PK(z,t)*SUM[(k,j)$KDO(k,j,z),IND(k,j,z,t)];
 
  EQ95(z,t)..     PK(z,t) =e= 1/A_K(z)*PROD[i$gamma_INV(i,z),(PC(i,z,t)
@@ -2206,6 +2262,33 @@ $Ontext
  PWMG.LO(i,time)$(ord(time) gt 1)     = 0.00001*PWMG.L(i,time-1);
  PWX.LO(i,z,zj,time) $(ord(time) gt 1) = 0.00001*PWX.L(i,z,zj,time-1);
 $Offtext
+*==============================================================================
+*   6.1.3 Closures
+*==============================================================================
+*$ontext
+* FP CLOSURE: fixed PIXGDPs; numeraire is exchange rate of reference region
+* The exchange rates are endogenous, except for the reference region.
+ e.FX(zr,time)      = eO(zr);
+ PIXGDP.FX(z,time)  = PIXGDPO(z)/sum[zr,eO(zr)];
+*$offtext
+
+$ontext
+* FE CLOSURE: fixed exchange rates; numeraire is PIXGDP of reference region
+* The exchange rates can be fixed at arbitrary values
+ PIXGDP.FX(zr,time)  = PIXGDPO(zr);
+ e.FX(z,time)        = eO(z);
+$offText
+
+ phi.fx(z,time)       = phio(z);
+ ttdh0.fx(z,time)     = ttdh0O(z);
+ ttdh1.fx(z,time)     = ttdh1O(z);
+ ttic.fx(i,z,time)    = tticO(i,z);
+ ttik.fx(k,j,z,time)  = ttikO(k,j,z);
+ ttim.fx(i,zj,z,time) = ttimO(i,zj,z);
+ ttip.fx(j,z,time)    = ttipO(j,z);
+ ttiw.fx(l,j,z,time)  = ttiwO(l,j,z);
+ ttix.fx(i,z,zj,time) = ttixO(i,z,zj);
+ CTAX.fX(z,time)      = CTAX0(z);
 
 *==============================================================================
 *   6.1.2 Fixing GDP_BP_REAL and sh1, and initializing A_VA and sh0
@@ -2216,9 +2299,6 @@ $Offtext
  GDP_BP_REAL.fx(z,time)$[ord(time) gt 1]
 *                       = GDP_BP_REAL.l(z,time-1)*[1+growthz(z)];
                        = GDP_BP_REAL.l(z,time-1)*[1+g_GDP(z,time)];
-
- GDP_BP_REAL.fx('06_PRK',time)$[ord(time) gt 1]
-                       = GDP_BP_REAL.l('06_PRK',time-1)*[1+g_POP('06_PRK',time)];
 
  A_VA.L(z,t1)          = 1;
  A_VA.L(z,time)$[ord(time) gt 1]
@@ -2238,23 +2318,6 @@ $Offtext
                      = sh0.l(z,time-1)*[1+growthz(z)];
 
 *==============================================================================
-*   6.1.3 Closures
-*==============================================================================
-*$ontext
-* FP CLOSURE: fixed PIXGDPs; numeraire is exchange rate of reference region
-* The exchange rates are endogenous, except for the reference region.
- e.FX(zr,time)      = eO(zr);
- PIXGDP.FX(z,time)  = PIXGDPO(z)/sum[zr,eO(zr)];
-*$offtext
-
-$ontext
-* FE CLOSURE: fixed exchange rates; numeraire is PIXGDP of reference region
-* The exchange rates can be fixed at arbitrary values
- PIXGDP.FX(zr,time)  = PIXGDPO(zr);
- e.FX(z,time)        = eO(z);
-$offtext
-
-*==============================================================================
 *   6.1.4 Other exogenous variables
 *==============================================================================
 * CABX.FX(z1,time)    = CABXO(z1)*cabix(z1,time);
@@ -2264,38 +2327,33 @@ $offtext
 *                      = CABX.l(z1,time-1)*[1+growthz(z1)];
                       = CABX.l(z1,time-1)*[1+g_GDP(z1,time)];
 
- CABX.FX('06_PRK',time)$[ord(time) gt 1]
-                      = CABX.l('06_PRK',time-1)*[1+g_POP('06_PRK',time)];
-
  CMIN.FX(i,z,t1)      = CMINO(i,z);
  CMIN.FX(i,z,time)$[ord(time) gt 1]
 *                      = CMIN.l(i,z,time-1)*[1+growthz(z)];
                       = CMIN.l(i,z,time-1)*[1+g_POP(z,time)];
 
- CMIN.FX(i,'06_PRK',time)$[ord(time) gt 1]
-                      = CMIN.l(i,'06_PRK',time-1)*[1+g_POP('06_PRK',time)];
-
-
  KD.fx(k,j,z,t1)$KDO(k,j,z)
-                     = KDO(k,j,z);
+                      = KDO(k,j,z);
  KD.fx(k,j,z,time)${[ord(time) gt 1] and KDO(k,j,z)}
-                     = KD.l(k,j,z,time-1)*[1-delta(z)]+IND.l(k,j,z,time-1);
 *                     = KD.l(k,j,z,time-1)*[1+growthz(z)];
+                      = KD.l(k,j,z,time-1)*[1-delta(z)]+IND.l(k,j,z,time-1);
 
- LS.FX(l,z,t1)       = LSO(l,z);
+* KD.fx('natr',j,z,time)${[ord(time) gt 1] and KDO('natr',j,z)}
+*                      = KD.l('natr',j,z,time-1);
+
+* KD.fx('land',j,z,time)${[ord(time) gt 1] and KDO('land',j,z)}
+*                      = KD.l('land',j,z,time-1);
+
+ LS.FX(l,z,t1)        = LSO(l,z);
  LS.FX(l,z,time)$[ord(time) gt 1]
 *                    = LS.l(l,z,time-1)*[1+growthz(z)];
-                     = LS.l(l,z,time-1)*[1+g_POP(z,time)];
+                      = LS.l(l,z,time-1)*[1+g_POP(z,time)];
 
- phi.fx(z,time)       = phio(z);
- ttdh0.fx(z,time)     = ttdh0O(z);
- ttdh1.fx(z,time)     = ttdh1O(z);
- ttic.fx(i,z,time)    = tticO(i,z);
- ttik.fx(k,j,z,time)  = ttikO(k,j,z);
- ttim.fx(i,zj,z,time) = ttimO(i,zj,z);
- ttip.fx(j,z,time)    = ttipO(j,z);
- ttiw.fx(l,j,z,time)  = ttiwO(l,j,z);
- ttix.fx(i,z,zj,time) = ttixO(i,z,zj);
+*==============================================================================
+*   CTAX
+*============================================================================== 
+ CTAX.fx(z,time)$[ord(time) gt 1]
+                            = CTAX_Cal(z,time);  
 
 *==============================================================================
 *   6.1.5 Resolution
@@ -2326,6 +2384,7 @@ PARAMETER
  sh0X(z,time)     Intercept (household savings)
  sh1X(z,time)     Household savings rate
  phi_BAU(z,time)
+ valCTAX(z,time)
 ;
 
  A_VA_RES(z,time)        = A_VA.l(z,time);
@@ -2335,9 +2394,10 @@ PARAMETER
  sh1X(z,time)            = sh1.l(z,time);
  sh0X(z,time)            = sh0.l(z,time);
  phi_BAU(z,time)         = phi.l(z,time);
+ valCTAX(z,time)         = CTAX.l(z,time);
 
 execute_unload 'Input_w-t/B_line_240306_GTAP11b.gdx',
  A_VA_RES, GX, G_REALX, INDX, delta, XST, VA, LS, KS, LD, KD, IND, EX, g_GDP, g_POP, GDP_BP, RC, IT, SH, SG, CABX, R, PK, sigma_LD, sigma_INV,
- sh1X, sh0X, phi_BAU ;
+ sh1X, sh0X, phi_BAU, valCTAX ;
  
 *execute_unload 'CalB_Check'  ;

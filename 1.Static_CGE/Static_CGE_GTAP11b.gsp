@@ -1,5 +1,5 @@
 {
-    "file": "Model_PEP-w-1_v4.0_GTAP11_240214.gms",
+    "file": "Model_PEP-w-1_v4.0_GTAP11_240403.gms",
     "name": "Static_CGE_GTAP11b",
     "nodes": [
         {
@@ -31,6 +31,24 @@
             "file": "Model_PEP-w-1_v4.0_GTAP11_240214.gms",
             "name": "Model_PEP-w-1_v4.0_GTAP11_240214.gms",
             "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "Model_PEP-w-1_v4.0_GTAP11_240214.lst",
+            "name": "Model_PEP-w-1_v4.0_GTAP11_240214.lst",
+            "type": "lst"
+        },
+        {
+            "codecMib": 106,
+            "file": "Model_PEP-w-1_v4.0_GTAP11_240403.gms",
+            "name": "Model_PEP-w-1_v4.0_GTAP11_240403.gms",
+            "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "Model_PEP-w-1_v4.0_GTAP11_240403.lst",
+            "name": "Model_PEP-w-1_v4.0_GTAP11_240403.lst",
+            "type": "lst"
         }
     ],
     "options": [

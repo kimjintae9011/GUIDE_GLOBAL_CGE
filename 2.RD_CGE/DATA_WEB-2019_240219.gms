@@ -530,11 +530,11 @@ f65_INONSPEC    Industry not elsewhere specified
 f_elec(flow)
 /
 f11_MAINELEC    Main activity producer electricity plants
-*f12_AUTOELEC    Autoproducer electricity plants
+f12_AUTOELEC    Autoproducer electricity plants
 f13_MAINCHP     Main activity producer CHP plants
-*f14_AUTOCHP     Autoproducer CHP plants
+f14_AUTOCHP     Autoproducer CHP plants
 f15_MAINHEAT    Main activity producer heat plants
-*f16_AUTOHEAT    Autoproducer heat plants
+f16_AUTOHEAT    Autoproducer heat plants
 *f17_THEAT       Heat pumps
 *f19_TBOILER     Electric boilers
 *f45_EPOWERPLT   Own use in electricity CHP and heat plants

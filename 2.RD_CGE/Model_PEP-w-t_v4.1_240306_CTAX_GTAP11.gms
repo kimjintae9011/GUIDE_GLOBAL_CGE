@@ -235,7 +235,6 @@ J5(J) Industries
  31_SER         Service
 /
 
-
 Z2(Z)
 /
  01_KOR Korea
@@ -437,6 +436,10 @@ PARAMETER
  AEEI_high(z,time)    Autonomous energy efficiency improvement
 
  TREND(z,time)
+ CTAX_Cal(z,time)
+ CTAX_CPS(z,time)
+ CTAX_NZS(z,time)
+
  CTAX_61(z,time)
  CTAX_145(z,time)
  CTAX_285(z,time)
@@ -608,7 +611,7 @@ Scalar
 *  includes data for some variables and substitution elasticities.
 
 $LOAD CO, CGO, DDO, DEPO, DIO, DSO, DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, XSO, XSO_I, XSTO,
-$LOAD g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, TREND, CTAX_61, CTAX_145, CTAX_285, CTAX_425, CTAX_565, RKDO, TDHO, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, 
+$LOAD g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, TREND, CTAX_Cal, CTAX_CPS, CTAX_NZS, CTAX_61, CTAX_145, CTAX_285, CTAX_425, CTAX_565, RKDO, TDHO, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, 
 $LOAD tmrg, sigma_M1, sigma_M2, sigma_VA, POPO
 
 display sigma_M1, sigma_M2 ;
@@ -1545,9 +1548,9 @@ Parameters
 
 execute_unload 'CO2FACTOR_w-t',
  CO2FACTOR, CO2FACTOR2 ;
+*$exit
 
 execute_unload 'MNG_CONST';
-*$exit
 
 *==============================================================================
 * 5 Model
@@ -2267,8 +2270,6 @@ $OFFTEXT
 *==============================================================================
 *   5.3.8 Dynamic equations
 *==============================================================================
-* EQ84(k,j,z,t).. KD(k,j,z,t) =e= KD(k,j,z,t-1)*(1-delta(z))+IND(k,j,z,t-1);
-
  EQ94(z,t)..     IT(z,t) =e= PK(z,t)*SUM[(k,j)$KDO(k,j,z),IND(k,j,z,t)];
 
  EQ95(z,t)..     PK(z,t) =e= 1/A_K(z)*PROD[i$gamma_INV(i,z),(PC(i,z,t)
@@ -2334,15 +2335,16 @@ SET
 SCEN  List of scenarios
 /
  BAU             Business as usual values
- SIM             Simulation
+ CPS             Current Policy Scenario
+ NZS             Net Zero Scenario
 /
 ;
 
 *==============================================================================
 *  6.2 BAU scenario and Results
 *==============================================================================
-$INCLUDE BAU_SOLVE_240306_GTAP11.gms
-$INCLUDE BAU_RESULTS_240306_GTAP11.gms
+$INCLUDE BAU_SOLVE_GTAP11.gms
+$INCLUDE BAU_RESULTS_GTAP11.gms
 
 * The user may run the BAU scenario with the command line parameter s=bau
 * to save the solution and exit at this point.
@@ -2350,9 +2352,15 @@ $INCLUDE BAU_RESULTS_240306_GTAP11.gms
 * to restart from the BAU solution.
 
 *==============================================================================
-*   6.3 Simulation scenarios and Results
+*   6.3 Simulation 1 scenarios and Results
 *==============================================================================
-$INCLUDE SIM_SOLVE_240306_GTAP11.gms
-$INCLUDE SIM_RESULTS_240306_GTAP11.gms
+$INCLUDE CPS_SOLVE_GTAP11.gms
+$INCLUDE CPS_RESULTS_GTAP11.gms
+
+*==============================================================================
+*   6.4 Simulation 2 scenarios and Results
+*==============================================================================
+$INCLUDE NZS_SOLVE_GTAP11.gms
+$INCLUDE NZS_RESULTS_GTAP11.gms
 
 $exit

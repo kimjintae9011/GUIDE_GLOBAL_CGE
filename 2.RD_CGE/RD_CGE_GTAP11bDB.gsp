@@ -22,26 +22,8 @@
         },
         {
             "codecMib": 106,
-            "file": "Output_w-t/Baseline_Results_240219.gdx",
-            "name": "Baseline_Results_240219.gdx",
-            "type": "gdx"
-        },
-        {
-            "codecMib": 106,
-            "file": "Output_w-t/Simulation_Results_240219.gdx",
-            "name": "Simulation_Results_240219.gdx",
-            "type": "gdx"
-        },
-        {
-            "codecMib": 106,
-            "file": "Output_w-t/Simulation_Results_240306_GTAP11.gdx",
-            "name": "Simulation_Results_240306_GTAP11.gdx",
-            "type": "gdx"
-        },
-        {
-            "codecMib": 106,
-            "file": "Output_w-t/Baseline_Results_240306_GTAP11.gdx",
-            "name": "Baseline_Results_240306_GTAP11.gdx",
+            "file": "Output_w-t/NZS_Results_GTAP11.gdx",
+            "name": "NZS_Results_GTAP11.gdx",
             "type": "gdx"
         },
         {
@@ -52,14 +34,14 @@
         },
         {
             "codecMib": 106,
-            "file": "BAU_RESULTS_240306_GTAP11.gms",
-            "name": "BAU_RESULTS_240306_GTAP11.gms",
+            "file": "BAU_RESULTS_GTAP11.gms",
+            "name": "BAU_RESULTS_GTAP11.gms",
             "type": "gms"
         },
         {
             "codecMib": 106,
-            "file": "BAU_SOLVE_240306_GTAP11.gms",
-            "name": "BAU_SOLVE_240306_GTAP11.gms",
+            "file": "BAU_SOLVE_GTAP11.gms",
+            "name": "BAU_SOLVE_GTAP11.gms",
             "type": "gms"
         },
         {
@@ -70,15 +52,21 @@
         },
         {
             "codecMib": 106,
-            "file": "DATA_PEP-w-t_v4.0_240306_GTAP11b.gms",
-            "name": "DATA_PEP-w-t_v4.0_240306_GTAP11b.gms",
+            "file": "CPS_RESULTS_GTAP11.gms",
+            "name": "CPS_RESULTS_GTAP11.gms",
             "type": "gms"
         },
         {
             "codecMib": 106,
-            "file": "DATA_PEP-w-t_v4.0_240306_GTAP11b.lst",
-            "name": "DATA_PEP-w-t_v4.0_240306_GTAP11b.lst",
-            "type": "lst"
+            "file": "CPS_SOLVE_GTAP11.gms",
+            "name": "CPS_SOLVE_GTAP11.gms",
+            "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "DATA_PEP-w-t_v4.0_240306_GTAP11b.gms",
+            "name": "DATA_PEP-w-t_v4.0_240306_GTAP11b.gms",
+            "type": "gms"
         },
         {
             "codecMib": 106,
@@ -88,9 +76,9 @@
         },
         {
             "codecMib": 106,
-            "file": "MNG_CONST.gdx",
-            "name": "MNG_CONST.gdx",
-            "type": "gdx"
+            "file": "INIT_240219.gms",
+            "name": "INIT_240219.gms",
+            "type": "gms"
         },
         {
             "codecMib": 106,
@@ -100,20 +88,14 @@
         },
         {
             "codecMib": 106,
-            "file": "Model_PEP-w-t_v4.1_240306_CTAX_GTAP11.lst",
-            "name": "Model_PEP-w-t_v4.1_240306_CTAX_GTAP11.lst",
-            "type": "lst"
-        },
-        {
-            "codecMib": 106,
-            "file": "SIM_RESULTS_240306_GTAP11.gms",
-            "name": "SIM_RESULTS_240306_GTAP11.gms",
+            "file": "NZS_RESULTS_GTAP11.gms",
+            "name": "NZS_RESULTS_GTAP11.gms",
             "type": "gms"
         },
         {
             "codecMib": 106,
-            "file": "SIM_SOLVE_240306_GTAP11.gms",
-            "name": "SIM_SOLVE_240306_GTAP11.gms",
+            "file": "NZS_SOLVE_GTAP11.gms",
+            "name": "NZS_SOLVE_GTAP11.gms",
             "type": "gms"
         }
     ],

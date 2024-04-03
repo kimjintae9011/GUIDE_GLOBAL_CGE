@@ -132,7 +132,7 @@ NENE(I) Non-energy commodities
 
 J2(J) Industries
 /
-* 01_AGRICULT    Agricultural forest and fishery goods
+ 01_AGRICULT    Agricultural forest and fishery goods
 * 02_COAL        Coal
 * 03_OIL         Crude petroleum
 * 04_GAS         Natural gas Gas distribution
@@ -168,7 +168,7 @@ J2(J) Industries
 
 J3(J) Energy Industries
 /
- 01_AGRICULT    Agricultural forest and fishery goods
+* 01_AGRICULT    Agricultural forest and fishery goods
  02_COAL        Coal
  03_OIL         Crude petroleum
  04_GAS         Natural gas Gas distribution

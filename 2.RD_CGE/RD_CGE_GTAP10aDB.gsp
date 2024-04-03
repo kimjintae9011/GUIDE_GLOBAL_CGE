@@ -1,4 +1,5 @@
 {
+    "expand": false,
     "file": "Model_PEP-w-t_v4.1_240219_CTAX.gms",
     "name": "RD_CGE_GTAP10aDB",
     "nodes": [
@@ -10,26 +11,8 @@
         },
         {
             "codecMib": 106,
-            "file": "Output_w-t/Simulation_Results_240219.gdx",
-            "name": "Simulation_Results_240219.gdx",
-            "type": "gdx"
-        },
-        {
-            "codecMib": 106,
-            "file": "Output_w-t/ModelStatus.xls",
-            "name": "ModelStatus.xls",
-            "type": ""
-        },
-        {
-            "codecMib": 106,
             "file": "BAU_RESULTS_240219.gms",
             "name": "BAU_RESULTS_240219.gms",
-            "type": "gms"
-        },
-        {
-            "codecMib": 106,
-            "file": "BAU_SOLVE_240219.gms",
-            "name": "BAU_SOLVE_240219.gms",
             "type": "gms"
         },
         {
