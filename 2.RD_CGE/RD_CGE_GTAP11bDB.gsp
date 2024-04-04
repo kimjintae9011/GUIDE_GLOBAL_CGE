@@ -22,15 +22,21 @@
         },
         {
             "codecMib": 106,
-            "file": "Output_w-t/NZS_Results_GTAP11.gdx",
-            "name": "NZS_Results_GTAP11.gdx",
+            "file": "Output_w-t/ModelStatus.xls",
+            "name": "ModelStatus.xls",
+            "type": ""
+        },
+        {
+            "codecMib": 106,
+            "file": "Output_w-t/Baseline_Results_GTAP11.gdx",
+            "name": "Baseline_Results_GTAP11.gdx",
             "type": "gdx"
         },
         {
             "codecMib": 106,
-            "file": "Output_w-t/ModelStatus.xls",
-            "name": "ModelStatus.xls",
-            "type": ""
+            "file": "BAU_IAMC.gms",
+            "name": "BAU_IAMC.gms",
+            "type": "gms"
         },
         {
             "codecMib": 106,
@@ -85,6 +91,12 @@
             "file": "Model_PEP-w-t_v4.1_240306_CTAX_GTAP11.gms",
             "name": "Model_PEP-w-t_v4.1_240306_CTAX_GTAP11.gms",
             "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "Model_PEP-w-t_v4.1_240306_CTAX_GTAP11.lst",
+            "name": "Model_PEP-w-t_v4.1_240306_CTAX_GTAP11.lst",
+            "type": "lst"
         },
         {
             "codecMib": 106,

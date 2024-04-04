@@ -1,4 +1,5 @@
 {
+    "expand": false,
     "file": "Model_PEP-w-1_v4.0_GTAP11_240403.gms",
     "name": "Static_CGE_GTAP11b",
     "nodes": [

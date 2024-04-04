@@ -422,6 +422,7 @@ PARAMETER
  PowerShare(z)        Power Industries share of Aggregated electricity    
  theta2(j,i,z)        Export share of composite activity
 
+ TOT_POP(z,time)      Total population from 1980 to 2050 based on the PEP w aggregation
  g_GDP(z,time)        GDP past and projected growth rate
  g_LS(z,time)         Active population past and projected growth rate
  g_POP(z,time)        Population past and projected growth rate
@@ -611,7 +612,7 @@ Scalar
 *  includes data for some variables and substitution elasticities.
 
 $LOAD CO, CGO, DDO, DEPO, DIO, DSO, DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, XSO, XSO_I, XSTO,
-$LOAD g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, TREND, CTAX_Cal, CTAX_CPS, CTAX_NZS, CTAX_61, CTAX_145, CTAX_285, CTAX_425, CTAX_565, RKDO, TDHO, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, 
+$LOAD TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, TREND, CTAX_Cal, CTAX_CPS, CTAX_NZS, CTAX_61, CTAX_145, CTAX_285, CTAX_425, CTAX_565, RKDO, TDHO, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, 
 $LOAD tmrg, sigma_M1, sigma_M2, sigma_VA, POPO
 
 display sigma_M1, sigma_M2 ;
@@ -2345,7 +2346,7 @@ SCEN  List of scenarios
 *==============================================================================
 $INCLUDE BAU_SOLVE_GTAP11.gms
 $INCLUDE BAU_RESULTS_GTAP11.gms
-
+$include BAU_IAMC.gms
 * The user may run the BAU scenario with the command line parameter s=bau
 * to save the solution and exit at this point.
 * The SIM scenario may be solved later using the command line parameter r=bau
@@ -2354,13 +2355,13 @@ $INCLUDE BAU_RESULTS_GTAP11.gms
 *==============================================================================
 *   6.3 Simulation 1 scenarios and Results
 *==============================================================================
-$INCLUDE CPS_SOLVE_GTAP11.gms
-$INCLUDE CPS_RESULTS_GTAP11.gms
+*$INCLUDE CPS_SOLVE_GTAP11.gms
+*$INCLUDE CPS_RESULTS_GTAP11.gms
 
 *==============================================================================
 *   6.4 Simulation 2 scenarios and Results
 *==============================================================================
-$INCLUDE NZS_SOLVE_GTAP11.gms
-$INCLUDE NZS_RESULTS_GTAP11.gms
+*$INCLUDE NZS_SOLVE_GTAP11.gms
+*$INCLUDE NZS_RESULTS_GTAP11.gms
 
 $exit

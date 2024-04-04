@@ -1167,4 +1167,4 @@ execute_unload 'Input_w-t\DATA_AGG-2019_240306_w-t-GTAP11.gdx',
  sigma_M1, sigma_M2, sigma_VA,Q_GTAP, SH_Q, ESUBD, DDO_Matrix
 
 *Parameters used in PEP w-t only
- g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high TREND, CTAX_Cal, CTAX_CPS, CTAX_NZS, CTAX_61, CTAX_145, CTAX_285, CTAX_425, CTAX_565 ;
+ TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high TREND, CTAX_Cal, CTAX_CPS, CTAX_NZS, CTAX_61, CTAX_145, CTAX_285, CTAX_425, CTAX_565 ;
