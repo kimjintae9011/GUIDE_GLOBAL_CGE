@@ -4,6 +4,12 @@
     "nodes": [
         {
             "codecMib": 106,
+            "file": "Input_GTAP11DB/GTAP11_Parameters2019.gdx",
+            "name": "GTAP11_Parameters2019.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
             "file": "Input_w-t/DATA_AGG-2019_240306_w-t-GTAP11.gdx",
             "name": "DATA_AGG-2019_240306_w-t-GTAP11.gdx",
             "type": "gdx"
@@ -34,6 +40,18 @@
         },
         {
             "codecMib": 106,
+            "file": "Output_w-t/CPS_Results_GTAP11.gdx",
+            "name": "CPS_Results_GTAP11.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
+            "file": "Output_w-t/NZS_Results_GTAP11.gdx",
+            "name": "NZS_Results_GTAP11.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
             "file": "BAU_IAMC.gms",
             "name": "BAU_IAMC.gms",
             "type": "gms"
@@ -58,6 +76,12 @@
         },
         {
             "codecMib": 106,
+            "file": "CAL_B_line_PEP-w-t_v4.1_240306_GTAP11b.lst",
+            "name": "CAL_B_line_PEP-w-t_v4.1_240306_GTAP11b.lst",
+            "type": "lst"
+        },
+        {
+            "codecMib": 106,
             "file": "CPS_RESULTS_GTAP11.gms",
             "name": "CPS_RESULTS_GTAP11.gms",
             "type": "gms"
@@ -76,15 +100,33 @@
         },
         {
             "codecMib": 106,
+            "file": "DATA_PEP-w-t_v4.0_240306_GTAP11b.lst",
+            "name": "DATA_PEP-w-t_v4.0_240306_GTAP11b.lst",
+            "type": "lst"
+        },
+        {
+            "codecMib": 106,
             "file": "DATA_WEB-2019_240219.gms",
             "name": "DATA_WEB-2019_240219.gms",
             "type": "gms"
         },
         {
             "codecMib": 106,
+            "file": "EQ4_MINING_GTAP11.gdx",
+            "name": "EQ4_MINING_GTAP11.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
             "file": "INIT_240219.gms",
             "name": "INIT_240219.gms",
             "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "MNG_CONST.gdx",
+            "name": "MNG_CONST.gdx",
+            "type": "gdx"
         },
         {
             "codecMib": 106,

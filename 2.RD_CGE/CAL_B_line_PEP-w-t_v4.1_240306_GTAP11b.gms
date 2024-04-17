@@ -516,7 +516,7 @@ Scalar
 
 $LOAD CO, CGO, DDO, DEPO, DIO, DSO, DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, XSO, XSO_I, XSTO,
 $LOAD g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, CTAX_Cal, RKDO, TDHO, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, 
-$LOAD tmrg, sigma_M1, sigma_M2, sigma_VA, POPO
+$LOAD tmrg, sigma_M1, sigma_M2, sigma_VA, sigma_KLE, POPO
 
 display sigma_M1, sigma_M2 ;
 
@@ -652,7 +652,7 @@ PARZ;
 
 $CALL gdxxrw Input_w-t/JointB_VAL_230411_PAR.xls @Input_w-t/JointB_POWER_PAR.txt Rdim=2 Cdim=1 output=Input_w-t/JointB_VAL_230411_PAR.gdx
 $GDXIN Input_w-t/JointB_VAL_230411_PAR.gdx
-$LOAD sigma_KD, sigma_LD, sigma_KLE, sigma_X1, sigma_X2, sigma_X3, sigma_X0, sigma_y, sigma_inv, PARZ
+$LOAD sigma_KD, sigma_LD, sigma_X1, sigma_X2, sigma_X3, sigma_X0, sigma_y, sigma_inv, PARZ
 
 * sigma_INV(k,j,z) = 2; 
  sigma_INV(k,j,z) = 1; 
@@ -678,7 +678,8 @@ $LOAD sigma_KD, sigma_LD, sigma_KLE, sigma_X1, sigma_X2, sigma_X3, sigma_X0, sig
 *------------------------------------------------------------------------------
 * CES - composite KLE, KE, ENER
 * sigma_KLE(j,z)  = 0.5 ;
- sigma_ENER(j,z) = 0.9 ;
+* sigma_KLE(j,z)  = 1.1 ;
+ sigma_ENER(j,z) = 1.1 ;
 *  sigma_ENER(j,z) = 2.0 ;
  
 *------------------------------------------------------------------------------

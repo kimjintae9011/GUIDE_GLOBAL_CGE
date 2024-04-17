@@ -421,6 +421,7 @@ PARAMETER
  TnDShare(z)          T&D share of Aggregated electricity
  PowerShare(z)        Power Industries share of Aggregated electricity    
  theta2(j,i,z)        Export share of composite activity
+ elas_enecom(ene,z)   Household own-price elasticities
 
  TOT_POP(z,time)      Total population from 1980 to 2050 based on the PEP w aggregation
  g_GDP(z,time)        GDP past and projected growth rate
@@ -613,7 +614,7 @@ Scalar
 
 $LOAD CO, CGO, DDO, DEPO, DIO, DSO, DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, XSO, XSO_I, XSTO,
 $LOAD TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, TREND, CTAX_Cal, CTAX_CPS, CTAX_NZS, CTAX_61, CTAX_145, CTAX_285, CTAX_425, CTAX_565, RKDO, TDHO, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, 
-$LOAD tmrg, sigma_M1, sigma_M2, sigma_VA, POPO
+$LOAD tmrg, sigma_M1, sigma_M2, sigma_VA, sigma_KLE, POPO
 
 display sigma_M1, sigma_M2 ;
 
@@ -757,7 +758,7 @@ PARZ;
 
 $CALL gdxxrw Input_w-t\JointB_VAL_230411_PAR.xls @Input_w-t\JointB_POWER_PAR.txt Rdim=2 Cdim=1 output = Input_w-t\JointB_VAL_230411_PAR.gdx
 $GDXIN Input_w-t\JointB_VAL_230411_PAR.gdx
-$LOAD sigma_KD, sigma_LD, sigma_KLE, sigma_X1, sigma_X2, sigma_X3, sigma_X0, sigma_y, sigma_inv, PARZ
+$LOAD sigma_KD, sigma_LD, sigma_X1, sigma_X2, sigma_X3, sigma_X0, sigma_y, sigma_inv, PARZ
 
 sigma_INV(k,j,z) = 2;
 *$exit
@@ -789,11 +790,9 @@ sigma_Y('03_OIL','06_PRK') = 1.01;
 * sigma_LD(j,z)   = 0.5;
 
 *------------------------------------------------------------------------------
-* CES - composite KLE, KE, ENER
-* sigma_KLE(j,z)  = 0.5 ;
-* sigma_ENER(j,z) = 0.5 ;
- sigma_ENER(j,z) = 0.9 ;
-* sigma_ENER(j,z) = 2.0 ;
+* CES - composite KLE, ENER
+ sigma_KLE(j,z)  = 0.5 ;
+ sigma_ENER(j,z) = 1.1 ;
  
 *------------------------------------------------------------------------------
 * CET - total output
@@ -1323,6 +1322,8 @@ sigma_Y('03_OIL','06_PRK') = 1.01;
  gamma_LES(i,z)  = PCO(i,z)*CO(i,z)*sigma_Y(i,z)/CTHO(z);
  CMINO(i,z)      = CO(i,z)+gamma_LES(i,z)*CTHO(z)/{PCO(i,z)*frisch(z)};
 
+ elas_enecom(ene,z)  = CMINO(ene,z)/CO(ene,z)*(1-gamma_LES(ene,z)) -1 ; 
+
 *==============================================================================
 *  4.7 Calibration of gross domestic products
 *==============================================================================
@@ -1549,9 +1550,9 @@ Parameters
 
 execute_unload 'CO2FACTOR_w-t',
  CO2FACTOR, CO2FACTOR2 ;
-*$exit
 
 execute_unload 'MNG_CONST';
+$exit
 
 *==============================================================================
 * 5 Model
@@ -2346,7 +2347,7 @@ SCEN  List of scenarios
 *==============================================================================
 $INCLUDE BAU_SOLVE_GTAP11.gms
 $INCLUDE BAU_RESULTS_GTAP11.gms
-$include BAU_IAMC.gms
+*$include BAU_IAMC.gms
 * The user may run the BAU scenario with the command line parameter s=bau
 * to save the solution and exit at this point.
 * The SIM scenario may be solved later using the command line parameter r=bau
@@ -2355,13 +2356,13 @@ $include BAU_IAMC.gms
 *==============================================================================
 *   6.3 Simulation 1 scenarios and Results
 *==============================================================================
-*$INCLUDE CPS_SOLVE_GTAP11.gms
-*$INCLUDE CPS_RESULTS_GTAP11.gms
+$INCLUDE CPS_SOLVE_GTAP11.gms
+$INCLUDE CPS_RESULTS_GTAP11.gms
 
 *==============================================================================
 *   6.4 Simulation 2 scenarios and Results
 *==============================================================================
-*$INCLUDE NZS_SOLVE_GTAP11.gms
-*$INCLUDE NZS_RESULTS_GTAP11.gms
+$INCLUDE NZS_SOLVE_GTAP11.gms
+$INCLUDE NZS_RESULTS_GTAP11.gms
 
 $exit

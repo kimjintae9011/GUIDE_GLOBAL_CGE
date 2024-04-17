@@ -33,7 +33,9 @@
 * The har2gdx facility allows converting these two files into GDX format.
 *==============================================================================
 $CALL har2gdx Input_GTAP11DB\basedata2019_240214.har Input_w-t\GTAP11_basedata2019.gdx
-$CALL har2gdx Input_GTAP11DB\parameter2019_240214.prm Input_w-t\GTAP11_Parameters2019.gdx
+*$CALL har2gdx Input_GTAP11DB\parameter2019_240214.prm Input_w-t\GTAP11_Parameters2019.gdx
+$CALL har2gdx Input_GTAP11DB\parameter2019_240416.prm Input_w-t\GTAP11_Parameters2019.gdx
+
 *$EXIT
 *==============================================================================
 * 1. Define the sets
@@ -429,6 +431,11 @@ i2comm(i,comm) Mapping of sectors
  21_WTRP.         (wtp)
  22_ATRP.         (atp)
  23_SER.          (trd, afs, whs, cmn, ofi, ins, rsa, obs, ros, dwe, osg, edu, hht, wtr)
+/
+
+i2comm2(i,comm) Mapping of sectors
+/
+ 02_COAL.         (coa, oil, gas, gdt, p_c, TnD, eNuclear, eCoal, eGas, eOil, eWind, eSolar, eHydro, eOther)
 /
 
 COMtoIND(j,i)
@@ -939,35 +946,40 @@ Display RKDO ;
 * 3.1 Definition of GTAP parameters
 *==============================================================================
 PARAMETER
- ESUBD(comm, reg)  Elasticity of substitution between domestic product and imports
- ESUBM(comm, reg)  Elasticity of substitution between imports from different regions
- ESUBVA(acts, reg) Elasticity of substitution between primary factors in the production of value added
-
+ ESUBD(comm, reg)   Elasticity of substitution between domestic product and imports
+ ESUBM(comm, reg)   Elasticity of substitution between imports from different regions
+ ESUBVA(acts, reg)  Elasticity of substitution between primary factors in the production of value added
+ ELFKLE(acts, reg)  Elasticity of substitution between VA-energy sub-production
+ 
 *==============================================================================
 * 3.2 Definition in PEP w
 *==============================================================================
  sigma_M1(i,z)   Elasticity (CES - composite commodity)
  sigma_M2(i,z)   Elasticity (CES - composite import)
  sigma_VA(j,z)   Elasticity (CES - value added)
+ sigma_KLE(j,z)  Elastcitiy (CES - KL-E)
 
 *==============================================================================
 * 3.3 Temporary variables
 *==============================================================================
- IM_GTAP(comm,z) Total imports using the GTAP commodity sets
- Q_GTAP(comm,z)  Composite commodity using the GTAP commodity sets
- SH_IM(comm,i,z) Share of each import TRAD_COM in aggregation i for region z
- SH_Q(comm,i,z)  Share of each composite commodity TRAD_COM in aggregation i for region z
- SH_VA(acts,j,z) Share of each sector TRAD_COM in aggregation j for region z
- VA_GTAP(acts,z) Value added using the GTAP sectors
+ IM_GTAP(comm,z)  Total imports using the GTAP commodity sets
+ Q_GTAP(comm,z)   Composite commodity using the GTAP commodity sets
+ VA_GTAP(acts,z)  Value added using the GTAP sectors
+ KLE_GTAP(acts,z) KLE using the GTAP sectors
+ E_GTAP(acts,z)   E using ther GTAP sectors
+ SH_IM(comm,i,z)  Share of each import TRAD_COM in aggregation i for region z
+ SH_Q(comm,i,z)   Share of each composite commodity TRAD_COM in aggregation i for region z
+ SH_VA(acts,j,z)  Share of each sector TRAD_COM in aggregation j for region z
+ SH_KLE(acts,j,z)   Share of each sector KLE in aggregation j for region z
 ;
 
 *==============================================================================
 * 3.4 Load the GTAP file which includes the parameters
 *==============================================================================
 $GDXIN Input_w-t\GTAP11_Parameters2019.gdx
-$LOAD ESUBD, ESUBM, ESUBVA
+$LOAD ESUBD, ESUBM, ESUBVA, ELFKLE
 
-Display ESUBD, ESUBM, ESUBVA ;
+Display ESUBD, ESUBM, ESUBVA, ELFKLE ;
 *==============================================================================
 *  3.5 sigma_M1
 *==============================================================================
@@ -1026,18 +1038,81 @@ Display ESUBD, ESUBM, ESUBVA ;
  sigma_VA(j,z)   = SUM{(acts,reg)$[j2acts(j,acts)$z2reg(z,reg)],
                    ESUBVA(acts,reg)*SH_VA(acts,j,z)};
 
-*$exit
+*==============================================================================
+*  3.8 sigma_KLE
+*==============================================================================
+
+ KLE_GTAP(acts,z)
+                 = SUM{endw,
+                       SUM[reg$z2reg(z,reg),EVFB(endw,acts,reg)]} + 
+                     SUM[i,
+                        SUM[(comm,reg)$[i2comm2(i,comm)$z2reg(z,reg)],
+                             VDFP(comm,acts,reg)+VMFP(comm,acts,reg)]];
+
+ E_GTAP(acts,z)
+                 = SUM[i,
+                        SUM[(comm,reg)$[i2comm2(i,comm)$z2reg(z,reg)],
+                             VDFP(comm,acts,reg)+VMFP(comm,acts,reg)]];
+
+ SH_KLE(acts,j,z)$j2acts(j,acts)
+                 = KLE_GTAP(acts,z)/
+                   SUM{actsj$j2acts(j,actsj),
+                       KLE_GTAP(actsj,z)};
+
+ sigma_KLE(j,z)   = SUM{(acts,reg)$[j2acts(j,acts)$z2reg(z,reg)],
+                    ELFKLE(acts, reg)*SH_KLE(acts,j,z)};
+
+*==============================================================================
+* 4. Own price elasticities (Conditional)
+*==============================================================================
+PARAMETER
+ E_Composite(j,z)
+ KLE_Composite(j,z)
+ elas_E(j,z)         Composite Energy commodity own price elasticities
+ elas_elec(j,z)
+ elas_gas(j,z)
+ elas_oil(j,z)
+ elas_coal(j,z)
+ elas_petrolcoal(j,z) 
+;
+
+
+* 02_COAL        Coal
+* 03_OIL         Crude petroleum
+* 04_GAS         Natural gas Gas distribution
+* 10_PETROLCOAL  Petroleum and coal products
+* 18_ELEC        Electricity
+
+ E_Composite(j,z)   = SUM{(acts)$[j2acts(j,acts)], E_GTAP(acts,z)};
+ KLE_Composite(j,z) = SUM{(acts)$[j2acts(j,acts)], KLE_GTAP(acts,z)};
+
+ elas_E(j,z) = sigma_KLE(j,z)*(1- E_Composite(j,z)/KLE_Composite(j,z));
+ elas_elec(j,z) = 1.1*(1- DIO('18_ELEC',j,z)/E_Composite(j,z));
+ elas_gas(j,z) = 1.1*(1- DIO('04_GAS',j,z)/E_Composite(j,z));
+ elas_oil(j,z) = 1.1*(1- DIO('03_OIL',j,z)/E_Composite(j,z));
+ elas_coal(j,z) = 1.1*(1- DIO('02_COAL',j,z)/E_Composite(j,z));
+ elas_petrolcoal(j,z) = 1.1*(1- DIO('10_PETROLCOAL',j,z)/E_Composite(j,z));
+
+
+* LDO(l,j,z)      = SUM{(endw,acts,reg)$[f2endw(l,endw)
+*                       $j2acts(j,acts)$z2reg(z,reg)],
+*                       EVFB(endw,acts,reg)};
+
+* elas_E(j,z) = sigma_KLE(j,z)*(1- SUM{ (acts)$[, E_GTAP(acts,z)/KLE_GTAP(acts,z)} ) ;
+
+
+* CGO(i,z)        = SUM{(comm,reg)$[i2comm(i,comm)$z2reg(z,reg)],
+*                       VDGP(comm,reg)+VMGP(comm,reg)};
+
 *==============================================================================
 * Importing WEB(World Energy Balance)
 *==============================================================================
 *$INCLUDE DATA_WEB-2019_230417.gms
 
-
 *==============================================================================
 * SAM Balancing
 *==============================================================================
 *$INCLUDE DATA_SamBal-2019_230217.gms
-
 
 *==============================================================================
 * Projections used in PEP w-t model
@@ -1164,7 +1239,8 @@ execute_unload 'Input_w-t\DATA_AGG-2019_240306_w-t-GTAP11.gdx',
 *Benchmark variables and parameters used in PEP w-1 and PEP w-t
  CO, CGO, DDO, DEPO, DIO, DSO,DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, POPO, RKDO,
  TDHO, DTAX, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, tssm, tssd, tmrg, XSO, XSO_I, XSTO, EXTO,
- sigma_M1, sigma_M2, sigma_VA,Q_GTAP, SH_Q, ESUBD, DDO_Matrix
+ sigma_M1, sigma_M2, sigma_VA, sigma_KLE, Q_GTAP, KLE_GTAP, SH_Q, SH_VA, SH_KLE, ESUBD, ELFKLE,
+ elas_E, elas_elec, elas_gas, elas_oil, elas_coal, elas_petrolcoal, DDO_Matrix
 
 *Parameters used in PEP w-t only
  TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high TREND, CTAX_Cal, CTAX_CPS, CTAX_NZS, CTAX_61, CTAX_145, CTAX_285, CTAX_425, CTAX_565 ;

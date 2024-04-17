@@ -122,6 +122,7 @@ PARAMETER
  valNE(product,j,z,time,scen) Non-energy consumption by energy products 
  valEH(product,z,time,scen)   Household energy consumption by energy products
  
+ valTFC_product(product,time,z, scen)
  valTFC(time,z,scen)  Total final energy consumption by regions
  
  valNEA_TFC(product,time,scen) NEA's total final energy consumption by energy products
@@ -322,6 +323,8 @@ TREND(z,time) = 1;
  valEH(p_oilproduct,z,time,'NZS')       =  EHI(p_oilproduct,z)*TREND(z,time)*C.L('10_PETROLCOAL',z,time)*AEEI(z,time);
  valEH(p_elecheat,z,time,'NZS')         =  EHI(p_elecheat,z)*TREND(z,time)*C.L('18_ELEC',z,time)*AEEI(z,time);
 
+ valTFC_product(product,time,z,'NZS')   = valEH(product,z,time,'NZS') + Sum(j5,valEE(product,j5,z,time,'NZS'))+Sum(j,valNE(product,j,z,time,'NZS'));
+
  valTFC(time,z,'NZS')                   = sum(product, valEH(product,z,time,'NZS') + Sum(j5,valEE(product,j5,z,time,'NZS'))+Sum(j,valNE(product,j,z,time,'NZS')));
  valNEA_TFC(product,time,'NZS')         = sum(NEA,valEH(product,NEA,time,'NZS')) + Sum((j5,NEA),valEE(product,j5,NEA,time,'NZS'))+Sum((j,NEA),valNE(product,j,NEA,time,'NZS'));
  valKOR_TFC(product,time,'NZS')         = valEH(product,'01_KOR',time,'NZS') + Sum(j5,valEE(product,j5,'01_KOR',time,'NZS'))+Sum(j,valNE(product,j,'01_KOR',time,'NZS'));
@@ -498,6 +501,7 @@ TREND(z,time) = 1;
  valEE,
  valNE,
  valEH,
+ valTFC_product,
  valTFC,
  valNEA_TFC,
  valKOR_TFC,
