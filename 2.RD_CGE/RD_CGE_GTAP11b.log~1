@@ -1,0 +1,1710 @@
+
+--- Job Model_GTAP11b.gms Start 05/10/24 16:29:15 42.5.0 cf11b917 WEX-WEI x86 64bit/MS Windows
+--- Applying:
+    C:\GAMS\42\gmsprmNT.txt
+    C:\Users\kimc0\Documents\GAMS\gamsconfig.yaml
+--- GAMS Parameters defined
+    Input C:\Users\kimc0\GUIDE_GLOBAL_CGE\2.RD_CGE\Model_GTAP11b.gms
+    PageSize 0
+    ScrDir C:\Users\kimc0\GUIDE_GLOBAL_CGE\2.RD_CGE\225a\
+    SysDir C:\GAMS\42\
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+Licensee: Medium MUD - 10 User License                   S220825|0002AO-WIN
+          Konkuk University, Dept of Technology Fusion Engineering  DC16297
+          C:\Users\kimc0\Documents\GAMS\gamslice.txt
+          License Admin: MInyoung Choi, mychoi1119@naver.com               
+Processor information: 1 socket(s), 6 core(s), and 12 thread(s) available
+GAMS 42.5.0   Copyright (C) 1987-2023 GAMS Development. All rights reserved
+--- Starting compilation
+--- Model_GTAP11b.gms(50) 2 Mb
+--- GDXin=C:\Users\kimc0\GUIDE_GLOBAL_CGE\2.RD_CGE\Input_w-t\DATA_AGG-2019_GTAP11b.gdx
+--- GDX File ($gdxIn) C:\Users\kimc0\GUIDE_GLOBAL_CGE\2.RD_CGE\Input_w-t\DATA_AGG-2019_GTAP11b.gdx
+--- Model_GTAP11b.gms(809) 6 Mb
+--- call gdxxrw Input_w-t\PAR.xlsx @Input_w-t\PAR.txt Rdim=2 Cdim=1 output = Input_w-t\PAR.gdx
+
+GDXXRW           42.5.0 cf11b917 Mar 30, 2023          WEI x86 64bit/MS Window
+Input file : C:\Users\kimc0\GUIDE_GLOBAL_CGE\2.RD_CGE\Input_w-t\PAR.xlsx
+Output file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\2.RD_CGE\Input_w-t\PAR.gdx
+Total time = 1344 Ms
+--- Model_GTAP11b.gms(810) 6 Mb
+--- GDXin=C:\Users\kimc0\GUIDE_GLOBAL_CGE\2.RD_CGE\Input_w-t\PAR.gdx
+--- GDX File ($gdxIn) C:\Users\kimc0\GUIDE_GLOBAL_CGE\2.RD_CGE\Input_w-t\PAR.gdx
+--- Model_GTAP11b.gms(1445) 6 Mb
+--- . DATA_WEB-2019.gms(705) 6 Mb
+--- $echo File C:\Users\kimc0\GUIDE_GLOBAL_CGE\2.RD_CGE\Input_WEB\WEB19.txt
+--- . DATA_WEB-2019.gms(727) 6 Mb
+--- call gdxxrw Input_WEB/230425_WEB19.xlsx @Input_WEB/WEB19.txt trace=0 output=Input_WEB/230425_WEB19.gdx
+--- . DATA_WEB-2019.gms(728) 6 Mb
+--- GDXin=C:\Users\kimc0\GUIDE_GLOBAL_CGE\2.RD_CGE\Input_WEB\230425_WEB19.gdx
+--- GDX File ($gdxIn) C:\Users\kimc0\GUIDE_GLOBAL_CGE\2.RD_CGE\Input_WEB\230425_WEB19.gdx
+--- . DATA_WEB-2019.gms(1219) 6 Mb
+--- Model_GTAP11b.gms(2471) 6 Mb
+--- . NZS_SOLVE_GTAP11b.gms(24) 6 Mb
+--- GDXin=C:\Users\kimc0\GUIDE_GLOBAL_CGE\2.RD_CGE\Input_w-t\B_line_GTAP11b.gdx
+--- GDX File ($gdxIn) C:\Users\kimc0\GUIDE_GLOBAL_CGE\2.RD_CGE\Input_w-t\B_line_GTAP11b.gdx
+--- . NZS_SOLVE_GTAP11b.gms(120) 6 Mb
+--- .. INIT.gms(500) 6 Mb
+--- . NZS_SOLVE_GTAP11b.gms(453) 6 Mb
+--- Model_GTAP11b.gms(2472) 6 Mb
+--- . NZS_RESULTS_GTAP11b.gms(581) 6 Mb
+--- Model_GTAP11b.gms(2474) 6 Mb
+--- Starting execution: elapsed 0:00:03.507
+--- Model_GTAP11b.gms(2195) 15 Mb
+--- GDX File (execute_unload) C:\Users\kimc0\GUIDE_GLOBAL_CGE\2.RD_CGE\Input_WEB\WEB_2019_230425.gdx
+--- Model_GTAP11b.gms(2638) 16 Mb
+--- GDX File (execute_unload) C:\Users\kimc0\GUIDE_GLOBAL_CGE\2.RD_CGE\Input_WEB\DATA_WEB-2019_230418.gdx
+--- Model_GTAP11b.gms(2831) 17 Mb
+--- GDX File (execute_unload) C:\Users\kimc0\GUIDE_GLOBAL_CGE\2.RD_CGE\Calibration_Check.gdx
+--- Model_GTAP11b.gms(3777) 27 Mb
+--- Generating CNS model PEPWT
+--- Model_GTAP11b.gms(4624) 69 Mb
+--- LOOPS TIME = 2019
+---   90,039 rows  90,039 columns  432,684 non-zeroes
+---   781,784 nl-code  257,648 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 1.098E-06, 8.930E+03] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.059E-20, 1.731E+05] - Zero values observed as well
+--- Model_GTAP11b.gms(4624) 63 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:04.299
+
+CONOPT 3         42.5.0 cf11b917 Mar 30, 2023          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T 3   version 3.17N
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.5880723842E+03 (Input point)
+ 
+                   Pre-triangular equations:   9400
+                   Post-triangular equations:  326
+ 
+      1   0        1.5880723842E+03 (After pre-processing)
+      2   0        1.1890707886E+02 (After scaling)
+      3   0     0  4.4326624183E-12               1.0E+00      F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model PEPWT
+--- Executing after solve: elapsed 0:00:05.150
+--- Model_GTAP11b.gms(3777) 63 Mb
+--- Generating CNS model PEPWT
+--- Model_GTAP11b.gms(4624) 85 Mb
+--- LOOPS TIME = 2020
+---   90,039 rows  90,039 columns  433,532 non-zeroes
+---   788,770 nl-code  258,496 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 1.087E-06, 8.958E+03] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.016E-20, 1.765E+05] - Zero values observed as well
+--- Model_GTAP11b.gms(4624) 79 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:05.839
+
+CONOPT 3         42.5.0 cf11b917 Mar 30, 2023          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T 3   version 3.17N
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        5.0264444046E+03 (Input point)
+ 
+                   Pre-triangular equations:   9383
+                   Post-triangular equations:  326
+ 
+      1   0        3.8595075207E+03 (After pre-processing)
+      2   0        1.7818481815E+02 (After scaling)
+      3   0     0  6.3122550158E+00               1.0E+00      F  T
+      4   0     0  6.4305603966E-01               1.0E+00      F  T
+      5   0     0  8.1668828533E-02               1.0E+00      F  T
+      6   0     0  1.2228825645E-02               1.0E+00      F  T
+      7   0     0  2.0840702329E-03               1.0E+00      F  T
+      8   0     0  4.2340715061E-04               1.0E+00      F  T
+      9   0     0  9.2139091344E-05               1.0E+00      F  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     10   0     0  2.2357375872E-05               1.0E+00      F  T
+     11   0     0  5.6047490284E-06               1.0E+00      F  T
+     12   0     0  1.4513951609E-06               1.0E+00      F  T
+     13   0     0  3.7560995687E-07               1.0E+00      F  T
+     14   0     0  9.9958674315E-08               1.0E+00      F  T
+     15   0     0  2.6719706129E-08               1.0E+00      F  T
+     16   0     0  7.2857983689E-09               1.0E+00      F  T
+     17   0     0  2.0009015488E-09               1.0E+00      F  T
+     18   0     0  5.5801574899E-10               1.0E+00      F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model PEPWT
+--- Executing after solve: elapsed 0:00:06.998
+--- Model_GTAP11b.gms(3777) 79 Mb
+--- Generating CNS model PEPWT
+--- Model_GTAP11b.gms(4624) 98 Mb
+--- LOOPS TIME = 2021
+---   90,039 rows  90,039 columns  433,532 non-zeroes
+---   788,770 nl-code  258,496 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 1.076E-06, 8.964E+03] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.034E-20, 1.882E+05] - Zero values observed as well
+--- Model_GTAP11b.gms(4624) 92 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:07.823
+
+CONOPT 3         42.5.0 cf11b917 Mar 30, 2023          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T 3   version 3.17N
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        4.1340792760E+03 (Input point)
+ 
+                   Pre-triangular equations:   9383
+                   Post-triangular equations:  326
+ 
+      1   0        2.4901580661E+03 (After pre-processing)
+      2   0        5.7673431249E+01 (After scaling)
+      3   0     0  3.6287596171E+00               1.0E+00      F  T
+      4   0     0  2.1777371585E-01               1.0E+00      F  T
+      5   0     0  2.5229793404E-02               1.0E+00      F  T
+      6   0     0  2.6106202414E-03               1.0E+00      F  T
+      7   0     0  3.7740568512E-04               1.0E+00      F  T
+      8   0     0  6.2336335576E-05               1.0E+00      F  T
+      9   0     0  9.6163193820E-06               1.0E+00      F  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     10   0     0  1.8369150958E-06               1.0E+00      F  T
+     11   0     0  3.2387215597E-07               1.0E+00      F  T
+     12   0     0  7.4038180163E-08               1.0E+00      F  T
+     13   0     0  1.4738457331E-08               1.0E+00      F  T
+     14   0     0  3.5734064451E-09               1.0E+00      F  T
+     15   0     0  7.6926169296E-10               1.0E+00      F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model PEPWT
+--- Executing after solve: elapsed 0:00:08.953
+--- Model_GTAP11b.gms(3777) 92 Mb
+--- Generating CNS model PEPWT
+--- Model_GTAP11b.gms(4624) 111 Mb
+--- LOOPS TIME = 2022
+---   90,039 rows  90,039 columns  433,532 non-zeroes
+---   788,770 nl-code  258,496 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 1.066E-06, 8.996E+03] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.005E-20, 1.766E+05] - Zero values observed as well
+--- Model_GTAP11b.gms(4624) 105 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:09.896
+
+CONOPT 3         42.5.0 cf11b917 Mar 30, 2023          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T 3   version 3.17N
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.6819082795E+03 (Input point)
+ 
+                   Pre-triangular equations:   9383
+                   Post-triangular equations:  326
+ 
+      1   0        1.2582434451E+03 (After pre-processing)
+      2   0        4.6701817669E+01 (After scaling)
+      3   0     0  2.3632935285E+00               1.0E+00      F  T
+      4   0     0  1.3695792207E-01               1.0E+00      F  T
+      5   0     0  1.2897839022E-02               1.0E+00      F  T
+      6   0     0  1.6607280123E-03               1.0E+00      F  T
+      7   0     0  2.2435878954E-04               1.0E+00      F  T
+      8   0     0  3.9914549953E-05               1.0E+00      F  T
+      9   0     0  7.3590594653E-06               1.0E+00      F  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     10   0     0  1.4002166236E-06               1.0E+00      F  T
+     11   0     0  2.6535214772E-07               1.0E+00      F  T
+     12   0     0  5.1954520994E-08               1.0E+00      F  T
+     13   0     0  1.0461112560E-08               1.0E+00      F  T
+     14   0     0  2.2602623637E-09               1.0E+00      F  T
+     15   0     0  4.8768308565E-10               1.0E+00      F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model PEPWT
+--- Executing after solve: elapsed 0:00:11.119
+--- Model_GTAP11b.gms(3777) 105 Mb
+--- Generating CNS model PEPWT
+--- Model_GTAP11b.gms(4624) 124 Mb
+--- LOOPS TIME = 2023
+---   90,039 rows  90,039 columns  433,532 non-zeroes
+---   788,770 nl-code  258,496 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 1.055E-06, 9.031E+03] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.010E-20, 1.769E+05] - Zero values observed as well
+--- Model_GTAP11b.gms(4624) 118 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:12.289
+
+CONOPT 3         42.5.0 cf11b917 Mar 30, 2023          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T 3   version 3.17N
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.7289972535E+03 (Input point)
+ 
+                   Pre-triangular equations:   9383
+                   Post-triangular equations:  326
+ 
+      1   0        1.2991652544E+03 (After pre-processing)
+      2   0        5.2699084608E+01 (After scaling)
+      3   0     0  2.4467286823E+00               1.0E+00      F  T
+      4   0     0  1.6487601119E-01               1.0E+00      F  T
+      5   0     0  1.3663968800E-02               1.0E+00      F  T
+      6   0     0  2.1067812904E-03               1.0E+00      F  T
+      7   0     0  2.5376704849E-04               1.0E+00      F  T
+      8   0     0  4.6883100962E-05               1.0E+00      F  T
+      9   0     0  7.8113124406E-06               1.0E+00      F  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     10   0     0  1.4918318079E-06               1.0E+00      F  T
+     11   0     0  2.7111569117E-07               1.0E+00      F  T
+     12   0     0  5.6930313369E-08               1.0E+00      F  T
+     13   0     0  1.2234961404E-08               1.0E+00      F  T
+     14   0     0  3.2342170178E-09               1.0E+00      F  T
+     15   0     0  9.1848438579E-10               1.0E+00      F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model PEPWT
+--- Executing after solve: elapsed 0:00:13.543
+--- Model_GTAP11b.gms(3777) 118 Mb
+--- Generating CNS model PEPWT
+--- Model_GTAP11b.gms(4624) 137 Mb
+--- LOOPS TIME = 2024
+---   90,039 rows  90,039 columns  433,532 non-zeroes
+---   788,770 nl-code  258,496 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 1.044E-06, 9.150E+03] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.057E-20, 1.773E+05] - Zero values observed as well
+--- Model_GTAP11b.gms(4624) 131 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:14.800
+
+CONOPT 3         42.5.0 cf11b917 Mar 30, 2023          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T 3   version 3.17N
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.7968840495E+03 (Input point)
+ 
+                   Pre-triangular equations:   9383
+                   Post-triangular equations:  326
+ 
+      1   0        1.3480298870E+03 (After pre-processing)
+      2   0        5.7136451316E+01 (After scaling)
+      3   0     0  2.1946067237E+00               1.0E+00      F  T
+      4   0     0  1.3818877423E-01               1.0E+00      F  T
+      5   0     0  1.2608256376E-02               1.0E+00      F  T
+      6   0     0  1.8148779803E-03               1.0E+00      F  T
+      7   0     0  2.4707490922E-04               1.0E+00      F  T
+      8   0     0  4.4682591110E-05               1.0E+00      F  T
+      9   0     0  7.7738068281E-06               1.0E+00      F  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     10   0     0  1.4931307471E-06               1.0E+00      F  T
+     11   0     0  2.7857257908E-07               1.0E+00      F  T
+     12   0     0  5.7850318110E-08               1.0E+00      F  T
+     13   0     0  1.2577632577E-08               1.0E+00      F  T
+     14   0     0  3.1408191296E-09               1.0E+00      F  T
+     15   0     0  8.4911284212E-10               1.0E+00      F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model PEPWT
+--- Executing after solve: elapsed 0:00:15.887
+--- Model_GTAP11b.gms(3777) 131 Mb
+--- Generating CNS model PEPWT
+--- Model_GTAP11b.gms(4624) 151 Mb
+--- LOOPS TIME = 2025
+---   90,039 rows  90,039 columns  433,532 non-zeroes
+---   788,770 nl-code  258,496 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 1.034E-06, 9.527E+03] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.065E-20, 1.778E+05] - Zero values observed as well
+--- Model_GTAP11b.gms(4624) 145 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:17.229
+
+CONOPT 3         42.5.0 cf11b917 Mar 30, 2023          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T 3   version 3.17N
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.8712608599E+03 (Input point)
+ 
+                   Pre-triangular equations:   9383
+                   Post-triangular equations:  326
+ 
+      1   0        1.3937951761E+03 (After pre-processing)
+      2   0        6.2460520723E+01 (After scaling)
+      3   0     0  1.9803157350E+00               1.0E+00      F  T
+      4   0     0  1.2355057598E-01               1.0E+00      F  T
+      5   0     0  1.2211721727E-02               1.0E+00      F  T
+      6   0     0  1.6913066049E-03               1.0E+00      F  T
+      7   0     0  2.3701224176E-04               1.0E+00      F  T
+      8   0     0  4.1297561777E-05               1.0E+00      F  T
+      9   0     0  7.2155998642E-06               1.0E+00      F  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     10   0     0  1.3597309830E-06               1.0E+00      F  T
+     11   0     0  2.5936533205E-07               1.0E+00      F  T
+     12   0     0  5.3927837796E-08               1.0E+00      F  T
+     13   0     0  1.1959047106E-08               1.0E+00      F  T
+     14   0     0  2.9655886928E-09               1.0E+00      F  T
+     15   0     0  7.9928818408E-10               1.0E+00      F  T
+     16   0     0  2.3755917605E-10               1.0E+00      F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model PEPWT
+--- Executing after solve: elapsed 0:00:18.398
+--- Model_GTAP11b.gms(3777) 145 Mb
+--- Generating CNS model PEPWT
+--- Model_GTAP11b.gms(4624) 164 Mb
+--- LOOPS TIME = 2026
+---   90,039 rows  90,039 columns  433,532 non-zeroes
+---   788,770 nl-code  258,496 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 1.024E-06, 9.912E+03] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.011E-20, 1.784E+05] - Zero values observed as well
+--- Model_GTAP11b.gms(4624) 158 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:19.825
+
+CONOPT 3         42.5.0 cf11b917 Mar 30, 2023          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T 3   version 3.17N
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        3.1431716169E+03 (Input point)
+ 
+                   Pre-triangular equations:   9383
+                   Post-triangular equations:  326
+ 
+      1   0        1.4917029086E+03 (After pre-processing)
+      2   0        6.6385467257E+01 (After scaling)
+      3   0     0  1.5590214411E+00               1.0E+00      F  T
+      4   0     0  8.9538956019E-02               1.0E+00      F  T
+      5   0     0  7.7852435155E-03               1.0E+00      F  T
+      6   0     0  1.0360410520E-03               1.0E+00      F  T
+      7   0     0  1.5276629810E-04               1.0E+00      F  T
+      8   0     0  2.9998578590E-05               1.0E+00      F  T
+      9   0     0  5.9672176696E-06               1.0E+00      F  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     10   0     0  1.3893974891E-06               1.0E+00      F  T
+     11   0     0  3.3007910941E-07               1.0E+00      F  T
+     12   0     0  9.1155055880E-08               1.0E+00      F  T
+     13   0     0  2.6887051332E-08               1.0E+00      F  T
+     14   0     0  8.8330340781E-09               1.0E+00      F  T
+     15   0     0  3.0724963023E-09               1.0E+00      F  T
+     16   0     0  1.1272818857E-09               1.0E+00      F  T
+     17   0     0  4.2688233169E-10               1.0E+00      F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model PEPWT
+--- Executing after solve: elapsed 0:00:21.014
+--- Model_GTAP11b.gms(3777) 158 Mb
+--- Generating CNS model PEPWT
+--- Model_GTAP11b.gms(4624) 178 Mb
+--- LOOPS TIME = 2027
+---   90,039 rows  90,039 columns  433,532 non-zeroes
+---   788,770 nl-code  258,496 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 1.013E-06, 1.030E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.065E-20, 1.765E+05] - Zero values observed as well
+--- Model_GTAP11b.gms(4624) 171 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:22.591
+
+CONOPT 3         42.5.0 cf11b917 Mar 30, 2023          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T 3   version 3.17N
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        3.1792106767E+03 (Input point)
+ 
+                   Pre-triangular equations:   9383
+                   Post-triangular equations:  326
+ 
+      1   0        1.5242204255E+03 (After pre-processing)
+      2   0        6.4717741183E+01 (After scaling)
+      3   0     0  1.4290412669E+00               1.0E+00      F  T
+      4   0     0  8.0037885279E-02               1.0E+00      F  T
+      5   0     0  7.6221431819E-03               1.0E+00      F  T
+      6   0     0  1.0430308084E-03               1.0E+00      F  T
+      7   0     0  1.5974415488E-04               1.0E+00      F  T
+      8   0     0  2.9803745080E-05               1.0E+00      F  T
+      9   0     0  5.8150502186E-06               1.0E+00      F  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     10   0     0  1.2646742254E-06               1.0E+00      F  T
+     11   0     0  2.8970305759E-07               1.0E+00      F  T
+     12   0     0  7.4497749439E-08               1.0E+00      F  T
+     13   0     0  2.0793830171E-08               1.0E+00      F  T
+     14   0     0  6.3852147588E-09               1.0E+00      F  T
+     15   0     0  2.1004604922E-09               1.0E+00      F  T
+     16   0     0  7.3091339195E-10               1.0E+00      F  T
+     17   0     0  2.6533920422E-10               1.0E+00      F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model PEPWT
+--- Executing after solve: elapsed 0:00:23.750
+--- Model_GTAP11b.gms(3777) 171 Mb
+--- Generating CNS model PEPWT
+--- Model_GTAP11b.gms(4624) 191 Mb
+--- LOOPS TIME = 2028
+---   90,039 rows  90,039 columns  433,532 non-zeroes
+---   788,770 nl-code  258,496 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 1.003E-06, 1.069E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.012E-20, 1.751E+05] - Zero values observed as well
+--- Model_GTAP11b.gms(4624) 185 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:25.454
+
+CONOPT 3         42.5.0 cf11b917 Mar 30, 2023          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T 3   version 3.17N
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        3.1979696440E+03 (Input point)
+ 
+                   Pre-triangular equations:   9383
+                   Post-triangular equations:  326
+ 
+      1   0        1.5510929520E+03 (After pre-processing)
+      2   0        6.5323195913E+01 (After scaling)
+      3   0     0  1.2926895287E+00               1.0E+00      F  T
+      4   0     0  7.3394561092E-02               1.0E+00      F  T
+      5   0     0  7.3251662775E-03               1.0E+00      F  T
+      6   0     0  9.7873656681E-04               1.0E+00      F  T
+      7   0     0  1.4892279533E-04               1.0E+00      F  T
+      8   0     0  2.7241461464E-05               1.0E+00      F  T
+      9   0     0  5.2583346019E-06               1.0E+00      F  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     10   0     0  1.1253003488E-06               1.0E+00      F  T
+     11   0     0  2.5407817363E-07               1.0E+00      F  T
+     12   0     0  6.3224887673E-08               1.0E+00      F  T
+     13   0     0  1.6955507642E-08               1.0E+00      F  T
+     14   0     0  4.9434030659E-09               1.0E+00      F  T
+     15   0     0  1.5445220528E-09               1.0E+00      F  T
+     16   0     0  5.1152241176E-10               1.0E+00      F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model PEPWT
+--- Executing after solve: elapsed 0:00:26.645
+--- Model_GTAP11b.gms(3777) 185 Mb
+--- Generating CNS model PEPWT
+--- Model_GTAP11b.gms(4624) 204 Mb
+--- LOOPS TIME = 2029
+---   90,039 rows  90,039 columns  433,532 non-zeroes
+---   788,770 nl-code  258,496 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 9.932E-07, 1.108E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.065E-20, 1.739E+05] - Zero values observed as well
+--- Model_GTAP11b.gms(4624) 198 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:28.437
+
+CONOPT 3         42.5.0 cf11b917 Mar 30, 2023          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T 3   version 3.17N
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        3.2062114711E+03 (Input point)
+ 
+                   Pre-triangular equations:   9383
+                   Post-triangular equations:  326
+ 
+      1   0        1.5732498157E+03 (After pre-processing)
+      2   0        6.8290509441E+01 (After scaling)
+      3   0     0  1.1841047123E+00               1.0E+00      F  T
+      4   0     0  6.9257819688E-02               1.0E+00      F  T
+      5   0     0  6.9353299792E-03               1.0E+00      F  T
+      6   0     0  8.9002661811E-04               1.0E+00      F  T
+      7   0     0  1.3153441053E-04               1.0E+00      F  T
+      8   0     0  2.3235569691E-05               1.0E+00      F  T
+      9   0     0  4.3961967921E-06               1.0E+00      F  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     10   0     0  9.2148283618E-07               1.0E+00      F  T
+     11   0     0  2.0476572302E-07               1.0E+00      F  T
+     12   0     0  4.9601978283E-08               1.0E+00      F  T
+     13   0     0  1.2885869998E-08               1.0E+00      F  T
+     14   0     0  3.6012200445E-09               1.0E+00      F  T
+     15   0     0  1.0761209237E-09               1.0E+00      F  T
+     16   0     0  3.4094249733E-10               1.0E+00      F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model PEPWT
+--- Executing after solve: elapsed 0:00:29.591
+--- Model_GTAP11b.gms(3777) 198 Mb
+--- Generating CNS model PEPWT
+--- Model_GTAP11b.gms(4624) 218 Mb
+--- LOOPS TIME = 2030
+---   90,039 rows  90,039 columns  433,532 non-zeroes
+---   788,770 nl-code  258,496 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 9.833E-07, 1.146E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.065E-20, 1.730E+05] - Zero values observed as well
+--- Model_GTAP11b.gms(4624) 212 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:31.549
+
+CONOPT 3         42.5.0 cf11b917 Mar 30, 2023          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T 3   version 3.17N
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        3.2016579978E+03 (Input point)
+ 
+                   Pre-triangular equations:   9383
+                   Post-triangular equations:  326
+ 
+      1   0        1.5902396743E+03 (After pre-processing)
+      2   0        7.0029336000E+01 (After scaling)
+      3   0     0  1.0957601976E+00               1.0E+00      F  T
+      4   0     0  6.5718223674E-02               1.0E+00      F  T
+      5   0     0  6.4646033359E-03               1.0E+00      F  T
+      6   0     0  8.0175921546E-04               1.0E+00      F  T
+      7   0     0  1.1521012871E-04               1.0E+00      F  T
+      8   0     0  1.9698837965E-05               1.0E+00      F  T
+      9   0     0  3.6508207659E-06               1.0E+00      F  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     10   0     0  7.4770146605E-07               1.0E+00      F  T
+     11   0     0  1.6297703149E-07               1.0E+00      F  T
+     12   0     0  3.8365414975E-08               1.0E+00      F  T
+     13   0     0  9.6505841516E-09               1.0E+00      F  T
+     14   0     0  2.5879973304E-09               1.0E+00      F  T
+     15   0     0  7.4066214114E-10               1.0E+00      F  T
+     16   0     0  2.2470273559E-10               1.0E+00      F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model PEPWT
+--- Executing after solve: elapsed 0:00:32.827
+--- Model_GTAP11b.gms(3777) 212 Mb
+--- Generating CNS model PEPWT
+--- Model_GTAP11b.gms(4624) 231 Mb
+--- LOOPS TIME = 2031
+---   90,039 rows  90,039 columns  433,532 non-zeroes
+---   788,770 nl-code  258,496 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 9.735E-07, 1.183E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.065E-20, 1.724E+05] - Zero values observed as well
+--- Model_GTAP11b.gms(4624) 225 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:34.897
+
+CONOPT 3         42.5.0 cf11b917 Mar 30, 2023          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T 3   version 3.17N
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        3.2085593787E+03 (Input point)
+ 
+                   Pre-triangular equations:   9383
+                   Post-triangular equations:  326
+ 
+      1   0        1.6226745528E+03 (After pre-processing)
+      2   0        7.3244603588E+01 (After scaling)
+      3   0     0  1.1196002342E+00               1.0E+00      F  T
+      4   0     0  6.0913724580E-02               1.0E+00      F  T
+      5   0     0  5.2131632298E-03               1.0E+00      F  T
+      6   0     0  6.7546147005E-04               1.0E+00      F  T
+      7   0     0  1.0545655962E-04               1.0E+00      F  T
+      8   0     0  2.0332847253E-05               1.0E+00      F  T
+      9   0     0  4.2830360868E-06               1.0E+00      F  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     10   0     0  9.7753400879E-07               1.0E+00      F  T
+     11   0     0  2.3241781413E-07               1.0E+00      F  T
+     12   0     0  5.9222861975E-08               1.0E+00      F  T
+     13   0     0  1.5920107798E-08               1.0E+00      F  T
+     14   0     0  4.5995703256E-09               1.0E+00      F  T
+     15   0     0  1.4072309933E-09               1.0E+00      F  T
+     16   0     0  4.5755083051E-10               1.0E+00      F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model PEPWT
+--- Executing after solve: elapsed 0:00:36.081
+--- Model_GTAP11b.gms(3777) 225 Mb
+--- Generating CNS model PEPWT
+--- Model_GTAP11b.gms(4624) 245 Mb
+--- LOOPS TIME = 2032
+---   90,039 rows  90,039 columns  433,532 non-zeroes
+---   788,770 nl-code  258,496 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 9.637E-07, 1.218E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.065E-20, 1.787E+05] - Zero values observed as well
+--- Model_GTAP11b.gms(4624) 239 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:38.259
+
+CONOPT 3         42.5.0 cf11b917 Mar 30, 2023          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T 3   version 3.17N
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        3.1819025660E+03 (Input point)
+ 
+                   Pre-triangular equations:   9383
+                   Post-triangular equations:  326
+ 
+      1   0        1.6334657584E+03 (After pre-processing)
+      2   0        7.4307612115E+01 (After scaling)
+      3   0     0  1.0293555089E+00               1.0E+00      F  T
+      4   0     0  5.7113040735E-02               1.0E+00      F  T
+      5   0     0  5.0647668509E-03               1.0E+00      F  T
+      6   0     0  5.9608858159E-04               1.0E+00      F  T
+      7   0     0  8.2766745522E-05               1.0E+00      F  T
+      8   0     0  1.3923551121E-05               1.0E+00      F  T
+      9   0     0  2.6162423590E-06               1.0E+00      F  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     10   0     0  5.4383468834E-07               1.0E+00      F  T
+     11   0     0  1.2183385400E-07               1.0E+00      F  T
+     12   0     0  2.9656247008E-08               1.0E+00      F  T
+     13   0     0  7.8019825574E-09               1.0E+00      F  T
+     14   0     0  2.2047573846E-09               1.0E+00      F  T
+     15   0     0  6.6518688360E-10               1.0E+00      F  T
+     16   0     0  2.1210537893E-10               1.0E+00      F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model PEPWT
+--- Executing after solve: elapsed 0:00:39.544
+--- Model_GTAP11b.gms(3777) 239 Mb
+--- Generating CNS model PEPWT
+--- Model_GTAP11b.gms(4624) 258 Mb
+--- LOOPS TIME = 2033
+---   90,039 rows  90,039 columns  433,536 non-zeroes
+---   788,775 nl-code  258,498 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 9.541E-07, 1.251E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.065E-20, 1.854E+05] - Zero values observed as well
+--- Model_GTAP11b.gms(4624) 252 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:41.854
+
+CONOPT 3         42.5.0 cf11b917 Mar 30, 2023          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T 3   version 3.17N
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        3.1349571942E+03 (Input point)
+ 
+                   Pre-triangular equations:   9376
+                   Post-triangular equations:  327
+ 
+      1   0        1.6415888177E+03 (After pre-processing)
+      2   0        7.6040229789E+01 (After scaling)
+      3   0     0  1.4447802360E+00               1.0E+00      F  T
+      4   0     0  8.9036163365E-02               1.0E+00      F  T
+      5   0     0  1.2919062384E-02               1.0E+00      F  T
+      6   0     0  1.3882131910E-03               1.0E+00      F  T
+      7   0     0  2.2344054332E-04               1.0E+00      F  T
+      8   0     0  3.3660736896E-05               1.0E+00      F  T
+      9   0     0  5.6698275531E-06               1.0E+00      F  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     10   0     0  1.0029998870E-06               1.0E+00      F  T
+     11   0     0  1.8422066913E-07               1.0E+00      F  T
+     12   0     0  3.6859640541E-08               1.0E+00      F  T
+     13   0     0  8.1085500690E-09               1.0E+00      F  T
+     14   0     0  1.9362913801E-09               1.0E+00      F  T
+     15   0     0  5.2082006707E-10               1.0E+00      F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model PEPWT
+--- Executing after solve: elapsed 0:00:43.064
+--- Model_GTAP11b.gms(3777) 252 Mb
+--- Generating CNS model PEPWT
+--- Model_GTAP11b.gms(4624) 270 Mb
+--- LOOPS TIME = 2034
+---   90,039 rows  90,039 columns  433,536 non-zeroes
+---   788,775 nl-code  258,498 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 9.446E-07, 1.282E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.065E-20, 1.918E+05] - Zero values observed as well
+--- Model_GTAP11b.gms(4624) 264 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:45.479
+
+CONOPT 3         42.5.0 cf11b917 Mar 30, 2023          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T 3   version 3.17N
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        3.0838301805E+03 (Input point)
+ 
+                   Pre-triangular equations:   9376
+                   Post-triangular equations:  327
+ 
+      1   0        1.6451429242E+03 (After pre-processing)
+      2   0        6.9373997349E+01 (After scaling)
+      3   0     0  9.3816537209E-01               1.0E+00      F  T
+      4   0     0  5.3980940158E-02               1.0E+00      F  T
+      5   0     0  4.4620230818E-03               1.0E+00      F  T
+      6   0     0  4.7541968025E-04               1.0E+00      F  T
+      7   0     0  5.9334247110E-05               1.0E+00      F  T
+      8   0     0  8.9051016573E-06               1.0E+00      F  T
+      9   0     0  1.5004990928E-06               1.0E+00      F  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     10   0     0  2.8224190369E-07               1.0E+00      F  T
+     11   0     0  5.8802412961E-08               1.0E+00      F  T
+     12   0     0  1.3308588395E-08               1.0E+00      F  T
+     13   0     0  3.2983261209E-09               1.0E+00      F  T
+     14   0     0  8.7399623766E-10               1.0E+00      F  T
+     15   0     0  2.4925496423E-10               1.0E+00      F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model PEPWT
+--- Executing after solve: elapsed 0:00:46.705
+--- Model_GTAP11b.gms(3777) 264 Mb
+--- Generating CNS model PEPWT
+--- Model_GTAP11b.gms(4624) 284 Mb
+--- LOOPS TIME = 2035
+---   90,039 rows  90,039 columns  433,536 non-zeroes
+---   788,775 nl-code  258,498 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 9.351E-07, 1.310E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.030E-20, 1.979E+05] - Zero values observed as well
+--- Model_GTAP11b.gms(4624) 277 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:49.262
+
+CONOPT 3         42.5.0 cf11b917 Mar 30, 2023          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T 3   version 3.17N
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        3.0261491518E+03 (Input point)
+ 
+                   Pre-triangular equations:   9376
+                   Post-triangular equations:  327
+ 
+      1   0        1.6498005372E+03 (After pre-processing)
+      2   0        7.0842943008E+01 (After scaling)
+      3   0     0  8.7537123352E-01               1.0E+00      F  T
+      4   0     0  5.0893595386E-02               1.0E+00      F  T
+      5   0     0  3.9974298697E-03               1.0E+00      F  T
+      6   0     0  4.0881585808E-04               1.0E+00      F  T
+      7   0     0  4.8465841198E-05               1.0E+00      F  T
+      8   0     0  6.9464749917E-06               1.0E+00      F  T
+      9   0     0  1.1239441065E-06               1.0E+00      F  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     10   0     0  2.0415842300E-07               1.0E+00      F  T
+     11   0     0  4.1791713475E-08               1.0E+00      F  T
+     12   0     0  9.3124637725E-09               1.0E+00      F  T
+     13   0     0  2.2822938820E-09               1.0E+00      F  T
+     14   0     0  5.9739384189E-10               1.0E+00      F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model PEPWT
+--- Executing after solve: elapsed 0:00:50.528
+--- Model_GTAP11b.gms(3777) 277 Mb
+--- Generating CNS model PEPWT
+--- Model_GTAP11b.gms(4624) 297 Mb
+--- LOOPS TIME = 2036
+---   90,039 rows  90,039 columns  433,544 non-zeroes
+---   788,785 nl-code  258,502 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 9.258E-07, 1.335E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.065E-20, 2.035E+05] - Zero values observed as well
+--- Model_GTAP11b.gms(4624) 290 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:53.209
+
+CONOPT 3         42.5.0 cf11b917 Mar 30, 2023          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T 3   version 3.17N
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        3.0646705686E+03 (Input point)
+ 
+                   Pre-triangular equations:   9364
+                   Post-triangular equations:  327
+ 
+      1   0        1.6832765917E+03 (After pre-processing)
+      2   0        7.3668083674E+01 (After scaling)
+      3   0     0  1.6742334758E+00               1.0E+00      F  T
+      4   0     0  1.3079711421E-01               1.0E+00      F  T
+      5   0     0  3.0249238797E-02               1.0E+00      F  T
+      6   0     0  9.7052445280E-03               1.0E+00      F  T
+      7   0     0  4.1240140454E-03               1.0E+00      F  T
+      8   0     0  1.6288981726E-03               1.0E+00      F  T
+      9   0     0  6.7601826308E-04               1.0E+00      F  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     10   0     0  2.7949015941E-04               1.0E+00      F  T
+     11   0     0  1.1578794606E-04               1.0E+00      F  T
+     12   0     0  4.7906252640E-05               1.0E+00      F  T
+     13   0     0  1.9859397584E-05               1.0E+00      F  T
+     14   0     0  8.2267877095E-06               1.0E+00      F  T
+     15   0     0  3.4086948640E-06               1.0E+00      F  T
+     16   0     0  1.4124095389E-06               1.0E+00      F  T
+     17   0     0  5.8526164760E-07               1.0E+00      F  T
+     18   0     0  2.4251460427E-07               1.0E+00      F  T
+     19   0     0  1.0049220181E-07               1.0E+00      F  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     20   0     0  4.1642606480E-08               1.0E+00      F  T
+     21   0     0  1.7256167722E-08               1.0E+00      F  T
+     22   0     0  7.1511441362E-09               1.0E+00      F  T
+     23   0     0  2.9640573830E-09               1.0E+00      F  T
+     24   0     0  1.2294193494E-09               1.0E+00      F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model PEPWT
+--- Executing after solve: elapsed 0:00:54.720
+--- Model_GTAP11b.gms(3777) 290 Mb
+--- Generating CNS model PEPWT
+--- Model_GTAP11b.gms(4624) 310 Mb
+--- LOOPS TIME = 2037
+---   90,039 rows  90,039 columns  433,544 non-zeroes
+---   788,785 nl-code  258,502 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 9.165E-07, 1.358E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.065E-20, 2.095E+05] - Zero values observed as well
+--- Model_GTAP11b.gms(4624) 304 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:57.603
+
+CONOPT 3         42.5.0 cf11b917 Mar 30, 2023          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T 3   version 3.17N
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        3.1872930827E+03 (Input point)
+ 
+                   Pre-triangular equations:   9364
+                   Post-triangular equations:  327
+ 
+      1   0        1.7237064120E+03 (After pre-processing)
+      2   0        7.0412071299E+01 (After scaling)
+      3   0     0  9.0829293137E-01               1.0E+00      F  T
+      4   0     0  4.8668079099E-02               1.0E+00      F  T
+      5   0     0  3.2258201511E-03               1.0E+00      F  T
+      6   0     0  3.1996629440E-04               1.0E+00      F  T
+      7   0     0  3.8397698829E-05               1.0E+00      F  T
+      8   0     0  5.7533731037E-06               1.0E+00      F  T
+      9   0     0  1.0055018911E-06               1.0E+00      F  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     10   0     0  1.9588197223E-07               1.0E+00      F  T
+     11   0     0  4.3469261277E-08               1.0E+00      F  T
+     12   0     0  1.0491267029E-08               1.0E+00      F  T
+     13   0     0  2.7711140528E-09               1.0E+00      F  T
+     14   0     0  7.8014558875E-10               1.0E+00      F  T
+     15   0     0  2.3350311407E-10               1.0E+00      F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model PEPWT
+--- Executing after solve: elapsed 0:00:59.081
+--- Model_GTAP11b.gms(3777) 304 Mb
+--- Generating CNS model PEPWT
+--- Model_GTAP11b.gms(4624) 323 Mb
+--- LOOPS TIME = 2038
+---   90,039 rows  90,039 columns  433,544 non-zeroes
+---   788,785 nl-code  258,502 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 9.073E-07, 1.377E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.065E-20, 2.151E+05] - Zero values observed as well
+--- Model_GTAP11b.gms(4624) 317 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:01:02.020
+
+CONOPT 3         42.5.0 cf11b917 Mar 30, 2023          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T 3   version 3.17N
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        3.3471735375E+03 (Input point)
+ 
+                   Pre-triangular equations:   9364
+                   Post-triangular equations:  327
+ 
+      1   0        1.7765723499E+03 (After pre-processing)
+      2   0        7.2312747959E+01 (After scaling)
+      3   0     0  8.6259854817E-01               1.0E+00      F  T
+      4   0     0  4.6405304668E-02               1.0E+00      F  T
+      5   0     0  3.0655564562E-03               1.0E+00      F  T
+      6   0     0  2.9798742802E-04               1.0E+00      F  T
+      7   0     0  3.4886029191E-05               1.0E+00      F  T
+      8   0     0  5.0078213854E-06               1.0E+00      F  T
+      9   0     0  8.3822319560E-07               1.0E+00      F  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     10   0     0  1.5512183169E-07               1.0E+00      F  T
+     11   0     0  3.2885810898E-08               1.0E+00      F  T
+     12   0     0  7.5683389188E-09               1.0E+00      F  T
+     13   0     0  1.9124697611E-09               1.0E+00      F  T
+     14   0     0  5.1721556452E-10               1.0E+00      F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model PEPWT
+--- Executing after solve: elapsed 0:01:03.377
+--- Model_GTAP11b.gms(3777) 317 Mb
+--- Generating CNS model PEPWT
+--- Model_GTAP11b.gms(4624) 337 Mb
+--- LOOPS TIME = 2039
+---   90,039 rows  90,039 columns  433,544 non-zeroes
+---   788,785 nl-code  258,502 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 8.983E-07, 1.394E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.065E-20, 2.202E+05] - Zero values observed as well
+--- Model_GTAP11b.gms(4624) 330 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:01:06.370
+
+CONOPT 3         42.5.0 cf11b917 Mar 30, 2023          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T 3   version 3.17N
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        3.5319946230E+03 (Input point)
+ 
+                   Pre-triangular equations:   9364
+                   Post-triangular equations:  327
+ 
+      1   0        1.8312626995E+03 (After pre-processing)
+      2   0        7.2152629400E+01 (After scaling)
+      3   0     0  8.2586025518E-01               1.0E+00      F  T
+      4   0     0  4.4618323218E-02               1.0E+00      F  T
+      5   0     0  2.9099136847E-03               1.0E+00      F  T
+      6   0     0  2.7912113658E-04               1.0E+00      F  T
+      7   0     0  3.2227719276E-05               1.0E+00      F  T
+      8   0     0  4.5226952769E-06               1.0E+00      F  T
+      9   0     0  7.4018118146E-07               1.0E+00      F  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     10   0     0  1.3222512688E-07               1.0E+00      F  T
+     11   0     0  2.7015272917E-08               1.0E+00      F  T
+     12   0     0  5.9481538684E-09               1.0E+00      F  T
+     13   0     0  1.4381304705E-09               1.0E+00      F  T
+     14   0     0  3.7349768621E-10               1.0E+00      F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model PEPWT
+--- Executing after solve: elapsed 0:01:07.688
+--- Model_GTAP11b.gms(3777) 330 Mb
+--- Generating CNS model PEPWT
+--- Model_GTAP11b.gms(4624) 350 Mb
+--- LOOPS TIME = 2040
+---   90,039 rows  90,039 columns  433,544 non-zeroes
+---   788,785 nl-code  258,502 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 8.893E-07, 1.408E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.065E-20, 2.246E+05] - Zero values observed as well
+--- Model_GTAP11b.gms(4624) 343 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:01:10.828
+
+CONOPT 3         42.5.0 cf11b917 Mar 30, 2023          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T 3   version 3.17N
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        3.7297040804E+03 (Input point)
+ 
+                   Pre-triangular equations:   9364
+                   Post-triangular equations:  327
+ 
+      1   0        1.8887717617E+03 (After pre-processing)
+      2   0        7.0128978402E+01 (After scaling)
+      3   0     0  7.9826792409E-01               1.0E+00      F  T
+      4   0     0  4.3391344856E-02               1.0E+00      F  T
+      5   0     0  2.7815325539E-03               1.0E+00      F  T
+      6   0     0  2.6594013021E-04               1.0E+00      F  T
+      7   0     0  3.0574743677E-05               1.0E+00      F  T
+      8   0     0  4.2543357590E-06               1.0E+00      F  T
+      9   0     0  6.9200230121E-07               1.0E+00      F  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     10   0     0  1.2103323662E-07               1.0E+00      F  T
+     11   0     0  2.4066429537E-08               1.0E+00      F  T
+     12   0     0  5.0877216982E-09               1.0E+00      F  T
+     13   0     0  1.1746087009E-09               1.0E+00      F  T
+     14   0     0  2.9109606020E-10               1.0E+00      F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model PEPWT
+--- Executing after solve: elapsed 0:01:12.110
+--- Model_GTAP11b.gms(3777) 343 Mb
+--- Generating CNS model PEPWT
+--- Model_GTAP11b.gms(4624) 363 Mb
+--- LOOPS TIME = 2041
+---   90,039 rows  90,039 columns  433,544 non-zeroes
+---   788,785 nl-code  258,502 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 8.804E-07, 1.420E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.065E-20, 2.285E+05] - Zero values observed as well
+--- Model_GTAP11b.gms(4624) 357 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:01:15.469
+
+CONOPT 3         42.5.0 cf11b917 Mar 30, 2023          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T 3   version 3.17N
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        3.9961687769E+03 (Input point)
+ 
+                   Pre-triangular equations:   9364
+                   Post-triangular equations:  327
+ 
+      1   0        2.0202220040E+03 (After pre-processing)
+      2   0        7.2998190736E+01 (After scaling)
+      3   0     0  8.6407918465E-01               1.0E+00      F  T
+      4   0     0  4.5166272534E-02               1.0E+00      F  T
+      5   0     0  2.6247250586E-03               1.0E+00      F  T
+      6   0     0  2.6391044698E-04               1.0E+00      F  T
+      7   0     0  3.2491754526E-05               1.0E+00      F  T
+      8   0     0  4.8947883532E-06               1.0E+00      F  T
+      9   0     0  8.5956429544E-07               1.0E+00      F  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     10   0     0  1.5761394999E-07               1.0E+00      F  T
+     11   0     0  3.1811949885E-08               1.0E+00      F  T
+     12   0     0  6.7259587563E-09               1.0E+00      F  T
+     13   0     0  1.5244904324E-09               1.0E+00      F  T
+     14   0     0  3.6797613788E-10               1.0E+00      F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model PEPWT
+--- Executing after solve: elapsed 0:01:16.760
+--- Model_GTAP11b.gms(3777) 357 Mb
+--- Generating CNS model PEPWT
+--- Model_GTAP11b.gms(4624) 376 Mb
+--- LOOPS TIME = 2042
+---   90,039 rows  90,039 columns  433,544 non-zeroes
+---   788,785 nl-code  258,502 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 8.716E-07, 1.429E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.065E-20, 2.317E+05] - Zero values observed as well
+--- Model_GTAP11b.gms(4624) 370 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:01:20.145
+
+CONOPT 3         42.5.0 cf11b917 Mar 30, 2023          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T 3   version 3.17N
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        4.1724071128E+03 (Input point)
+ 
+                   Pre-triangular equations:   9364
+                   Post-triangular equations:  327
+ 
+      1   0        2.0728338726E+03 (After pre-processing)
+      2   0        7.2904361042E+01 (After scaling)
+      3   0     0  8.2686892827E-01               1.0E+00      F  T
+      4   0     0  4.3528988170E-02               1.0E+00      F  T
+      5   0     0  2.5768717801E-03               1.0E+00      F  T
+      6   0     0  2.5700104830E-04               1.0E+00      F  T
+      7   0     0  3.1533400080E-05               1.0E+00      F  T
+      8   0     0  4.7107308677E-06               1.0E+00      F  T
+      9   0     0  8.2966201597E-07               1.0E+00      F  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     10   0     0  1.5163424379E-07               1.0E+00      F  T
+     11   0     0  3.0358853407E-08               1.0E+00      F  T
+     12   0     0  6.2479406871E-09               1.0E+00      F  T
+     13   0     0  1.3585857884E-09               1.0E+00      F  T
+     14   0     0  3.0844742895E-10               1.0E+00      F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model PEPWT
+--- Executing after solve: elapsed 0:01:21.492
+--- Model_GTAP11b.gms(3777) 371 Mb
+--- Generating CNS model PEPWT
+--- Model_GTAP11b.gms(4624) 390 Mb
+--- LOOPS TIME = 2043
+---   90,039 rows  90,039 columns  433,544 non-zeroes
+---   788,785 nl-code  258,502 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 8.629E-07, 1.436E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.065E-20, 2.346E+05] - Zero values observed as well
+--- Model_GTAP11b.gms(4624) 383 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:01:24.971
+
+CONOPT 3         42.5.0 cf11b917 Mar 30, 2023          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T 3   version 3.17N
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        4.3597132376E+03 (Input point)
+ 
+                   Pre-triangular equations:   9364
+                   Post-triangular equations:  327
+ 
+      1   0        2.1289254939E+03 (After pre-processing)
+      2   0        7.4613795613E+01 (After scaling)
+      3   0     0  8.0604751075E-01               1.0E+00      F  T
+      4   0     0  4.2937808411E-02               1.0E+00      F  T
+      5   0     0  2.5620821015E-03               1.0E+00      F  T
+      6   0     0  2.5607321035E-04               1.0E+00      F  T
+      7   0     0  3.1757902963E-05               1.0E+00      F  T
+      8   0     0  4.8419755457E-06               1.0E+00      F  T
+      9   0     0  8.8290359689E-07               1.0E+00      F  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     10   0     0  1.6661194507E-07               1.0E+00      F  T
+     11   0     0  3.4236280252E-08               1.0E+00      F  T
+     12   0     0  7.1335033465E-09               1.0E+00      F  T
+     13   0     0  1.5476877785E-09               1.0E+00      F  T
+     14   0     0  3.4335269057E-10               1.0E+00      F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model PEPWT
+--- Executing after solve: elapsed 0:01:26.274
+--- Model_GTAP11b.gms(3777) 384 Mb
+--- Generating CNS model PEPWT
+--- Model_GTAP11b.gms(4624) 403 Mb
+--- LOOPS TIME = 2044
+---   90,039 rows  90,039 columns  433,544 non-zeroes
+---   788,785 nl-code  258,502 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 8.542E-07, 1.441E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.065E-20, 2.370E+05] - Zero values observed as well
+--- Model_GTAP11b.gms(4624) 397 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:01:29.909
+
+CONOPT 3         42.5.0 cf11b917 Mar 30, 2023          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T 3   version 3.17N
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        4.5507346972E+03 (Input point)
+ 
+                   Pre-triangular equations:   9364
+                   Post-triangular equations:  327
+ 
+      1   0        2.1855592027E+03 (After pre-processing)
+      2   0        7.6624118677E+01 (After scaling)
+      3   0     0  7.9138557223E-01               1.0E+00      F  T
+      4   0     0  4.2852393198E-02               1.0E+00      F  T
+      5   0     0  2.5650600852E-03               1.0E+00      F  T
+      6   0     0  2.6125242449E-04               1.0E+00      F  T
+      7   0     0  3.3264290695E-05               1.0E+00      F  T
+      8   0     0  5.2920481805E-06               1.0E+00      F  T
+      9   0     0  1.0178798761E-06               1.0E+00      F  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     10   0     0  2.0273499840E-07               1.0E+00      F  T
+     11   0     0  4.3661225888E-08               1.0E+00      F  T
+     12   0     0  9.4662925996E-09               1.0E+00      F  T
+     13   0     0  2.1130628772E-09               1.0E+00      F  T
+     14   0     0  4.7656057366E-10               1.0E+00      F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model PEPWT
+--- Executing after solve: elapsed 0:01:31.293
+--- Model_GTAP11b.gms(3777) 397 Mb
+--- Generating CNS model PEPWT
+--- Model_GTAP11b.gms(4624) 416 Mb
+--- LOOPS TIME = 2045
+---   90,039 rows  90,039 columns  433,544 non-zeroes
+---   788,785 nl-code  258,502 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 8.457E-07, 1.444E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.065E-20, 2.389E+05] - Zero values observed as well
+--- Model_GTAP11b.gms(4624) 410 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:01:35.031
+
+CONOPT 3         42.5.0 cf11b917 Mar 30, 2023          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T 3   version 3.17N
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        4.7436851141E+03 (Input point)
+ 
+                   Pre-triangular equations:   9364
+                   Post-triangular equations:  327
+ 
+      1   0        2.2472301563E+03 (After pre-processing)
+      2   0        7.8768251883E+01 (After scaling)
+      3   0     0  7.7704004295E-01               1.0E+00      F  T
+      4   0     0  4.2783221250E-02               1.0E+00      F  T
+      5   0     0  2.5876226831E-03               1.0E+00      F  T
+      6   0     0  2.6683548408E-04               1.0E+00      F  T
+      7   0     0  3.5282429362E-05               1.0E+00      F  T
+      8   0     0  5.9768685854E-06               1.0E+00      F  T
+      9   0     0  1.2390302006E-06               1.0E+00      F  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     10   0     0  2.6555195300E-07               1.0E+00      F  T
+     11   0     0  6.0877411124E-08               1.0E+00      F  T
+     12   0     0  1.4002616089E-08               1.0E+00      F  T
+     13   0     0  3.2855874025E-09               1.0E+00      F  T
+     14   0     0  7.7423501997E-10               1.0E+00      F  T
+     15   0     0  1.8622994897E-10               1.0E+00      F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model PEPWT
+--- Executing after solve: elapsed 0:01:36.464
+--- Model_GTAP11b.gms(3777) 411 Mb
+--- Generating CNS model PEPWT
+--- Model_GTAP11b.gms(4624) 429 Mb
+--- LOOPS TIME = 2046
+---   90,039 rows  90,039 columns  433,544 non-zeroes
+---   788,785 nl-code  258,502 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 8.372E-07, 1.445E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.065E-20, 2.403E+05] - Zero values observed as well
+--- Model_GTAP11b.gms(4624) 423 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:01:40.462
+
+CONOPT 3         42.5.0 cf11b917 Mar 30, 2023          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T 3   version 3.17N
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        5.0077430285E+03 (Input point)
+ 
+                   Pre-triangular equations:   9364
+                   Post-triangular equations:  327
+ 
+      1   0        2.3644006895E+03 (After pre-processing)
+      2   0        7.9404950734E+01 (After scaling)
+      3   0     0  8.3606238542E-01               1.0E+00      F  T
+      4   0     0  4.5479195227E-02               1.0E+00      F  T
+      5   0     0  2.7693533673E-03               1.0E+00      F  T
+      6   0     0  2.9787993010E-04               1.0E+00      F  T
+      7   0     0  4.3823026109E-05               1.0E+00      F  T
+      8   0     0  8.2801145885E-06               1.0E+00      F  T
+      9   0     0  1.8812428382E-06               1.0E+00      F  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     10   0     0  4.4157600083E-07               1.0E+00      F  T
+     11   0     0  1.0859147712E-07               1.0E+00      F  T
+     12   0     0  2.6950517744E-08               1.0E+00      F  T
+     13   0     0  6.7836050905E-09               1.0E+00      F  T
+     14   0     0  1.7126008406E-09               1.0E+00      F  T
+     15   0     0  4.3663364716E-10               1.0E+00      F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model PEPWT
+--- Executing after solve: elapsed 0:01:41.966
+--- Model_GTAP11b.gms(3777) 425 Mb
+--- Generating CNS model PEPWT
+--- Model_GTAP11b.gms(4624) 442 Mb
+--- LOOPS TIME = 2047
+---   90,039 rows  90,039 columns  433,544 non-zeroes
+---   788,785 nl-code  258,502 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 8.289E-07, 1.444E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.065E-20, 2.414E+05] - Zero values observed as well
+--- Model_GTAP11b.gms(4624) 436 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:01:46.046
+
+CONOPT 3         42.5.0 cf11b917 Mar 30, 2023          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T 3   version 3.17N
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        5.1679090972E+03 (Input point)
+ 
+                   Pre-triangular equations:   9364
+                   Post-triangular equations:  327
+ 
+      1   0        2.4128408063E+03 (After pre-processing)
+      2   0        7.9699986341E+01 (After scaling)
+      3   0     0  8.1112875636E-01               1.0E+00      F  T
+      4   0     0  4.5061167226E-02               1.0E+00      F  T
+      5   0     0  2.7871155357E-03               1.0E+00      F  T
+      6   0     0  3.1640145031E-04               1.0E+00      F  T
+      7   0     0  5.0097881423E-05               1.0E+00      F  T
+      8   0     0  1.0291691159E-05               1.0E+00      F  T
+      9   0     0  2.5345293757E-06               1.0E+00      F  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     10   0     0  6.4408097234E-07               1.0E+00      F  T
+     11   0     0  1.7015050701E-07               1.0E+00      F  T
+     12   0     0  4.5239641279E-08               1.0E+00      F  T
+     13   0     0  1.2151683971E-08               1.0E+00      F  T
+     14   0     0  3.2691892078E-09               1.0E+00      F  T
+     15   0     0  8.8424806590E-10               1.0E+00      F  T
+     16   0     0  2.4133647193E-10               1.0E+00      F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model PEPWT
+--- Executing after solve: elapsed 0:01:47.565
+--- Model_GTAP11b.gms(3777) 438 Mb
+--- Generating CNS model PEPWT
+--- Model_GTAP11b.gms(4624) 456 Mb
+--- LOOPS TIME = 2048
+---   90,039 rows  90,039 columns  433,544 non-zeroes
+---   788,785 nl-code  258,502 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 8.206E-07, 1.443E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.065E-20, 2.421E+05] - Zero values observed as well
+--- Model_GTAP11b.gms(4624) 450 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:01:51.772
+
+CONOPT 3         42.5.0 cf11b917 Mar 30, 2023          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T 3   version 3.17N
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        5.3386265645E+03 (Input point)
+ 
+                   Pre-triangular equations:   9364
+                   Post-triangular equations:  327
+ 
+      1   0        2.4745911441E+03 (After pre-processing)
+      2   0        7.9573568570E+01 (After scaling)
+      3   0     0  8.1255199084E-01               1.0E+00      F  T
+      4   0     0  4.8335831972E-02               1.0E+00      F  T
+      5   0     0  3.4330217168E-03               1.0E+00      F  T
+      6   0     0  4.9447292841E-04               1.0E+00      F  T
+      7   0     0  1.0002017301E-04               1.0E+00      F  T
+      8   0     0  2.5008011035E-05               1.0E+00      F  T
+      9   0     0  6.9047568822E-06               1.0E+00      F  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     10   0     0  1.9399403499E-06               1.0E+00      F  T
+     11   0     0  5.5486710548E-07               1.0E+00      F  T
+     12   0     0  1.5923376916E-07               1.0E+00      F  T
+     13   0     0  4.5900682400E-08               1.0E+00      F  T
+     14   0     0  1.3244293482E-08               1.0E+00      F  T
+     15   0     0  3.8289398005E-09               1.0E+00      F  T
+     16   0     0  1.1092342273E-09               1.0E+00      F  T
+     17   0     0  3.2364571907E-10               1.0E+00      F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model PEPWT
+--- Executing after solve: elapsed 0:01:53.329
+--- Model_GTAP11b.gms(3777) 452 Mb
+--- Generating CNS model PEPWT
+--- Model_GTAP11b.gms(4624) 469 Mb
+--- LOOPS TIME = 2049
+---   90,039 rows  90,039 columns  433,544 non-zeroes
+---   788,785 nl-code  258,502 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 8.124E-07, 1.440E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.065E-20, 2.426E+05] - Zero values observed as well
+--- Model_GTAP11b.gms(4624) 463 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:01:57.503
+
+CONOPT 3         42.5.0 cf11b917 Mar 30, 2023          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T 3   version 3.17N
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        5.5132657670E+03 (Input point)
+ 
+                   Pre-triangular equations:   9364
+                   Post-triangular equations:  327
+ 
+      1   0        2.5421626535E+03 (After pre-processing)
+      2   0        8.1529513262E+01 (After scaling)
+      3   0     0  8.1659877118E-01               1.0E+00      F  T
+      4   0     0  5.0670960180E-02               1.0E+00      F  T
+      5   0     0  3.8432049438E-03               1.0E+00      F  T
+      6   0     0  6.1135840167E-04               1.0E+00      F  T
+      7   0     0  1.3817436451E-04               1.0E+00      F  T
+      8   0     0  3.7745193296E-05               1.0E+00      F  T
+      9   0     0  1.1213349260E-05               1.0E+00      F  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     10   0     0  3.3844421679E-06               1.0E+00      F  T
+     11   0     0  1.0371010194E-06               1.0E+00      F  T
+     12   0     0  3.1910465026E-07               1.0E+00      F  T
+     13   0     0  9.8620005723E-08               1.0E+00      F  T
+     14   0     0  3.0532069965E-08               1.0E+00      F  T
+     15   0     0  9.4707796576E-09               1.0E+00      F  T
+     16   0     0  2.9422775935E-09               1.0E+00      F  T
+     17   0     0  9.1656015976E-10               1.0E+00      F  T
+     18   0     0  2.8780640665E-10               1.0E+00      F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model PEPWT
+--- Executing after solve: elapsed 0:01:59.169
+--- Model_GTAP11b.gms(3777) 466 Mb
+--- Generating CNS model PEPWT
+--- Model_GTAP11b.gms(4624) 482 Mb
+--- LOOPS TIME = 2050
+---   90,039 rows  90,039 columns  433,544 non-zeroes
+---   788,785 nl-code  258,502 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 8.042E-07, 1.436E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.065E-20, 2.428E+05] - Zero values observed as well
+--- Model_GTAP11b.gms(4624) 476 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:02:03.495
+
+CONOPT 3         42.5.0 cf11b917 Mar 30, 2023          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T 3   version 3.17N
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        5.6893510558E+03 (Input point)
+ 
+                   Pre-triangular equations:   9364
+                   Post-triangular equations:  327
+ 
+      1   0        2.6101154425E+03 (After pre-processing)
+      2   0        8.0567708145E+01 (After scaling)
+      3   0     0  8.3339584175E-01               1.0E+00      F  T
+      4   0     0  5.5325411490E-02               1.0E+00      F  T
+      5   0     0  4.6587182044E-03               1.0E+00      F  T
+      6   0     0  8.4869953465E-04               1.0E+00      F  T
+      7   0     0  2.1916363023E-04               1.0E+00      F  T
+      8   0     0  6.6406225506E-05               1.0E+00      F  T
+      9   0     0  2.1438637355E-05               1.0E+00      F  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     10   0     0  7.0078222093E-06               1.0E+00      F  T
+     11   0     0  2.3149698187E-06               1.0E+00      F  T
+     12   0     0  7.6721057002E-07               1.0E+00      F  T
+     13   0     0  2.5500758743E-07               1.0E+00      F  T
+     14   0     0  8.4895269676E-08               1.0E+00      F  T
+     15   0     0  2.8305356301E-08               1.0E+00      F  T
+     16   0     0  9.4502488138E-09               1.0E+00      F  T
+     17   0     0  3.1596189172E-09               1.0E+00      F  T
+     18   0     0  1.0589859626E-09               1.0E+00      F  T
+     19   0     0  3.5734913038E-10               1.0E+00      F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model PEPWT
+--- Executing after solve: elapsed 0:02:04.999
+--- Model_GTAP11b.gms(5059) 664 Mb
+--- GDX File (execute_unload) C:\Users\kimc0\GUIDE_GLOBAL_CGE\2.RD_CGE\Output_w-t\NZS_Results_GTAP11b.gdx
+--- Putfile Status C:\Users\kimc0\GUIDE_GLOBAL_CGE\2.RD_CGE\Output_w-t\ModelStatus.xls
+*** Status: Normal completion
+--- Job Model_GTAP11b.gms Stop 05/10/24 16:31:22 elapsed 0:02:07.077
