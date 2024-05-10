@@ -1,13 +1,7 @@
 {
-    "file": "Static_DATA_WEB-2019.gms",
+    "file": "Static_Model_GTAP11.gms",
     "name": "Static_CGE_GTAP11b",
     "nodes": [
-        {
-            "codecMib": 106,
-            "file": "Input_w-1/DATA_AGG-2019_GTAP11_240214.gdx",
-            "name": "DATA_AGG-2019_GTAP11_240214.gdx",
-            "type": "gdx"
-        },
         {
             "codecMib": 106,
             "file": "Input_WEB/WEB19.txt",
@@ -16,15 +10,33 @@
         },
         {
             "codecMib": 106,
-            "file": "Output_w-1/results_PEP-w-1_v4.0_GTAP11_240403.gdx",
-            "name": "results_PEP-w-1_v4.0_GTAP11_240403.gdx",
-            "type": "gdx"
+            "file": "Static_Agg_GTAP11.gms",
+            "name": "Static_Agg_GTAP11.gms",
+            "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "Static_Agg_GTAP11.lst",
+            "name": "Static_Agg_GTAP11.lst",
+            "type": "lst"
         },
         {
             "codecMib": 106,
             "file": "Static_DATA_WEB-2019.gms",
             "name": "Static_DATA_WEB-2019.gms",
             "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "Static_Model_GTAP11.gms",
+            "name": "Static_Model_GTAP11.gms",
+            "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "Static_Model_GTAP11.lst",
+            "name": "Static_Model_GTAP11.lst",
+            "type": "lst"
         }
     ],
     "options": [
