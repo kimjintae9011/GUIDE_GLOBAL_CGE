@@ -31,6 +31,7 @@ $STITLE    World wide model, static version, October 2013
 * The sets are defined in the DATA_AGG-2007.gms file and are stored in the
 * DATA_AGG-2007.GDX output file. Any changes in the aggregation of industries
 * and/or region is thus automatically taken into account in the current file.
+
 SET
  J               All industries
  I               All commodities
@@ -49,7 +50,6 @@ SET
 
 $GDXIN Input_w-1\DATA_AGG-2019_GTAP11_240214.gdx
 $LOAD J, I, I1, BUS, PUB, F, L, K, Z, ZR, Z1, Zrich, Zother
-
 TND(J) TnD
 /
  18_TnD         Transmission and Distribution
@@ -66,6 +66,7 @@ POWER(J) POWER industries
  25_eHydro      Hydro generation
  26_eOther      Other generation
 /
+
 
 I2(I) Non-electricity commodities
 /
@@ -93,12 +94,12 @@ I2(I) Non-electricity commodities
  22_ATRP        Air transport service
  23_SER         Service
 /
-
+ 
 ENE(I) Energy commodities
 /
  02_COAL         Coal
  03_OIL          Crude petroleum
- 04_GAS         Natural gas
+ 04_GAS          Natural gas
  10_PETROLCOAL   Petroleum and coal products
  18_ELEC         Electricity
 /
@@ -132,7 +133,7 @@ NENE(I) Non-energy commodities
 
 J2(J) Industries
 /
- 01_AGRICULT    Agricultural forest and fishery goods
+* 01_AGRICULT    Agricultural forest and fishery goods
 * 02_COAL        Coal
 * 03_OIL         Crude petroleum
 * 04_GAS         Natural gas Gas distribution
@@ -148,7 +149,7 @@ J2(J) Industries
  14_NONFERR     Non-ferrous metal products
  15_MACHINE     Fabricated metal products Electronic and electrical equipment Machinery and equipment
  16_TRANSEQ     Motor vehicles Other transport equipment
-* 17_OTHERIND    Other manufactured products Water supply
+ 17_OTHERIND    Other manufactured products Water supply
 *  18_TnD         Transmission and Distribution
 *  19_eNuclear    Nuclear generation
 *  20_eCoal       Coal generation
@@ -168,14 +169,13 @@ J2(J) Industries
 
 J3(J) Energy Industries
 /
-* 01_AGRICULT    Agricultural forest and fishery goods
+ 01_AGRICULT    Agricultural forest and fishery goods
  02_COAL        Coal
  03_OIL         Crude petroleum
  04_GAS         Natural gas Gas distribution
  05_MINING      Mined and quarried goods
 * 09_PAPERPRO    Paper products
  10_PETROLCOAL  Petroleum and coal products
- 17_OTHERIND    Other manufactured products Water supply
  18_TnD         Transmission and Distribution
  19_eNuclear    Nuclear generation
  20_eCoal       Coal generation
@@ -237,6 +237,46 @@ J5(J) Industries
  31_SER         Service
 /
 
+J6(J) Agriculture
+/01_AGRICULT    Agricultural forest and fishery goods
+/
+
+J7(J) Aggregated Energy Industry 
+/02_COAL
+03_OIL
+04_GAS
+20_eCoal
+21_eGas
+22_eOil
+/
+
+J8(J) Aggregated Manufacturing
+/05_MINING
+06_FOODPRO
+07_TEXTILES
+08_WOODPRO
+09_PAPERPRO
+10_PETROLCOAL
+11_CHEMICAL
+12_NONMET
+13_IRONSTL
+14_NONFERR
+15_MACHINE
+16_TRANSEQ
+17_OTHERIND
+27_CONSTRUC
+/
+
+J9(J) Aggregated Transportation
+/28_LTRP
+29_WTRP
+30_ATRP
+/
+
+J10(J) Aggregated Building 
+/31_SER
+/
+
 Z2(Z) NEA countries
 /
  01_KOR Korea
@@ -268,8 +308,7 @@ heat
 
 
 *sim /1*41/
-sim /1/
-
+sim/1/
 
 ALIAS (j,jj)
 ALIAS (i,ii,ij)
@@ -760,7 +799,6 @@ $LOAD sigma_KD, sigma_LD, sigma_KLE, sigma_X1, sigma_X2, sigma_X3, sigma_X0, sig
 *==============================================================================
  YHKO(z)         = SUM[(k,j),RKDO(k,j,z)];
  YHLO(z)         = SUM[(l,j),LDO(l,j,z)];
-* YHO(z)          = YHLO(z)+YHKO(z);
  YHO(z)          = YHLO(z)+YHKO(z);
  YDHO(z)         = YHO(z)-TDHO(z);
  CTHO(z)         = SUM[i,CO(i,z)];
@@ -950,6 +988,8 @@ display delta, DEPO, PKO, KSTO ;
 *  4.3.4 Calibration of other prices and revised volumes (part 4)
 *==============================================================================
  VAO(j,z)        = LDCO(j,z)+KDCO(j,z);
+
+
 
  PVAO(j,z)       = [WCO(j,z)*LDCO(j,z)+RCO(j,z)*KDCO(j,z)]/VAO(j,z);
 
@@ -1331,6 +1371,8 @@ Parameter
  NEO(p_gas,j,z)        = NGas_DIO(p_gas,j,z) ;
  NEO(p_oilproduct,j,z) = NOilp_DIO(p_oilproduct,j,z) ;
 
+
+
  EHO(p_coal,z)         = Coal_CO(p_coal,z) ;
  EHO(p_gas,z)          = Gas_CO(p_gas,z) ;
  EHO(p_oil,z)          = Oil_CO(p_oil,z) ;
@@ -1355,20 +1397,17 @@ Parameters
  CO2FACTOR('04_GAS',j,z)$DEO('04_GAS',j,z) = [sum(p_gas,CO2IO(p_gas,j,z))/DEO('04_GAS',j,z)]*(1000/(10**8));
  CO2FACTOR('10_PETROLCOAL',j,z)$DEO('10_PETROLCOAL',j,z) = [sum(p_oilproduct,CO2IO(p_oilproduct,j,z))/DEO('10_PETROLCOAL',j,z)]*(1000/(10**8));
 
-*PetrolCoal
+* CO2FACTOR('02_COAL','17_OTHERIND',z) = 0;
+* CO2FACTOR(ene,'17_OTHERIND',z) = 0;
  CO2FACTOR('10_PETROLCOAL','10_PETROLCOAL',z) = 0;
+* CO2FACTOR(ene,j,'06_PRK') = 0;
 
-*PRK
- CO2FACTOR('02_COAL','01_AGRICULT','06_PRK')        = CO2FACTOR('02_COAL','01_AGRICULT','05_MNG');
- CO2FACTOR('10_PETROLCOAL','01_AGRICULT','06_PRK')  = CO2FACTOR('10_PETROLCOAL','01_AGRICULT','05_MNG');
- CO2FACTOR('02_COAL','28_LTRP','06_PRK')            = CO2FACTOR('02_COAL','28_LTRP','05_MNG');
- CO2FACTOR('02_COAL','17_OTHERIND','06_PRK')        = CO2FACTOR('02_COAL','17_OTHERIND','05_MNG');
-
-*RUS
- CO2FACTOR('02_COAL','08_WOODPRO','04_RUS')         = CO2FACTOR('02_COAL','08_WOODPRO','10_EEU');
-
-*LAM
- CO2FACTOR('04_GAS','02_COAL','08_LAM')             = CO2FACTOR('04_GAS','02_COAL','07_NAM');
+* CO2FACTOR('10_PETROLCOAL',j,z)$DEO('10_PETROLCOAL',j,z) = sum(p_oilproduct,CO2IO(p_oilproduct,j,z))/ DEO('10_PETROLCOAL',j,z) ;
+* 02_COAL         Coal
+* 03_OIL          Crude petroleum
+* 04_GAS          Natural gas
+* 10_PETROLCOAL   Petroleum and coal products
+* 18_ELEC         Electricity
 
  CTAX0(z) = 0 ;
  TCTAX0(z) = 0;
@@ -1380,8 +1419,6 @@ execute_unload 'CO2FACTOR_w-1_GTAP11',
 
 *Reporting
 PARAMETER
-<<<<<<< HEAD:1.Static_CGE/Model_PEP-w-1_v4.0_GTAP11_240403.gms
-=======
 * valEE_coal_agg(j,z,sim)
 * valEE_natgas(j,z,sim)
 * valEE_crudeoil(j,z,sim)
@@ -1396,7 +1433,6 @@ PARAMETER
  valTFC(z,sim) Total final consumption in region z
  valTFC_enea(enea,z,sim) Total final consumption in reigion z by aggregated energy commodities 
  valTFC_inda(inda,z,sim) Total final consumption in reigion z by aggregated industry
->>>>>>> 6037645 (Adding result variables):1.Static_CGE/Model_PEP-w-1_v4.0_GTAP11_240325.gms
  valEE(product,j,z,sim)
  valNE(product,j,z,sim) 
  valEH(product,z,sim)
@@ -1419,6 +1455,7 @@ PARAMETER
  valCTAX(z,sim)
  valTCTAX(z,sim)
  valPC(i,z,sim)         Purchaser price of composite commodity i (including all taxes and margins) in region z
+ valSH(z,sim)           Household savings in region z
  valSH(z,sim)           Household savings in region z
  valPOWER(power,i,z,sim)
  valKOR_TFC(product,sim)
@@ -1540,7 +1577,6 @@ PARAMETER
  valYROW(z,sim)         Rest-of-the-world total income from region z
 ;
 
-*$EXIT
 *==============================================================================
 * 5 Model
 *==============================================================================
@@ -2310,6 +2346,15 @@ $OFFTEXT
  XS_I.L(i,z)      = XSO_I(i,z);
  XST.L(j,z)       = XSTO(j,z);
  POWERQ.L(z)      = POWERQO(z);
+ EE.L(product,j,z) = EEO(product,j,z);
+ NE.L(product,j,z) = NEO(product,j,z);
+ EH.L(product,z)   = EHO(product,z);
+ CO2I.L(product,j,z) = CO2IO(product,j,z);
+ CO2H.L(product,z)   = CO2HO(product,z);
+ CH4I.L(product,j,z) = CH4IO(product,j,z);
+ CH4H.L(product,z)   = CH4HO(product,z);
+ N2OI.L(product,j,z) = N2OIO(product,j,z);
+ N2OH.L(product,z)   = N2OHO(product,z);
 
 *==============================================================================
 *   6.1.2 Price variables
@@ -2512,23 +2557,23 @@ $offtext
 
 *option cns = path;
 *option cns = conopt4;
-*option NLP = conopt4;
+option NLP = conopt4;
 *option NLP = minos;
 *option NLP = pathnlp ;
 
 *option limrow=0, limcol=0, solprint = off;
 *option iterlim = 100;
 
-option iterlim = 0;
+*option iterlim = 0;
 *option iterlim = 100;
 MODEL PEPW1 World wide static model /all/ ;
 PEPW1.holdfixed=1;
 PEPW1.TOLINFREP = 0.0001;
-SOLVE PEPW1 USING CNS;
+*SOLVE PEPW1 USING CNS;
 *SOLVE PEPW1 USING MCP;
-*SOLVE PEPW1 USING nlp MAXIMIZING OBJ;
+SOLVE PEPW1 USING nlp MAXIMIZING OBJ;
 
-$exit
+*$exit
 *==============================================================================
 * numeraire shock
 *==============================================================================
@@ -2556,23 +2601,15 @@ $offtext
 
 loop(sim,
 
-*CTAX.FX('01_KOR') = 0 + 0.1*[ord(sim)]-0.1;
-CTAX.FX('09_WEU') = 0 + 0.5*[ord(sim)]-0.5;
-
-*CTAX.FX(z) = 0 + 0.1*[ord(sim)]-0.1;
-
+CTAX.FX('01_KOR') = 0 + 0.1*[ord(sim)]-0.1;
 *Unit: 100$/ton
 
 * ttic.fx(i,'01_KOR')= 0 + 0.01*[ord(sim)]-0.01 ;
 * ttim.FX(i,zj,z)  = ttimO(i,zj,z);
-* ttim.FX(ene,zj,'01_KOR') =   ttimO(ene,zj,'01_KOR')*10*[ord(sim)] ;
+*ttim.FX(ene,zj,'01_KOR') =   ttimO(ene,zj,'01_KOR')*10*[ord(sim)] ;
 
 SOLVE PEPW1 USING CNS;
 *SOLVE PEPW1 USING nlp MAXIMIZING OBJ;
-<<<<<<< HEAD:1.Static_CGE/Model_PEP-w-1_v4.0_GTAP11_240403.gms
-
-=======
->>>>>>> 6037645 (Adding result variables):1.Static_CGE/Model_PEP-w-1_v4.0_GTAP11_240325.gms
  valEE(p_coal,j,z,sim)          = EEI(p_coal,j,z)*DE.L('02_COAL',j,z);
  valEE(p_oil,j,z,sim)           = EEI(p_oil,j,z)*DE.L('03_OIL',j,z);
  valEE(p_gas,j,z,sim)           = EEI(p_gas,j,z)*DE.L('04_GAS',j,z);
@@ -2591,8 +2628,6 @@ SOLVE PEPW1 USING CNS;
  valEH(p_oilproduct,z,sim)      = EHI(p_oilproduct,z)*C.L('10_PETROLCOAL',z);
  valEH(p_elecheat,z,sim)        = EHI(p_elecheat,z)*C.L('18_ELEC',z);
 
-<<<<<<< HEAD:1.Static_CGE/Model_PEP-w-1_v4.0_GTAP11_240403.gms
-=======
 * valEE_bdg_agg(product,z,sim)   = valEH(product,z,sim) + Sum(j10,valEE(product,j10,z,sim));
  valTFC_com(product,z,sim)      = valEH(product,z,sim) + sum(j5,valEE(product,j5,z,sim))+sum(j,valNE(product,j,z,sim));
  valTFC_ind(j,z,sim)            = sum(product,valEE(product,j,z,sim)+valNE(product,j,z,sim));    
@@ -2611,7 +2646,6 @@ SOLVE PEPW1 USING CNS;
  valTFC_inda('trans',z,sim)     = sum(j9,valTFC_ind(j9,z,sim));
  valTFC_inda('bldg',z,sim)      = sum(j10,valTFC_ind(j10,z,sim))+sum(product,valEH(product,z,sim));
 
->>>>>>> 6037645 (Adding result variables):1.Static_CGE/Model_PEP-w-1_v4.0_GTAP11_240325.gms
  valCO2I(product,j,z,sim)       = valEE(product,j,z,sim)*41.868*GHGsEF(product,'CO2EF')*1*(44/12)*0.001*GWP('CO2EF') ;
  valCO2NE(product,j,z,sim)      = valNE(product,j,z,sim)*41.868*GHGsEF(product,'CO2EF')*1*(44/12)*0.001*GWP('CO2EF')*(1-GHGsEF(product,'Stored_rate')) ;
 
@@ -2754,12 +2788,7 @@ SOLVE PEPW1 USING CNS;
  valYROW(z,sim)                 = YROW.l(z);
 
 
-);
 
-execute_unload 'Output_w-1/results_PEP-w-1_v4.0_GTAP11_240403.gdx',
-
-<<<<<<< HEAD:1.Static_CGE/Model_PEP-w-1_v4.0_GTAP11_240403.gms
-=======
 execute_unload 'Output_w-1/results_PEP-w-1_v4.0_GTAP11_240214_CTAX.gdx'
 * valEE_coal_agg
 * valEE_natgas
@@ -2775,7 +2804,6 @@ execute_unload 'Output_w-1/results_PEP-w-1_v4.0_GTAP11_240214_CTAX.gdx'
  valTFC_ind
  valTFC_enea
  valTFC_inda
->>>>>>> 6037645 (Adding result variables):1.Static_CGE/Model_PEP-w-1_v4.0_GTAP11_240325.gms
  valEE
  valNE
  valEH
@@ -2796,7 +2824,7 @@ execute_unload 'Output_w-1/results_PEP-w-1_v4.0_GTAP11_240214_CTAX.gdx'
  valCTAX
  valTCTAX
  valPC
- valPOWER,
+ valPOWER
  valGDP_BP
  valGDP_BP_REAL
  valPIXGDP
@@ -2930,4 +2958,6 @@ execute_unload 'Output_w-1/results_PEP-w-1_v4.0_GTAP11_240214_CTAX.gdx'
  sigma_X3
  sigma_X4
  sigma_Y
- ;
+
+
+ );
