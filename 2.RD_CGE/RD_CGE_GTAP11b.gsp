@@ -1,4 +1,5 @@
 {
+    "expand": false,
     "file": "Model_GTAP11b.gms",
     "name": "RD_CGE_GTAP11b",
     "nodes": [
