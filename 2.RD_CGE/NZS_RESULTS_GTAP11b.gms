@@ -130,6 +130,11 @@ PARAMETER
  valCHN_TFC(product,time,scen) China's total final energy consumption by energy products
  valJPN_TFC(product,time,scen) Japan's total final energy consumption by energy products
 
+ valTES_coal(z,time, scen) Total Energy Supply coal
+ valTES_gas(z,time, scen) Total Energy Supply gas
+ valTES_oil(z,time, scen) Total Energy Supply oil
+ valTES(z,time, scen) Total Energy Supply
+
 *================== CO2 emission ==============================================================
  valCO2I(product,j,z,time,scen)  Industry CO2 emissions by products
  valCO2NE(product,j,z,time,scen) Industry non-energy consumption CO2 emissions by products
@@ -176,11 +181,12 @@ PARAMETER
 
 *================== Power Generation ==============================================================
  valPOWER(power,i,z,time,scen) Economic Output by power plants
- valElecGen(j,z,time,scen) Electricity generation by power plants
+ valElecGen(*,z,time,scen) Electricity generation by power plants
 
 *================== Carbon Tax ====================================================================
  valCTAX(z,time,scen) CTAX
 
+$Ontext
 *================== Backstop technology ===========================================================
  valswitch(i3,z,time,scen) switch
  valpenetration_rate(i3,z,time,scen)
@@ -192,7 +198,7 @@ PARAMETER
  valCLBS(i3,z,time,scen)
  valCKBS(i3,z,time,scen)
  valMARKUP(i3,z,time,scen)
-
+$Offtext
 ;
 
 *==============================================================================
@@ -343,6 +349,11 @@ PARAMETER
  valCHN_TFC(product,time,'NZS')         = valEH(product,'02_CHN',time,'NZS') + Sum(j5,valEE(product,j5,'02_CHN',time,'NZS'))+Sum(j,valNE(product,j,'02_CHN',time,'NZS'));
  valJPN_TFC(product,time,'NZS')         = valEH(product,'03_JPN',time,'NZS') + Sum(j5,valEE(product,j5,'03_JPN',time,'NZS'))+Sum(j,valNE(product,j,'03_JPN',time,'NZS'));
 
+ valTES_coal(z,time,'NZS')             = sum(p_coal_TES,TES_coal(p_coal_TES,z))*[valQ('02_COAL',z,time,'NZS')/valQ('02_COAL',z,'2019','NZS')]; 
+ valTES_oil(z,time,'NZS')              = sum(p_oil,TES_oil(p_oil,z))*[valQ('03_OIL',z,time,'NZS')/valQ('03_OIL',z,'2019','NZS')]; 
+ valTES_gas(z,time,'NZS')              = sum(p_gas,TES_gas(p_gas,z))*[valQ('04_GAS',z,time,'NZS')/valQ('04_GAS',z,'2019','NZS')]; 
+ valTES(z,time,'NZS')                  = valTES_coal(z,time,'NZS') + valTES_oil(z,time,'NZS') + valTES_gas(z,time,'CPS') ; 
+
 *============================== CO2 ========================================================================
  valCO2I(product,j,z,time,'NZS')        = valEE(product,j,z,time,'NZS')*41.868*GHGsEF(product,'CO2EF')*1*(44/12)*0.001*GWP('CO2EF') ;
  valCO2NE(product,j,z,time,'NZS')       = valNE(product,j,z,time,'NZS')*41.868*GHGsEF(product,'CO2EF')*1*(44/12)*0.001*GWP('CO2EF')*(1-GHGsEF(product,'Stored_rate')) ;
@@ -387,18 +398,28 @@ PARAMETER
  
 *============================== Power Generation ============================================
  valPOWER(power,i,z,time,scen)          = XS.l(power,i,z,time);
- valElecGen('19_eNuclear',z,time,'NZS') = DS.l('19_eNuclear','18_ELEC',z,time)*EGINucGWh('19_eNuclear',z); 
- valElecGen('20_eCoal',z,time,'NZS')    = DS.l('20_eCoal','18_ELEC',z,time)*EGICoalGWh('20_eCoal',z); 
- valElecGen('21_eGas',z,time,'NZS')     = DS.l('21_eGas','18_ELEC',z,time)*EGIGasGWh('21_eGas',z); 
- valElecGen('22_eOil',z,time,'NZS')     = DS.l('22_eOil','18_ELEC',z,time)*EGIOilGWh('22_eOil',z); 
- valElecGen('23_eWind',z,time,'NZS')    = DS.l('23_eWind','18_ELEC',z,time)*EGIWindGWh('23_eWind',z); 
- valElecGen('24_eSolar',z,time,'NZS')   = DS.l('24_eSolar','18_ELEC',z,time)*EGISolarGWh('24_eSolar',z); 
- valElecGen('25_eHydro',z,time,'NZS')   = DS.l('25_eHydro','18_ELEC',z,time)*EGIHydroGWh('25_eHydro',z); 
- valElecGen('26_eOther',z,time,'NZS')   = DS.l('26_eOther','18_ELEC',z,time)*EGIOtherGWh('26_eOther',z); 
+
+ valElecGen('Nuclear',z,time,'NZS')    = DS.l('19_eNuclear','18_ELEC',z,time)*EGINucGWh('19_eNuclear',z); 
+ valElecGen('Coal',z,time,'NZS')       = DS.l('20_eCoal','18_ELEC',z,time)*EGICoalGWh('20_eCoal',z); 
+ valElecGen('Gas',z,time,'NZS')        = DS.l('21_eGas','18_ELEC',z,time)*EGIGasGWh('21_eGas',z); 
+ valElecGen('Oil',z,time,'NZS')        = DS.l('22_eOil','18_ELEC',z,time)*EGIOilGWh('22_eOil',z); 
+ valElecGen('Wind',z,time,'NZS')       = DS.l('23_eWind','18_ELEC',z,time)*EGIWindGWh('23_eWind',z); 
+ valElecGen('Solar',z,time,'NZS')      = DS.l('24_eSolar','18_ELEC',z,time)*EGISolarGWh('24_eSolar',z); 
+ valElecGen('Hydro',z,time,'NZS')      = DS.l('25_eHydro','18_ELEC',z,time)*EGIHydroGWh('25_eHydro',z); 
+ valElecGen('Waste',z,time,'NZS')      = DS.l('26_eOther','18_ELEC',z,time)*EGIWasteGWh('26_eOther',z); 
+ valElecGen('Bio',z,time,'NZS')        = DS.l('26_eOther','18_ELEC',z,time)*EGIBioGWh('26_eOther',z); 
+ valElecGen('Geothermal',z,time,'NZS') = DS.l('26_eOther','18_ELEC',z,time)*EGIGeoGWh('26_eOther',z); 
+ valElecGen('Other',z,time,'NZS')      = DS.l('26_eOther','18_ELEC',z,time)*EGIOtherGWh('26_eOther',z); 
+
+ valElecGen('Total',z,time,'NZS')      = valElecGen('Nuclear',z,time,'NZS') + valElecGen('Coal',z,time,'NZS')+ valElecGen('Gas',z,time,'NZS')   
+                                         + valElecGen('Oil',z,time,'NZS') + valElecGen('Wind',z,time,'NZS')+ valElecGen('Solar',z,time,'NZS')
+                                         + valElecGen('Hydro',z,time,'NZS') + valElecGen('Waste',z,time,'NZS')+ valElecGen('Bio',z,time,'NZS')
+                                         + valElecGen('Geothermal',z,time,'NZS') + valElecGen('Geothermal',z,time,'NZS') + valElecGen('Other',z,time,'NZS') ; 
 
 *============================== Carbon Tax ============================================
  valCTAX(z,time,'NZS') = CTAX.l(z,time) ;
 
+$Ontext
 *================== Backstop technology ===========================================================
  valswitch(i3,z,time,'NZS') = switch(i3,z,time) ;
  valpenetration_rate(i3,z,time,'NZS') = penetration_rate(i3,z,time) ;  
@@ -410,7 +431,7 @@ PARAMETER
  valCLBS(i3,z,time,'NZS')  = CLBS.l(i3,z,time) ;
  valCKBS(i3,z,time,'NZS')  = CKBS.l(i3,z,time) ;
  valMARKUP(i3,z,time,'NZS')= MARKUP.l(i3,z,time) ;
-
+$Offtext
  
  execute_unload 'Output_w-t\NZS_Results_GTAP11b.gdx',
 *$Ontext
@@ -532,6 +553,10 @@ PARAMETER
  valKOR_TFC,
  valCHN_TFC,
  valJPN_TFC,
+ valTES_coal,
+ valTES_gas,
+ valTES_oil,
+ valTES,
  valCO2I,
  valCO2NE,
  valCO2H,
@@ -566,16 +591,16 @@ PARAMETER
  valPOWER,
  valElecGen,
  valCTAX,
- valAEEI,
- valswitch,
- valpenetration_rate,
- valC_Conventional,
- valXDBS,
- valXDBS2,
- valLBS,
- valKBS,
- valCLBS,
- valCKBS,
- valMARKUP
+ valAEEI
+* valswitch,
+* valpenetration_rate,
+* valC_Conventional,
+* valXDBS,
+* valXDBS2,
+* valLBS,
+* valKBS,
+* valCLBS,
+* valCKBS,
+* valMARKUP
  ;
 *$Offtext 

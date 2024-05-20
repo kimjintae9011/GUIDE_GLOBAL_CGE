@@ -225,6 +225,17 @@ p15_BLFURGS      Blast furnace gas
 p16_OGASES       Other recovered gases
 /
 
+p_coal_TES(product)
+/
+p1_HARDCOAL      Hard coal
+p2_BROWN         Brown coal
+p3_ANTCOAL       Anthracite
+p4_COKCOAL       Coking coal
+p5_BITCOAL       Other bittuminous coal
+p6_SUBCOAL       Sub-bituminous coal
+p7_LIGNITE       Lignite
+/
+
 p_oil(product)
 /
 p22_CRUDEOIL     Curde oil
@@ -268,6 +279,33 @@ p42_PETCOKE      Petroleum coke
 p43_ONONSPEC     Other oil products
 /
 
+p_liquids(product)
+/
+p22_CRUDEOIL 
+p9_OVENCOKE      Coke oven coke
+p10_GASCOKE      Gas coke
+p14_COKEOVGS     Coke oven gas
+p24_REFFEEDS     Refinery feedstocks
+p27_REFINGAS     Refinery gas
+p28_ETHANE       Ethane
+p29_LPG          Liquefied petroleum gases(LPG)
+p30_NONBIOGASO   Motor gasoline (excl. biofuels)
+p31_AVGAS        Aviation gasoline
+p32_JETGAS       Jet fuel Gasoline tpye
+p33_NONBIOJETK   Jet fuel Kerosene type (excl. biofuels)
+p34_OTHKERO      Kerosene
+p35_NONBIODIES   Diesel oil (excl. biofuels)
+p36_RESFUEL      Fuel oil
+p37_NAPHTHA      Naphtha
+p38_WHITESP      Solvent (White spirit and industrial sprit SBP)
+p39_LUBRIC       Lubricants
+p40_BITUMEN      Bitumen (Asphalt)
+p41_PARWAX       Paraffin waxes
+p42_PETCOKE      Petroleum coke
+p43_ONONSPEC     Other oil products
+/
+
+
 p_liquid(p_oilproduct)
 /
 p29_LPG          Liquefied petroleum gases(LPG)
@@ -299,7 +337,7 @@ p55_NUCLEAR      Nuclear
 p_solar(product)
 /
 p58_SOLARPV      Solar photovaltaics
-p61_WIND      Solar thermal
+p59_SOLARTH      Solar thermal
 /
 
 p_wind(product)
@@ -323,7 +361,37 @@ p49_BIOGASOL     Biogasoline
 p50_BIODIESEL    Biodiesels
 p51_BIOJETKERO   Bio jet kerosene
 p52_OBIOLIQ      Other liquid biofuels
+p54_CHARCOAL     Charcoal
 p57_GEOTHERM     Geothermal
+p60_TIDE         Tide wave and ocean
+p62_OTHER        Other sources includes production not included elsewhere such as fuel cells
+/
+
+p_elecwaste(product)
+/
+p44_INDWASTE     Industrial waste
+p45_MUNWASTER    Municipal waste(renewable)
+p46_MUNWASTEN    Municipal waste(non-renewable)
+/
+
+p_elecbio(product)
+/
+p47_PRIMSBIO     Primary solid biofuels
+p48_BIOGASES     Biogases
+p49_BIOGASOL     Biogasoline
+p50_BIODIESEL    Biodiesels
+p51_BIOJETKERO   Bio jet kerosene
+p52_OBIOLIQ      Other liquid biofuels
+p54_CHARCOAL     Charcoal
+/
+
+p_elecgeo(product)
+/
+p57_GEOTHERM     Geothermal
+/
+
+p_elecother2(product)
+/
 p60_TIDE         Tide wave and ocean
 p62_OTHER        Other sources includes production not included elsewhere such as fuel cells
 /
@@ -656,6 +724,11 @@ f_elecoutput(flow)
 f99_ELOUTPUT    Electrictiy output GWh
 /
 
+f_TES(flow)
+/
+f7_TES          Total energy supply
+/
+
 type
 /
 CO2EF,
@@ -802,6 +875,9 @@ Parameter
  NGas_Total(p_gas,z)
  NOilp_Total(p_oilproduct,z)
 
+ TES_Coal(p_coal_TES,z)        Primary Energy Supply Coal
+ TES_Gas(p_gas,z)              Primary Energy Supply Gas
+ TES_Oil(p_oil,z)              Primary Energy Supply Oil
  
  ElecNucGWh(j,z)     Nuclear Output GWh
  ElecCoalGWh(j,z)    Coal Output GWh 
@@ -810,6 +886,10 @@ Parameter
  ElecSolarGWh(j,z)   Solar Output GWh 
  ElecWindGWh(j,z)    Wind Output GWh 
  ElecHydroGWh(j,z)   Hydro Output GWh
+* ElecOtherGWh(j,z)   Other Output GWh
+ ElecwasteGWh(j,z)   waste Output GWh
+ ElecbioGWh(j,z)     bio Output GWh
+ ElecgeoGWh(j,z)     geothermal Output GWh
  ElecOtherGWh(j,z)   Other Output GWh
 
 ;
@@ -1180,6 +1260,12 @@ display NOilp_DIO, NOilpR_DIO ;
  NGas_Total(p_gas,z) = sum(j, NGas_DIO(p_gas,j,z)) ;
  NOilp_Total(p_oilproduct,z) = sum(j, NOilp_DIO(p_oilproduct,j,z)) ;
 
+*Total Energy Supply
+ TES_Coal(p_coal_TES,z)    =  sum(f_TES, WEB(f_TES, p_coal_TES, z));         
+ TES_Gas(p_gas,z)          =  sum(f_TES, WEB(f_TES, p_gas, z));         
+ TES_Oil(p_oil,z)          =  sum(f_TES, WEB(f_TES, p_oil, z));          
+
+
 *=============================Eelectricity============================================================
  ElecNucGWh('19_eNuclear',z)  = sum((f_elecoutput, p_nuclear), WEB(f_elecoutput, p_nuclear,z));
  ElecCoalGWh('20_eCoal',z)    = sum((f_elecoutput, p_coal), WEB(f_elecoutput, p_coal,z)); 
@@ -1188,7 +1274,11 @@ display NOilp_DIO, NOilpR_DIO ;
  ElecWindGWh('23_eWind',z)    = sum((f_elecoutput, p_wind), WEB(f_elecoutput, p_wind,z)); 
  ElecSolarGWh('24_eSolar',z)  = sum((f_elecoutput, p_solar), WEB(f_elecoutput, p_solar,z));
  ElecHydroGWh('25_eHydro',z)  = sum((f_elecoutput, p_hydro), WEB(f_elecoutput, p_Hydro,z));       
- ElecOtherGWh('26_eOther',z)  = sum((f_elecoutput, p_elecother), WEB(f_elecoutput, p_elecother,z));   
+* ElecOtherGWh('26_eOther',z)  = sum((f_elecoutput, p_elecother), WEB(f_elecoutput, p_elecother,z));   
+ ElecwasteGWh('26_eOther',z)  = sum((f_elecoutput, p_elecwaste), WEB(f_elecoutput, p_elecwaste,z)); 
+ ElecbioGWh('26_eOther',z)    = sum((f_elecoutput, p_elecbio), WEB(f_elecoutput, p_elecbio,z)); 
+ ElecgeoGWh('26_eOther',z)    = sum((f_elecoutput, p_elecgeo), WEB(f_elecoutput, p_elecgeo,z)); 
+ ElecOtherGWh('26_eOther',z)  = sum((f_elecoutput, p_elecother), WEB(f_elecoutput, p_elecother,z)); 
 
 execute_unload 'Input_WEB/DATA_WEB-2019_230418.gdx',
 *Sets
@@ -1213,7 +1303,7 @@ NOil_DIO, NOilR_DIO, NOilp_DIO, NOilpR_DIO,
 
 Coal_Total, Gas_Total, Oilp_Total, Elec_Total, NCoal_Total, NGas_Total, NOilp_Total,
 
-ElecNucGWh, ElecCoalGWh, ElecGasGWh, ElecOilGWh, ElecSolarGWh, ElecWindGWh, ElecHydroGWh, ElecOtherGWh
+ElecNucGWh, ElecCoalGWh, ElecGasGWh, ElecOilGWh, ElecSolarGWh, ElecWindGWh, ElecHydroGWh, ElecwasteGWh, ElecbioGWh, ElecgeoGWh, ElecOtherGWh
 ;
 
 $exit

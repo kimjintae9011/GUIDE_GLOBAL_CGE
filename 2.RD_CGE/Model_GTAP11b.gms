@@ -251,9 +251,9 @@ J4(J) Energy Transformation Industries
 J5(J) Industries
 /
  01_AGRICULT    Agricultural forest and fishery goods
- 02_COAL        Coal
- 03_OIL         Crude petroleum
- 04_GAS         Natural gas Gas distribution
+* 02_COAL        Coal
+* 03_OIL         Crude petroleum
+* 04_GAS         Natural gas Gas distribution
  05_MINING      Mined and quarried goods
  06_FOODPRO     Food beverages and tobacco products
  07_TEXTILES    Textile and leather products
@@ -1542,7 +1542,10 @@ Parameter
  EGIOilGWh(j,z)    Oil GWh per 10 billion $ 
  EGIWindGWh(j,z)   Wind GWh per 10 billion $
  EGISolarGWh(j,z)  Solar GWh per 10 billion $ 
- EGIHydroGWh(j,z)  Solar GWh per 10 billion $
+ EGIHydroGWh(j,z)  Hydro GWh per 10 billion $
+ EGIWasteGWh(j,z)  Waste GWh per 10 billion $
+ EGIBioGWh(j,z)    bio GWh per 10 billion $
+ EGIGeoGWh(j,z)    geothermal GWh per 10 billion $
  EGIOtherGWh(j,z)  Other GWh per 10 billion $
 ;
 
@@ -1553,9 +1556,12 @@ Parameter
  EGIWindGWh('23_eWind',z)   = ElecWindGWh('23_eWind',z)/DSO_J('23_eWind',z); 
  EGISolarGWh('24_eSolar',z) = ElecSolarGWh('24_eSolar',z)/DSO_J('24_eSolar',z); 
  EGIHydroGWh('25_eHydro',z) = ElecHydroGWh('25_eHydro',z)/DSO_J('25_eHydro',z); 
+ EGIWasteGWh('26_eOther',z) = ElecWasteGWh('26_eOther',z)/DSO_J('26_eOther',z); 
+ EGIBioGWh('26_eOther',z)   = ElecBioGWh('26_eOther',z)/DSO_J('26_eOther',z); 
+ EGIGeoGWh('26_eOther',z)   = ElecGeoGWh('26_eOther',z)/DSO_J('26_eOther',z); 
  EGIOtherGWh('26_eOther',z) = ElecOtherGWh('26_eOther',z)/DSO_J('26_eOther',z); 
 
-display  EGINucGWh, EGICoalGWh, EGIGasGWh, EGIOilGWh, EGIWindGWh, EGISolarGWh, EGIHydroGWh, EGIOtherGWh ;
+display  EGINucGWh, EGICoalGWh, EGIGasGWh, EGIOilGWh, EGIWindGWh, EGISolarGWh, EGIHydroGWh, EGIWasteGWh, EGIBioGWh, EGIGeoGWh, EGIOtherGWh ;
 *$exit
 
 *==============================================================================
@@ -2396,7 +2402,7 @@ $OFFTEXT
 
 * EQ104(i3,z,t)..   CKBS(i3,z,t)  =e= sum(k,sum{j$INDtoCOM(i3,j),KBS(k,j,z,t)*RTI(k,j,z,t)});
  
- EQ105(i3,z,t)..   MARKUP(i3,z,t) =e= {PC(i3,z,t)*XDBS(i3,z,t)-CLBS(i3,z,t)}*switch(i3,z,t) ; 
+ EQ105(i3,z,t)..   MARKUP(i3,z,t) =e= {PC(i3,z,t)*XDBS(i3,z,t)-CLBS(i3,z,t)-CKBS(i3,z,t)}*switch(i3,z,t) ; 
 
 *==============================================================================
 * 6 Numerical resolution to compute A_VA, sh0, G, G_REAL and IND
@@ -2451,9 +2457,9 @@ SCEN  List of scenarios
 *==============================================================================
 *  6.2 BAU scenario and Results
 *==============================================================================
-*$INCLUDE BAU_SOLVE_GTAP11b.gms
-*$INCLUDE BAU_RESULTS_GTAP11b.gms
-*$include BAU_IAMC.gms
+$INCLUDE BAU_SOLVE_GTAP11b.gms
+$INCLUDE BAU_RESULTS_GTAP11b.gms
+$INCLUDE BAU_IAMC.gms
 * The user may run the BAU scenario with the command line parameter s=bau
 * to save the solution and exit at this point.
 * The SIM scenario may be solved later using the command line parameter r=bau
@@ -2462,13 +2468,14 @@ SCEN  List of scenarios
 *==============================================================================
 *   6.3 Simulation 1 scenarios and Results
 *==============================================================================
-*$INCLUDE CPS_SOLVE_GTAP11b.gms
-*$INCLUDE CPS_RESULTS_GTAP11b.gms
-
+$INCLUDE CPS_SOLVE_GTAP11b.gms
+$INCLUDE CPS_RESULTS_GTAP11b.gms
+$INCLUDE CPS_IAMC.gms
 *==============================================================================
 *   6.4 Simulation 2 scenarios and Results
 *==============================================================================
 $INCLUDE NZS_SOLVE_GTAP11b.gms
 $INCLUDE NZS_RESULTS_GTAP11b.gms
+$INCLUDE NZS_IAMC.gms
 
 $exit

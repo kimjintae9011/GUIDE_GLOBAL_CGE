@@ -130,6 +130,11 @@ PARAMETER
  valCHN_TFC(product,time,scen) China's total final energy consumption by energy products
  valJPN_TFC(product,time,scen) Japan's total final energy consumption by energy products
 
+ valTES_coal(z,time, scen) Total Energy Supply coal
+ valTES_gas(z,time, scen) Total Energy Supply gas
+ valTES_oil(z,time, scen) Total Energy Supply oil
+ valTES(z,time, scen) Total Energy Supply
+
 *================== CO2 emission ==============================================================
  valCO2I(product,j,z,time,scen)  Industry CO2 emissions by products
  valCO2NE(product,j,z,time,scen) Industry non-energy consumption CO2 emissions by products
@@ -176,7 +181,7 @@ PARAMETER
 
 *================== Power Generation ==============================================================
  valPOWER(power,i,z,time,scen) Economic Output by power plants
- valElecGen(j,z,time,scen) Electricity generation by power plants
+ valElecGen(*,z,time,scen) Electricity generation by power plants
 
 *================== Carbon Tax ====================================================================
  valCTAX(z,time,scen) CTAX
@@ -331,6 +336,11 @@ TREND(z,time) = 1;
  valCHN_TFC(product,time,'CPS')         = valEH(product,'02_CHN',time,'CPS') + Sum(j5,valEE(product,j5,'02_CHN',time,'CPS'))+Sum(j,valNE(product,j,'02_CHN',time,'CPS'));
  valJPN_TFC(product,time,'CPS')         = valEH(product,'03_JPN',time,'CPS') + Sum(j5,valEE(product,j5,'03_JPN',time,'CPS'))+Sum(j,valNE(product,j,'03_JPN',time,'CPS'));
 
+ valTES_coal(z,time,'CPS')             = sum(p_coal_TES,TES_coal(p_coal_TES,z))*[valQ('02_COAL',z,time,'CPS')/valQ('02_COAL',z,'2019','CPS')]; 
+ valTES_oil(z,time,'CPS')              = sum(p_oil,TES_oil(p_oil,z))*[valQ('03_OIL',z,time,'CPS')/valQ('03_OIL',z,'2019','CPS')]; 
+ valTES_gas(z,time,'CPS')              = sum(p_gas,TES_gas(p_gas,z))*[valQ('04_GAS',z,time,'CPS')/valQ('04_GAS',z,'2019','CPS')]; 
+ valTES(z,time,'CPS')                  = valTES_coal(z,time,'CPS') + valTES_oil(z,time,'CPS') + valTES_gas(z,time,'CPS') ; 
+
 *============================== CO2 ========================================================================
  valCO2I(product,j,z,time,'CPS')        = valEE(product,j,z,time,'CPS')*41.868*GHGsEF(product,'CO2EF')*1*(44/12)*0.001*GWP('CO2EF') ;
  valCO2NE(product,j,z,time,'CPS')       = valNE(product,j,z,time,'CPS')*41.868*GHGsEF(product,'CO2EF')*1*(44/12)*0.001*GWP('CO2EF')*(1-GHGsEF(product,'Stored_rate')) ;
@@ -375,14 +385,23 @@ TREND(z,time) = 1;
  
 *============================== Power Generation ============================================
  valPOWER(power,i,z,time,scen)          = XS.l(power,i,z,time);
- valElecGen('19_eNuclear',z,time,'CPS') = DS.l('19_eNuclear','18_ELEC',z,time)*EGINucGWh('19_eNuclear',z); 
- valElecGen('20_eCoal',z,time,'CPS')    = DS.l('20_eCoal','18_ELEC',z,time)*EGICoalGWh('20_eCoal',z); 
- valElecGen('21_eGas',z,time,'CPS')     = DS.l('21_eGas','18_ELEC',z,time)*EGIGasGWh('21_eGas',z); 
- valElecGen('22_eOil',z,time,'CPS')     = DS.l('22_eOil','18_ELEC',z,time)*EGIOilGWh('22_eOil',z); 
- valElecGen('23_eWind',z,time,'CPS')    = DS.l('23_eWind','18_ELEC',z,time)*EGIWindGWh('23_eWind',z); 
- valElecGen('24_eSolar',z,time,'CPS')   = DS.l('24_eSolar','18_ELEC',z,time)*EGISolarGWh('24_eSolar',z); 
- valElecGen('25_eHydro',z,time,'CPS')   = DS.l('25_eHydro','18_ELEC',z,time)*EGIHydroGWh('25_eHydro',z); 
- valElecGen('26_eOther',z,time,'CPS')   = DS.l('26_eOther','18_ELEC',z,time)*EGIOtherGWh('26_eOther',z); 
+
+ valElecGen('Nuclear',z,time,'CPS')    = DS.l('19_eNuclear','18_ELEC',z,time)*EGINucGWh('19_eNuclear',z); 
+ valElecGen('Coal',z,time,'CPS')       = DS.l('20_eCoal','18_ELEC',z,time)*EGICoalGWh('20_eCoal',z); 
+ valElecGen('Gas',z,time,'CPS')        = DS.l('21_eGas','18_ELEC',z,time)*EGIGasGWh('21_eGas',z); 
+ valElecGen('Oil',z,time,'CPS')        = DS.l('22_eOil','18_ELEC',z,time)*EGIOilGWh('22_eOil',z); 
+ valElecGen('Wind',z,time,'CPS')       = DS.l('23_eWind','18_ELEC',z,time)*EGIWindGWh('23_eWind',z); 
+ valElecGen('Solar',z,time,'CPS')      = DS.l('24_eSolar','18_ELEC',z,time)*EGISolarGWh('24_eSolar',z); 
+ valElecGen('Hydro',z,time,'CPS')      = DS.l('25_eHydro','18_ELEC',z,time)*EGIHydroGWh('25_eHydro',z); 
+ valElecGen('Waste',z,time,'CPS')      = DS.l('26_eOther','18_ELEC',z,time)*EGIWasteGWh('26_eOther',z); 
+ valElecGen('Bio',z,time,'CPS')        = DS.l('26_eOther','18_ELEC',z,time)*EGIBioGWh('26_eOther',z); 
+ valElecGen('Geothermal',z,time,'CPS') = DS.l('26_eOther','18_ELEC',z,time)*EGIGeoGWh('26_eOther',z); 
+ valElecGen('Other',z,time,'CPS')      = DS.l('26_eOther','18_ELEC',z,time)*EGIOtherGWh('26_eOther',z); 
+
+ valElecGen('Total',z,time,'CPS')      = valElecGen('Nuclear',z,time,'CPS') + valElecGen('Coal',z,time,'CPS')+ valElecGen('Gas',z,time,'CPS')   
+                                         + valElecGen('Oil',z,time,'CPS') + valElecGen('Wind',z,time,'CPS')+ valElecGen('Solar',z,time,'CPS')
+                                         + valElecGen('Hydro',z,time,'CPS') + valElecGen('Waste',z,time,'CPS')+ valElecGen('Bio',z,time,'CPS')
+                                         + valElecGen('Geothermal',z,time,'CPS') + valElecGen('Geothermal',z,time,'CPS') + valElecGen('Other',z,time,'CPS') ; 
 
 *============================== Carbon Tax ============================================
  valCTAX(z,time,'CPS') = CTAX.l(z,time) ;
@@ -507,6 +526,10 @@ TREND(z,time) = 1;
  valKOR_TFC,
  valCHN_TFC,
  valJPN_TFC,
+ valTES_coal,
+ valTES_gas,
+ valTES_oil,
+ valTES,
  valCO2I,
  valCO2NE,
  valCO2H,

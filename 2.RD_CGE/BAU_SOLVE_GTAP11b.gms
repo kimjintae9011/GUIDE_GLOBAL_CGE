@@ -247,9 +247,26 @@ $offtext
 *==============================================================================
 *Backstop technologies
 *==============================================================================
+penetration_rate('10_PETROLCOAL','01_KOR',time)$[CTAX.L('01_KOR',time) gt 1.0]
+                             = penetration_rate('10_PETROLCOAL','01_KOR',time-1)+0.02;
 
-C_Conventional.fx(i,z,time)$[ord(time) gt 1]
-                            = 0;  
+penetration_rate('13_IRONSTL','01_KOR',time)$[PCE.L('13_IRONSTL','01_KOR',time) gt 2.0]
+                             = penetration_rate('13_IRONSTL','01_KOR',time-1)+0.04;
+
+penetration_rate('20_LTRP','01_KOR',time)$[CTAX.L('01_KOR',time) gt 1.0]
+                             = penetration_rate('20_LTRP','01_KOR',time-1)+0.04;
+
+if ((CTAX.L('01_KOR',time)  gt 1.0), switch('10_PETROLCOAL','01_KOR',time) = 1  ;
+else switch('10_PETROLCOAL','01_KOR',time) = 0 ;
+);
+
+if ((PCE.L('13_IRONSTL','01_KOR',time)  gt 2.0), switch('13_IRONSTL','01_KOR',time) = 1  ;
+else switch('13_IRONSTL','01_KOR',time) = 0 ;
+);
+
+if ((CTAX.L('01_KOR',time)  gt 1.0), switch('20_LTRP','01_KOR',time) = 1  ;
+else switch('20_LTRP','01_KOR',time) = 0 ;
+);
 
 *==============================================================================
 *   6.2.2.3 Resolution

@@ -10,7 +10,7 @@
 * paths. The solution values of A_VA are stored as parameter A_VA_RES.
 *-------------------------------------------------------------------------------
 
-*$ONTEXT
+$ONTEXT
 PARAMETER
  A_VA_RES(z,time)     Value of A_VA to reproduce real GDP projections
  GX(z,time)           Current government expenditures on goods and services in region z
@@ -27,7 +27,7 @@ $LOAD A_VA_RES, GX, G_REALX, INDX, sh1X, sh0X, phi_BAU
 
 display  A_VA_RES;
 *$EXIT
-*$OFFTEXT
+$OFFTEXT
 
 *==============================================================================
 *  6.2.1.1.2 Choice of multifactor productivity
