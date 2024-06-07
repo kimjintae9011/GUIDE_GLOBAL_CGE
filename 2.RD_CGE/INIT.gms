@@ -69,11 +69,11 @@
  XST.L(j,z,t1)          = XSTO(j,z);
  POWERQ.L(z,t1)         = POWERQO(z);
  OBJ.L                  = 1;
- C_Conventional.L(i3,z,t1)  = 0;
- XDBS.L(i3,z,t1)  = 0;
- XDBS2.L(j,z,t1)  = 0;
- LBS.L(l,j,z,t1)  = 0;
- KBS.L(k,j,z,t1)  = 0;
+* C_Conventional.L(i3,z,t1)  = 0;
+* XDBS.L(i3,z,t1)  = 0;
+* XDBS2.L(j,z,t1)  = 0;
+* LBS.L(l,j,z,t1)  = 0;
+* KBS.L(k,j,z,t1)  = 0;
  
 * beta_X4_t.fx(power,z,t1)  = beta_X4(power,z);
 *==============================================================================
@@ -155,9 +155,9 @@
  YHK.L(z,t1)       = YHKO(z);
  YHL.L(z,t1)       = YHLO(z);
  YROW.L(z,t1)      = YROWO(z);
- CLBS.L(i3,z,t1)   = 0;
- CKBS.L(i3,z,t1)   = 0;
- MARKUP.L(i3,z,t1) = 0;
+* CLBS.L(i3,z,t1)   = 0;
+* CKBS.L(i3,z,t1)   = 0;
+* MARKUP.L(i3,z,t1) = 0;
  
 *==============================================================================
 *   A.1.4 Rates and intercepts
@@ -251,11 +251,11 @@ IF{ord(time) gt 1,
  XS_I.L(i,z,time)    = XS_I.L(i,z,time-1);
  XST.L(j,z,time)     = XST.L(j,z,time-1);
  POWERQ.L(z,time)    = POWERQ.L(z,time-1);
- C_Conventional.L(i3,z,time)  = C_Conventional.L(i3,z,time-1);
- XDBS.L(i3,z,time)   = XDBS.L(i3,z,time-1);
- XDBS2.L(j,z,time)   = XDBS2.L(j,z,time-1);
- LBS.L(l,j,z,time)   = LBS.L(l,j,z,time-1);
- KBS.L(k,j,z,time)   = KBS.L(k,j,z,time-1);
+* C_Conventional.L(i3,z,time)  = C_Conventional.L(i3,z,time-1);
+* XDBS.L(i3,z,time)   = XDBS.L(i3,z,time-1);
+* XDBS2.L(j,z,time)   = XDBS2.L(j,z,time-1);
+* LBS.L(l,j,z,time)   = LBS.L(l,j,z,time-1);
+* KBS.L(k,j,z,time)   = KBS.L(k,j,z,time-1);
  
  CABX.L(z,time)      = CABX.L(z,time-1)*(1+growthz(z));
  C.L(i,z,time)       = C.L(i,z,time-1)*(1+growthz(z));
@@ -486,9 +486,9 @@ IF{ord(time) gt 1,
  YHK.L(z,time)       = YHK.L(z,time-1)*(1+growthz(z));
  YHL.L(z,time)       = YHL.L(z,time-1)*(1+growthz(z));
  YROW.L(z,time)      = YROW.L(z,time-1)*(1+growthz(z));
- CLBS.L(i3,z,time)   = CLBS.L(i3,z,time-1)*(1+growthz(z));
- CKBS.L(i3,z,time)   = CKBS.L(i3,z,time-1)*(1+growthz(z));
- MARKUP.L(i3,z,time) = MARKUP.L(i3,z,time-1)*(1+growthz(z));
+* CLBS.L(i3,z,time)   = CLBS.L(i3,z,time-1)*(1+growthz(z));
+* CKBS.L(i3,z,time)   = CKBS.L(i3,z,time-1)*(1+growthz(z));
+* MARKUP.L(i3,z,time) = MARKUP.L(i3,z,time-1)*(1+growthz(z));
  
 *==============================================================================
 *   A.2.4 Rates and intercepts

@@ -731,10 +731,20 @@ f7_TES          Total energy supply
 
 type
 /
-CO2EF,
-CH4EF,
-N2OEF,
+CO2EF
 Stored_rate
+CH4EF_Energy
+N2OEF_Energy
+CH4EF_Industry
+N2OEF_Industry
+CH4EF_LTRP
+N2OEF_LTRP
+CH4EF_ATRP
+N2OEF_ATRP
+CH4EF_WTRP
+N2OEF_WTRP
+CH4EF_Other
+N2OEF_Other
 /
 
 punit
@@ -793,12 +803,13 @@ par=WEB_CPA        rng=14_CPA!A1:BQ109
 par=WEB_SAS        rng=15_SAS!A1:BQ109
 par=WEB_PAS        rng=16_PAS!A1:BQ109
 par=WEB_PAO        rng=17_PAO!A1:BQ109
-par=GHGsEF         rng=EF!A1:E69
+par=GHGsEF         rng=EF!A1:AP69
 par=physical_unit  rng=Physical_Unit!A1:B69
 $offEcho
 
-$call  gdxxrw Input_WEB/230425_WEB19.xlsx @Input_WEB/WEB19.txt trace=0 output=Input_WEB/230425_WEB19.gdx
-$gdxIn Input_WEB/230425_WEB19.gdx
+*$call  gdxxrw Input_WEB/230425_WEB19.xlsx @Input_WEB/WEB19.txt trace=0 output=Input_WEB/230425_WEB19.gdx
+$call  gdxxrw Input_WEB/240522_WEB19.xlsx @Input_WEB/WEB19.txt trace=0 output=Input_WEB/240522_WEB19.gdx
+$gdxIn Input_WEB/240522_WEB19.gdx
 $load  WEB_KOR WEB_CHN WEB_JPN WEB_RUS WEB_MNG WEB_PRK WEB_NAM WEB_LAM WEB_WEU WEB_EEU WEB_FSU WEB_MEA WEB_AFR WEB_CPA WEB_SAS WEB_PAS WEB_PAO GHGsEF physical_unit
 
 Parameter WEB(flow,product,z);
@@ -822,8 +833,7 @@ WEB(flow,product,'17_PAO') =  WEB_PAO(flow,product);
 
 execute_unload 'Input_WEB/WEB_2019_230425.gdx',
 *Sets
-WEB ;
-
+WEB, GHGsEF  ;
 
 Parameter
  TCoke_Share(f_cokeoven,product,z)

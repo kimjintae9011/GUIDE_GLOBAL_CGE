@@ -47,7 +47,34 @@ SET
  Zother(Z)       Non-rich regions
 
 $GDXIN Input_w-t/DATA_AGG-2019_GTAP11b.gdx
-$LOAD J, I, I1, BUS, PUB, F, L, K, Z, ZR, Z1, Zrich, Zother
+$LOAD J, I, BUS, PUB, F, L, K, Z, ZR, Z1, Zrich, Zother
+
+I1(I) All commodities except agriculture
+/
+* 01_AGRICULT    Agricultural forest and fishery goods
+ 02_COAL        Coal
+ 03_OIL         Crude petroleum
+ 04_GAS         Natural gas Gas distribution
+ 05_MINING      Mined and quarried goods
+ 06_FOODPRO     Food beverages and tobacco products
+ 07_TEXTILES    Textile and leather products
+ 08_WOODPRO     Wood products
+ 09_PAPERPRO    Paper products
+ 10_PETROLCOAL  Petroleum and coal products
+ 11_CHEMICAL    Chemical products
+ 12_NONMET      Non-metallic mineral products
+ 13_IRONSTL     Primary iron and steel products
+ 14_NONFERR     Non-ferrous metal products
+ 15_MACHINE     Fabricated metal products Electronic and electrical equipment Machinery and equipment
+ 16_TRANSEQ     Motor vehicles Other transport equipment
+ 17_OTHERIND    Other manufactured products Water supply
+ 18_ELEC        Electricity
+ 19_CONSTRUC    Construction
+ 20_LTRP        Land transport service(road rail)
+ 21_WTRP        Water transport service
+ 22_ATRP        Air transport service
+ 23_SER         Service
+/
 
 TND(J) TnD
 /
@@ -1257,11 +1284,11 @@ $offtext
 *==============================================================================
 *  4.9 Parameters of the household savings function
 *==============================================================================
-sh1O(z)         = SHO(z)/YDHO(z);
- sh0O(z)         = 0 ;
+* sh1O(z)         = SHO(z)/YDHO(z);
+* sh0O(z)         = 0 ;
 
-* sh1O(z)         = [SHO(z)+SGO(z)]/GDP_IBO(z);
-* sh0O(z)         = SHO(z)-sh1O(z)*YDHO(z);
+ sh1O(z)         = [SHO(z)+SGO(z)]/GDP_IBO(z);
+ sh0O(z)         = SHO(z)-sh1O(z)*YDHO(z);
 
 *==============================================================================
 *  4.10 Re-calibration of indexed transfers and parameters
@@ -1281,36 +1308,35 @@ Parameter
  CH4HO(product,z)   tCO2eq residendital sector
  N2OIO(product,j,z) tCO2eq industry j sector
  N2OHO(product,z)   tCO2eq residendital sector
- GWP(type)          GWP 100 AR5
+ GWP_CH4            GWP 100 AR5
+ GWP_N2O            GWP 100 AR5
  ;
+ GWP_CH4 = 28;
+ GWP_N2O = 265;
 
- GWP('CO2EF') = 1;
- GWP('CH4EF') = 28;
- GWP('N2OEF') = 265;
+ CO2IO(p_coal,j,z) = Coal_DIO(p_coal,j,z)*41.868*GHGsEF(p_coal,'CO2EF')*1*(44/12)*0.001 ;
+ CO2IO(p_gas,j,z)  = Gas_DIO(p_gas,j,z)*41.868*GHGsEF(p_gas,'CO2EF')*1*(44/12)*0.001 ;
+ CO2IO(p_oilproduct,j,z)  = Oilp_DIO(p_oilproduct,j,z)*41.868*GHGsEF(p_oilproduct,'CO2EF')*1*(44/12)*0.001 ;
 
- CO2IO(p_coal,j,z) = Coal_DIO(p_coal,j,z)*41.868*GHGsEF(p_coal,'CO2EF')*1*(44/12)*0.001*GWP('CO2EF') ;
- CO2IO(p_gas,j,z)  = Gas_DIO(p_gas,j,z)*41.868*GHGsEF(p_gas,'CO2EF')*1*(44/12)*0.001*GWP('CO2EF') ;
- CO2IO(p_oilproduct,j,z)  = Oilp_DIO(p_oilproduct,j,z)*41.868*GHGsEF(p_oilproduct,'CO2EF')*1*(44/12)*0.001*GWP('CO2EF') ;
+ CO2HO(p_coal,z) = Coal_CO(p_coal,z)*41.868*GHGsEF(p_coal,'CO2EF')*1*(44/12)*0.001 ;
+ CO2HO(p_gas,z) = Gas_CO(p_gas,z)*41.868*GHGsEF(p_gas,'CO2EF')*1*(44/12)*0.001 ;
+ CO2HO(p_oilproduct,z) = Oilp_CO(p_oilproduct,z)*41.868*GHGsEF(p_oilproduct,'CO2EF')*1*(44/12)*0.001 ;
 
- CO2HO(p_coal,z) = Coal_CO(p_coal,z)*41.868*GHGsEF(p_coal,'CO2EF')*1*(44/12)*0.001*GWP('CO2EF') ;
- CO2HO(p_gas,z) = Gas_CO(p_gas,z)*41.868*GHGsEF(p_gas,'CO2EF')*1*(44/12)*0.001*GWP('CO2EF') ;
- CO2HO(p_oilproduct,z) = Oilp_CO(p_oilproduct,z)*41.868*GHGsEF(p_oilproduct,'CO2EF')*1*(44/12)*0.001*GWP('CO2EF') ;
+* CH4IO(p_coal,j,z) = Coal_DIO(p_coal,j,z)*41.868*GHGsEF(p_coal,'CH4EF')*1000*0.000001*GWP_CH4 ;
+* CH4IO(p_gas,j,z)  = Gas_DIO(p_gas,j,z)*41.868*GHGsEF(p_gas,'CH4EF')*1000*0.000001*GWP_CH4 ;
+* CH4IO(p_oilproduct,j,z)  = Oilp_DIO(p_oilproduct,j,z)*41.868*GHGsEF(p_oilproduct,'CH4EF')*1000*0.000001*GWP_CH4 ;
 
- CH4IO(p_coal,j,z) = Coal_DIO(p_coal,j,z)*41.868*GHGsEF(p_coal,'CH4EF')*1000*0.000001*GWP('CH4EF') ;
- CH4IO(p_gas,j,z)  = Gas_DIO(p_gas,j,z)*41.868*GHGsEF(p_gas,'CH4EF')*1000*0.000001*GWP('CH4EF') ;
- CH4IO(p_oilproduct,j,z)  = Oilp_DIO(p_oilproduct,j,z)*41.868*GHGsEF(p_oilproduct,'CH4EF')*1000*0.000001*GWP('CH4EF') ;
+* CH4HO(p_coal,z) = Coal_CO(p_coal,z)*41.868*GHGsEF(p_coal,'CH4EF')*1000*0.000001*GWP_CH4 ;
+* CH4HO(p_gas,z) = Gas_CO(p_gas,z)*41.868*GHGsEF(p_gas,'CH4EF')*1000*0.000001*GWP_CH4 ;
+* CH4HO(p_oilproduct,z) = Oilp_CO(p_oilproduct,z)*41.868*GHGsEF(p_oilproduct,'CH4EF')*1000*0.000001*GWP_CH4 ;
 
- CH4HO(p_coal,z) = Coal_CO(p_coal,z)*41.868*GHGsEF(p_coal,'CH4EF')*1000*0.000001*GWP('CH4EF') ;
- CH4HO(p_gas,z) = Gas_CO(p_gas,z)*41.868*GHGsEF(p_gas,'CH4EF')*1000*0.000001*GWP('CH4EF') ;
- CH4HO(p_oilproduct,z) = Oilp_CO(p_oilproduct,z)*41.868*GHGsEF(p_oilproduct,'CH4EF')*1000*0.000001*GWP('CH4EF') ;
+* N2OIO(p_coal,j,z) = Coal_DIO(p_coal,j,z)*41.868*GHGsEF(p_coal,'N2OEF')*1000*0.000001*GWP_N2O ;
+* N2OIO(p_gas,j,z)  = Gas_DIO(p_gas,j,z)*41.868*GHGsEF(p_gas,'N2OEF')*1000*0.000001*GWP_N2O ;
+* N2OIO(p_oilproduct,j,z)  = Oilp_DIO(p_oilproduct,j,z)*41.868*GHGsEF(p_oilproduct,'N2OEF')*1000*0.000001*GWP('N2OEF') ;
 
- N2OIO(p_coal,j,z) = Coal_DIO(p_coal,j,z)*41.868*GHGsEF(p_coal,'N2OEF')*1000*0.000001*GWP('N2OEF') ;
- N2OIO(p_gas,j,z)  = Gas_DIO(p_gas,j,z)*41.868*GHGsEF(p_gas,'N2OEF')*1000*0.000001*GWP('N2OEF') ;
- N2OIO(p_oilproduct,j,z)  = Oilp_DIO(p_oilproduct,j,z)*41.868*GHGsEF(p_oilproduct,'N2OEF')*1000*0.000001*GWP('N2OEF') ;
-
- N2OHO(p_coal,z) = Coal_CO(p_coal,z)*41.868*GHGsEF(p_coal,'N2OEF')*1000*0.000001*GWP('N2OEF') ;
- N2OHO(p_gas,z) = Gas_CO(p_gas,z)*41.868*GHGsEF(p_gas,'N2OEF')*1000*0.000001*GWP('N2OEF') ;
- N2OHO(p_oilproduct,z) = Oilp_CO(p_oilproduct,z)*41.868*GHGsEF(p_oilproduct,'N2OEF')*1000*0.000001*GWP('N2OEF') ;
+* N2OHO(p_coal,z) = Coal_CO(p_coal,z)*41.868*GHGsEF(p_coal,'N2OEF')*1000*0.000001*GWP('N2OEF') ;
+* N2OHO(p_gas,z) = Gas_CO(p_gas,z)*41.868*GHGsEF(p_gas,'N2OEF')*1000*0.000001*GWP('N2OEF') ;
+* N2OHO(p_oilproduct,z) = Oilp_CO(p_oilproduct,z)*41.868*GHGsEF(p_oilproduct,'N2OEF')*1000*0.000001*GWP('N2OEF') ;
 
 *==============================================================================
 *  4.10 Energy
@@ -1586,7 +1612,7 @@ EQUATIONS
  EQ12(z,time)            Household capital income
  EQ13(z,time)            Household disposable income
  EQ14(z,time)            Household consumption budget
-* CALEQ1(z,time)          Aggregate domestic savings
+ CALEQ1(z,time)          Aggregate domestic savings
  EQ15(z,time)            Household savings
  EQ16(z,time)            Government total income
  EQ16_1(z,time)          Government revenue from Ctax
@@ -1781,11 +1807,11 @@ EQUATIONS
 
  EQ14(z,t)..       CTH(z,t) =e= YDH(z,t)-SH(z,t);
 
-* CALEQ1(z,t)..     SH(z,t)+SG(z,t) =e= sh1(z,t)*GDP_IB(z,t);
+ CALEQ1(z,t)..     SH(z,t)+SG(z,t) =e= sh1(z,t)*GDP_IB(z,t);
 
-* EQ15(z,t)..        SH(z,t)+SG(z,t) =e= sh1(z,t)*GDP_IB(z,t);
- EQ15(z,t)..       SH(z,t) =e= sh1(z,t)*YDH(z,t);
-* EQ15(z,t)..       SH(z,t) =e= PIXCON(z,t)**eta*sh0(z,t)+sh1(z,t)*YDH(z,t);
+* EQ15(z,t)..      SH(z,t)+SG(z,t) =e= sh1(z,t)*GDP_IB(z,t);
+* EQ15(z,t)..      SH(z,t) =e= sh1(z,t)*YDH(z,t);
+ EQ15(z,t)..       SH(z,t) =e= PIXCON(z,t)**eta*sh0(z,t)+sh1(z,t)*YDH(z,t);
 
 *==============================================================================
 *    5.3.2.2 Government
@@ -2139,8 +2165,6 @@ $OFFTEXT
 *                             {PK(z,t)*SUM[(k,j)$KDO(k,j,z),KD(k,j,z,t)]};
 
  EQ97b(z,t)..    U(z,t) =e= PK(z,t)*(delta(z)+IR(z,t));
-
-* EQ98(k,j,z,t)$KDO(k,j,z).. PK(z,t)*IND(k,j,z,t) =e= [R(k,j,z,t)**1*KD(k,j,z,t)/sum((kj,jj)$KDO(kj,jj,z),R(k,j,z,t)**1*KD(kj,jj,z,t))]*IT(z,t);    
  
 *==============================================================================
 *   5.3.10 Other
@@ -2153,10 +2177,10 @@ $OFFTEXT
 *==============================================================================
 *option cns = Snopt;
 *option cns = Ipopt;
-*option NLP = Ipopt;
-
 *option cns = path;
 *option cns = conopt4;
+
+*option NLP = Ipopt;
 *option NLP = conopt4;
 *option NLP = minos;
 *option NLP = pathnlp ;
@@ -2184,8 +2208,6 @@ T(time) = YES;
 *==============================================================================
 *   6.1.1 Initialisation
 *==============================================================================
-*$INCLUDE INIT_231010.gms
-*$INCLUDE INIT_240125.gms
 $INCLUDE INIT.gms
 
 *==============================================================================
@@ -2295,7 +2317,6 @@ $offText
 * and multifactor productivity is endogenous.
  GDP_BP_REAL.fx(z,t1)  = GDP_BP_REALO(z);
  GDP_BP_REAL.fx(z,time)$[ord(time) gt 1]
-*                       = GDP_BP_REAL.l(z,time-1)*[1+growthz(z)];
                        = GDP_BP_REAL.l(z,time-1)*[1+g_GDP(z,time)];
 
  A_VA.L(z,t1)          = 1;
@@ -2305,21 +2326,22 @@ $offText
 * Domestic savings rates are made to follow the evolution anticipated by FBQF
 * and the intercept for the household savings function is endogenously
 * determined from the added constraint labeled CALEQ1:
- sh1.fx(z,t1)        = sh1O(z);
+ sh1.fx(z,t1)          = sh1O(z);
  sh1.fx(z,time)$[ord(time) gt 1]
-                     = sh1.l(z,time-1)*[1+g_SDR(z,time-1)];
-*                     = sh1.l(z,time-1)*[1+growthz(z)];
+                       = sh1.l(z,time-1)*[1+g_SDR(z,time-1)];
 
- sh0.l(z,t1)         = sh0O(z);
+ sh1.fx('05_MNG',time)$[ord(time) gt 1]
+                       = sh1.l('05_MNG',time-1)*[1+growthz('05_MNG')];
+
+ sh0.l(z,t1)           = sh0O(z);
  sh0.l(z,time)$[ord(time) gt 1]
-*                     = sh0.l(z,time-1)*exogro(z,time)/exogro(z,time-1);
-                     = sh0.l(z,time-1)*[1+growthz(z)];
+*                      = sh0.l(z,time-1)*exogro(z,time)/exogro(z,time-1);
+                       = sh0.l(z,time-1)*[1+growthz(z)];
 
 *==============================================================================
 *   6.1.4 Other exogenous variables
 *==============================================================================
 * CABX.FX(z1,time)    = CABXO(z1)*cabix(z1,time);
- 
  CABX.FX(z1,time)     = CABXO(z1);
  CABX.FX(z1,time)$[ord(time) gt 1]
 *                      = CABX.l(z1,time-1)*[1+growthz(z1)];
@@ -2327,31 +2349,28 @@ $offText
 
  CMIN.FX(i,z,t1)      = CMINO(i,z);
  CMIN.FX(i,z,time)$[ord(time) gt 1]
-*                      = CMIN.l(i,z,time-1)*[1+growthz(z)];
                       = CMIN.l(i,z,time-1)*[1+g_POP(z,time)];
 
  KD.fx(k,j,z,t1)$KDO(k,j,z)
                       = KDO(k,j,z);
  KD.fx(k,j,z,time)${[ord(time) gt 1] and KDO(k,j,z)}
-*                     = KD.l(k,j,z,time-1)*[1+growthz(z)];
                       = KD.l(k,j,z,time-1)*[1-delta(z)]+IND.l(k,j,z,time-1);
 
-* KD.fx('natr',j,z,time)${[ord(time) gt 1] and KDO('natr',j,z)}
-*                      = KD.l('natr',j,z,time-1);
+ KD.fx('natr',j,z,time)${[ord(time) gt 1] and KDO('natr',j,z)}
+                     = KD.l('natr',j,z,time-1)*(1-0.01);
 
-* KD.fx('land',j,z,time)${[ord(time) gt 1] and KDO('land',j,z)}
-*                      = KD.l('land',j,z,time-1);
+ KD.fx('land',j,z,time)${[ord(time) gt 1] and KDO('land',j,z)}
+                     = KD.l('land',j,z,time-1);
 
  LS.FX(l,z,t1)        = LSO(l,z);
  LS.FX(l,z,time)$[ord(time) gt 1]
-*                    = LS.l(l,z,time-1)*[1+growthz(z)];
                       = LS.l(l,z,time-1)*[1+g_POP(z,time)];
 
 *==============================================================================
 *   CTAX
 *============================================================================== 
  CTAX.fx(z,time)$[ord(time) gt 1]
-                            = CTAX_Cal(z,time);  
+                      = CTAX_Cal(z,time);  
 
 *==============================================================================
 *   6.1.5 Resolution
@@ -2365,8 +2384,6 @@ SOLVE PEPWT USING CNS;
 T(time)          = NO;
 * End of LOOP over time periods
 ];
-
-*$exit
 
 *==============================================================================
 * 7. Output
@@ -2397,5 +2414,3 @@ PARAMETER
 execute_unload 'Input_w-t/B_line_GTAP11b.gdx',
  A_VA_RES, GX, G_REALX, INDX, delta, XST, VA, LS, KS, LD, KD, IND, EX, g_GDP, g_POP, GDP_BP, RC, IT, SH, SG, CABX, R, PK, sigma_LD, sigma_INV,
  sh1X, sh0X, phi_BAU, valCTAX ;
- 
-*execute_unload 'CalB_Check'  ;

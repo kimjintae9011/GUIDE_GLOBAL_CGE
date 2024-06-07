@@ -10,7 +10,7 @@
 * paths. The solution values of A_VA are stored as parameter A_VA_RES.
 *-------------------------------------------------------------------------------
 
-$ONTEXT
+*$ONTEXT
 PARAMETER
  A_VA_RES(z,time)     Value of A_VA to reproduce real GDP projections
  GX(z,time)           Current government expenditures on goods and services in region z
@@ -27,7 +27,7 @@ $LOAD A_VA_RES, GX, G_REALX, INDX, sh1X, sh0X, phi_BAU
 
 display  A_VA_RES;
 *$EXIT
-$OFFTEXT
+*$OFFTEXT
 
 *==============================================================================
 *  6.2.1.1.2 Choice of multifactor productivity
@@ -35,7 +35,6 @@ $OFFTEXT
 * If you want to reproduce the real GDP projections, set:
  A_VA.FX(z,time)  = A_VA_RES(z,time);
 * Otherwise, simply put A_VA equal to one:
-* A_VA.FX(z,time)    = 1;
 
 *==============================================================================
 *   6.2.1.2 Choice of reference region
@@ -94,12 +93,12 @@ T(time) = YES;
 *==============================================================================
  G_REAL.FX(z,time)    = G_REALX(z,time);
  IND.fx(k,pub,z,time) = INDX(k,pub,z,time);
- phi.fx(z,time)       = phi_BAU(z,time);
+* phi.fx(z,time)       = phi_BAU(z,time);
   
  sh0.fx(z,time)       = sh0X(z,time);
  sh1.fx(z,time)       = sh1X(z,time);
 * ttdh0.fx(z,time)    = ttdh0O(z)*exogro(z,time);
-* phi.fx(z,time)       = phiO(z);
+ phi.fx(z,time)       = phiO(z);
  ttdh0.fx(z,time)     = ttdh0O(z);
  ttdh1.fx(z,time)     = ttdh1O(z);
  ttic.fx(i,z,time)    = tticO(i,z);
@@ -110,7 +109,7 @@ T(time) = YES;
  ttix.fx(i,z,zj,time) = ttixO(i,z,zj);
 * CTAX.fX(z,time)     = CTAX1(z,time);
  CTAX.fX(z,time)      = CTAX0(z);
-beta_X4_t.fx(power,z,time) = beta_X4(power,z);
+ beta_X4_t.fx(power,z,time) = beta_X4(power,z);
 
 
 *==============================================================================
@@ -254,8 +253,8 @@ $offtext
 *CO2FACTOR2(ene,j2,'01_KOR',time)$[ord(time) gt 1]
 *                        =  CO2FACTOR2(ene,j2,'01_KOR',time-1)*[1-0.02];
 
-AEEI(z,time) = AEEI_High(z,time);
-CO2FACTOR2(ene,j2,z,time) = CO2FACTOR(ene,j2,z)*AEEI(z,time);
+ AEEI(z,time) = AEEI_High(z,time);
+ CO2FACTOR2(ene,j2,z,time) = CO2FACTOR(ene,j2,z)*AEEI(z,time);
 
 *==============================================================================
 *   CTAX
@@ -264,6 +263,10 @@ CO2FACTOR2(ene,j2,z,time) = CO2FACTOR(ene,j2,z)*AEEI(z,time);
  CTAX.fX(z,t1)              = CTAX0(z);
  CTAX.fx(z,time)$[ord(time) gt 1]
                             = CTAX_NZS(z,time); 
+
+ CTAX.fx('05_MNG',time)$[ord(time) gt 4]
+                            = CTAX_NZS('04_RUS',time); 
+
 $Ontext
  CTAX.fX(z,t1)              = CTAX0(z);
  CTAX.fx(z,time)$[ord(time) gt 1]
@@ -342,94 +345,175 @@ $Offtext
 * ttim.FX(ene,zj,'01_KOR',time)$[ord(time) gt 1]
 *                            =   ttim.l(ene,zj,'01_KOR',time-1)*1.1 ;
 
+*  phi.fX('05_MNG',t1)              =  phi_BAU('05_MNG',time);
+*  phi.fx('05_MNG',time)$[ord(time) gt 1]
+*                                   =  phi_BAU('05_MNG',time-1); 
+
 *==============================================================================
 *Backstop technologies
 *==============================================================================
-penetration_rate('10_PETROLCOAL','01_KOR',time)$[CTAX.L('01_KOR',time) gt 1.0]
-                             = penetration_rate('10_PETROLCOAL','01_KOR',time-1)+0.02;
+*penetration_rate(i3,'01_KOR',time)$[CTAX.L('01_KOR',time) gt 0.8]
+*                             = penetration_rate(i3,'01_KOR',time-1)+0.05;
 
-penetration_rate('13_IRONSTL','01_KOR',time)$[PCE.L('13_IRONSTL','01_KOR',time) gt 2.0]
-                             = penetration_rate('13_IRONSTL','01_KOR',time-1)+0.04;
+*if ((CTAX.L('01_KOR',time) gt 0.8), switch(i3,'01_KOR',time) = 1  ;
+*else switch(i3,'01_KOR',time) = 0 ;
+*);
 
-penetration_rate('20_LTRP','01_KOR',time)$[CTAX.L('01_KOR',time) gt 1.0]
-                             = penetration_rate('20_LTRP','01_KOR',time-1)+0.04;
+*penetration_rate('13_IRONSTL','02_CHN',time)$[CTAX.L('02_CHN',time) gt 0.5]
+*                             = penetration_rate('13_IRONSTL','02_CHN',time-1)+0.05;
 
-if ((CTAX.L('01_KOR',time)  gt 1.0), switch('10_PETROLCOAL','01_KOR',time) = 1  ;
-else switch('10_PETROLCOAL','01_KOR',time) = 0 ;
+*if ((CTAX.L('02_CHN',time) gt 0.5), switch('13_IRONSTL','02_CHN',time) = 1  ;
+*else switch('13_IRONSTL','02_CHN',time) = 0 ;
+*);
+
+*$Ontext
+
+penetration_rate(i3,z,time)$[CTAX.L(z,time) gt 0.8]
+                             = penetration_rate(i3,z,time-1)+0.038;
+
+penetration_rate(i3,'01_KOR',time)$[CTAX.L('01_KOR',time) gt 0.8]
+                             = penetration_rate(i3,'01_KOR',time-1)+0.05;
+
+if ((CTAX.L('01_KOR',time) gt 0.8), switch(i3,'01_KOR',time) = 1  ;
+else switch(i3,'01_KOR',time) = 0 ;
 );
 
-if ((PCE.L('13_IRONSTL','01_KOR',time)  gt 2.0), switch('13_IRONSTL','01_KOR',time) = 1  ;
-else switch('13_IRONSTL','01_KOR',time) = 0 ;
+penetration_rate('11_CHEMICAL','02_CHN',time)$[CTAX.L('02_CHN',time) gt 0.5]
+                             = penetration_rate('11_CHEMICAL','02_CHN',time-1)+0.05
+
+if ((CTAX.L('02_CHN',time) gt 0.5), switch('11_CHEMICAL','02_CHN',time) = 1  ;
+else switch(i3,'02_CHN',time) = 0 ;
 );
 
-if ((CTAX.L('01_KOR',time)  gt 1.0), switch('20_LTRP','01_KOR',time) = 1  ;
-else switch('20_LTRP','01_KOR',time) = 0 ;
+penetration_rate('13_IRONSTL','02_CHN',time)$[CTAX.L('02_CHN',time) gt 0.5]
+                             = penetration_rate('13_IRONSTL','02_CHN',time-1)+0.05;
+
+if ((CTAX.L('02_CHN',time) gt 0.5), switch('13_IRONSTL','02_CHN',time) = 1  ;
+else switch('13_IRONSTL','02_CHN',time) = 0 ;
 );
+
+penetration_rate('20_LTRP','02_CHN',time)$[CTAX.L('02_CHN',time) gt 0.5]
+                             = penetration_rate('20_LTRP','02_CHN',time-1)+0.05
+
+if ((CTAX.L('02_CHN',time) gt 0.5), switch('20_LTRP','02_CHN',time) = 1  ;
+else switch(i3,'02_CHN',time) = 0 ;
+);
+
+penetration_rate(i3,'03_JPN',time)$[CTAX.L('03_JPN',time) gt 0.8]
+                             = penetration_rate(i3,'03_JPN',time-1)+0.05;
+
+if ((CTAX.L('03_JPN',time) gt 0.8), switch(i3,'03_JPN',time) = 1  ;
+else switch(i3,'03_JPN',time) = 0 ;
+);
+
+penetration_rate(i3,'04_RUS',time)$[CTAX.L('04_RUS',time) gt 0.5]
+                             = penetration_rate(i3,'04_RUS',time-1)+0.05;
+
+if ((CTAX.L('04_RUS',time) gt 0.5), switch(i3,'04_RUS',time) = 1  ;
+else switch(i3,'04_RUS',time) = 0 ;
+);
+
+
+if ((CTAX.L('05_MNG',time) gt 0.8), switch(i3,'05_MNG',time) = 1  ;
+else switch(i3,'05_MNG',time) = 0 ;
+);
+
+if ((CTAX.L('06_PRK',time) gt 0.8), switch(i3,'06_PRK',time) = 1  ;
+else switch(i3,'06_PRK',time) = 0 ;
+);
+
+if ((CTAX.L('07_NAM',time) gt 0.8), switch(i3,'07_NAM',time) = 1  ;
+else switch(i3,'07_NAM',time) = 0 ;
+);
+
+if ((CTAX.L('08_LAM',time) gt 0.8), switch(i3,'08_LAM',time) = 1  ;
+else switch(i3,'08_LAM',time) = 0 ;
+);
+
+if ((CTAX.L('09_WEU',time) gt 0.8), switch(i3,'09_WEU',time) = 1  ;
+else switch(i3,'09_WEU',time) = 0 ;
+);
+
+if ((CTAX.L('10_EEU',time) gt 0.8), switch(i3,'10_EEU',time) = 1  ;
+else switch(i3,'10_EEU',time) = 0 ;
+);
+
+if ((CTAX.L('11_FSU',time) gt 0.8), switch(i3,'11_FSU',time) = 1  ;
+else switch(i3,'11_FSU',time) = 0 ;
+);
+
+if ((CTAX.L('12_MEA',time) gt 0.8), switch(i3,'12_MEA',time) = 1  ;
+else switch(i3,'12_MEA',time) = 0 ;
+);
+
+if ((CTAX.L('13_AFR',time) gt 0.8), switch(i3,'13_AFR',time) = 1  ;
+else switch(i3,'13_AFR',time) = 0 ;
+);
+
+if ((CTAX.L('14_CPA',time) gt 0.8), switch(i3,'14_CPA',time) = 1  ;
+else switch(i3,'14_CPA',time) = 0 ;
+);
+
+if ((CTAX.L('15_SAS',time) gt 0.8), switch(i3,'15_SAS',time) = 1  ;
+else switch(i3,'15_SAS',time) = 0 ;
+);
+
+if ((CTAX.L('16_PAS',time) gt 0.8), switch(i3,'16_PAS',time) = 1  ;
+else switch(i3,'16_PAS',time) = 0 ;
+);
+
+if ((CTAX.L('17_PAO',time) gt 0.8), switch(i3,'17_PAO',time) = 1  ;
+else switch(i3,'17_PAO',time) = 0 ;
+);
+
+*$offText
 
 *===============================================================================
-* Coal-Phase out Shock
+* Coal Phase-out Shock
 *===============================================================================
-* KD.fx(k,'20_eCoal','01_KOR',time)$[ord(time) gt 12]
-*                      = KD.l(k,'20_eCoal','01_KOR',time-1)*[1-delta('01_KOR')];
-*                      = KD.l(k,'20_eCoal','01_KOR',time-1)*[1-0.1];
+ KD.fx(k,J6,'01_KOR',time)$[ord(time) gt 5]
+                      = KD.l(k,J6,'01_KOR',time-1)*[1-0.08];
 
-*from A to B 
-*ttim.fx('18_ELEC',Z2,Z2,time)$[ord(time) gt 1]
-*                            = ttim.l('18_ELEC',Z2,Z2,time-1)-0.1;
-$Ontext
-beta_X4_t.fx('26_eOther','01_KOR',time)$[ord(time) gt 4]
-                           = beta_X4_t.l('26_eOther','01_KOR',time-1)*[1-0.01] ;
+ KD.fx(k,J6,'02_CHN',time)$[ord(time) gt 12]
+                      = KD.l(k,J6,'02_CHN',time-1)*[1-0.08];
 
-beta_X4_t.fx('25_eHydro','01_KOR',time)$[ord(time) gt 4]
-                           = beta_X4_t.l('25_eHydro','01_KOR',time-1)*[1-0.01] ;
+ KD.fx(k,J6,'03_JPN',time)$[ord(time) gt 5]
+                     = KD.l(k,J6,'03_JPN',time-1)*[1-0.08];
 
-beta_X4_t.fx('24_eSolar','01_KOR',time)$[ord(time) gt 4]
-                           = beta_X4_t.l('24_eSolar','01_KOR',time-1)*[1+0.02] ;
+ ttiw.fx(l,J6,'01_KOR',time)$[ord(time) gt 5]
+                      = ttiw.l(l,J6,'01_KOR',time-1)*[1+0.10];
 
-beta_X4_t.fx('20_eCoal','01_KOR',time)$[ord(time) gt 4]
-                           = beta_X4_t.l('20_eCoal','01_KOR',time-1)*[1-0.012] ;
+ ttiw.fx(l,J6,'02_CHN',time)$[ord(time) gt 12]
+                      = ttiw.l(l,J6,'02_CHN',time-1)*[1+0.10];
+                      
+ ttiw.fx(l,J6,'03_JPN',time)$[ord(time) gt 5]
+                      = ttiw.l(l,J6,'03_JPN',time-1)*[1+0.10];
 
-beta_X4_t.fx('19_eNuclear','01_KOR',time)$[ord(time) gt 4]
-                           = beta_X4_t.l('19_eNuclear','01_KOR',time-1)*[1-0.01] ;
-                           
+* ttiw.fx(l,j,z,time)  = ttiwO(l,j,z);
+* ttik.fx(k,j,z,time)  = ttikO(i,z,zj);
 
-beta_X4_t.fx('26_eOther','03_JPN',time)$[ord(time) gt 4]
-                           = beta_X4_t.l('26_eOther','03_JPN',time-1)*[1-0.01] ;
+*=============================================================================
+* Solar & Wind Shock
+*=============================================================================
+ B_KD2('23_eWind','01_KOR',time)$[ord(time) gt 5]
+                        = B_KD2('23_eWind','01_KOR',time-1)*[1+0.09];
 
-beta_X4_t.fx('25_eHydro','03_JPN',time)$[ord(time) gt 4]
-                           = beta_X4_t.l('25_eHydro','03_JPN',time-1)*[1-0.01] ;
+ B_KD2('24_eSolar','01_KOR',time)$[ord(time) gt 5]
+                        = B_KD2('24_eSolar','01_KOR',time-1)*[1+0.09];
 
-beta_X4_t.fx('24_eSolar','03_JPN',time)$[ord(time) gt 4]
-                           = beta_X4_t.l('24_eSolar','03_JPN',time-1)*[1+0.02] ;
+ B_VA2('02_COAL','01_KOR',time)$[ord(time) gt 12]
+                        = B_VA2('02_COAL','01_KOR',time-1)*[1-0.01];
 
-beta_X4_t.fx('20_eCoal','03_JPN',time)$[ord(time) gt 4]
-                           = beta_X4_t.l('20_eCoal','03_JPN',time-1)*[1-0.02] ;
-
-beta_X4_t.fx('19_eNuclear','03_JPN',time)$[ord(time) gt 4]
-                           = beta_X4_t.l('19_eNuclear','03_JPN',time-1)*[1-0.01] ;
-
-beta_X4_t.fx('26_eOther','02_CHN',time)$[ord(time) gt 4]
-                           = beta_X4_t.l('26_eOther','02_CHN',time-1)*[1-0.01] ;
-
-beta_X4_t.fx('25_eHydro','02_CHN',time)$[ord(time) gt 4]
-                           = beta_X4_t.l('25_eHydro','02_CHN',time-1)*[1-0.01] ;
-
-beta_X4_t.fx('24_eSolar','02_CHN',time)$[ord(time) gt 4]
-                           = beta_X4_t.l('24_eSolar','02_CHN',time-1)*[1+0.02] ;
-
-beta_X4_t.fx('20_eCoal','02_CHN',time)$[ord(time) gt 4]
-                           = beta_X4_t.l('20_eCoal','02_CHN',time-1)*[1-0.02] ;
-
-beta_X4_t.fx('19_eNuclear','02_CHN',time)$[ord(time) gt 4]
-                           = beta_X4_t.l('19_eNuclear','02_CHN',time-1)*[1-0.01] ;
-$Offtext
+* ttip.fx(j,z,time)    = ttipO(j,z);
+* 23_eWind       Wind generation
+* 24_eSolar      Solar generation
 
 *==============================================================================
 *   6.2.2.3 Resolution
 *==============================================================================
 
 SOLVE PEPWT USING CNS;
-*SOLVE PEPWT using NLP maximizing OBJ;
+*SOLVE PEPWT USING NLP maximizing OBJ;
 *SOLVE PEPWT USING MCP;
 
 *==============================================================================

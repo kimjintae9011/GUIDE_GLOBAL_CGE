@@ -1,35 +1,35 @@
 *Total population
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Population', 'million', year_IAMC)                                    = TOT_POP(Country,year_IAMC) ; 
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Population', 'million', year_IAMC)                                    = TOT_POP(Country,year_IAMC) + eps ; 
 
 *GDP|MER 10$billion$ to billion$ (Nonimal, 10billion to billion)
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'GDP|MER', 'billion US$2019', year_IAMC)                               = valGDP_MP(Country, year_IAMC,'NZS')*10 ; 
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'GDP|MER', 'billion US$2010', year_IAMC)                               = valGDP_MP_REAL(Country, year_IAMC,'NZS')*10*USD2019toUSD2010 + eps ; 
 
 *Value Added|Agriculture 10$billion$ to billion$ (Nonimal, 10billion to billion)
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Value Added|Agriculture', 'billion US$2019', year_IAMC)               = sum(Agriculture, valPVA(Agriculture, Country, year_IAMC,'NZS')*valVA(Agriculture, Country, year_IAMC,'NZS'))*10 ; 
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Value Added|Agriculture', 'billion US$2010', year_IAMC)               = sum(Agriculture, valPVA(Agriculture, Country, year_IAMC,'NZS')*valVA(Agriculture, Country, year_IAMC,'NZS'))/valPIXGDP(Country, year_IAMC,'NZS')*10*USD2019toUSD2010 + eps ; 
 
 *Value Added|Industry 10$billion$ to billion$ (Nonimal, 10billion to billion)
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Value Added|Industry', 'billion US$2019', year_IAMC)                  = sum(Industry, valPVA(Industry, Country, year_IAMC,'NZS')*valVA(Industry, Country, year_IAMC,'NZS'))*10 ; 
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Value Added|Industry', 'billion US$2010', year_IAMC)                  = sum(Industry, valPVA(Industry, Country, year_IAMC,'NZS')*valVA(Industry, Country, year_IAMC,'NZS'))/valPIXGDP(Country, year_IAMC,'NZS')*10*USD2019toUSD2010 + eps ; 
 
 *Value Added|Services 10$billion$ to billion$ (Nonimal, 10billion to billion)
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Value Added|Services', 'billion US$2019', year_IAMC)                  = sum(Service, valPVA(Service, Country, year_IAMC,'NZS')*valVA(Service, Country, year_IAMC,'NZS'))*10 ; 
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Value Added|Services', 'billion US$2010', year_IAMC)                  = sum(Service, valPVA(Service, Country, year_IAMC,'NZS')*valVA(Service, Country, year_IAMC,'NZS'))/valPIXGDP(Country, year_IAMC,'NZS')*10*USD2019toUSD2010 + eps ; 
 
 *Emissions|CO2 (kt to Mt)
 IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Emissions|CO2', 'Mt CO2/yr', year_IAMC)                               = valTCO2(Country,year_IAMC,'NZS')/1000 ; 
 IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Emissions|CO2|Energy', 'Mt CO2/yr', year_IAMC)                        = valTCO2(Country,year_IAMC,'NZS')/1000 ; 
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Emissions|CO2|Energy|Demand', 'Mt CO2/yr', year_IAMC)                 = [sum(Demand, valCO2I2(Demand,Country,year_IAMC,'NZS')+valCO2NE2(Demand,Country,year_IAMC,'NZS'))+valTCO2H(Country, year_IAMC,'NZS')]/1000 ; 
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Emissions|CO2|Energy|Demand|AFOFI', 'Mt CO2/yr', year_IAMC)           = valCO2I2('01_AGRICULT',Country,year_IAMC,'NZS')/1000 ; 
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Emissions|CO2|Energy|Demand|Commercial', 'Mt CO2/yr', year_IAMC)      = [valCO2I2('31_SER',Country,year_IAMC,'NZS')+valCO2NE2('31_SER',Country,year_IAMC,'NZS')]/1000 ;  
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Emissions|CO2|Energy|Demand|Industry', 'Mt CO2/yr', year_IAMC)        = sum(Industry2, valCO2I2(Industry2,Country,year_IAMC,'NZS')+valCO2NE2(Industry2,Country,year_IAMC,'NZS'))/1000 ;  ;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Emissions|CO2|Energy|Demand', 'Mt CO2/yr', year_IAMC)                 = [sum(Demand, valCO2I2(Demand,Country,year_IAMC,'NZS')+valCO2NE2(Demand,Country,year_IAMC,'NZS'))+valTCO2H(Country, year_IAMC,'NZS')]/1000 + eps ; 
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Emissions|CO2|Energy|Demand|AFOFI', 'Mt CO2/yr', year_IAMC)           = valCO2I2('01_AGRICULT',Country,year_IAMC,'NZS')/1000 + eps ; 
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Emissions|CO2|Energy|Demand|Commercial', 'Mt CO2/yr', year_IAMC)      = [valCO2I2('31_SER',Country,year_IAMC,'NZS')+valCO2NE2('31_SER',Country,year_IAMC,'NZS')]/1000 + eps ;  
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Emissions|CO2|Energy|Demand|Industry', 'Mt CO2/yr', year_IAMC)        = sum(Industry2, valCO2I2(Industry2,Country,year_IAMC,'NZS')+valCO2NE2(Industry2,Country,year_IAMC,'NZS'))/1000 + eps ;
 IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Emissions|CO2|Energy|Demand|Other Sector', 'Mt CO2/yr', year_IAMC)    = eps ; 
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Emissions|CO2|Energy|Demand|Residential', 'Mt CO2/yr', year_IAMC)     = valTCO2H(Country, year_IAMC,'NZS')/1000 ; 
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Emissions|CO2|Energy|Demand|Transportation', 'Mt CO2/yr', year_IAMC)  = sum(Transportation, valCO2I2(Transportation,Country,year_IAMC,'NZS')+valCO2NE2(Transportation,Country,year_IAMC,'NZS'))/1000;
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Emissions|CO2|Energy|Supply', 'Mt CO2/yr', year_IAMC)                 = sum(Supply, valCO2I2(Supply,Country,year_IAMC,'NZS')+valCO2NE2(Supply,Country,year_IAMC,'NZS'))/1000 ;
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Emissions|CO2|Energy|Supply|Electricity', 'Mt CO2/yr', year_IAMC)     = sum(Supply_elec, valCO2I2(Supply_elec,Country,year_IAMC,'NZS')+valCO2NE2(Supply_elec,Country,year_IAMC,'NZS'))/1000 ;
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Emissions|CO2|Energy|Supply|Gases', 'Mt CO2/yr', year_IAMC)           = [valCO2I2('04_GAS',Country,year_IAMC,'NZS')+valCO2NE2('04_GAS',Country,year_IAMC,'NZS')]/1000 ;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Emissions|CO2|Energy|Demand|Residential', 'Mt CO2/yr', year_IAMC)     = valTCO2H(Country, year_IAMC,'NZS')/1000 + eps ; 
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Emissions|CO2|Energy|Demand|Transportation', 'Mt CO2/yr', year_IAMC)  = sum(Transportation, valCO2I2(Transportation,Country,year_IAMC,'NZS')+valCO2NE2(Transportation,Country,year_IAMC,'NZS'))/1000 + eps;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Emissions|CO2|Energy|Supply', 'Mt CO2/yr', year_IAMC)                 = sum(Supply, valCO2I2(Supply,Country,year_IAMC,'NZS')+valCO2NE2(Supply,Country,year_IAMC,'NZS'))/1000 + eps ;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Emissions|CO2|Energy|Supply|Electricity', 'Mt CO2/yr', year_IAMC)     = sum(Supply_elec, valCO2I2(Supply_elec,Country,year_IAMC,'NZS')+valCO2NE2(Supply_elec,Country,year_IAMC,'NZS'))/1000 + eps ;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Emissions|CO2|Energy|Supply|Gases', 'Mt CO2/yr', year_IAMC)           = [valCO2I2('04_GAS',Country,year_IAMC,'NZS')+valCO2NE2('04_GAS',Country,year_IAMC,'NZS')]/1000 + eps ;
 IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Emissions|CO2|Energy|Supply|Heat', 'Mt CO2/yr', year_IAMC)            = eps; 
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Emissions|CO2|Energy|Supply|Liquids', 'Mt CO2/yr', year_IAMC)         = sum(Supply_liquid, valCO2I2(Supply_liquid,Country,year_IAMC,'NZS')+valCO2NE2(Supply_liquid,Country,year_IAMC,'NZS'))/1000 ;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Emissions|CO2|Energy|Supply|Liquids', 'Mt CO2/yr', year_IAMC)         = sum(Supply_liquid, valCO2I2(Supply_liquid,Country,year_IAMC,'NZS')+valCO2NE2(Supply_liquid,Country,year_IAMC,'NZS'))/1000 + eps ;
 IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Emissions|CO2|Energy|Supply|Other Sector', 'Mt CO2/yr', year_IAMC)    = eps ;
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Emissions|CO2|Energy|Supply|Solids', 'Mt CO2/yr', year_IAMC)          = [valCO2I2('02_COAL',Country,year_IAMC,'NZS')+valCO2NE2('02_COAL',Country,year_IAMC,'NZS')]/1000 ;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Emissions|CO2|Energy|Supply|Solids', 'Mt CO2/yr', year_IAMC)          = [valCO2I2('02_COAL',Country,year_IAMC,'NZS')+valCO2NE2('02_COAL',Country,year_IAMC,'NZS')]/1000 + eps ;
 IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Emissions|CO2|Industrial Processes', 'Mt CO2/yr', year_IAMC)          = eps ;
 IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Emissions|CO2|AFOLU', 'Mt CO2/yr', year_IAMC)                         = eps ;
 IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Emissions|CO2|AFOLU|Land', 'Mt CO2/yr', year_IAMC)                    = eps ;
@@ -37,55 +37,53 @@ IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Emissions|CO2|AFOLU|Land|Positive', 'Mt 
 IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Emissions|CO2|AFOLU|Land|Negative', 'Mt CO2/yr', year_IAMC)           = eps ;
 
 *Primary Energy (Direct equivalent method, Primary Energy Conumpiton)
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Primary Energy', 'EJ/yr', year_IAMC)                                  = valTES(Country,year_IAMC,'NZS')*ktoetoEJ + valElecGen('Bio',Country,year_IAMC,'NZS')*GWhtoEJ + valElecGen('Geothermal',Country,year_IAMC,'NZS')*GWhtoEJ + valElecGen('Hydro',Country,year_IAMC,'NZS')*GWhtoEJ + valElecGen('Nuclear',Country,year_IAMC,'NZS')*GWhtoEJ + valElecGen('Solar',Country,year_IAMC,'NZS')*GWhtoEJ + valElecGen('Wind',Country,year_IAMC,'NZS')*GWhtoEJ ; 
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Primary Energy|Biomass', 'EJ/yr', year_IAMC)                          = valElecGen('Bio',Country,year_IAMC,'NZS')*GWhtoEJ ; 
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Primary Energy|Coal', 'EJ/yr', year_IAMC)                             = valTES_coal(Country,year_IAMC,'NZS')*ktoetoEJ ;
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Primary Energy|Gas', 'EJ/yr', year_IAMC)                              = valTES_gas(Country,year_IAMC,'NZS')*ktoetoEJ ;
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Primary Energy|Geothermal', 'EJ/yr', year_IAMC)                       = valElecGen('Geothermal',Country,year_IAMC,'NZS')*GWhtoEJ ;
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Primary Energy|Hydro', 'EJ/yr', year_IAMC)                            = valElecGen('Hydro',Country,year_IAMC,'NZS')*GWhtoEJ ;
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Primary Energy|Nuclear', 'EJ/yr', year_IAMC)                          = valElecGen('Nuclear',Country,year_IAMC,'NZS')*GWhtoEJ ;
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Primary Energy|Oil', 'EJ/yr', year_IAMC)                              = valTES_oil(Country,year_IAMC,'NZS')*ktoetoEJ ;
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Primary Energy|Solar', 'EJ/yr', year_IAMC)                            = valElecGen('Solar',Country,year_IAMC,'NZS')*GWhtoEJ;
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Primary Energy|Wind', 'EJ/yr', year_IAMC)                             = valElecGen('Wind',Country,year_IAMC,'NZS')*GWhtoEJ;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Primary Energy', 'EJ/yr', year_IAMC)                                  = valTES(Country,year_IAMC,'NZS')*ktoetoEJ + valElecGen('Bio',Country,year_IAMC,'NZS')*GWhtoEJ + valElecGen('Geothermal',Country,year_IAMC,'NZS')*GWhtoEJ + valElecGen('Hydro',Country,year_IAMC,'NZS')*GWhtoEJ + valElecGen('Nuclear',Country,year_IAMC,'NZS')*GWhtoEJ + valElecGen('Solar',Country,year_IAMC,'NZS')*GWhtoEJ + valElecGen('Wind',Country,year_IAMC,'NZS')*GWhtoEJ + eps ; 
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Primary Energy|Biomass', 'EJ/yr', year_IAMC)                          = valElecGen('Bio',Country,year_IAMC,'NZS')*GWhtoEJ + eps ; 
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Primary Energy|Coal', 'EJ/yr', year_IAMC)                             = valTES_coal(Country,year_IAMC,'NZS')*ktoetoEJ + eps ;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Primary Energy|Gas', 'EJ/yr', year_IAMC)                              = valTES_gas(Country,year_IAMC,'NZS')*ktoetoEJ + eps ;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Primary Energy|Geothermal', 'EJ/yr', year_IAMC)                       = valElecGen('Geothermal',Country,year_IAMC,'NZS')*GWhtoEJ + eps ;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Primary Energy|Hydro', 'EJ/yr', year_IAMC)                            = valElecGen('Hydro',Country,year_IAMC,'NZS')*GWhtoEJ + eps ;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Primary Energy|Nuclear', 'EJ/yr', year_IAMC)                          = valElecGen('Nuclear',Country,year_IAMC,'NZS')*GWhtoEJ + eps ;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Primary Energy|Oil', 'EJ/yr', year_IAMC)                              = valTES_oil(Country,year_IAMC,'NZS')*ktoetoEJ + eps ;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Primary Energy|Solar', 'EJ/yr', year_IAMC)                            = valElecGen('Solar',Country,year_IAMC,'NZS')*GWhtoEJ + eps;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Primary Energy|Wind', 'EJ/yr', year_IAMC)                             = valElecGen('Wind',Country,year_IAMC,'NZS')*GWhtoEJ + eps;
 
 *Secondary Energy (GWh to EJ)
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Secondary Energy|Electricity', 'EJ/yr', year_IAMC)                    = valElecGen('Total',Country,year_IAMC,'NZS')*GWhtoEJ ; 
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Secondary Energy|Electricity', 'EJ/yr', year_IAMC)                    = valElecGen('Total',Country,year_IAMC,'NZS')*GWhtoEJ + eps ; 
 IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Secondary Energy|Electricity|Biomass|w/ CCS', 'EJ/yr', year_IAMC)     = eps ; 
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Secondary Energy|Electricity|Biomass|w/o CCS', 'EJ/yr', year_IAMC)    = valElecGen('Bio',Country,year_IAMC,'NZS')*GWhtoEJ ; 
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Secondary Energy|Electricity|Biomass|w/o CCS', 'EJ/yr', year_IAMC)    = valElecGen('Bio',Country,year_IAMC,'NZS')*GWhtoEJ + eps ; 
 IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Secondary Energy|Electricity|Coal|w CCS', 'EJ/yr', year_IAMC)         = eps ;  
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Secondary Energy|Electricity|Coal|w/o CCS', 'EJ/yr', year_IAMC)       = valElecGen('Coal',Country,year_IAMC,'NZS')*GWhtoEJ ; 
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Secondary Energy|Electricity|Coal|w/o CCS', 'EJ/yr', year_IAMC)       = valElecGen('Coal',Country,year_IAMC,'NZS')*GWhtoEJ + eps ; 
 IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Secondary Energy|Electricity|Gas|w CCS', 'EJ/yr', year_IAMC)          = eps ; 
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Secondary Energy|Electricity|Gas|w/o CCS', 'EJ/yr', year_IAMC)        = valElecGen('Gas',Country,year_IAMC,'NZS')*GWhtoEJ ; 
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Secondary Energy|Electricity|Geothermal', 'EJ/yr', year_IAMC)         = valElecGen('Geothermal',Country,year_IAMC,'NZS')*GWhtoEJ ;
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Secondary Energy|Electricity|Hydro', 'EJ/yr', year_IAMC)              = valElecGen('Hydro',Country,year_IAMC,'NZS')*GWhtoEJ ;
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Secondary Energy|Electricity|Nuclear', 'EJ/yr', year_IAMC)            = valElecGen('Nuclear',Country,year_IAMC,'NZS')*GWhtoEJ ;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Secondary Energy|Electricity|Gas|w/o CCS', 'EJ/yr', year_IAMC)        = valElecGen('Gas',Country,year_IAMC,'NZS')*GWhtoEJ + eps ; 
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Secondary Energy|Electricity|Geothermal', 'EJ/yr', year_IAMC)         = valElecGen('Geothermal',Country,year_IAMC,'NZS')*GWhtoEJ + eps ;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Secondary Energy|Electricity|Hydro', 'EJ/yr', year_IAMC)              = valElecGen('Hydro',Country,year_IAMC,'NZS')*GWhtoEJ + eps ;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Secondary Energy|Electricity|Nuclear', 'EJ/yr', year_IAMC)            = valElecGen('Nuclear',Country,year_IAMC,'NZS')*GWhtoEJ + eps ;
 IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Secondary Energy|Electricity|Oil|w/ CCS', 'EJ/yr', year_IAMC)         = eps ;
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Secondary Energy|Electricity|Oil|w/o CCS', 'EJ/yr', year_IAMC)        = valElecGen('Oil',Country,year_IAMC,'NZS')*GWhtoEJ;
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Secondary Energy|Electricity|Solar', 'EJ/yr', year_IAMC)              = valElecGen('Solar',Country,year_IAMC,'NZS')*GWhtoEJ;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Secondary Energy|Electricity|Oil|w/o CCS', 'EJ/yr', year_IAMC)        = valElecGen('Oil',Country,year_IAMC,'NZS')*GWhtoEJ + eps;
 IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Secondary Energy|Electricity|Solar|CSP', 'EJ/yr', year_IAMC)          = eps ; 
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Secondary Energy|Electricity|Solar|PV', 'EJ/yr', year_IAMC)           = eps ;
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Secondary Energy|Electricity|Wind', 'EJ/yr', year_IAMC)               = valElecGen('Wind',Country,year_IAMC,'NZS')*GWhtoEJ;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Secondary Energy|Electricity|Solar|PV', 'EJ/yr', year_IAMC)           = valElecGen('Solar',Country,year_IAMC,'NZS')*GWhtoEJ + eps;
 IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Secondary Energy|Electricity|Wind|Offshore', 'EJ/yr', year_IAMC)      = eps ;
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Secondary Energy|Electricity|Wind|Onshore', 'EJ/yr', year_IAMC)       = eps ;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Secondary Energy|Electricity|Wind|Onshore', 'EJ/yr', year_IAMC)       = valElecGen('Wind',Country,year_IAMC,'NZS')*GWhtoEJ + eps;
 IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Secondary Energy|Hydrogen', 'EJ/yr', year_IAMC)                       = eps ; 
 
 *Final Energy (ktoe to EJ)
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Final Energy', 'EJ/yr', year_IAMC)                                    = {sum(product, valEH(product,Country,year_IAMC,'NZS'))+Sum((product,Demand2),valEE(product,Demand2,Country,year_IAMC,'NZS'))+Sum((product,Demand2),valNE(product,Demand2,Country,year_IAMC,'NZS'))}*ktoetoEJ;
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Final Energy|Gases', 'EJ/yr', year_IAMC)                              = {sum(p_gas,valEH(p_gas,Country,year_IAMC,'NZS'))+ sum((p_gas, Demand2),valEE(p_gas,Demand2,Country,year_IAMC,'NZS'))}*ktoetoEJ ;
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Final Energy|Geothermal', 'EJ/yr', year_IAMC)                         = {eps}*ktoetoEJ ;
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Final Energy|Heat', 'EJ/yr', year_IAMC)                               = {valEH('p64_HEAT',Country,year_IAMC,'NZS')+ sum(Demand2,valEE('p64_HEAT',Demand2,Country,year_IAMC,'NZS'))}*ktoetoEJ ;
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Final Energy|Electricity', 'EJ/yr', year_IAMC)                        = {valEH('p63_ELECTR',Country,year_IAMC,'NZS')+ sum(Demand2,valEE('p63_ELECTR',Demand2,Country,year_IAMC,'NZS'))}*ktoetoEJ ;
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Final Energy|Hydrogen', 'EJ/yr', year_IAMC)                           = {eps}*ktoetoEJ ;
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Final Energy|Liquids', 'EJ/yr', year_IAMC)                            = {sum(p_liquids,valEH(p_liquids,Country,year_IAMC,'NZS'))+ sum((p_liquids, Demand2),valEE(p_liquids,Demand2,Country,year_IAMC,'NZS'))}*ktoetoEJ ;
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Final Energy|Solar', 'EJ/yr', year_IAMC)                              = {eps}*ktoetoEJ ;
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Final Energy|Solids', 'EJ/yr', year_IAMC)                             = {sum(p_coal,valEH(p_coal,Country,year_IAMC,'NZS'))+ sum((p_coal, Demand2),valEE(p_coal,Demand2,Country,year_IAMC,'NZS'))}*ktoetoEJ ;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Final Energy', 'EJ/yr', year_IAMC)                                    = {sum(product, valEH(product,Country,year_IAMC,'NZS'))+Sum((product,Demand2),valEE(product,Demand2,Country,year_IAMC,'NZS'))+Sum((product,Demand2),valNE(product,Demand2,Country,year_IAMC,'NZS'))}*ktoetoEJ + eps;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Final Energy|Gases', 'EJ/yr', year_IAMC)                              = {sum(p_gas,valEH(p_gas,Country,year_IAMC,'NZS'))+ sum((p_gas, Demand2),valEE(p_gas,Demand2,Country,year_IAMC,'NZS'))}*ktoetoEJ + eps ;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Final Energy|Geothermal', 'EJ/yr', year_IAMC)                         = {eps}*ktoetoEJ + eps ;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Final Energy|Heat', 'EJ/yr', year_IAMC)                               = {valEH('p64_HEAT',Country,year_IAMC,'NZS')+ sum(Demand2,valEE('p64_HEAT',Demand2,Country,year_IAMC,'NZS'))}*ktoetoEJ + eps ;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Final Energy|Electricity', 'EJ/yr', year_IAMC)                        = {valEH('p63_ELECTR',Country,year_IAMC,'NZS')+ sum(Demand2,valEE('p63_ELECTR',Demand2,Country,year_IAMC,'NZS'))}*ktoetoEJ + eps ;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Final Energy|Hydrogen', 'EJ/yr', year_IAMC)                           = {eps}*ktoetoEJ + eps ;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Final Energy|Liquids', 'EJ/yr', year_IAMC)                            = {sum(p_liquids,valEH(p_liquids,Country,year_IAMC,'NZS'))+ sum((p_liquids, Demand2),valEE(p_liquids,Demand2,Country,year_IAMC,'NZS'))}*ktoetoEJ + eps ;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Final Energy|Solar', 'EJ/yr', year_IAMC)                              = {eps}*ktoetoEJ + eps ;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Final Energy|Solids', 'EJ/yr', year_IAMC)                             = {sum(p_coal,valEH(p_coal,Country,year_IAMC,'NZS'))+ sum((p_coal, Demand2),valEE(p_coal,Demand2,Country,year_IAMC,'NZS'))}*ktoetoEJ + eps ;
 IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Final Energy|Solids|Biomass', 'EJ/yr', year_IAMC)                     = {eps}*ktoetoEJ ;
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Final Energy|Solids|Coal', 'EJ/yr', year_IAMC)                        = {sum(p_coal,valEH(p_coal,Country,year_IAMC,'NZS'))+ sum((p_coal, Demand2),valEE(p_coal,Demand2,Country,year_IAMC,'NZS'))}*ktoetoEJ ;
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Final Energy|Industry', 'EJ/yr', year_IAMC)                           = {sum((product,Industry2),valEE(product,Industry2,Country,year_IAMC,'NZS'))}*ktoetoEJ ;
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Final Energy|Non-Energy Use', 'EJ/yr', year_IAMC)                     = {sum((product,j),valNE(product,j,Country,year_IAMC,'NZS'))}*ktoetoEJ ;
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Final Energy|Residential', 'EJ/yr', year_IAMC)                        = {sum(product,valEH(product,Country,year_IAMC,'NZS'))}*ktoetoEJ ;
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Final Energy|Commercial', 'EJ/yr', year_IAMC)                         = {sum((product,Service2),valEE(product,Service2,Country,year_IAMC,'NZS'))}*ktoetoEJ ; 
-IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Final Energy|Transportation', 'EJ/yr', year_IAMC)                     = {sum((product,Transportation),valEE(product,Transportation,Country,year_IAMC,'NZS'))}*ktoetoEJ ;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Final Energy|Solids|Coal', 'EJ/yr', year_IAMC)                        = {sum(p_coal,valEH(p_coal,Country,year_IAMC,'NZS'))+ sum((p_coal, Demand2),valEE(p_coal,Demand2,Country,year_IAMC,'NZS'))}*ktoetoEJ + eps ;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Final Energy|Industry', 'EJ/yr', year_IAMC)                           = {sum((product,Industry2),valEE(product,Industry2,Country,year_IAMC,'NZS'))}*ktoetoEJ + eps ;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Final Energy|Non-Energy Use', 'EJ/yr', year_IAMC)                     = {sum((product,j),valNE(product,j,Country,year_IAMC,'NZS'))}*ktoetoEJ + eps ;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Final Energy|Residential', 'EJ/yr', year_IAMC)                        = {sum(product,valEH(product,Country,year_IAMC,'NZS'))}*ktoetoEJ + eps ;
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Final Energy|Commercial', 'EJ/yr', year_IAMC)                         = {sum((product,Service2),valEE(product,Service2,Country,year_IAMC,'NZS'))}*ktoetoEJ + eps ; 
+IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Final Energy|Transportation', 'EJ/yr', year_IAMC)                     = {sum((product,Transportation),valEE(product,Transportation,Country,year_IAMC,'NZS'))}*ktoetoEJ + eps ;
 
 *Agricultural Production
 IAMC('Tier1', 'GUIDE', Country, 'NZS', 'Agricultural Production|Energy', 'million t DM/yr', year_IAMC)            = eps ;

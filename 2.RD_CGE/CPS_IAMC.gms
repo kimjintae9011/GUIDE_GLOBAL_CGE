@@ -5,16 +5,16 @@
 IAMC('Tier1', 'GUIDE', Country, 'CPS', 'Population', 'million', year_IAMC)                                    = TOT_POP(Country,year_IAMC) ; 
 
 *GDP|MER 10$billion$ to billion$ (Nonimal, 10billion to billion)
-IAMC('Tier1', 'GUIDE', Country, 'CPS', 'GDP|MER', 'billion US$2019', year_IAMC)                               = valGDP_MP(Country, year_IAMC,'CPS')*10 ; 
+IAMC('Tier1', 'GUIDE', Country, 'CPS', 'GDP|MER', 'billion US$2010', year_IAMC)                               = valGDP_MP_REAL(Country, year_IAMC,'CPS')*10*2019USDto2010USD ; 
 
 *Value Added|Agriculture 10$billion$ to billion$ (Nonimal, 10billion to billion)
-IAMC('Tier1', 'GUIDE', Country, 'CPS', 'Value Added|Agriculture', 'billion US$2019', year_IAMC)               = sum(Agriculture, valPVA(Agriculture, Country, year_IAMC,'CPS')*valVA(Agriculture, Country, year_IAMC,'CPS'))*10 ; 
+IAMC('Tier1', 'GUIDE', Country, 'CPS', 'Value Added|Agriculture', 'billion US$2010', year_IAMC)               = sum(Agriculture, valPVA(Agriculture, Country, year_IAMC,'CPS')*valVA(Agriculture, Country, year_IAMC,'CPS'))/valPIXGDP(Country, year_IAMC,'CPS')*10*2019USDto2010USD ; 
 
 *Value Added|Industry 10$billion$ to billion$ (Nonimal, 10billion to billion)
-IAMC('Tier1', 'GUIDE', Country, 'CPS', 'Value Added|Industry', 'billion US$2019', year_IAMC)                  = sum(Industry, valPVA(Industry, Country, year_IAMC,'CPS')*valVA(Industry, Country, year_IAMC,'CPS'))*10 ; 
+IAMC('Tier1', 'GUIDE', Country, 'CPS', 'Value Added|Industry', 'billion US$2010', year_IAMC)                  = sum(Industry, valPVA(Industry, Country, year_IAMC,'CPS')*valVA(Industry, Country, year_IAMC,'CPS'))/valPIXGDP(Country, year_IAMC,'CPS')*10*2019USDto2010USD ; 
 
 *Value Added|Services 10$billion$ to billion$ (Nonimal, 10billion to billion)
-IAMC('Tier1', 'GUIDE', Country, 'CPS', 'Value Added|Services', 'billion US$2019', year_IAMC)                  = sum(Service, valPVA(Service, Country, year_IAMC,'CPS')*valVA(Service, Country, year_IAMC,'CPS'))*10 ; 
+IAMC('Tier1', 'GUIDE', Country, 'CPS', 'Value Added|Services', 'billion US$2010', year_IAMC)                  = sum(Service, valPVA(Service, Country, year_IAMC,'CPS')*valVA(Service, Country, year_IAMC,'CPS'))/valPIXGDP(Country, year_IAMC,'CPS')*10*2019USDto2010USD ; 
 
 *Emissions|CO2 (kt to Mt)
 IAMC('Tier1', 'GUIDE', Country, 'CPS', 'Emissions|CO2', 'Mt CO2/yr', year_IAMC)                               = valTCO2(Country,year_IAMC,'CPS')/1000 ; 

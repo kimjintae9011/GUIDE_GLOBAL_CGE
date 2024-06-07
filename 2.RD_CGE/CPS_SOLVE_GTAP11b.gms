@@ -78,7 +78,7 @@ T(time) = YES;
 *==============================================================================
  G_REAL.FX(z,time)    = G_REALX(z,time);
  IND.fx(k,pub,z,time) = INDX(k,pub,z,time);
- phi.fx(z,time)       = phi_BAU(z,time);
+* phi.fx(z,time)       = phi_BAU(z,time);
   
  sh0.fx(z,time)       = sh0X(z,time);
  sh1.fx(z,time)       = sh1X(z,time);
