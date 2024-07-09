@@ -567,6 +567,8 @@ Parameter
  RKDO2(k,j,z)
  DDO_Matrix(i,ij,z)
  XSO_Matrix(i,ij,z)
+ 
+ Bal_TC(j,z)
 ;
 
 *==============================================================================
@@ -901,11 +903,14 @@ $LOAD VTMFSD, VXSB, VFOB, XTRV
  LDO2(j,z) = SUM[l,LDO(l,j,z)];
  TIWO2(j,z) = SUM[l,TIWO(l,j,z)];
  TIKO2(j,z) = SUM[k,TIKO(k,j,z)];
- RKDO2('land',j,z) =RKDO('land',j,z);
- RKDO2('natr',j,z) =RKDO('natr',j,z);
+ RKDO2('land',j,z) = RKDO('land',j,z);
+ RKDO2('natr',j,z) = RKDO('natr',j,z);
 
 *Recalibrating
 *KSTO(z)  = sum((k,j),RKDO(k,j,z));
+
+ Bal_TC(j,z) = XSTO(j,z)-SUM[i,DIO(i,j,z)]-SUM[l,LDO(l,j,z)+TIWO(l,j,z)]
+                   -TIPO(j,z)-SUM[k,TIKO(k,j,z)]-RKDO('cap',j,z) -RKDO('land',j,z) -RKDO('natr',j,z);
 
 Display RKDO ;
 *$EXIT
@@ -1209,7 +1214,7 @@ execute_unload 'Input_w-t\DATA_AGG-2019_GTAP11b.gdx',
  CO, CGO, DDO, DEPO, DIO, DSO,DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, POPO, RKDO,
  TDHO, DTAX, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, tssm, tssd, tmrg, XSO, XSO_I, XSTO, EXTO,
  sigma_M1, sigma_M2, sigma_VA, sigma_KLE, Q_GTAP, KLE_GTAP, SH_Q, SH_VA, SH_KLE, ESUBD, ELFKLE,
- elas_E, elas_elec, elas_gas, elas_oil, elas_coal, elas_petrolcoal, DDO_Matrix
+ elas_E, elas_elec, elas_gas, elas_oil, elas_coal, elas_petrolcoal, DDO_Matrix, Bal_TC,
 
 *Parameters used in PEP w-t only
  TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high TREND, CTAX_Cal, CTAX_CPS, CTAX_NZS, CTAX_61, CTAX_145, CTAX_285, CTAX_425, CTAX_565 ;

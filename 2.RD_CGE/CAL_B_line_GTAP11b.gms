@@ -1,5 +1,5 @@
-$TITLE     PEP model w-t
-$STITLE    World wide model, static version, October 2013
+$TITLE     GUIDE_GLOBAL_CGE model w-t
+$STITLE    World wide model, Recrusive Dynamic version
 
 *==============================================================================*
 *                                                                              *
@@ -20,17 +20,9 @@ $STITLE    World wide model, static version, October 2013
 *                                                                              *
 *==============================================================================*
 
-* NOTE: section and subsection titles of the program are preceded and followed
-*       by this line:
-*==============================================================================
-*       to facilitate jumping from one to the next with repeat search.
-
 *==============================================================================
 * 1 Set definition
 *==============================================================================
-* The sets are defined in the DATA_AGG-2007.gms file and are stored in the
-* DATA_AGG-2007.GDX output file. Any changes in the aggregation of industries
-* and/or region is thus automatically taken into account in the current file.
 SET
  J               All industries
  I               All commodities
@@ -266,9 +258,8 @@ Z3(Z)
 TIME Time periods
 /
 2019*2050
-*2019
-
 /
+
 T(time)
 T1(time)         First period;
 T1(time)         = yes$[ord(time) eq 1];

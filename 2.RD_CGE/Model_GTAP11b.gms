@@ -1,5 +1,5 @@
-$TITLE     PEP model w-t
-$STITLE    World wide model, static version, October 2013
+$TITLE     GUIDE_GLOBAL_CGE model w-t
+$STITLE    World wide model, Recrusive Dynamic version
 
 *==============================================================================*
 *                                                                              *
@@ -20,17 +20,9 @@ $STITLE    World wide model, static version, October 2013
 *                                                                              *
 *==============================================================================*
 
-* NOTE: section and subsection titles of the program are preceded and followed
-*       by this line:
-*==============================================================================
-*       to facilitate jumping from one to the next with repeat search.
-
 *==============================================================================
 * 1 Set definition
 *==============================================================================
-* The sets are defined in the DATA_AGG-2007.gms file and are stored in the
-* DATA_AGG-2007.GDX output file. Any changes in the aggregation of industries
-* and/or region is thus automatically taken into account in the current file.
 SET
  J               All industries
  I               All commodities
@@ -50,105 +42,10 @@ SET
 $GDXIN Input_w-t/DATA_AGG-2019_GTAP11b.gdx
 $LOAD J, I, BUS, PUB, F, L, K, Z, ZR, Z1, Zrich, Zother
 
-TND(J) TnD
-/
- 18_TnD         Transmission and Distribution
-/
-
-POWER(J) POWER industries
-/
- 19_eNuclear    Nuclear generation
- 20_eCoal       Coal generation
- 21_eGas        Gas generation
- 22_eOil        Oil generation
- 23_eWind       Wind generation
- 24_eSolar      Solar generation
- 25_eHydro      Hydro generation
- 26_eOther      Other generation
-/
-
-I2(I) Non-electricity commodities
-/
- 01_AGRICULT    Agricultural forest and fishery goods
- 02_COAL        Coal
- 03_OIL         Crude petroleum
- 04_GAS         Natural gas Gas distribution
- 05_MINING      Mined and quarried goods
- 06_FOODPRO     Food beverages and tobacco products
- 07_TEXTILES    Textile and leather products
- 08_WOODPRO     Wood products
- 09_PAPERPRO    Paper products
- 10_PETROLCOAL  Petroleum and coal products
- 11_CHEMICAL    Chemical products
- 12_NONMET      Non-metallic mineral products
- 13_IRONSTL     Primary iron and steel products
- 14_NONFERR     Non-ferrous metal products
- 15_MACHINE     Fabricated metal products Electronic and electrical equipment Machinery and equipment
- 16_TRANSEQ     Motor vehicles Other transport equipment
- 17_OTHERIND    Other manufactured products Water supply
-* 18_ELEC        Electricity
- 19_CONSTRUC    Construction
- 20_LTRP        Land transport service(road rail)
- 21_WTRP        Water transport service
- 22_ATRP        Air transport service
- 23_SER         Service
-/
-
-ENE(I) Energy commodities
-/
- 02_COAL         Coal
- 03_OIL          Crude petroleum
- 04_GAS          Natural gas
- 10_PETROLCOAL   Petroleum and coal products
- 18_ELEC         Electricity
-/
-
-ENE3(I) Energy commodities
-/
- 02_COAL         Coal
- 03_OIL          Crude petroleum
- 04_GAS          Natural gas
- 10_PETROLCOAL   Petroleum and coal products
-* 18_ELEC         Electricity
-/
-
-ENE4(I) Energy commodities
-/
-* 02_COAL         Coal
-* 03_OIL          Crude petroleum
-* 04_GAS          Natural gas
-* 10_PETROLCOAL   Petroleum and coal products
- 18_ELEC         Electricity
-/
-
-NENE(I) Non-energy commodities
-/
- 01_AGRICULT    Agricultural forest and fishery goods
-* 02_COAL        Coal
-* 03_OIL         Crude petroleum
-* 04_GAS         Natural gas Gas distribution
- 05_MINING      Mined and quarried goods
- 06_FOODPRO     Food beverages and tobacco products
- 07_TEXTILES    Textile and leather products
- 08_WOODPRO     Wood products
- 09_PAPERPRO    Paper products
-* 10_PETROLCOAL  Petroleum and coal products
- 11_CHEMICAL    Chemical products
- 12_NONMET      Non-metallic mineral products
- 13_IRONSTL     Primary iron and steel products
- 14_NONFERR     Non-ferrous metal products
- 15_MACHINE     Fabricated metal products Electronic and electrical equipment Machinery and equipment
- 16_TRANSEQ     Motor vehicles Other transport equipment
- 17_OTHERIND    Other manufactured products Water supply
-* 18_ELEC        Electricity
- 19_CONSTRUC    Construction
- 20_LTRP        Land transport service(road rail)
- 21_WTRP        Water transport service
- 22_ATRP        Air transport service
- 23_SER         Service
-/
-
-I1(I) All commodities except agriculture
+*==============================================================================
+*  1.1 Sub sets for commodities
+*==============================================================================
+I1(I) Commodities excluding agriculture and backstop technology
 /
 * 01_AGRICULT    Agricultural forest and fishery goods
  02_COAL        Coal
@@ -175,7 +72,34 @@ I1(I) All commodities except agriculture
  23_SER         Service
 /
 
-I3(I) All commodities except agriculture
+I2(I) Commodities excluding electricity
+/
+ 01_AGRICULT    Agricultural forest and fishery goods
+ 02_COAL        Coal
+ 03_OIL         Crude petroleum
+ 04_GAS         Natural gas Gas distribution
+ 05_MINING      Mined and quarried goods
+ 06_FOODPRO     Food beverages and tobacco products
+ 07_TEXTILES    Textile and leather products
+ 08_WOODPRO     Wood products
+ 09_PAPERPRO    Paper products
+ 10_PETROLCOAL  Petroleum and coal products
+ 11_CHEMICAL    Chemical products
+ 12_NONMET      Non-metallic mineral products
+ 13_IRONSTL     Primary iron and steel products
+ 14_NONFERR     Non-ferrous metal products
+ 15_MACHINE     Fabricated metal products Electronic and electrical equipment Machinery and equipment
+ 16_TRANSEQ     Motor vehicles Other transport equipment
+ 17_OTHERIND    Other manufactured products Water supply
+* 18_ELEC        Electricity
+ 19_CONSTRUC    Construction
+ 20_LTRP        Land transport service(road rail)
+ 21_WTRP        Water transport service
+ 22_ATRP        Air transport service
+ 23_SER         Service
+/
+
+I3(I) Commodities for backstop technology
 /
 * 10_PETROLCOAL  Petroleum and coal products
  11_CHEMICAL
@@ -183,50 +107,76 @@ I3(I) All commodities except agriculture
  20_LTRP 
 /
 
-COMtoIND(j,i3)
+ENE(I) Energy commodities full list
 /
-* 10_PETROLCOAL.   (10_PETROLCOAL)
- 11_CHEMICAL.      (11_CHEMICAL)
- 13_IRONSTL.      (13_IRONSTL)
- 28_LTRP.         (20_LTRP )
-/
-
-INDtoCOM(i3,j)
-/
-* 10_PETROLCOAL.   (10_PETROLCOAL)
- 11_CHEMICAL.      (11_CHEMICAL)
- 13_IRONSTL.      (13_IRONSTL)
- 20_LTRP.         (28_LTRP ) 
+ 02_COAL         Coal
+ 03_OIL          Crude petroleum
+ 04_GAS          Natural gas
+ 10_PETROLCOAL   Petroleum and coal products
+ 18_ELEC         Electricity
 /
 
-J2(J) Industries
+ENE1(I) Energy commodities exclduing electricity
 /
-* 01_AGRICULT    Agricultural forest and fishery goods
-* 02_COAL        Coal
-* 03_OIL         Crude petroleum
-* 04_GAS         Natural gas Gas distribution
-* 05_MINING      Mined and quarried goods
+ 02_COAL         Coal
+ 03_OIL          Crude petroleum
+ 04_GAS          Natural gas
+ 10_PETROLCOAL   Petroleum and coal products
+* 18_ELEC         Electricity
+/
+
+ENE2(I) Energy commodities Only electricity
+/
+* 02_COAL         Coal
+* 03_OIL          Crude petroleum
+* 04_GAS          Natural gas
+* 10_PETROLCOAL   Petroleum and coal products
+ 18_ELEC         Electricity
+/
+
+NENE(I) Non-energy commodities
+/
+ 01_AGRICULT    Agricultural forest and fishery goods
+ 05_MINING      Mined and quarried goods
  06_FOODPRO     Food beverages and tobacco products
  07_TEXTILES    Textile and leather products
  08_WOODPRO     Wood products
  09_PAPERPRO    Paper products
-* 10_PETROLCOAL  Petroleum and coal products
  11_CHEMICAL    Chemical products
  12_NONMET      Non-metallic mineral products
-* 13_IRONSTL     Primary iron and steel products
+ 13_IRONSTL     Primary iron and steel products
  14_NONFERR     Non-ferrous metal products
  15_MACHINE     Fabricated metal products Electronic and electrical equipment Machinery and equipment
  16_TRANSEQ     Motor vehicles Other transport equipment
  17_OTHERIND    Other manufactured products Water supply
-* 18_TnD         Transmission and Distribution
-* 19_eNuclear    Nuclear generation
-* 20_eCoal       Coal generation
-* 21_eGas        Gas generation
-* 22_eOil        Oil generation
-* 23_eWind       Wind generation
-* 24_eSolar      Solar generation
-* 25_eHydro      Hydro generation
-* 26_eOther      Other generation
+ 19_CONSTRUC    Construction
+ 20_LTRP        Land transport service(road rail)
+ 21_WTRP        Water transport service
+ 22_ATRP        Air transport service
+ 23_SER         Service
+* 02_COAL        Coal
+* 03_OIL         Crude petroleum
+* 04_GAS         Natural gas Gas distribution
+* 10_PETROLCOAL  Petroleum and coal products
+* 18_ELEC        Electricity
+/
+
+*==============================================================================
+*  1.2 Sub sets for industries
+*==============================================================================
+J2(J) KLE Sectors
+/
+ 06_FOODPRO     Food beverages and tobacco products
+ 07_TEXTILES    Textile and leather products
+ 08_WOODPRO     Wood products
+ 09_PAPERPRO    Paper products
+ 10_PETROLCOAL  Petroleum and coal products
+ 11_CHEMICAL    Chemical products
+ 12_NONMET      Non-metallic mineral products
+ 14_NONFERR     Non-ferrous metal products
+ 15_MACHINE     Fabricated metal products Electronic and electrical equipment Machinery and equipment
+ 16_TRANSEQ     Motor vehicles Other transport equipment
+ 17_OTHERIND    Other manufactured products Water supply
  27_CONSTRUC    Construction
  28_LTRP        Land transport service(road rail)
  29_WTRP        Water transport service
@@ -234,16 +184,14 @@ J2(J) Industries
  31_SER         Service
 /
 
-J3(J) Energy Industries
+J3(J) Non-KLE Sectors
 /
  01_AGRICULT    Agricultural forest and fishery goods
  02_COAL        Coal
  03_OIL         Crude petroleum
  04_GAS         Natural gas Gas distribution
  05_MINING      Mined and quarried goods
- 10_PETROLCOAL  Petroleum and coal products
  13_IRONSTL     Primary iron and steel products
-* 17_OTHERIND    Other manufactured products Water supply
  18_TnD         Transmission and Distribution
  19_eNuclear    Nuclear generation
  20_eCoal       Coal generation
@@ -253,23 +201,9 @@ J3(J) Energy Industries
  24_eSolar      Solar generation
  25_eHydro      Hydro generation
  26_eOther      Other generation
-* 27_CONSTRUC    Construction
 /
 
-J4(J) Energy Transformation Industries
-/
- 10_PETROLCOAL  Petroleum and coal products
- 19_eNuclear    Nuclear generation
- 20_eCoal       Coal generation
- 21_eGas        Gas generation
- 22_eOil        Oil generation
- 23_eWind       Wind generation
- 24_eSolar      Solar generation
- 25_eHydro      Hydro generation
- 26_eOther      Other generation
-/
-
-J5(J) Industries
+J4(J) 'Industries excluding specified energy-related industries'
 /
  01_AGRICULT    Agricultural forest and fishery goods
 * 02_COAL        Coal
@@ -304,173 +238,150 @@ J5(J) Industries
  31_SER         Service
 /
 
-J6(J) Industries
+J5(J) Fossil fuel power sector
 /
  20_eCoal       Coal generation
  21_eGas        Gas generation
  22_eOil        Oil generation
 /
 
-
-Z2(Z)
+TND(J) Electricity Transmission and Distribution
 /
- 01_KOR Korea
- 02_CHN China
- 03_JPN Japan
- 04_RUS Russian Federation
- 05_MNG Mongolia
- 06_PRK Peoples Republic of Korea
-* 07_NAM North America
-* 08_LAM Latin America and the Caribbean
-* 09_WEU Western Europe
-* 10_EEU Central and Eastern Europe
-* 11_FSU Former Soviet Union
-* 12_MEA Middle East and North Africa
-* 13_AFR Sub-Saharan Africa
-* 14_CPA Centrally Planned Asia and China
-* 15_SAS South Asia
-* 16_PAS Other Pacific Asia
-* 17_PAO Pacific OECD
+ 18_TnD         Electricity Transmission and Distribution
 /
 
-Z3(Z)
+POWER(J) Power sectors
 /
- 01_KOR Korea
- 02_CHN China
- 03_JPN Japan
- 04_RUS Russian Federation
- 05_MNG Mongolia
- 06_PRK Peoples Republic of Korea
-* 07_NAM North America
-* 08_LAM Latin America and the Caribbean
-* 09_WEU Western Europe
-* 10_EEU Central and Eastern Europe
-* 11_FSU Former Soviet Union
-* 12_MEA Middle East and North Africa
-* 13_AFR Sub-Saharan Africa
-* 14_CPA Centrally Planned Asia and China
-* 15_SAS South Asia
-* 16_PAS Other Pacific Asia
-* 17_PAO Pacific OECD
+ 19_eNuclear    Nuclear generation
+ 20_eCoal       Coal generation
+ 21_eGas        Gas generation
+ 22_eOil        Oil generation
+ 23_eWind       Wind generation
+ 24_eSolar      Solar generation
+ 25_eHydro      Hydro generation
+ 26_eOther      Other generation
 /
 
-Z4(Z)
+Energy(J) Industries
 /
- 01_KOR Korea
- 02_CHN China
- 03_JPN Japan
- 04_RUS Russian Federation
- 05_MNG Mongolia
- 06_PRK Peoples Republic of Korea
- 07_NAM North America
- 08_LAM Latin America and the Caribbean
- 09_WEU Western Europe
- 10_EEU Central and Eastern Europe
- 11_FSU Former Soviet Union
- 12_MEA Middle East and North Africa
- 13_AFR Sub-Saharan Africa
- 14_CPA Centrally Planned Asia and China
- 15_SAS South Asia
- 16_PAS Other Pacific Asia
- 17_PAO Pacific OECD
+ 02_COAL        Coal
+ 03_OIL         Crude petroleum
+ 04_GAS         Natural gas Gas distribution
+ 10_PETROLCOAL  Petroleum and coal products
+ 18_TnD         Transmission and Distribution
+ 19_eNuclear    Nuclear generation
+ 20_eCoal       Coal generation
+ 21_eGas        Gas generation
+ 22_eOil        Oil generation
+ 23_eWind       Wind generation
+ 24_eSolar      Solar generation
+ 25_eHydro      Hydro generation
+ 26_eOther      Other generation
 /
 
-NEA(Z)
+IndCon(J) Industries
 /
- 01_KOR Korea
- 02_CHN China
- 03_JPN Japan
- 04_RUS Russian Federation
- 05_MNG Mongolia
- 06_PRK Peoples Republic of Korea
-/
-
-NEA2(Z)
-/
- 01_KOR Korea
- 02_CHN China
- 03_JPN Japan
-* 04_RUS Russian Federation
-* 05_MNG Mongolia
-* 06_PRK Peoples Republic of Korea
+ 05_MINING      Mined and quarried goods
+ 06_FOODPRO     Food beverages and tobacco products
+ 07_TEXTILES    Textile and leather products
+ 08_WOODPRO     Wood products
+ 09_PAPERPRO    Paper products
+ 11_CHEMICAL    Chemical products
+ 12_NONMET      Non-metallic mineral products
+ 13_IRONSTL     Primary iron and steel products
+ 14_NONFERR     Non-ferrous metal products
+ 15_MACHINE     Fabricated metal products Electronic and electrical equipment Machinery and equipment
+ 16_TRANSEQ     Motor vehicles Other transport equipment
+ 17_OTHERIND    Other manufactured products Water supply
+ 27_CONSTRUC    Construction
 /
 
-Z5(Z)
+Roadrail(J) Industries
 /
- 01_KOR Korea
- 02_CHN China
- 03_JPN Japan
- 04_RUS Russian Federation
-* 05_MNG Mongolia
-* 06_PRK Peoples Republic of Korea
- 07_NAM North America
- 08_LAM Latin America and the Caribbean
- 09_WEU Western Europe
- 10_EEU Central and Eastern Europe
- 11_FSU Former Soviet Union
- 12_MEA Middle East and North Africa
- 13_AFR Sub-Saharan Africa
- 14_CPA Centrally Planned Asia and China
- 15_SAS South Asia
- 16_PAS Other Pacific Asia
- 17_PAO Pacific OECD
+ 28_LTRP        Land transport service(road rail)
 /
 
-Z6(Z)
+Air(J) Industries
 /
-* 01_KOR Korea
-* 02_CHN China
-* 03_JPN Japan
-* 04_RUS Russian Federation
- 05_MNG Mongolia
- 06_PRK Peoples Republic of Korea
-* 07_NAM North America
-* 08_LAM Latin America and the Caribbean
-* 09_WEU Western Europe
-* 10_EEU Central and Eastern Europe
-* 11_FSU Former Soviet Union
-* 12_MEA Middle East and North Africa
-* 13_AFR Sub-Saharan Africa
-* 14_CPA Centrally Planned Asia and China
-* 15_SAS South Asia
-* 16_PAS Other Pacific Asia
-* 17_PAO Pacific OECD
+ 30_ATRP        Air transport service
+/
+
+Water(J) Industries
+/
+ 29_WTRP        Water transport service
+/
+
+Other(J) Industries
+/
+ 01_AGRICULT    Agricultural forest and fishery goods
+ 31_SER         Service
 /
 
 *==============================================================================
-*  Periods
+*  1.3 Sub sets for region
 *==============================================================================
-* The set TIME is the period of time for which we have projections for GDP,
-* population and economically active population .
+NEA(Z) NorthEastAisa 6 Countires
+/
+ 01_KOR Korea
+ 02_CHN China
+ 03_JPN Japan
+ 04_RUS Russian Federation
+ 05_MNG Mongolia
+ 06_PRK Peoples Republic of Korea
+/
+
+NEA2(Z) Sub NEA KOR-CHN-JPN
+/
+ 01_KOR Korea
+ 02_CHN China
+ 03_JPN Japan
+/
+
+*==============================================================================
+*  1.4 Mapping for Backstop technologies 
+*==============================================================================
+COMtoIND(j,i3) 
+/
+* 10_PETROLCOAL.   (10_PETROLCOAL)
+ 11_CHEMICAL.      (11_CHEMICAL)
+ 13_IRONSTL.      (13_IRONSTL)
+ 28_LTRP.         (20_LTRP )
+/
+
+INDtoCOM(i3,j) 
+/
+* 10_PETROLCOAL.   (10_PETROLCOAL)
+ 11_CHEMICAL.      (11_CHEMICAL)
+ 13_IRONSTL.      (13_IRONSTL)
+ 20_LTRP.         (28_LTRP ) 
+/
+
+*==============================================================================
+*   1.5 Periods
+*==============================================================================
 TIME Time periods
 /
 2019*2050
-*2019*2038
 *2019*2040
-*2019
 /
+
 T(time)
 T1(time)         First period;
 T1(time)         = yes$[ord(time) eq 1];
 
-*===============================================================================
+Parameter EndTime /2050/;
 
+*==============================================================================
+*   1.6 Alias
+*===============================================================================
 ALIAS (j,jj)
 ALIAS (i,ii,ij)
 ALIAS (l,lj)
 ALIAS (k,kj)
 ALIAS (z,zj,zjj)
-ALIAS (power, power2)
-AlIAS (ENE,ENE2)
+ALIAS (power, powerr)
+AlIAS (ENE,ENEE)
 ;
-
-* If you don't want the model to run to the horizon defined in the set
-* TIME, define parameter EndTime as the final year for model resolution.
-*Parameter EndTime /2008/;
-*Parameter EndTime /2020/;
-Parameter EndTime /2050/;
-
-*$EXIT
 
 *==============================================================================
 * 2 Declaration of parameters and benchmark variables
@@ -486,6 +397,7 @@ PARAMETER
  B_KD(j,z)            Scale parameter (CES - composite capital)
  B_KD2(j,z,time)      Scale parameter (CES - composite capital)
  B_LD(j,z)            Scale parameter (CES - composite labor)
+ B_LD2(j,z,time)      Scale parameter (CES - composite labor)
  B_M1(i,z)            Scale parameter (CES - composite commodity)
  B_M2(i,z)            Scale parameter (CES - composite import)
  B_VA(j,z)            Scale parameter (CES - value added)
@@ -566,25 +478,18 @@ PARAMETER
  gamma_LES(i,z)       Marginal share of commodity i in household consumption budget
  exogro(z,time)       Exogenous growth factor for exogenously growing variables except labor
  growthz(z)           Steady state grwoth
- AEEI(z,time)
- AEEI_low(z,time)     Autonomous energy efficiency improvement
- AEEI_high(z,time)    Autonomous energy efficiency improvement
-
- TREND(z,time)
+ AEEI(z,time)         Autonomous energy efficiency improvement (Reference)
+ AEEI_low(z,time)     Autonomous energy efficiency improvement (Low)
+ AEEI_high(z,time)    Autonomous energy efficiency improvement (High)
  CTAX_Cal(z,time)
  CTAX_CPS(z,time)
  CTAX_NZS(z,time)
 
- CTAX_61(z,time)
- CTAX_145(z,time)
- CTAX_285(z,time)
- CTAX_425(z,time)
- CTAX_565(z,time)
- 
  B_ENER_t(j,z,time)
 
- switch(i3,z,time)    binary variable - equals zero if no use of backstop technologies
- penetration_rate(i3,z,time) penetration_rate  
+ switch(i3,z,time) binary variable - equals zero if no use of backstop technologies
+ penetration_rate(i3,z,time) penetration_rate
+ 
 *==============================================================================
 *  2.2 Variables - Benchmark
 *==============================================================================
@@ -748,20 +653,66 @@ Scalar
 *  includes data for some variables and substitution elasticities.
 
 $LOAD CO, CGO, DDO, DEPO, DIO, DSO, DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, XSO, XSO_I, XSTO,
-$LOAD TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, TREND, CTAX_Cal, CTAX_CPS, CTAX_NZS, CTAX_61, CTAX_145, CTAX_285, CTAX_425, CTAX_565, RKDO, TDHO, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, 
+$LOAD TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, CTAX_Cal, CTAX_CPS, CTAX_NZS, RKDO, TDHO, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, 
 $LOAD tmrg, sigma_M1, sigma_M2, sigma_VA, sigma_KLE, POPO
 
-display sigma_M1, sigma_M2 ;
+* Other exogenous parameters can be defined if the Excel file VAL_PAR.XLS
+PARAMETER
+PARZ;
 
-sigma_M1('04_GAS',Z) = 6;
-sigma_M1('03_OIL','06_PRK') = 0.5;
-*sigma_M1('10_PETROLCOAL','05_mng') = 6;
+$CALL gdxxrw Input_w-t\PAR.xlsx @Input_w-t\PAR.txt Rdim=2 Cdim=1 output = Input_w-t\PAR.gdx
+$GDXIN Input_w-t\PAR.gdx
+$LOAD sigma_KD, sigma_LD, sigma_X1, sigma_X2, sigma_X3, sigma_X0, sigma_y, sigma_inv, PARZ
 
-sigma_M2('03_OIL',Z) = 2;
-sigma_M2('04_GAS',Z) = 2;
-*sigma_M2('19_CONSTRUC',Z) = 0.5;
+*===============================================================================
+* CES - composite capital
+ sigma_KD(j,z)   = 2*sigma_VA(j,z);
+ 
+* CES - composite labor
+ sigma_LD(j,z)   = 2*sigma_VA(j,z); 
 
-display sigma_M1, sigma_M2 ;
+* CES - composite K-L
+* 02_COAL, 20_e_Coal, 22_eOil -> 0.1
+* Exec Error at line 3250: rPower: FUNC DOMAIN: x**y, x < 0
+* Evaluation error(s) in equation "EQ4(02_COAL,03_JPN,2046)"
+* Exec Error at line 3670: rPower: FUNC DOMAIN: x**y, x < 0
+* Evaluation error(s) in equation "EQ96(cap,02_COAL,03_JPN,2046)"
+* Evaluation error(s) in equation "EQ96(natr,02_COAL,03_JPN,2046)"
+* why? No issues with 0.2 : 02_COAL, 20_e_Coal, 22_eOil -> 0.2
+ sigma_VA('02_COAL',z)  = 0.2;
+ sigma_VA('20_eCoal',z) = 0.2;
+ sigma_VA('22_eOil',z)  = 0.2;
+
+* 10_PETROLCOAL 1.0 -> 1.26
+ sigma_VA('10_PETROLCOAL',z) = 1.26;
+
+* CES - composite ENER
+ sigma_ENER(j,z) = 1.1 ;
+
+* CES - DOM vs. IMP
+ sigma_M1('03_OIL','06_PRK') = 0.5;
+ sigma_M1('04_GAS',Z) = 6;
+
+* CES - IMP sourcing
+ sigma_M2('03_OIL',Z) = 2;
+ sigma_M2('04_GAS',Z) = 2;
+
+* CET - total output
+ sigma_X2(i,Z)  = 2;
+
+* CES - composite Power sector
+ sigma_X4(z)    = 2;
+ sigma_X4(NEA2) = 5;
+ 
+* Investment demand elasticity
+ sigma_INV(k,j,z) = 2;
+ sigma_INV(k,j,'05_MNG') = 0.1;
+
+* Income elasticity of consumption
+ sigma_Y('03_OIL','06_PRK') = 1.01;
+
+* LES parameters - Frisch all (1.1)
+ frisch(z)      = PARZ(z,'frisch');
 
 *==============================================================================
 *   3.1.2 Rescaling the variables
@@ -770,8 +721,6 @@ display sigma_M1, sigma_M2 ;
 * (see www.gtap.agecon.purdue.edu/resources/download/5679.pdf)
 * With RES = 10000, model results are in tens of billions (10G$)
 RES              = 10000;
-*RES              = 1000;
-
 
 * NOTE: In GTAP parlance, "agents' prices" are prices paid by buyers, and
 *       "market prices" are prices received by sellers.
@@ -874,147 +823,8 @@ growthz(z)        = 0.02;
 *==============================================================================
 *  3.3 Exogenous prices and parameters
 *==============================================================================
-
 *  Price elasticity (should be equal to one to verify homogeneity)
 eta = 1;
-
-*==============================================================================
-* CES and CET elasticities
-*==============================================================================
-* CES elasticities are defined using GTAP8.1 data for imports
-* (sigma_M1 and sigma_M2) and value added (sigma_VA)
-
-* Other exogenous parameters can be defined if the Excel file VAL_PAR.XLS
-PARAMETER
-PARZ;
-
-$CALL gdxxrw Input_w-t\PAR.xlsx @Input_w-t\PAR.txt Rdim=2 Cdim=1 output = Input_w-t\PAR.gdx
-$GDXIN Input_w-t\PAR.gdx
-$LOAD sigma_KD, sigma_LD, sigma_X1, sigma_X2, sigma_X3, sigma_X0, sigma_y, sigma_inv, PARZ
-
-sigma_INV(k,j,z) = 2;
-*sigma_INV(k,j,z) = 2.5;
-sigma_INV(k,j,'05_MNG') = 0.1;
-*$exit
-*sigma_VA('03_OIL','06_PRK') = 2;
- sigma_Y('03_OIL','06_PRK') = 1.01;
-
-$ontext
- sigma_Y('02_COAL','01_KOR') = sigma_Y('02_COAL','01_KOR')*1.0;
- sigma_Y('02_COAL','02_CHN') = sigma_Y('02_COAL','02_CHN')*0.8;
- sigma_Y('02_COAL','03_JPN') = sigma_Y('02_COAL','03_JPN')*1.2;
- sigma_Y('02_COAL','04_RUS') = sigma_Y('02_COAL','04_RUS')*0.6;
- sigma_Y('02_COAL','05_MNG') = sigma_Y('02_COAL','04_RUS')*0.4;
- sigma_Y('02_COAL','06_PRK') = sigma_Y('02_COAL','04_RUS')*0.4;
-
- sigma_Y('03_OIL','01_KOR') = sigma_Y('03_OIL','01_KOR')*1.0;
- sigma_Y('03_OIL','02_CHN') = sigma_Y('03_OIL','02_CHN')*0.8;
- sigma_Y('03_OIL','03_JPN') = sigma_Y('03_OIL','03_JPN')*1.2;
- sigma_Y('03_OIL','04_RUS') = sigma_Y('03_OIL','04_RUS')*0.6;
- sigma_Y('03_OIL','05_MNG') = sigma_Y('03_OIL','04_RUS')*0.4;
- sigma_Y('03_OIL','06_PRK') = sigma_Y('03_OIL','04_RUS')*0.4;
-
- sigma_Y('04_GAS','01_KOR') = sigma_Y('04_GAS','01_KOR')*1.0;
- sigma_Y('04_GAS','02_CHN') = sigma_Y('04_GAS','02_CHN')*0.8;
- sigma_Y('04_GAS','03_JPN') = sigma_Y('04_GAS','03_JPN')*1.2;
- sigma_Y('04_GAS','04_RUS') = sigma_Y('04_GAS','04_RUS')*0.6;
- sigma_Y('04_GAS','05_MNG') = sigma_Y('04_GAS','04_RUS')*0.4;
- sigma_Y('04_GAS','06_PRK') = sigma_Y('04_GAS','04_RUS')*0.4;
-
- sigma_Y('10_PETROLCOAL','01_KOR') = sigma_Y('10_PETROLCOAL','01_KOR')*1.0;
- sigma_Y('10_PETROLCOAL','02_CHN') = sigma_Y('10_PETROLCOAL','02_CHN')*0.8;
- sigma_Y('10_PETROLCOAL','03_JPN') = sigma_Y('10_PETROLCOAL','03_JPN')*1.2;
- sigma_Y('10_PETROLCOAL','04_RUS') = sigma_Y('10_PETROLCOAL','04_RUS')*0.6;
- sigma_Y('10_PETROLCOAL','05_MNG') = sigma_Y('10_PETROLCOAL','04_RUS')*0.4;
- sigma_Y('10_PETROLCOAL','06_PRK') = sigma_Y('10_PETROLCOAL','04_RUS')*0.4;
- 
- sigma_Y('18_ELEC','01_KOR') = sigma_Y('18_ELEC','01_KOR')*1.0;
- sigma_Y('18_ELEC','02_CHN') = sigma_Y('18_ELEC','02_CHN')*0.8;
- sigma_Y('18_ELEC','03_JPN') = sigma_Y('18_ELEC','03_JPN')*1.2;
- sigma_Y('18_ELEC','04_RUS') = sigma_Y('18_ELEC','04_RUS')*0.6;
- sigma_Y('18_ELEC','05_MNG') = sigma_Y('18_ELEC','04_RUS')*0.4;
- sigma_Y('18_ELEC','06_PRK') = sigma_Y('18_ELEC','04_RUS')*0.4;
-$offtext
-
-*------------------------------------------------------------------------------
-* CES - composite capital
-* We assume that the elasticity between the different type of capital
-* is twice that used for value added.
-* If the user wishes to assume otherwise, he can fill the appropriate area in
-* the Excel file VAL_PAR.xls and delete following line:
- sigma_KD(j,z)   = 2*sigma_VA(j,z);
-* sigma_KD(j,z)   = 0.5;
-
-* sigma_KD('27_CONSTRUC', '05_MNG') = 0.2;
-*27_CONSTRUC 05_MNG  2.52
-
- sigma_VA('10_PETROLCOAL',z) = 1.260;
- 
-* sigma_VA('27_CONSTRUC','05_MNG') = 6.0;
-
-*------------------------------------------------------------------------------
-* CES - composite labor
-* We assume that the elasticity between the different type of labor
-* is twice that used for value added.
-* If the user wishes to assume otherwise, he can fill the appropriate area in
-* the Excel file VAL_PAR.xls and delete following line:
- sigma_LD(j,z)   = 2*sigma_VA(j,z);
-* sigma_LD(j,z)   = 0.5;
-
-*------------------------------------------------------------------------------
-* CES - composite KLE, ENER
-* sigma_KLE(j,z)  = 0.5 ;
-
- sigma_ENER(j,z) = 1.1 ;
-
-$ontext 
- sigma_KLE(j,'01_KOR') = sigma_KLE(j,'01_KOR')*1.0;
- sigma_KLE(j,'02_CHN') = sigma_KLE(j,'02_CHN')*0.8;
- sigma_KLE(j,'03_JPN') = sigma_KLE(j,'03_JPN')*1.2;
- sigma_KLE(j,'04_RUS') = sigma_KLE(j,'04_RUS')*0.6;
- sigma_KLE(j,'05_MNG') = sigma_KLE(j,'05_MNG')*0.4;
- sigma_KLE(j,'06_PRK') = sigma_KLE(j,'06_PRK')*0.4;
-
- sigma_ENER(j,'01_KOR') = sigma_ENER(j,'01_KOR')*1.0;
- sigma_ENER(j,'02_CHN') = sigma_ENER(j,'02_CHN')*0.8;
- sigma_ENER(j,'03_JPN') = sigma_ENER(j,'03_JPN')*1.2;
- sigma_ENER(j,'04_RUS') = sigma_ENER(j,'04_RUS')*0.6;
- sigma_ENER(j,'05_MNG') = sigma_ENER(j,'05_MNG')*0.4;
- sigma_ENER(j,'06_PRK') = sigma_ENER(j,'06_PRK')*0.4;
-$offtext
-
-*------------------------------------------------------------------------------
-* CET - total output
-* We arbitrarily assume that the transformation elasticity between total exports,
-* domestic supply and margins is equal to 2 for all sectors and all region.
-* If the user wishes to assume otherwise, he can fill the appropriate area in
-* the Excel file VAL_PAR.xls.
-
-*------------------------------------------------------------------------------
-* CET - exports
-* We arbitrarily assume that the transformation elasticity between exports
-* to the different partners is equal to 3 for all sectors and all region.
-* If the user wishes to assume otherwise, he can fill the appropriate area in
-* the Excel file VAL_PAR.xls.
-
-*------------------------------------------------------------------------------
-* LES parameters - Frisch
-* We assume that the Frisch parameter is -1.1 for rich regions/countries and
-* -1.5 for other regions/countries.
- frisch(zrich)   = -1.1;
- frisch(zother)  = -1.5;
-
-* If the user wishes to assume otherwise, he can fill the appropriate area in
-* the Excel file VAL_PAR.xls, delete the previous 2 lines and uncomment the
-* following line:
- frisch(z)      = PARZ(z,'frisch');
-
-*------------------------------------------------------------------------------
-* LES parameters - Income elasticity of consumption
-* We arbitrarily assume that the income elasticity of the consumption of
-* commodity i is the same for all region/country.
-* If the user wishes to assume otherwise, he can fill the appropriate area in
-* the Excel file VAL_PAR.xls.
 
 *------------------------------------------------------------------------------
 *  Slopes of taxation functions
@@ -1031,13 +841,6 @@ $offtext
 
  ttdh0O(z)       = 0;
 *   The slope ttdh1O is calibrated below in the mane GAMS file
-
-*------------------------------------------------------------------------------
-*  Elasticity - Investment demand function
-* We arbitrarily assume that this elasticity is equal to 2 for all types of
-* capital, all sectors and all regions.
-* If the user wishes to assume otherwise, he can fill the appropriate area in
-* the Excel file VAL_PAR.xls.
 
 *------------------------------------------------------------------------------
 * Also we need to assign values to some prices
@@ -1116,9 +919,9 @@ $offtext
  IMO(i,zj,z)     = EXO(i,zj,z);
  IMTO(i,z)       = SUM[zj,IMO(i,zj,z)];
 
- DSO(j,i,z)       = DSO(j,i,z)/PLO(i,z);
- DSO_I(i,z)       = SUM(j,DSO(j,i,z));
- DSO_J(j,z)       = SUM(i,DSO(j,i,z));
+ DSO(j,i,z)      = DSO(j,i,z)/PLO(i,z);
+ DSO_I(i,z)      = SUM(j,DSO(j,i,z));
+ DSO_J(j,z)      = SUM(i,DSO(j,i,z));
  QO(i,z)         = IMTO(i,z)+DDO(i,z);
 
  MRGNO(i,z)$MRGNO(i,z)
@@ -1128,7 +931,7 @@ $offtext
 
  XSTO(j,z)       = sum(i, XSO(j,i,z));
 
- PO(i,z)        = [PETO(i,z)*EXTO(i,z)+PLO(i,z)*DSO_I(i,z)
+ PO(i,z)         = [PETO(i,z)*EXTO(i,z)+PLO(i,z)*DSO_I(i,z)
                   +eO(z)*PWMGO(i)*MRGNO(i,z)]/XSO_I(i,z);
 
  PO2(j,i,z)$XSO(j,i,z) = 1;
@@ -1143,7 +946,7 @@ $offtext
                   +SUM[k,TIKO(k,j,z)+RKDO(k,j,z)]
                   +SUM[nene,DIO(nene,j,z)]+SUM[ene,DIO(ene,j,z)]]/XSTO(j,z);
 
- theta2(j,i,z) = DSO(j,i,z)/sum(jj, DSO(jj,i,z));
+ theta2(j,i,z)  = DSO(j,i,z)/sum(jj, DSO(jj,i,z));
 
  EXTTO(j,i,z)$DSO(j,i,z) = theta2(j,i,z)*EXTO(i,z);
 
@@ -1316,10 +1119,13 @@ $offtext
  v2(j,z)         = (CEO(j,z)+VAO(j,z))/XSTO(j,z) ;
 
  aij(nene,j,z)   = DIO(nene,j,z)/CIO(j,z);
+
  aij2(ene,j,z)   = DEO(ene,j,z)/CEO(j,z);
 
  aij2_t(ene,j,z,time) =  aij2(ene,j,z)*AEEI_low(z,'2019') ;
+ 
  io2_t(j,z,time) = io2(j,z)*AEEI_low(z,'2019') ;
+ 
 *==============================================================================
 *   4.6.2 Calibration of CET parameters
 *==============================================================================
@@ -1357,10 +1163,12 @@ $offtext
 *    4.6.2.2 CET between exports to different trading partners
 *==============================================================================
  rho_X2(i,z)     = (1+sigma_X2(i,z))/sigma_X2(i,z);
+
  beta_X2(i,z,zj)$EXO(i,z,zj)
                  = [PEO(i,z,zj)*EXO(i,z,zj)**(1-rho_X2(i,z))]/
                    SUM[zjj$EXO(i,z,zjj),PEO(i,z,zjj)*EXO(i,z,zjj)
                    **(1-rho_X2(i,z))];
+
  B_X2(i,z)       = EXTO(i,z)/{SUM[zj,beta_X2(i,z,zj)*EXO(i,z,zj)**rho_X2(i,z)]
                    **(1/rho_X2(i,z))};
 
@@ -1380,22 +1188,18 @@ $offtext
                   ]**(-1/rho_X3(i,z));
 
  POWERQO(Z) = SUM(POWER, XSO(power,'18_ELEC',z));
-
-* sigma_X4(z) =2;
- sigma_X4(z) = 2;
- sigma_X4(NEA2) = 3;
  
  rho_X4(z)   = (1-sigma_X4(z))/sigma_X4(z);
 
  beta_X4(power,z)
                = [PO2(power,'18_ELEC',z)*XSO(power,'18_ELEC',z)**(1+rho_X4(z))]/
-                   SUM[power2$XSO(power2,'18_ELEC',z),PO2(power2,'18_ELEC',z)*XSO(power2,'18_ELEC',z)**(1+rho_X4(z))];
+                   SUM[powerr$XSO(powerr,'18_ELEC',z),PO2(powerr,'18_ELEC',z)*XSO(powerr,'18_ELEC',z)**(1+rho_X4(z))];
 
  B_X4(z)     = POWERQO(Z)
-                  /SUM[power2$XSO(power2,'18_ELEC',z),beta_X4(power2,z)*XSO(power2,'18_ELEC',z)**(-rho_X4(z))
+                  /SUM[powerr$XSO(powerr,'18_ELEC',z),beta_X4(powerr,z)*XSO(powerr,'18_ELEC',z)**(-rho_X4(z))
                   ]**(-1/rho_X4(z));
 
- TnDShare(z) = XSO('18_TnD','18_ELEC',z) / XSO_I('18_ELEC',z);
+ TnDShare(z) = XSO('18_TnD','18_ELEC',z)/XSO_I('18_ELEC',z);
 
  PPOWERO(z) = 1;
 
@@ -1403,9 +1207,11 @@ $offtext
 *    4.6.3.1 Composite good
 *==============================================================================
  rho_M1(i,z)     = (1-sigma_m1(i,z))/sigma_m1(i,z);
+
  beta_M1(i,z)    = PMTO(i,z)*IMTO(i,z)**(rho_M1(i,z)+1)/
                   {PDO(i,z)*DDO(i,z)**(rho_M1(i,z)+1)
                   +PMTO(i,z)*IMTO(i,z)**(rho_M1(i,z)+1)};
+
  B_M1(i,z)       = QO(i,z)/{beta_M1(i,z)*IMTO(i,z)**(-rho_M1(i,z))
                   +(1-beta_M1(i,z))*DDO(i,z)**(-rho_M1(i,z))}**(-1/rho_M1(i,z));
 
@@ -1413,13 +1219,15 @@ $offtext
 *    4.6.3.2 CES between imports from different trading partners
 *==============================================================================
  rho_M2(i,z)     = (1-sigma_M2(i,z))/sigma_M2(i,z);
+
  beta_M2(i,zj,z)$IMO(i,zj,z)
                  = [PMO(i,zj,z)*IMO(i,zj,z)**(rho_M2(i,z)+1)]/
                    SUM[zjj$IMO(i,zjj,z),PMO(i,zjj,z)*IMO(i,zjj,z)
                     **(rho_M2(i,z)+1)];
+
  B_M2(i,z)       = IMTO(i,z)/{SUM[zj$IMO(i,zj,z),beta_M2(i,zj,z)*IMO(i,zj,z)
                    **(-rho_M2(i,z))]**(-1/rho_M2(i,z))};
-
+                   
 *==============================================================================
 *    4.6.3.3 Composite capital
 *==============================================================================
@@ -1428,6 +1236,7 @@ $offtext
  beta_KD(k,j,z)$KDO(k,j,z)
                  = [RTIO(k,j,z)*KDO(k,j,z)**(1+rho_KD(j,z))]/
                    SUM[kj$KDO(kj,j,z),RTIO(kj,j,z)*KDO(kj,j,z)**(1+rho_KD(j,z))];
+
  B_KD(j,z)$KDCO(j,z)
                  = KDCO(j,z)/{SUM[k$KDO(k,j,z),beta_KD(k,j,z)*KDO(k,j,z)
                    **(-rho_KD(j,z))]**(-1/rho_KD(j,z))};
@@ -1438,13 +1247,17 @@ $offtext
 *    4.6.3.4 Composite labor
 *==============================================================================
  rho_LD(j,z)     = (1-sigma_LD(j,z))/sigma_LD(j,z);
+
  beta_LD(l,j,z)$LDO(l,j,z)
                  = [WTIO(l,j,z)*LDO(l,j,z)**(1+rho_LD(j,z))]/
                    SUM[lj$LDO(lj,j,z),WTIO(lj,j,z)*LDO(lj,j,z)
                    **(1+rho_LD(j,z))];
+
  B_LD(j,z)$LDCO(j,z)
                  = LDCO(j,z)/{SUM[l$LDO(l,j,z),beta_LD(l,j,z)*LDO(l,j,z)
                    **(-rho_LD(j,z))]**(-1/rho_LD(j,z))};
+
+ B_LD2(j,z,time) = B_LD(j,z) ;
  
 *===============================================================================
 *   Composite E
@@ -1453,7 +1266,7 @@ $offtext
 
  beta_ENER(ene,j,z)$DEO(ene,j,z)
                  = [PO4(ene,j,z)*DEO(ene,j,z)**(1+rho_ENER(j,z))]/
-                   SUM[ene2$DIO(ene,j,z),DEO(ene2,j,z)**(1+rho_ENER(j,z))];
+                   SUM[enee$DIO(ene,j,z),DEO(enee,j,z)**(1+rho_ENER(j,z))];
 
  B_ENER(j,z)$CEO(j,z)
                  = CEO(j,z)/{SUM[ene$DEO(ene,j,z),beta_ENER(ene,j,z)*DEO(ene,j,z)
@@ -1476,7 +1289,7 @@ $offtext
                    (1-beta_VA(j,z))*KDCO(j,z)**(-rho_VA(j,z))
                    ]**(-1/rho_VA(j,z))};
 
- B_VA2(j,z,time) =B_VA(j,z);
+ B_VA2(j,z,time) = B_VA(j,z);
 
 *==============================================================================
 *    Composite KLE
@@ -1715,6 +1528,7 @@ Parameters
 
 * CO2FACTOR(ene,j,z) = 0 ;
  CO2FACTOR('02_COAL',j,z)$DEO('02_COAL',j,z) = [sum(p_coal,CO2IO(p_coal,j,z))/DEO('02_COAL',j,z)]*(1000/(10**8));
+* CO2FACTOR('03_OIL',j,z)$DEO('03_OIL',j,z)   = [sum(p_oil,CO2IO(p_oil,j,z))/DEO('03_OIL',j,z)]*(1000/(10**8));
  CO2FACTOR('04_GAS',j,z)$DEO('04_GAS',j,z) = [sum(p_gas,CO2IO(p_gas,j,z))/DEO('04_GAS',j,z)]*(1000/(10**8));
  CO2FACTOR('10_PETROLCOAL',j,z)$DEO('10_PETROLCOAL',j,z) = [sum(p_oilproduct,CO2IO(p_oilproduct,j,z))/DEO('10_PETROLCOAL',j,z)]*(1000/(10**8));
 
@@ -1724,8 +1538,10 @@ Parameters
 
 *PetrolCoal
  CO2FACTOR('10_PETROLCOAL','10_PETROLCOAL',z) = 0;
+ CO2FACTOR('02_COAL','10_PETROLCOAL',z) = CO2FACTOR('02_COAL','13_IRONSTL',z);
 
 *KOR
+* CO2FACTOR('02_COAL','10_PETROLCOAL','01_KOR') = 0;
 * CO2FACTOR(ene,'20_eCoal','01_KOR') =  CO2FACTOR(ene,'20_eCoal','03_JPN');
  
 *PRK
@@ -1740,8 +1556,7 @@ Parameters
 *LAM
  CO2FACTOR('04_GAS','02_COAL','08_LAM')             = CO2FACTOR('04_GAS','02_COAL','07_NAM');
 
- CTAX0(z) = 0 ;
-
+ CTAX0(z)  = 0;
  TCTAX0(z) = 0;
 
 * CO2FACTOR2(ene,j,z,time) = CO2FACTOR(ene,j,z)*AEEI(z,time);
@@ -1820,7 +1635,7 @@ VARIABLES
  XDBS2(j,z,time)
  LBS(l,j,z,time)
  KBS(k,j,z,time)
- EBS(ene4,j,z,time)
+ EBS(ene2,j,z,time)
 *==============================================================================
 *   5.1.2 Price variables
 *==============================================================================
@@ -1904,7 +1719,10 @@ VARIABLES
  CLBS(i3,z,time)
  CKBS(i3,z,time)
  CEBS(i3,z,time)
- MARKUP(i3,z,time) 
+ MARKUP(i3,z,time)
+ 
+ A_VA2(j,z,time)         Multifactor productivity
+
 *==============================================================================
 *   5.1.4 Rates and intercepts
 *==============================================================================
@@ -2084,7 +1902,7 @@ EQUATIONS
  EQ103(i3,z,time)
  EQ104(i3,z,time)
  EQ105(i3,z,time)
- EQ106(ene4,j,z,time) 
+ EQ106(ene2,j,z,time) 
 ;
 
 *==============================================================================
@@ -2126,9 +1944,12 @@ EQUATIONS
                               *[PCE(j2,z,t)/PVA(j2,z,t)]}**sigma_KLE(j2,z)*CE(j2,z,t);
 
  EQ5(j,z,t)$LDCO(j,z)..
-*                 LDC(j,z,t) =e= B_LD(j,z)*SUM[l$LDO(l,j,z),beta_LD(l,j,z)
-*                                *LD(l,j,z,t)**(-rho_LD(j,z))]**(-1/rho_LD(j,z));
-                 LDC(j,z,t)/B_LD(j,z) =e= SUM[l$LDO(l,j,z),beta_LD(l,j,z)*LD(l,j,z,t)**(-rho_LD(j,z))]**(-1/rho_LD(j,z));
+*                 LDC(j,z,t) =e= B_LD2(j,z,t)*SUM[l$LDO(l,j,z),beta_LD(l,j,z)
+*                                *(LD(l,j,z,t)*A_VA2(j,z,t))**(-rho_LD(j,z))]**(-1/rho_LD(j,z)) ;
+*                 LDC(j,z,t)/B_LD(j,z) =e= SUM[l$LDO(l,j,z),beta_LD(l,j,z)*LD(l,j,z,t)**(-rho_LD(j,z))]**(-1/rho_LD(j,z));
+
+LDC(j,z,t) =e= B_LD2(j,z,t) * EXP((-1/rho_LD(j,z)) * LOG(SUM(l$LDO(l,j,z), beta_LD(l,j,z)
+                               * EXP(-rho_LD(j,z) * LOG(LD(l,j,z,t) * A_VA2(j,z,t))))));
 
  EQ6(l,j,z,t)$LDO(l,j,z)..
                  LD(l,j,z,t) =e= [beta_LD(l,j,z)*WC(j,z,t)/WTI(l,j,z,t)]
@@ -2250,10 +2071,9 @@ EQUATIONS
 
  EQ39(nene,z,t)..    DIT(nene,z,t) =e= SUM[j,DI(nene,j,z,t)];
  
- EQ39_1(ene3,z,t)..  DIT(ene3,z,t) =e= SUM[j,DE(ene3,j,z,t)];
+ EQ39_1(ene1,z,t)..  DIT(ene1,z,t) =e= SUM[j,DE(ene1,j,z,t)];
 
- EQ39_2(ene4,z,t)..  DIT(ene4,z,t) =e= SUM[j,DE(ene4,j,z,t)+EBS(ene4,j,z,t)];
-* EQ39_2(ene4,z,t)..  DIT(ene4,z,t) =e= SUM[j,DE(ene4,j,z,t)];
+ EQ39_2(ene2,z,t)..  DIT(ene2,z,t) =e= SUM[j,DE(ene2,j,z,t)+EBS(ene2,j,z,t)];
 
 * EQ72(l,z,t)..     LS(l,z,t) =e= SUM[j$LDO(l,j,z),LD(l,j,z,t)+LBS(l,j,z,t)];
 
@@ -2568,7 +2388,7 @@ $OFFTEXT
  
  EQ105(i3,z,t)..   MARKUP(i3,z,t) =e= {PC(i3,z,t)*XDBS(i3,z,t)-CLBS(i3,z,t)-CKBS(i3,z,t)}*switch(i3,z,t) ; 
 
- EQ106(ene4,j,z,t)..  EBS(ene4,j,z,t) =e= 0.06*XDBS2(j,z,t);
+ EQ106(ene2,j,z,t)..  EBS(ene2,j,z,t) =e= 0.06*XDBS2(j,z,t);
 
 *==============================================================================
 * 6 Numerical resolution to compute A_VA, sh0, G, G_REAL and IND
@@ -2585,6 +2405,8 @@ option cns = conopt4;
 *option NLP = minos;
 *option NLP = pathnlp ;
 
+*Option conopt4.TolPiv = 1e-6;
+
 option iterlim = 100;
 *option iterlim = 0;
 *option lmmxsf = t ;
@@ -2593,7 +2415,7 @@ option iterlim = 100;
 * and to identify year when it crashes.
 *option profile=1;
 *option profile=3;
-*option profiletol=10;
+option profiletol=10;
 
 option limrow=0, limcol=0, solprint = off;
 *$Offlisting
@@ -2627,9 +2449,9 @@ SCEN  List of scenarios
 *==============================================================================
 *  6.2 BAU scenario and Results
 *==============================================================================
-*$INCLUDE BAU_SOLVE_GTAP11b.gms
-*$INCLUDE BAU_RESULTS_GTAP11b.gms
-*$INCLUDE BAU_IAMC.gms
+$INCLUDE BAU_SOLVE_GTAP11b.gms
+$INCLUDE BAU_RESULTS_GTAP11b.gms
+$INCLUDE BAU_IAMC.gms
 *$INCLUDE BAU_IPCC.gms
 
 * The user may run the BAU scenario with the command line parameter s=bau
@@ -2649,6 +2471,6 @@ SCEN  List of scenarios
 *==============================================================================
 $INCLUDE NZS_SOLVE_GTAP11b.gms
 $INCLUDE NZS_RESULTS_GTAP11b.gms
-*$INCLUDE NZS_IAMC.gms
+$INCLUDE NZS_IAMC.gms
 
 $exit

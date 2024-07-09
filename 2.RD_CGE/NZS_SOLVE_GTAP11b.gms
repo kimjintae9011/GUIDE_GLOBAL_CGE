@@ -10,7 +10,7 @@
 * paths. The solution values of A_VA are stored as parameter A_VA_RES.
 *-------------------------------------------------------------------------------
 
-*$ONTEXT
+$ONTEXT
 PARAMETER
  A_VA_RES(z,time)     Value of A_VA to reproduce real GDP projections
  GX(z,time)           Current government expenditures on goods and services in region z
@@ -27,13 +27,14 @@ $LOAD A_VA_RES, GX, G_REALX, INDX, sh1X, sh0X, phi_BAU
 
 display  A_VA_RES;
 *$EXIT
-*$OFFTEXT
+$OFFTEXT
 
 *==============================================================================
 *  6.2.1.1.2 Choice of multifactor productivity
 *==============================================================================
 * If you want to reproduce the real GDP projections, set:
  A_VA.FX(z,time)  = A_VA_RES(z,time);
+ 
 * Otherwise, simply put A_VA equal to one:
 
 *==============================================================================
@@ -111,6 +112,11 @@ T(time) = YES;
  CTAX.fX(z,time)      = CTAX0(z);
  beta_X4_t.fx(power,z,time) = beta_X4(power,z);
 
+ A_VA2.FX(j,z,time) = 1 ;
+
+* LDC.fx('02_COAL','01_KOR',time)   = LDCO('02_COAL','01_KOR');
+* LDC.fx('02_COAL','01_KOR',time)$[ord(time) gt 1]
+*                                 = LDCO('02_COAL','01_KOR');
 
 *==============================================================================
 *   6.2.2.1 Initialisation
@@ -121,6 +127,9 @@ $INCLUDE INIT.gms
 *==============================================================================
 *   6.1.1.1 Lower bounds on some variables
 *==============================================================================
+* LD.LO(l,j,z,time)$(ord(time) gt 1)   = 0.00001*LD.l(l,j,z,time-1);
+* LDC.LO(j,z,time)$(ord(time) gt 1)    = 0.00001*LDC.l(j,z,time-1);
+
 $Ontext
  LD.LO(l,j,z,time)$(ord(time) gt 1)   = 0.00001*LD.l(l,j,z,time-1);
  LDC.LO(j,z,time)$(ord(time) gt 1)    = 0.00001*LDC.l(j,z,time-1);
@@ -267,22 +276,6 @@ $offtext
  CTAX.fx('05_MNG',time)$[ord(time) gt 4]
                             = CTAX_NZS('04_RUS',time); 
 
-$Ontext
- CTAX.fX(z,t1)              = CTAX0(z);
- CTAX.fx(z,time)$[ord(time) gt 1]
-*                            = CTAX_61(z4,time); 
-                            = CTAX_145(z,time);  
-*                            = CTAX_285(z,time);  
-*                            = CTAX_425(z,time);  
-*                            = CTAX_565(z4,time); 
-
- CTAX.fx('05_MNG',time)$[ord(time) gt 3]
-                            = 0.001 + 0.002*[ord(time)]-0.006; 
-
- CTAX.fx('06_PRK',time)$[ord(time) gt 3]
-                            = 0.001 + 0.002*[ord(time)]-0.006;  
-
-$Offtext
 *======== CTAX_285 ========================================
 * CTAX.fx('14_CPA',time)$[ord(time) gt 1]
 *                             = CTAX_145('14_CPA',time); 
@@ -372,7 +365,7 @@ penetration_rate(i3,z,time)$[CTAX.L(z,time) gt 0.8]
                              = penetration_rate(i3,z,time-1)+0.038;
 
 penetration_rate(i3,'01_KOR',time)$[CTAX.L('01_KOR',time) gt 0.8]
-                             = penetration_rate(i3,'01_KOR',time-1)+0.05;
+                             = penetration_rate(i3,'01_KOR',time-1)+0.053;
 
 if ((CTAX.L('01_KOR',time) gt 0.8), switch(i3,'01_KOR',time) = 1  ;
 else switch(i3,'01_KOR',time) = 0 ;
@@ -471,23 +464,23 @@ else switch(i3,'17_PAO',time) = 0 ;
 *===============================================================================
 * Coal Phase-out Shock
 *===============================================================================
- KD.fx(k,J6,'01_KOR',time)$[ord(time) gt 5]
-                      = KD.l(k,J6,'01_KOR',time-1)*[1-0.08];
+ KD.fx(k,J5,'01_KOR',time)$[ord(time) gt 5]
+                      = KD.l(k,J5,'01_KOR',time-1)*[1-0.08];
 
- KD.fx(k,J6,'02_CHN',time)$[ord(time) gt 12]
-                      = KD.l(k,J6,'02_CHN',time-1)*[1-0.08];
+ KD.fx(k,J5,'02_CHN',time)$[ord(time) gt 12]
+                      = KD.l(k,J5,'02_CHN',time-1)*[1-0.08];
 
- KD.fx(k,J6,'03_JPN',time)$[ord(time) gt 5]
-                     = KD.l(k,J6,'03_JPN',time-1)*[1-0.08];
+ KD.fx(k,J5,'03_JPN',time)$[ord(time) gt 5]
+                     = KD.l(k,J5,'03_JPN',time-1)*[1-0.08];
 
- ttiw.fx(l,J6,'01_KOR',time)$[ord(time) gt 5]
-                      = ttiw.l(l,J6,'01_KOR',time-1)*[1+0.10];
+ ttiw.fx(l,J5,'01_KOR',time)$[ord(time) gt 5]
+                      = ttiw.l(l,J5,'01_KOR',time-1)*[1+0.10];
 
- ttiw.fx(l,J6,'02_CHN',time)$[ord(time) gt 12]
-                      = ttiw.l(l,J6,'02_CHN',time-1)*[1+0.10];
+ ttiw.fx(l,J5,'02_CHN',time)$[ord(time) gt 12]
+                      = ttiw.l(l,J5,'02_CHN',time-1)*[1+0.10];
                       
- ttiw.fx(l,J6,'03_JPN',time)$[ord(time) gt 5]
-                      = ttiw.l(l,J6,'03_JPN',time-1)*[1+0.10];
+ ttiw.fx(l,J5,'03_JPN',time)$[ord(time) gt 5]
+                      = ttiw.l(l,J5,'03_JPN',time-1)*[1+0.10];
 
 * ttiw.fx(l,j,z,time)  = ttiwO(l,j,z);
 * ttik.fx(k,j,z,time)  = ttikO(i,z,zj);
@@ -501,8 +494,26 @@ else switch(i3,'17_PAO',time) = 0 ;
  B_KD2('24_eSolar','01_KOR',time)$[ord(time) gt 5]
                         = B_KD2('24_eSolar','01_KOR',time-1)*[1+0.09];
 
- B_VA2('02_COAL','01_KOR',time)$[ord(time) gt 12]
-                        = B_VA2('02_COAL','01_KOR',time-1)*[1-0.01];
+* B_VA2('02_COAL','01_KOR',time)$[ord(time) gt 5]
+*                        = B_VA2('02_COAL','01_KOR',time-1)*[1-0.01];
+
+* B_VA2('02_COAL','01_KOR',time)$[ord(time) gt 5]
+*                        = B_VA2('02_COAL','01_KOR',time-1)*[1+0.01];
+
+* B_LD2('02_COAL','01_KOR',time)$[ord(time) gt 5]
+*                        = B_LD2('02_COAL','01_KOR',time-1)*[1+0.1];
+
+ B_KD2('23_eWind','02_CHN',time)$[ord(time) gt 5]
+                        = B_KD2('23_eWind','02_CHN',time-1)*[1+0.09];
+
+ B_KD2('24_eSolar','02_CHN',time)$[ord(time) gt 5]
+                        = B_KD2('24_eSolar','02_CHN',time-1)*[1+0.09];
+
+ B_KD2('23_eWind','03_JPN',time)$[ord(time) gt 5]
+                        = B_KD2('23_eWind','03_JPN',time-1)*[1+0.09];
+
+ B_KD2('24_eSolar','03_JPN',time)$[ord(time) gt 5]
+                        = B_KD2('24_eSolar','03_JPN',time-1)*[1+0.09];
 
 * ttip.fx(j,z,time)    = ttipO(j,z);
 * 23_eWind       Wind generation
@@ -512,7 +523,7 @@ else switch(i3,'17_PAO',time) = 0 ;
 *   6.2.2.3 Resolution
 *==============================================================================
 
-SOLVE PEPWT USING CNS;
+SOLVE PEPWT USING CNS ;
 *SOLVE PEPWT USING NLP maximizing OBJ;
 *SOLVE PEPWT USING MCP;
 

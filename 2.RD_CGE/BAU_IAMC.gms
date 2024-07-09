@@ -1,18 +1,8 @@
 SET
 
-Level
-/
-Tier1
-/
-
-Project
-/
-GUIDE
-/
-
 model_IAMC
 /
- GUIDE-GLOBAL-CGE     Guide Global Model
+ 'GUIDE-GLOBAL-CGE 1'     Guide Global Model
 /
 
 Country(z)
@@ -27,7 +17,7 @@ Country(z)
 
 Scenario_name
 /
-'BaU',
+'BAU',
 'CPS',
 'NZS'
 /
@@ -52,7 +42,7 @@ variable_IAMC
  'Emissions|CO2|Energy|Supply|Gases',
  'Emissions|CO2|Energy|Supply|Heat',
  'Emissions|CO2|Energy|Supply|Liquids',
- 'Emissions|CO2|Energy|Supply|Other Sector',
+ 'Emissions|CO2|Energy|Supply|Other',
  'Emissions|CO2|Energy|Supply|Solids',
  'Emissions|CO2|Industrial Processes',
  'Emissions|CO2|AFOLU',
@@ -72,19 +62,17 @@ variable_IAMC
  'Secondary Energy|Electricity',
  'Secondary Energy|Electricity|Biomass|w/ CCS',
  'Secondary Energy|Electricity|Biomass|w/o CCS',
- 'Secondary Energy|Electricity|Coal|w CCS',
+ 'Secondary Energy|Electricity|Coal|w/ CCS',
  'Secondary Energy|Electricity|Coal|w/o CCS',
- 'Secondary Energy|Electricity|Gas|w CCS',
+ 'Secondary Energy|Electricity|Gas|w/ CCS',
  'Secondary Energy|Electricity|Gas|w/o CCS',
  'Secondary Energy|Electricity|Geothermal',
  'Secondary Energy|Electricity|Hydro',
  'Secondary Energy|Electricity|Nuclear',
  'Secondary Energy|Electricity|Oil|w/ CCS',
  'Secondary Energy|Electricity|Oil|w/o CCS',
-* 'Secondary Energy|Electricity|Solar',
  'Secondary Energy|Electricity|Solar|CSP',
  'Secondary Energy|Electricity|Solar|PV',
-* 'Secondary Energy|Electricity|Wind',
  'Secondary Energy|Electricity|Wind|Offshore',
  'Secondary Energy|Electricity|Wind|Onshore',
  'Secondary Energy|Hydrogen',
@@ -98,7 +86,7 @@ variable_IAMC
  'Final Energy|Solar',
  'Final Energy|Solids',
  'Final Energy|Solids|Biomass',
- 'Final Energy|Solids|Coal',
+ 'Final Energy|Solids|Fossil',
  'Final Energy|Industry',
  'Final Energy|Non-Energy Use',
  'Final Energy|Residential', 
@@ -122,7 +110,7 @@ variable_IAMC
 Unit_IAMC
 /
 'million',
-'billion US$2010',
+'billion USD_2010/yr',
 'Mt CO2/yr',
 'EJ/yr',
 'million t DM/yr',
@@ -344,116 +332,116 @@ USD2019toUSD2010 = 86.5/100 ;
 
 Parameter
 
-IAMC(Level, Project, z, Scenario_name, variable_IAMC, Unit_IAMC, time) IAMC Format ;
+IAMC(model_IAMC, Scenario_name, z, variable_IAMC, Unit_IAMC, time) IAMC Format ;
 
 *Scalar CF ktoe to Exajoule ;
 *CF = 0.000041868 ;
 
 *Total population
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Population', 'million', year_IAMC)                                    = TOT_POP(Country,year_IAMC) + eps ; 
+IAMC(model_IAMC, 'BAU', Country, 'Population', 'million', year_IAMC)                                    = TOT_POP(Country,year_IAMC) + eps ; 
 
 *GDP|MER 10$billion$ to billion$ (Nonimal, 10billion to billion)
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'GDP|MER', 'billion US$2010', year_IAMC)                               = valGDP_MP_REAL(Country, year_IAMC,'bau')*10*USD2019toUSD2010 + eps ; 
+IAMC(model_IAMC, 'BAU', Country,  'GDP|MER', 'billion USD_2010/yr', year_IAMC)                          = valGDP_MP_REAL(Country, year_IAMC,'BAU')*10*USD2019toUSD2010 + eps ; 
 
 *Value Added|Agriculture 10$billion$ to billion$ (Nonimal, 10billion to billion)
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Value Added|Agriculture', 'billion US$2010', year_IAMC)               = sum(Agriculture, valPVA(Agriculture, Country, year_IAMC,'bau')*valVA(Agriculture, Country, year_IAMC,'bau'))/valPIXGDP(Country, year_IAMC,'bau')*10*USD2019toUSD2010 + eps ; 
+IAMC(model_IAMC, 'BAU', Country,  'Value Added|Agriculture', 'billion USD_2010/yr', year_IAMC)          = sum(Agriculture, valPVA(Agriculture, Country, year_IAMC,'bau')*valVA(Agriculture, Country, year_IAMC,'bau'))/valPIXGDP(Country, year_IAMC,'bau')*10*USD2019toUSD2010 + eps ; 
 
 *Value Added|Industry 10$billion$ to billion$ (Nonimal, 10billion to billion)
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Value Added|Industry', 'billion US$2010', year_IAMC)                  = sum(Industry, valPVA(Industry, Country, year_IAMC,'bau')*valVA(Industry, Country, year_IAMC,'bau'))/valPIXGDP(Country, year_IAMC,'bau')*10*USD2019toUSD2010 + eps ; 
+IAMC(model_IAMC, 'BAU', Country,  'Value Added|Industry', 'billion USD_2010/yr', year_IAMC)             = sum(Industry, valPVA(Industry, Country, year_IAMC,'bau')*valVA(Industry, Country, year_IAMC,'bau'))/valPIXGDP(Country, year_IAMC,'bau')*10*USD2019toUSD2010 + eps ; 
 
 *Value Added|Services 10$billion$ to billion$ (Nonimal, 10billion to billion)
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Value Added|Services', 'billion US$2010', year_IAMC)                  = sum(Service, valPVA(Service, Country, year_IAMC,'bau')*valVA(Service, Country, year_IAMC,'bau'))/valPIXGDP(Country, year_IAMC,'bau')*10*USD2019toUSD2010 + eps ; 
+IAMC(model_IAMC, 'BAU', Country,  'Value Added|Services', 'billion USD_2010/yr', year_IAMC)             = sum(Service, valPVA(Service, Country, year_IAMC,'bau')*valVA(Service, Country, year_IAMC,'bau'))/valPIXGDP(Country, year_IAMC,'bau')*10*USD2019toUSD2010 + eps ; 
 
 *Emissions|CO2 (kt to Mt)
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Emissions|CO2', 'Mt CO2/yr', year_IAMC)                               = valTCO2(Country,year_IAMC,'bau')/1000 + eps ; 
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Emissions|CO2|Energy', 'Mt CO2/yr', year_IAMC)                        = valTCO2(Country,year_IAMC,'bau')/1000 + eps ; 
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Emissions|CO2|Energy|Demand', 'Mt CO2/yr', year_IAMC)                 = [sum(Demand, valCO2I2(Demand,Country,year_IAMC,'bau')+valCO2NE2(Demand,Country,year_IAMC,'bau'))+valTCO2H(Country, year_IAMC,'bau')]/1000 + eps ; 
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Emissions|CO2|Energy|Demand|AFOFI', 'Mt CO2/yr', year_IAMC)           = valCO2I2('01_AGRICULT',Country,year_IAMC,'bau')/1000 + eps ; 
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Emissions|CO2|Energy|Demand|Commercial', 'Mt CO2/yr', year_IAMC)      = [valCO2I2('31_SER',Country,year_IAMC,'bau')+valCO2NE2('31_SER',Country,year_IAMC,'bau')]/1000 + eps ;  
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Emissions|CO2|Energy|Demand|Industry', 'Mt CO2/yr', year_IAMC)        = sum(Industry2, valCO2I2(Industry2,Country,year_IAMC,'bau')+valCO2NE2(Industry2,Country,year_IAMC,'bau'))/1000 + eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Emissions|CO2|Energy|Demand|Other Sector', 'Mt CO2/yr', year_IAMC)    = eps ; 
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Emissions|CO2|Energy|Demand|Residential', 'Mt CO2/yr', year_IAMC)     = valTCO2H(Country, year_IAMC,'bau')/1000 + eps ; 
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Emissions|CO2|Energy|Demand|Transportation', 'Mt CO2/yr', year_IAMC)  = sum(Transportation, valCO2I2(Transportation,Country,year_IAMC,'bau')+valCO2NE2(Transportation,Country,year_IAMC,'bau'))/1000 + eps;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Emissions|CO2|Energy|Supply', 'Mt CO2/yr', year_IAMC)                 = sum(Supply, valCO2I2(Supply,Country,year_IAMC,'bau')+valCO2NE2(Supply,Country,year_IAMC,'bau'))/1000 + eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Emissions|CO2|Energy|Supply|Electricity', 'Mt CO2/yr', year_IAMC)     = sum(Supply_elec, valCO2I2(Supply_elec,Country,year_IAMC,'bau')+valCO2NE2(Supply_elec,Country,year_IAMC,'bau'))/1000 + eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Emissions|CO2|Energy|Supply|Gases', 'Mt CO2/yr', year_IAMC)           = [valCO2I2('04_GAS',Country,year_IAMC,'bau')+valCO2NE2('04_GAS',Country,year_IAMC,'bau')]/1000 + eps;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Emissions|CO2|Energy|Supply|Heat', 'Mt CO2/yr', year_IAMC)            = eps; 
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Emissions|CO2|Energy|Supply|Liquids', 'Mt CO2/yr', year_IAMC)         = sum(Supply_liquid, valCO2I2(Supply_liquid,Country,year_IAMC,'bau')+valCO2NE2(Supply_liquid,Country,year_IAMC,'bau'))/1000 + eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Emissions|CO2|Energy|Supply|Other Sector', 'Mt CO2/yr', year_IAMC)    = eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Emissions|CO2|Energy|Supply|Solids', 'Mt CO2/yr', year_IAMC)          = [valCO2I2('02_COAL',Country,year_IAMC,'bau')+valCO2NE2('02_COAL',Country,year_IAMC,'bau')]/1000 + eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Emissions|CO2|Industrial Processes', 'Mt CO2/yr', year_IAMC)          = eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Emissions|CO2|AFOLU', 'Mt CO2/yr', year_IAMC)                         = eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Emissions|CO2|AFOLU|Land', 'Mt CO2/yr', year_IAMC)                    = eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Emissions|CO2|AFOLU|Land|Positive', 'Mt CO2/yr', year_IAMC)           = eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Emissions|CO2|AFOLU|Land|Negative', 'Mt CO2/yr', year_IAMC)           = eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Emissions|CO2', 'Mt CO2/yr', year_IAMC)                               = valTCO2(Country,year_IAMC,'bau')/1000 + eps ; 
+IAMC(model_IAMC, 'BAU', Country, 'Emissions|CO2|Energy', 'Mt CO2/yr', year_IAMC)                        = valTCO2(Country,year_IAMC,'bau')/1000 + eps ; 
+IAMC(model_IAMC, 'BAU', Country, 'Emissions|CO2|Energy|Demand', 'Mt CO2/yr', year_IAMC)                 = [sum(Demand, valCO2I2(Demand,Country,year_IAMC,'bau')+valCO2NE2(Demand,Country,year_IAMC,'bau'))+valTCO2H(Country, year_IAMC,'bau')]/1000 + eps ; 
+IAMC(model_IAMC, 'BAU', Country, 'Emissions|CO2|Energy|Demand|AFOFI', 'Mt CO2/yr', year_IAMC)           = valCO2I2('01_AGRICULT',Country,year_IAMC,'bau')/1000 + eps ; 
+IAMC(model_IAMC, 'BAU', Country, 'Emissions|CO2|Energy|Demand|Commercial', 'Mt CO2/yr', year_IAMC)      = [valCO2I2('31_SER',Country,year_IAMC,'bau')+valCO2NE2('31_SER',Country,year_IAMC,'bau')]/1000 + eps ;  
+IAMC(model_IAMC, 'BAU', Country, 'Emissions|CO2|Energy|Demand|Industry', 'Mt CO2/yr', year_IAMC)        = sum(Industry2, valCO2I2(Industry2,Country,year_IAMC,'bau')+valCO2NE2(Industry2,Country,year_IAMC,'bau'))/1000 + eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Emissions|CO2|Energy|Demand|Other Sector', 'Mt CO2/yr', year_IAMC)    = eps ; 
+IAMC(model_IAMC, 'BAU', Country, 'Emissions|CO2|Energy|Demand|Residential', 'Mt CO2/yr', year_IAMC)     = valTCO2H(Country, year_IAMC,'bau')/1000 + eps ; 
+IAMC(model_IAMC, 'BAU', Country, 'Emissions|CO2|Energy|Demand|Transportation', 'Mt CO2/yr', year_IAMC)  = sum(Transportation, valCO2I2(Transportation,Country,year_IAMC,'bau')+valCO2NE2(Transportation,Country,year_IAMC,'bau'))/1000 + eps;
+IAMC(model_IAMC, 'BAU', Country, 'Emissions|CO2|Energy|Supply', 'Mt CO2/yr', year_IAMC)                 = sum(Supply, valCO2I2(Supply,Country,year_IAMC,'bau')+valCO2NE2(Supply,Country,year_IAMC,'bau'))/1000 + eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Emissions|CO2|Energy|Supply|Electricity', 'Mt CO2/yr', year_IAMC)     = sum(Supply_elec, valCO2I2(Supply_elec,Country,year_IAMC,'bau')+valCO2NE2(Supply_elec,Country,year_IAMC,'bau'))/1000 + eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Emissions|CO2|Energy|Supply|Gases', 'Mt CO2/yr', year_IAMC)           = [valCO2I2('04_GAS',Country,year_IAMC,'bau')+valCO2NE2('04_GAS',Country,year_IAMC,'bau')]/1000 + eps;
+IAMC(model_IAMC, 'BAU', Country, 'Emissions|CO2|Energy|Supply|Heat', 'Mt CO2/yr', year_IAMC)            = eps; 
+IAMC(model_IAMC, 'BAU', Country, 'Emissions|CO2|Energy|Supply|Liquids', 'Mt CO2/yr', year_IAMC)         = sum(Supply_liquid, valCO2I2(Supply_liquid,Country,year_IAMC,'bau')+valCO2NE2(Supply_liquid,Country,year_IAMC,'bau'))/1000 + eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Emissions|CO2|Energy|Supply|Other', 'Mt CO2/yr', year_IAMC)           = eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Emissions|CO2|Energy|Supply|Solids', 'Mt CO2/yr', year_IAMC)          = [valCO2I2('02_COAL',Country,year_IAMC,'bau')+valCO2NE2('02_COAL',Country,year_IAMC,'bau')]/1000 + eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Emissions|CO2|Industrial Processes', 'Mt CO2/yr', year_IAMC)          = eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Emissions|CO2|AFOLU', 'Mt CO2/yr', year_IAMC)                         = eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Emissions|CO2|AFOLU|Land', 'Mt CO2/yr', year_IAMC)                    = eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Emissions|CO2|AFOLU|Land|Positive', 'Mt CO2/yr', year_IAMC)           = eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Emissions|CO2|AFOLU|Land|Negative', 'Mt CO2/yr', year_IAMC)           = eps ;
 
 *Primary Energy (Direct equivalent method, Primary Energy Conumpiton)
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Primary Energy', 'EJ/yr', year_IAMC)                                  = valTES(Country,year_IAMC,'bau')*ktoetoEJ + valElecGen('Bio',Country,year_IAMC,'bau')*GWhtoEJ + valElecGen('Geothermal',Country,year_IAMC,'bau')*GWhtoEJ + valElecGen('Hydro',Country,year_IAMC,'bau')*GWhtoEJ + valElecGen('Nuclear',Country,year_IAMC,'bau')*GWhtoEJ + valElecGen('Solar',Country,year_IAMC,'bau')*GWhtoEJ + valElecGen('Wind',Country,year_IAMC,'bau')*GWhtoEJ + eps ; 
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Primary Energy|Biomass', 'EJ/yr', year_IAMC)                          = valElecGen('Bio',Country,year_IAMC,'bau')*GWhtoEJ + eps ; 
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Primary Energy|Coal', 'EJ/yr', year_IAMC)                             = valTES_coal(Country,year_IAMC,'bau')*ktoetoEJ + eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Primary Energy|Gas', 'EJ/yr', year_IAMC)                              = valTES_gas(Country,year_IAMC,'bau')*ktoetoEJ + eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Primary Energy|Geothermal', 'EJ/yr', year_IAMC)                       = valElecGen('Geothermal',Country,year_IAMC,'bau')*GWhtoEJ + eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Primary Energy|Hydro', 'EJ/yr', year_IAMC)                            = valElecGen('Hydro',Country,year_IAMC,'bau')*GWhtoEJ + eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Primary Energy|Nuclear', 'EJ/yr', year_IAMC)                          = valElecGen('Nuclear',Country,year_IAMC,'bau')*GWhtoEJ + eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Primary Energy|Oil', 'EJ/yr', year_IAMC)                              = valTES_oil(Country,year_IAMC,'bau')*ktoetoEJ + eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Primary Energy|Solar', 'EJ/yr', year_IAMC)                            = valElecGen('Solar',Country,year_IAMC,'bau')*GWhtoEJ + eps;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Primary Energy|Wind', 'EJ/yr', year_IAMC)                             = valElecGen('Wind',Country,year_IAMC,'bau')*GWhtoEJ + eps;
+IAMC(model_IAMC, 'BAU', Country, 'Primary Energy', 'EJ/yr', year_IAMC)                                  = valTES(Country,year_IAMC,'bau')*ktoetoEJ + valElecGen('Bio',Country,year_IAMC,'bau')*GWhtoEJ + valElecGen('Geothermal',Country,year_IAMC,'bau')*GWhtoEJ + valElecGen('Hydro',Country,year_IAMC,'bau')*GWhtoEJ + valElecGen('Nuclear',Country,year_IAMC,'bau')*GWhtoEJ + valElecGen('Solar',Country,year_IAMC,'bau')*GWhtoEJ + valElecGen('Wind',Country,year_IAMC,'bau')*GWhtoEJ + eps ; 
+IAMC(model_IAMC, 'BAU', Country, 'Primary Energy|Biomass', 'EJ/yr', year_IAMC)                          = valElecGen('Bio',Country,year_IAMC,'bau')*GWhtoEJ + eps ; 
+IAMC(model_IAMC, 'BAU', Country, 'Primary Energy|Coal', 'EJ/yr', year_IAMC)                             = valTES_coal(Country,year_IAMC,'bau')*ktoetoEJ + eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Primary Energy|Gas', 'EJ/yr', year_IAMC)                              = valTES_gas(Country,year_IAMC,'bau')*ktoetoEJ + eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Primary Energy|Geothermal', 'EJ/yr', year_IAMC)                       = valElecGen('Geothermal',Country,year_IAMC,'bau')*GWhtoEJ + eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Primary Energy|Hydro', 'EJ/yr', year_IAMC)                            = valElecGen('Hydro',Country,year_IAMC,'bau')*GWhtoEJ + eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Primary Energy|Nuclear', 'EJ/yr', year_IAMC)                          = valElecGen('Nuclear',Country,year_IAMC,'bau')*GWhtoEJ + eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Primary Energy|Oil', 'EJ/yr', year_IAMC)                              = valTES_oil(Country,year_IAMC,'bau')*ktoetoEJ + eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Primary Energy|Solar', 'EJ/yr', year_IAMC)                            = valElecGen('Solar',Country,year_IAMC,'bau')*GWhtoEJ + eps;
+IAMC(model_IAMC, 'BAU', Country, 'Primary Energy|Wind', 'EJ/yr', year_IAMC)                             = valElecGen('Wind',Country,year_IAMC,'bau')*GWhtoEJ + eps;
 
 *Secondary Energy (GWh to EJ)
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Secondary Energy|Electricity', 'EJ/yr', year_IAMC)                    = valElecGen('Total',Country,year_IAMC,'bau')*GWhtoEJ + eps ; 
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Secondary Energy|Electricity|Biomass|w/ CCS', 'EJ/yr', year_IAMC)     = eps ; 
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Secondary Energy|Electricity|Biomass|w/o CCS', 'EJ/yr', year_IAMC)    = valElecGen('Bio',Country,year_IAMC,'bau')*GWhtoEJ + eps ; 
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Secondary Energy|Electricity|Coal|w CCS', 'EJ/yr', year_IAMC)         = eps ;  
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Secondary Energy|Electricity|Coal|w/o CCS', 'EJ/yr', year_IAMC)       = valElecGen('Coal',Country,year_IAMC,'bau')*GWhtoEJ + eps ; 
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Secondary Energy|Electricity|Gas|w CCS', 'EJ/yr', year_IAMC)          = eps ; 
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Secondary Energy|Electricity|Gas|w/o CCS', 'EJ/yr', year_IAMC)        = valElecGen('Gas',Country,year_IAMC,'bau')*GWhtoEJ + eps ; 
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Secondary Energy|Electricity|Geothermal', 'EJ/yr', year_IAMC)         = valElecGen('Geothermal',Country,year_IAMC,'bau')*GWhtoEJ + eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Secondary Energy|Electricity|Hydro', 'EJ/yr', year_IAMC)              = valElecGen('Hydro',Country,year_IAMC,'bau')*GWhtoEJ + eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Secondary Energy|Electricity|Nuclear', 'EJ/yr', year_IAMC)            = valElecGen('Nuclear',Country,year_IAMC,'bau')*GWhtoEJ + eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Secondary Energy|Electricity|Oil|w/ CCS', 'EJ/yr', year_IAMC)         = eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Secondary Energy|Electricity|Oil|w/o CCS', 'EJ/yr', year_IAMC)        = valElecGen('Oil',Country,year_IAMC,'bau')*GWhtoEJ + eps;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Secondary Energy|Electricity|Solar|CSP', 'EJ/yr', year_IAMC)          = eps ; 
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Secondary Energy|Electricity|Solar|PV', 'EJ/yr', year_IAMC)           = valElecGen('Solar',Country,year_IAMC,'bau')*GWhtoEJ + eps;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Secondary Energy|Electricity|Wind|Offshore', 'EJ/yr', year_IAMC)      = eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Secondary Energy|Electricity|Wind|Onshore', 'EJ/yr', year_IAMC)       = valElecGen('Wind',Country,year_IAMC,'bau')*GWhtoEJ + eps;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Secondary Energy|Hydrogen', 'EJ/yr', year_IAMC)                       = eps ; 
+IAMC(model_IAMC, 'BAU', Country, 'Secondary Energy|Electricity', 'EJ/yr', year_IAMC)                    = valElecGen('Total',Country,year_IAMC,'bau')*GWhtoEJ + eps ; 
+IAMC(model_IAMC, 'BAU', Country, 'Secondary Energy|Electricity|Biomass|w/ CCS', 'EJ/yr', year_IAMC)     = eps ; 
+IAMC(model_IAMC, 'BAU', Country, 'Secondary Energy|Electricity|Biomass|w/o CCS', 'EJ/yr', year_IAMC)    = valElecGen('Bio',Country,year_IAMC,'bau')*GWhtoEJ + eps ; 
+IAMC(model_IAMC, 'BAU', Country, 'Secondary Energy|Electricity|Coal|w/ CCS', 'EJ/yr', year_IAMC)         = eps ;  
+IAMC(model_IAMC, 'BAU', Country, 'Secondary Energy|Electricity|Coal|w/o CCS', 'EJ/yr', year_IAMC)       = valElecGen('Coal',Country,year_IAMC,'bau')*GWhtoEJ + eps ; 
+IAMC(model_IAMC, 'BAU', Country, 'Secondary Energy|Electricity|Gas|w/ CCS', 'EJ/yr', year_IAMC)          = eps ; 
+IAMC(model_IAMC, 'BAU', Country, 'Secondary Energy|Electricity|Gas|w/o CCS', 'EJ/yr', year_IAMC)        = valElecGen('Gas',Country,year_IAMC,'bau')*GWhtoEJ + eps ; 
+IAMC(model_IAMC, 'BAU', Country, 'Secondary Energy|Electricity|Geothermal', 'EJ/yr', year_IAMC)         = valElecGen('Geothermal',Country,year_IAMC,'bau')*GWhtoEJ + eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Secondary Energy|Electricity|Hydro', 'EJ/yr', year_IAMC)              = valElecGen('Hydro',Country,year_IAMC,'bau')*GWhtoEJ + eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Secondary Energy|Electricity|Nuclear', 'EJ/yr', year_IAMC)            = valElecGen('Nuclear',Country,year_IAMC,'bau')*GWhtoEJ + eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Secondary Energy|Electricity|Oil|w/ CCS', 'EJ/yr', year_IAMC)         = eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Secondary Energy|Electricity|Oil|w/o CCS', 'EJ/yr', year_IAMC)        = valElecGen('Oil',Country,year_IAMC,'bau')*GWhtoEJ + eps;
+IAMC(model_IAMC, 'BAU', Country, 'Secondary Energy|Electricity|Solar|CSP', 'EJ/yr', year_IAMC)          = eps ; 
+IAMC(model_IAMC, 'BAU', Country, 'Secondary Energy|Electricity|Solar|PV', 'EJ/yr', year_IAMC)           = valElecGen('Solar',Country,year_IAMC,'bau')*GWhtoEJ + eps;
+IAMC(model_IAMC, 'BAU', Country, 'Secondary Energy|Electricity|Wind|Offshore', 'EJ/yr', year_IAMC)      = eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Secondary Energy|Electricity|Wind|Onshore', 'EJ/yr', year_IAMC)       = valElecGen('Wind',Country,year_IAMC,'bau')*GWhtoEJ + eps;
+IAMC(model_IAMC, 'BAU', Country, 'Secondary Energy|Hydrogen', 'EJ/yr', year_IAMC)                       = eps ; 
 
 *Final Energy (ktoe to EJ)
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Final Energy', 'EJ/yr', year_IAMC)                                    = {sum(product, valEH(product,Country,year_IAMC,'bau'))+Sum((product,Demand2),valEE(product,Demand2,Country,year_IAMC,'bau'))+Sum((product,Demand2),valNE(product,Demand2,Country,year_IAMC,'bau'))}*ktoetoEJ + eps;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Final Energy|Gases', 'EJ/yr', year_IAMC)                              = {sum(p_gas,valEH(p_gas,Country,year_IAMC,'bau'))+ sum((p_gas, Demand2),valEE(p_gas,Demand2,Country,year_IAMC,'bau'))}*ktoetoEJ + eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Final Energy|Geothermal', 'EJ/yr', year_IAMC)                         = {eps}*ktoetoEJ + eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Final Energy|Heat', 'EJ/yr', year_IAMC)                               = {valEH('p64_HEAT',Country,year_IAMC,'bau')+ sum(Demand2,valEE('p64_HEAT',Demand2,Country,year_IAMC,'bau'))}*ktoetoEJ + eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Final Energy|Electricity', 'EJ/yr', year_IAMC)                        = {valEH('p63_ELECTR',Country,year_IAMC,'bau')+ sum(Demand2,valEE('p63_ELECTR',Demand2,Country,year_IAMC,'bau'))}*ktoetoEJ + eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Final Energy|Hydrogen', 'EJ/yr', year_IAMC)                           = {eps}*ktoetoEJ ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Final Energy|Liquids', 'EJ/yr', year_IAMC)                            = {sum(p_liquids,valEH(p_liquids,Country,year_IAMC,'bau'))+ sum((p_liquids, Demand2),valEE(p_liquids,Demand2,Country,year_IAMC,'bau'))}*ktoetoEJ + eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Final Energy|Solar', 'EJ/yr', year_IAMC)                              = {eps}*ktoetoEJ ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Final Energy|Solids', 'EJ/yr', year_IAMC)                             = {sum(p_coal,valEH(p_coal,Country,year_IAMC,'bau'))+ sum((p_coal, Demand2),valEE(p_coal,Demand2,Country,year_IAMC,'bau'))}*ktoetoEJ + eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Final Energy|Solids|Biomass', 'EJ/yr', year_IAMC)                     = {eps}*ktoetoEJ ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Final Energy|Solids|Coal', 'EJ/yr', year_IAMC)                        = {sum(p_coal,valEH(p_coal,Country,year_IAMC,'bau'))+ sum((p_coal, Demand2),valEE(p_coal,Demand2,Country,year_IAMC,'bau'))}*ktoetoEJ + eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Final Energy|Industry', 'EJ/yr', year_IAMC)                           = {sum((product,Industry2),valEE(product,Industry2,Country,year_IAMC,'bau'))}*ktoetoEJ + eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Final Energy|Non-Energy Use', 'EJ/yr', year_IAMC)                     = {sum((product,j),valNE(product,j,Country,year_IAMC,'bau'))}*ktoetoEJ + eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Final Energy|Residential', 'EJ/yr', year_IAMC)                        = {sum(product,valEH(product,Country,year_IAMC,'bau'))}*ktoetoEJ + eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Final Energy|Commercial', 'EJ/yr', year_IAMC)                         = {sum((product,Service2),valEE(product,Service2,Country,year_IAMC,'bau'))}*ktoetoEJ + eps ; 
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Final Energy|Transportation', 'EJ/yr', year_IAMC)                     = {sum((product,Transportation),valEE(product,Transportation,Country,year_IAMC,'bau'))}*ktoetoEJ  + eps;
+IAMC(model_IAMC, 'BAU', Country, 'Final Energy', 'EJ/yr', year_IAMC)                                    = {sum(product, valEH(product,Country,year_IAMC,'bau'))+Sum((product,Demand2),valEE(product,Demand2,Country,year_IAMC,'bau'))+Sum((product,Demand2),valNE(product,Demand2,Country,year_IAMC,'bau'))}*ktoetoEJ + eps;
+IAMC(model_IAMC, 'BAU', Country, 'Final Energy|Gases', 'EJ/yr', year_IAMC)                              = {sum(p_gas,valEH(p_gas,Country,year_IAMC,'bau'))+ sum((p_gas, Demand2),valEE(p_gas,Demand2,Country,year_IAMC,'bau'))}*ktoetoEJ + eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Final Energy|Geothermal', 'EJ/yr', year_IAMC)                         = {eps}*ktoetoEJ + eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Final Energy|Heat', 'EJ/yr', year_IAMC)                               = {valEH('p64_HEAT',Country,year_IAMC,'bau')+ sum(Demand2,valEE('p64_HEAT',Demand2,Country,year_IAMC,'bau'))}*ktoetoEJ + eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Final Energy|Electricity', 'EJ/yr', year_IAMC)                        = {valEH('p63_ELECTR',Country,year_IAMC,'bau')+ sum(Demand2,valEE('p63_ELECTR',Demand2,Country,year_IAMC,'bau'))}*ktoetoEJ + eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Final Energy|Hydrogen', 'EJ/yr', year_IAMC)                           = {eps}*ktoetoEJ ;
+IAMC(model_IAMC, 'BAU', Country, 'Final Energy|Liquids', 'EJ/yr', year_IAMC)                            = {sum(p_liquids,valEH(p_liquids,Country,year_IAMC,'bau'))+ sum((p_liquids, Demand2),valEE(p_liquids,Demand2,Country,year_IAMC,'bau'))}*ktoetoEJ + eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Final Energy|Solar', 'EJ/yr', year_IAMC)                              = {eps}*ktoetoEJ ;
+IAMC(model_IAMC, 'BAU', Country, 'Final Energy|Solids', 'EJ/yr', year_IAMC)                             = {sum(p_coal,valEH(p_coal,Country,year_IAMC,'bau'))+ sum((p_coal, Demand2),valEE(p_coal,Demand2,Country,year_IAMC,'bau'))}*ktoetoEJ + eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Final Energy|Solids|Biomass', 'EJ/yr', year_IAMC)                     = {eps}*ktoetoEJ ;
+IAMC(model_IAMC, 'BAU', Country, 'Final Energy|Solids|Fossil', 'EJ/yr', year_IAMC)                        = {sum(p_coal,valEH(p_coal,Country,year_IAMC,'bau'))+ sum((p_coal, Demand2),valEE(p_coal,Demand2,Country,year_IAMC,'bau'))}*ktoetoEJ + eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Final Energy|Industry', 'EJ/yr', year_IAMC)                           = {sum((product,Industry2),valEE(product,Industry2,Country,year_IAMC,'bau'))}*ktoetoEJ + eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Final Energy|Non-Energy Use', 'EJ/yr', year_IAMC)                     = {sum((product,j),valNE(product,j,Country,year_IAMC,'bau'))}*ktoetoEJ + eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Final Energy|Residential', 'EJ/yr', year_IAMC)                        = {sum(product,valEH(product,Country,year_IAMC,'bau'))}*ktoetoEJ + eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Final Energy|Commercial', 'EJ/yr', year_IAMC)                         = {sum((product,Service2),valEE(product,Service2,Country,year_IAMC,'bau'))}*ktoetoEJ + eps ; 
+IAMC(model_IAMC, 'BAU', Country, 'Final Energy|Transportation', 'EJ/yr', year_IAMC)                     = {sum((product,Transportation),valEE(product,Transportation,Country,year_IAMC,'bau'))}*ktoetoEJ  + eps;
 
 *Agricultural Production
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Agricultural Production|Energy', 'million t DM/yr', year_IAMC)            = eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Agricultural Production|Energy|Crops', 'million t DM/yr', year_IAMC)      = eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Agricultural Production|Non-Energy', 'million t DM/yr', year_IAMC)        = eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Agricultural Production|Energy', 'million t DM/yr', year_IAMC)            = eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Agricultural Production|Energy|Crops', 'million t DM/yr', year_IAMC)      = eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Agricultural Production|Non-Energy', 'million t DM/yr', year_IAMC)        = eps ;
 
 *Fertilizer Use
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Fertilizer Use|Nitrogen', 'Tg N/yr', year_IAMC)                           = eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Fertilizer Use|Nitrogen', 'Tg N/yr', year_IAMC)                           = eps ;
 
 *Land Cover
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Land Cover', 'Tg N/yr', year_IAMC)                                        = eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Land Cover|Built-up Area', 'Tg N/yr', year_IAMC)                          = eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Land Cover|Cropland', 'Tg N/yr', year_IAMC)                               = eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Land Cover|Forest', 'Tg N/yr', year_IAMC)                                 = eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Land Cover|Forest|Afforestation and Reforestation', 'Tg N/yr', year_IAMC) = eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Land Cover|Forest|Natural Forest', 'Tg N/yr', year_IAMC)                  = eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Land Cover|Other Arable Land', 'Tg N/yr', year_IAMC)                      = eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Land Cover|Other Land', 'Tg N/yr', year_IAMC)                             = eps ;
-IAMC('Tier1', 'GUIDE', Country, 'BaU', 'Land Cover|Pasture', 'Tg N/yr', year_IAMC)                                = eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Land Cover', 'million ha', year_IAMC)                                        = eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Land Cover|Built-up Area', 'million ha', year_IAMC)                          = eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Land Cover|Cropland', 'million ha', year_IAMC)                               = eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Land Cover|Forest', 'million ha', year_IAMC)                                 = eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Land Cover|Forest|Afforestation and Reforestation', 'million ha', year_IAMC) = eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Land Cover|Forest|Natural Forest', 'million ha', year_IAMC)                  = eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Land Cover|Other Arable Land', 'million ha', year_IAMC)                      = eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Land Cover|Other Land', 'million ha', year_IAMC)                             = eps ;
+IAMC(model_IAMC, 'BAU', Country, 'Land Cover|Pasture', 'million ha', year_IAMC)                                = eps ;
 
 $ontext
 *total consumption of all goods, by all consumers in a region
