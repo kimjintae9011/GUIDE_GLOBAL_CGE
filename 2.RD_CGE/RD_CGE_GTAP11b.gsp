@@ -22,6 +22,12 @@
         },
         {
             "codecMib": 106,
+            "file": "Input_w-t/Employment.gdx",
+            "name": "Employment.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
             "file": "Input_WEB/WEB19.txt",
             "name": "WEB19.txt",
             "type": "txt"
@@ -30,6 +36,12 @@
             "codecMib": 106,
             "file": "Input_WEB/240522_WEB19.gdx",
             "name": "240522_WEB19.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
+            "file": "Input_WEB/240522_Non-CO2_coef.gdx",
+            "name": "240522_Non-CO2_coef.gdx",
             "type": "gdx"
         },
         {
@@ -52,8 +64,32 @@
         },
         {
             "codecMib": 106,
+            "file": "Output_w-t/Baseline_Results_IAMC.gdx",
+            "name": "Baseline_Results_IAMC.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
+            "file": "Output_w-t/Baseline_Results_IPCC.gdx",
+            "name": "Baseline_Results_IPCC.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
+            "file": "Output_w-t/Baseline_Results_GTAP11b.gdx",
+            "name": "Baseline_Results_GTAP11b.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
             "file": "BAU_IAMC.gms",
             "name": "BAU_IAMC.gms",
+            "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "BAU_IAMC_GreenEcos.gms",
+            "name": "BAU_IAMC_GreenEcos.gms",
             "type": "gms"
         },
         {
@@ -150,6 +186,18 @@
             "codecMib": 106,
             "file": "NZS_IAMC.gms",
             "name": "NZS_IAMC.gms",
+            "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "NZS_IAMC_GreenEcos.gms",
+            "name": "NZS_IAMC_GreenEcos.gms",
+            "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "NZS_IPCC.gms",
+            "name": "NZS_IPCC.gms",
             "type": "gms"
         },
         {

@@ -130,7 +130,8 @@ Unit_IPCC
 
 year_IPCC(time)
 /
- 2019, 2020, 2025, 2030, 2035, 2040, 2045, 2050
+ 2019*2050
+* 2019, 2020, 2025, 2030, 2035, 2040, 2045, 2050
 /
 
 Agriculture(J) Industries
@@ -363,7 +364,6 @@ par=NONCO2_MNG        rng=05_MNG!A1:BQ109
 par=NONCO2_PRK        rng=06_PRK!A1:BQ109
 $offEcho
 
-*$call  gdxxrw Input_WEB/230425_WEB19.xlsx @Input_WEB/WEB19.txt trace=0 output=Input_WEB/230425_WEB19.gdx
 $call  gdxxrw Input_WEB/240522_Non-CO2_coef.xlsx @Input_WEB/NONCO219.txt trace=0 output=Input_WEB/240522_Non-CO2_coef.gdx
 $gdxIn Input_WEB/240522_Non-CO2_coef.gdx
 $load  NONCO2_KOR NONCO2_CHN NONCO2_JPN NONCO2_RUS NONCO2_MNG NONCO2_PRK 
@@ -375,6 +375,21 @@ NONCO2(IPCC06_CODE,Substance,'03_JPN') =  NONCO2_JPN(IPCC06_CODE,Substance);
 NONCO2(IPCC06_CODE,Substance,'04_RUS') =  NONCO2_RUS(IPCC06_CODE,Substance);
 NONCO2(IPCC06_CODE,Substance,'05_MNG') =  NONCO2_MNG(IPCC06_CODE,Substance);
 NONCO2(IPCC06_CODE,Substance,'06_PRK') =  NONCO2_PRK(IPCC06_CODE,Substance);
+
+Parameter gdpelas(z) GDP Elasticity ;
+gdpelas(z) = 0.8 ;
+
+Parameter ghgelas(z) GHG Elasticity ;
+ghgelas(z) = -2.0 ;
+
+Parameter NONCO2_RR Non-CO2 Reduction Rate(z,time);
+*NONCO2_R(Country,year_IPCC) = {(valGDP_MP_REAL(Country,year_IPCC,'bau')/valGDP_MP_REAL(Country,'2019','bau'))**gdpelas(Country)}*{CTAX_NZS(Country,year_IPCC)**ghgelas(Country)};
+NONCO2_RR(z,time)$[ord(time) lt 5] = (valGDP_MP_REAL(z,time,'bau')/valGDP_MP_REAL(z,'2019','bau'))**gdpelas(z);
+NONCO2_RR(z,time)$[ord(time) gt 4] = (valGDP_MP_REAL(z,time,'bau')/valGDP_MP_REAL(z,'2019','bau'))**gdpelas(z)*(1-(1-(CTAX_NZS(z,time)-CTAX_Cal(z,time)+1)**ghgelas(z)));
+
+execute_unload 'Output_w-t\Baseline_Results_IPCC' ;
+
+$EXIT
 
 *======================= Reporting IPCC Platform =====================================================================
 Parameter
@@ -466,7 +481,6 @@ IPCC(Country,'BaU','4.D','Wastewater_Treatment&Discharge','CH4','Gg_CO2eq/yr',ye
 IPCC(Country,'BaU','5.A','Indirect_N2O_emissions','CH4','Gg_CO2eq/yr',year_IPCC)                                     = NONCO2('5.A','CH4',Country)*valGDP_MP_REAL(Country,year_IPCC,'bau') ;
 IPCC(Country,'BaU','5.B','Fossil_fuel_fires','CH4','Gg_CO2eq/yr',year_IPCC)                                          = NONCO2('5.B','CH4',Country)*valGDP_MP_REAL(Country,year_IPCC,'bau') ;
 
-
 *N2O
 IPCC(Country,'BaU','1.A.1.a','Main_Electricity_Heat_Production','N2O','Gg_CO2eq/yr',year_IPCC)                       = sum(Supply_elec,valN2OI2(Supply_elec,Country,year_IPCC,'bau'));
 IPCC(Country,'BaU','1.A.1.bc','Petroleum_Refining','N2O','Gg_CO2eq/yr',year_IPCC)                                    = sum(Supply_petrol,valN2OI2(Supply_petrol,Country,year_IPCC,'bau'));
@@ -510,6 +524,48 @@ IPCC(Country,'BaU','4.D','Wastewater_Treatment&Discharge','N2O','Gg_CO2eq/yr',ye
 IPCC(Country,'BaU','5.A','Indirect_N2O_emissions','N2O','Gg_CO2eq/yr',year_IPCC)                                     = NONCO2('5.A','N2O',Country)*valGDP_MP_REAL(Country,year_IPCC,'bau') ;
 IPCC(Country,'BaU','5.B','Fossil_fuel_fires','N2O','Gg_CO2eq/yr',year_IPCC)                                          = NONCO2('5.B','N2O',Country)*valGDP_MP_REAL(Country,year_IPCC,'bau') ;
 
+*F-gas
+IPCC(Country,'BaU','1.A.1.a','Main_Electricity_Heat_Production','F-gas','Gg_CO2eq/yr',year_IPCC)                       = eps ;
+IPCC(Country,'BaU','1.A.1.bc','Petroleum_Refining','F-gas','Gg_CO2eq/yr',year_IPCC)                                    = eps ;
+IPCC(Country,'BaU','1.A.2','Manufacturing_Industries&Construction','F-gas','Gg_CO2eq/yr',year_IPCC)                    = eps ;
+IPCC(Country,'BaU','1.A.3.a','Civil_Aviation','F-gas','Gg_CO2eq/yr',year_IPCC)                                         = eps ;
+IPCC(Country,'BaU','1.A.3.b_noRES','Road_Transportation_no_resuspension','F-gas','Gg_CO2eq/yr',year_IPCC)              = eps ;
+IPCC(Country,'BaU','1.A.3.c','Railways','F-gas','Gg_CO2eq/yr',year_IPCC)                                               = eps ;
+IPCC(Country,'BaU','1.A.3.d','Water-borne_Navigation','F-gas','Gg_CO2eq/yr',year_IPCC)                                 = eps ;
+IPCC(Country,'BaU','1.A.3.e','Other_Transportation','F-gas','Gg_CO2eq/yr',year_IPCC)                                   = eps ;
+IPCC(Country,'BaU','1.A.4','Residential&other_sectors','F-gas','Gg_CO2eq/yr',year_IPCC)                                = eps ;
+IPCC(Country,'BaU','1.A.5','Non-Specified','F-gas','Gg_CO2eq/yr',year_IPCC)                                            = eps ;
+IPCC(Country,'BaU','1.B.1','Solid_Fuels','F-gas','Gg_CO2eq/yr',year_IPCC)                                              = eps ;
+IPCC(Country,'BaU','1.B.2','Oil&Natural_Gas','F-gas','Gg_CO2eq/yr',year_IPCC)                                          = eps ;
+
+IPCC(Country,'BaU','2.A.1','Cement_production','F-gas','Gg_CO2eq/yr',year_IPCC)                                        = NONCO2('2.A.1','F-gas',Country)*valXS('12_Nonmet','12_Nonmet',Country,year_IPCC,'bau')+eps ;
+IPCC(Country,'BaU','2.A.2','Lime_production','F-gas','Gg_CO2eq/yr',year_IPCC)                                          = NONCO2('2.A.2','F-gas',Country)*valXS('12_Nonmet','12_Nonmet',Country,year_IPCC,'bau')+eps ;
+IPCC(Country,'BaU','2.A.3','Glass_Production','F-gas','Gg_CO2eq/yr',year_IPCC)                                         = NONCO2('2.A.3','F-gas',Country)*valXS('12_Nonmet','12_Nonmet',Country,year_IPCC,'bau')+eps ;
+IPCC(Country,'BaU','2.A.4','Other_Process_Uses_of_Carbonates','F-gas','Gg_CO2eq/yr',year_IPCC)                         = NONCO2('2.A.4','F-gas',Country)*valXS('11_CHEMICAL','11_CHEMICAL',Country,year_IPCC,'bau')+eps ;
+IPCC(Country,'BaU','2.B','Chemical_Industry','F-gas','Gg_CO2eq/yr',year_IPCC)                                          = NONCO2('2.B','F-gas',Country)*valXS('11_CHEMICAL','11_CHEMICAL',Country,year_IPCC,'bau')+eps ;
+IPCC(Country,'BaU','2.C','Metal_Industry','F-gas','Gg_CO2eq/yr',year_IPCC)                                             = NONCO2('2.C','F-gas',Country)*valXS('13_IRONSTL','13_IRONSTL',Country,year_IPCC,'bau')+eps ;
+IPCC(Country,'BaU','2.D','Non-Energy_Products_from_Fuels&Solvent_Use','F-gas','Gg_CO2eq/yr',year_IPCC)                 = NONCO2('2.D','F-gas',Country)*valXS('11_CHEMICAL','11_CHEMICAL',Country,year_IPCC,'bau')+eps ;
+IPCC(Country,'BaU','2.E','Electronics_Industry','F-gas','Gg_CO2eq/yr',year_IPCC)                                       = NONCO2('2.E','F-gas',Country)*valXS('15_MACHINE','15_MACHINE',Country,year_IPCC,'bau')+eps ;
+IPCC(Country,'BaU','2.F','Product_Uses_as_Substitutes_for_Ozone_Depleting_Substances','F-gas','Gg_CO2eq/yr',year_IPCC) = NONCO2('2.F','F-gas',Country)*valXS('15_MACHINE','15_MACHINE',Country,year_IPCC,'bau')+eps ;
+IPCC(Country,'BaU','2.G','Other_Product_Manufacture&Use','F-gas','Gg_CO2eq/yr',year_IPCC)                              = NONCO2('2.G','F-gas',Country)*valXS('15_MACHINE','15_MACHINE',Country,year_IPCC,'bau')+eps ;
+
+IPCC(Country,'BaU','3.A.1','Enteric_Fermentation','F-gas','Gg_CO2eq/yr',year_IPCC)                                     = NONCO2('3.A.1','F-gas',Country)*valXS('01_AGRICULT','01_AGRICULT',Country,year_IPCC,'bau')+eps ;
+IPCC(Country,'BaU','3.A.2','Manure_Management','F-gas','Gg_CO2eq/yr',year_IPCC)                                        = NONCO2('3.A.2','F-gas',Country)*valXS('01_AGRICULT','01_AGRICULT',Country,year_IPCC,'bau')+eps ;
+IPCC(Country,'BaU','3.C.1','Emissions_from_biomass_burning','F-gas','Gg_CO2eq/yr',year_IPCC)                           = NONCO2('3.C.1','F-gas',Country)*valXS('01_AGRICULT','01_AGRICULT',Country,year_IPCC,'bau')+eps ;
+IPCC(Country,'BaU','3.C.2','Liming','F-gas','Gg_CO2eq/yr',year_IPCC)                                                   = NONCO2('3.C.2','F-gas',Country)*valXS('01_AGRICULT','01_AGRICULT',Country,year_IPCC,'bau')+eps ; 
+IPCC(Country,'BaU','3.C.3','Urea_application','F-gas','Gg_CO2eq/yr',year_IPCC)                                         = NONCO2('3.C.3','F-gas',Country)*valXS('01_AGRICULT','01_AGRICULT',Country,year_IPCC,'bau')+eps ;
+IPCC(Country,'BaU','3.C.4','Direct_N2O_Emissions_from managed_soils','F-gas','Gg_CO2eq/yr',year_IPCC)                  = NONCO2('3.C.4','F-gas',Country)*valXS('01_AGRICULT','01_AGRICULT',Country,year_IPCC,'bau')+eps ;
+IPCC(Country,'BaU','3.C.5','Indirect_N2O_Emissions_from_managed_soils','F-gas','Gg_CO2eq/yr',year_IPCC)                = NONCO2('3.C.5','F-gas',Country)*valXS('01_AGRICULT','01_AGRICULT',Country,year_IPCC,'bau')+eps ;
+IPCC(Country,'BaU','3.C.6','Indirect_N2O_Emissions_from_manure_management','F-gas','Gg_CO2eq/yr',year_IPCC)            = NONCO2('3.C.6','F-gas',Country)*valXS('01_AGRICULT','01_AGRICULT',Country,year_IPCC,'bau')+eps ;
+IPCC(Country,'BaU','3.C.7','Rice_cultivations','F-gas','Gg_CO2eq/yr',year_IPCC)                                        = NONCO2('3.C.7','F-gas',Country)*valXS('01_AGRICULT','01_AGRICULT',Country,year_IPCC,'bau')+eps ;
+
+IPCC(Country,'BaU','4.A','Solid_Waste_Disposal','F-gas','Gg_CO2eq/yr',year_IPCC)                                       = NONCO2('4.A','F-gas',Country)*valGDP_MP_REAL(Country,year_IPCC,'bau')+eps ;
+IPCC(Country,'BaU','4.B','Biological_Treatment_of_Solid_Waste','F-gas','Gg_CO2eq/yr',year_IPCC)                        = NONCO2('4.B','F-gas',Country)*valGDP_MP_REAL(Country,year_IPCC,'bau')+eps ;
+IPCC(Country,'BaU','4.C','Incineration&Open_Burning_of_Waste','F-gas','Gg_CO2eq/yr',year_IPCC)                         = NONCO2('4.C','F-gas',Country)*valGDP_MP_REAL(Country,year_IPCC,'bau')+eps ;
+IPCC(Country,'BaU','4.D','Wastewater_Treatment&Discharge','F-gas','Gg_CO2eq/yr',year_IPCC)                             = NONCO2('4.D','F-gas',Country)*valGDP_MP_REAL(Country,year_IPCC,'bau')+eps ;
+
+IPCC(Country,'BaU','5.A','Indirect_N2O_emissions','F-gas','Gg_CO2eq/yr',year_IPCC)                                     = NONCO2('5.A','F-gas',Country)*valGDP_MP_REAL(Country,year_IPCC,'bau')+eps ;
+IPCC(Country,'BaU','5.B','Fossil_fuel_fires','F-gas','Gg_CO2eq/yr',year_IPCC)                                          = NONCO2('5.B','F-gas',Country)*valGDP_MP_REAL(Country,year_IPCC,'bau')+eps ;
 
 execute_unload 'Output_w-t\Baseline_Results_IPCC',
 IPCC

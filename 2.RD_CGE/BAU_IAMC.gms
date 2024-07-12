@@ -104,7 +104,11 @@ variable_IAMC
  'Land Cover|Forest|Natural Forest',
  'Land Cover|Other Arable Land',
  'Land Cover|Other Land',
- 'Land Cover|Pasture'
+ 'Land Cover|Pasture',
+ 'Employment',
+ 'Employment|Agriculture',
+ 'Employment|Industry',
+ 'Employment|Service'
 /
 
 Unit_IAMC
@@ -442,6 +446,12 @@ IAMC(model_IAMC, 'BAU', Country, 'Land Cover|Forest|Natural Forest', 'million ha
 IAMC(model_IAMC, 'BAU', Country, 'Land Cover|Other Arable Land', 'million ha', year_IAMC)                      = eps ;
 IAMC(model_IAMC, 'BAU', Country, 'Land Cover|Other Land', 'million ha', year_IAMC)                             = eps ;
 IAMC(model_IAMC, 'BAU', Country, 'Land Cover|Pasture', 'million ha', year_IAMC)                                = eps ;
+
+*Employment
+IAMC(model_IAMC, 'BAU', Country, 'Employment', 'million', year_IAMC)                                           = SUM(j,EMPLOY(j,Country)*(valLDC(j,Country,year_IAMC,'bau')/valLDC(j,Country,'2019','bau')))/1000 ;
+IAMC(model_IAMC, 'BAU', Country, 'Employment|Agriculture', 'million', year_IAMC)                               = SUM(Agriculture,EMPLOY(Agriculture,Country)*(valLDC(Agriculture,Country,year_IAMC,'bau')/valLDC(Agriculture,Country,'2019','bau')))/1000 ;
+IAMC(model_IAMC, 'BAU', Country, 'Employment|Industry', 'million', year_IAMC)                                  = SUM(Industry,EMPLOY(Industry,Country)*(valLDC(Industry,Country,year_IAMC,'bau')/valLDC(Industry,Country,'2019','bau')))/1000 ;
+IAMC(model_IAMC, 'BAU', Country, 'Employment|Service', 'million', year_IAMC)                                   = SUM(Service,EMPLOY(Service,Country)*(valLDC(Service,Country,year_IAMC,'bau')/valLDC(Service,Country,'2019','bau')))/1000 ;
 
 $ontext
 *total consumption of all goods, by all consumers in a region

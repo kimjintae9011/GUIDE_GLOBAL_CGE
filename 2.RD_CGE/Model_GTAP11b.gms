@@ -381,6 +381,7 @@ ALIAS (k,kj)
 ALIAS (z,zj,zjj)
 ALIAS (power, powerr)
 AlIAS (ENE,ENEE)
+AlIAS (TIME, TIMEE)
 ;
 
 *==============================================================================
@@ -404,6 +405,7 @@ PARAMETER
  B_VA2(j,z,time)      Scale parameter (CES - value added)
  B_KLE(j,z)           Scale parameter (CES - composite KLE)
  B_ENER(j,z)          Scale parameter (CES - composite ENER)
+ B_ENER_t(j,z,time)   Scale parameter (CES - composite ENER)
  B_X1(i,z)            Scale parameter (CET - total output)
  B_X2(i,z)            Scale parameter (CET - composite export)
  B_X3(i,z)            Scale parameter (CES - top level)
@@ -419,8 +421,8 @@ PARAMETER
  beta_M2(i,zj,z)      Share parameter (CES - composite import)
  beta_VA(j,z)         Share parameter (CES - value added)
  beta_KLE(j,z)        Share parameter (CES - KLE composite)
- beta_KLE2(j,z)
- beta_KLE2_t(j,z,time)
+ beta_KLE2(j,z)       Share parameter (CES - KLE composite)
+ beta_KLE2_t(j,z,time) Share parameter (CES - KLE composite)
  beta_ENER(ene,j,z)   Share parameter (CES - ENER composite)
  delta(z)             Depreciation rate of capital in country z
  eta                  Price elasticity of indexed transfers and parameters
@@ -430,7 +432,7 @@ PARAMETER
  gamma_LES(i,z)       Marginal share of commodity i in household consumption budget
  io(j,z)              Coefficient (Leontief - intermediate consumption)
  io2(j,z)             Coefficient (Leontief - intermediate energy consumption)
- io2_t(j,z,time) 
+ io2_t(j,z,time)      Coefficient (Leontief - intermediate energy consumption)
  v(j,z)               value added Coefficient (Leontief)
  v2(j,z)              KLE Share parameter (Leontief)
  kmob                 Flag parameter (1 if capital is mobile)
@@ -467,7 +469,6 @@ PARAMETER
  elas_Hou_ENER(ene,z) Household own-price elasticities
  elas_Firm_KLE(j,z)   Frim kle own-price elasticities
  elas_Firm_ENER(ene,j,z) Frim ener own-price elasticities
-
  TOT_POP(z,time)      Total population from 1980 to 2050 based on the PEP w aggregation
  g_GDP(z,time)        GDP past and projected growth rate
  g_LS(z,time)         Active population past and projected growth rate
@@ -481,11 +482,9 @@ PARAMETER
  AEEI(z,time)         Autonomous energy efficiency improvement (Reference)
  AEEI_low(z,time)     Autonomous energy efficiency improvement (Low)
  AEEI_high(z,time)    Autonomous energy efficiency improvement (High)
- CTAX_Cal(z,time)
- CTAX_CPS(z,time)
- CTAX_NZS(z,time)
-
- B_ENER_t(j,z,time)
+ CTAX_Cal(z,time)     Carbon Tax for Baseline Scenario
+ CTAX_CPS(z,time)     Carbon Tax for Current Policy Scenario
+ CTAX_NZS(z,time)     Carbon Tax for Net Zero Scenario
 
  switch(i3,z,time) binary variable - equals zero if no use of backstop technologies
  penetration_rate(i3,z,time) penetration_rate
@@ -541,7 +540,8 @@ PARAMETER
  XSO(j,i,z)      Total output of industry j in region z
  XSTO(j,z)       Total output of industry j
  POWERQO(z)      Total power output in region z
-
+ EMPLOY(j,z)     Employment by sector 2019 (thousand)
+ 
 *==============================================================================
 *   2.2.2 Price variables
 *==============================================================================
@@ -549,10 +549,10 @@ PARAMETER
  IRO(z)          Interest rate
  PO(i,z)         Basic price of commodity i in region z
  PO2(j,i,z)      Basic price of industry js production of commodity i
- PO3(i,j,z)
- PO4(i,j,z)
- PPOWERO(z)
- PIO(i,z)
+ PO3(i,j,z)      Basic price of power industry js production of commodity i
+ PO4(i,j,z)      Basic energy commodity price of industry js production of commodity i
+ PPOWERO(z)      Basic price of composite power commodity in region z
+ PIO(i,z)        Basic price of composite activity commodity in region z
  PTO(j,z)        Basic price of industry js output
  PCO(i,z)        Purchaser price of composite commodity i (including all taxes and margins) in region z
  PCIO(j,z)       Intermediate consumption price index of industry j in region z
@@ -652,7 +652,7 @@ Scalar
 *  The PEP w-t model uses aggregated data from GTAP8.1. The following file
 *  includes data for some variables and substitution elasticities.
 
-$LOAD CO, CGO, DDO, DEPO, DIO, DSO, DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, XSO, XSO_I, XSTO,
+$LOAD CO, CGO, DDO, DEPO, DIO, DSO, DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, XSO, XSO_I, XSTO, EMPLOY
 $LOAD TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, CTAX_Cal, CTAX_CPS, CTAX_NZS, RKDO, TDHO, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, 
 $LOAD tmrg, sigma_M1, sigma_M2, sigma_VA, sigma_KLE, POPO
 
@@ -1944,12 +1944,11 @@ EQUATIONS
                               *[PCE(j2,z,t)/PVA(j2,z,t)]}**sigma_KLE(j2,z)*CE(j2,z,t);
 
  EQ5(j,z,t)$LDCO(j,z)..
-*                 LDC(j,z,t) =e= B_LD2(j,z,t)*SUM[l$LDO(l,j,z),beta_LD(l,j,z)
-*                                *(LD(l,j,z,t)*A_VA2(j,z,t))**(-rho_LD(j,z))]**(-1/rho_LD(j,z)) ;
-*                 LDC(j,z,t)/B_LD(j,z) =e= SUM[l$LDO(l,j,z),beta_LD(l,j,z)*LD(l,j,z,t)**(-rho_LD(j,z))]**(-1/rho_LD(j,z));
+                 LDC(j,z,t) =e= B_LD2(j,z,t)*SUM[l$LDO(l,j,z),beta_LD(l,j,z)
+                                *(LD(l,j,z,t)*A_VA2(j,z,t))**(-rho_LD(j,z))]**(-1/rho_LD(j,z)) ;
 
-LDC(j,z,t) =e= B_LD2(j,z,t) * EXP((-1/rho_LD(j,z)) * LOG(SUM(l$LDO(l,j,z), beta_LD(l,j,z)
-                               * EXP(-rho_LD(j,z) * LOG(LD(l,j,z,t) * A_VA2(j,z,t))))));
+*                LDC(j,z,t) =e= B_LD2(j,z,t) * EXP((-1/rho_LD(j,z)) * LOG(SUM(l$LDO(l,j,z), beta_LD(l,j,z)
+*                               * EXP(-rho_LD(j,z) * LOG(LD(l,j,z,t) * A_VA2(j,z,t))))));
 
  EQ6(l,j,z,t)$LDO(l,j,z)..
                  LD(l,j,z,t) =e= [beta_LD(l,j,z)*WC(j,z,t)/WTI(l,j,z,t)]
@@ -2451,13 +2450,10 @@ SCEN  List of scenarios
 *==============================================================================
 $INCLUDE BAU_SOLVE_GTAP11b.gms
 $INCLUDE BAU_RESULTS_GTAP11b.gms
-$INCLUDE BAU_IAMC.gms
-*$INCLUDE BAU_IPCC.gms
+*$INCLUDE BAU_IAMC.gms
+$INCLUDE BAU_IPCC.gms
 
-* The user may run the BAU scenario with the command line parameter s=bau
-* to save the solution and exit at this point.
-* The SIM scenario may be solved later using the command line parameter r=bau
-* to restart from the BAU solution.
+*$INCLUDE BAU_IAMC_GreenEcos.gms
 
 *==============================================================================
 *   6.3 Simulation 1 scenarios and Results
@@ -2471,6 +2467,9 @@ $INCLUDE BAU_IAMC.gms
 *==============================================================================
 $INCLUDE NZS_SOLVE_GTAP11b.gms
 $INCLUDE NZS_RESULTS_GTAP11b.gms
-$INCLUDE NZS_IAMC.gms
+*$INCLUDE NZS_IAMC.gms
+$INCLUDE NZS_IPCC.gms
+
+*$INCLUDE NZS_IAMC_GreenEcos.gms
 
 $exit

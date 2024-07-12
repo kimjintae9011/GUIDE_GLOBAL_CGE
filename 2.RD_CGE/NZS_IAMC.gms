@@ -104,6 +104,12 @@ IAMC(model_IAMC, 'NZS', Country, 'Land Cover|Other Arable Land', 'million ha', y
 IAMC(model_IAMC, 'NZS', Country, 'Land Cover|Other Land', 'million ha', year_IAMC)                             = eps ;
 IAMC(model_IAMC, 'NZS', Country, 'Land Cover|Pasture', 'million ha', year_IAMC)                                = eps ;
 
+*Employment
+IAMC(model_IAMC, 'NZS', Country, 'Employment', 'million', year_IAMC)                                           = SUM(j,EMPLOY(j,Country)*(valLDC(j,Country,year_IAMC,'NZS')/valLDC(j,Country,'2019','NZS')))/1000 ;
+IAMC(model_IAMC, 'NZS', Country, 'Employment|Agriculture', 'million', year_IAMC)                               = SUM(Agriculture,EMPLOY(Agriculture,Country)*(valLDC(Agriculture,Country,year_IAMC,'NZS')/valLDC(Agriculture,Country,'2019','NZS')))/1000 ;
+IAMC(model_IAMC, 'NZS', Country, 'Employment|Industry', 'million', year_IAMC)                                  = SUM(Industry,EMPLOY(Industry,Country)*(valLDC(Industry,Country,year_IAMC,'NZS')/valLDC(Industry,Country,'2019','NZS')))/1000 ;
+IAMC(model_IAMC, 'NZS', Country, 'Employment|Service', 'million', year_IAMC)                                   = SUM(Service,EMPLOY(Service,Country)*(valLDC(Service,Country,year_IAMC,'NZS')/valLDC(Service,Country,'2019','NZS')))/1000 ;
+
 $ontext
 *total consumption of all goods, by all consumers in a region
 IAMC(model_IAMC,'NZS',z,'Consumption','billion US$2010/yr','2019') = sum(i,valDD(i,z,'NZS'))*10*USD2010(z,'NZS') ;

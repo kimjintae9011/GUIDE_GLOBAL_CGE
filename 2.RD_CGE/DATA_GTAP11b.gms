@@ -1145,15 +1145,17 @@ PARAMETER
  CTAX_285(z,time)
  CTAX_425(z,time)
  CTAX_565(z,time)
+ EMPLOY(j,z)             Employment by sector 2019 (thousand)
+
 ;
 
 $call gdxxrw Input_w-t\Projection.xlsx @Input_w-t\Projection.txt output = Input_w-t\Projection.gdx 
 $gdxIn Input_w-t\Projection.gdx
 $load GDP, TOT_POP, g_SDR, AEEI_low, AEEI_high, TREND, CTAX_Cal, CTAX_CPS, CTAX_NZS, CTAX_61, CTAX_145, CTAX_285, CTAX_425, CTAX_565
 
-*$CALL gdxxrw Input_w-t\JointB_VAL_230411_PAR.xls @Input_w-t\JointB_POWER_PAR.txt Rdim=2 Cdim=1 output = Input_w-t\JointB_VAL_230411_PAR.gdx
-*$GDXIN Input_w-t\JointB_VAL_230411_PAR.gdx
-*$LOAD sigma_KD, sigma_LD, sigma_KLE, sigma_X1, sigma_X2, sigma_X3, sigma_X0, sigma_y, sigma_inv, PARZ
+$call gdxxrw Input_w-t\Employment.xlsx @Input_w-t\Employment.txt output = Input_w-t\Employment.gdx 
+$GDXIN Input_w-t\Employment.gdx
+$LOAD EMPLOY
 
 *==============================================================================
 * 4.1 Real GDP projections
@@ -1214,7 +1216,7 @@ execute_unload 'Input_w-t\DATA_AGG-2019_GTAP11b.gdx',
  CO, CGO, DDO, DEPO, DIO, DSO,DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, POPO, RKDO,
  TDHO, DTAX, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, tssm, tssd, tmrg, XSO, XSO_I, XSTO, EXTO,
  sigma_M1, sigma_M2, sigma_VA, sigma_KLE, Q_GTAP, KLE_GTAP, SH_Q, SH_VA, SH_KLE, ESUBD, ELFKLE,
- elas_E, elas_elec, elas_gas, elas_oil, elas_coal, elas_petrolcoal, DDO_Matrix, Bal_TC,
+ elas_E, elas_elec, elas_gas, elas_oil, elas_coal, elas_petrolcoal, DDO_Matrix, Bal_TC, EMPLOY,
 
 *Parameters used in PEP w-t only
  TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high TREND, CTAX_Cal, CTAX_CPS, CTAX_NZS, CTAX_61, CTAX_145, CTAX_285, CTAX_425, CTAX_565 ;
