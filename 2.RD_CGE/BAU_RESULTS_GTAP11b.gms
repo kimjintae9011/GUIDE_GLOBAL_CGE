@@ -489,6 +489,11 @@ PARAMETER
  valEE(p_gas,j,z,time,'bau')            =  EEI(p_gas,j,z)*DE.L('04_GAS',j,z,time)*AEEI(z,time);
  valEE(p_oilproduct,j,z,time,'bau')     =  EEI(p_oilproduct,j,z)*DE.L('10_PETROLCOAL',j,z,time)*AEEI(z,time);
  valEE(p_elecheat,j,z,time,'bau')       =  EEI(p_elecheat,j,z)*DE.L('18_ELEC',j,z,time)*AEEI(z,time);
+ valEE(p_waste,j,z,time,'bau')          =  EEI(p_waste,j,z)*valXST(j,z,time,'bau')*TREND(z,time) ;
+ valEE(p_bio,j,z,time,'bau')            =  EEI(p_bio,j,z)*valXST(j,z,time,'bau') ;
+ valEE(p_charcoal,j,z,time,'bau')       =  EEI(p_charcoal,j,z)*valXST(j,z,time,'bau')*TREND(z,time);
+ valEE(p_solar,j,z,time,'bau')          =  EEI(p_solar,j,z)*valXST(j,z,time,'bau');
+ valEE(p_geo,j,z,time,'bau')            =  EEI(p_geo,j,z)*valXST(j,z,time,'bau') ;   
 
  valNE(p_coal,j,z,time,'bau')           =  NEI(p_coal,j,z)*DE.L('02_COAL',j,z,time)*AEEI(z,time);
  valNE(p_oil,j,z,time,'bau')            =  NEI(p_oil,j,z)*DE.L('03_OIL',j,z,time)*AEEI(z,time);
@@ -501,6 +506,11 @@ PARAMETER
  valEH(p_gas,z,time,'bau')              =  EHI(p_gas,z)*C.L('04_GAS',z,time)*AEEI(z,time); 
  valEH(p_oilproduct,z,time,'bau')       =  EHI(p_oilproduct,z)*C.L('10_PETROLCOAL',z,time)*AEEI(z,time);
  valEH(p_elecheat,z,time,'bau')         =  EHI(p_elecheat,z)*C.L('18_ELEC',z,time)*AEEI(z,time);
+ valEH(p_waste,z,time,'bau')            =  EHI(p_waste,z)*TOT_POP(z,time)*TREND(z,time) ;
+ valEH(p_bio,z,time,'bau')              =  EHI(p_bio,z)*TOT_POP(z,time) ;
+ valEH(p_charcoal,z,time,'bau')         =  EHI(p_charcoal,z)*TOT_POP(z,time)*TREND(z,time) ;
+ valEH(p_solar,z,time,'bau')            =  EHI(p_solar,z)*TOT_POP(z,time) ;
+ valEH(p_geo,z,time,'bau')              =  EHI(p_geo,z)*TOT_POP(z,time) ;
 
  valTFC_product(product,time,z,'bau')   =  valEH(product,z,time,'bau') + Sum(j4,valEE(product,j4,z,time,'bau')) + Sum(j,valNE(product,j,z,time,'bau'));
  valTFC(time,z,'bau')                   =  sum(product, valEH(product,z,time,'bau') + Sum(j4,valEE(product,j4,z,time,'bau'))+ Sum(j,valNE(product,j,z,time,'bau')));

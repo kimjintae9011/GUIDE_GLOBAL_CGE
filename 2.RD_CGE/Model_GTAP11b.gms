@@ -245,6 +245,41 @@ J5(J) Fossil fuel power sector
  22_eOil        Oil generation
 /
 
+J6(J) 'Industries excluding specified energy-related industries'
+/
+ 01_AGRICULT    Agricultural forest and fishery goods
+ 02_COAL        Coal
+ 03_OIL         Crude petroleum
+ 04_GAS         Natural gas Gas distribution
+ 05_MINING      Mined and quarried goods
+ 06_FOODPRO     Food beverages and tobacco products
+ 07_TEXTILES    Textile and leather products
+ 08_WOODPRO     Wood products
+ 09_PAPERPRO    Paper products
+ 10_PETROLCOAL  Petroleum and coal products
+ 11_CHEMICAL    Chemical products
+ 12_NONMET      Non-metallic mineral products
+ 13_IRONSTL     Primary iron and steel products
+ 14_NONFERR     Non-ferrous metal products
+ 15_MACHINE     Fabricated metal products Electronic and electrical equipment Machinery and equipment
+ 16_TRANSEQ     Motor vehicles Other transport equipment
+ 17_OTHERIND    Other manufactured products Water supply
+* 18_TnD         Transmission and Distribution
+* 19_eNuclear    Nuclear generation
+* 20_eCoal       Coal generation
+* 21_eGas        Gas generation
+* 22_eOil        Oil generation
+* 23_eWind       Wind generation
+* 24_eSolar      Solar generation
+* 25_eHydro      Hydro generation
+* 26_eOther      Other generation
+ 27_CONSTRUC    Construction
+ 28_LTRP        Land transport service(road rail)
+ 29_WTRP        Water transport service
+ 30_ATRP        Air transport service
+ 31_SER         Service
+/
+
 TND(J) Electricity Transmission and Distribution
 /
  18_TnD         Electricity Transmission and Distribution
@@ -317,6 +352,18 @@ Other(J) Industries
  31_SER         Service
 /
 
+Elec(J) Industries
+/
+ 19_eNuclear    Nuclear generation
+ 20_eCoal       Coal generation
+ 21_eGas        Gas generation
+ 22_eOil        Oil generation
+ 23_eWind       Wind generation
+ 24_eSolar      Solar generation
+ 25_eHydro      Hydro generation
+ 26_eOther      Other generation
+/
+
 *==============================================================================
 *  1.3 Sub sets for region
 *==============================================================================
@@ -382,6 +429,7 @@ ALIAS (z,zj,zjj)
 ALIAS (power, powerr)
 AlIAS (ENE,ENEE)
 AlIAS (TIME, TIMEE)
+Alias (Elec, Elecc)
 ;
 
 *==============================================================================
@@ -482,6 +530,7 @@ PARAMETER
  AEEI(z,time)         Autonomous energy efficiency improvement (Reference)
  AEEI_low(z,time)     Autonomous energy efficiency improvement (Low)
  AEEI_high(z,time)    Autonomous energy efficiency improvement (High)
+ TREND(z,time)        Decresing rate of charcoal and waste consumption
  CTAX_Cal(z,time)     Carbon Tax for Baseline Scenario
  CTAX_CPS(z,time)     Carbon Tax for Current Policy Scenario
  CTAX_NZS(z,time)     Carbon Tax for Net Zero Scenario
@@ -653,7 +702,7 @@ Scalar
 *  includes data for some variables and substitution elasticities.
 
 $LOAD CO, CGO, DDO, DEPO, DIO, DSO, DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, XSO, XSO_I, XSTO, EMPLOY
-$LOAD TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, CTAX_Cal, CTAX_CPS, CTAX_NZS, RKDO, TDHO, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, 
+$LOAD TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, TREND, CTAX_Cal, CTAX_CPS, CTAX_NZS, RKDO, TDHO, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, 
 $LOAD tmrg, sigma_M1, sigma_M2, sigma_VA, sigma_KLE, POPO
 
 * Other exogenous parameters can be defined if the Excel file VAL_PAR.XLS
@@ -1434,6 +1483,13 @@ Parameter
 * N2OHO(p_gas,z) = Gas_CO(p_gas,z)*41.868*GHGsEF(p_gas,'N2OEF')*1000*0.000001*GWP('N2OEF') ;
 * N2OHO(p_oilproduct,z) = Oilp_CO(p_oilproduct,z)*41.868*GHGsEF(p_oilproduct,'N2OEF')*1000*0.000001*GWP('N2OEF') ;
 
+* CO2IO(p_elec,j,z) =
+* {sum((p_coal,Elecc),CO2IO(p_coal,Elecc,z))+sum((p_oilproduct,Elecc),CO2IO(p_oilproduct,Elecc,z))+sum((p_gas,Elecc),CO2IO(p_gas,Elecc,z))}*{sum(p_elecheat,Elec_DIO(p_elecheat,j,z))/sum((p_elecheat,jj),Elec_DIO(p_elecheat,jj,z))}; 
+
+*execute_unload 'CO2IO',
+*CO2IO ;
+*$exit
+
 *==============================================================================
 *  4.10 Energy
 *==============================================================================
@@ -1452,6 +1508,11 @@ Parameter
  EEI(p_gas,j,z)$(DIO('04_GAS',j,z) gt 0)                 = Gas_DIO(p_gas,j,z)/DEO('04_GAS',j,z);
  EEI(p_oilproduct,j,z)$(DIO('10_PETROLCOAL',j,z) gt 0)   = Oilp_DIO(p_oilproduct,j,z)/DEO('10_PETROLCOAL',j,z);
  EEI(p_elecheat,j,z)$(DIO('18_ELEC',j,z) gt 0)           = Elec_DIO(p_elecheat,j,z)/DEO('18_ELEC',j,z);
+ EEI(p_waste,j,z)                                        = Waste_DIO(p_waste,j,z)/XSTO(j,z);
+ EEI(p_bio,j,z)                                          = Bio_DIO(p_bio,j,z)/XSTO(j,z);
+ EEI(p_charcoal,j,z)                                     = Charcoal_DIO(p_charcoal,j,z)/XSTO(j,z);
+ EEI(p_solar,j,z)                                        = Solar_DIO(p_solar,j,z)/XSTO(j,z);
+ EEI(p_geo,j,z)                                          = Geo_DIO(p_geo,j,z)/XSTO(j,z);  
 
  NEI(p_coal,j,z)$(DIO('02_COAL',j,z) gt 0)               = NCoal_DIO(p_coal,j,z)/DEO('02_COAL',j,z);
  NEI(p_oil,j,z)$(DIO('03_OIL',j,z) gt 0)                 = NOil_DIO(p_oil,j,z)/DEO('03_OIL',j,z);
@@ -1463,12 +1524,22 @@ Parameter
  EHI(p_gas,z)$(CO('04_GAS',z) gt 0)                      = Gas_CO(p_gas,z)/CO('04_GAS',z);
  EHI(p_oilproduct,z)$(CO('10_PETROLCOAL',z) gt 0)        = Oilp_CO(p_oilproduct,z)/CO('10_PETROLCOAL',z);
  EHI(p_elecheat,z)$(CO('18_ELEC',z) gt 0)                = Elec_CO(p_elecheat,z)/CO('18_ELEC',z);
+ EHI(p_waste,z)                                          = Waste_CO(p_waste,z)/TOT_POP(z,'2019');
+ EHI(p_bio,z)                                            = Bio_CO(p_bio,z)/TOT_POP(z,'2019');
+ EHI(p_charcoal,z)                                       = Charcoal_CO(p_charcoal,z)/TOT_POP(z,'2019');
+ EHI(p_solar,z)                                          = Solar_CO(p_solar,z)/TOT_POP(z,'2019');
+ EHI(p_geo,z)                                            = Geo_CO(p_geo,z)/TOT_POP(z,'2019');
 
  EEO(p_coal,j,z)       = Coal_DIO(p_coal,j,z) ;
  EEO(p_gas,j,z)        = Gas_DIO(p_gas,j,z) ;
  EEO(p_oil,j,z)        = Oil_DIO(p_oil,j,z) ;
  EEO(p_oilproduct,j,z) = Oilp_DIO(p_oilproduct,j,z) ;
  EEO(p_elecheat,j,z)   = Elec_DIO(p_elecheat,j,z) ;
+ EEO(p_waste,j,z)      = Waste_DIO(p_waste,j,z) ;
+ EEO(p_bio,j,z)        = Bio_DIO(p_bio,j,z) ;
+ EEO(p_charcoal,j,z)   = Charcoal_DIO(p_charcoal,j,z) ;
+ EEO(p_solar,j,z)      = Solar_DIO(p_solar,j,z) ;
+ EEO(p_geo,j,z)        = Geo_DIO(p_geo,j,z) ;
 
  NEO(p_coal,j,z)       = NCoal_DIO(p_coal,j,z) ;
  NEO(p_gas,j,z)        = NGas_DIO(p_gas,j,z) ;
@@ -1479,11 +1550,15 @@ Parameter
  EHO(p_oil,z)          = Oil_CO(p_oil,z) ;
  EHO(p_oilproduct,z)   = Oilp_CO(p_oilproduct,z) ;
  EHO(p_elecheat,z)     = Elec_CO(p_elecheat,z) ;
-
-*display EEI, EHI, EEO, NEO, EHO, GDPPPP, GHGsEF, CO2HO ;
-*execute_unload 'GHGs emission',
-*CO2HO, CO2IO, CH4IO, CH4HO, N2OIO, N2OHO
-
+ EHO(p_waste,z)        = Waste_CO(p_waste,z);
+ EHO(p_bio,z)          = Bio_CO(p_bio,z);
+ EHO(p_charcoal,z)     = Charcoal_CO(p_charcoal,z);
+ EHO(p_solar,z)        = Solar_CO(p_solar,z);
+ EHO(p_geo,z)          = Geo_CO(p_geo,z);
+ 
+execute_unload 'Energy_Intensity',
+ EEI, NEI, EHI, EEO, NEO, EHO ;
+*$exit
 *==============================================================================
 *  4.11 Electricity Generation Intensities
 *==============================================================================
@@ -1562,8 +1637,9 @@ Parameters
 * CO2FACTOR2(ene,j,z,time) = CO2FACTOR(ene,j,z)*AEEI(z,time);
  CO2FACTOR2(ene,j,z,time) = CO2FACTOR(ene,j,z);
 
-*execute_unload 'CO2FACTOR_w-t',
-* CO2FACTOR, CO2FACTOR2 ;
+execute_unload 'CO2FACTOR_w-t',
+ CO2FACTOR, CO2FACTOR2 ;
+*$EXIT
 
 *==============================================================================
 *  4.13 Backstop technology
@@ -1636,6 +1712,7 @@ VARIABLES
  LBS(l,j,z,time)
  KBS(k,j,z,time)
  EBS(ene2,j,z,time)
+ 
 *==============================================================================
 *   5.1.2 Price variables
 *==============================================================================
@@ -2451,8 +2528,8 @@ SCEN  List of scenarios
 $INCLUDE BAU_SOLVE_GTAP11b.gms
 $INCLUDE BAU_RESULTS_GTAP11b.gms
 *$INCLUDE BAU_IAMC.gms
-$INCLUDE BAU_IPCC.gms
-
+*$INCLUDE BAU_IPCC.gms
+$INCLUDE BAU_AQ_Linkage.gms
 *$INCLUDE BAU_IAMC_GreenEcos.gms
 
 *==============================================================================
@@ -2465,10 +2542,10 @@ $INCLUDE BAU_IPCC.gms
 *==============================================================================
 *   6.4 Simulation 2 scenarios and Results
 *==============================================================================
-$INCLUDE NZS_SOLVE_GTAP11b.gms
-$INCLUDE NZS_RESULTS_GTAP11b.gms
+*$INCLUDE NZS_SOLVE_GTAP11b.gms
+*$INCLUDE NZS_RESULTS_GTAP11b.gms
 *$INCLUDE NZS_IAMC.gms
-$INCLUDE NZS_IPCC.gms
+*$INCLUDE NZS_IPCC.gms
 
 *$INCLUDE NZS_IAMC_GreenEcos.gms
 

@@ -203,6 +203,7 @@ p12_BKB          Brown coal briquettes
 *p14_COKEOVGS     Coke oven gas
 p15_BLFURGS      Blast furnace gas
 p16_OGASES       Other recovered gases
+p17_PEAT 
 /
 
 p_coal3(product)
@@ -223,6 +224,27 @@ p13_GASWKSGS     Gas works gas
 p14_COKEOVGS     Coke oven gas
 p15_BLFURGS      Blast furnace gas
 p16_OGASES       Other recovered gases
+/
+
+p_coal5(p_coal)
+/
+p1_HARDCOAL      Hard coal
+p2_BROWN         Brown coal
+p3_ANTCOAL       Anthracite
+p4_COKCOAL       Coking coal
+p5_BITCOAL       Other bittuminous coal
+p6_SUBCOAL       Sub-bituminous coal
+p7_LIGNITE       Lignite
+*p8_PATFUEL       Patent fuel
+*p9_OVENCOKE      Coke oven coke
+*p10_GASCOKE      Gas coke
+p11_COALTAR      Coal tar
+*p12_BKB          Brown coal briquettes
+*p13_GASWKSGS     Gas works gas
+*p14_COKEOVGS     Coke oven gas
+p15_BLFURGS      Blast furnace gas
+p16_OGASES       Other recovered gases
+p17_PEAT 
 /
 
 p_coal_TES(product)
@@ -305,7 +327,6 @@ p42_PETCOKE      Petroleum coke
 p43_ONONSPEC     Other oil products
 /
 
-
 p_liquid(p_oilproduct)
 /
 p29_LPG          Liquefied petroleum gases(LPG)
@@ -329,9 +350,50 @@ p42_PETCOKE      Petroleum coke
 p43_ONONSPEC     Other oil products
 /
 
+p_waste(product)
+/
+p44_INDWASTE
+p45_MUNWASTER
+p46_MUNWASTEN
+/
+
+p_bio(product)
+/
+p47_PRIMSBIO     Primary solid biofuels
+p48_BIOGASES     Biogases
+p49_BIOGASOL     Biogasoline
+p50_BIODIESEL    Biodiesels
+p51_BIOJETKERO   Bio jet kerosene
+p52_OBIOLIQ      Other liquid biofuels
+/
+
+p_biowastecharcoal(product)
+/
+p44_INDWASTE
+p45_MUNWASTER
+p46_MUNWASTEN
+p47_PRIMSBIO     Primary solid biofuels
+p48_BIOGASES     Biogases
+p49_BIOGASOL     Biogasoline
+p50_BIODIESEL    Biodiesels
+p51_BIOJETKERO   Bio jet kerosene
+p52_OBIOLIQ      Other liquid biofuels
+p54_CHARCOAL
+/
+
+p_charcoal(product)
+/
+p54_CHARCOAL
+/
+
 p_nuclear(product)
 /
 p55_NUCLEAR      Nuclear
+/
+
+p_geo(product)
+/
+p57_GEOTHERM     Geothermal
 /
 
 p_solar(product)
@@ -446,7 +508,6 @@ p36_RESFUEL      Fuel oil
 
 p63_ELECTR    Electricity
 p64_HEAT      Heat
-
 /
 
 *===========================Flows Mapping====================================
@@ -495,6 +556,7 @@ f34_EOILGASEX   Oil and gas extraction
 f_gas(flow)
 /
 f21_TGASWKS     Includes the manufacture of town gas
+f29_TBLENDGAS   For blened natural gas
 f34_EOILGASEX   Oil and gas extraction
 f36_EGASWKS     Represents the energy which is used in gas works
 /
@@ -528,13 +590,12 @@ f_petrolcoal(flow)
 /
 *f20_TBLASTFUR   Blast furances
 *f22_TCOKEOVS    Coke ovens
-*f23_TPATFUEL    Patent fuel plants
-*f24_TBKB        BKB peat briquettes
+f23_TPATFUEL    Patent fuel plants
+f24_TBKB        BKB peat briquettes
 *f25_TREFINER    Oil refineries
 *f26_TPETCHEM    Petrochemical plants
-*f27_TCOALLIQ    Coal liquefaction
-*f28_TGTL        Gas-to-liquids plants
-
+f27_TCOALLIQ    Coal liquefaction
+f28_TGTL        Gas-to-liquids plants
 *f33_EMINES      Coal mines
 *f34_EOILGASEX   Oil and gas extraction
 *f35_EBLASTFUR   Blast furances
@@ -760,6 +821,11 @@ Alias(p_gas, p_gas2);
 Alias(p_oil, p_oil2);
 Alias(p_oilproduct, p_oilproduct2);
 Alias(p_elecheat, p_elecheat2);
+Alias(p_waste, p_waste2);
+Alias(p_bio, p_bio2);
+Alias(p_charcoal, p_charcoal2);
+Alias(p_geo, p_geo2);
+Alias(p_solar, p_solar2);
 
 *=== Import from Excel using GDX utilities
 *Unit 2019 ktoe
@@ -831,7 +897,7 @@ WEB(flow,product,'15_SAS') =  WEB_SAS(flow,product);
 WEB(flow,product,'16_PAS') =  WEB_PAS(flow,product);
 WEB(flow,product,'17_PAO') =  WEB_PAO(flow,product);
 
-execute_unload 'Input_WEB/WEB_2019_230425.gdx',
+execute_unload 'Input_WEB/WEB_2019.gdx',
 *Sets
 WEB, GHGsEF  ;
 
@@ -877,6 +943,31 @@ Parameter
  NOilp_DIO(p_oilproduct,j,z)     Intermediate consumption of non energy oilproducts by industry j in region z
  NOilpR_DIO(p_oilproduct,j,z)    Intermediate consumption ratio of non energy oilproducts by industry j in region z
 
+ Waste_DIO(p_waste,j,z)          Intermediate consumption of waste energy by industry j in region z
+ Waste_CO(p_waste,z)             Household consumption of waste energy in region z
+ WasteR_DIO(p_waste,j,z)         Intermediate consumption ratio of waste energy by industry j in region z
+ WasteR_CO(p_waste,z)            Household consumption ratio of waste energy in region z
+
+ Bio_DIO(p_bio,j,z)              Intermediate consumption of bio energy by industry j in region z
+ Bio_CO(p_bio,z)                 Household consumption of bio energy in region z
+ BioR_DIO(p_bio,j,z)             Intermediate consumption ratio of bio energy by industry j in region z
+ BioR_CO(p_bio,z)                Household consumption ratio of bio energy in region z
+
+ Charcoal_DIO(p_charcoal,j,z)    Intermediate consumption of charcoal energy by industry j in region z
+ Charcoal_CO(p_charcoal,z)       Household consumption of charcoal energy in region z
+ CharcoalR_DIO(p_charcoal,j,z)   Intermediate consumption ratio of charcoal energy by industry j in region z
+ CharcoalR_CO(p_charcoal,z)      Household consumption ratio of charcoal energy in region z
+
+ Solar_DIO(p_solar,j,z)          Intermediate consumption of solar energy by industry j in region z
+ Solar_CO(p_solar,z)             Household consumption of solar energy in region z
+ SolarR_DIO(p_solar,j,z)         Intermediate consumption ratio of solar energy by industry j in region z
+ SolarR_CO(p_solar,z)            Household consumption ratio of solar energy in region z
+
+ Geo_DIO(p_geo,j,z)              Intermediate consumption of geothermal energy by industry j in region z
+ Geo_CO(p_geo,z)                 Household consumption of geothermal energy in region z
+ GeoR_DIO(p_geo,j,z)             Intermediate consumption ratio of geothermal energy by industry j in region z
+ GeoR_CO(p_geo,z)                Household consumption ratio of geothermal energy in region z
+
  Coal_Total(p_coal,z)
  Gas_Total(p_gas,z)
  Oilp_Total(p_oilproduct,z)
@@ -884,6 +975,11 @@ Parameter
  NCoal_Total(p_coal,z)
  NGas_Total(p_gas,z)
  NOilp_Total(p_oilproduct,z)
+ Waste_Total(p_waste,z)
+ Bio_Total(p_bio,z)
+ Charcoal_Total(p_charcoal,z)
+ Solar_Total(p_solar,z)
+ Geo_Total(p_geo,z)
 
  TES_Coal(p_coal_TES,z)        Primary Energy Supply Coal
  TES_Gas(p_gas,z)              Primary Energy Supply Gas
@@ -925,7 +1021,7 @@ display TCoke_Share, TBlast_Share ;
  Coal_DIO(p_coal,'07_TEXTILES',z) = sum((f_textiles), WEB(f_textiles, p_coal, z));
  Coal_DIO(p_coal,'08_WOODPRO',z) = sum((f_woodpro), WEB(f_woodpro, p_coal, z));
  Coal_DIO(p_coal,'09_PAPERPRO',z) = sum((f_paperpro), WEB(f_paperpro, p_coal, z));
- Coal_DIO(p_coal,'10_PETROLCOAL',z) = -1*sum((f_petrolcoal), WEB(f_petrolcoal, p_coal, z));
+ Coal_DIO(p_coal5,'10_PETROLCOAL',z) = -1*sum((f_petrolcoal), WEB(f_petrolcoal, p_coal5, z));
  Coal_DIO(p_coal,'11_CHEMICAL',z) = sum((f_chemical), WEB(f_chemical, p_coal, z));
  Coal_DIO(p_coal,'12_NONMET',z) = sum((f_nonmet), WEB(f_nonmet, p_coal, z));
  Coal_DIO(p_coal,'13_IRONSTL',z) = sum((f_ironstl), WEB(f_ironstl, p_coal, z))
@@ -1149,6 +1245,223 @@ Loop(j,
 
 display Elec_DIO, Elec_CO, ElecR_DIO, ElecR_CO ;
 
+*Waste
+ Waste_DIO(p_Waste,'01_AGRICULT',z)   = sum((f_agri), WEB(f_agri, p_waste, z));
+ Waste_DIO(p_Waste,'02_COAL',z)       = sum((f_coa), WEB(f_coa, p_waste, z));
+ Waste_DIO(p_Waste,'03_OIL',z)        = sum((f_oil), WEB(f_oil, p_waste, z));
+ Waste_DIO(p_Waste,'04_GAS',z)        = sum((f_gas), WEB(f_gas, p_waste, z));
+ Waste_DIO(p_Waste,'05_MINING',z)     = sum((f_mining), WEB(f_mining, p_waste, z));
+ Waste_DIO(p_Waste,'06_FOODPRO',z)    = sum((f_foodpro), WEB(f_foodpro, p_waste, z));
+ Waste_DIO(p_Waste,'07_TEXTILES',z)   = sum((f_textiles), WEB(f_textiles, p_waste, z));
+ Waste_DIO(p_Waste,'08_WOODPRO',z)    = sum((f_woodpro), WEB(f_woodpro, p_waste, z));
+ Waste_DIO(p_Waste,'09_PAPERPRO',z)   = sum((f_paperpro), WEB(f_paperpro, p_waste, z));
+ Waste_DIO(p_Waste,'10_PETROLCOAL',z) = sum((f_petrolcoal), WEB(f_petrolcoal, p_waste, z));
+ Waste_DIO(p_Waste,'11_CHEMICAL',z)   = sum((f_chemical), WEB(f_chemical, p_waste, z));
+ Waste_DIO(p_Waste,'12_NONMET',z)     = sum((f_nonmet), WEB(f_nonmet, p_waste, z));
+ Waste_DIO(p_Waste,'13_IRONSTL',z)    = sum((f_ironstl), WEB(f_ironstl, p_waste, z));
+ Waste_DIO(p_Waste,'14_NONFERR',z)    = sum((f_nonferr), WEB(f_nonferr, p_waste, z));
+ Waste_DIO(p_Waste,'15_MACHINE',z)    = sum((f_machine), WEB(f_machine, p_waste, z));
+ Waste_DIO(p_Waste,'16_TRANSEQ',z)    = sum((f_transeq), WEB(f_transeq, p_waste, z));
+ Waste_DIO(p_Waste,'17_OTHERIND',z)   = sum((f_otherind), WEB(f_otherind, p_waste, z));
+ Waste_DIO(p_Waste,'18_TnD',z)        = 0 ;
+ Waste_DIO(p_Waste,'19_eNuclear',z)   = 0 ;
+ Waste_DIO(p_Waste,'20_eCoal',z)      = 0 ;
+ Waste_DIO(p_Waste,'19_eNuclear',z)   = 0 ;
+ Waste_DIO(p_Waste,'21_eGas',z)       = 0 ;
+ Waste_DIO(p_Waste,'22_eOil',z)       = 0 ;
+ Waste_DIO(p_Waste,'23_eWind',z)      = 0 ;
+ Waste_DIO(p_Waste,'24_eSolar',z)     = 0 ;
+ Waste_DIO(p_Waste,'25_eHydro',z)     = 0 ;
+ Waste_DIO(p_Waste,'26_eOther',z)     = -1*sum((f_elec), WEB(f_elec, p_waste, z)) ;  
+ Waste_DIO(p_Waste,'27_CONSTRUC',z)   = sum((f_construc), WEB(f_construc, p_waste, z));
+ Waste_DIO(p_Waste,'28_LTRP',z)       = sum((f_roadrail), WEB(f_roadrail, p_waste, z));
+ Waste_DIO(p_Waste,'29_WTRP',z)       = sum((f_domewater), WEB(f_domewater, p_waste, z));
+ Waste_DIO(p_Waste,'30_ATRP',z)       = sum((f_domeair), WEB(f_domeair, p_waste, z));
+ Waste_DIO(p_Waste,'31_SER',z)        = sum((f_ser), WEB(f_ser, p_waste, z));
+ Waste_CO(p_Waste,z)                  = sum((f_household), WEB(f_household, p_waste, z));
+
+*Ratio
+Loop(j,
+    WasteR_DIO(p_waste,j,z)$(Waste_DIO(p_waste,j,z) gt 0)
+         = Waste_DIO(p_waste,j,z)/sum(p_waste2, Waste_DIO(p_waste2,j,z));
+     );
+
+ WasteR_CO(p_waste,z)$(Waste_CO(p_waste,z) gt 0) = Waste_CO(p_waste,z)/ sum(p_waste2, Waste_CO(p_waste2,z));
+
+display Waste_DIO, WasteR_DIO, WasteR_CO ;
+
+*Bio
+ Bio_DIO(p_Bio,'01_AGRICULT',z)   = sum((f_agri), WEB(f_agri, p_Bio, z));
+ Bio_DIO(p_Bio,'02_COAL',z)       = sum((f_coa), WEB(f_coa, p_Bio, z));
+ Bio_DIO(p_Bio,'03_OIL',z)        = sum((f_oil), WEB(f_oil, p_Bio, z));
+ Bio_DIO(p_Bio,'04_GAS',z)        = sum((f_gas), WEB(f_gas, p_Bio, z));
+ Bio_DIO(p_Bio,'05_MINING',z)     = sum((f_mining), WEB(f_mining, p_Bio, z));
+ Bio_DIO(p_Bio,'06_FOODPRO',z)    = sum((f_foodpro), WEB(f_foodpro, p_Bio, z));
+ Bio_DIO(p_Bio,'07_TEXTILES',z)   = sum((f_textiles), WEB(f_textiles, p_Bio, z));
+ Bio_DIO(p_Bio,'08_WOODPRO',z)    = sum((f_woodpro), WEB(f_woodpro, p_Bio, z));
+ Bio_DIO(p_Bio,'09_PAPERPRO',z)   = sum((f_paperpro), WEB(f_paperpro, p_Bio, z));
+ Bio_DIO(p_Bio,'10_PETROLCOAL',z) = sum((f_petrolcoal), WEB(f_petrolcoal, p_Bio, z));
+ Bio_DIO(p_Bio,'11_CHEMICAL',z)   = sum((f_chemical), WEB(f_chemical, p_Bio, z));
+ Bio_DIO(p_Bio,'12_NONMET',z)     = sum((f_nonmet), WEB(f_nonmet, p_Bio, z));
+ Bio_DIO(p_Bio,'13_IRONSTL',z)    = sum((f_ironstl), WEB(f_ironstl, p_Bio, z));
+ Bio_DIO(p_Bio,'14_NONFERR',z)    = sum((f_nonferr), WEB(f_nonferr, p_Bio, z));
+ Bio_DIO(p_Bio,'15_MACHINE',z)    = sum((f_machine), WEB(f_machine, p_Bio, z));
+ Bio_DIO(p_Bio,'16_TRANSEQ',z)    = sum((f_transeq), WEB(f_transeq, p_Bio, z));
+ Bio_DIO(p_Bio,'17_OTHERIND',z)   = sum((f_otherind), WEB(f_otherind, p_Bio, z));
+ Bio_DIO(p_Bio,'18_TnD',z)        = 0 ;
+ Bio_DIO(p_Bio,'19_eNuclear',z)   = 0 ;
+ Bio_DIO(p_Bio,'20_eCoal',z)      = 0 ;
+ Bio_DIO(p_Bio,'19_eNuclear',z)   = 0 ;
+ Bio_DIO(p_Bio,'21_eGas',z)       = 0 ;
+ Bio_DIO(p_Bio,'22_eOil',z)       = 0 ;
+ Bio_DIO(p_Bio,'23_eWind',z)      = 0 ;
+ Bio_DIO(p_Bio,'24_eSolar',z)     = 0 ;
+ Bio_DIO(p_Bio,'25_eHydro',z)     = 0 ;
+ Bio_DIO(p_Bio,'26_eOther',z)     = -1*sum((f_elec), WEB(f_elec, p_Bio, z)) ; 
+ Bio_DIO(p_Bio,'27_CONSTRUC',z)   = sum((f_construc), WEB(f_construc, p_Bio, z));
+ Bio_DIO(p_Bio,'28_LTRP',z)       = sum((f_roadrail), WEB(f_roadrail, p_Bio, z));
+ Bio_DIO(p_Bio,'29_WTRP',z)       = sum((f_domewater), WEB(f_domewater, p_Bio, z));
+ Bio_DIO(p_Bio,'30_ATRP',z)       = sum((f_domeair), WEB(f_domeair, p_Bio, z));
+ Bio_DIO(p_Bio,'31_SER',z)        = sum((f_ser), WEB(f_ser, p_Bio, z));
+ Bio_CO(p_Bio,z)                  = sum((f_household), WEB(f_household, p_Bio, z));
+
+*Ratio
+Loop(j,
+    BioR_DIO(p_Bio,j,z)$(Bio_DIO(p_Bio,j,z) gt 0)
+         = Bio_DIO(p_Bio,j,z)/sum(p_Bio2, Bio_DIO(p_Bio2,j,z));
+     );
+
+ BioR_CO(p_Bio,z)$(Bio_CO(p_Bio,z) gt 0) = Bio_CO(p_Bio,z)/ sum(p_Bio2, Bio_CO(p_Bio2,z));
+
+display Bio_DIO, BioR_DIO, BioR_CO ;
+
+*Charcoal
+ Charcoal_DIO(p_Charcoal,'01_AGRICULT',z)   = sum((f_agri), WEB(f_agri, p_Charcoal, z));
+ Charcoal_DIO(p_Charcoal,'02_COAL',z)       = sum((f_coa), WEB(f_coa, p_Charcoal, z));
+ Charcoal_DIO(p_Charcoal,'03_OIL',z)        = sum((f_oil), WEB(f_oil, p_Charcoal, z));
+ Charcoal_DIO(p_Charcoal,'04_GAS',z)        = sum((f_gas), WEB(f_gas, p_Charcoal, z));
+ Charcoal_DIO(p_Charcoal,'05_MINING',z)     = sum((f_mining), WEB(f_mining, p_Charcoal, z));
+ Charcoal_DIO(p_Charcoal,'06_FOODPRO',z)    = sum((f_foodpro), WEB(f_foodpro, p_Charcoal, z));
+ Charcoal_DIO(p_Charcoal,'07_TEXTILES',z)   = sum((f_textiles), WEB(f_textiles, p_Charcoal, z));
+ Charcoal_DIO(p_Charcoal,'08_WOODPRO',z)    = sum((f_woodpro), WEB(f_woodpro, p_Charcoal, z));
+ Charcoal_DIO(p_Charcoal,'09_PAPERPRO',z)   = sum((f_paperpro), WEB(f_paperpro, p_Charcoal, z));
+ Charcoal_DIO(p_Charcoal,'10_PETROLCOAL',z) = sum((f_petrolcoal), WEB(f_petrolcoal, p_Charcoal, z));
+ Charcoal_DIO(p_Charcoal,'11_CHEMICAL',z)   = sum((f_chemical), WEB(f_chemical, p_Charcoal, z));
+ Charcoal_DIO(p_Charcoal,'12_NONMET',z)     = sum((f_nonmet), WEB(f_nonmet, p_Charcoal, z));
+ Charcoal_DIO(p_Charcoal,'13_IRONSTL',z)    = sum((f_ironstl), WEB(f_ironstl, p_Charcoal, z));
+ Charcoal_DIO(p_Charcoal,'14_NONFERR',z)    = sum((f_nonferr), WEB(f_nonferr, p_Charcoal, z));
+ Charcoal_DIO(p_Charcoal,'15_MACHINE',z)    = sum((f_machine), WEB(f_machine, p_Charcoal, z));
+ Charcoal_DIO(p_Charcoal,'16_TRANSEQ',z)    = sum((f_transeq), WEB(f_transeq, p_Charcoal, z));
+ Charcoal_DIO(p_Charcoal,'17_OTHERIND',z)   = sum((f_otherind), WEB(f_otherind, p_Charcoal, z));
+ Charcoal_DIO(p_Charcoal,'18_TnD',z)        = 0 ;
+ Charcoal_DIO(p_Charcoal,'19_eNuclear',z)   = 0 ;
+ Charcoal_DIO(p_Charcoal,'20_eCoal',z)      = 0 ;
+ Charcoal_DIO(p_Charcoal,'19_eNuclear',z)   = 0 ;
+ Charcoal_DIO(p_Charcoal,'21_eGas',z)       = 0 ;
+ Charcoal_DIO(p_Charcoal,'22_eOil',z)       = 0 ;
+ Charcoal_DIO(p_Charcoal,'23_eWind',z)      = 0 ;
+ Charcoal_DIO(p_Charcoal,'24_eSolar',z)     = 0 ;
+ Charcoal_DIO(p_Charcoal,'25_eHydro',z)     = 0 ;
+ Charcoal_DIO(p_Charcoal,'26_eOther',z)     = -1*sum((f_elec), WEB(f_elec, p_Charcoal, z)) ; 
+ Charcoal_DIO(p_Charcoal,'27_CONSTRUC',z)   = sum((f_construc), WEB(f_construc, p_Charcoal, z));
+ Charcoal_DIO(p_Charcoal,'28_LTRP',z)       = sum((f_roadrail), WEB(f_roadrail, p_Charcoal, z));
+ Charcoal_DIO(p_Charcoal,'29_WTRP',z)       = sum((f_domewater), WEB(f_domewater, p_Charcoal, z));
+ Charcoal_DIO(p_Charcoal,'30_ATRP',z)       = sum((f_domeair), WEB(f_domeair, p_Charcoal, z));
+ Charcoal_DIO(p_Charcoal,'31_SER',z)        = sum((f_ser), WEB(f_ser, p_Charcoal, z));
+ Charcoal_CO(p_Charcoal,z)                  = sum((f_household), WEB(f_household, p_Charcoal, z));
+
+*Ratio
+Loop(j,
+    CharcoalR_DIO(p_Charcoal,j,z)$(Charcoal_DIO(p_Charcoal,j,z) gt 0)
+         = Charcoal_DIO(p_Charcoal,j,z)/sum(p_Charcoal2, Charcoal_DIO(p_Charcoal2,j,z));
+     );
+
+ CharcoalR_CO(p_Charcoal,z)$(Charcoal_CO(p_Charcoal,z) gt 0) = Charcoal_CO(p_Charcoal,z)/ sum(p_Charcoal2, Charcoal_CO(p_Charcoal2,z));
+
+display Charcoal_DIO, CharcoalR_DIO, CharcoalR_CO ;
+
+*Geothermal
+ Geo_DIO(p_Geo,'01_AGRICULT',z)   = sum((f_agri), WEB(f_agri, p_Geo, z));
+ Geo_DIO(p_Geo,'02_COAL',z)       = sum((f_coa), WEB(f_coa, p_Geo, z));
+ Geo_DIO(p_Geo,'03_OIL',z)        = sum((f_oil), WEB(f_oil, p_Geo, z));
+ Geo_DIO(p_Geo,'04_GAS',z)        = sum((f_gas), WEB(f_gas, p_Geo, z));
+ Geo_DIO(p_Geo,'05_MINING',z)     = sum((f_mining), WEB(f_mining, p_Geo, z));
+ Geo_DIO(p_Geo,'06_FOODPRO',z)    = sum((f_foodpro), WEB(f_foodpro, p_Geo, z));
+ Geo_DIO(p_Geo,'07_TEXTILES',z)   = sum((f_textiles), WEB(f_textiles, p_Geo, z));
+ Geo_DIO(p_Geo,'08_WOODPRO',z)    = sum((f_woodpro), WEB(f_woodpro, p_Geo, z));
+ Geo_DIO(p_Geo,'09_PAPERPRO',z)   = sum((f_paperpro), WEB(f_paperpro, p_Geo, z));
+ Geo_DIO(p_Geo,'10_PETROLCOAL',z) = sum((f_petrolcoal), WEB(f_petrolcoal, p_Geo, z));
+ Geo_DIO(p_Geo,'11_CHEMICAL',z)   = sum((f_chemical), WEB(f_chemical, p_Geo, z));
+ Geo_DIO(p_Geo,'12_NONMET',z)     = sum((f_nonmet), WEB(f_nonmet, p_Geo, z));
+ Geo_DIO(p_Geo,'13_IRONSTL',z)    = sum((f_ironstl), WEB(f_ironstl, p_Geo, z));
+ Geo_DIO(p_Geo,'14_NONFERR',z)    = sum((f_nonferr), WEB(f_nonferr, p_Geo, z));
+ Geo_DIO(p_Geo,'15_MACHINE',z)    = sum((f_machine), WEB(f_machine, p_Geo, z));
+ Geo_DIO(p_Geo,'16_TRANSEQ',z)    = sum((f_transeq), WEB(f_transeq, p_Geo, z));
+ Geo_DIO(p_Geo,'17_OTHERIND',z)   = sum((f_otherind), WEB(f_otherind, p_Geo, z));
+ Geo_DIO(p_Geo,'18_TnD',z)        = 0 ;
+ Geo_DIO(p_Geo,'19_eNuclear',z)   = 0 ;
+ Geo_DIO(p_Geo,'20_eCoal',z)      = 0 ;
+ Geo_DIO(p_Geo,'19_eNuclear',z)   = 0 ;
+ Geo_DIO(p_Geo,'21_eGas',z)       = 0 ;
+ Geo_DIO(p_Geo,'22_eOil',z)       = 0 ;
+ Geo_DIO(p_Geo,'23_eWind',z)      = 0 ;
+ Geo_DIO(p_Geo,'24_eSolar',z)     = 0 ;
+ Geo_DIO(p_Geo,'25_eHydro',z)     = 0 ;
+ Geo_DIO(p_Geo,'26_eOther',z)     = -1*sum((f_elec), WEB(f_elec, p_Geo, z)) ; 
+ Geo_DIO(p_Geo,'27_CONSTRUC',z)   = sum((f_construc), WEB(f_construc, p_Geo, z));
+ Geo_DIO(p_Geo,'28_LTRP',z)       = sum((f_roadrail), WEB(f_roadrail, p_Geo, z));
+ Geo_DIO(p_Geo,'29_WTRP',z)       = sum((f_domewater), WEB(f_domewater, p_Geo, z));
+ Geo_DIO(p_Geo,'30_ATRP',z)       = sum((f_domeair), WEB(f_domeair, p_Geo, z));
+ Geo_DIO(p_Geo,'31_SER',z)        = sum((f_ser), WEB(f_ser, p_Geo, z));
+ Geo_CO(p_Geo,z)                  = sum((f_household), WEB(f_household, p_Geo, z));
+
+*Ratio
+Loop(j,
+    GeoR_DIO(p_Geo,j,z)$(Geo_DIO(p_Geo,j,z) gt 0)
+         = Geo_DIO(p_Geo,j,z)/sum(p_Geo2, Geo_DIO(p_Geo2,j,z));
+     );
+
+ GeoR_CO(p_Geo,z)$(Geo_CO(p_Geo,z) gt 0) = Geo_CO(p_Geo,z)/ sum(p_Geo2, Geo_CO(p_Geo2,z));
+
+display Geo_DIO, GeoR_DIO, GeoR_CO ;
+
+*Solar
+ Solar_DIO(p_Solar,'01_AGRICULT',z)   = sum((f_agri), WEB(f_agri, p_Solar, z));
+ Solar_DIO(p_Solar,'02_COAL',z)       = sum((f_coa), WEB(f_coa, p_Solar, z));
+ Solar_DIO(p_Solar,'03_OIL',z)        = sum((f_oil), WEB(f_oil, p_Solar, z));
+ Solar_DIO(p_Solar,'04_GAS',z)        = sum((f_gas), WEB(f_gas, p_Solar, z));
+ Solar_DIO(p_Solar,'05_MINING',z)     = sum((f_mining), WEB(f_mining, p_Solar, z));
+ Solar_DIO(p_Solar,'06_FOODPRO',z)    = sum((f_foodpro), WEB(f_foodpro, p_Solar, z));
+ Solar_DIO(p_Solar,'07_TEXTILES',z)   = sum((f_textiles), WEB(f_textiles, p_Solar, z));
+ Solar_DIO(p_Solar,'08_WOODPRO',z)    = sum((f_woodpro), WEB(f_woodpro, p_Solar, z));
+ Solar_DIO(p_Solar,'09_PAPERPRO',z)   = sum((f_paperpro), WEB(f_paperpro, p_Solar, z));
+ Solar_DIO(p_Solar,'10_PETROLCOAL',z) = sum((f_petrolcoal), WEB(f_petrolcoal, p_Solar, z));
+ Solar_DIO(p_Solar,'11_CHEMICAL',z)   = sum((f_chemical), WEB(f_chemical, p_Solar, z));
+ Solar_DIO(p_Solar,'12_NONMET',z)     = sum((f_nonmet), WEB(f_nonmet, p_Solar, z));
+ Solar_DIO(p_Solar,'13_IRONSTL',z)    = sum((f_ironstl), WEB(f_ironstl, p_Solar, z));
+ Solar_DIO(p_Solar,'14_NONFERR',z)    = sum((f_nonferr), WEB(f_nonferr, p_Solar, z));
+ Solar_DIO(p_Solar,'15_MACHINE',z)    = sum((f_machine), WEB(f_machine, p_Solar, z));
+ Solar_DIO(p_Solar,'16_TRANSEQ',z)    = sum((f_transeq), WEB(f_transeq, p_Solar, z));
+ Solar_DIO(p_Solar,'17_OTHERIND',z)   = sum((f_otherind), WEB(f_otherind, p_Solar, z));
+ Solar_DIO(p_Solar,'27_CONSTRUC',z)   = sum((f_construc), WEB(f_construc, p_Solar, z));
+ Solar_DIO(p_Solar,'28_LTRP',z)       = sum((f_roadrail), WEB(f_roadrail, p_Solar, z));
+ Solar_DIO(p_Solar,'29_WTRP',z)       = sum((f_domewater), WEB(f_domewater, p_Solar, z));
+ Solar_DIO(p_Solar,'30_ATRP',z)       = sum((f_domeair), WEB(f_domeair, p_Solar, z));
+ Solar_DIO(p_Solar,'31_SER',z)        = sum((f_ser), WEB(f_ser, p_Solar, z));
+ Solar_CO(p_Solar,z)                  = sum((f_household), WEB(f_household, p_Solar, z));
+
+*Ratio
+Loop(j,
+    SolarR_DIO(p_Solar,j,z)$(Solar_DIO(p_Solar,j,z) gt 0)
+         = Solar_DIO(p_Solar,j,z)/sum(p_Solar2, Solar_DIO(p_Solar2,j,z));
+     );
+
+ SolarR_CO(p_Solar,z)$(Solar_CO(p_Solar,z) gt 0) = Solar_CO(p_Solar,z)/ sum(p_Solar2, Solar_CO(p_Solar2,z));
+
+display Solar_DIO, SolarR_DIO, SolarR_CO ;
+
+
+
 *Coal non-energy
  NCoal_DIO(p_coal,'05_MINING',z) = sum(f_nemining, WEB(f_nemining, p_coal, z));
  NCoal_DIO(p_coal,'06_FOODPRO',z) = sum(f_nefoodpro, WEB(f_nefoodpro, p_coal, z));
@@ -1308,6 +1621,11 @@ Gas_DIO, Gas_CO, GasR_DIO, GasR_CO,
 Oil_DIO, Oil_CO, OilR_DIO,
 Oilp_DIO, Oilp_CO, OilpR_DIO, OilpR_CO,
 Elec_DIO, Elec_CO, ElecR_DIO,ElecR_CO,
+Waste_DIO, Waste_CO, WasteR_DIO, WasteR_CO,
+Bio_DIO, Bio_CO, BioR_DIO, BioR_CO,
+Charcoal_DIO, Charcoal_CO, CharcoalR_DIO, CharcoalR_CO,
+Geo_DIO, Geo_CO, GeoR_DIO, GeoR_CO,
+Solar_DIO, Solar_CO, SolarR_DIO, SolarR_CO,
 NCoal_DIO, NCoalR_DIO, NGas_DIO, NGasR_DIO,
 NOil_DIO, NOilR_DIO, NOilp_DIO, NOilpR_DIO,
 
