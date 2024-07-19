@@ -566,7 +566,7 @@ PARAMETER
  valTCH4H(z,time,'bau')                  = sum((product),valCH4H(product,z,time,'bau'));
  valTCH4(z,time,'bau')                   = valTCH4H(z,time,'bau') + valTCH4I(z,time,'bau') ;
 
-*============================== N2O(CO2equivalent) ========================================================================
+*============================== N2O(CO2equivalent) ==========================================================
 *Energy 
  valN2OI(product,Energy,z,time,'bau')    = valEE(product,Energy,z,time,'bau')*41.868*GHGsEF(product,'N2OEF_Energy')/10**6*GWP_N2O ;
 *Industry
@@ -593,7 +593,7 @@ PARAMETER
  valGlobal_CH4(time,'bau')              = sum(z, valTCH4(z,time,'bau'));
  valGlobal_N2O(time,'bau')              = sum(z, valTN2O(z,time,'bau'));
 
-*============================== Power Generation ============================================
+*============================== Power Generation ===========================================================
  valPOWER(power,i,z,time,scen)          = XS.l(power,i,z,time);
  valElecGen('Nuclear',z,time,'bau')     = XS.l('19_eNuclear','18_ELEC',z,time)*EGINucGWh('19_eNuclear',z); 
  valElecGen('Coal',z,time,'bau')        = XS.l('20_eCoal','18_ELEC',z,time)*EGICoalGWh('20_eCoal',z); 
@@ -612,10 +612,10 @@ PARAMETER
                                          + valElecGen('Hydro',z,time,'bau') + valElecGen('Waste',z,time,'bau')+ valElecGen('Bio',z,time,'bau')
                                          + valElecGen('Geothermal',z,time,'bau') + valElecGen('Geothermal',z,time,'bau') + valElecGen('Other',z,time,'bau') ;  
 
-*============================== Carbon Tax ============================================
+*============================== Carbon Tax =================================================================
  valCTAX(z,time,'bau') = CTAX.l(z,time) ;
 
-*================== Backstop technology ===========================================================
+*================== Backstop technology ====================================================================
  valswitch(i3,z,time,'NZS') = switch(i3,z,time) ;
  valpenetration_rate(i3,z,time,'NZS') = penetration_rate(i3,z,time) ;  
  valC_Conventional(i3,z,time,'NZS') = C_Conventional.l(i3,z,time) ;

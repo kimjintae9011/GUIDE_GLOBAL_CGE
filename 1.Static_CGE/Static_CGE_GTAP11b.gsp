@@ -1,4 +1,5 @@
 {
+    "expand": false,
     "file": "Static_Model_GTAP11.gms",
     "name": "Static_CGE_GTAP11b",
     "nodes": [

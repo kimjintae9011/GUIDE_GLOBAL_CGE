@@ -115,14 +115,15 @@ PARAMETER
  valYHK(z,time,scen)         Household capital income in region z
  valYHL(z,time,scen)         Household labor income in region z
  valYROW(z,time,scen)        Rest-of-the-world total income from region z
+ valYROW2(z,time,scen)
 
 *=================== Energy ================================================================== 
  valAEEI(z,time,scen)         AEEI
  valEE(product,j,z,time,scen) Industry's energy consumption by regions 
  valNE(product,j,z,time,scen) Non-energy consumption by energy products 
  valEH(product,z,time,scen)   Household energy consumption by energy products
-
- valTFC_product(product,time,z, scen) 
+ 
+ valTFC_product(product,time,z, scen)
  valTFC(time,z,scen)  Total final energy consumption by regions
  
  valNEA_TFC(product,time,scen) NEA's total final energy consumption by energy products
@@ -139,46 +140,47 @@ PARAMETER
  valCO2I(product,j,z,time,scen)  Industry CO2 emissions by products
  valCO2NE(product,j,z,time,scen) Industry non-energy consumption CO2 emissions by products
  valCO2H(product,z,time,scen)    Household CO2 emission by products  
- 
  valCO2I2(j,z,time,scen)  Industry non-energy consumption CO2 emissions by regions
  valCO2NE2(j,z,time,scen) Non-energy consumption CO2 emission by industries and regions
- valCO2I3(j,z,time,scen)
-
+ valCO2I3(j,z,time,scen) Industry non-energy consumption CO2 emissions by regions
  valTCO2I(z,time,scen)  Total industrial CO2 emission by regions
  valTCO2NE(z,time,scen) Total CO2 emission from non-energy consumption by regions
  valTCO2H(z,time,scen) Household CO2 emission by regions
- 
- valTCO2(z,time,scen)          Total CO2 emission by regions
+ valTCO2(z,time,scen) Total CO2 emission by regions
 
  valEndo_CO2(ene,j,z,time,scen) ktCO2
  valEndo_TotalCO2(z,time,scen)  ktCO2
 
 *================== CH4 emission ================================================================
- valCH4I(product,j,z,time,scen) Industry CH4 emissions by regions and products (CH4 tonne)
- valCH4H(product,z,time,scen) Household CH4 emissions by (CH4 tonne)
- valCH4I2(j,z,time,scen) Industry CH4 emissions by regions (CH4 tonne)
- valTCH4I(z,time,scen) Total industrial CH4 emission by regions (CH4 tonne)
- valTCH4H(z,time,scen) Household CH4 emission by regions (CH4 tonne)
- valTCH4(z,time,scen) Total CH4 emission by regions (CH4 tonne)  
- valTCH4_CO2eq(z,time,scen) Total CO2 equivalent CH4 emission by regions (tCO2eq)
+ valCH4I(product,j,z,time,scen) Industry CH4 emissions by regions and products (CO2eq)
+ valCh4NE(product,j,z,time,scen) Industry non-energy consumption CH4 emissions by products (CO2eq)
+ valCH4I2(j,z,time,scen) Industry CH4 emissions by regions (CO2eq)
+ valCH4NE2(j,z,time,scen) Non-energy consumption CH4 emission by industries and regions (CO2eq)
+ valCH4I3(j,z,time,scen) Industry non-energy consumption CH4 emissions by regions (CO2eq) 
+ valTCH4I(z,time,scen) Total industrial CH4 emission by regions (CO2eq)
+ valTCH4NE(z,time,scen) Total CH4 emission from non-energy consumption by regions (CO2eq)
+ valCH4H(product,z,time,scen) Household CH4 emission by regions (CO2eq)
+ valTCH4H(z,time,scen) Household CH4 emission by regions (CO2eq)
+ valTCH4(z,time,scen) Total CH4 emission by regions (CO2eq) 
 
 *================== N2O emission ================================================================
- valN2OI(product,j,z,time,scen) Industry N2O emissions by regions (N2O tonne)
- valN2OH(product,z,time,scen)   Household N2O emission by regions (N2O tonne)
- valN2OI2(j,z,time,scen) Industry N2O emissions by regions (N2O tonne)
- valTN2OI(z,time,scen) Total industrial N2O emission by regions (N2O tonne)
- valTN2OH(z,time,scen) Household N2O emission by regions (N2O tonne)
- valTN2O(z,time,scen) Total N2O emission by regions (N2O tonne)  
- valTN2O_CO2eq(z,time,scen) Total CO2 equivalent N2O emission by regions (tCO2eq)
+ valN2OI(product,j,z,time,scen) Industry N2O emissions by regions and products (CO2eq)
+ valN2ONE(product,j,z,time,scen) Industry non-energy consumption N2O emissions by products (CO2eq)
+ valN2OI2(j,z,time,scen) Industry N2O emissions by regions (CO2eq)
+ valN2ONE2(j,z,time,scen) Non-energy consumption N2O emission by industries and regions (CO2eq)
+ valN2OI3(j,z,time,scen) Industry non-energy consumption N2O emissions by regions (CO2eq) 
+ valTN2OI(z,time,scen) Total industrial N2O emission by regions (CO2eq)
+ valTN2ONE(z,time,scen) Total N2O emission from non-energy consumption by regions (CO2eq)
+ valN2OH(product,z,time,scen) Household N2O emission by regions (CO2eq)
+ valTN2OH(z,time,scen) Household N2O emission by regions (CO2eq)
+ valTN2O(z,time,scen) Total N2O emission by regions (CO2eq) 
 
 *================== Global GHGs emission =========================================================
- valGlobal_CO2(time,scen)    Globally total CO2 emission
- valGlobal_CH4(time,scen)    Globally total CH4 emission
- valGlobal_N2O(time,scen)    Globally total NO2 emission
- valGlobal_CO2eq(time,scen)    Globally total CO2 equivalent emission
-
- valGHG(*,z,time,scen)
-
+ valGlobal_CO2(time,scen)      Globally total CO2 emission
+ valGlobal_CH4(time,scen)      Globally total CH4 emission (CO2eq) 
+ valGlobal_N2O(time,scen)      Globally total NO2 emission (CO2eq)
+ valGlobal_Fgases(time,scen)   Globally total Fgases emission (CO2eq)
+ 
 *================== Power Generation ==============================================================
  valPOWER(power,i,z,time,scen) Economic Output by power plants
  valElecGen(*,z,time,scen) Electricity generation by power plants
@@ -186,6 +188,18 @@ PARAMETER
 *================== Carbon Tax ====================================================================
  valCTAX(z,time,scen) CTAX
 
+*================== Backstop technology ===========================================================
+ valswitch(i3,z,time,scen) switch
+ valpenetration_rate(i3,z,time,scen)
+ valC_Conventional(i3,z,time,scen) backstop activity
+ valXDBS(i3,z,time,scen)
+ valXDBS2(j,z,time,scen)
+ valLBS(l,j,z,time,scen)
+ valKBS(k,j,z,time,scen)
+ valCLBS(i3,z,time,scen)
+ valCKBS(i3,z,time,scen)
+ valMARKUP(i3,z,time,scen)
+ 
 ;
 
 *==============================================================================
@@ -304,29 +318,46 @@ PARAMETER
  valYHK(z,time,'CPS')        = YHK.l(z,time);
  valYHL(z,time,'CPS')        = YHL.l(z,time);
  valYROW(z,time,'CPS')       = YROW.l(z,time);
+ valYROW2(z,time,'CPS')       = e.l(z,time)*SUM[(i,zj)$EXO(i,z,zj),
+                               EX.l(i,z,zj,time)*PWX.l(i,z,zj,time)]-e.l(z,time)
+                               *SUM[i$MRGNO(i,z),MRGN.l(i,z,time)*PWMG.l(i,time)];
+
+* EQ34(z,t)..       SROW(z,t) =e= YROW(z,t)-e(z,t)*SUM[(i,zj)$EXO(i,z,zj),
+*                               EX(i,z,zj,t)*PWX(i,z,zj,t)]-e(z,t)
+*                               *SUM[i$MRGNO(i,z),MRGN(i,z,t)*PWMG(i,t)];
+
 
 *=============================== Energy =====================================================================
-TREND(z,time) = 1;
 
  valAEEI(z,time,'CPS')                  = AEEI(z,time);
 
- valEE(p_coal,j,z,time,'CPS')           =  EEI(p_coal,j,z)*TREND(z,time)*DE.L('02_COAL',j,z,time)*AEEI(z,time);
- valEE(p_oil,j,z,time,'CPS')            =  EEI(p_oil,j,z)*TREND(z,time)*DE.L('03_OIL',j,z,time)*AEEI(z,time);
- valEE(p_gas,j,z,time,'CPS')            =  EEI(p_gas,j,z)*TREND(z,time)*DE.L('04_GAS',j,z,time)*AEEI(z,time);
- valEE(p_oilproduct,j,z,time,'CPS')     =  EEI(p_oilproduct,j,z)*TREND(z,time)*DE.L('10_PETROLCOAL',j,z,time)*AEEI(z,time);
- valEE(p_elecheat,j,z,time,'CPS')       =  EEI(p_elecheat,j,z)*TREND(z,time)*DE.L('18_ELEC',j,z,time)*AEEI(z,time);
+ valEE(p_coal,j,z,time,'CPS')           =  EEI(p_coal,j,z)*DE.L('02_COAL',j,z,time)*AEEI(z,time);
+ valEE(p_oil,j,z,time,'CPS')            =  EEI(p_oil,j,z)*DE.L('03_OIL',j,z,time)*AEEI(z,time);
+ valEE(p_gas,j,z,time,'CPS')            =  EEI(p_gas,j,z)*DE.L('04_GAS',j,z,time)*AEEI(z,time);
+ valEE(p_oilproduct,j,z,time,'CPS')     =  EEI(p_oilproduct,j,z)*DE.L('10_PETROLCOAL',j,z,time)*AEEI(z,time);
+ valEE(p_elecheat,j,z,time,'CPS')       =  EEI(p_elecheat,j,z)*DE.L('18_ELEC',j,z,time)*AEEI(z,time);
+ valEE(p_waste,j,z,time,'CPS')          =  EEI(p_waste,j,z)*valXST(j,z,time,'CPS')*TREND(z,time) ;
+ valEE(p_bio,j,z,time,'CPS')            =  EEI(p_bio,j,z)*valXST(j,z,time,'CPS') ;
+ valEE(p_charcoal,j,z,time,'CPS')       =  EEI(p_charcoal,j,z)*valXST(j,z,time,'CPS')*TREND(z,time);
+ valEE(p_solar,j,z,time,'CPS')          =  EEI(p_solar,j,z)*valXST(j,z,time,'CPS');
+ valEE(p_geo,j,z,time,'CPS')            =  EEI(p_geo,j,z)*valXST(j,z,time,'CPS') ;   
 
- valNE(p_coal,j,z,time,'CPS')           =  NEI(p_coal,j,z)*TREND(z,time)*DE.L('02_COAL',j,z,time)*AEEI(z,time);
- valNE(p_oil,j,z,time,'CPS')            =  NEI(p_oil,j,z)*TREND(z,time)*DE.L('03_OIL',j,z,time)*AEEI(z,time);
- valNE(p_gas,j,z,time,'CPS')            =  NEI(p_gas,j,z)*TREND(z,time)*DE.L('04_GAS',j,z,time)*AEEI(z,time);
- valNE(p_oilproduct,j,z,time,'CPS')     =  NEI(p_oilproduct,j,z)*TREND(z,time)*DE.L('10_PETROLCOAL',j,z,time)*AEEI(z,time);
- valNE(p_elecheat,j,z,time,'CPS')       =  NEI(p_elecheat,j,z)*TREND(z,time)*DE.L('18_ELEC',j,z,time)*AEEI(z,time);
+ valNE(p_coal,j,z,time,'CPS')           =  NEI(p_coal,j,z)*DE.L('02_COAL',j,z,time)*AEEI(z,time);
+ valNE(p_oil,j,z,time,'CPS')            =  NEI(p_oil,j,z)*DE.L('03_OIL',j,z,time)*AEEI(z,time);
+ valNE(p_gas,j,z,time,'CPS')            =  NEI(p_gas,j,z)*DE.L('04_GAS',j,z,time)*AEEI(z,time);
+ valNE(p_oilproduct,j,z,time,'CPS')     =  NEI(p_oilproduct,j,z)*DE.L('10_PETROLCOAL',j,z,time)*AEEI(z,time);
+ valNE(p_elecheat,j,z,time,'CPS')       =  NEI(p_elecheat,j,z)*DE.L('18_ELEC',j,z,time)*AEEI(z,time);
 
- valEH(p_coal,z,time,'CPS')             =  EHI(p_coal,z)*TREND(z,time)*C.L('02_COAL',z,time)*AEEI(z,time);
- valEH(p_oil,z,time,'CPS')              =  EHI(p_oil,z)*TREND(z,time)*C.L('03_OIL',z,time)*AEEI(z,time);
- valEH(p_gas,z,time,'CPS')              =  EHI(p_gas,z)*TREND(z,time)*C.L('04_GAS',z,time)*AEEI(z,time); 
- valEH(p_oilproduct,z,time,'CPS')       =  EHI(p_oilproduct,z)*TREND(z,time)*C.L('10_PETROLCOAL',z,time)*AEEI(z,time);
- valEH(p_elecheat,z,time,'CPS')         =  EHI(p_elecheat,z)*TREND(z,time)*C.L('18_ELEC',z,time)*AEEI(z,time);
+ valEH(p_coal,z,time,'CPS')             =  EHI(p_coal,z)*C.L('02_COAL',z,time)*AEEI(z,time);
+ valEH(p_oil,z,time,'CPS')              =  EHI(p_oil,z)*C.L('03_OIL',z,time)*AEEI(z,time);
+ valEH(p_gas,z,time,'CPS')              =  EHI(p_gas,z)*C.L('04_GAS',z,time)*AEEI(z,time); 
+ valEH(p_oilproduct,z,time,'CPS')       =  EHI(p_oilproduct,z)*C.L('10_PETROLCOAL',z,time)*AEEI(z,time);
+ valEH(p_elecheat,z,time,'CPS')         =  EHI(p_elecheat,z)*C.L('18_ELEC',z,time)*AEEI(z,time);
+ valEH(p_waste,z,time,'CPS')            =  EHI(p_waste,z)*TOT_POP(z,time)*TREND(z,time) ;
+ valEH(p_bio,z,time,'CPS')              =  EHI(p_bio,z)*TOT_POP(z,time) ;
+ valEH(p_charcoal,z,time,'CPS')         =  EHI(p_charcoal,z)*TOT_POP(z,time)*TREND(z,time) ;
+ valEH(p_solar,z,time,'CPS')            =  EHI(p_solar,z)*TOT_POP(z,time) ;
+ valEH(p_geo,z,time,'CPS')              =  EHI(p_geo,z)*TOT_POP(z,time) ;
 
  valTFC_product(product,time,z,'CPS')   = valEH(product,z,time,'CPS') + Sum(j5,valEE(product,j5,z,time,'CPS'))+Sum(j,valNE(product,j,z,time,'CPS'));
 
@@ -341,7 +372,7 @@ TREND(z,time) = 1;
  valTES_gas(z,time,'CPS')              = sum(p_gas,TES_gas(p_gas,z))*[valQ('04_GAS',z,time,'CPS')/valQ('04_GAS',z,'2019','CPS')]; 
  valTES(z,time,'CPS')                  = valTES_coal(z,time,'CPS') + valTES_oil(z,time,'CPS') + valTES_gas(z,time,'CPS') ; 
 
-*============================== CO2 =========================================================================
+*============================== CO2 ========================================================================================
  valCO2I(product,j,z,time,'CPS')        = valEE(product,j,z,time,'CPS')*41.868*GHGsEF(product,'CO2EF')*1*(44/12)*0.001 ;
  valCO2NE(product,j,z,time,'CPS')       = valNE(product,j,z,time,'CPS')*(1-GHGsEF(product,'Stored_rate'))*41.868*GHGsEF(product,'CO2EF')*1*(44/12)*0.001 ;
  valCO2I2(j,z,time,'CPS')               = sum(product,valCO2I(product,j,z,time,'CPS'));
@@ -406,7 +437,7 @@ TREND(z,time) = 1;
  valGlobal_N2O(time,'CPS')              = sum(z, valTN2O(z,time,'CPS'));
  
 *============================== Power Generation ============================================
- valPOWER(power,i,z,time,scen)         = XS.l(power,i,z,time);
+ valPOWER(power,i,z,time,scen)          = XS.l(power,i,z,time);
 
  valElecGen('Nuclear',z,time,'CPS')    = XS.l('19_eNuclear','18_ELEC',z,time)*EGINucGWh('19_eNuclear',z); 
  valElecGen('Coal',z,time,'CPS')       = XS.l('20_eCoal','18_ELEC',z,time)*EGICoalGWh('20_eCoal',z); 
@@ -428,8 +459,21 @@ TREND(z,time) = 1;
 *============================== Carbon Tax ============================================
  valCTAX(z,time,'CPS') = CTAX.l(z,time) ;
 
- execute_unload 'Output_w-t\CPS_Results_GTAP11b.gdx',
 *$Ontext
+*================== Backstop technology ===========================================================
+ valswitch(i3,z,time,'CPS') = switch(i3,z,time) ;
+ valpenetration_rate(i3,z,time,'CPS') = penetration_rate(i3,z,time) ;  
+ valC_Conventional(i3,z,time,'CPS') = C_Conventional.l(i3,z,time) ;
+ valXDBS(i3,z,time,'CPS')  = XDBS.l(i3,z,time) ;
+ valXDBS2(j,z,time,'CPS')  = XDBS2.l(j,z,time) ; 
+ valLBS(l,j,z,time,'CPS')  = LBS.l(l,j,z,time) ;
+ valKBS(k,j,z,time,'CPS')  = KBS.l(k,j,z,time) ;
+ valCLBS(i3,z,time,'CPS')  = CLBS.l(i3,z,time) ;
+ valCKBS(i3,z,time,'CPS')  = CKBS.l(i3,z,time) ;
+ valMARKUP(i3,z,time,'CPS')= MARKUP.l(i3,z,time) ;
+*$Offtext
+*$Ontext 
+execute_unload 'Output_w-t\CPS_Results_GTAP11b.gdx',
  valA_VA,
  valC,
  valCAB,
@@ -584,6 +628,17 @@ TREND(z,time) = 1;
  valPOWER,
  valElecGen,
  valCTAX,
- valAEEI
+ valAEEI,
+ valswitch,
+ valpenetration_rate,
+ valC_Conventional,
+ valXDBS,
+ valXDBS2,
+ valLBS,
+ valKBS,
+ valCLBS,
+ valCKBS,
+ valMARKUP,
+ valYROW2
  ;
 *$Offtext 

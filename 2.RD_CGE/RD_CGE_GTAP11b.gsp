@@ -70,6 +70,18 @@
         },
         {
             "codecMib": 106,
+            "file": "Output_w-t/NZS_Results_GTAP11b.gdx",
+            "name": "NZS_Results_GTAP11b.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
+            "file": "Output_w-t/Baseline_Results_IPCC.gdx",
+            "name": "Baseline_Results_IPCC.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
             "file": "BAU_AQ_Linkage.gms",
             "name": "BAU_AQ_Linkage.gms",
             "type": "gms"
@@ -112,12 +124,6 @@
         },
         {
             "codecMib": 106,
-            "file": "CPS_IAMC.gms",
-            "name": "CPS_IAMC.gms",
-            "type": "gms"
-        },
-        {
-            "codecMib": 106,
             "file": "CPS_RESULTS_GTAP11b.gms",
             "name": "CPS_RESULTS_GTAP11b.gms",
             "type": "gms"
@@ -136,6 +142,12 @@
         },
         {
             "codecMib": 106,
+            "file": "DATA_GTAP11b.lst",
+            "name": "DATA_GTAP11b.lst",
+            "type": "lst"
+        },
+        {
+            "codecMib": 106,
             "file": "DATA_WEB-2019.gms",
             "name": "DATA_WEB-2019.gms",
             "type": "gms"
@@ -151,6 +163,12 @@
             "file": "Model_GTAP11b.gms",
             "name": "Model_GTAP11b.gms",
             "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "Model_GTAP11b.lst",
+            "name": "Model_GTAP11b.lst",
+            "type": "lst"
         },
         {
             "codecMib": 106,

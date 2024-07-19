@@ -738,6 +738,14 @@ $LOAD sigma_KD, sigma_LD, sigma_X1, sigma_X2, sigma_X3, sigma_X0, sigma_y, sigma
 * CES - composite ENER
  sigma_ENER(j,z) = 1.1 ;
 
+*Scaled Normalized (0.25-1.26)
+* sigma_ENER(j,'01_KOR') = 0.29;
+* sigma_ENER(j,'02_CHN') = 1.26;
+* sigma_ENER(j,'03_JPN') = 0.38;
+* sigma_ENER(j,'04_RUS') = 0.54;
+* sigma_ENER(j,'05_MNG') = 0.77;
+* sigma_ENER(j,'06_PRK') = 0.25;
+
 * CES - DOM vs. IMP
  sigma_M1('03_OIL','06_PRK') = 0.5;
  sigma_M1('04_GAS',Z) = 6;
@@ -2537,7 +2545,6 @@ $INCLUDE BAU_AQ_Linkage.gms
 *==============================================================================
 *$INCLUDE CPS_SOLVE_GTAP11b.gms
 *$INCLUDE CPS_RESULTS_GTAP11b.gms
-*$INCLUDE CPS_IAMC.gms
 
 *==============================================================================
 *   6.4 Simulation 2 scenarios and Results
@@ -2546,7 +2553,6 @@ $INCLUDE BAU_AQ_Linkage.gms
 *$INCLUDE NZS_RESULTS_GTAP11b.gms
 *$INCLUDE NZS_IAMC.gms
 *$INCLUDE NZS_IPCC.gms
-
 *$INCLUDE NZS_IAMC_GreenEcos.gms
 
 $exit

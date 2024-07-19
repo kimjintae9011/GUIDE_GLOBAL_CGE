@@ -382,14 +382,10 @@ gdpelas(z) = 0.8 ;
 Parameter ghgelas(z) GHG Elasticity ;
 ghgelas(z) = -2.0 ;
 
-Parameter NONCO2_RR Non-CO2 Reduction Rate(z,time);
+Parameter NONCO2_RR(z,time) Non-CO2 Reduction Rate;
 *NONCO2_R(Country,year_IPCC) = {(valGDP_MP_REAL(Country,year_IPCC,'bau')/valGDP_MP_REAL(Country,'2019','bau'))**gdpelas(Country)}*{CTAX_NZS(Country,year_IPCC)**ghgelas(Country)};
 NONCO2_RR(z,time)$[ord(time) lt 5] = (valGDP_MP_REAL(z,time,'bau')/valGDP_MP_REAL(z,'2019','bau'))**gdpelas(z);
 NONCO2_RR(z,time)$[ord(time) gt 4] = (valGDP_MP_REAL(z,time,'bau')/valGDP_MP_REAL(z,'2019','bau'))**gdpelas(z)*(1-(1-(CTAX_NZS(z,time)-CTAX_Cal(z,time)+1)**ghgelas(z)));
-
-execute_unload 'Output_w-t\Baseline_Results_IPCC' ;
-
-$EXIT
 
 *======================= Reporting IPCC Platform =====================================================================
 Parameter

@@ -578,7 +578,9 @@ Unit_AQ
  'Mt CO2/yr',
  'million t DM/yr',
  'Tg N/yr',
- 'million ha'
+ 'million ha',
+ 'Gvkm',
+ 'thousand of vehicles'
 /
 
 year_AQ(time)
@@ -778,6 +780,102 @@ AQ(model_AQ,'BAU',Country,'01|PP_NEW_LPJsector|BC1ENEPJactivity','PJ/yr',year_AQ
 AQ(model_AQ,'BAU',Country,'01|PP_NEW_LPJsector|HC1ENEPJactivity','PJ/yr',year_AQ)  =  sum((Hardcoal),valEE(Hardcoal,'20_eCoal',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
 AQ(model_AQ,'BAU',Country,'01|PP_NEW_LPJsector|HC2ENEPJactivity','PJ/yr',year_AQ)  =  sum((Hardcoal),valEE(Hardcoal,'20_eCoal',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
 AQ(model_AQ,'BAU',Country,'01|PP_NEW_LPJsector|HC3ENEPJactivity','PJ/yr',year_AQ)  =  sum((Hardcoal),valEE(Hardcoal,'20_eCoal',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+
+
+*======================================================================= 07 Road transport =============================================================================
+*07 Leaded gasoline, Road - gasoline engines - evaporative
+AQ(model_AQ,'BAU',Country,'07|LEAD_GASOLPJsector|LFLMOBPJactivity','PJ/yr',year_AQ)  =  sum((Gasoline),valEE(Gasoline,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_EVPJsector|GSLMOBPJactivity','PJ/yr',year_AQ)   =  sum((Gasoline),valEE(Gasoline,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+
+*07 Buses
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBGvkmsector|ABRASIONMOBGvkmactivity','Gvkm',year_AQ)    =  eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBGvkmsector|BRAKEMOBGvkmactivity','Gvkm',year_AQ)       =  eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBPJsector|GASMOBPJactivity','PJ/yr',year_AQ)     =  sum((Naturalgas),valEE(Naturalgas,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBPJsector|GAS_MMOBPJactivity','PJ/yr',year_AQ)   =  sum((Naturalgas),valEE(Naturalgas,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBPJsector|GSLMOBPJactivity','PJ/yr',year_AQ)     =  sum((Gasoline),valEE(Gasoline,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBPJsector|GSL_MMOBPJactivity','PJ/yr',year_AQ)                               =  sum((Gasoline),valEE(Gasoline,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBthousand of vehiclessector|GSL_NV_HEMOB','thousand of vehicles',year_AQ)    =  sum((Gasoline),valEE(Gasoline,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBPJsector|H2MOBPJactivity','PJ/yr',year_AQ)       =  eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBPJsector|LPGMOBPJactivity','PJ/yr',year_AQ)      =  sum((LPG),valEE(LPG,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ;  
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBPJsector|LPGMOBPJactivity','PJ/yr',year_AQ)      =  sum((LPG),valEE(LPG,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ;  
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBPJsector|MDMOBPJactivity','PJ/yr',year_AQ)       =  sum((Diesel),valEE(Diesel,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ;  
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBPJsector|MD_MMOBPJactivity','PJ/yr',year_AQ)     =  sum((Diesel),valEE(Diesel,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ;  
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBthousand of vehiclessector|MD_NV_HEMOB','thousand of vehicles',year_AQ)     =  eps ;   
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBGvkmsector|TYREMOBGvkmactivity','Gvkm',year_AQ)      =  eps ;  
+
+*07 Heavy duty vehicles
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDTGvkmsector|ABRASIONMOBGvkmactivity','Gvkm',year_AQ)  =  eps ;  
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDTGvkmsector|BRAKEMOBGvkmactivity','Gvkm',year_AQ)     =  eps ;  
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDTPJsector|GASMOBPJactivity','PJ/yr',year_AQ)          =  sum((Naturalgas),valEE(Naturalgas,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDTPJsector|GAS_MMOBPJactivity','PJ/yr',year_AQ)        =  sum((Naturalgas),valEE(Naturalgas,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDTPJsector|GSLMOBPJactivity','PJ/yr',year_AQ)          =  sum((Gasoline),valEE(Gasoline,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDTPJsector|GSL_MMOBPJactivity','PJ/yr',year_AQ)        =  sum((Gasoline),valEE(Gasoline,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDTthousand of vehiclessector|GSL_NV_HEMOB','thousand of vehicles',year_AQ)    =  eps ;  
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDTPJsector|H2MOBPJactivity','Gvkm',year_AQ)            =  eps ;  
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDTPJsector|LPGMOBPJactivity','PJ/yr',year_AQ)          =  sum((LPG),valEE(LPG,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDTPJsector|MDMOBPJactivity','PJ/yr',year_AQ)           =  sum((Diesel),valEE(Diesel,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDTPJsector|MD_MMOBPJactivity','PJ/yr',year_AQ)         =  sum((Diesel),valEE(Diesel,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDTthousand of vehiclessector|MD_NV_HEMOB','thousand of vehicles',year_AQ)     =  eps ;  
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDTGvkmsector|TYREMOBGvkmactivity','Gvkm',year_AQ)     =  eps ;  
+
+*07 Mopeds
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD2Gvkmsector|ABRASIONMOBGvkmactivity','Gvkm',year_AQ)     =  eps ;  
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD2Gvkmsector|BRAKEMOBGvkmactivity','Gvkm',year_AQ)        =  eps ;  
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD2PJsector|GSLMOBPJactivity','PJ/yr',year_AQ)             =  sum((Gasoline),valEE(Gasoline,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD2PJsector|GSL_MMOBPJactivity','PJ/yr',year_AQ)           =  sum((Gasoline),valEE(Gasoline,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD2thousand of vehiclessector|GSL_NV_HEMOB','thousand of vehicles',year_AQ)     =  eps ;  
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD2Gvkmsector|TYREMOBGvkmactivity','Gvkm',year_AQ)         =  eps ;  
+
+*07 Cars
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4CGvkmsector|ABRASIONMOBGvkmactivity','Gvkm',year_AQ)   =  eps ;  
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4CGvkmsector|BRAKEMOBGvkmactivity','Gvkm',year_AQ)      =  eps ;  
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4CPJsector|GASMOBPJactivity','PJ/yr',year_AQ)           =  sum((Naturalgas),valEE(Naturalgas,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4CPJsector|GAS_MMOBPJactivity','PJ/yr',year_AQ)         =  sum((Naturalgas),valEE(Naturalgas,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4CPJsector|GSLMOBPJactivity','PJ/yr',year_AQ)           =  sum((Gasoline),valEE(Gasoline,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4CPJsector|GSL_MMOBPJactivity','PJ/yr',year_AQ)         =  sum((Gasoline),valEE(Gasoline,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4Cthousand of vehiclessector|GSL_NV_HEMOB','thousand of vehicles',year_AQ)     =  eps ;  
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4CPJsector|H2MOBPJactivity','PJ/yr',year_AQ)            =  eps ;  
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4CPJsector|LPGMOBPJactivity','PJ/yr',year_AQ)           =  sum((LPG),valEE(LPG,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4CPJsector|MDMOBPJactivity','PJ/yr',year_AQ)            =  sum((Diesel),valEE(Diesel,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4CPJsector|MD_MMOBPJactivity','PJ/yr',year_AQ)          =  sum((Diesel),valEE(Diesel,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4Cthousand of vehiclessector|MD_NV_HEMOB','thousand of vehicles',year_AQ)     =  eps ;  
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4CGvkmsector|TYREMOBGvkmactivity','Gvkm',year_AQ)       =  eps ;  
+
+*07 Cars - evaporative
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4C_EVPJsector|GSLMOBPJactivity','PJ/yr',year_AQ)        =  sum((Gasoline),valEE(Gasoline,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+
+*07 Light duty vehicles
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4TGvkmsector|ABRASIONMOBGvkmactivity','Gvkm',year_AQ)   =  eps ;  
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4TGvkmsector|BRAKEMOBGvkmactivity','Gvkm',year_AQ)      =  eps ;  
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4TPJsector|GASMOBPJactivity','PJ/yr',year_AQ)           =  sum((Naturalgas),valEE(Naturalgas,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4TPJsector|GAS_MMOBPJactivity','PJ/yr',year_AQ)         =  sum((Naturalgas),valEE(Naturalgas,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4TPJsector|GSLMOBPJactivity','PJ/yr',year_AQ)           =  sum((Gasoline),valEE(Gasoline,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4TPJsector|GSL_MMOBPJactivity','PJ/yr',year_AQ)         =  sum((Gasoline),valEE(Gasoline,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4Tthousand of vehiclessector|GSL_NV_HEMOB','thousand of vehicles',year_AQ)     =  eps ;  
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4TPJsector|H2MOBPJactivity','PJ/yr',year_AQ)            =  eps ;  
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4TPJsector|LPGMOBPJactivity','PJ/yr',year_AQ)           =  sum((LPG),valEE(LPG,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4TPJsector|MDMOBPJactivity','PJ/yr',year_AQ)            =  sum((Diesel),valEE(Diesel,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4TPJsector|MD_MMOBPJactivity','PJ/yr',year_AQ)          =  sum((Diesel),valEE(Diesel,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4Tthousand of vehiclessector|MD_NV_HEMOB','thousand of vehicles',year_AQ)     =  eps ;  
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4TGvkmsector|TYREMOBGvkmactivity','Gvkm',year_AQ)      =  eps ; 
+
+*07 Light duty vehicles - evaporative
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4T_EVPJsector|GSLMOBPJactivity','PJ/yr',year_AQ)       =  eps ; 
+
+*07 Motorcycles
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_M4Gvkmsector|ABRASIONMOBGvkmactivity','Gvkm',year_AQ)    =  eps ;  
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_M4Gvkmsector|BRAKEMOBGvkmactivity','Gvkm',year_AQ)       =  eps ;  
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_M4PJsector|GSLMOBPJactivity','PJ/yr',year_AQ)            =  sum((Gasoline),valEE(Gasoline,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_M4PJsector|GSL_MMOBPJactivity','PJ/yr',year_AQ)          =  sum((Gasoline),valEE(Gasoline,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_M4thousand of vehiclessector|GSL_NV_HEMOB','thousand of vehicles',year_AQ)     =  eps ;  
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_M4Gvkmsector|TYREMOBGvkmactivity','Gvkm',year_AQ)        =  eps ; 
+
+*07 Generic road vehicles as 3-wheelers and others
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_OTHGvkmsector|ABRASIONMOBGvkmactivity','Gvkm',year_AQ)   =  eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_OTHGvkmsector|BRAKEMOBGvkmactivity','Gvkm',year_AQ)      =  eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_OTHPJsector|GSLMOBPJactivity','PJ/yr',year_AQ)           =  sum((Gasoline),valEE(Gasoline,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ;  
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_OTHthousand of vehiclessector|GSL_NV_HEMOB','thousand of vehicles',year_AQ)  =  eps ;    
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_OTHGvkmsector|TYREMOBGvkmactivity','Gvkm',year_AQ)       =  eps ; 
 
 execute_unload 'Output_w-t\Baseline_Results_AQ_Linkage',
  AQ

@@ -336,6 +336,11 @@ PARAMETER
  valEE(p_gas,j,z,time,'NZS')            =  EEI(p_gas,j,z)*DE.L('04_GAS',j,z,time)*AEEI(z,time);
  valEE(p_oilproduct,j,z,time,'NZS')     =  EEI(p_oilproduct,j,z)*DE.L('10_PETROLCOAL',j,z,time)*AEEI(z,time);
  valEE(p_elecheat,j,z,time,'NZS')       =  EEI(p_elecheat,j,z)*DE.L('18_ELEC',j,z,time)*AEEI(z,time);
+ valEE(p_waste,j,z,time,'NZS')          =  EEI(p_waste,j,z)*valXST(j,z,time,'NZS')*TREND(z,time) ;
+ valEE(p_bio,j,z,time,'NZS')            =  EEI(p_bio,j,z)*valXST(j,z,time,'NZS') ;
+ valEE(p_charcoal,j,z,time,'NZS')       =  EEI(p_charcoal,j,z)*valXST(j,z,time,'NZS')*TREND(z,time);
+ valEE(p_solar,j,z,time,'NZS')          =  EEI(p_solar,j,z)*valXST(j,z,time,'NZS');
+ valEE(p_geo,j,z,time,'NZS')            =  EEI(p_geo,j,z)*valXST(j,z,time,'NZS') ;   
 
  valNE(p_coal,j,z,time,'NZS')           =  NEI(p_coal,j,z)*DE.L('02_COAL',j,z,time)*AEEI(z,time);
  valNE(p_oil,j,z,time,'NZS')            =  NEI(p_oil,j,z)*DE.L('03_OIL',j,z,time)*AEEI(z,time);
@@ -348,6 +353,11 @@ PARAMETER
  valEH(p_gas,z,time,'NZS')              =  EHI(p_gas,z)*C.L('04_GAS',z,time)*AEEI(z,time); 
  valEH(p_oilproduct,z,time,'NZS')       =  EHI(p_oilproduct,z)*C.L('10_PETROLCOAL',z,time)*AEEI(z,time);
  valEH(p_elecheat,z,time,'NZS')         =  EHI(p_elecheat,z)*C.L('18_ELEC',z,time)*AEEI(z,time);
+ valEH(p_waste,z,time,'NZS')            =  EHI(p_waste,z)*TOT_POP(z,time)*TREND(z,time) ;
+ valEH(p_bio,z,time,'NZS')              =  EHI(p_bio,z)*TOT_POP(z,time) ;
+ valEH(p_charcoal,z,time,'NZS')         =  EHI(p_charcoal,z)*TOT_POP(z,time)*TREND(z,time) ;
+ valEH(p_solar,z,time,'NZS')            =  EHI(p_solar,z)*TOT_POP(z,time) ;
+ valEH(p_geo,z,time,'NZS')              =  EHI(p_geo,z)*TOT_POP(z,time) ;
 
  valTFC_product(product,time,z,'NZS')   = valEH(product,z,time,'NZS') + Sum(j5,valEE(product,j5,z,time,'NZS'))+Sum(j,valNE(product,j,z,time,'NZS'));
 
