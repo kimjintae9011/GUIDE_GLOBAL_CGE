@@ -52,32 +52,14 @@
         },
         {
             "codecMib": 106,
-            "file": "Output_w-t/Baseline_Results_GTAP11b.gdx",
-            "name": "Baseline_Results_GTAP11b.gdx",
-            "type": "gdx"
-        },
-        {
-            "codecMib": 106,
             "file": "Output_w-t/Baseline_Results_AQ_Linkage.gdx",
             "name": "Baseline_Results_AQ_Linkage.gdx",
             "type": "gdx"
         },
         {
             "codecMib": 106,
-            "file": "Output_w-t/Baseline_Results_IAMC_GreenEcos.gdx",
-            "name": "Baseline_Results_IAMC_GreenEcos.gdx",
-            "type": "gdx"
-        },
-        {
-            "codecMib": 106,
-            "file": "Output_w-t/NZS_Results_GTAP11b.gdx",
-            "name": "NZS_Results_GTAP11b.gdx",
-            "type": "gdx"
-        },
-        {
-            "codecMib": 106,
-            "file": "Output_w-t/Baseline_Results_IPCC.gdx",
-            "name": "Baseline_Results_IPCC.gdx",
+            "file": "Output_w-t/Baseline_Results_GTAP11b.gdx",
+            "name": "Baseline_Results_GTAP11b.gdx",
             "type": "gdx"
         },
         {
@@ -139,12 +121,6 @@
             "file": "DATA_GTAP11b.gms",
             "name": "DATA_GTAP11b.gms",
             "type": "gms"
-        },
-        {
-            "codecMib": 106,
-            "file": "DATA_GTAP11b.lst",
-            "name": "DATA_GTAP11b.lst",
-            "type": "lst"
         },
         {
             "codecMib": 106,

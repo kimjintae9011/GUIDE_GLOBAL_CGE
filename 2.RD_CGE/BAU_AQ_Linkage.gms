@@ -580,7 +580,11 @@ Unit_AQ
  'Tg N/yr',
  'million ha',
  'Gvkm',
- 'thousand of vehicles'
+ 'thousand of vehicles',
+ '10billion$(2019)',
+ 'ktN2O',
+ 'ktNOx',
+ 'ktSO2'
 /
 
 year_AQ(time)
@@ -630,13 +634,28 @@ LPG(p_oilproduct)
 
 Diesel(p_oilproduct)
 /
+'p34_OTHKERO',
 'p35_NONBIODIES'
+/
+
+Biogas(product)
+/
+'p48_BIOGASES' 
+/
+,
+
+Biomassfuels_serhoh(product)
+/
+'p47_PRIMSBIO',
+'p49_BIOGASOL',    
+'p50_BIODIESEL',    
+'p51_BIOJETKERO'
 /
 
 Biomassfuels(product)
 /
 'p47_PRIMSBIO',
-'p48_BIOGASES',  
+'p48_BIOGASES', 
 'p49_BIOGASOL',    
 'p50_BIODIESEL',    
 'p51_BIOJETKERO'
@@ -663,12 +682,69 @@ Fuelwood(product)
 'p54_CHARCOAL'
 /
 
+Otherbiomass_wastefuels(product)
+/
+'p52_OBIOLIQ',
+'p45_MUNWASTER'
+/
+
+
+
 Transformation_combustion(J)
 /
  02_COAL        Coal
  03_OIL         Crude petroleum
  04_GAS         Natural gas Gas distribution
  10_PETROLCOAL  Petroleum and coal products
+/
+
+Other_industry(J)
+/
+06_FOODPRO,
+07_TEXTILES,
+*12_NONMET,
+*14_NONFERR,
+15_MACHINE,
+16_TRANSEQ,
+17_OTHERIND
+/
+
+Paper_pulp(J)
+/
+08_WOODPRO, 
+09_PAPERPRO
+/
+
+Industrial_furnaces(J)
+/
+*05_MINING, 
+06_FOODPRO, 
+07_TEXTILES, 
+08_WOODPRO, 
+09_PAPERPRO, 
+10_PETROLCOAL, 
+11_CHEMICAL, 
+12_NONMET,
+13_IRONSTL,
+14_NONFERR,
+15_MACHINE, 
+16_TRANSEQ
+/
+
+Other_Industrial_furnaces(J)
+/
+05_MINING, 
+06_FOODPRO, 
+07_TEXTILES, 
+08_WOODPRO, 
+09_PAPERPRO, 
+10_PETROLCOAL, 
+11_CHEMICAL, 
+12_NONMET,
+13_IRONSTL,
+14_NONFERR,
+15_MACHINE, 
+16_TRANSEQ
 /
 
 ;
@@ -688,7 +764,7 @@ USD2019toUSD2010 = 86.5/100 ;
 Parameter
 AQ(model_AQ, Scenario_name, z, variable_AQ, Unit_AQ, time) AQ Linkage Format ;
 
-*======================= 01 Combustion in energy and transformation industries=====================================================
+*======================= 01 Combustion in energy and transformation industries =====================================================
 
 *01 Combustion in energy and transformation industries - Transformation - combustion
 AQ(model_AQ,'BAU',Country,'01|CON_COMBPJsector|BC1ENEPJactivity','PJ/yr',year_AQ)  =  sum((Browncoal,Transformation_combustion),valEE(Browncoal,Transformation_combustion,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
@@ -781,8 +857,204 @@ AQ(model_AQ,'BAU',Country,'01|PP_NEW_LPJsector|HC1ENEPJactivity','PJ/yr',year_AQ
 AQ(model_AQ,'BAU',Country,'01|PP_NEW_LPJsector|HC2ENEPJactivity','PJ/yr',year_AQ)  =  sum((Hardcoal),valEE(Hardcoal,'20_eCoal',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
 AQ(model_AQ,'BAU',Country,'01|PP_NEW_LPJsector|HC3ENEPJactivity','PJ/yr',year_AQ)  =  sum((Hardcoal),valEE(Hardcoal,'20_eCoal',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
 
+*======================= 02 Non-industrial combustion plants =====================================================
 
-*======================================================================= 07 Road transport =============================================================================
+*02 Non-industrial combustion plants - Residential-commercial
+AQ(model_AQ,'BAU',Country,'02|DOMPJsector|BC1ENEPJactivity','PJ/yr',year_AQ)     =  sum((Browncoal),valEE(Browncoal,'31_SER',Country,year_AQ,'bau')+valEH(Browncoal,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOMPJsector|BIOGENEPJactivity','PJ/yr',year_AQ)    =  sum((Biogas),valEE(Biogas,'31_SER',Country,year_AQ,'bau')+valEH(Biogas,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOMPJsector|CHCOAENEPJactivity','PJ/yr',year_AQ)   =  sum((Fuelwood),valEE(Fuelwood,'31_SER',Country,year_AQ,'bau')+valEH(Fuelwood,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOMPJsector|DCENEPJactivity','PJ/yr',year_AQ)      =  sum((Derivedcoal),valEE(Derivedcoal,'31_SER',Country,year_AQ,'bau')+valEH(Derivedcoal,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOMPJsector|GASENEPJactivity','PJ/yr',year_AQ)     =  sum((Naturalgas),valEE(Naturalgas,'31_SER',Country,year_AQ,'bau')+valEH(Naturalgas,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOMPJsector|GSLENEPJactivity','PJ/yr',year_AQ)     =  sum((Gasoline),valEE(Gasoline,'31_SER',Country,year_AQ,'bau')+valEH(Gasoline,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOMPJsector|HC1ENEPJactivity','PJ/yr',year_AQ)     =  sum((Hardcoal),valEE(Hardcoal,'31_SER',Country,year_AQ,'bau')+valEH(Hardcoal,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOMPJsector|HC2ENEPJactivity','PJ/yr',year_AQ)     =  sum((Hardcoal),valEE(Hardcoal,'31_SER',Country,year_AQ,'bau')+valEH(Hardcoal,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOMPJsector|HC3ENEPJactivity','PJ/yr',year_AQ)     =  sum((Hardcoal),valEE(Hardcoal,'31_SER',Country,year_AQ,'bau')+valEH(Hardcoal,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOMPJsector|HFENEPJactivity','PJ/yr',year_AQ)      =  sum((Heavyfueloil),valEE(Heavyfueloil,'31_SER',Country,year_AQ,'bau')+valEH(Heavyfueloil,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOMPJsector|LPGENEPJactivity','PJ/yr',year_AQ)     =  sum((LPG),valEE(LPG,'31_SER',Country,year_AQ,'bau')+valEH(LPG,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOMPJsector|MDENEPJactivity','PJ/yr',year_AQ)      =  sum((Diesel),valEE(Diesel,'31_SER',Country,year_AQ,'bau')+valEH(Diesel,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOMPJsector|OS1ENEPJactivity','PJ/yr',year_AQ)     =  sum((Biomassfuels_serhoh),valEE(Biomassfuels_serhoh,'31_SER',Country,year_AQ,'bau')+valEH(Biomassfuels_serhoh,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+
+*02 Non-industrial combustion plants - Fireplaces
+AQ(model_AQ,'BAU',Country,'02|DOM_FPLACEPJsector|FWDENEPJactivity','PJ/yr',year_AQ)   =  eps ; 
+
+*02 Non-industrial combustion plants - Medium boilers (<50MW) - automatic
+AQ(model_AQ,'BAU',Country,'02|DOM_MB_APJsector|BC1ENEPJactivity','PJ/yr',year_AQ)   =  sum((Browncoal),valEE(Browncoal,'31_SER',Country,year_AQ,'bau')+valEH(Browncoal,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOM_MB_APJsector|DCENEPJactivity','PJ/yr',year_AQ)    =  sum((Derivedcoal),valEE(Derivedcoal,'31_SER',Country,year_AQ,'bau')+valEH(Derivedcoal,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOM_MB_APJsector|FWDENEPJactivity','PJ/yr',year_AQ)   =  eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOM_MB_APJsector|HC1ENEPJactivity','PJ/yr',year_AQ)   =  sum((Hardcoal),valEE(Hardcoal,'31_SER',Country,year_AQ,'bau')+valEH(Hardcoal,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOM_MB_APJsector|HC2ENEPJactivity','PJ/yr',year_AQ)   =  sum((Hardcoal),valEE(Hardcoal,'31_SER',Country,year_AQ,'bau')+valEH(Hardcoal,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOM_MB_APJsector|HC3ENEPJactivity','PJ/yr',year_AQ)   =  sum((Hardcoal),valEE(Hardcoal,'31_SER',Country,year_AQ,'bau')+valEH(Hardcoal,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+
+*02 Non-industrial combustion plants - Medium boilers (<1MW) - manual
+AQ(model_AQ,'BAU',Country,'02|DOM_MB_MPJsector|BC1ENEPJactivity','PJ/yr',year_AQ)   =  sum((Browncoal),valEE(Browncoal,'31_SER',Country,year_AQ,'bau')+valEH(Browncoal,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOM_MB_MPJsector|DCENEPJactivity','PJ/yr',year_AQ)    =  sum((Derivedcoal),valEE(Derivedcoal,'31_SER',Country,year_AQ,'bau')+valEH(Derivedcoal,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOM_MB_MPJsector|FWDENEPJactivity','PJ/yr',year_AQ)   =  eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOM_MB_MPJsector|HC1ENEPJactivity','PJ/yr',year_AQ)   =  sum((Hardcoal),valEE(Hardcoal,'31_SER',Country,year_AQ,'bau')+valEH(Hardcoal,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOM_MB_MPJsector|HC2ENEPJactivity','PJ/yr',year_AQ)   =  sum((Hardcoal),valEE(Hardcoal,'31_SER',Country,year_AQ,'bau')+valEH(Hardcoal,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOM_MB_MPJsector|HC3ENEPJactivity','PJ/yr',year_AQ)   =  sum((Hardcoal),valEE(Hardcoal,'31_SER',Country,year_AQ,'bau')+valEH(Hardcoal,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+
+*02 Non-industrial combustion plants - Three-stone stove
+AQ(model_AQ,'BAU',Country,'02|DOM_PITPJsector|ARDENEPJactivity','PJ/yr',year_AQ)    =  eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOM_PITPJsector|FWDENEPJactivity','PJ/yr',year_AQ)    =  eps ; 
+
+*02 Non-industrial combustion plants - Single house boilers (<50 kW) - automatic
+AQ(model_AQ,'BAU',Country,'02|DOM_SHB_APJsector|ARDENEPJactivity','PJ/yr',year_AQ)  =  eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOM_SHB_APJsector|FWDENEPJactivity','PJ/yr',year_AQ)  =  eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOM_SHB_APJsector|HC1ENEPJactivity','PJ/yr',year_AQ)  =  sum((Hardcoal),valEE(Hardcoal,'31_SER',Country,year_AQ,'bau')+valEH(Hardcoal,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOM_SHB_APJsector|HC2ENEPJactivity','PJ/yr',year_AQ)  =  sum((Hardcoal),valEE(Hardcoal,'31_SER',Country,year_AQ,'bau')+valEH(Hardcoal,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOM_SHB_APJsector|HC3ENEPJactivity','PJ/yr',year_AQ)  =  sum((Hardcoal),valEE(Hardcoal,'31_SER',Country,year_AQ,'bau')+valEH(Hardcoal,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOM_SHB_MPJsector|BC1ENEPJactivity','PJ/yr',year_AQ)  =  sum((Browncoal),valEE(Browncoal,'31_SER',Country,year_AQ,'bau')+valEH(Browncoal,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOM_SHB_MPJsector|DCENEPJactivity','PJ/yr',year_AQ)   =  sum((Derivedcoal),valEE(Derivedcoal,'31_SER',Country,year_AQ,'bau')+valEH(Derivedcoal,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOM_SHB_MPJsector|FWDENEPJactivity','PJ/yr',year_AQ)  =  eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOM_SHB_MPJsector|HC1ENEPJactivity','PJ/yr',year_AQ)  =  sum((Hardcoal),valEE(Hardcoal,'31_SER',Country,year_AQ,'bau')+valEH(Hardcoal,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOM_SHB_MPJsector|HC2ENEPJactivity','PJ/yr',year_AQ)  =  sum((Hardcoal),valEE(Hardcoal,'31_SER',Country,year_AQ,'bau')+valEH(Hardcoal,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOM_SHB_MPJsector|HC3ENEPJactivity','PJ/yr',year_AQ)  =  sum((Hardcoal),valEE(Hardcoal,'31_SER',Country,year_AQ,'bau')+valEH(Hardcoal,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+
+*02 Non-industrial combustion plants - Cooking stoves
+AQ(model_AQ,'BAU',Country,'02|DOM_STOVE_CPJsector|ARDENEPJactivity','PJ/yr',year_AQ)  =  eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOM_STOVE_CPJsector|BC1ENEPJactivity','PJ/yr',year_AQ)  =  sum((Browncoal),valEE(Browncoal,'31_SER',Country,year_AQ,'bau')+valEH(Browncoal,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOM_STOVE_CPJsector|DCENEPJactivity','PJ/yr',year_AQ)   =  sum((Derivedcoal),valEE(Derivedcoal,'31_SER',Country,year_AQ,'bau')+valEH(Derivedcoal,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOM_STOVE_CPJsector|FWDENEPJactivity','PJ/yr',year_AQ)  =  eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOM_STOVE_CPJsector|HC1ENEPJactivity','PJ/yr',year_AQ)  =  sum((Hardcoal),valEE(Hardcoal,'31_SER',Country,year_AQ,'bau')+valEH(Hardcoal,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOM_STOVE_CPJsector|HC2ENEPJactivity','PJ/yr',year_AQ)  =  sum((Hardcoal),valEE(Hardcoal,'31_SER',Country,year_AQ,'bau')+valEH(Hardcoal,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOM_STOVE_CPJsector|HC3ENEPJactivity','PJ/yr',year_AQ)  =  sum((Hardcoal),valEE(Hardcoal,'31_SER',Country,year_AQ,'bau')+valEH(Hardcoal,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOM_STOVE_HPJsector|ARDENEPJactivity','PJ/yr',year_AQ)  =  eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOM_STOVE_HPJsector|BC1ENEPJactivity','PJ/yr',year_AQ)  =  sum((Browncoal),valEE(Browncoal,'31_SER',Country,year_AQ,'bau')+valEH(Browncoal,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOM_STOVE_HPJsector|DCENEPJactivity','PJ/yr',year_AQ)   =  sum((Derivedcoal),valEE(Derivedcoal,'31_SER',Country,year_AQ,'bau')+valEH(Derivedcoal,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOM_STOVE_HPJsector|FWDENEPJactivity','PJ/yr',year_AQ)  =  eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOM_STOVE_HPJsector|HC1ENEPJactivity','PJ/yr',year_AQ)  =  sum((Hardcoal),valEE(Hardcoal,'31_SER',Country,year_AQ,'bau')+valEH(Hardcoal,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOM_STOVE_HPJsector|HC2ENEPJactivity','PJ/yr',year_AQ)  =  sum((Hardcoal),valEE(Hardcoal,'31_SER',Country,year_AQ,'bau')+valEH(Hardcoal,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'02|DOM_STOVE_HPJsector|HC3ENEPJactivity','PJ/yr',year_AQ)  =  sum((Hardcoal),valEE(Hardcoal,'31_SER',Country,year_AQ,'bau')+valEH(Hardcoal,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+
+*================================================================ 03 Combustion in manufacturing industry =====================================================
+
+*03 Combustion in manufacturing industry - Chemical industry (boilers)
+AQ(model_AQ,'BAU',Country,'03|IN_BO_CHEMPJsector|BC1ENEPJactivity','PJ/yr',year_AQ)   =  sum((Browncoal),valEE(Browncoal,'11_CHEMICAL',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_BO_CHEMPJsector|DCENEPJactivity','PJ/yr',year_AQ)    =  sum((Derivedcoal),valEE(Derivedcoal,'11_CHEMICAL',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_BO_CHEMPJsector|GASENEPJactivity','PJ/yr',year_AQ)   =  sum((Naturalgas),valEE(Naturalgas,'11_CHEMICAL',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_BO_CHEMPJsector|HC1ENEPJactivity','PJ/yr',year_AQ)   =  sum((Hardcoal),valEE(Hardcoal,'11_CHEMICAL',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_BO_CHEMPJsector|HC2ENEPJactivity','PJ/yr',year_AQ)   =  sum((Hardcoal),valEE(Hardcoal,'11_CHEMICAL',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_BO_CHEMPJsector|HC3ENEPJactivity','PJ/yr',year_AQ)   =  sum((Hardcoal),valEE(Hardcoal,'11_CHEMICAL',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_BO_CHEMPJsector|HFENEPJactivity','PJ/yr',year_AQ)    =  sum((Heavyfueloil),valEE(Heavyfueloil,'11_CHEMICAL',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_BO_CHEMPJsector|OS1ENEPJactivity','PJ/yr',year_AQ)   =  sum((Biomassfuels),valEE(Biomassfuels,'11_CHEMICAL',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+
+*03 Combustion in manufacturing industry - Transformation sector (boilers)
+*AQ(model_AQ,'BAU',Country,'03|IN_BO_CONPJsector|BC1ENEPJactivity','PJ/yr',year_AQ)  =  eps ; 
+*AQ(model_AQ,'BAU',Country,'03|IN_BO_CONPJsector|GASENEPJactivity','PJ/yr',year_AQ)  =  eps ; 
+*AQ(model_AQ,'BAU',Country,'03|IN_BO_CONPJsector|HC1ENEPJactivity','PJ/yr',year_AQ)  =  eps ; 
+*AQ(model_AQ,'BAU',Country,'03|IN_BO_CONPJsector|HFENEPJactivity','PJ/yr',year_AQ)   =  eps ; 
+*AQ(model_AQ,'BAU',Country,'03|IN_BO_CONPJsector|OS1ENEPJactivity','PJ/yr',year_AQ)  =  eps ; 
+
+*03 Combustion in manufacturing industry - Other industry (boilers; liquid and gaseous fuels)
+AQ(model_AQ,'BAU',Country,'03|IN_BO_OTHPJsector|DCENEPJactivity','PJ/yr',year_AQ)    =  sum((Derivedcoal,Other_industry),valEE(Derivedcoal,Other_industry,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_BO_OTHPJsector|GASENEPJactivity','PJ/yr',year_AQ)   =  sum((Naturalgas,Other_industry),valEE(Naturalgas,Other_industry,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_BO_OTHPJsector|GSLENEPJactivity','PJ/yr',year_AQ)   =  sum((Gasoline,Other_industry),valEE(Gasoline,Other_industry,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_BO_OTHPJsector|HFENEPJactivity','PJ/yr',year_AQ)    =  sum((Heavyfueloil,Other_industry),valEE(Heavyfueloil,Other_industry,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_BO_OTHPJsector|LPGENEPJactivity','PJ/yr',year_AQ)   =  sum((LPG,Other_industry),valEE(LPG,Other_industry,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_BO_OTHPJsector|MDENEPJactivity','PJ/yr',year_AQ)    =  sum((Diesel,Other_industry),valEE(Diesel,Other_industry,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_BO_OTHPJsector|OS1ENEPJactivity','PJ/yr',year_AQ)   =  sum((Biomassfuels,Other_industry),valEE(Biomassfuels,Other_industry,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_BO_OTHPJsector|OS2ENEPJactivity','PJ/yr',year_AQ)   =  sum((Otherbiomass_wastefuels,Other_industry),valEE(Otherbiomass_wastefuels,Other_industry,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_BO_OTHPJsector|WSFNRENEPJactivity','PJ/yr',year_AQ) =  sum((Wastefuels_nonrenewable,Other_industry),valEE(Wastefuels_nonrenewable,Other_industry,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+
+*03 Combustion in manufacturing industry - Other industry (large coal boilers; > 50 MWth )
+AQ(model_AQ,'BAU',Country,'03|IN_BO_OTH_LPJsector|BC1ENEPJactivity','PJ/yr',year_AQ)  =  sum((Browncoal,Other_industry),valEE(Browncoal,Other_industry,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_BO_OTH_LPJsector|HC1ENEPJactivity','PJ/yr',year_AQ)  =  sum((Hardcoal,Other_industry),valEE(Hardcoal,Other_industry,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_BO_OTH_LPJsector|HC2ENEPJactivity','PJ/yr',year_AQ)  =  sum((Hardcoal,Other_industry),valEE(Hardcoal,Other_industry,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_BO_OTH_LPJsector|HC3ENEPJactivity','PJ/yr',year_AQ)  =  sum((Hardcoal,Other_industry),valEE(Hardcoal,Other_industry,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+
+*03 Combustion in manufacturing industry - Other industry (small coal boilers; < 50 MWth )
+AQ(model_AQ,'BAU',Country,'03|IN_BO_OTH_SPJsector|BC1ENEPJactivity','PJ/yr',year_AQ)  =  sum((Browncoal,Other_industry),valEE(Browncoal,Other_industry,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_BO_OTH_SPJsector|HC1ENEPJactivity','PJ/yr',year_AQ)  =  sum((Hardcoal,Other_industry),valEE(Hardcoal,Other_industry,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_BO_OTH_SPJsector|HC2ENEPJactivity','PJ/yr',year_AQ)  =  sum((Hardcoal,Other_industry),valEE(Hardcoal,Other_industry,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_BO_OTH_SPJsector|HC3ENEPJactivity','PJ/yr',year_AQ)  =  sum((Hardcoal,Other_industry),valEE(Hardcoal,Other_industry,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+
+*03 Combustion in manufacturing industry - Paper & pulp (boilers)
+AQ(model_AQ,'BAU',Country,'03|IN_BO_PAPPJsector|DCENEPJactivity','PJ/yr',year_AQ)    =  sum((Derivedcoal,Paper_pulp),valEE(Derivedcoal,Paper_pulp,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_BO_PAPPJsector|GASENEPJactivity','PJ/yr',year_AQ)   =  sum((Naturalgas,Paper_pulp),valEE(Naturalgas,Paper_pulp,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_BO_PAPPJsector|HC1ENEPJactivity','PJ/yr',year_AQ)   =  sum((Hardcoal,Paper_pulp),valEE(Hardcoal,Paper_pulp,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_BO_PAPPJsector|HC2ENEPJactivity','PJ/yr',year_AQ)   =  sum((Hardcoal,Paper_pulp),valEE(Hardcoal,Paper_pulp,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_BO_PAPPJsector|HC3ENEPJactivity','PJ/yr',year_AQ)   =  sum((Hardcoal,Paper_pulp),valEE(Hardcoal,Paper_pulp,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_BO_PAPPJsector|HFENEPJactivity','PJ/yr',year_AQ)    =  sum((Heavyfueloil,Paper_pulp),valEE(Heavyfueloil,Paper_pulp,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_BO_PAPPJsector|OS1ENEPJactivity','PJ/yr',year_AQ)   =  sum((Biomassfuels,Paper_pulp),valEE(Biomassfuels,Paper_pulp,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_BO_PAPPJsector|OS2ENEPJactivity','PJ/yr',year_AQ)   =  sum((Otherbiomass_wastefuels,Paper_pulp),valEE(Otherbiomass_wastefuels,Paper_pulp,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_BO_PAPPJsector|WSFNRENEPJactivity','PJ/yr',year_AQ) =  sum((Wastefuels_nonrenewable,Paper_pulp),valEE(Wastefuels_nonrenewable,Paper_pulp,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+
+*03 Combustion in manufacturing industry - Industrial furnaces
+AQ(model_AQ,'BAU',Country,'03|IN_OCPJsector|BC1ENEPJactivity','PJ/yr',year_AQ)   =  sum((Browncoal,Industrial_furnaces),valEE(Browncoal,Industrial_furnaces,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_OCPJsector|DCENEPJactivity','PJ/yr',year_AQ)    =  sum((Derivedcoal,Industrial_furnaces),valEE(Derivedcoal,Industrial_furnaces,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_OCPJsector|GASENEPJactivity','PJ/yr',year_AQ)   =  sum((Naturalgas,Industrial_furnaces),valEE(Naturalgas,Industrial_furnaces,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_OCPJsector|GSLENEPJactivity','PJ/yr',year_AQ)   =  sum((Gasoline,Industrial_furnaces),valEE(Gasoline,Industrial_furnaces,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_OCPJsector|HC1ENEPJactivity','PJ/yr',year_AQ)   =  sum((Hardcoal,Industrial_furnaces),valEE(Hardcoal,Industrial_furnaces,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_OCPJsector|HC2ENEPJactivity','PJ/yr',year_AQ)   =  sum((Hardcoal,Industrial_furnaces),valEE(Hardcoal,Industrial_furnaces,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_OCPJsector|HC3ENEPJactivity','PJ/yr',year_AQ)   =  sum((Hardcoal,Industrial_furnaces),valEE(Hardcoal,Industrial_furnaces,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_OCPJsector|HFENEPJactivity','PJ/yr',year_AQ)    =  sum((Heavyfueloil,Industrial_furnaces),valEE(Heavyfueloil,Industrial_furnaces,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_OCPJsector|LPGENEPJactivity','PJ/yr',year_AQ)   =  sum((LPG,Industrial_furnaces),valEE(LPG,Industrial_furnaces,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_OCPJsector|MDENEPJactivity','PJ/yr',year_AQ)    =  sum((Diesel,Industrial_furnaces),valEE(Diesel,Industrial_furnaces,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_OCPJsector|OS1ENEPJactivity','PJ/yr',year_AQ)   =  sum((Biomassfuels,Industrial_furnaces),valEE(Biomassfuels,Industrial_furnaces,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+
+*03 Combustion in manufacturing industry - Industry: Other combustion, pulverized
+AQ(model_AQ,'BAU',Country,'03|IN_OC3PJsector|BC1ENEPJactivity','PJ/yr',year_AQ)   =  sum((Browncoal,Industrial_furnaces),valEE(Browncoal,Industrial_furnaces,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_OC3PJsector|HC1ENEPJactivity','PJ/yr',year_AQ)   =  sum((Hardcoal,Industrial_furnaces),valEE(Hardcoal,Industrial_furnaces,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_OC3PJsector|HC2ENEPJactivity','PJ/yr',year_AQ)   =  sum((Hardcoal,Industrial_furnaces),valEE(Hardcoal,Industrial_furnaces,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_OC3PJsector|HC3ENEPJactivity','PJ/yr',year_AQ)   =  sum((Hardcoal,Industrial_furnaces),valEE(Hardcoal,Industrial_furnaces,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+
+*03 Combustion in manufacturing industry - Other industry (furnaces)
+AQ(model_AQ,'BAU',Country,'03|IN_OCTOTPJsector|BC1ENEPJactivity','PJ/yr',year_AQ)   =  sum((Browncoal,Other_Industrial_furnaces),valEE(Browncoal,Other_Industrial_furnaces,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_OCTOTPJsector|DCENEPJactivity','PJ/yr',year_AQ)    =  sum((Derivedcoal,Other_Industrial_furnaces),valEE(Derivedcoal,Other_Industrial_furnaces,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_OCTOTPJsector|GASENEPJactivity','PJ/yr',year_AQ)   =  sum((Naturalgas,Other_Industrial_furnaces),valEE(Naturalgas,Other_Industrial_furnaces,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_OCTOTPJsector|GSLENEPJactivity','PJ/yr',year_AQ)   =  sum((Gasoline,Other_Industrial_furnaces),valEE(Gasoline,Other_Industrial_furnaces,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_OCTOTPJsector|HC1ENEPJactivity','PJ/yr',year_AQ)   =  sum((Hardcoal,Other_Industrial_furnaces),valEE(Hardcoal,Other_Industrial_furnaces,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_OCTOTPJsector|HC2ENEPJactivity','PJ/yr',year_AQ)   =  sum((Hardcoal,Other_Industrial_furnaces),valEE(Hardcoal,Other_Industrial_furnaces,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_OCTOTPJsector|HC3ENEPJactivity','PJ/yr',year_AQ)   =  sum((Hardcoal,Other_Industrial_furnaces),valEE(Hardcoal,Other_Industrial_furnaces,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_OCTOTPJsector|HFENEPJactivity','PJ/yr',year_AQ)    =  sum((Heavyfueloil,Other_Industrial_furnaces),valEE(Heavyfueloil,Other_Industrial_furnaces,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_OCTOTPJsector|LPGENEPJactivity','PJ/yr',year_AQ)   =  sum((LPG,Other_Industrial_furnaces),valEE(LPG,Other_Industrial_furnaces,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_OCTOTPJsector|MDENEPJactivity','PJ/yr',year_AQ)    =  sum((Diesel,Other_Industrial_furnaces),valEE(Diesel,Other_Industrial_furnaces,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|IN_OCTOTPJsector|WSFNRENEPJactivity','PJ/yr',year_AQ) =  sum((Wastefuels_nonrenewable,Other_Industrial_furnaces),valEE(Wastefuels_nonrenewable,Other_Industrial_furnaces,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+
+*03 Combustion in manufacturing industry - Nonenergy use of fuels
+AQ(model_AQ,'BAU',Country,'03|NONENPJsector|BC1ENEPJactivity','PJ/yr',year_AQ)      =  sum((Browncoal,J),valNE(Browncoal,J,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|NONENPJsector|DCENEPJactivity','PJ/yr',year_AQ)       =  sum((Derivedcoal,J),valNE(Derivedcoal,J,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|NONENPJsector|GASENEPJactivity','PJ/yr',year_AQ)      =  sum((Naturalgas,J),valNE(Naturalgas,J,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|NONENPJsector|GSLENEPJactivity','PJ/yr',year_AQ)      =  sum((Gasoline,J),valNE(Gasoline,J,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|NONENPJsector|HC1ENEPJactivity','PJ/yr',year_AQ)      =  sum((Hardcoal,J),valNE(Hardcoal,J,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|NONENPJsector|HC2ENEPJactivity','PJ/yr',year_AQ)      =  sum((Hardcoal,J),valNE(Hardcoal,J,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|NONENPJsector|HC3ENEPJactivity','PJ/yr',year_AQ)      =  sum((Hardcoal,J),valNE(Hardcoal,J,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|NONENPJsector|HFENEPJactivity','PJ/yr',year_AQ)       =  sum((Heavyfueloil,J),valNE(Heavyfueloil,J,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|NONENPJsector|LPGENEPJactivity','PJ/yr',year_AQ)      =  sum((LPG,J),valNE(LPG,J,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|NONENPJsector|MDENEPJactivity','PJ/yr',year_AQ)       =  sum((Diesel,J),valNE(Diesel,J,Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'03|NONENPJsector|OS2ENEPJactivity','PJ/yr',year_AQ)      =  eps ; 
+
+*03 Combustion in manufacturing industry - Other N2O emissions
+AQ(model_AQ,'BAU',Country,'03|OTHER_N2Okt N2Osector|NOFPROCkt N2Oactivity','ktN2O',year_AQ)  =  eps ; 
+
+*03 Combustion in manufacturing industry - Other NOx emissions
+AQ(model_AQ,'BAU',Country,'03|OTHER_NOXkt NOxsector|NOFPROCkt NOxactivity','ktNOx',year_AQ)  =  eps ; 
+
+*03 Combustion in manufacturing industry - Other SO2 emissions
+AQ(model_AQ,'BAU',Country,'03|OTHER_SO2kt SO2sector|NOFPROCkt SO2activity','ktSO2',year_AQ)  =  eps ; 
+
+*03 Combustion in manufacturing industry - Aluminum production - secondary
+AQ(model_AQ,'BAU',Country,'03|PR_ALSECMtsector|NOFPROCMtactivity','10billion$(2019)',year_AQ)  = valXST('14_NONFERR',Country,year_AQ,'bau') ; 
+
+*03 Combustion in manufacturing industry - Brick production
+AQ(model_AQ,'BAU',Country,'03|PR_BRICKMtsector|NOFPROCMtactivity','10billion$(2019)',year_AQ)  =  valXST('12_NONMET',Country,year_AQ,'bau') ;
+
+*03 Combustion in manufacturing industry - Cast iron (grey iron foundries)
+AQ(model_AQ,'BAU',Country,'03|PR_CASTMtsector|NOFPROCMtactivity','10billion$(2019)',year_AQ)  = valXST('13_IRONSTL',Country,year_AQ,'bau') ;
+
+*03 Combustion in manufacturing industry - Cement production
+AQ(model_AQ,'BAU',Country,'03|PR_CEMMtsector|NOFPROCMtactivity','10billion$(2019)',year_AQ)  =  valXST('12_NONMET',Country,year_AQ,'bau') ;
+
+*03 Combustion in manufacturing industry - Glass production (flat, blown, container glass)
+AQ(model_AQ,'BAU',Country,'03|PR_GLASSMtsector|NOFPROCMtactivity','10billion$(2019)',year_AQ)  = valXST('12_NONMET',Country,year_AQ,'bau') ;
+
+*03 Combustion in manufacturing industry - Lime production
+AQ(model_AQ,'BAU',Country,'03|PR_LIMEMtsector|NOFPROCMtactivity','10billion$(2019)',year_AQ)  = valXST('12_NONMET',Country,year_AQ,'bau') ; 
+
+*03 Combustion in manufacturing industry - Agglomeration plant - sinter
+AQ(model_AQ,'BAU',Country,'03|PR_SINTMtsector|NOFPROCMtactivity','10billion$(2019)',year_AQ)  = valXST('13_IRONSTL',Country,year_AQ,'bau') ; 
+
+*======================================================================= 07 Road transport ====================================================================
 *07 Leaded gasoline, Road - gasoline engines - evaporative
 AQ(model_AQ,'BAU',Country,'07|LEAD_GASOLPJsector|LFLMOBPJactivity','PJ/yr',year_AQ)  =  sum((Gasoline),valEE(Gasoline,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
 AQ(model_AQ,'BAU',Country,'07|TRA_RD_EVPJsector|GSLMOBPJactivity','PJ/yr',year_AQ)   =  sum((Gasoline),valEE(Gasoline,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
@@ -790,18 +1062,18 @@ AQ(model_AQ,'BAU',Country,'07|TRA_RD_EVPJsector|GSLMOBPJactivity','PJ/yr',year_A
 *07 Buses
 AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBGvkmsector|ABRASIONMOBGvkmactivity','Gvkm',year_AQ)    =  eps ; 
 AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBGvkmsector|BRAKEMOBGvkmactivity','Gvkm',year_AQ)       =  eps ; 
-AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBPJsector|GASMOBPJactivity','PJ/yr',year_AQ)     =  sum((Naturalgas),valEE(Naturalgas,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
-AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBPJsector|GAS_MMOBPJactivity','PJ/yr',year_AQ)   =  sum((Naturalgas),valEE(Naturalgas,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
-AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBPJsector|GSLMOBPJactivity','PJ/yr',year_AQ)     =  sum((Gasoline),valEE(Gasoline,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
-AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBPJsector|GSL_MMOBPJactivity','PJ/yr',year_AQ)                               =  sum((Gasoline),valEE(Gasoline,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
-AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBthousand of vehiclessector|GSL_NV_HEMOB','thousand of vehicles',year_AQ)    =  sum((Gasoline),valEE(Gasoline,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
-AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBPJsector|H2MOBPJactivity','PJ/yr',year_AQ)       =  eps ; 
-AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBPJsector|LPGMOBPJactivity','PJ/yr',year_AQ)      =  sum((LPG),valEE(LPG,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ;  
-AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBPJsector|LPGMOBPJactivity','PJ/yr',year_AQ)      =  sum((LPG),valEE(LPG,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ;  
-AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBPJsector|MDMOBPJactivity','PJ/yr',year_AQ)       =  sum((Diesel),valEE(Diesel,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ;  
-AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBPJsector|MD_MMOBPJactivity','PJ/yr',year_AQ)     =  sum((Diesel),valEE(Diesel,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ;  
-AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBthousand of vehiclessector|MD_NV_HEMOB','thousand of vehicles',year_AQ)     =  eps ;   
-AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBGvkmsector|TYREMOBGvkmactivity','Gvkm',year_AQ)      =  eps ;  
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBPJsector|GASMOBPJactivity','PJ/yr',year_AQ)            =  sum((Naturalgas),valEE(Naturalgas,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBPJsector|GAS_MMOBPJactivity','PJ/yr',year_AQ)          =  sum((Naturalgas),valEE(Naturalgas,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBPJsector|GSLMOBPJactivity','PJ/yr',year_AQ)            =  sum((Gasoline),valEE(Gasoline,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBPJsector|GSL_MMOBPJactivity','PJ/yr',year_AQ)          =  sum((Gasoline),valEE(Gasoline,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBthousand of vehiclessector|GSL_NV_HEMOB','thousand of vehicles',year_AQ)  =  eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBPJsector|H2MOBPJactivity','PJ/yr',year_AQ)             =  eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBPJsector|LPGMOBPJactivity','PJ/yr',year_AQ)            =  sum((LPG),valEE(LPG,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ;  
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBPJsector|LPGMOBPJactivity','PJ/yr',year_AQ)            =  sum((LPG),valEE(LPG,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ;  
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBPJsector|MDMOBPJactivity','PJ/yr',year_AQ)             =  sum((Diesel),valEE(Diesel,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ;  
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBPJsector|MD_MMOBPJactivity','PJ/yr',year_AQ)           =  sum((Diesel),valEE(Diesel,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ;  
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBthousand of vehiclessector|MD_NV_HEMOB','thousand of vehicles',year_AQ)   =  eps ;   
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDBGvkmsector|TYREMOBGvkmactivity','Gvkm',year_AQ)        =  eps ;  
 
 *07 Heavy duty vehicles
 AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDTGvkmsector|ABRASIONMOBGvkmactivity','Gvkm',year_AQ)  =  eps ;  
@@ -816,7 +1088,7 @@ AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDTPJsector|LPGMOBPJactivity','PJ/yr',year_
 AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDTPJsector|MDMOBPJactivity','PJ/yr',year_AQ)           =  sum((Diesel),valEE(Diesel,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
 AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDTPJsector|MD_MMOBPJactivity','PJ/yr',year_AQ)         =  sum((Diesel),valEE(Diesel,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
 AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDTthousand of vehiclessector|MD_NV_HEMOB','thousand of vehicles',year_AQ)     =  eps ;  
-AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDTGvkmsector|TYREMOBGvkmactivity','Gvkm',year_AQ)     =  eps ;  
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_HDTGvkmsector|TYREMOBGvkmactivity','Gvkm',year_AQ)      =  eps ;  
 
 *07 Mopeds
 AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD2Gvkmsector|ABRASIONMOBGvkmactivity','Gvkm',year_AQ)     =  eps ;  
@@ -857,7 +1129,7 @@ AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4TPJsector|LPGMOBPJactivity','PJ/yr',year
 AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4TPJsector|MDMOBPJactivity','PJ/yr',year_AQ)            =  sum((Diesel),valEE(Diesel,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
 AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4TPJsector|MD_MMOBPJactivity','PJ/yr',year_AQ)          =  sum((Diesel),valEE(Diesel,'28_LTRP',Country,year_AQ,'bau'))*ktoetoPJ+eps ; 
 AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4Tthousand of vehiclessector|MD_NV_HEMOB','thousand of vehicles',year_AQ)     =  eps ;  
-AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4TGvkmsector|TYREMOBGvkmactivity','Gvkm',year_AQ)      =  eps ; 
+AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4TGvkmsector|TYREMOBGvkmactivity','Gvkm',year_AQ)       =  eps ; 
 
 *07 Light duty vehicles - evaporative
 AQ(model_AQ,'BAU',Country,'07|TRA_RD_LD4T_EVPJsector|GSLMOBPJactivity','PJ/yr',year_AQ)       =  eps ; 
