@@ -58,12 +58,6 @@
         },
         {
             "codecMib": 106,
-            "file": "Output_w-t/Baseline_Results_GTAP11b.gdx",
-            "name": "Baseline_Results_GTAP11b.gdx",
-            "type": "gdx"
-        },
-        {
-            "codecMib": 106,
             "file": "BAU_AQ_Linkage.gms",
             "name": "BAU_AQ_Linkage.gms",
             "type": "gms"

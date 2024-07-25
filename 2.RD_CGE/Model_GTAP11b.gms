@@ -2087,7 +2087,7 @@ EQUATIONS
 *    5.3.2.2 Government
 *==============================================================================
  EQ16(z,t)..       YG(z,t) =e= TDH(z,t)+TPRODN(z,t)+TPRCTS(z,t)+TCTAX(z,t);
-*TCTAX(z,t)
+
  EQ16_1(z,t)..     TCTAX(z,t) =e= sum((ene,j), PC(ene,z,t)*CTAX(z,t)*CO2FACTOR2(ene,j,z,t)*DE(ene,j,z,t));
 
  EQ17(z,t)..       TPRODN(z,t) =e= TIWT(z,t)+TIKT(z,t)+TIPT(z,t);
@@ -2323,7 +2323,7 @@ $OFFTEXT
                  PD(i,z,t) =e= (1+ttic(i,z,t))*PL(i,z,t);
 
  EQ62(i,zj,z,t)$IMO(i,zj,z)..
-                 PM(i,zj,z,t) =e= (1+ttic(i,z,t))*(1+ttim(i,zj,z,t))*e(z,t)*
+                 PM(i,zj,z,t)=e= (1+ttic(i,z,t))*(1+ttim(i,zj,z,t))*e(z,t)*
                                   (PWM(i,zj,z,t)+SUM[ij,PWMG(ij,t)
                                   *tmrg(ij,i,zj,z)]);
 
