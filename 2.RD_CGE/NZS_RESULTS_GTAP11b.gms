@@ -9,6 +9,7 @@ PARAMETER
  valCABX(z,time,scen)        Current account balance or region z in terms of the international currency
  valCG(i,z,time,scen)        Public consumption of commodity i in region z
  valCI(j,z,time,scen)        Total intermediate consumption of industry j in region z
+ valCE(j,z,time,scen)
  valCMIN(i,z,time,scen)      Minimum consumption of commodity i by households in region z
  valCTH(z,time,scen)         Consumption budget of households in region z
  valCTH_REAL(z,time,scen)    Real household consumption in region z
@@ -199,6 +200,11 @@ PARAMETER
  valCLBS(i3,z,time,scen)
  valCKBS(i3,z,time,scen)
  valMARKUP(i3,z,time,scen)
+
+*===================================================================================================
+ valaij2(i,j,z,time,scen)
+ valio2(j,z,time,scen)
+
  
 ;
 
@@ -212,6 +218,7 @@ PARAMETER
  valCABX(z,time,'NZS')       = CABX.l(z,time);
  valCG(i,z,time,'NZS')       = CG.l(i,z,time);
  valCI(j,z,time,'NZS')       = CI.l(j,z,time);
+ valCE(j,z,time,'NZS')       = CE.l(j,z,time);
  valCMIN(i,z,time,'NZS')     = CMIN.l(i,z,time);
  valCTH(z,time,'NZS')        = CTH.l(z,time);
  valCTH_REAL(z,time,'NZS')   = CTH_REAL.l(z,time);
@@ -473,6 +480,10 @@ PARAMETER
  valMARKUP(i3,z,time,'NZS')= MARKUP.l(i3,z,time) ;
 *$Offtext
  
+*=====================================================================================================
+ valaij2(i,j,z,time,'NZS') = aij2_t(i,j,z,time) ;
+ valio2(j,z,time,'NZS') = io2_t(j,z,time) ;
+
  execute_unload 'Output_w-t\NZS_Results_GTAP11b.gdx',
 *$Ontext
  valA_VA,
@@ -481,6 +492,7 @@ PARAMETER
  valCABX,
  valCG,
  valCI,
+ valCE,
  valCMIN,
  valCTH,
  valCTH_REAL,
@@ -640,6 +652,8 @@ PARAMETER
  valCLBS,
  valCKBS,
  valMARKUP,
- valYROW2
+ valYROW2,
+ valaij2,
+ valio2
  ;
 *$Offtext 

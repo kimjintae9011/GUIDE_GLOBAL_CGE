@@ -665,7 +665,8 @@ $LOAD VTMFSD, VXSB, VFOB, XTRV
                        VCIF(comm,regj,reg)-
                        SUM[marg,VTMFSD(marg,comm,regj,reg)]};
 *lt Strictly less than
- IMO(i,zj, z)$(IMO(i, zj, z) lt  0.0001) = 0.00001 ;
+* IMO(i,zj, z)$(IMO(i, zj, z) lt  0.0001) = 0.00001 ;
+ IMO(i,zj, z)$(IMO(i, zj, z) lt 0.0001) = 0 ;
  IMO(i,zj,z)$sameas(zj,z) = 0 ;
 *==============================================================================
 * 2.4.6 Exports
@@ -1050,7 +1051,6 @@ PARAMETER
  elas_petrolcoal(j,z) 
 ;
 
-
 * 02_COAL        Coal
 * 03_OIL         Crude petroleum
 * 04_GAS         Natural gas Gas distribution
@@ -1137,6 +1137,7 @@ PARAMETER
  AEEI_low(z,time)        Autonomous energy efficiency improvement
  AEEI_high(z,time)       Autonomous energy efficiency improvement
  TREND(z,time)           Value to Physical quantity
+ TREND2(z,time)          Value to Physical quantity
  CTAX_Cal(z,time)
  CTAX_CPS(z,time)
  CTAX_NZS(z,time)
@@ -1151,7 +1152,7 @@ PARAMETER
 
 $call gdxxrw Input_w-t\Projection.xlsx @Input_w-t\Projection.txt output = Input_w-t\Projection.gdx 
 $gdxIn Input_w-t\Projection.gdx
-$load GDP, TOT_POP, g_SDR, AEEI_low, AEEI_high, TREND, CTAX_Cal, CTAX_CPS, CTAX_NZS, CTAX_61, CTAX_145, CTAX_285, CTAX_425, CTAX_565
+$load GDP, TOT_POP, g_SDR, AEEI_low, AEEI_high, TREND, TREND2, CTAX_Cal, CTAX_CPS, CTAX_NZS, CTAX_61, CTAX_145, CTAX_285, CTAX_425, CTAX_565
 
 $call gdxxrw Input_w-t\Employment.xlsx @Input_w-t\Employment.txt output = Input_w-t\Employment.gdx 
 $GDXIN Input_w-t\Employment.gdx
@@ -1219,4 +1220,4 @@ execute_unload 'Input_w-t\DATA_AGG-2019_GTAP11b.gdx',
  elas_E, elas_elec, elas_gas, elas_oil, elas_coal, elas_petrolcoal, DDO_Matrix, Bal_TC, EMPLOY,
 
 *Parameters used in PEP w-t only
- TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, TREND, CTAX_Cal, CTAX_CPS, CTAX_NZS, CTAX_61, CTAX_145, CTAX_285, CTAX_425, CTAX_565 ;
+ TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, TREND, TREND2, CTAX_Cal, CTAX_CPS, CTAX_NZS, CTAX_61, CTAX_145, CTAX_285, CTAX_425, CTAX_565 ;

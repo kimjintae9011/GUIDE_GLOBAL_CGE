@@ -195,6 +195,7 @@ $offtext
 
  KD.fx('natr',j,z,time)${[ord(time) gt 1] and KDO('natr',j,z)}
                      = KD.l('natr',j,z,time-1)*(1-0.01);
+*                     = KD.l('natr',j,z,time-1);
 
  KD.fx('land',j,z,time)${[ord(time) gt 1] and KDO('land',j,z)}
                      = KD.l('land',j,z,time-1);
@@ -231,100 +232,119 @@ $offtext
 *==============================================================================
 *Backstop technologies
 *==============================================================================
-penetration_rate(i3,z,time)$[CTAX.L(z,time) gt 0.5]
-                             = penetration_rate(i3,z,time-1)+0.02;
+*penetration_rate(i3,'01_KOR',time)$[CTAX.L('01_KOR',time) gt 0.8]
+*                             = penetration_rate(i3,'01_KOR',time-1)+0.05;
 
-if ((CTAX.L('01_KOR',time)  gt 0.5), switch(i3,'01_KOR',time) = 1  ;
+*if ((CTAX.L('01_KOR',time) gt 0.8), switch(i3,'01_KOR',time) = 1  ;
+*else switch(i3,'01_KOR',time) = 0 ;
+*);
+
+*penetration_rate('13_IRONSTL','02_CHN',time)$[CTAX.L('02_CHN',time) gt 0.5]
+*                             = penetration_rate('13_IRONSTL','02_CHN',time-1)+0.05;
+
+*if ((CTAX.L('02_CHN',time) gt 0.5), switch('13_IRONSTL','02_CHN',time) = 1  ;
+*else switch('13_IRONSTL','02_CHN',time) = 0 ;
+*);
+
+*$Ontext
+
+penetration_rate(i3,z,time)$[CTAX.L(z,time) gt 0.8]
+                             = penetration_rate(i3,z,time-1)+0.038;
+
+penetration_rate(i3,'01_KOR',time)$[CTAX.L('01_KOR',time) gt 0.8]
+                             = penetration_rate(i3,'01_KOR',time-1)+0.053;
+
+if ((CTAX.L('01_KOR',time) gt 0.8), switch(i3,'01_KOR',time) = 1  ;
 else switch(i3,'01_KOR',time) = 0 ;
 );
 
-if ((CTAX.L('02_CHN',time)  gt 1.0), switch(i3,'02_CHN',time) = 1  ;
+penetration_rate('11_CHEMICAL','02_CHN',time)$[CTAX.L('02_CHN',time) gt 0.5]
+                             = penetration_rate('11_CHEMICAL','02_CHN',time-1)+0.05
+
+if ((CTAX.L('02_CHN',time) gt 0.5), switch('11_CHEMICAL','02_CHN',time) = 1  ;
 else switch(i3,'02_CHN',time) = 0 ;
 );
 
-if ((CTAX.L('03_JPN',time)  gt 1.0), switch(i3,'03_JPN',time) = 1  ;
+penetration_rate('13_IRONSTL','02_CHN',time)$[CTAX.L('02_CHN',time) gt 0.5]
+                             = penetration_rate('13_IRONSTL','02_CHN',time-1)+0.05;
+
+if ((CTAX.L('02_CHN',time) gt 0.5), switch('13_IRONSTL','02_CHN',time) = 1  ;
+else switch('13_IRONSTL','02_CHN',time) = 0 ;
+);
+
+penetration_rate('20_LTRP','02_CHN',time)$[CTAX.L('02_CHN',time) gt 0.5]
+                             = penetration_rate('20_LTRP','02_CHN',time-1)+0.05
+
+if ((CTAX.L('02_CHN',time) gt 0.5), switch('20_LTRP','02_CHN',time) = 1  ;
+else switch(i3,'02_CHN',time) = 0 ;
+);
+
+penetration_rate(i3,'03_JPN',time)$[CTAX.L('03_JPN',time) gt 0.8]
+                             = penetration_rate(i3,'03_JPN',time-1)+0.045;
+
+if ((CTAX.L('03_JPN',time) gt 0.8), switch(i3,'03_JPN',time) = 1  ;
 else switch(i3,'03_JPN',time) = 0 ;
 );
 
-if ((CTAX.L('04_RUS',time)  gt 1.0), switch(i3,'04_RUS',time) = 1  ;
+penetration_rate(i3,'04_RUS',time)$[CTAX.L('04_RUS',time) gt 0.5]
+                             = penetration_rate(i3,'04_RUS',time-1)+0.05;
+
+if ((CTAX.L('04_RUS',time) gt 0.5), switch(i3,'04_RUS',time) = 1  ;
 else switch(i3,'04_RUS',time) = 0 ;
 );
 
-if ((CTAX.L('05_MNG',time)  gt 1.0), switch(i3,'05_MNG',time) = 1  ;
+
+if ((CTAX.L('05_MNG',time) gt 0.8), switch(i3,'05_MNG',time) = 1  ;
 else switch(i3,'05_MNG',time) = 0 ;
 );
 
-if ((CTAX.L('06_PRK',time)  gt 1.0), switch(i3,'06_PRK',time) = 1  ;
+if ((CTAX.L('06_PRK',time) gt 0.8), switch(i3,'06_PRK',time) = 1  ;
 else switch(i3,'06_PRK',time) = 0 ;
 );
 
-if ((CTAX.L('07_NAM',time)  gt 1.0), switch(i3,'07_NAM',time) = 1  ;
+if ((CTAX.L('07_NAM',time) gt 0.8), switch(i3,'07_NAM',time) = 1  ;
 else switch(i3,'07_NAM',time) = 0 ;
 );
 
-if ((CTAX.L('08_LAM',time)  gt 1.0), switch(i3,'08_LAM',time) = 1  ;
+if ((CTAX.L('08_LAM',time) gt 0.8), switch(i3,'08_LAM',time) = 1  ;
 else switch(i3,'08_LAM',time) = 0 ;
 );
 
-if ((CTAX.L('09_WEU',time)  gt 1.0), switch(i3,'09_WEU',time) = 1  ;
+if ((CTAX.L('09_WEU',time) gt 0.8), switch(i3,'09_WEU',time) = 1  ;
 else switch(i3,'09_WEU',time) = 0 ;
 );
 
-if ((CTAX.L('10_EEU',time)  gt 1.0), switch(i3,'10_EEU',time) = 1  ;
+if ((CTAX.L('10_EEU',time) gt 0.8), switch(i3,'10_EEU',time) = 1  ;
 else switch(i3,'10_EEU',time) = 0 ;
 );
 
-if ((CTAX.L('11_FSU',time)  gt 1.0), switch(i3,'11_FSU',time) = 1  ;
+if ((CTAX.L('11_FSU',time) gt 0.8), switch(i3,'11_FSU',time) = 1  ;
 else switch(i3,'11_FSU',time) = 0 ;
 );
 
-if ((CTAX.L('12_MEA',time)  gt 1.0), switch(i3,'12_MEA',time) = 1  ;
+if ((CTAX.L('12_MEA',time) gt 0.8), switch(i3,'12_MEA',time) = 1  ;
 else switch(i3,'12_MEA',time) = 0 ;
 );
 
-if ((CTAX.L('13_AFR',time)  gt 1.0), switch(i3,'13_AFR',time) = 1  ;
+if ((CTAX.L('13_AFR',time) gt 0.8), switch(i3,'13_AFR',time) = 1  ;
 else switch(i3,'13_AFR',time) = 0 ;
 );
 
-if ((CTAX.L('14_CPA',time)  gt 1.0), switch(i3,'14_CPA',time) = 1  ;
+if ((CTAX.L('14_CPA',time) gt 0.8), switch(i3,'14_CPA',time) = 1  ;
 else switch(i3,'14_CPA',time) = 0 ;
 );
 
-if ((CTAX.L('15_SAS',time)  gt 1.0), switch(i3,'15_SAS',time) = 1  ;
+if ((CTAX.L('15_SAS',time) gt 0.8), switch(i3,'15_SAS',time) = 1  ;
 else switch(i3,'15_SAS',time) = 0 ;
 );
 
-if ((CTAX.L('16_PAS',time)  gt 1.0), switch(i3,'16_PAS',time) = 1  ;
+if ((CTAX.L('16_PAS',time) gt 0.8), switch(i3,'16_PAS',time) = 1  ;
 else switch(i3,'16_PAS',time) = 0 ;
 );
 
-if ((CTAX.L('17_PAO',time)  gt 1.0), switch(i3,'17_PAO',time) = 1  ;
+if ((CTAX.L('17_PAO',time) gt 0.8), switch(i3,'17_PAO',time) = 1  ;
 else switch(i3,'17_PAO',time) = 0 ;
 );
-
-
-$ontext
-penetration_rate('10_PETROLCOAL','01_KOR',time)$[CTAX.L('01_KOR',time) gt 1.0]
-                             = penetration_rate('10_PETROLCOAL','01_KOR',time-1)+0.02;
-
-penetration_rate('13_IRONSTL','01_KOR',time)$[PCE.L('13_IRONSTL','01_KOR',time) gt 2.0]
-                             = penetration_rate('13_IRONSTL','01_KOR',time-1)+0.04;
-
-penetration_rate('20_LTRP','01_KOR',time)$[CTAX.L('01_KOR',time) gt 1.0]
-                             = penetration_rate('20_LTRP','01_KOR',time-1)+0.04;
-
-if ((CTAX.L('01_KOR',time)  gt 1.0), switch('10_PETROLCOAL','01_KOR',time) = 1  ;
-else switch('10_PETROLCOAL','01_KOR',time) = 0 ;
-);
-
-if ((PCE.L('13_IRONSTL','01_KOR',time)  gt 2.0), switch('13_IRONSTL','01_KOR',time) = 1  ;
-else switch('13_IRONSTL','01_KOR',time) = 0 ;
-);
-
-if ((CTAX.L('01_KOR',time)  gt 1.0), switch('20_LTRP','01_KOR',time) = 1  ;
-else switch('20_LTRP','01_KOR',time) = 0 ;
-);
-$offtext
 
 *==============================================================================
 *   6.2.2.3 Resolution

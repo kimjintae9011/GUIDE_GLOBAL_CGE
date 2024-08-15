@@ -592,7 +592,7 @@ Unit_AQ
 
 year_AQ(time)
 /
- 2019*2050
+* 2019*2050
 /
 
 Browncoal(p_coal)
@@ -693,8 +693,6 @@ Otherbiomass_wastefuels(product)
 'p52_OBIOLIQ',
 'p45_MUNWASTER'
 /
-
-
 
 Transformation_combustion(J)
 /

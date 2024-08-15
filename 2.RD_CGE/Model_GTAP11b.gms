@@ -384,6 +384,15 @@ NEA2(Z) Sub NEA KOR-CHN-JPN
  03_JPN Japan
 /
 
+
+NEA3(Z) Sub NEA KOR-CHN-JPN
+/
+ 01_KOR Korea
+ 02_CHN China
+ 03_JPN Japan
+ 04_RUS Russian Federation
+/
+
 *==============================================================================
 *  1.4 Mapping for Backstop technologies 
 *==============================================================================
@@ -409,7 +418,7 @@ INDtoCOM(i3,j)
 TIME Time periods
 /
 2019*2050
-*2019*2040
+*2019*2041
 /
 
 T(time)
@@ -472,6 +481,7 @@ PARAMETER
  beta_KLE2(j,z)       Share parameter (CES - KLE composite)
  beta_KLE2_t(j,z,time) Share parameter (CES - KLE composite)
  beta_ENER(ene,j,z)   Share parameter (CES - ENER composite)
+ beta_ENER_t(ene,j,z,time)
  delta(z)             Depreciation rate of capital in country z
  eta                  Price elasticity of indexed transfers and parameters
  frisch(z)            Frisch parameter (LES function)
@@ -525,12 +535,14 @@ PARAMETER
  gamma_GVT(i,z)       Share of commodity i in total current public expenditures on goods and services
  gamma_INV(i,z)       Share of commodity i in total investment expenditures
  gamma_LES(i,z)       Marginal share of commodity i in household consumption budget
+ gamma_LES_t(i,z,time) Marginal share of commodity i in household consumption budget
  exogro(z,time)       Exogenous growth factor for exogenously growing variables except labor
  growthz(z)           Steady state grwoth
  AEEI(z,time)         Autonomous energy efficiency improvement (Reference)
  AEEI_low(z,time)     Autonomous energy efficiency improvement (Low)
  AEEI_high(z,time)    Autonomous energy efficiency improvement (High)
  TREND(z,time)        Decresing rate of charcoal and waste consumption
+ TREND2(z,time)       Coal Phase out
  CTAX_Cal(z,time)     Carbon Tax for Baseline Scenario
  CTAX_CPS(z,time)     Carbon Tax for Current Policy Scenario
  CTAX_NZS(z,time)     Carbon Tax for Net Zero Scenario
@@ -702,7 +714,7 @@ Scalar
 *  includes data for some variables and substitution elasticities.
 
 $LOAD CO, CGO, DDO, DEPO, DIO, DSO, DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, XSO, XSO_I, XSTO, EMPLOY
-$LOAD TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, TREND, CTAX_Cal, CTAX_CPS, CTAX_NZS, RKDO, TDHO, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, 
+$LOAD TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, TREND, TREND2, CTAX_Cal, CTAX_CPS, CTAX_NZS, RKDO, TDHO, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, 
 $LOAD tmrg, sigma_M1, sigma_M2, sigma_VA, sigma_KLE, POPO
 
 * Other exogenous parameters can be defined if the Excel file VAL_PAR.XLS
@@ -770,6 +782,9 @@ $LOAD sigma_KD, sigma_LD, sigma_X1, sigma_X2, sigma_X3, sigma_X0, sigma_y, sigma
 
 * LES parameters - Frisch all (1.1)
  frisch(z)      = PARZ(z,'frisch');
+
+* CES - Capital
+ sigma_KD('02_COAL',z)  = 0.2;
 
 *==============================================================================
 *   3.1.2 Rescaling the variables
@@ -1179,9 +1194,9 @@ eta = 1;
 
  aij2(ene,j,z)   = DEO(ene,j,z)/CEO(j,z);
 
- aij2_t(ene,j,z,time) =  aij2(ene,j,z)*AEEI_low(z,'2019') ;
+ aij2_t(ene,j,z,time) =  aij2(ene,j,z) ;
  
- io2_t(j,z,time) = io2(j,z)*AEEI_low(z,'2019') ;
+ io2_t(j,z,time) = io2(j,z) ;
  
 *==============================================================================
 *   4.6.2 Calibration of CET parameters
@@ -1331,6 +1346,8 @@ eta = 1;
 
  B_ENER_t(j,z,time) = B_ENER(j,z)*(1/AEEI_low(z,'2019'));
  
+ beta_ENER_t(ene,j,z,time) = beta_ENER(ene,j,z) ;
+ 
 *==============================================================================
 *    4.6.3.5 Value added
 *==============================================================================
@@ -1383,6 +1400,8 @@ eta = 1;
                    /CTHO(z)};
  gamma_LES(i,z)  = PCO(i,z)*CO(i,z)*sigma_Y(i,z)/CTHO(z);
  CMINO(i,z)      = CO(i,z)+gamma_LES(i,z)*CTHO(z)/{PCO(i,z)*frisch(z)};
+
+ gamma_LES_t(i,z,time) = gamma_LES(i,z);
 
 *==============================================================================
 *  4.7 Calibration of gross domestic products
@@ -1467,8 +1486,9 @@ Parameter
  GWP_CH4 = 28;
  GWP_N2O = 265;
 
- CO2IO(p_coal,j,z) = Coal_DIO(p_coal,j,z)*41.868*GHGsEF(p_coal,'CO2EF')*1*(44/12)*0.001 ;
- CO2IO(p_gas,j,z)  = Gas_DIO(p_gas,j,z)*41.868*GHGsEF(p_gas,'CO2EF')*1*(44/12)*0.001 ;
+ CO2IO(p_coal,j,z)        = Coal_DIO(p_coal,j,z)*41.868*GHGsEF(p_coal,'CO2EF')*1*(44/12)*0.001 ;
+ CO2IO(p_oil,j,z)         = Oil_DIO(p_oil,j,z)*41.868*GHGsEF(p_oil,'CO2EF')*1*(44/12)*0.001 ;
+ CO2IO(p_gas,j,z)         = Gas_DIO(p_gas,j,z)*41.868*GHGsEF(p_gas,'CO2EF')*1*(44/12)*0.001 ;
  CO2IO(p_oilproduct,j,z)  = Oilp_DIO(p_oilproduct,j,z)*41.868*GHGsEF(p_oilproduct,'CO2EF')*1*(44/12)*0.001 ;
 
  CO2HO(p_coal,z) = Coal_CO(p_coal,z)*41.868*GHGsEF(p_coal,'CO2EF')*1*(44/12)*0.001 ;
@@ -1567,6 +1587,7 @@ Parameter
 execute_unload 'Energy_Intensity',
  EEI, NEI, EHI, EEO, NEO, EHO ;
 *$exit
+
 *==============================================================================
 *  4.11 Electricity Generation Intensities
 *==============================================================================
@@ -1611,15 +1632,15 @@ Parameters
 
 * CO2FACTOR(ene,j,z) = 0 ;
  CO2FACTOR('02_COAL',j,z)$DEO('02_COAL',j,z) = [sum(p_coal,CO2IO(p_coal,j,z))/DEO('02_COAL',j,z)]*(1000/(10**8));
-* CO2FACTOR('03_OIL',j,z)$DEO('03_OIL',j,z)   = [sum(p_oil,CO2IO(p_oil,j,z))/DEO('03_OIL',j,z)]*(1000/(10**8));
- CO2FACTOR('04_GAS',j,z)$DEO('04_GAS',j,z) = [sum(p_gas,CO2IO(p_gas,j,z))/DEO('04_GAS',j,z)]*(1000/(10**8));
+ CO2FACTOR('03_OIL',j,z)$DEO('03_OIL',j,z)   = [sum(p_oil,CO2IO(p_oil,j,z))/DEO('03_OIL',j,z)]*(1000/(10**8));
+ CO2FACTOR('04_GAS',j,z)$DEO('04_GAS',j,z)   = [sum(p_gas,CO2IO(p_gas,j,z))/DEO('04_GAS',j,z)]*(1000/(10**8));
  CO2FACTOR('10_PETROLCOAL',j,z)$DEO('10_PETROLCOAL',j,z) = [sum(p_oilproduct,CO2IO(p_oilproduct,j,z))/DEO('10_PETROLCOAL',j,z)]*(1000/(10**8));
 
 * CO2FACTOR('02_COAL',j,z)$DEO('02_COAL',j,z) = [sum(p_coal,CO2IO(p_coal,j,z))/DEO('02_COAL',j,z)]*10/100;
 * CO2FACTOR('04_GAS',j,z)$DEO('04_GAS',j,z) = [sum(p_gas,CO2IO(p_gas,j,z))/DEO('04_GAS',j,z)]*10/100;
 * CO2FACTOR('10_PETROLCOAL',j,z)$DEO('10_PETROLCOAL',j,z) = [sum(p_oilproduct,CO2IO(p_oilproduct,j,z))/DEO('10_PETROLCOAL',j,z)]*10/100;
 
-*PetrolCoal
+*Petrolcoal
  CO2FACTOR('10_PETROLCOAL','10_PETROLCOAL',z) = 0;
  CO2FACTOR('02_COAL','10_PETROLCOAL',z) = CO2FACTOR('02_COAL','13_IRONSTL',z);
 
@@ -1639,11 +1660,10 @@ Parameters
 *LAM
  CO2FACTOR('04_GAS','02_COAL','08_LAM')             = CO2FACTOR('04_GAS','02_COAL','07_NAM');
 
+ CO2FACTOR2(ene,j,z,time) = CO2FACTOR(ene,j,z);
+
  CTAX0(z)  = 0;
  TCTAX0(z) = 0;
-
-* CO2FACTOR2(ene,j,z,time) = CO2FACTOR(ene,j,z)*AEEI(z,time);
- CO2FACTOR2(ene,j,z,time) = CO2FACTOR(ene,j,z);
 
 execute_unload 'CO2FACTOR_w-t',
  CO2FACTOR, CO2FACTOR2 ;
@@ -2058,7 +2078,7 @@ EQUATIONS
 *                                *DE(ene,j2,z,t)**(-rho_ENER(j2,z))]**(-1/rho_ENER(j2,z));
 
 * EQ9_2(ene,j2,z,t)..  DE(ene,j2,z,t) =e= [beta_ENER(ene,j2,z)*PCE(j2,z,t)/((P4(ene,j2,z,t)+PC(ene,z,t)*CTAX(z,t)*CO2FACTOR2(ene,j2,z,t)))]
- EQ9_2(ene,j2,z,t)..  DE(ene,j2,z,t) =e= [beta_ENER(ene,j2,z)*PCE(j2,z,t)/((P4(ene,j2,z,t)+P4(ene,j2,z,t)*CTAX(z,t)*CO2FACTOR2(ene,j2,z,t)))]
+ EQ9_2(ene,j2,z,t)..  DE(ene,j2,z,t) =e= [beta_ENER_t(ene,j2,z,t)*PCE(j2,z,t)/((P4(ene,j2,z,t)+P4(ene,j2,z,t)*CTAX(z,t)*CO2FACTOR2(ene,j2,z,t)))]
                                    **sigma_ENER(j2,z)*B_ENER_t(j2,z,t)**(sigma_ENER(j2,z)-1)
                                    *CE(j2,z,t);
 
@@ -2146,7 +2166,8 @@ EQUATIONS
 *==============================================================================
 *   5.3.3 Demand
 *==============================================================================
- EQ36(i,z,t)..     PC(i,z,t)*C(i,z,t) =e= PC(i,z,t)*CMIN(i,z,t)+gamma_LES(i,z)
+* EQ36(i,z,t)..     PC(i,z,t)*C(i,z,t) =e= PC(i,z,t)*CMIN(i,z,t)+gamma_LES(i,z)
+ EQ36(i,z,t)..     PC(i,z,t)*C(i,z,t) =e= PC(i,z,t)*CMIN(i,z,t)+gamma_LES_t(i,z,t)
                                  *{CTH(z,t)-SUM[ij,PC(ij,z,t)*CMIN(ij,z,t)]};
 
  EQ37(i,z,t)..     PC(i,z,t)*INV(i,z,t) =e= gamma_INV(i,z)*IT(z,t);
@@ -2535,22 +2556,26 @@ SCEN  List of scenarios
 *==============================================================================
 $INCLUDE BAU_SOLVE_GTAP11b.gms
 $INCLUDE BAU_RESULTS_GTAP11b.gms
+*$INCLUDE BAU_AQ_Linkage.gms
+
 *$INCLUDE BAU_IAMC.gms
 *$INCLUDE BAU_IPCC.gms
-$INCLUDE BAU_AQ_Linkage.gms
 *$INCLUDE BAU_IAMC_GreenEcos.gms
 
 *==============================================================================
 *   6.3 Simulation 1 scenarios and Results
 *==============================================================================
-*$INCLUDE CPS_SOLVE_GTAP11b.gms
-*$INCLUDE CPS_RESULTS_GTAP11b.gms
+$INCLUDE CPS_SOLVE_GTAP11b.gms
+$INCLUDE CPS_RESULTS_GTAP11b.gms
+*$INCLUDE CPS_AQ_Linkage.gms
 
 *==============================================================================
 *   6.4 Simulation 2 scenarios and Results
 *==============================================================================
-*$INCLUDE NZS_SOLVE_GTAP11b.gms
-*$INCLUDE NZS_RESULTS_GTAP11b.gms
+$INCLUDE NZS_SOLVE_GTAP11b.gms
+$INCLUDE NZS_RESULTS_GTAP11b.gms
+*$INCLUDE NZS_AQ_Linkage.gms
+
 *$INCLUDE NZS_IAMC.gms
 *$INCLUDE NZS_IPCC.gms
 *$INCLUDE NZS_IAMC_GreenEcos.gms

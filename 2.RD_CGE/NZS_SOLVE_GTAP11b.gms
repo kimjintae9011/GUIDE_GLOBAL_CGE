@@ -220,28 +220,32 @@ $offtext
 *==============================================================================
 *   6.2.2.2 Variables fixed each period according to their lagged values
 *==============================================================================
- CABX.FX(z1,t1)      = CABXO(z1);
+ CABX.FX(z1,t1)       = CABXO(z1);
  CABX.FX(z1,time)$[ord(time) gt 1]
-                     = CABX.l(z1,time-1)*[1+g_GDP(z1,time)];
+                      = CABX.l(z1,time-1)*[1+g_GDP(z1,time)];
                       
- CMIN.FX(i,z,t1)     = CMINO(i,z);
+ CMIN.FX(i,z,t1)      = CMINO(i,z);
  CMIN.FX(i,z,time)$[ord(time) gt 1]
                       = CMIN.l(i,z,time-1)*[1+g_GDP(z,time)];
                       
  KD.fx(k,j,z,t1)$KDO(k,j,z)
-                     = KDO(k,j,z);
+                      = KDO(k,j,z);
+                     
  KD.fx(k,j,z,time)${[ord(time) gt 1] and KDO(k,j,z)}
-                     = KD.l(k,j,z,time-1)*[1-delta(z)]+IND.l(k,j,z,time-1);
+                      = KD.l(k,j,z,time-1)*[1-delta(z)]+IND.l(k,j,z,time-1);
 
  KD.fx('natr',j,z,time)${[ord(time) gt 1] and KDO('natr',j,z)}
                       = KD.l('natr',j,z,time-1)*(1-0.01);
+*                      = KD.l('natr',j,z,time-1);
+
 
  KD.fx('land',j,z,time)${[ord(time) gt 1] and KDO('land',j,z)}
                       = KD.l('land',j,z,time-1);
 
- LS.FX(l,z,t1)       = LSO(l,z);
+ LS.FX(l,z,t1)        = LSO(l,z);
+ 
  LS.FX(l,z,time)$[ord(time) gt 1]
-                     = LS.l(l,z,time-1)*[1+g_POP(z,time)];
+                      = LS.l(l,z,time-1)*[1+g_POP(z,time)];
                     
 * SH.fx(z,t1)         = SHO(z);
 * SH.fx(z,time)$[ord(time) gt 1]
@@ -275,72 +279,6 @@ $offtext
 
  CTAX.fx('05_MNG',time)$[ord(time) gt 4]
                             = CTAX_NZS('04_RUS',time); 
-
-*======== CTAX_285 ========================================
-* CTAX.fx('14_CPA',time)$[ord(time) gt 1]
-*                             = CTAX_145('14_CPA',time); 
-
-* CTAX.fx('08_LAM',time)$[ord(time) gt 1]
-*                             = CTAX_145('08_LAM',time); 
-
-*======== CTAX_425 ========================================
-* CTAX.fx('02_CHN',time)$[ord(time) gt 1]
-*                             = CTAX_285('02_CHN',time);
-                             
-* CTAX.fx('01_KOR',time)$[ord(time) gt 1]
-*                             = CTAX_285('01_KOR',time); 
-
-
-* CTAX.fx('01_KOR',time)$[ord(time) gt 1]
-*                            = CTAX_145('01_KOR',time);  
-
-* CTAX.fx('02_CHN',time)$[ord(time) gt 1]
-*                            = CTAX_61('02_CHN',time);  
-*                            = CTAX_145('02_CHN',time);  
-*                            = CTAX_285('02_CHN',time);  
-
-* CTAX.fx('03_JPN',time)$[ord(time) gt 1]
-*                            = CTAX_145('03_JPN',time);  
-
-* CTAX.fx('04_RUS',time)$[ord(time) gt 1]
-*                            = CTAX_145('04_RUS',time);  
-
-* CTAX.fx('05_MNG',time)$[ord(time) gt 1]
-*                            = CTAX_145('05_MNG',time);  
-
-* CTAX.fx('06_PRK',time)$[ord(time) gt 1]
-*                            = CTAX_145('06_PRK',time);  
-
-* CTAX.fX('01_KOR',t1)       = CTAX0('01_KOR');
-* CTAX.fx('01_KOR',time)$[ord(time) gt 1]
-*                            = CTAX_145('01_KOR',time);  
-*                            = CTAX_285('01_KOR',time);  
-*                            = CTAX_425('01_KOR',time);  
-*                            = CTAX_565('01_KOR',time);  
-
-* CTAX.fX('03_JPN',t1)       = CTAX0('03_JPN');
-* CTAX.fx('03_JPN',time)$[ord(time) gt 1]
-*                            = CTAX_565('03_JPN',time);  
-
-* CTAX.fX('01_KOR',t1)       = CTAX0('01_KOR');
-* CTAX.fx('01_KOR',time)$[ord(time) gt 1]
-*                            = CTAX1('01_KOR',time);  
-
-* CTAX.fx('01_KOR',time)$[ord(time) gt 3]
-*                            =0.2;
-
-* ttip.fx('31_SER','01_KOR',time)$[ord(time) gt 1]
-*                            = ttip.L('31_SER','01_KOR',time-1)*(1+0.01) ;
-
-* ttic.fx(i,'01_KOR',time)$[ord(time) gt 1]
-*                            = ttic.L(i,'01_KOR',time-1)*(1+0.05) ;
-
-* ttim.FX(ene,zj,'01_KOR',time)$[ord(time) gt 1]
-*                            =   ttim.l(ene,zj,'01_KOR',time-1)*1.1 ;
-
-*  phi.fX('05_MNG',t1)              =  phi_BAU('05_MNG',time);
-*  phi.fx('05_MNG',time)$[ord(time) gt 1]
-*                                   =  phi_BAU('05_MNG',time-1); 
 
 *==============================================================================
 *Backstop technologies
@@ -393,7 +331,7 @@ else switch(i3,'02_CHN',time) = 0 ;
 );
 
 penetration_rate(i3,'03_JPN',time)$[CTAX.L('03_JPN',time) gt 0.8]
-                             = penetration_rate(i3,'03_JPN',time-1)+0.05;
+                             = penetration_rate(i3,'03_JPN',time-1)+0.04;
 
 if ((CTAX.L('03_JPN',time) gt 0.8), switch(i3,'03_JPN',time) = 1  ;
 else switch(i3,'03_JPN',time) = 0 ;
@@ -459,11 +397,11 @@ if ((CTAX.L('17_PAO',time) gt 0.8), switch(i3,'17_PAO',time) = 1  ;
 else switch(i3,'17_PAO',time) = 0 ;
 );
 
-*$offText
-
 *===============================================================================
 * Coal Phase-out Shock
 *===============================================================================
+ io2_t('20_eCoal','01_KOR',time) = io2('20_eCoal','01_KOR')*TREND2('01_KOR',time);
+
  KD.fx(k,J5,'01_KOR',time)$[ord(time) gt 5]
                       = KD.l(k,J5,'01_KOR',time-1)*[1-0.08];
 
@@ -472,6 +410,9 @@ else switch(i3,'17_PAO',time) = 0 ;
 
  KD.fx(k,J5,'03_JPN',time)$[ord(time) gt 5]
                      = KD.l(k,J5,'03_JPN',time-1)*[1-0.08];
+
+ ttip.fx(J5,'01_KOR',time)$[ord(time) gt 11]
+                    = ttip.l(J5,'01_KOR',time-1)*[1+0.10];
 
  ttiw.fx(l,J5,'01_KOR',time)$[ord(time) gt 5]
                       = ttiw.l(l,J5,'01_KOR',time-1)*[1+0.10];
@@ -482,26 +423,14 @@ else switch(i3,'17_PAO',time) = 0 ;
  ttiw.fx(l,J5,'03_JPN',time)$[ord(time) gt 5]
                       = ttiw.l(l,J5,'03_JPN',time-1)*[1+0.10];
 
-* ttiw.fx(l,j,z,time)  = ttiwO(l,j,z);
-* ttik.fx(k,j,z,time)  = ttikO(i,z,zj);
-
 *=============================================================================
-* Solar & Wind Shock
+* Solar & Wind Productivity Shock
 *=============================================================================
  B_KD2('23_eWind','01_KOR',time)$[ord(time) gt 5]
                         = B_KD2('23_eWind','01_KOR',time-1)*[1+0.09];
 
  B_KD2('24_eSolar','01_KOR',time)$[ord(time) gt 5]
                         = B_KD2('24_eSolar','01_KOR',time-1)*[1+0.09];
-
-* B_VA2('02_COAL','01_KOR',time)$[ord(time) gt 5]
-*                        = B_VA2('02_COAL','01_KOR',time-1)*[1-0.01];
-
-* B_VA2('02_COAL','01_KOR',time)$[ord(time) gt 5]
-*                        = B_VA2('02_COAL','01_KOR',time-1)*[1+0.01];
-
-* B_LD2('02_COAL','01_KOR',time)$[ord(time) gt 5]
-*                        = B_LD2('02_COAL','01_KOR',time-1)*[1+0.1];
 
  B_KD2('23_eWind','02_CHN',time)$[ord(time) gt 5]
                         = B_KD2('23_eWind','02_CHN',time-1)*[1+0.09];
@@ -515,12 +444,25 @@ else switch(i3,'17_PAO',time) = 0 ;
  B_KD2('24_eSolar','03_JPN',time)$[ord(time) gt 5]
                         = B_KD2('24_eSolar','03_JPN',time-1)*[1+0.09];
 
-* ttip.fx(j,z,time)    = ttipO(j,z);
-* 23_eWind       Wind generation
-* 24_eSolar      Solar generation
+*===============================================================================
+* IRONSTIL Shock
+*===============================================================================
+ io2_t('13_IRONSTL','01_KOR',time) = io2('13_IRONSTL','01_KOR')*TREND2('01_KOR',time);
+
+*===============================================================================
+* Service Shock
+*===============================================================================
+ B_ENER_t('31_SER','01_KOR',time) = B_ENER_t('31_SER','01_KOR','2019')*TREND2('01_KOR',time);
+ beta_ENER_t('04_GAS','31_SER',z,time) = beta_ENER_t('04_GAS','31_SER',z,'2019')*TREND2('01_KOR',time);
+ beta_ENER_t('10_PETROLCOAL','31_SER',z,time) = beta_ENER_t('10_PETROLCOAL','31_SER',z,'2019')*TREND2('01_KOR',time);
+
+*===============================================================================
+* Household Shock
+*===============================================================================
+ gamma_LES_t('10_PETROLCOAL','01_KOR',time)= gamma_LES_t('10_PETROLCOAL','01_KOR','2019')*TREND2('01_KOR',time);
 
 *==============================================================================
-*   6.2.2.3 Resolution
+* 6.2.2.3 Resolution
 *==============================================================================
 
 SOLVE PEPWT USING CNS ;

@@ -212,6 +212,7 @@ $offtext
 
  KD.fx('natr',j,z,time)${[ord(time) gt 1] and KDO('natr',j,z)}
                      = KD.l('natr',j,z,time-1)*(1-0.01);
+*                     = KD.l('natr',j,z,time-1);
 
  KD.fx('land',j,z,time)${[ord(time) gt 1] and KDO('land',j,z)}
                      = KD.l('land',j,z,time-1);

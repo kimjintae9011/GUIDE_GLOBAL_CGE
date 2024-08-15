@@ -472,7 +472,7 @@ PARAMETER
  valCKBS(i3,z,time,'CPS')  = CKBS.l(i3,z,time) ;
  valMARKUP(i3,z,time,'CPS')= MARKUP.l(i3,z,time) ;
 *$Offtext
-*$Ontext 
+$Ontext 
 execute_unload 'Output_w-t\CPS_Results_GTAP11b.gdx',
  valA_VA,
  valC,
@@ -641,4 +641,4 @@ execute_unload 'Output_w-t\CPS_Results_GTAP11b.gdx',
  valMARKUP,
  valYROW2
  ;
-*$Offtext 
+$Offtext 

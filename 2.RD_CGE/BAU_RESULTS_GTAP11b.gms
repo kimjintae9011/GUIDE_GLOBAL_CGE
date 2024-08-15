@@ -627,7 +627,7 @@ PARAMETER
  valCKBS(i3,z,time,'NZS')  = CKBS.l(i3,z,time) ;
  valMARKUP(i3,z,time,'NZS')= MARKUP.l(i3,z,time) ;
 
-*$Ontext
+$Ontext
  execute_unload 'Output_w-t\Baseline_Results_GTAP11b',
  valA_VA,
  valC,
@@ -795,4 +795,4 @@ PARAMETER
  valCKBS,
  valMARKUP
  ;
-*$Offtext
+$Offtext
