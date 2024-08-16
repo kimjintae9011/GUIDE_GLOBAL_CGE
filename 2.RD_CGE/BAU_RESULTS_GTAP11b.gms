@@ -71,6 +71,7 @@ PARAMETER
  valLD(l,j,z,time,scen)      Demand for type l labor by industry j in region z
  valLDC(j,z,time,scen)       Demand for composite labor by industry j in region z
  valLS(l,z,time,scen)        Supply of type l labor in region z
+ valLST(l,z,time,scen)       Supply of type l labor in region z
  valMRGN(i,z,time,scen)      Domestic production of commodity i in region z exported as international margin services
  valP(i,z,time,scen)         Basic price of industry j production in region z
  valPC(i,z,time,scen)        Purchaser price of composite commodity i (including all taxes and margins) in region z
@@ -81,6 +82,7 @@ PARAMETER
  valPET(i,z,time,scen)       Border price of composite commodity i exported by region z
  valphi(z,time,scen)         Scale variable (allocation of investment to industries)
  valPIXCON(z,time,scen)      Consumer price index in region z
+ valPIXCON2(z,time,scen)      Consumer price index in region z
  valPIXGDP(z,time,scen)      GDP deflator in region z
  valPIXGDP_W(time,scen)      World GDP deflator
  valPIXGVT(z,time,scen)      Public expenditures price index in region z
@@ -128,8 +130,9 @@ PARAMETER
  valttix(i,z,zj,time,scen)   Export tax rate on exported commodity i
  valU(z,time,scen)           User cost of capital in region z
  valVA(j,z,time,scen)        Value added of industry j in region z
- valKLE(j,z,time,scen)      Value added of industry j in region z
+ valKLE(j,z,time,scen)       Value added of industry j in region z
  valW(l,z,time,scen)         Wage rate of type l labor in region z
+ valW2(l,z,time,scen)        Wage rate of type l labor in region z
  valWC(j,z,time,scen)        Wage rate of industry j composite labor in region z
  valWTI(l,j,z,time,scen)     Wage rate paid z by industry j for type l labor in region including payroll taxes
  valXS(j,i,z,time,scen)      Total output of commodity i by industry j in region z
@@ -410,6 +413,7 @@ PARAMETER
  valLD(l,j,z,time,'bau')     = LD.l(l,j,z,time);
  valLDC(j,z,time,'bau')      = LDC.l(j,z,time);
  valLS(l,z,time,'bau')       = LS.l(l,z,time);
+ valLST(l,z,time,'bau')      = LST.l(l,z,time);
  valMRGN(i,z,time,'bau')     = MRGN.l(i,z,time);
  valP(i,z,time,'bau')        = P.l(i,z,time);
  valPC(i,z,time,'bau')       = PC.l(i,z,time);
@@ -420,6 +424,7 @@ PARAMETER
  valPET(i,z,time,'bau')      = PET.l(i,z,time);
  valphi(z,time,'bau')        = phi.l(z,time);
  valPIXCON(z,time,'bau')     = PIXCON.l(z,time);
+ valPIXCON2(z,time,'bau')    = PIXCON2.l(z,time);
  valPIXGDP(z,time,'bau')     = PIXGDP.l(z,time);
  valPIXGDP_W(time,'bau')     = PIXGDP_W.l(time);
  valPIXGVT(z,time,'bau')     = PIXGVT.l(z,time);
@@ -469,6 +474,7 @@ PARAMETER
  valVA(j,z,time,'bau')       = VA.l(j,z,time);
  valKLE(j,z,time,'bau')      = KLE.l(j,z,time);
  valW(l,z,time,'bau')        = W.l(l,z,time);
+ valW2(l,z,time,'bau')       = W2.l(l,z,time);
  valWC(j,z,time,'bau')       = WC.l(j,z,time);
  valWTI(l,j,z,time,'bau')    = WTI.l(l,j,z,time);
  valXS(j,i,z,time,'bau')     = XS.l(j,i,z,time);
@@ -627,7 +633,7 @@ PARAMETER
  valCKBS(i3,z,time,'NZS')  = CKBS.l(i3,z,time) ;
  valMARKUP(i3,z,time,'NZS')= MARKUP.l(i3,z,time) ;
 
-$Ontext
+*$Ontext
  execute_unload 'Output_w-t\Baseline_Results_GTAP11b',
  valA_VA,
  valC,
@@ -670,6 +676,7 @@ $Ontext
  valLD,
  valLDC,
  valLS,
+ valLST,
  valMRGN,
  valP,
  valPC,
@@ -680,6 +687,7 @@ $Ontext
  valPET,
  valphi,
  valPIXCON,
+ valPIXCON2,
  valPIXGDP,
  valPIXGDP_W,
  valPIXGVT,
@@ -729,6 +737,7 @@ $Ontext
  valVA,
  valKLE,
  valW,
+ valW2,
  valWC,
  valWTI,
  valXS, 
@@ -795,4 +804,4 @@ $Ontext
  valCKBS,
  valMARKUP
  ;
-$Offtext
+*$Offtext

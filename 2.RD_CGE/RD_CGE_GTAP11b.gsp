@@ -64,21 +64,15 @@
         },
         {
             "codecMib": 106,
-            "file": "Output_w-t/CPS_Results_AQ_Linkage.gdx",
-            "name": "CPS_Results_AQ_Linkage.gdx",
+            "file": "Output_w-t/Baseline_Results_GTAP11b.gdx",
+            "name": "Baseline_Results_GTAP11b.gdx",
             "type": "gdx"
         },
         {
             "codecMib": 106,
-            "file": "Output_w-t/CPS_Results_GTAP11b.gdx",
-            "name": "CPS_Results_GTAP11b.gdx",
-            "type": "gdx"
-        },
-        {
-            "codecMib": 106,
-            "file": "Output_w-t/NZS_Results_AQ_Linkage.gdx",
-            "name": "NZS_Results_AQ_Linkage.gdx",
-            "type": "gdx"
+            "file": "Output_w-t/ModelStatus.xls",
+            "name": "ModelStatus.xls",
+            "type": ""
         },
         {
             "codecMib": 106,
@@ -151,12 +145,6 @@
             "file": "DATA_GTAP11b.gms",
             "name": "DATA_GTAP11b.gms",
             "type": "gms"
-        },
-        {
-            "codecMib": 106,
-            "file": "DATA_GTAP11b.lst",
-            "name": "DATA_GTAP11b.lst",
-            "type": "lst"
         },
         {
             "codecMib": 106,

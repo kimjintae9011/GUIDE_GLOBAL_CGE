@@ -418,7 +418,7 @@ INDtoCOM(i3,j)
 TIME Time periods
 /
 2019*2050
-*2019*2041
+*2019*2025
 /
 
 T(time)
@@ -520,6 +520,7 @@ PARAMETER
  sigma_X3(i,z)        Elasticity (CES - top level)
  sigma_X4(z)          Elasticity (CES - Aggregated Electricity)
  sigma_Y(i,z)         Income elasticity of consumption
+ elasLS(z)            Elasticity of labor supply
  tmrg(i,ij,zj,z)      Rate of margin i applied to commodity ij imported from country zj
  TnDShare(z)          T&D share of Aggregated electricity
  PowerShare(z)        Power Industries share of Aggregated electricity    
@@ -592,6 +593,9 @@ PARAMETER
  LDO(l,j,z)      Demand for type l labor by industry j in region z  
  LDCO(j,z)       Demand for composite labor by industry j in region z
  LSO(l,z)        Supply of type l labor in region z
+ LSTO(l,z)       Supply of type l labor in region z (Trend)
+ LSO_lag(l,z)     Supply of type l labor in region z (T-1)
+ LSTO_lag(l,z)    Supply of type l labor in region z (Trend T-1)
  MRGNO(i,z)      Domestic production of commodity i in region z exported as international margin services
  POPO(z)         Population in 2019
  QO(i,z)         Quantity demanded of composite commodity i in region z
@@ -622,6 +626,7 @@ PARAMETER
  PEO(i,z,zj)     Price received for commodity i exported to region zj by region z (excluding export taxes)
  PETO(i,z)       Border price of composite commodity i exported by region z
  PIXCONO(z)      Consumer price index in region z
+ PIXCON2O(z)     Consumer price index in region z
  PIXGDPO(z)      GDP deflator in region z
  PIXGDP_WO       World GDP deflator
  PIXGVTO(z)      Public expenditures price index in region z
@@ -642,6 +647,7 @@ PARAMETER
  RTIO(k,j,z)     Rental rate paid by industry j for type k capital in region z including capital taxes
  UO(z)           User cost of capital in region z
  WO(l,z)         Wage rate of type l labor in region z
+ W2O(l,z)         Wage rate of type l labor in region z
  WCO(j,z)        Wage rate of industry j composite labor in region z
  WTIO(l,j,z)     Wage rate paid z by industry j for type l labor in region including payroll taxes
 
@@ -786,6 +792,8 @@ $LOAD sigma_KD, sigma_LD, sigma_X1, sigma_X2, sigma_X3, sigma_X0, sigma_y, sigma
 * CES - Capital
  sigma_KD('02_COAL',z)  = 0.2;
 
+* Labour supply 
+ elasLS(z) = 0.1 ; 
 *==============================================================================
 *   3.1.2 Rescaling the variables
 *==============================================================================
@@ -935,6 +943,7 @@ eta = 1;
  PLO(i,z)        = 1;
  PWMGO(i)        = 1;
  WO(l,z)         = 1;
+ W2O(l,z)        = WO(l,z);
 
 *==============================================================================
 * 4 Calibration
@@ -980,6 +989,10 @@ eta = 1;
  LDO(l,j,z)      = LDO(l,j,z)/WO(l,z);
  LDCO(j,z)       = SUM[l,LDO(l,j,z)];
  LSO(l,z)        = SUM[j,LDO(l,j,z)];
+ LSTO(l,z)       = LSO(l,z) ;
+ LSO_lag(l,z)    = LSO(l,z) ; 
+ LSTO_lag(l,z)   = LSO(l,z) ;
+
  EXO(i,z,zj)     = [EXO(i,z,zj)-TIXO(i,z,zj)]/PEO(i,z,zj);
  EXTO(i,z)       = SUM[zj,EXO(i,z,zj)];
 
@@ -1168,6 +1181,7 @@ eta = 1;
 * PIXCONO(z)      = SUM[i,PCO(i,z)*CO(i,z)]
 *                  /SUM[i,PCO(i,z)*CO(i,z)];
  PIXCONO(z)      = 1;
+ PIXCON2O(z)     = PIXCONO(z);
 
 * PIXINVO(z) is tautologically equal to 1, based on its formula
 * PIXINVO(z)      = PROD[i$gamma_INV(i,z),(PCO(i,z)/PCO(i,z))**gamma_INV(i,z)];
@@ -1724,6 +1738,9 @@ VARIABLES
  LD(l,j,z,time)          Demand for type l labor by industry j in region z
  LDC(j,z,time)           Demand for composite labor by industry j in region z
  LS(l,z,time)            Supply of type l labor in region z
+ LST(l,z,time)           Supply of type l labor in region z (Trend)
+ LS_lag(l,z,time)        Supply of type l labor in region z (T-1)
+ LST_lag(l,z,time)       Supply of type l labor in region z (Trend T-1)
  MRGN(i,z,time)          Domestic production of commodity i in region z exported as international margin services
  Q(i,z,time)             Quantity demanded of composite commodity i in region z
  VA(j,z,time)            Value added of industry j in region z
@@ -1760,6 +1777,7 @@ VARIABLES
  PE(i,z,zj,time)         Price received for commodity i exported to region zj by region z (excluding export taxes)
  PET(i,z,time)           Border price of composite commodity i exported by region z
  PIXCON(z,time)          Consumer price index in region z
+ PIXCON2(z,time)         Consumer price index in region z
  PIXGDP(z,time)          GDP deflator in region z
  PIXGDP_W(time)          World GDP deflator
  PIXGVT(z,time)          Public expenditures price index in region z
@@ -1779,6 +1797,7 @@ VARIABLES
  RTI(k,j,z,time)         Rental rate paid by industry j for type k capital in region z including capital taxes
  U(z,time)               User cost of capital in region z
  W(l,z,time)             Wage rate of type l labor in region z
+ W2(l,z,time)             Wage rate of type l labor in region z
  WC(j,z,time)            Wage rate of industry j composite labor in region z
  WTI(l,j,z,time)         Wage rate paid z by industry j for type l labor in region including payroll taxes
  CTAX(Z,time)            Carbon tax in region z
@@ -2007,7 +2026,8 @@ EQUATIONS
  EQ103(i3,z,time)
  EQ104(i3,z,time)
  EQ105(i3,z,time)
- EQ106(ene2,j,z,time) 
+ EQ106(ene2,j,z,time)
+ EQ107(l,z,time)
 ;
 
 *==============================================================================
@@ -2387,11 +2407,9 @@ $OFFTEXT
  EQ71_2(i3,z,t)..  Q(i3,z,t) =e= C_Conventional(i3,z,t);
 
  EQ72(l,z,t)..     LS(l,z,t) =e= SUM[j$LDO(l,j,z),LD(l,j,z,t)+LBS(l,j,z,t)];
-* EQ72(l,z,t)..     LS(l,z,t) =e= SUM[j$LDO(l,j,z),LD(l,j,z,t)];
 
  EQ73(k,z,t)$KSO(k,z)..
                    KS(k,z,t) =e= SUM[j$KDO(k,j,z),KD(k,j,z,t)+KBS(k,j,z,t)];
-*                   KS(k,z,t) =e= SUM[j$KDO(k,j,z),KD(k,j,z,t)];
 
  EQ74(z,t)..       IT(z,t)   =e= SH(z,t)+SG(z,t)-CAB(z,t);
 
@@ -2494,6 +2512,11 @@ $OFFTEXT
  EQ105(i3,z,t)..   MARKUP(i3,z,t) =e= {PC(i3,z,t)*XDBS(i3,z,t)-CLBS(i3,z,t)-CKBS(i3,z,t)}*switch(i3,z,t) ; 
 
  EQ106(ene2,j,z,t)..  EBS(ene2,j,z,t) =e= 0.06*XDBS2(j,z,t);
+
+*================================================================================
+* 6 Labour Supply
+*================================================================================
+ EQ107(l,z,t).. (((W(l,z,t)/PIXCON(z,t)))/((W2(l,z,t)/PIXCON2(z,t)))-1) =E= elasLS(z)*{(LS_lag(l,z,t)/LST_lag(l,z,t)-1)+((LS(l,z,t)/LST(l,z,t))-(LS_lag(l,z,t)/LST_lag(l,z,t)))};
 
 *==============================================================================
 * 6 Numerical resolution to compute A_VA, sh0, G, G_REAL and IND

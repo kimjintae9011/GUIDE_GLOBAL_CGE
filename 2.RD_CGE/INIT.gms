@@ -59,7 +59,10 @@
  KS.L(k,z,t1)      = KSO(k,z);
  LD.L(l,j,z,t1)    = LDO(l,j,z);
  LDC.L(j,z,t1)     = LDCO(j,z);
- LS.L(l,z,t1)           = LSO(l,z);
+ LS.L(l,z,t1)      = LSO(l,z);
+ LST.L(l,z,t1)     = LSTO(l,z);
+ LS_lag.L(l,z,t1)   = LSO_lag(l,z) ; 
+ LST_lag.L(l,z,t1)  = LSTO_lag(l,z) ;
  MRGN.L(i,z,t1)         = MRGNO(i,z);
  Q.L(i,z,t1)            = QO(i,z);
  VA.L(j,z,t1)           = VAO(j,z);
@@ -95,6 +98,7 @@
  PE.L(i,z,zj,t1)   = PEO(i,z,zj);
  PET.L(i,z,t1)     = PETO(i,z);
  PIXCON.L(z,t1)    = PIXCONO(z);
+ PIXCON2.L(z,t1)   = PIXCON2O(z);
  PIXGDP.L(z,t1)    = PIXGDPO(z);
  PIXGDP_W.L(t1)    = PIXGDP_WO;
  PIXGVT.L(z,t1)    = PIXGVTO(z);
@@ -114,6 +118,7 @@
  RTI.L(k,j,z,t1)   = RTIO(k,j,z);
  U.L(z,t1)         = UO(z);
  W.L(l,z,t1)       = WO(l,z);
+ W2.L(l,z,t1)      = W2O(l,z);
  WC.L(j,z,t1)      = WCO(j,z);
  WTI.L(l,j,z,t1)   = WTIO(l,j,z);
 
@@ -243,6 +248,9 @@ IF{ord(time) gt 1,
  LD.L(l,j,z,time)    = LD.L(l,j,z,time-1);
  LDC.l(j,z,time)     = LDC.l(j,z,time-1);
  LS.L(l,z,time)      = LS.L(l,z,time-1);
+ LST.L(l,z,time)     = LST.L(l,z,time-1);
+ LS_lag.L(l,z,time)  = LS_lag.L(l,z,time-1);
+ LST_lag.L(l,z,time) = LST_lag.L(l,z,time-1);
  MRGN.L(i,z,time)    = MRGN.L(i,z,time-1);
  Q.L(i,z,time)       = Q.L(i,z,time-1);
  VA.L(j,z,time)      = VA.L(j,z,time-1);
@@ -356,6 +364,7 @@ IF{ord(time) gt 1,
  PE.L(i,z,zj,time)   = PE.L(i,z,zj,time-1);
  PET.L(i,z,time)     = PET.L(i,z,time-1);
  PIXCON.L(z,time)    = PIXCON.L(z,time-1);
+ PIXCON2.L(z,time)   = PIXCON2.L(z,time-1);
  PIXGDP.L(z,time)    = PIXGDP.L(z,time-1);
  PIXGDP_W.L(time)    = PIXGDP_W.L(time-1);
  PIXGVT.L(z,time)    = PIXGVT.L(z,time-1);
@@ -375,6 +384,7 @@ IF{ord(time) gt 1,
  RTI.L(k,j,z,time)   = RTI.L(k,j,z,time-1);
  U.L(z,time)         = U.L(z,time-1);
  W.L(l,z,time)       = W.L(l,z,time-1);
+ W2.L(l,z,time)      = W2.L(l,z,time-1);
  WC.L(j,z,time)      = WC.L(j,z,time-1);
  WTI.L(l,j,z,time)   = WTI.L(l,j,z,time-1);
 

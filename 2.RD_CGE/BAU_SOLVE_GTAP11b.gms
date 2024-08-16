@@ -217,11 +217,28 @@ $offtext
  KD.fx('land',j,z,time)${[ord(time) gt 1] and KDO('land',j,z)}
                      = KD.l('land',j,z,time-1);
 
- LS.FX(l,z,t1)       = LSO(l,z);
- LS.FX(l,z,time)$[ord(time) gt 1]
-*                     = LS.l(l,z,time-1)*[1+growthz(z)];
-                     = LS.l(l,z,time-1)*[1+g_POP(z,time)];
-                    
+* LS.FX(l,z,t1)       = LSO(l,z);
+* LS.FX(l,z,time)$[ord(time) gt 1]
+*                     = LS.l(l,z,time-1)*[1+g_POP(z,time)];
+
+ LST.FX(l,z,t1)       = LSTO(l,z);
+ LST.FX(l,z,time)$[ord(time) gt 1]
+                      = LST.l(l,z,time-1)*[1+g_POP(z,time)];
+ LS_lag.FX(l,z,t1)    = LSTO(l,z);
+ LS_lag.FX(l,z,time)$[ord(time) gt 1]
+                      = LS.l(l,z,time-1);
+
+ LST_lag.FX(l,z,t1)   = LSTO(l,z);
+ LST_lag.FX(l,z,time)$[ord(time) gt 1]
+                      = LST.l(l,z,time-1);
+
+ W2.FX(l,z,t1)       = W2O(l,z);
+ W2.FX(l,z,time)$[ord(time) gt 1]
+                     = W2O(l,z)*W.l(l,z,time);
+                      
+ PIXCON2.FX(z,t1)   = PIXCON2O(z);
+ PIXCON2.FX(z,time)$[ord(time) gt 1]
+                    = PIXCON2O(z)*PIXCON.l(z,time);                   
 *==============================================================================
 *   CTAX
 *============================================================================== 
