@@ -64,18 +64,6 @@
         },
         {
             "codecMib": 106,
-            "file": "Output_w-t/Baseline_Results_GTAP11b.gdx",
-            "name": "Baseline_Results_GTAP11b.gdx",
-            "type": "gdx"
-        },
-        {
-            "codecMib": 106,
-            "file": "Output_w-t/ModelStatus.xls",
-            "name": "ModelStatus.xls",
-            "type": ""
-        },
-        {
-            "codecMib": 106,
             "file": "BAU_AQ_Linkage.gms",
             "name": "BAU_AQ_Linkage.gms",
             "type": "gms"
@@ -163,12 +151,6 @@
             "file": "Model_GTAP11b.gms",
             "name": "Model_GTAP11b.gms",
             "type": "gms"
-        },
-        {
-            "codecMib": 106,
-            "file": "Model_GTAP11b.lst",
-            "name": "Model_GTAP11b.lst",
-            "type": "lst"
         },
         {
             "codecMib": 106,

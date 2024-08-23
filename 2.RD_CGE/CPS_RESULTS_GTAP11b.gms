@@ -147,6 +147,13 @@ PARAMETER
  valTCO2NE(z,time,scen) Total CO2 emission from non-energy consumption by regions
  valTCO2H(z,time,scen) Household CO2 emission by regions
  valTCO2(z,time,scen) Total CO2 emission by regions
+ 
+ valCO2I2_FUELCOMB(j,z,time,scen) 
+ valTCO2H_FUELCOMB(z,time,scen)  
+ valTCO2I_FUELCOMB(z,time,scen)      
+ valTCO2NE_FUELCOMB(z,time,scen)       
+ valTCO2_FUELCOMB(z,time,scen)        
+
 
  valEndo_CO2(ene,j,z,time,scen) ktCO2
  valEndo_TotalCO2(z,time,scen)  ktCO2
@@ -383,6 +390,12 @@ PARAMETER
  valCO2H(product,z,time,'CPS')          = valEH(product,z,time,'CPS')*41.868*GHGsEF(product,'CO2EF')*1*(44/12)*0.001 ;
  valTCO2H(z,time,'CPS')                 = sum((product),valCO2H(product,z,time,'CPS'));
  valTCO2(z,time,'CPS')                  = valTCO2H(z,time,'CPS') + valTCO2I(z,time,'CPS') +valTCO2NE(z,time,'CPS') ;
+
+ valCO2I2_FUELCOMB(j,z,time,'CPS')      = sum(p_fuelcomb,valCO2I(p_fuelcomb,j,z,time,'CPS'));
+ valTCO2H_FUELCOMB(z,time,'CPS')        = sum((p_fuelcomb),valCO2H(p_fuelcomb,z,time,'CPS'));
+ valTCO2I_FUELCOMB(z,time,'CPS')        = sum((p_fuelcomb,j),valCO2I(p_fuelcomb,j,z,time,'CPS'));
+ valTCO2NE_FUELCOMB(z,time,'CPS')       = sum((p_fuelcomb,j),valCO2NE(p_fuelcomb,j,z,time,'CPS'));
+ valTCO2_FUELCOMB(z,time,'CPS')         = valTCO2H_FUELCOMB(z,time,'CPS') + valTCO2I_FUELCOMB(z,time,'CPS') +valTCO2NE_FUELCOMB(z,time,'CPS') ;
 
  valEndo_CO2(ene,j,z,time,'CPS')        = DE.L(ene,j,z,time)*CO2FACTOR2(ene,j,z,time)*10*1000;
  valEndo_TotalCO2(z,time,'CPS')         = sum((ene,j), valEndo_CO2(ene,j,z,time,'CPS'));

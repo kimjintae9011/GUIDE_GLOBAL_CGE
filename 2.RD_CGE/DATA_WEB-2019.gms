@@ -510,6 +510,56 @@ p63_ELECTR    Electricity
 p64_HEAT      Heat
 /
 
+p_fuelcomb(product)
+/
+p1_HARDCOAL      Hard coal
+p2_BROWN         Brown coal
+p3_ANTCOAL       Anthracite
+p4_COKCOAL       Coking coal
+p5_BITCOAL       Other bittuminous coal
+p6_SUBCOAL       Sub-bituminous coal
+p7_LIGNITE       Lignite
+p8_PATFUEL       Patent fuel
+p9_OVENCOKE      Coke oven coke
+p10_GASCOKE      Gas coke
+p11_COALTAR      Coal tar
+p12_BKB          Brown coal briquettes
+p13_GASWKSGS     Gas works gas
+p14_COKEOVGS     Coke oven gas
+p15_BLFURGS      Blast furnace gas
+p16_OGASES       Other recovered gases
+p17_PEAT         Peat
+p18_PEATPROD     Peat products
+p19_OILSHALE     Oil shale and oil sands
+p20_NATGAS       Natural gas
+p21_CRNGFEED     Crude NGL feedstock
+p22_CRUDEOIL     Curde oil
+p23_NGL          Natural gas liquids
+p24_REFFEEDS     Refinery feedstocks
+p25_ADDITIVE     Addtitives blending components
+p26_NONCRUDE     Other hydrocarbons
+p27_REFINGAS     Refinery gas
+p28_ETHANE       Ethane
+p29_LPG          Liquefied petroleum gases(LPG)
+p30_NONBIOGASO   Motor gasoline (excl. biofuels)
+p31_AVGAS        Aviation gasoline
+p32_JETGAS       Jet fuel Gasoline tpye
+p33_NONBIOJETK   Jet fuel Kerosene type (excl. biofuels)
+p34_OTHKERO      Kerosene
+p35_NONBIODIES   Diesel oil (excl. biofuels)
+p36_RESFUEL      Fuel oil
+p37_NAPHTHA      Naphtha
+p38_WHITESP      Solvent (White spirit and industrial sprit SBP)
+p39_LUBRIC       Lubricants
+p40_BITUMEN      Bitumen (Asphalt)
+p41_PARWAX       Paraffin waxes
+p42_PETCOKE      Petroleum coke
+p43_ONONSPEC     Other oil products
+p63_ELECTR       Electricity
+p64_HEAT         Heat
+
+/
+
 *===========================Flows Mapping====================================
 f_balstfur(flow)
 /
