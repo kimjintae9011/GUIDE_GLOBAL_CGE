@@ -592,7 +592,7 @@ Unit_AQ
 
 year_AQ(time)
 /
-* 2019*2050
+ 2019*2050
 /
 
 Browncoal(p_coal)
@@ -1724,8 +1724,4 @@ AQ(model_AQ,'BAU',Country,'10|WASTE_AGRMtsector|NOFAGRMtactivity','10billion$(20
 AQ(model_AQ,'BAU',Country,'11|FORESTMt biomasssector|FIRE_MASSAGRMt biomassactivity','Mtbiomass',year_AQ) = eps ; 
 AQ(model_AQ,'BAU',Country,'11|OTH_NH3_EMISSkt NH3sector|NOFAGRkt NH3activity','ktNH3',year_AQ) = eps ; 
 
-
-execute_unload 'Output_w-t\Baseline_Results_AQ_Linkage',
- AQ
- 
-;
+execute_unload 'Output_w-t\Baseline_Results_AQ_Linkage', AQ;

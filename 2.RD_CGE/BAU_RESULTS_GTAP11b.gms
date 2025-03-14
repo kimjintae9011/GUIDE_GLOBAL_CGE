@@ -159,10 +159,13 @@ PARAMETER
  valCHN_TFC(product,time,scen) China's total final energy consumption by energy products
  valJPN_TFC(product,time,scen) Japan's total final energy consumption by energy products
 
- valTES_coal(z,time, scen) Total Energy Supply coal
- valTES_gas(z,time, scen) Total Energy Supply gas
- valTES_oil(z,time, scen) Total Energy Supply oil
- valTES(z,time, scen) Total Energy Supply
+ valTES_coal(z,time,scen) Total Energy Supply coal
+ valTES_gas(z,time,scen) Total Energy Supply gas
+ valTES_oil(z,time,scen) Total Energy Supply oil
+ valTES(z,time,scen) Total Energy Supply
+
+ valMarinebunker(product,z,time,scen)  
+ valAviationbunker(product,z,time,scen) 
 
 *================== CO2 emission ==============================================================
  valCO2I(product,j,z,time,scen)  Industry CO2 emissions by products
@@ -185,6 +188,12 @@ PARAMETER
  valEndo_CO2(ene,j,z,time,scen) ktCO2
  valEndo_TotalCO2(z,time,scen)  ktCO2
 
+ valCO2_Marine(product,z,time,scen)   
+ valTCO2_Marine(z,time,scen) 
+
+ valCO2_Aviation(product,z,time,scen)   
+ valTCO2_Aviation(z,time,scen) 
+
 *================== CH4 emission ================================================================
  valCH4I(product,j,z,time,scen) Industry CH4 emissions by regions and products (CO2eq)
  valCh4NE(product,j,z,time,scen) Industry non-energy consumption CH4 emissions by products (CO2eq)
@@ -196,6 +205,12 @@ PARAMETER
  valCH4H(product,z,time,scen) Household CH4 emission by regions (CO2eq)
  valTCH4H(z,time,scen) Household CH4 emission by regions (CO2eq)
  valTCH4(z,time,scen) Total CH4 emission by regions (CO2eq) 
+
+ valCH4_Marine(product,z,time,scen)   
+ valTCH4_Marine(z,time,scen) 
+
+ valCH4_Aviation(product,z,time,scen)   
+ valTCH4_Aviation(z,time,scen) 
 
 *================== N2O emission ================================================================
  valN2OI(product,j,z,time,scen) Industry N2O emissions by regions and products (CO2eq)
@@ -209,6 +224,12 @@ PARAMETER
  valTN2OH(z,time,scen) Household N2O emission by regions (CO2eq)
  valTN2O(z,time,scen) Total N2O emission by regions (CO2eq) 
 
+ valN2O_Marine(product,z,time,scen)   
+ valTN2O_Marine(z,time,scen) 
+
+ valN2O_Aviation(product,z,time,scen)   
+ valTN2O_Aviation(z,time,scen) 
+
 *================== Global GHGs emission =========================================================
  valGlobal_CO2(time,scen)      Globally total CO2 emission
  valGlobal_CH4(time,scen)      Globally total CH4 emission (CO2eq) 
@@ -221,7 +242,8 @@ PARAMETER
 
 *================== Carbon Tax ====================================================================
  valCTAX(z,time,scen) CTAX
-
+ valTCTAX(z,time,scen) CTAX
+ 
 *================== Backstop technology ===========================================================
  valswitch(i3,z,time,scen) switch
  valpenetration_rate(i3,z,time,scen)
@@ -537,9 +559,8 @@ PARAMETER
  valTES_gas(z,time,'bau')               = sum(p_gas,TES_gas(p_gas,z))*[valQ('04_GAS',z,time,'bau')/valQ('04_GAS',z,'2019','bau')]; 
  valTES(z,time,'bau')                   = valTES_coal(z,time,'bau') + valTES_oil(z,time,'bau') + valTES_gas(z,time,'bau') ; 
 
-* TES_Coal(p_coal,z) =  sum(f_TES, WEB(f_TES, p_coal2, z));         
-* TES_Gas(p_coal,z)  =  sum(f_TES, WEB(f_TES, p_gas, z));         
-* TES_Oil(p_oil,z)   =  sum(f_TES, WEB(f_TES, p_oil, z));   
+ valMarinebunker(product,z,time,'bau')   = {valMRGN('21_WTRP',z,time,'bau')/valMRGN('21_WTRP',z,'2019','bau')}*Marinebunker(product,z)   ; 
+ valAviationbunker(product,z,time,'bau') = {valMRGN('21_WTRP',z,time,'bau')/valMRGN('21_WTRP',z,'2019','bau')}*Aviationbunker(product,z)  ; 
 
 *============================== CO2 =========================================================================
  valCO2I(product,j,z,time,'bau')        = valEE(product,j,z,time,'bau')*41.868*GHGsEF(product,'CO2EF')*1*(44/12)*0.001 ;
@@ -561,6 +582,12 @@ PARAMETER
  valTCO2I_FUELCOMB(z,time,'bau')        = sum((p_fuelcomb,j),valCO2I(p_fuelcomb,j,z,time,'bau'));
  valTCO2NE_FUELCOMB(z,time,'bau')       = sum((p_fuelcomb,j),valCO2NE(p_fuelcomb,j,z,time,'bau'));
  valTCO2_FUELCOMB(z,time,'bau')         = valTCO2H_FUELCOMB(z,time,'bau') + valTCO2I_FUELCOMB(z,time,'bau') +valTCO2NE_FUELCOMB(z,time,'bau') ;
+
+ valCO2_Marine(product,z,time,'bau')    = valMarinebunker(product,z,time,'bau')*41.868*GHGsEF(product,'CO2EF')*1*(44/12)*0.001 ;
+ valTCO2_Marine(z,time,'bau')           = sum(product, valCO2_Marine(product,z,time,'bau')) ;
+
+ valCO2_Aviation(product,z,time,'bau')  = valAviationbunker(product,z,time,'bau')*41.868*GHGsEF(product,'CO2EF')*1*(44/12)*0.001;
+ valTCO2_Aviation(z,time,'bau')         = sum((product),valCO2_Aviation(product,z,time,'bau'));
 
 *============================== CH4(CO2equivalent) =========================================================================
 *Energy 
@@ -584,6 +611,12 @@ PARAMETER
  valTCH4H(z,time,'bau')                  = sum((product),valCH4H(product,z,time,'bau'));
  valTCH4(z,time,'bau')                   = valTCH4H(z,time,'bau') + valTCH4I(z,time,'bau') ;
 
+ valCH4_Marine(product,z,time,'bau')     = valMarinebunker(product,z,time,'bau')*41.868*GHGsEF(product,'CH4EF_WTRP')/10**6*GWP_CH4 ;
+ valCH4_Aviation(product,z,time,'bau')   = valAviationbunker(product,z,time,'bau')*41.868*GHGsEF(product,'CH4EF_ATRP')/10**6*GWP_CH4 ;
+
+ valTCH4_Marine(z,time,'bau')            = sum((product),valCH4_Marine(product,z,time,'bau'));
+ valTCH4_Aviation(z,time,'bau')          = sum((product),valCH4_Aviation(product,z,time,'bau'));
+
 *============================== N2O(CO2equivalent) ==========================================================
 *Energy 
  valN2OI(product,Energy,z,time,'bau')    = valEE(product,Energy,z,time,'bau')*41.868*GHGsEF(product,'N2OEF_Energy')/10**6*GWP_N2O ;
@@ -600,16 +633,22 @@ PARAMETER
 *Household 
  valN2OH(product,z,time,'bau')           = valEH(product,z,time,'bau')*41.868*GHGsEF(product,'N2OEF_Other')/10**6*GWP_N2O ;
 
- valN2OI2(j,z,time,'bau')               = sum(product,valN2OI(product,j,z,time,'bau'));
- valN2OI3(j,z,time,'bau')               = valN2OI2(j,z,time,'bau') ;
- valTN2OI(z,time,'bau')                 = sum((product,j),valN2OI(product,j,z,time,'bau'));
- valTN2OH(z,time,'bau')                 = sum((product),valN2OH(product,z,time,'bau'));
- valTN2O(z,time,'bau')                  = valTN2OH(z,time,'bau') + valTN2OI(z,time,'bau') ;
- 
+ valN2OI2(j,z,time,'bau')                = sum(product,valN2OI(product,j,z,time,'bau'));
+ valN2OI3(j,z,time,'bau')                = valN2OI2(j,z,time,'bau') ;
+ valTN2OI(z,time,'bau')                  = sum((product,j),valN2OI(product,j,z,time,'bau'));
+ valTN2OH(z,time,'bau')                  = sum((product),valN2OH(product,z,time,'bau'));
+ valTN2O(z,time,'bau')                   = valTN2OH(z,time,'bau') + valTN2OI(z,time,'bau') ;
+
+ valN2O_Marine(product,z,time,'bau')     = valMarinebunker(product,z,time,'bau')*41.868*GHGsEF(product,'N2OEF_WTRP')/10**6*GWP_N2O ;
+ valN2O_Aviation(product,z,time,'bau')   = valAviationbunker(product,z,time,'bau')*41.868*GHGsEF(product,'N2OEF_ATRP')/10**6*GWP_N2O ;
+
+ valTN2O_Marine(z,time,'bau')            = sum((product),valN2O_Marine(product,z,time,'bau'));
+ valTN2O_Aviation(z,time,'bau')          = sum((product),valN2O_Aviation(product,z,time,'bau'));
+
 *============================= Global GHGs emission ========================================================
- valGlobal_CO2(time,'bau')              = sum(z, valTCO2(z,time,'bau'));
- valGlobal_CH4(time,'bau')              = sum(z, valTCH4(z,time,'bau'));
- valGlobal_N2O(time,'bau')              = sum(z, valTN2O(z,time,'bau'));
+ valGlobal_CO2(time,'bau')              = sum(z, valTCO2(z,time,'bau')+valTCO2_Aviation(z,time,'bau')+valTCO2_Marine(z,time,'bau')) ;
+ valGlobal_CH4(time,'bau')              = sum(z, valTCH4(z,time,'bau')+valTCH4_Aviation(z,time,'bau')+valTCH4_Marine(z,time,'bau')) ;
+ valGlobal_N2O(time,'bau')              = sum(z, valTN2O(z,time,'bau')+valTN2O_Aviation(z,time,'bau')+valTN2O_Marine(z,time,'bau')) ;
 
 *============================== Power Generation ===========================================================
  valPOWER(power,i,z,time,scen)          = XS.l(power,i,z,time);
@@ -632,8 +671,9 @@ PARAMETER
 
 *============================== Carbon Tax =================================================================
  valCTAX(z,time,'bau') = CTAX.l(z,time) ;
-
-*================== Backstop technology ====================================================================
+ valTCTAX(z,time,'bau') = TCTAX.l(z,time) ;
+ 
+*============================= Backstop technology =========================================================
  valswitch(i3,z,time,'NZS') = switch(i3,z,time) ;
  valpenetration_rate(i3,z,time,'NZS') = penetration_rate(i3,z,time) ;  
  valC_Conventional(i3,z,time,'NZS') = C_Conventional.l(i3,z,time) ;
@@ -814,6 +854,8 @@ PARAMETER
  valKBS,
  valCLBS,
  valCKBS,
- valMARKUP
+ valMARKUP,
+ valTCO2_Marine,
+ valTCO2_Aviation
  ;
 *$Offtext

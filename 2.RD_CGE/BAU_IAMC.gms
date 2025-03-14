@@ -776,7 +776,7 @@ IAMC(model_IAMC,'BAU',z,'Final Energy|Residential and Commercial|Liquids|NONBIOD
 IAMC(model_IAMC,'BAU',z,'Final Energy|Residential and Commercial|Liquids|RESFUEL','EJ/yr','2025')       = {valEE('p36_RESFUEL','31_SER',z,'sim') +  valEH('p36_RESFUEL',z,'sim')}*CF ;
 $offtext
 
-execute_unload 'Output_w-t\Baseline_Results_IAMC',
- IAMC
+*execute_unload 'Output_w-t\Baseline_Results_IAMC',
+* IAMC
  
 ;

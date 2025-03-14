@@ -194,7 +194,7 @@ PARAMETER
 
 *================== Carbon Tax ====================================================================
  valCTAX(z,time,scen) CTAX
-
+ valTCTAX(z,time,scen) CTAX
 *================== Backstop technology ===========================================================
  valswitch(i3,z,time,scen) switch
  valpenetration_rate(i3,z,time,scen)
@@ -471,6 +471,7 @@ PARAMETER
 
 *============================== Carbon Tax ============================================
  valCTAX(z,time,'CPS') = CTAX.l(z,time) ;
+ valTCTAX(z,time,'CPS') = TCTAX.l(z,time) ;
 
 *$Ontext
 *================== Backstop technology ===========================================================

@@ -1,5 +1,5 @@
 {
-    "file": "Model_GTAP11b.gms",
+    "file": "DATA_GTAP11b.gms",
     "name": "RD_CGE_GTAP11b",
     "nodes": [
         {
@@ -58,9 +58,63 @@
         },
         {
             "codecMib": 106,
+            "file": "Input_WEB/WEB_2019.gdx",
+            "name": "WEB_2019.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
+            "file": "Output_w-t/NZS_Results_AQ_Linkage.gdx",
+            "name": "NZS_Results_AQ_Linkage.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
             "file": "Output_w-t/NZS_Results_GTAP11b.gdx",
             "name": "NZS_Results_GTAP11b.gdx",
             "type": "gdx"
+        },
+        {
+            "codecMib": 106,
+            "file": "Output_w-t/CPS_Results_AQ_Linkage.gdx",
+            "name": "CPS_Results_AQ_Linkage.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
+            "file": "Output_w-t/Baseline_Results_AQ_Linkage.gdx",
+            "name": "Baseline_Results_AQ_Linkage.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
+            "file": "Output_w-t/Baseline_Results_IPCC.gdx",
+            "name": "Baseline_Results_IPCC.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
+            "file": "Output_w-t/Baseline_Results_GTAP11b.gdx",
+            "name": "Baseline_Results_GTAP11b.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
+            "file": "Output_w-t/NZS_Results_IPCC.gdx",
+            "name": "NZS_Results_IPCC.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
+            "file": "Output_w-t/NZS_Results_IAMC.gdx",
+            "name": "NZS_Results_IAMC.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
+            "file": "Output_w-t/ModelStatus.xls",
+            "name": "ModelStatus.xls",
+            "type": ""
         },
         {
             "codecMib": 106,
@@ -118,6 +172,24 @@
         },
         {
             "codecMib": 106,
+            "file": "CPS_IAMC.gms",
+            "name": "CPS_IAMC.gms",
+            "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "CPS_IAMC_GreenEcos.gms",
+            "name": "CPS_IAMC_GreenEcos.gms",
+            "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "CPS_IPCC.gms",
+            "name": "CPS_IPCC.gms",
+            "type": "gms"
+        },
+        {
+            "codecMib": 106,
             "file": "CPS_RESULTS_GTAP11b.gms",
             "name": "CPS_RESULTS_GTAP11b.gms",
             "type": "gms"
@@ -136,6 +208,12 @@
         },
         {
             "codecMib": 106,
+            "file": "DATA_GTAP11b.lst",
+            "name": "DATA_GTAP11b.lst",
+            "type": "lst"
+        },
+        {
+            "codecMib": 106,
             "file": "DATA_WEB-2019.gms",
             "name": "DATA_WEB-2019.gms",
             "type": "gms"
@@ -151,6 +229,12 @@
             "file": "Model_GTAP11b.gms",
             "name": "Model_GTAP11b.gms",
             "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "Model_GTAP11b.lst",
+            "name": "Model_GTAP11b.lst",
+            "type": "lst"
         },
         {
             "codecMib": 106,
@@ -193,5 +277,6 @@
         ""
     ],
     "path": ".",
+    "pf": "",
     "workDir": "."
 }

@@ -238,7 +238,6 @@ $offtext
                       = KD.l('natr',j,z,time-1)*(1-0.01);
 *                      = KD.l('natr',j,z,time-1);
 
-
  KD.fx('land',j,z,time)${[ord(time) gt 1] and KDO('land',j,z)}
                       = KD.l('land',j,z,time-1);
 
@@ -359,7 +358,6 @@ if ((CTAX.L('04_RUS',time) gt 0.5), switch(i3,'04_RUS',time) = 1  ;
 else switch(i3,'04_RUS',time) = 0 ;
 );
 
-
 if ((CTAX.L('05_MNG',time) gt 0.8), switch(i3,'05_MNG',time) = 1  ;
 else switch(i3,'05_MNG',time) = 0 ;
 );
@@ -462,19 +460,19 @@ else switch(i3,'17_PAO',time) = 0 ;
 *===============================================================================
 * IRONSTIL Shock
 *===============================================================================
- io2_t('13_IRONSTL','01_KOR',time) = io2('13_IRONSTL','01_KOR')*TREND2('01_KOR',time);
+ io2_t('13_IRONSTL',NEA2,time) = io2('13_IRONSTL',NEA2)*TREND2('01_KOR',time);
 
 *===============================================================================
 * Service Shock
 *===============================================================================
- B_ENER_t('31_SER','01_KOR',time) = B_ENER_t('31_SER','01_KOR','2019')*TREND2('01_KOR',time);
- beta_ENER_t('04_GAS','31_SER',z,time) = beta_ENER_t('04_GAS','31_SER',z,'2019')*TREND2('01_KOR',time);
- beta_ENER_t('10_PETROLCOAL','31_SER',z,time) = beta_ENER_t('10_PETROLCOAL','31_SER',z,'2019')*TREND2('01_KOR',time);
+* B_ENER_t('31_SER','01_KOR',time) = B_ENER_t('31_SER','01_KOR','2019')*TREND2('01_KOR',time);
+* beta_ENER_t('04_GAS','31_SER',z,time) = beta_ENER_t('04_GAS','31_SER',z,'2019')*TREND2('01_KOR',time);
+* beta_ENER_t('10_PETROLCOAL','31_SER',z,time) = beta_ENER_t('10_PETROLCOAL','31_SER',z,'2019')*TREND2('01_KOR',time);
 
 *===============================================================================
 * Household Shock
 *===============================================================================
- gamma_LES_t('10_PETROLCOAL','01_KOR',time)= gamma_LES_t('10_PETROLCOAL','01_KOR','2019')*TREND2('01_KOR',time);
+* gamma_LES_t('10_PETROLCOAL','01_KOR',time)= gamma_LES_t('10_PETROLCOAL','01_KOR','2019')*TREND2('01_KOR',time);
 
 *==============================================================================
 * 6.2.2.3 Resolution

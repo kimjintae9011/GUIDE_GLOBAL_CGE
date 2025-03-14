@@ -166,6 +166,7 @@ NENE(I) Non-energy commodities
 *==============================================================================
 J2(J) KLE Sectors
 /
+ 01_AGRICULT    Agricultural forest and fishery goods
  06_FOODPRO     Food beverages and tobacco products
  07_TEXTILES    Textile and leather products
  08_WOODPRO     Wood products
@@ -186,7 +187,7 @@ J2(J) KLE Sectors
 
 J3(J) Non-KLE Sectors
 /
- 01_AGRICULT    Agricultural forest and fishery goods
+* 01_AGRICULT    Agricultural forest and fishery goods
  02_COAL        Coal
  03_OIL         Crude petroleum
  04_GAS         Natural gas Gas distribution
@@ -302,6 +303,7 @@ Energy(J) Industries
  02_COAL        Coal
  03_OIL         Crude petroleum
  04_GAS         Natural gas Gas distribution
+ 05_MINING      Mined and quarried goods
  10_PETROLCOAL  Petroleum and coal products
  18_TnD         Transmission and Distribution
  19_eNuclear    Nuclear generation
@@ -316,7 +318,7 @@ Energy(J) Industries
 
 IndCon(J) Industries
 /
- 05_MINING      Mined and quarried goods
+* 
  06_FOODPRO     Food beverages and tobacco products
  07_TEXTILES    Textile and leather products
  08_WOODPRO     Wood products
@@ -544,6 +546,8 @@ PARAMETER
  AEEI_high(z,time)    Autonomous energy efficiency improvement (High)
  TREND(z,time)        Decresing rate of charcoal and waste consumption
  TREND2(z,time)       Coal Phase out
+ TREND_CPS(z,time)
+ TREND_NZS(z,time)    
  CTAX_Cal(z,time)     Carbon Tax for Baseline Scenario
  CTAX_CPS(z,time)     Carbon Tax for Current Policy Scenario
  CTAX_NZS(z,time)     Carbon Tax for Net Zero Scenario
@@ -720,7 +724,7 @@ Scalar
 *  includes data for some variables and substitution elasticities.
 
 $LOAD CO, CGO, DDO, DEPO, DIO, DSO, DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, XSO, XSO_I, XSTO, EMPLOY
-$LOAD TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, TREND, TREND2, CTAX_Cal, CTAX_CPS, CTAX_NZS, RKDO, TDHO, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, 
+$LOAD TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, TREND, TREND2, TREND_CPS, TREND_NZS, CTAX_Cal, CTAX_CPS, CTAX_NZS, RKDO, TDHO, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, 
 $LOAD tmrg, sigma_M1, sigma_M2, sigma_VA, sigma_KLE, POPO
 
 * Other exogenous parameters can be defined if the Excel file VAL_PAR.XLS
@@ -1494,6 +1498,14 @@ Parameter
  CH4HO(product,z)   tCO2eq residendital sector
  N2OIO(product,j,z) tCO2eq industry j sector
  N2OHO(product,z)   tCO2eq residendital sector
+ 
+ Marinebunker_CO2(product,z) ktCO2 marine bunker
+ Aviationbunker_CO2(product,z) ktCO2 aviation bunker
+ Marinebunker_CH4(product,z) tCO2eq marine bunker
+ Aviationbunker_CH4(product,z) tCO2eq aviation bunker
+ Marinebunker_N2O(product,z) tCO2eq marine bunker
+ Aviationbunker_N2O(product,z) tCO2eq aviation bunker
+
  GWP_CH4            GWP 100 AR5
  GWP_N2O            GWP 100 AR5
  ;
@@ -1543,6 +1555,10 @@ Parameter
  EEO(product,j,z)  Initial Industry energy consumption in region z ktoe
  NEO(product,j,z)  Initial Industry non energy consumption in region z ktoe
  EHO(product,z)    Initial Household energy consumption in region z ktoe
+ 
+ Marinebunker(product,z)
+ Aviationbunker(product,z)
+ 
 ;
 
  EEI(p_coal,j,z)$(DIO('02_COAL',j,z) gt 0)               = Coal_DIO(p_coal,j,z)/DEO('02_COAL',j,z);
@@ -1597,6 +1613,12 @@ Parameter
  EHO(p_charcoal,z)     = Charcoal_CO(p_charcoal,z);
  EHO(p_solar,z)        = Solar_CO(p_solar,z);
  EHO(p_geo,z)          = Geo_CO(p_geo,z);
+ 
+ Marinebunker(p_gas,z)          = gas_Marine(p_gas,z);
+ Marinebunker(p_oilproduct,z)   = Oilp_Marine(p_oilproduct,z);
+ Marinebunker(p_Bio,z)          = Bio_Marine(p_Bio,z);
+
+ Aviationbunker(p_oilproduct,z) = Oilp_Aviation(p_oilproduct,z);
  
 execute_unload 'Energy_Intensity',
  EEI, NEI, EHI, EEO, NEO, EHO ;
@@ -2511,6 +2533,9 @@ $OFFTEXT
  
  EQ105(i3,z,t)..   MARKUP(i3,z,t) =e= {PC(i3,z,t)*XDBS(i3,z,t)-CLBS(i3,z,t)-CKBS(i3,z,t)}*switch(i3,z,t) ; 
 
+* EQ105(i3,z,t)..   MARKUP(i3,z,t) =e= {CLBS(i3,z,t)+CKBS(i3,z,t)}*switch(i3,z,t) ; 
+
+
  EQ106(ene2,j,z,t)..  EBS(ene2,j,z,t) =e= 0.06*XDBS2(j,z,t);
 
 *================================================================================
@@ -2579,8 +2604,8 @@ SCEN  List of scenarios
 *==============================================================================
 $INCLUDE BAU_SOLVE_GTAP11b.gms
 $INCLUDE BAU_RESULTS_GTAP11b.gms
-*$INCLUDE BAU_AQ_Linkage.gms
 
+*$INCLUDE BAU_AQ_Linkage.gms
 *$INCLUDE BAU_IAMC.gms
 *$INCLUDE BAU_IPCC.gms
 *$INCLUDE BAU_IAMC_GreenEcos.gms
@@ -2588,17 +2613,21 @@ $INCLUDE BAU_RESULTS_GTAP11b.gms
 *==============================================================================
 *   6.3 Simulation 1 scenarios and Results
 *==============================================================================
-$INCLUDE CPS_SOLVE_GTAP11b.gms
-$INCLUDE CPS_RESULTS_GTAP11b.gms
+*$INCLUDE CPS_SOLVE_GTAP11b.gms
+*$INCLUDE CPS_RESULTS_GTAP11b.gms
+
 *$INCLUDE CPS_AQ_Linkage.gms
+*$INCLUDE CPS_IAMC.gms
+*$INCLUDE CPS_IPCC.gms
+*$INCLUDE CPS_IAMC_GreenEcos.gms
 
 *==============================================================================
 *   6.4 Simulation 2 scenarios and Results
 *==============================================================================
-$INCLUDE NZS_SOLVE_GTAP11b.gms
-$INCLUDE NZS_RESULTS_GTAP11b.gms
-*$INCLUDE NZS_AQ_Linkage.gms
+*$INCLUDE NZS_SOLVE_GTAP11b.gms
+*$INCLUDE NZS_RESULTS_GTAP11b.gms
 
+*$INCLUDE NZS_AQ_Linkage.gms
 *$INCLUDE NZS_IAMC.gms
 *$INCLUDE NZS_IPCC.gms
 *$INCLUDE NZS_IAMC_GreenEcos.gms

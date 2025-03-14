@@ -5,8 +5,8 @@ flow flow
 f1_INDPROD      Production
 f2_IMPORTS      Imports
 f3_EXPORTS      Exports
-f5_MARBUNK      International marine bunkers
-f4_AVBUNK       International aviation bunkers
+f4_MARBUNK      International marine bunkers
+f5_AVBUNK       International aviation bunkers
 f6_STOCKCHA     Stock changes
 f7_TES          Total energy supply
 f8_TRANSFER     Transfers
@@ -840,6 +840,16 @@ f_TES(flow)
 f7_TES          Total energy supply
 /
 
+f_marine_bunker(flow)
+/
+f4_MARBUNK      International marine bunkers
+/
+
+f_aviation_bunker(flow)
+/
+f5_AVBUNK       International aviation bunkers
+/
+
 type
 /
 CO2EF
@@ -961,20 +971,28 @@ Parameter
  Coal_CO(p_coal,z)               Household consumption of coal products in region z
  CoalR_DIO(p_coal,j,z)           Intermediate consumption ratio of coal products by industry j in region z
  CoalR_CO(p_coal,z)              Household consumption ratio of coal products in region z
+ Coal_Marine(p_coal,z)           Marine Bunker consumption of coal products
+ Coal_Aviation(p_coal,z)         Aviation Bunker consumption of coal products
 
  Gas_DIO(p_gas,j,z)              Intermediate consumption of gas products by industry j in region z
  Gas_CO(p_gas,z)                 Household consumption of gas products in region z
  GasR_DIO(p_gas,j,z)             Intermediate consumption ratio of gas products by industry j in region z
  GasR_CO(p_gas,z)                Household consumption ratio of gas products in region z
+ Gas_Marine(p_gas,z)             Marine Bunker consumption of coal products
+ Gas_Aviation(p_gas,z)           Aviation Bunker consumption of coal products
 
  Oil_DIO(p_oil,j,z)              Intermediate consumption of crudeoil by industry j in region z
  Oil_CO(p_oil,z)                 Household consumption of crudeoil in region z
  OilR_DIO(p_oil,j,z)             Intermediate consumption ratio of crudeoil by industry j in region z
+ Oil_Marine(p_oil,z)             Marine Bunker consumption of crudeoil
+ Oil_Aviation(p_oil,z)           Aviation Bunker consumption of crudeoil
 
  Oilp_DIO(p_oilproduct,j,z)      Intermediate consumption of petrolcoal by industry j in region z
  Oilp_CO(p_oilproduct,z)         Household consumption of petrolcoal products in region z
  OilpR_DIO(p_oilproduct,j,z)     Intermediate consumption ratio of petrolcoal products by industry j in region z
  OilpR_CO(p_oilproduct,z)        Household consumption ratio of petrolcoal products in region z
+ Oilp_Marine(p_oilproduct,z)     Marine Bunker consumption of oil products
+ Oilp_Aviation(p_oilproduct,z)   Aviation Bunker consumption of oil products
 
  Elec_DIO(p_elecheat,j,z)        Intermediate consumption of electricity by industry j in region z
  Elec_CO(p_elecheat,z)           Household consumption of electricity in region z
@@ -1002,6 +1020,8 @@ Parameter
  Bio_CO(p_bio,z)                 Household consumption of bio energy in region z
  BioR_DIO(p_bio,j,z)             Intermediate consumption ratio of bio energy by industry j in region z
  BioR_CO(p_bio,z)                Household consumption ratio of bio energy in region z
+ Bio_Marine(p_bio,z)             Marine Bunker consumption of waste energy
+ Bio_Aviation(p_bio,z)           Aviation Bunker consumption of waste energy
 
  Charcoal_DIO(p_charcoal,j,z)    Intermediate consumption of charcoal energy by industry j in region z
  Charcoal_CO(p_charcoal,z)       Household consumption of charcoal energy in region z
@@ -1101,6 +1121,9 @@ display TCoke_Share, TBlast_Share ;
  Coal_DIO(p_coal,'31_SER',z) = sum((f_ser), WEB(f_ser, p_coal, z));
  Coal_CO(p_coal,z) = sum((f_household), WEB(f_household, p_coal, z));
 
+ Coal_Marine(p_coal,z)   = -1*sum((f_marine_bunker), WEB(f_marine_bunker, p_coal, z)); 
+ Coal_Aviation(p_coal,z) = -1*sum((f_aviation_bunker), WEB(f_aviation_bunker, p_coal, z));        
+
 *Ratio
 Loop(j,
     CoalR_DIO(p_coal,j,z)$(Coal_DIO(p_coal,j,z) gt 0)
@@ -1145,6 +1168,9 @@ display Coal_DIO, CoalR_DIO, CoalR_CO ;
  Gas_DIO(p_gas,'30_ATRP',z) = sum((f_domeair), WEB(f_domeair, p_gas, z));
  Gas_DIO(p_gas,'31_SER',z) = sum((f_ser), WEB(f_ser, p_gas, z));
  Gas_CO(p_gas,z) = sum((f_household), WEB(f_household, p_gas, z));
+
+ Gas_Marine(p_gas,z)   = -1*sum((f_marine_bunker), WEB(f_marine_bunker, p_gas, z)); 
+ Gas_Aviation(p_gas,z) = -1*sum((f_aviation_bunker), WEB(f_aviation_bunker, p_gas, z));   
 
 *Ratio
 Loop(j,
@@ -1192,6 +1218,9 @@ display Gas_DIO, GasR_DIO, GasR_CO ;
  Oil_DIO(p_oil,'31_SER',z) = sum((f_ser), WEB(f_ser, p_oil, z));
  Oil_CO(p_oil,z) = sum((f_household), WEB(f_household, p_oil, z));
 
+ Oil_Marine(p_oil,z)   = -1*sum((f_marine_bunker), WEB(f_marine_bunker, p_oil, z)); 
+ Oil_Aviation(p_oil,z) = -1*sum((f_aviation_bunker), WEB(f_aviation_bunker, p_oil, z));   
+
 *Ratio
 Loop(j,
     OilR_DIO(p_oil,j,z)$(Oil_DIO(p_oil,j,z) gt 0)
@@ -1238,6 +1267,9 @@ display Oil_DIO, OilR_DIO ;
  Oilp_DIO(p_oilproduct,'30_ATRP',z) = sum((f_domeair), WEB(f_domeair, p_oilproduct, z));
  Oilp_DIO(p_oilproduct,'31_SER',z) = sum((f_ser), WEB(f_ser, p_oilproduct, z));
  Oilp_CO(p_oilproduct,z) = sum((f_household), WEB(f_household, p_oilproduct, z));
+
+ Oilp_Marine(p_oilproduct,z)   = -1*sum((f_marine_bunker), WEB(f_marine_bunker, p_oilproduct, z)); 
+ Oilp_Aviation(p_oilproduct,z) = -1*sum((f_aviation_bunker), WEB(f_aviation_bunker, p_oilproduct, z));   
 
 *Ratio
 Loop(j,
@@ -1375,6 +1407,9 @@ display Waste_DIO, WasteR_DIO, WasteR_CO ;
  Bio_DIO(p_Bio,'31_SER',z)        = sum((f_ser), WEB(f_ser, p_Bio, z));
  Bio_CO(p_Bio,z)                  = sum((f_household), WEB(f_household, p_Bio, z));
 
+ Bio_Marine(p_Bio,z)              = -1*sum((f_marine_bunker), WEB(f_marine_bunker, p_Bio, z)); 
+ Bio_Aviation(p_Bio,z)            = -1*sum((f_aviation_bunker), WEB(f_aviation_bunker, p_Bio, z));   
+
 *Ratio
 Loop(j,
     BioR_DIO(p_Bio,j,z)$(Bio_DIO(p_Bio,j,z) gt 0)
@@ -1509,8 +1544,6 @@ Loop(j,
  SolarR_CO(p_Solar,z)$(Solar_CO(p_Solar,z) gt 0) = Solar_CO(p_Solar,z)/ sum(p_Solar2, Solar_CO(p_Solar2,z));
 
 display Solar_DIO, SolarR_DIO, SolarR_CO ;
-
-
 
 *Coal non-energy
  NCoal_DIO(p_coal,'05_MINING',z) = sum(f_nemining, WEB(f_nemining, p_coal, z));
@@ -1682,6 +1715,8 @@ NOil_DIO, NOilR_DIO, NOilp_DIO, NOilpR_DIO,
 Coal_Total, Gas_Total, Oilp_Total, Elec_Total, NCoal_Total, NGas_Total, NOilp_Total,
 
 ElecNucGWh, ElecCoalGWh, ElecGasGWh, ElecOilGWh, ElecSolarGWh, ElecWindGWh, ElecHydroGWh, ElecwasteGWh, ElecbioGWh, ElecgeoGWh, ElecOtherGWh
+
+Coal_Marine,Coal_Aviation, Gas_Marine, Gas_Aviation, Oilp_Marine, Oilp_Aviation, Bio_Marine, Bio_Aviation
 ;
 
 $exit

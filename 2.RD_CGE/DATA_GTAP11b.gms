@@ -1,41 +1,39 @@
 *==============================================================================*
-*                                                                              *
-*           Except where otherwise noted, this work is licensed under          *
-*               http://creativecommons.org/licenses/by-nc-sa/3.0/              *
-*                                                                              *
-*                                                                              *
-*  You are free to share, to copy, distribute and transmit the work under      *
-*  the following conditions:                                                   *
-*                                                                              *
-*  - Attribution:         You must attribute the work to:                      *
-*                         Veronique Robichaud, Andre Lemelin,                  *
-*                         Helene Maisonnave and Bernard Decaluwe.              *
-*  - Noncommercial:       You may not use this work for commercial purposes.   *
-*  - Share Alike:         If you alter, transform, or build upon this work,    *
-*                         you may distribute the resulting work only under     *
-*                         the same or similar license to this one.             *
-*                                                                              *
+*GTAP DataBase Verion 11b Mapping Code Manual
+*Version: 1.0
+*Author: [Jintae Kim]
+*Original Code Authors: Veronique Robichaud, Andre Lemelin, Helene Maisonnave, Bernard Decaluwe (PEP-w-1)
+*License: CC BY-NC-SA 3.0
+*Last Updated: 2025-03-14
+
 *==============================================================================*
-* This file allows the mapping between the sets defined in the files PEP-w.GMS
-* and the sets used in GTAP8.1.
-* It also allows the creation of the different sets used in the model.
+*Introduction
+*This manual is based on the GTAP data mapping code (DATA_GTAP11b.gms). It explains the process of mapping between GTAP data and the PEP-w model, clarifying key variables and data transformation processes within the code.
+*
+*This manual can only be used for non-commercial (NC) purposes and must be shared under the same license (CC BY-NC-SA 3.0).
+*For detailed license information, please visit:
+*https://creativecommons.org/licenses/by-nc-sa/3.0/
 
-* Prior to the steps below, GTAP8.1 data need to be converted into GDX files.
-* We first used GTAPAgg and a 1 to 1 mapping to generate HAR files.
-* We changed the names of two sectors set in order to avoid confusion with
-* regions that share the same acronyms. Therefore, "other mining" is refered to
-* using OTM instead of OMN (which refers to Oman in the REG set) and "Insurance"
-* is refered to using INS instead of ISR (which refers to Israel in the REG set).
+*License Notice
+*This manual is based on the GTAP data mapping code (DATA_GTAP11b.gms), originally developed by Veronique Robichaud, Andre Lemelin, Helene Maisonnave, and Bernard Decaluwe. It is distributed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 (CC BY-NC-SA 3.0) license.
 
-* Running GTAPAgg automatically generates a number of files, of which two are
-* used below: BaseData2007.har and Default.prm. The latter was renamed
-* Parameters2007.har.
+*Key License Terms:
+*Attribution (BY): You must give appropriate credit to the original authors.
+*Non-Commercial (NC): This work cannot be used for commercial purposes.
+*Share-Alike (SA): If you modify or build upon this work, you must distribute the modified work under the same license.
+*For more details, please visit:
+*https://creativecommons.org/licenses/by-nc-sa/3.0/
+
+
+*==============================================================================*
+* Running new GTAP Model generates a number of files, of which two are
+* used below: BaseData2019.har and Parameters2019.har.
+
 * The har2gdx facility allows converting these two files into GDX format.
 *==============================================================================
 $CALL har2gdx Input_GTAP11DB\basedata2019_240214.har Input_w-t\GTAP11_basedata2019.gdx
 $CALL har2gdx Input_GTAP11DB\parameter2019_240416.prm Input_w-t\GTAP11_Parameters2019.gdx
 
-*$EXIT
 *==============================================================================
 * 1. Define the sets
 *==============================================================================
@@ -259,26 +257,25 @@ TIME Time periods
 /
 
 *==============================================================================
-*  1.2 Sets used in GTAP8.1
+*  1.2 Sets used in GTAP DB
 *==============================================================================
 
- GlobalSet(*)          All of the elements of all sets
+ GlobalSet(*) All of the elements of all sets
  endw(GlobalSet)  All factors of production
- acts(GlobalSet)  All sectors and commodities
- comm(GlobalSet)
- reg(GlobalSet)     All regions
- marg(comm)  Margin commodities
+ acts(GlobalSet)  All industries
+ comm(GlobalSet)  ALL commodities
+ reg(GlobalSet)  All regions
+ marg(comm) Margin commodities
 
 $GDXIN Input_w-t\GTAP11_basedata2019.gdx
 
 $LOAD GlobalSet, reg, endw, acts, comm, marg
 
 *==============================================================================
-*  1.3 Mapping between sets used in PEP-w and GTAP8.1
+*  1.3 Mapping between sets used in PEP-w and GTAP DB
 *==============================================================================
 
 z1c(reg)  Elements in GTAP that refer to one single country
-* All GTAP regions except those beginning with an "x"
 /
 r_01KOR, r_02CHN, r_03JPN, r_04RUS, r_05MNG, r_06PRK, r_07NAM, r_08LAM,
 r_09WEU, r_10EEU, r_11FSU, r_12MEA, r_13AFR, r_14CPA, r_15SAS, r_16PAS, r_17PAO
@@ -469,11 +466,10 @@ ALIAS(time,timej)
 
 Parameter
 *==============================================================================
-*  2.1 Variables in GTAP8.1
+*  2.1 Variables in GTAP DB
 *==============================================================================
-* These are the variables from GTAP8.1 used in the calibration process.
-* Population data is in million while all other data are expressed in millions
-* of USD
+* These are the variables from GTAP DB format 6 verion used in the calibration process.
+* Population data is in million while all other data are expressed in millions of USD
 
  EVOS(endw,acts,reg)            Endowments at agents prices
  FBEP(endw,acts,reg)            Factor-based subsidies
@@ -552,23 +548,7 @@ Parameter
  MAKE(j,i,z)     Make matrix valued at basic prices
  DSO_I(i,z)      Supplys of domestic production of commodity i
  XSO_I(i,z)      Total aggregate output of commoity i
-
- DIO2(i,z)
- TIMO2(i,z)
- IMO2(i,z)
- tmrg2(i,z)
- tmrg3(ij,zj)
- tmrg4(zj)
- DIO3(j,z)
- LDO2(j,z)
- TIWO2(j,z)
- TIKO2(j,z)
- RKDO2(k,j,z)
- RKDO2(k,j,z)
- DDO_Matrix(i,ij,z)
- XSO_Matrix(i,ij,z)
- 
- Bal_TC(j,z)
+ TotalCost(j,z)  Total Cost by industry
 ;
 
 *==============================================================================
@@ -581,12 +561,6 @@ $LOAD VTMFSD, VXSB, VFOB, XTRV
 *==============================================================================
 * 2.4 Mapping between variables in the model and GTAP
 *==============================================================================
-* NOTE: In GTAP parlance, "agents' prices" are prices paid by buyers, and
-*       "market prices" are prices received by sellers.
-* A - Agent Price
-* P - Producer Price
-* B - Basic Price
-
 *==============================================================================
 * 2.4.1 Households consumption
 *==============================================================================
@@ -610,7 +584,7 @@ $LOAD VTMFSD, VXSB, VFOB, XTRV
 *=============================================================================
 *  In the GTAP data, the accumulation account is presented in the
 *  production sector CGDS (Capital goods). Demand for investment purposes
-*  is thus given by the sum of domestic purchases at agents prices (VDFP)
+*  is thus given by the sum of domestic purchases at agents prices (VDIP)
 *  and public final imports at agents prices (VIFA) for this sector.
 
  INVO(i,z)       = SUM{(comm,reg)$[i2comm(i,comm)$z2reg(z,reg)],
@@ -625,9 +599,9 @@ $LOAD VTMFSD, VXSB, VFOB, XTRV
 
  DIO(i,j,z)      = SUM[(comm,acts,reg)$[i2comm(i,comm)
                       $j2acts(j,acts)$z2reg(z,reg)],
-                      VDFP(comm,acts,reg)
-                     +VMFP(comm,acts,reg)];
+                      VDFP(comm,acts,reg)+VMFP(comm,acts,reg)];
 
+* for data balancing
  DIO(i,'09_PAPERPRO','05_MNG')$(DIO(i,'09_PAPERPRO','05_MNG') lt 0.0000068505) = 0.000001 ;
 
 
@@ -676,6 +650,8 @@ $LOAD VTMFSD, VXSB, VFOB, XTRV
 
  EXO(i,zj,z)     = IMO(i,zj,z);
  EXTO(i,z)       = sum(zj, EXO(i,z,zj));
+
+* Alternative method bring the export value
 * EXO(i,zj,z)     = SUM{(comm,regj,reg)$[j2comm(i,comm)
 *                       $z2reg(zj,regj)$z2reg(z,reg)],
 *                       VXSB(comm,regj,reg)};
@@ -689,12 +665,12 @@ $LOAD VTMFSD, VXSB, VFOB, XTRV
 *                       $z2reg(zj,regj)$z2reg(z,reg)],
 *                       SUM[marg,VTMFSD(marg,comm,regj,reg)]};
 
-  tmrg('20_LTRP',ij,zj,z)$IMO(ij,zj,z)
+ tmrg('20_LTRP',ij,zj,z)$IMO(ij,zj,z)
                  = SUM{(comm,regj,reg)$[i2comm(ij,comm)
                        $z2reg(zj,regj)$z2reg(z,reg)],
                        VTMFSD('otp',comm,regj,reg)};
 
-  tmrg('21_WTRP',ij,zj,z)$IMO(ij,zj,z)
+ tmrg('21_WTRP',ij,zj,z)$IMO(ij,zj,z)
                  = SUM{(comm,regj,reg)$[i2comm(ij,comm)
                        $z2reg(zj,regj)$z2reg(z,reg)],
                        VTMFSD('wtp',comm,regj,reg)};
@@ -703,10 +679,6 @@ $LOAD VTMFSD, VXSB, VFOB, XTRV
                  = SUM{(comm,regj,reg)$[i2comm(ij,comm)
                        $z2reg(zj,regj)$z2reg(z,reg)],
                        VTMFSD('atp',comm,regj,reg)};
-
- tmrg3(ij,zj) = tmrg('20_LTRP',ij,zj,'01_KOR') ;
-
- tmrg4(zj) = sum(ij,tmrg('20_LTRP',ij,zj,'01_KOR')) ;
 
 * Supply of transport margin are given by the variable VST
  MRGNO(i,z)      = SUM{(marg,reg)$[i2comm(i,marg)$z2reg(z,reg)],
@@ -752,6 +724,7 @@ $LOAD VTMFSD, VXSB, VFOB, XTRV
                        FBEP(endw,acts,reg)};
 
  TIKO_J(k,z) = SUM(j, TIKO(k,j,z));
+ 
 *==============================================================================
 * 2.4.11 Taxes on production
 *==============================================================================
@@ -773,11 +746,9 @@ $LOAD VTMFSD, VXSB, VFOB, XTRV
                      +VDGP(comm,reg)-VDGB(comm,reg)
                      +VMGP(comm,reg)-VMGB(comm,reg)
                      +SUM[acts,VDFP(comm,acts,reg)
-*                          +VIFA(comm,acts,reg)]
                           +VMFP(comm,acts,reg)]
 
                      -SUM[acts,VDFB(comm,acts,reg)
-*                          +VIFM(comm,acts,reg)]};
                            +VMFB(comm,acts,reg)]};
 
 *==============================================================================
@@ -837,12 +808,6 @@ $LOAD VTMFSD, VXSB, VFOB, XTRV
                    -SUM[zj,TIMO(i,zj,z)]-SUM[zj,IMO(i,zj,z)]
                    -SUM[(ij,zj),tmrg(ij,i,zj,z)];
 
- DIO2(i,z)  = SUM[j,DIO(i,j,z)];
- TIMO2(i,z) = SUM[zj,TIMO(i,zj,z)];
- IMO2(i,z)  = SUM[zj,IMO(i,zj,z)];
- tmrg2(i,z) = SUM[(ij,zj),tmrg(ij,i,zj,z)] ;
-
-
 *==============================================================================
 * 2.4.18 MAKE Matrix
 *==============================================================================
@@ -873,12 +838,6 @@ $LOAD VTMFSD, VXSB, VFOB, XTRV
 *  the sum of production for the domestic market (DSO), adjusted production
 *  of margins (MRGNO) and exports.
 
-* DSO(i,z)        = DDO(i,z);
-* XSO(j,z)        = DSO(j,z)+MRGNO(j,z)+SUM[zj,EXO(j,z,zj)-TIXO(j,z,zj)];
-
-*Table XSO_Matrix(i,j,z) ;
-* XSO_Matrix(i,j,z) =   XSO(j,z)$sameas(i,j);
-
  DSO_I(i,z)        = DDO(i,z) ;
  XSO_I(i,z)        = DDO(i,z)+MRGNO(i,z)+SUM[zj,EXO(i,z,zj)-TIXO(i,z,zj)];
  XSO(j,i,z)        = XSO_I(i,z)*[MAKE(j,i,z)/sum(jj,MAKE(jj,i,z))];
@@ -892,7 +851,7 @@ $LOAD VTMFSD, VXSB, VFOB, XTRV
 *  be calculated based on the variables described in these steps, there
 *  should not be any other descrepency.
 
-* Balancing in 2019 Database
+* for Data Balancing in 2019 Database
  TIPO('09_PAPERPRO','05_MNG') = 0.0001  ;
  TIXO('10_PETROLCOAL','05_MNG','06_PRK') = 0 ;
  RKDO('cap',j,z)  = XSTO(j,z)-SUM[i,DIO(i,j,z)]-SUM[l,LDO(l,j,z)+TIWO(l,j,z)]
@@ -900,21 +859,9 @@ $LOAD VTMFSD, VXSB, VFOB, XTRV
 
  RKDO_J(k,z) = sum(j,RKDO(k,j,z)) - DTAX(k,z);
 
- DIO3(j,z) = SUM[i,DIO(i,j,z)];
- LDO2(j,z) = SUM[l,LDO(l,j,z)];
- TIWO2(j,z) = SUM[l,TIWO(l,j,z)];
- TIKO2(j,z) = SUM[k,TIKO(k,j,z)];
- RKDO2('land',j,z) = RKDO('land',j,z);
- RKDO2('natr',j,z) = RKDO('natr',j,z);
+ TotalCost(j,z) = SUM[i,DIO(i,j,z)]+SUM[l,LDO(l,j,z)+TIWO(l,j,z)]+TIPO(j,z)
+                + SUM[k,TIKO(k,j,z)]+RKDO('land',j,z)+RKDO('natr',j,z)+RKDO('cap',j,z);
 
-*Recalibrating
-*KSTO(z)  = sum((k,j),RKDO(k,j,z));
-
- Bal_TC(j,z) = XSTO(j,z)-SUM[i,DIO(i,j,z)]-SUM[l,LDO(l,j,z)+TIWO(l,j,z)]
-                   -TIPO(j,z)-SUM[k,TIKO(k,j,z)]-RKDO('cap',j,z) -RKDO('land',j,z) -RKDO('natr',j,z);
-
-Display RKDO ;
-*$EXIT
 *==============================================================================
 * 3. CES elasticities
 *==============================================================================
@@ -945,7 +892,7 @@ PARAMETER
  SH_IM(comm,i,z)  Share of each import TRAD_COM in aggregation i for region z
  SH_Q(comm,i,z)   Share of each composite commodity TRAD_COM in aggregation i for region z
  SH_VA(acts,j,z)  Share of each sector TRAD_COM in aggregation j for region z
- SH_KLE(acts,j,z)   Share of each sector KLE in aggregation j for region z
+ SH_KLE(acts,j,z) Share of each sector KLE in aggregation j for region z
 ;
 
 *==============================================================================
@@ -954,7 +901,6 @@ PARAMETER
 $GDXIN Input_w-t\GTAP11_Parameters2019.gdx
 $LOAD ESUBD, ESUBM, ESUBVA, ELFKLE
 
-Display ESUBD, ESUBM, ESUBVA, ELFKLE ;
 *==============================================================================
 *  3.5 sigma_M1
 *==============================================================================
@@ -1041,21 +987,15 @@ Display ESUBD, ESUBM, ESUBVA, ELFKLE ;
 * 4. Own price elasticities (Conditional)
 *==============================================================================
 PARAMETER
- E_Composite(j,z)
- KLE_Composite(j,z)
- elas_E(j,z)         Composite Energy commodity own price elasticities
- elas_elec(j,z)
- elas_gas(j,z)
- elas_oil(j,z)
- elas_coal(j,z)
- elas_petrolcoal(j,z) 
+ E_Composite(j,z)      E nest susbtitution elasticies
+ KLE_Composite(j,z)    KLE nest susbtitution elasticies
+ elas_E(j,z)           Own price elasticities(Composite Energy)
+ elas_elec(j,z)        Own price elasticities(electricity)
+ elas_gas(j,z)         Own price elasticities(gas)       
+ elas_oil(j,z)         Own price elasticities(oil)
+ elas_coal(j,z)        Own price elasticities(coal)
+ elas_petrolcoal(j,z)  Own price elasticities(petrolcoal) 
 ;
-
-* 02_COAL        Coal
-* 03_OIL         Crude petroleum
-* 04_GAS         Natural gas Gas distribution
-* 10_PETROLCOAL  Petroleum and coal products
-* 18_ELEC        Electricity
 
  E_Composite(j,z)   = SUM{(acts)$[j2acts(j,acts)], E_GTAP(acts,z)};
  KLE_Composite(j,z) = SUM{(acts)$[j2acts(j,acts)], KLE_GTAP(acts,z)};
@@ -1067,46 +1007,9 @@ PARAMETER
  elas_coal(j,z) = 1.1*(1- DIO('02_COAL',j,z)/E_Composite(j,z));
  elas_petrolcoal(j,z) = 1.1*(1- DIO('10_PETROLCOAL',j,z)/E_Composite(j,z));
 
-
-* LDO(l,j,z)      = SUM{(endw,acts,reg)$[f2endw(l,endw)
-*                       $j2acts(j,acts)$z2reg(z,reg)],
-*                       EVFB(endw,acts,reg)};
-
-* elas_E(j,z) = sigma_KLE(j,z)*(1- SUM{ (acts)$[, E_GTAP(acts,z)/KLE_GTAP(acts,z)} ) ;
-
-
-* CGO(i,z)        = SUM{(comm,reg)$[i2comm(i,comm)$z2reg(z,reg)],
-*                       VDGP(comm,reg)+VMGP(comm,reg)};
-
-*==============================================================================
-* Importing WEB(World Energy Balance)
-*==============================================================================
-*$INCLUDE DATA_WEB-2019_230417.gms
-
-*==============================================================================
-* SAM Balancing
-*==============================================================================
-*$INCLUDE DATA_SamBal-2019_230217.gms
-
 *==============================================================================
 * Projections used in PEP w-t model
 *==============================================================================
-* The following file includes data from:
-* Source: "The Great Shift: Macroeconomic projections for the world economy at
-* the 2050 horizon" CEPII Working Paper 2012-03
-* by Jean Foure, Agnes Benassy-Quere & Lionel Fontagne
-* February 2012.
-
-** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **
-**NOTE THAT THE FOLLOWING GTAP8.1 REGIONS ARE ABSENT FROM THE PROJECTIONS**
-**   aze, ben, bfa, cyp, ecu, gin, hrv, nam, rwa, slv, svn, tgo, twn,    **
-**   xea, xer, xna, xtw, zwe                                             **
-** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **
-
-*$include Projection_231002.gms
-* Data on total and active population are expressed in thousands
-* Data on GDP is expressed in millions of USD
-
 PARAMETER
  ACT_POP(z,time)         Active population from 1980 to 2050 based on the PEP w aggregation
  ACT_POP_GTAP8(reg,time) Active population from 1980 to 2050 based on the GTAP8 aggregation
@@ -1138,21 +1041,17 @@ PARAMETER
  AEEI_high(z,time)       Autonomous energy efficiency improvement
  TREND(z,time)           Value to Physical quantity
  TREND2(z,time)          Value to Physical quantity
- CTAX_Cal(z,time)
- CTAX_CPS(z,time)
- CTAX_NZS(z,time)
- CTAX_61(z,time)
- CTAX_145(z,time)
- CTAX_285(z,time)
- CTAX_425(z,time)
- CTAX_565(z,time)
+ TREND_CPS(z,time)       Value to Physical quantity
+ TREND_NZS(z,time)       Value to Physical quantity
+ CTAX_Cal(z,time)        Carbon Tax for Baseline Scenario
+ CTAX_CPS(z,time)        Carbon Tax for Current Policy Scenario
+ CTAX_NZS(z,time)        Carbon Tax for Net-Zero Scenario
  EMPLOY(j,z)             Employment by sector 2019 (thousand)
-
 ;
 
 $call gdxxrw Input_w-t\Projection.xlsx @Input_w-t\Projection.txt output = Input_w-t\Projection.gdx 
 $gdxIn Input_w-t\Projection.gdx
-$load GDP, TOT_POP, g_SDR, AEEI_low, AEEI_high, TREND, TREND2, CTAX_Cal, CTAX_CPS, CTAX_NZS, CTAX_61, CTAX_145, CTAX_285, CTAX_425, CTAX_565
+$load GDP, TOT_POP, g_SDR, AEEI_low, AEEI_high, TREND, TREND2, TREND_CPS, TREND_NZS, CTAX_Cal, CTAX_CPS, CTAX_NZS, CTAX_61, CTAX_145, CTAX_285, CTAX_425, CTAX_565
 
 $call gdxxrw Input_w-t\Employment.xlsx @Input_w-t\Employment.txt output = Input_w-t\Employment.gdx 
 $GDXIN Input_w-t\Employment.gdx
@@ -1161,8 +1060,6 @@ $LOAD EMPLOY
 *==============================================================================
 * 4.1 Real GDP projections
 *==============================================================================
-* GDP_GTAP8(reg,time)     = Projection('GDP_K',reg,time);
-* GDP(z,time)             = SUM{reg$z2reg(z,reg),GDP_GTAP8(reg,time)};
 
 loop{time$[time.val lt 2100],
  g_GDP(z,time+1)           = [GDP(z,time+1)/GDP(z,time)]-1;
@@ -1170,15 +1067,9 @@ loop{time$[time.val lt 2100],
  g_GDP(z,time)$[time.val ge 2100]
                          = g_GDP(z,time+2);
 
-display g_GDP ;
-
 *==============================================================================
 * 4.2 Total population projections
 *==============================================================================
-* TOT_POP_GTAP8(reg,time) = Projection ('Pop',reg,time);
-* TOT_POP(z,time)         = SUM{reg$z2reg(z,reg),TOT_POP_GTAP8(reg,time)};
-
-*TOT_POP(z,time) = ACT_POP(z,time);
 
 loop{time$[time.val lt 2100],
  g_POP(z,time+1)           = [TOT_POP(z,time+1)/TOT_POP(z,time)]-1;
@@ -1186,20 +1077,10 @@ loop{time$[time.val lt 2100],
  g_POP(z,time)$[time.val ge 2100]
                          = g_POP(z,time+1);
 
-display g_POP ;
-
 *==============================================================================
 * 5. Endogenous definition of set for rich regions/countries
 *==============================================================================
-* In the World Bank's 2007 World Development Indicators, "High-income" countries
-* are defined as those with a per capita Gross National Income of 10726USD
-* or above. Since there is no income from abroad in PEP-w-t, GDP is equal to
-* GNI, and we define high-income economies according to GDP per capita.
-
-* gdp_per_cap(z)  = [GDP(z,'2019')*10000000000]/[ACT_POP(z,'2019')*1000000];
-* Zrich(Z)        = yes$[gdp_per_cap(z) ge 10726];
-* Zother(Z)       = yes$[not Zrich(Z)];
-
+* High Income Countries
  Zrich('01_KOR')        = yes;
  Zrich('03_JPN')        = yes;
  Zrich('07_NAM')        = yes;
@@ -1217,7 +1098,7 @@ execute_unload 'Input_w-t\DATA_AGG-2019_GTAP11b.gdx',
  CO, CGO, DDO, DEPO, DIO, DSO,DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, POPO, RKDO,
  TDHO, DTAX, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, tssm, tssd, tmrg, XSO, XSO_I, XSTO, EXTO,
  sigma_M1, sigma_M2, sigma_VA, sigma_KLE, Q_GTAP, KLE_GTAP, SH_Q, SH_VA, SH_KLE, ESUBD, ELFKLE,
- elas_E, elas_elec, elas_gas, elas_oil, elas_coal, elas_petrolcoal, DDO_Matrix, Bal_TC, EMPLOY,
+ elas_E, elas_elec, elas_gas, elas_oil, elas_coal, elas_petrolcoal, EMPLOY,
 
 *Parameters used in PEP w-t only
- TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, TREND, TREND2, CTAX_Cal, CTAX_CPS, CTAX_NZS, CTAX_61, CTAX_145, CTAX_285, CTAX_425, CTAX_565 ;
+ TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, TREND, TREND2, TREND_CPS, TREND_NZS, CTAX_Cal, CTAX_CPS, CTAX_NZS ;
