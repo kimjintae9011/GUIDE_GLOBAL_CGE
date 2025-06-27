@@ -1,5 +1,4 @@
-
---- Job DATA_GTAP11c.gms Start 06/27/25 12:14:45 45.7.0 64fbf3ce WEX-WEI x86 64bit/MS Windows
+--- Job DATA_GTAP11c.gms Start 06/27/25 13:00:45 45.7.0 64fbf3ce WEX-WEI x86 64bit/MS Windows
 --- Applying:
     C:\GAMS\45\gmsprmNT.txt
     C:\Users\kimc0\Documents\GAMS\gamsconfig.yaml
@@ -192,7 +191,7 @@ Finished OK; created file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\Input_w-t\GTAP1
 GDXXRW           45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
 Input file : C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\Input_w-t\Projection.xlsx
 Output file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\Input_w-t\Projection.gdx
-Total time = 1422 Ms
+Total time = 2735 Ms
 --- DATA_GTAP11c.gms(1172) 20 Mb
 --- GDXin=C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\Input_w-t\Projection.gdx
 --- GDX File ($gdxIn) C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\Input_w-t\Projection.gdx
@@ -202,15 +201,81 @@ Total time = 1422 Ms
 GDXXRW           45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
 Input file : C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\Input_w-t\Employment.xlsx
 Output file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\Input_w-t\Employment.gdx
-Total time = 1250 Ms
+Total time = 1594 Ms
 --- DATA_GTAP11c.gms(1176) 21 Mb
 --- GDXin=C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\Input_w-t\Employment.gdx
 --- GDX File ($gdxIn) C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\Input_w-t\Employment.gdx
 --- DATA_GTAP11c.gms(1229) 21 Mb
---- . DATA_SamBal-2025.gms(828) 21 Mb
---- DATA_GTAP11c.gms(1229) 21 Mb
---- Starting execution: elapsed 0:00:03.216
---- DATA_GTAP11c.gms(1211) 32 Mb
---- GDX File (execute_unload) C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\Input_w-t\DATA_AGG-2019_GTAP11c.gdx
-*** Status: Normal completion
---- Job DATA_GTAP11c.gms Stop 06/27/25 12:14:49 elapsed 0:00:03.627
+--- . DATA_SamBal-2025.gms(858) 21 Mb 2 Errors
+*** Error 171 in C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\DATA_SamBal-2025.gms
+    Domain violation for set
+*** Error 171 in C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\DATA_SamBal-2025.gms
+    Domain violation for set
+--- . DATA_SamBal-2025.gms(861) 21 Mb 5 Errors
+*** Error 171 in C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\DATA_SamBal-2025.gms
+    Domain violation for set
+*** Error 171 in C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\DATA_SamBal-2025.gms
+    Domain violation for set
+*** Error 140 in C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\DATA_SamBal-2025.gms
+    Unknown symbol
+--- . DATA_SamBal-2025.gms(887) 21 Mb 6 Errors
+*** Error 170 in C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\DATA_SamBal-2025.gms
+    Domain violation for element
+--- . DATA_SamBal-2025.gms(888) 21 Mb 7 Errors
+*** Error 170 in C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\DATA_SamBal-2025.gms
+    Domain violation for element
+--- . DATA_SamBal-2025.gms(889) 21 Mb 8 Errors
+*** Error 170 in C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\DATA_SamBal-2025.gms
+    Domain violation for element
+--- . DATA_SamBal-2025.gms(891) 21 Mb 10 Errors
+*** Error 170 in C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\DATA_SamBal-2025.gms
+    Domain violation for element
+*** Error 170 in C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\DATA_SamBal-2025.gms
+    Domain violation for element
+--- . DATA_SamBal-2025.gms(892) 21 Mb 12 Errors
+*** Error 170 in C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\DATA_SamBal-2025.gms
+    Domain violation for element
+*** Error 170 in C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\DATA_SamBal-2025.gms
+    Domain violation for element
+--- . DATA_SamBal-2025.gms(893) 21 Mb 14 Errors
+*** Error 170 in C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\DATA_SamBal-2025.gms
+    Domain violation for element
+*** Error 170 in C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\DATA_SamBal-2025.gms
+    Domain violation for element
+--- . DATA_SamBal-2025.gms(895) 21 Mb 18 Errors
+*** Error 170 in C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\DATA_SamBal-2025.gms
+    Domain violation for element
+*** Error 170 in C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\DATA_SamBal-2025.gms
+    Domain violation for element
+*** Error 170 in C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\DATA_SamBal-2025.gms
+    Domain violation for element
+*** Error 170 in C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\DATA_SamBal-2025.gms
+    Domain violation for element
+--- . DATA_SamBal-2025.gms(896) 21 Mb 22 Errors
+*** Error 170 in C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\DATA_SamBal-2025.gms
+    Domain violation for element
+*** Error 170 in C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\DATA_SamBal-2025.gms
+    Domain violation for element
+*** Error 170 in C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\DATA_SamBal-2025.gms
+    Domain violation for element
+*** Error 170 in C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\DATA_SamBal-2025.gms
+    Domain violation for element
+--- . DATA_SamBal-2025.gms(897) 21 Mb 26 Errors
+*** Error 170 in C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\DATA_SamBal-2025.gms
+    Domain violation for element
+*** Error 170 in C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\DATA_SamBal-2025.gms
+    Domain violation for element
+*** Error 170 in C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\DATA_SamBal-2025.gms
+    Domain violation for element
+*** Error 170 in C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\DATA_SamBal-2025.gms
+    Domain violation for element
+--- . DATA_SamBal-2025.gms(923) 21 Mb 27 Errors
+*** Error 170 in C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\DATA_SamBal-2025.gms
+    Domain violation for element
+--- . DATA_SamBal-2025.gms(924) 21 Mb 28 Errors
+*** Error 170 in C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\DATA_SamBal-2025.gms
+    Domain violation for element
+--- . DATA_SamBal-2025.gms(965) 21 Mb
+--- DATA_GTAP11c.gms(1229) 21 Mb 28 Errors
+*** Status: Compilation error(s)
+--- Job DATA_GTAP11c.gms Stop 06/27/25 13:00:50 elapsed 0:00:05.313

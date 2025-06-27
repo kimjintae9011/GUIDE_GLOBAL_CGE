@@ -858,13 +858,13 @@ SAM0(tf2,A1,Z)  = SUM[(k,j)$[sam_sce8(tf2,k)$sam_sce1(A1,j)], TIKO(k,j,Z)];
 SAM0(PTX1,A1,Z) = SUM[(j)$[sam_sce1(A1,j)], TIPO(j,Z)];
 
 *Commodities
-SAM0(A1,C1,Z)  = SUM[(i,j)$[sam_sce1(A1,i)$sam_sce2(C1,j)], XSO_Matrix(i,j,Z)];
-SAM0(ITAX1,C1,Z) = SUM[(i,zj)$[sam_sce5(ITAX1,zj)$sam_sce2(C1,i)], TIMO(i,zj,Z)];
-SAM0(ETAX1,C1,Z) = SUM[(i,zj)$[sam_sce6(ETAX1,zj)$sam_sce2(C1,i)], TIXO(i,Z,zj)];
-SAM0(MAR1,C1,Z) = SUM[(ij,zj)$[sam_sce9(MAR1,zj)$sam_sce2(C1,ij)],tmrg('20_LTRP',ij,zj,Z)];
-SAM0(MAR2,C1,Z) = SUM[(ij,zj)$[sam_sce10(MAR2,zj)$sam_sce2(C1,ij)],tmrg('21_WTRP',ij,zj,Z)];
-SAM0(MAR3,C1,Z) = SUM[(ij,zj)$[sam_sce11(MAR3,zj)$sam_sce2(C1,ij)],tmrg('22_ATRP',ij,zj,Z)];
-SAM0(WORLD1,C1,Z)= SUM[(i,zj)$[sam_sce12(WORLD1,zj)$sam_sce2(C1,i)], IMO(i,zj,Z)];
+SAM0(A1,C1,Z)       = SUM[(i,j)$[sam_sce1(A1,i)$sam_sce2(C1,j)], XSO_Matrix(i,j,Z)];
+SAM0(ITAX1,C1,Z)  = SUM[(i,zj)$[sam_sce5(ITAX1,zj)$sam_sce2(C1,i)], TIMO(i,zj,Z)];
+SAM0(ETAX1,C1,Z)  = SUM[(i,zj)$[sam_sce6(ETAX1,zj)$sam_sce2(C1,i)], TIXO(i,Z,zj)];
+SAM0(MAR1,C1,Z)  = SUM[(ij,zj)$[sam_sce9(MAR1,zj)$sam_sce2(C1,ij)],tmrg('20_LTRP',ij,zj,Z)];
+SAM0(MAR2,C1,Z)  = SUM[(ij,zj)$[sam_sce10(MAR2,zj)$sam_sce2(C1,ij)],tmrg('21_WTRP',ij,zj,Z)];
+SAM0(MAR3,C1,Z)  = SUM[(ij,zj)$[sam_sce11(MAR3,zj)$sam_sce2(C1,ij)],tmrg('22_ATRP',ij,zj,Z)];
+SAM0(WORLD1,C1,Z) = SUM[(i,zj)$[sam_sce12(WORLD1,zj)$sam_sce2(C1,i)], IMO(i,zj,Z)];
 SAM0(PTX1,C1,Z) = SUM[(i)$[sam_sce2(C1,i)], TICO(i,Z)];
 
 *Factors
@@ -895,6 +895,10 @@ SAM0('45_c_ATRP','144_M3c22_A_pvst',Z)= MRGNO('22_ATRP',Z);
 SAM0(INV1,'142_M1c20_L_pvst',Z) = sum(B,SAM0('142_M1c20_L_pvst',B,Z))-SAM0('43_c_LTRP','142_M1c20_L_pvst',Z);
 SAM0(INV1,'143_M2c21_W_pvst',Z) = sum(B,SAM0('143_M2c21_W_pvst',B,Z))-SAM0('44_c_WTRP','143_M2c21_W_pvst',Z);
 SAM0(INV1,'144_M3c22_A_pvst',Z) = sum(B,SAM0('144_M3c22_A_pvst',B,Z))-SAM0('45_c_ATRP','144_M3c22_A_pvst',Z);
+
+150_M1c20_L_pvst
+151_M2c21_W_pvst
+152_M3c22_A_pvst
 
 *Import&Export
 SAM0(C1,WORLD1,Z)= SUM[(i,zj)$[sam_sce12(WORLD1,zj)$sam_sce2(C1,i)],EXO(i,Z,zj)];

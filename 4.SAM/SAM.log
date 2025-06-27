@@ -1,5 +1,4 @@
-
---- Job DATA_GTAP11c.gms Start 06/27/25 13:01:49 45.7.0 64fbf3ce WEX-WEI x86 64bit/MS Windows
+--- Job DATA_GTAP11c.gms Start 06/27/25 13:40:32 45.7.0 64fbf3ce WEX-WEI x86 64bit/MS Windows
 --- Applying:
     C:\GAMS\45\gmsprmNT.txt
     C:\Users\kimc0\Documents\GAMS\gamsconfig.yaml
@@ -192,7 +191,7 @@ Finished OK; created file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\Input_w-t\GTAP1
 GDXXRW           45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
 Input file : C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\Input_w-t\Projection.xlsx
 Output file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\Input_w-t\Projection.gdx
-Total time = 1547 Ms
+Total time = 2047 Ms
 --- DATA_GTAP11c.gms(1172) 20 Mb
 --- GDXin=C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\Input_w-t\Projection.gdx
 --- GDX File ($gdxIn) C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\Input_w-t\Projection.gdx
@@ -202,7 +201,7 @@ Total time = 1547 Ms
 GDXXRW           45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
 Input file : C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\Input_w-t\Employment.xlsx
 Output file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\Input_w-t\Employment.gdx
-Total time = 1328 Ms
+Total time = 1750 Ms
 --- DATA_GTAP11c.gms(1176) 21 Mb
 --- GDXin=C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\Input_w-t\Employment.gdx
 --- GDX File ($gdxIn) C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\Input_w-t\Employment.gdx
@@ -274,4 +273,4 @@ Total time = 1328 Ms
 --- . DATA_SamBal-2025.gms(965) 21 Mb
 --- DATA_GTAP11c.gms(1229) 21 Mb 26 Errors
 *** Status: Compilation error(s)
---- Job DATA_GTAP11c.gms Stop 06/27/25 13:01:52 elapsed 0:00:03.446
+--- Job DATA_GTAP11c.gms Stop 06/27/25 13:40:37 elapsed 0:00:05.132

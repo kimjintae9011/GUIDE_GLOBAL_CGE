@@ -1,4 +1,4 @@
-GAMS 45.7.0  64fbf3ce Jan 18, 2024          WEX-WEI x86 64bit/MS Windows - 06/27/25 13:01:49 Page 1
+GAMS 45.7.0  64fbf3ce Jan 18, 2024          WEX-WEI x86 64bit/MS Windows - 06/27/25 13:40:32 Page 1
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
 C o m p i l a t i o n
 
@@ -2296,7 +2296,7 @@ INCLUDE    C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\DATA_SamBal-2025.gms
 EXIT C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\DATA_SamBal-2025.gms
 
 **** 26 ERROR(S)   0 WARNING(S)
-GAMS 45.7.0  64fbf3ce Jan 18, 2024          WEX-WEI x86 64bit/MS Windows - 06/27/25 13:01:49 Page 2
+GAMS 45.7.0  64fbf3ce Jan 18, 2024          WEX-WEI x86 64bit/MS Windows - 06/27/25 13:40:32 Page 2
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
 Include File Summary
 
@@ -2316,7 +2316,7 @@ Include File Summary
     11     2194 EXIT          10     965  .C:\Users\kimc0\GUIDE_GLOBAL_CGE\4.SAM\DATA_SamBal-2025.gms
 
 
-COMPILATION TIME     =        3.438 SECONDS     21 MB  45.7.0 64fbf3ce WEX-WEI
+COMPILATION TIME     =        5.110 SECONDS     21 MB  45.7.0 64fbf3ce WEX-WEI
 
 
 USER: Medium MUD - 10 User License                   S220825|0002AO-WIN

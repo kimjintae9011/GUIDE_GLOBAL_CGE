@@ -106,33 +106,15 @@
         },
         {
             "codecMib": 106,
-            "file": "CAL_B_line_GTAP11b.lst",
-            "name": "CAL_B_line_GTAP11b.lst",
-            "type": "lst"
-        },
-        {
-            "codecMib": 106,
             "file": "CAL_B_line_GTAP11b_new.gms",
             "name": "CAL_B_line_GTAP11b_new.gms",
             "type": "gms"
         },
         {
             "codecMib": 106,
-            "file": "CAL_B_line_GTAP11b_new.lst",
-            "name": "CAL_B_line_GTAP11b_new.lst",
-            "type": "lst"
-        },
-        {
-            "codecMib": 106,
             "file": "CAL_B_line_GTAP11b_new2.gms",
             "name": "CAL_B_line_GTAP11b_new2.gms",
             "type": "gms"
-        },
-        {
-            "codecMib": 106,
-            "file": "CAL_B_line_GTAP11b_new2.lst",
-            "name": "CAL_B_line_GTAP11b_new2.lst",
-            "type": "lst"
         },
         {
             "codecMib": 106,
@@ -193,18 +175,6 @@
             "file": "Model_GTAP11b.gms",
             "name": "Model_GTAP11b.gms",
             "type": "gms"
-        },
-        {
-            "codecMib": 106,
-            "file": "Model_GTAP11b.lst",
-            "name": "Model_GTAP11b.lst",
-            "type": "lst"
-        },
-        {
-            "codecMib": 106,
-            "file": "New_Cal.gdx",
-            "name": "New_Cal.gdx",
-            "type": "gdx"
         },
         {
             "codecMib": 106,
