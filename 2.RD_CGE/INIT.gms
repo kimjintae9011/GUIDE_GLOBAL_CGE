@@ -38,6 +38,12 @@
  CTH_REAL.L(z,t1)  = CTH_REALO(z);
  DI.L(i,j,z,t1)    = DIO(i,j,z);
  DE.L(ene,j,z,t1)  = DEO(ene,j,z);
+
+ DEelec.L(j2,z,t1)  = DEelecO(j2,z);
+ DEnelec.L(j2,z,t1) = DEnelecO(j2,z);
+ DEcoalgas.L(j2,z,t1)   = DEcoalgasO(j2,z);
+ DEoilpetrol.L(j2,z,t1) = DEoilpetrolO(j2,z);
+
  DIT.L(i,z,t1)     = DITO(i,z);
  DD.L(i,z,t1)      = DDO(i,z);
  DS.L(j,i,z,t1)    = DSO(j,i,z);
@@ -51,34 +57,29 @@
  GDP_BP_W_REAL.l(t1) = GDP_BP_W_REALO;
  IM.L(i,zj,z,t1)   = IMO(i,zj,z);
  IMT.L(i,z,t1)     = IMTO(i,z);
- IND.L(k,j,z,t1)   = INDO(k,j,z);
+ IND.L(k,j,z,t1)    = INDO(k,j,z);
  INV.L(i,z,t1)     = INVO(i,z);
  IT_REAL.l(z,t1)   = IT_REALO(z);
- KD.L(k,j,z,t1)    = KDO(k,j,z);
- KDC.L(j,z,t1)     = KDCO(j,z);
- KS.L(k,z,t1)      = KSO(k,z);
- LD.L(l,j,z,t1)    = LDO(l,j,z);
- LDC.L(j,z,t1)     = LDCO(j,z);
- LS.L(l,z,t1)      = LSO(l,z);
- LST.L(l,z,t1)     = LSTO(l,z);
- LS_lag.L(l,z,t1)   = LSO_lag(l,z) ; 
- LST_lag.L(l,z,t1)  = LSTO_lag(l,z) ;
- MRGN.L(i,z,t1)         = MRGNO(i,z);
- Q.L(i,z,t1)            = QO(i,z);
- VA.L(j,z,t1)           = VAO(j,z);
- KLE.L(j,z,t1)          = KLEO(j,z);
- XS.L(j,i,z,t1)         = XSO(j,i,z);
- XS_I.L(i,z,t1)         = XSO_I(i,z);
- XST.L(j,z,t1)          = XSTO(j,z);
- POWERQ.L(z,t1)         = POWERQO(z);
- OBJ.L                  = 1;
-* C_Conventional.L(i3,z,t1)  = 0;
-* XDBS.L(i3,z,t1)  = 0;
-* XDBS2.L(j,z,t1)  = 0;
-* LBS.L(l,j,z,t1)  = 0;
-* KBS.L(k,j,z,t1)  = 0;
- 
-* beta_X4_t.fx(power,z,t1)  = beta_X4(power,z);
+ KD.L(k,j,z,t1)        = KDO(k,j,z);
+ KDC.L(j,z,t1)      = KDCO(j,z);
+ KS.L(k,z,t1)          = KSO(k,z);
+ LD.L(l,j,z,t1)        = LDO(l,j,z);
+ LS.L(l,z,t1)          = LSO(l,z);
+ LDC.L(j,z,t1)      = LDCO(j,z);
+ MRGN.L(i,z,t1)   = MRGNO(i,z);
+ Q.L(i,z,t1)         = QO(i,z);
+ VA.L(j,z,t1)        = VAO(j,z);
+ KLE.L(j,z,t1)      = KLEO(j,z);
+ XS.L(j,i,z,t1)      = XSO(j,i,z);
+ XS_I.L(i,z,t1)     = XSO_I(i,z);
+ XST.L(j,z,t1)       = XSTO(j,z);
+ POWERQ.L(z,t1) = POWERQO(z);
+ OBJ.L                 = 1;
+* C_Conventional.L(i3,z,t1)  = QO(i3,z);
+* PERMIT.L(j,z,t1)     = PERMITO(j,z);
+* PERMIT_TOTAL.L(z,t1) = PERMIT_TOTALO(z);
+ CTAX.L(z,t1)         = CTAX0(z);
+
 *==============================================================================
 *   A.1.2 Price variables
 *==============================================================================
@@ -94,11 +95,17 @@
  PC.L(i,z,t1)      = PCO(i,z);
  PCI.L(j,z,t1)     = PCIO(j,z);
  PCE.L(j,z,t1)     = PCEO(j,z);
+
+ PCEelec.L(j2,z,t1)  = PCEelecO(j2,z);
+ PCEnelec.L(j2,z,t1) = PCEnelecO(j2,z);
+ PCEcoalgas.L(j2,z,t1)   = PCEcoalgasO(j2,z);
+ PCEoilpetrol.L(j2,z,t1) = PCEoilpetrolO(j2,z);
+
  PD.L(i,z,t1)      = PDO(i,z);
  PE.L(i,z,zj,t1)   = PEO(i,z,zj);
  PET.L(i,z,t1)     = PETO(i,z);
  PIXCON.L(z,t1)    = PIXCONO(z);
- PIXCON2.L(z,t1)   = PIXCON2O(z);
+* PIXCON2.L(z,t1)   = PIXCON2O(z);
  PIXGDP.L(z,t1)    = PIXGDPO(z);
  PIXGDP_W.L(t1)    = PIXGDP_WO;
  PIXGVT.L(z,t1)    = PIXGVTO(z);
@@ -118,7 +125,6 @@
  RTI.L(k,j,z,t1)   = RTIO(k,j,z);
  U.L(z,t1)         = UO(z);
  W.L(l,z,t1)       = WO(l,z);
- W2.L(l,z,t1)      = W2O(l,z);
  WC.L(j,z,t1)      = WCO(j,z);
  WTI.L(l,j,z,t1)   = WTIO(l,j,z);
 
@@ -138,7 +144,7 @@
  SG.L(z,t1)        = SGO(z);
  SH.L(z,t1)        = SHO(z);
  SROW.L(z,t1)      = SROWO(z);
-* TCTAX.L(z,t1)     = TCTAX0(z);
+ TCTAX.L(z,t1)     = TCTAX0(z);
  TDH.L(z,t1)       = TDHO(z);
  TIC.L(i,z,t1)     = TICO(i,z);
  TICT.L(z,t1)      = TICTO(z);
@@ -160,10 +166,9 @@
  YHK.L(z,t1)       = YHKO(z);
  YHL.L(z,t1)       = YHLO(z);
  YROW.L(z,t1)      = YROWO(z);
-* CLBS.L(i3,z,t1)   = 0;
-* CKBS.L(i3,z,t1)   = 0;
-* MARKUP.L(i3,z,t1) = 0;
- 
+
+* TIP_Share.L(j,z,t1) = TIP_ShareO(j,z);
+* TIW_Share.L(l,j,z,t1) = TIW_ShareO(l,j,z);
 *==============================================================================
 *   A.1.4 Rates and intercepts
 *==============================================================================
@@ -178,45 +183,6 @@ IF{ord(time) gt 1,
 *==============================================================================
 *   A.2.1 Volume variables
 *==============================================================================
-* CABX.L(z,time)      = CABXO(z);
-* C.L(i,z,time)       = CO(i,z);
-* CG.L(i,z,time)      = CGO(i,z);
-* CI.L(j,z,time)      = CIO(j,z);
-* CE.L(j,z,time)      = CEO(j,z);
-* CMIN.L(i,z,time)    = CMINO(i,z);
-* CTH_REAL.L(z,time)  = CTH_REALO(z);
-* DI.L(i,j,z,time)    = DIO(i,j,z);
-* DE.L(ene,j,z,time)  = DEO(ene,j,z);
-* DIT.L(i,z,time)     = DITO(i,z);
-* DD.L(i,z,time)      = DDO(i,z);
-* DS.L(j,i,z,time)    = DSO(j,i,z);
-* DS_I.L(i,z,time)    = DSO_I(i,z);
-* EX.L(i,z,zj,time)   = EXO(i,z,zj);
-* EXT.L(i,z,time)     = EXTO(i,z);
-* G_REAL.L(z,time)    = G_REALO(z);
-* GDP_BP_REAL.l(z,time) = GDP_BP_REALO(z);
-* GDP_MP_REAL.l(z,time) = GDP_MP_REALO(z);
-* GDP_BP_W_REAL.l(time) = GDP_BP_W_REALO;
-* IM.L(i,zj,z,time)   = IMO(i,zj,z);
-* IMT.L(i,z,time)     = IMTO(i,z);
-* IND.L(k,j,z,time)   = INDO(k,j,z);
-* INV.L(i,z,time)     = INVO(i,z);
-* IT_REAL.l(z,time)   = IT_REALO(z);
-* KD.L(k,j,z,time)    = KDO(k,j,z);
-* KDC.L(j,z,time)     = KDCO(j,z);
-* KS.L(k,z,time)      = KSO(k,z);
-* LD.L(l,j,z,time)    = LDO(l,j,z);
-* LDC.L(j,z,time)     = LDCO(j,z);
-* LS.L(l,z,time)      = LSO(l,z);
-* MRGN.L(i,z,time)    = MRGNO(i,z);
-* Q.L(i,z,time)         = QO(i,z);
-* VA.L(j,z,time)        = VAO(j,z);
-* KLE.L(j,z,time)       = KLEO(j,z);
-* XS.L(j,i,z,time)      = XSO(j,i,z);
-* XS_I.L(i,z,time)      = XSO_I(i,z);
-* XST.L(j,z,time)       = XSTO(j,z);
-* POWERQ.L(z,time)      = POWERQO(z);
-
  CABX.L(z,time)      = CABX.L(z,time-1);
  C.L(i,z,time)       = C.L(i,z,time-1);
  CG.L(i,z,time)      = CG.L(i,z,time-1);
@@ -226,6 +192,12 @@ IF{ord(time) gt 1,
  CTH_REAL.L(z,time)  = CTH_REAL.l(z,time-1);
  DI.L(i,j,z,time)    = DI.L(i,j,z,time-1);
  DE.L(ene,j,z,time)  = DE.L(ene,j,z,time-1);
+ 
+ DEelec.L(j2,z,time)  = DEelec.L(j2,z,time-1);
+ DEnelec.L(j2,z,time) = DEnelec.L(j2,z,time-1);
+ DEcoalgas.L(j2,z,time)   = DEcoalgas.L(j2,z,time-1);
+ DEoilpetrol.L(j2,z,time) = DEoilpetrol.L(j2,z,time-1);
+
  DIT.L(i,z,time)     = DIT.L(i,z,time-1);
  DD.L(i,z,time)      = DD.L(i,z,time-1);
  DS.L(j,i,z,time)    = DS.L(j,i,z,time-1);
@@ -236,7 +208,7 @@ IF{ord(time) gt 1,
  G_REAL.L(z,time)    = G_REAL.L(z,time-1);
  GDP_BP_REAL.l(z,time) = GDP_BP_REAL.l(z,time-1);
  GDP_MP_REAL.l(z,time) = GDP_MP_REAL.l(z,time-1);
- GDP_BP_W_REAL.l(time) = SUM[z,GDP_BP_REAL.L(z,time)];
+ GDP_BP_W_REAL.l(time) = GDP_BP_W_REAL.L(time-1);
  IM.L(i,zj,z,time)   = IM.L(i,zj,z,time-1);
  IMT.L(i,z,time)     = IMT.L(i,z,time-1);
  IND.L(k,j,z,time)   = IND.L(k,j,z,time-1);
@@ -246,11 +218,8 @@ IF{ord(time) gt 1,
  KDC.L(j,z,time)     = KDC.L(j,z,time-1);
  KS.L(k,z,time)      = KS.L(k,z,time-1);
  LD.L(l,j,z,time)    = LD.L(l,j,z,time-1);
- LDC.l(j,z,time)     = LDC.l(j,z,time-1);
  LS.L(l,z,time)      = LS.L(l,z,time-1);
- LST.L(l,z,time)     = LST.L(l,z,time-1);
- LS_lag.L(l,z,time)  = LS_lag.L(l,z,time-1);
- LST_lag.L(l,z,time) = LST_lag.L(l,z,time-1);
+ LDC.l(j,z,time)     = LDC.l(j,z,time-1);
  MRGN.L(i,z,time)    = MRGN.L(i,z,time-1);
  Q.L(i,z,time)       = Q.L(i,z,time-1);
  VA.L(j,z,time)      = VA.L(j,z,time-1);
@@ -260,93 +229,13 @@ IF{ord(time) gt 1,
  XST.L(j,z,time)     = XST.L(j,z,time-1);
  POWERQ.L(z,time)    = POWERQ.L(z,time-1);
 * C_Conventional.L(i3,z,time)  = C_Conventional.L(i3,z,time-1);
-* XDBS.L(i3,z,time)   = XDBS.L(i3,z,time-1);
-* XDBS2.L(j,z,time)   = XDBS2.L(j,z,time-1);
-* LBS.L(l,j,z,time)   = LBS.L(l,j,z,time-1);
-* KBS.L(k,j,z,time)   = KBS.L(k,j,z,time-1);
- 
- CABX.L(z,time)      = CABX.L(z,time-1)*(1+growthz(z));
- C.L(i,z,time)       = C.L(i,z,time-1)*(1+growthz(z));
- CG.L(i,z,time)      = CG.L(i,z,time-1)*(1+growthz(z));
- CI.L(j,z,time)      = CI.L(j,z,time-1)*(1+growthz(z));
- CE.L(j,z,time)      = CE.L(j,z,time-1)*(1+growthz(z)); 
- CMIN.L(i,z,time)    = CMIN.L(i,z,time-1)*(1+growthz(z));
- CTH_REAL.L(z,time)  = CTH_REAL.l(z,time-1)*(1+growthz(z));
- DI.L(i,j,z,time)    = DI.L(i,j,z,time-1)*(1+growthz(z));
- DE.L(ene,j,z,time)  = DE.L(ene,j,z,time-1)*(1+growthz(z));
- DIT.L(i,z,time)     = DIT.L(i,z,time-1)*(1+growthz(z));
- DD.L(i,z,time)      = DD.L(i,z,time-1)*(1+growthz(z));
- DS.L(j,i,z,time)    = DS.L(j,i,z,time-1)*(1+growthz(z));
- DS_I.L(i,z,time)    = DS_I.L(i,z,time-1)*(1+growthz(z));
- EX.L(i,z,zj,time)   = EX.L(i,z,zj,time-1)*(1+growthz(z));
- EXT.L(i,z,time)     = EXT.L(i,z,time-1)*(1+growthz(z));
- EXTT.L(j,i,z,time)  = EXTT.L(j,i,z,time-1)*(1+growthz(z));
- G_REAL.L(z,time)    = G_REAL.L(z,time-1)*(1+growthz(z));
- GDP_BP_REAL.l(z,time) = GDP_BP_REAL.l(z,time-1)*(1+growthz(z));
- GDP_MP_REAL.l(z,time) = GDP_MP_REAL.l(z,time-1)*(1+growthz(z));
- GDP_BP_W_REAL.l(time) = SUM[z,GDP_BP_REAL.L(z,time)];
- IM.L(i,zj,z,time)   = IM.L(i,zj,z,time-1)*(1+growthz(z));
- IMT.L(i,z,time)     = IMT.L(i,z,time-1)*(1+growthz(z));
- IND.L(k,j,z,time)   = IND.L(k,j,z,time-1)*(1+growthz(z));
- INV.L(i,z,time)     = INV.L(i,z,time-1)*(1+growthz(z));
- IT_REAL.l(z,time)   = IT_REAL.l(z,time-1)*(1+growthz(z));
- KD.L(k,j,z,time)    = KD.L(k,j,z,time-1)*(1+growthz(z));
- KDC.L(j,z,time)     = KDC.L(j,z,time-1)*(1+growthz(z));
- KS.L(k,z,time)      = KS.L(k,z,time-1)*(1+growthz(z));
- LD.L(l,j,z,time)    = LD.L(l,j,z,time-1)*(1+growthz(z));
- LDC.l(j,z,time)     = LDC.l(j,z,time-1)*(1+growthz(z));
- LS.L(l,z,time)      = LS.L(l,z,time-1)*(1+growthz(z));
- MRGN.L(i,z,time)    = MRGN.L(i,z,time-1)*(1+growthz(z));
- Q.L(i,z,time)       = Q.L(i,z,time-1)*(1+growthz(z));
- VA.L(j,z,time)      = VA.L(j,z,time-1)*(1+growthz(z));
- KLE.L(j,z,time)     = KLE.L(j,z,time-1)*(1+growthz(z));
- XS.L(j,i,z,time)    = XS.L(j,i,z,time-1)*(1+growthz(z));
- XS_I.L(i,z,time)    = XS_I.L(i,z,time-1)*(1+growthz(z));
- XST.L(j,z,time)     = XST.L(j,z,time-1)*(1+growthz(z));
- POWERQ.L(z,time)    = POWERQ.L(z,time-1)*(1+growthz(z));
-* KK.L(k,j,z,time)    = KK.L(k,j,z,time-1)*(1+0.03);
-* beta_X4_t.fx(power,z,time)  = beta_X4_t.L(power,z,time-1);
+* PERMIT.L(j,z,time)     = PERMIT.L(j,z,time-1) ;
+* PERMIT_TOTAL.L(z,time) = PERMIT_TOTAL.L(z,time-1);
+ CTAX.L(z,time)         = CTAX.L(z,time-1);
+
 *==============================================================================
 *   A.2.2 Price variables
 *==============================================================================
-* e.L(z,time)         = eO(z);
-* IR.L(z,time)        = IRO(z);
-* P.L(i,z,time)       = PO(i,z);
-* P2.L(j,i,z,time)    = PO2(j,i,z);
-* P4.L(ene,j,z,time)  = PO4(ene,j,z);
-* PPOWER.L(z,time)    = PPOWERO(z);
-* PI.l(i,z,time)      = PO(i,z);
-* PT.L(j,z,time)      = PTO(j,z);
-* PP.L(j,z,time)      = PPO(j,z);
-* PC.L(i,z,time)      = PCO(i,z);
-* PCI.L(j,z,time)     = PCIO(j,z);
-* PCE.L(j,z,time)     = PCEO(j,z);
-* PD.L(i,z,time)      = PDO(i,z);
-* PE.L(i,z,zj,time)   = PEO(i,z,zj);
-* PET.L(i,z,time)     = PETO(i,z);
-* PIXCON.L(z,time)    = PIXCONO(z);
-* PIXGDP.L(z,time)    = PIXGDPO(z);
-* PIXGDP_W.L(time)    = PIXGDP_WO;
-* PIXGVT.L(z,time)    = PIXGVTO(z);
-* PIXINV.L(z,time)    = PIXINVO(z);
-* PK.L(z,time)        = PKO(z);
-* PL.L(i,z,time)      = PLO(i,z);
-* PM.L(i,zj,z,time)   = PMO(i,zj,z);
-* PMT.L(i,z,time)     = PMTO(i,z);
-* PP.L(j,z,time)      = PPO(j,z);
-* PVA.L(j,Z,time)     = PVAO(j,Z);
-* PKLE.L(j,Z,time)    = PKLEO(j,Z);
-* PWM.L(i,zj,z,time)  = PWMO(i,zj,z);
-* PWMG.L(i,time)      = PWMGO(i);
-* PWX.L(i,z,zj,time)  = PWXO(i,z,zj);
-* R.L(k,j,z,time)     = RO(k,j,z);
-* RK.L(k,z,time)      = RKO(k,z);
-* RC.L(j,z,time)      = RCO(j,z);
-* RTI.L(k,j,z,time)   = RTIO(k,j,z);
-* U.L(z,time)         = UO(z);
-* W.L(l,z,time)       = WO(l,z);
-* WC.L(j,z,time)      = WCO(j,z);
-* WTI.L(l,j,z,time)   = WTIO(l,j,z);
 
  e.L(z,time)         = e.L(z,time-1);
  IR.L(z,time)        = IR.L(z,time-1);
@@ -360,11 +249,17 @@ IF{ord(time) gt 1,
  PC.L(i,z,time)      = PC.L(i,z,time-1);
  PCI.L(j,z,time)     = PCI.L(j,z,time-1);
  PCE.L(j,z,time)     = PCE.L(j,z,time-1);
+ 
+ PCEelec.L(j2,z,time)  = PCEelec.L(j2,z,time-1);
+ PCEnelec.L(j2,z,time) = PCEnelec.L(j2,z,time-1);
+ PCEcoalgas.L(j2,z,time)   = PCEcoalgas.L(j2,z,time-1);
+ PCEoilpetrol.L(j2,z,time) = PCEoilpetrol.L(j2,z,time-1);
+
  PD.L(i,z,time)      = PD.L(i,z,time-1);
  PE.L(i,z,zj,time)   = PE.L(i,z,zj,time-1);
  PET.L(i,z,time)     = PET.L(i,z,time-1);
  PIXCON.L(z,time)    = PIXCON.L(z,time-1);
- PIXCON2.L(z,time)   = PIXCON2.L(z,time-1);
+* PIXCON2.L(z,time)   = PIXCON2.L(z,time-1);
  PIXGDP.L(z,time)    = PIXGDP.L(z,time-1);
  PIXGDP_W.L(time)    = PIXGDP_W.L(time-1);
  PIXGVT.L(z,time)    = PIXGVT.L(z,time-1);
@@ -384,48 +279,12 @@ IF{ord(time) gt 1,
  RTI.L(k,j,z,time)   = RTI.L(k,j,z,time-1);
  U.L(z,time)         = U.L(z,time-1);
  W.L(l,z,time)       = W.L(l,z,time-1);
- W2.L(l,z,time)      = W2.L(l,z,time-1);
  WC.L(j,z,time)      = WC.L(j,z,time-1);
  WTI.L(l,j,z,time)   = WTI.L(l,j,z,time-1);
 
 *==============================================================================
 *   A.2.3 Nominal (value) variables
 *==============================================================================
-* CAB.L(z,time)       = CABO(z);
-* CTH.L(z,time)       = CTHO(z);
-* DEP.L(z,time)       = DEPO(z);
-* G.L(z,time)         = GO(z);
-* GDP_BP.L(z,time)    = GDP_BPO(z);
-* GDP_BP_W.L(time)    = SUM[z,GDP_BPO(z)];
-* GDP_FD.L(z,time)    = GDP_FDO(z);
-* GDP_IB.L(z,time)    = GDP_IBO(z);
-* GDP_MP.L(z,time)    = GDP_MPO(z);
-* IT.L(z,time)        = ITO(z);
-* SG.L(z,time)        = SGO(z);
-* SH.L(z,time)        = SHO(z);
-* SROW.L(z,time)      = SROWO(z);
-* TDH.L(z,time)       = TDHO(z);
-* TIC.L(i,z,time)     = TICO(i,z);
-* TICT.L(z,time)      = TICTO(z);
-* TIK.L(k,j,z,time)   = TIKO(k,j,z);
-* TIKT.L(z,time)      = TIKTO(z);
-* TIM.L(i,zj,z,time)  = TIMO(i,zj,z);
-* TIMT.L(z,time)      = TIMTO(z);
-* TIP.L(j,z,time)     = TIPO(j,z);
-* TIPT.L(z,time)      = TIPTO(z);
-* TIW.L(l,j,z,time)   = TIWO(l,j,z);
-* TIWT.L(z,time)      = TIWTO(z);
-* TIX.L(i,z,zj,time)  = TIXO(i,z,zj);
-* TIXT.L(z,time)      = TIXTO(z);
-* TPRODN.l(z,time)    = TPRODNO(z);
-* TPRCTS.l(z,time)    = TPRCTSO(z);
-* YDH.L(z,time)       = YDHO(z);
-* YG.L(z,time)        = YGO(z);
-* YH.L(z,time)        = YHO(z);
-* YHK.L(z,time)       = YHKO(z);
-* YHL.L(z,time)       = YHLO(z);
-* YROW.L(z,time)      = YROWO(z);
-
  CAB.L(z,time)       = CAB.L(z,time-1);
  CTH.L(z,time)       = CTH.L(z,time-1);
  DEP.L(z,time)       = DEP.L(z,time-1);
@@ -439,7 +298,7 @@ IF{ord(time) gt 1,
  SG.L(z,time)        = SG.L(z,time-1);
  SH.L(z,time)        = SH.L(z,time-1);
  SROW.L(z,time)      = SROW.L(z,time-1);
-* TCTAX.L(z,time)     = TCTAX.L(z,time-1);
+ TCTAX.L(z,time)     = TCTAX.L(z,time-1);
  TDH.L(z,time)       = TDH.L(z,time-1);
  TIC.L(i,z,time)     = TIC.L(i,z,time-1);
  TICT.L(z,time)      = TICT.L(z,time-1);
@@ -461,45 +320,11 @@ IF{ord(time) gt 1,
  YHK.L(z,time)       = YHK.L(z,time-1);
  YHL.L(z,time)       = YHL.L(z,time-1);
  YROW.L(z,time)      = YROW.L(z,time-1);
-
- CAB.L(z,time)       = CAB.L(z,time-1)*(1+growthz(z));
- CTH.L(z,time)       = CTH.L(z,time-1)*(1+growthz(z));
- DEP.L(z,time)       = DEP.L(z,time-1)*(1+0.03);
- G.L(z,time)         = G.L(z,time-1)*(1+growthz(z));
- GDP_BP.L(z,time)    = GDP_BP.L(z,time-1)*(1+growthz(z));
- GDP_BP_W.L(time)    = SUM[z,GDP_BP.L(z,time)];
- GDP_FD.L(z,time)    = GDP_FD.L(z,time-1)*(1+growthz(z));
- GDP_IB.L(z,time)    = GDP_IB.L(z,time-1)*(1+growthz(z));
- GDP_MP.L(z,time)    = GDP_MP.L(z,time-1)*(1+growthz(z));
- IT.L(z,time)        = IT.L(z,time-1)*(1+growthz(z));
- SG.L(z,time)        = SG.L(z,time-1)*(1+growthz(z));
- SH.L(z,time)        = SH.L(z,time-1)*(1+growthz(z));
- SROW.L(z,time)      = SROW.L(z,time-1)*(1+growthz(z));
- TDH.L(z,time)       = TDH.L(z,time-1)*(1+growthz(z));
- TIC.L(i,z,time)     = TIC.L(i,z,time-1)*(1+growthz(z));
- TICT.L(z,time)      = TICT.L(z,time-1)*(1+growthz(z));
- TIK.L(k,j,z,time)   = TIK.L(k,j,z,time-1)*(1+growthz(z));
- TIKT.L(z,time)      = TIKT.L(z,time-1)*(1+growthz(z));
- TIM.L(i,zj,z,time)  = TIM.L(i,zj,z,time-1)*(1+growthz(z));
- TIMT.L(z,time)      = TIMT.L(z,time-1)*(1+growthz(z));
- TIP.L(j,z,time)     = TIP.L(j,z,time-1)*(1+growthz(z));
- TIPT.L(z,time)      = TIPT.L(z,time-1)*(1+growthz(z));
- TIW.L(l,j,z,time)   = TIW.L(l,j,z,time-1)*(1+growthz(z));
- TIWT.L(z,time)      = TIWT.L(z,time-1)*(1+growthz(z));
- TIX.L(i,z,zj,time)  = TIX.L(i,z,zj,time-1)*(1+growthz(z));
- TIXT.L(z,time)      = TIXT.L(z,time-1)*(1+growthz(z));
- TPRODN.l(z,time)    = TPRODN.l(z,time-1)*(1+growthz(z));
- TPRCTS.l(z,time)    = TPRCTS.l(z,time-1)*(1+growthz(z));
- YDH.L(z,time)       = YDH.L(z,time-1)*(1+growthz(z));
- YG.L(z,time)        = YG.L(z,time-1)*(1+growthz(z));
- YH.L(z,time)        = YH.L(z,time-1)*(1+growthz(z));
- YHK.L(z,time)       = YHK.L(z,time-1)*(1+growthz(z));
- YHL.L(z,time)       = YHL.L(z,time-1)*(1+growthz(z));
- YROW.L(z,time)      = YROW.L(z,time-1)*(1+growthz(z));
-* CLBS.L(i3,z,time)   = CLBS.L(i3,z,time-1)*(1+growthz(z));
-* CKBS.L(i3,z,time)   = CKBS.L(i3,z,time-1)*(1+growthz(z));
-* MARKUP.L(i3,z,time) = MARKUP.L(i3,z,time-1)*(1+growthz(z));
  
+* TIK_Share.L(j,z,time) = TIK_Share.L(j,z,time-1);
+* TIP_Share.L(j,z,time)      = TIP_Share.L(j,z,time-1);
+* TIW_Share.L(l,j,z,time) = TIW_Share.L(l,j,z,time-1);
+
 *==============================================================================
 *   A.2.4 Rates and intercepts
 *==============================================================================

@@ -4,7 +4,7 @@
 *Author: [Jintae Kim]
 *Original Code Authors: Veronique Robichaud, Andre Lemelin, Helene Maisonnave, Bernard Decaluwe (PEP-w-1)
 *License: CC BY-NC-SA 3.0
-*Last Updated: 2025-03-14
+*Last Updated: 2025-03-27
 
 *==============================================================================*
 *Introduction
@@ -30,8 +30,8 @@
 
 * The har2gdx facility allows converting these two files into GDX format.
 *==============================================================================
-$CALL har2gdx Input_GTAP11DB\basedata2019_240214.har Input_w-t\GTAP11_basedata2019.gdx
-$CALL har2gdx Input_GTAP11DB\parameter2019_240416.prm Input_w-t\GTAP11_Parameters2019.gdx
+$CALL har2gdx Input_GTAP11DB\basedata2019_250422.har Input_w-t\GTAP11c_basedata2019.gdx
+$CALL har2gdx Input_GTAP11DB\parameter2019_250422.prm Input_w-t\GTAP11c_Parameters2019.gdx
 
 *==============================================================================
 * 1. Define the sets
@@ -73,6 +73,46 @@ SET J All industries
  31_SER         Service
 /
 
+J2(J) KLE Sectors
+/
+ 01_AGRICULT    Agricultural forest and fishery goods
+ 06_FOODPRO     Food beverages and tobacco products
+ 07_TEXTILES    Textile and leather products
+ 08_WOODPRO     Wood products
+ 09_PAPERPRO    Paper products
+ 10_PETROLCOAL  Petroleum and coal products
+ 11_CHEMICAL    Chemical products
+ 12_NONMET      Non-metallic mineral products
+ 13_IRONSTL     Primary iron and steel products
+ 14_NONFERR     Non-ferrous metal products
+ 15_MACHINE     Fabricated metal products Electronic and electrical equipment Machinery and equipment
+ 16_TRANSEQ     Motor vehicles Other transport equipment
+ 17_OTHERIND    Other manufactured products Water supply
+ 27_CONSTRUC    Construction
+ 28_LTRP        Land transport service(road rail)
+ 29_WTRP        Water transport service
+ 30_ATRP        Air transport service
+ 31_SER         Service
+/
+
+J3(J) Non-KLE Sectors
+/
+ 02_COAL        Coal
+ 03_OIL         Crude petroleum
+ 04_GAS         Natural gas Gas distribution
+ 05_MINING      Mined and quarried goods
+ 18_TnD         Transmission and Distribution
+ 19_eNuclear    Nuclear generation
+ 20_eCoal       Coal generation
+ 21_eGas        Gas generation
+ 22_eOil        Oil generation
+ 23_eWind       Wind generation
+ 24_eSolar      Solar generation
+ 25_eHydro      Hydro generation
+ 26_eOther      Other generation
+/
+
+
 I All commodities except agriculture
 /
  01_AGRICULT    Agricultural forest and fishery goods
@@ -98,6 +138,15 @@ I All commodities except agriculture
  21_WTRP        Water transport service
  22_ATRP        Air transport service
  23_SER         Service
+/
+
+ENE(I) Energy commodities full list
+/
+ 02_COAL         Coal
+ 03_OIL          Crude petroleum
+ 04_GAS         Natural gas
+ 10_PETROLCOAL   Petroleum and coal products
+ 18_ELEC         Electricity
 /
 
 BUS(J) Private industries
@@ -132,7 +181,7 @@ BUS(J) Private industries
  28_LTRP        Land transport service(road rail)
  29_WTRP        Water transport service
  30_ATRP        Air transport service
- 31_SER         Service
+* 31_SER         Service
 /
 
 TRP(J) TRANSPORT
@@ -174,7 +223,7 @@ PUB(J) Public industries
 * 28_LTRP        Land transport service(road rail)
 * 29_WTRP        Water transport service
 * 30_ATRP        Air transport service
-* 31_SER         Service
+ 31_SER         Service
 /
 
 F Production factors
@@ -266,7 +315,7 @@ TIME Time periods
  reg(GlobalSet)  All regions
  marg(comm) Margin commodities
 
-$GDXIN Input_w-t\GTAP11_basedata2019.gdx
+$GDXIN Input_w-t\GTAP11c_basedata2019.gdx
 
 $LOAD GlobalSet, reg, endw, acts, comm, marg
 
@@ -306,7 +355,8 @@ j2acts(j,acts) Mapping of sectors
  01_AGRICULT.     (pdr, wht, gro, v_f, osd, c_b, pfb, ocr, ctl, oap, rmk, wol, frs, fsh)
  02_COAL.         (coa)
  03_OIL.          (oil)
- 04_GAS.          (gas, gdt)
+* 04_GAS.          (gas, gdt)
+ 04_GAS.          (gas)
  05_MINING.       (oxt)
  06_FOODPRO.      (cmt, omt, vol, mil, pcr, sgr, ofd, b_t)
  07_TEXTILES.     (tex, wap, lea)
@@ -341,7 +391,8 @@ j2comm(j,comm) Mapping of sectors
  01_AGRICULT.     (pdr, wht, gro, v_f, osd, c_b, pfb, ocr, ctl, oap, rmk, wol, frs, fsh)
  02_COAL.         (coa)
  03_OIL.          (oil)
- 04_GAS.          (gas, gdt)
+* 04_GAS.          (gas, gdt)
+ 04_GAS.          (gas)
  05_MINING.       (oxt)
  06_FOODPRO.      (cmt, omt, vol, mil, pcr, sgr, ofd, b_t)
  07_TEXTILES.     (tex, wap, lea)
@@ -376,7 +427,8 @@ i2comm(i,comm) Mapping of sectors
  01_AGRICULT.     (pdr, wht, gro, v_f, osd, c_b, pfb, ocr, ctl, oap, rmk, wol, frs, fsh)
  02_COAL.         (coa)
  03_OIL.          (oil)
- 04_GAS.          (gas, gdt)
+* 04_GAS.          (gas, gdt)
+ 04_GAS.          (gas)
  05_MINING.       (oxt)
  06_FOODPRO.      (cmt, omt, vol, mil, pcr, sgr, ofd, b_t)
  07_TEXTILES.     (tex, wap, lea)
@@ -400,7 +452,7 @@ i2comm(i,comm) Mapping of sectors
 
 i2comm2(i,comm) Mapping of sectors
 /
- 02_COAL.         (coa, oil, gas, gdt, p_c, TnD, eNuclear, eCoal, eGas, eOil, eWind, eSolar, eHydro, eOther)
+ 02_COAL.         (coa, oil, gas, p_c, TnD, eNuclear, eCoal, eGas, eOil, eWind, eSolar, eHydro, eOther)
 /
 
 COMtoIND(j,i)
@@ -444,7 +496,7 @@ f2endw(f,endw) Mapping of production factors
  ulab.     (UnSkLab)
  cap.      (Capital)
  land.     (Land)
- natr.     (NatlRes)
+ natr.     (NatRes)
 /
 
 ALIAS(reg,regj)
@@ -456,6 +508,7 @@ ALIAS(l,lj)
 ALIAS(k,kj)
 ALIAS(z,zj,zjj)
 ALIAS(time,timej)
+AlIAS (ENE,ENEE)
 
 ;
 
@@ -569,6 +622,8 @@ $LOAD VTMFSD, VXSB, VFOB, XTRV
  CO(i,z)         = SUM{(comm,reg)$[i2comm(i,comm)$z2reg(z,reg)],
                        VDPP(comm,reg)+VMPP(comm,reg)};
 
+ CO(i,z)$(CO(i,z) lt 0.1) = 0.1 ;
+
 *==============================================================================
 * 2.4.2 Public final consumption
 *==============================================================================
@@ -578,31 +633,36 @@ $LOAD VTMFSD, VXSB, VFOB, XTRV
  CGO(i,z)        = SUM{(comm,reg)$[i2comm(i,comm)$z2reg(z,reg)],
                        VDGP(comm,reg)+VMGP(comm,reg)};
 
+ CGO(i,z)$(CGO(i,z) lt 0.1) = 0.1 ;
+
 *==============================================================================
 * 2.4.3 Demand for investment purposes
 *=============================================================================
 *  In the GTAP data, the accumulation account is presented in the
 *  production sector CGDS (Capital goods). Demand for investment purposes
 *  is thus given by the sum of domestic purchases at agents prices (VDIP)
-*  and public final imports at agents prices (VIFA) for this sector.
+*  and public final imports at agents prices (VMIP) for this sector.
 
  INVO(i,z)       = SUM{(comm,reg)$[i2comm(i,comm)$z2reg(z,reg)],
-*                      VDFP(comm,'CGDS',reg)+VIFA(comm,'CGDS',reg)};
                       VDIP(comm,reg)+VMIP(comm,reg)};
+
+ INVO(i,z)$(INVO(i,z) lt 0.1) = 0.1 ;
 
 *==============================================================================
 * 2.4.4 Intermediate demand
 *==============================================================================
 * Intermediate consumption is given by the sum of domestic purchases at
-* agents prices (VDFP) and public final imports at agents prices (VIFA).
+* agents prices (VDFP) and public final imports at agents prices (VMFP).
 
  DIO(i,j,z)      = SUM[(comm,acts,reg)$[i2comm(i,comm)
                       $j2acts(j,acts)$z2reg(z,reg)],
                       VDFP(comm,acts,reg)+VMFP(comm,acts,reg)];
 
-* for data balancing
- DIO(i,'09_PAPERPRO','05_MNG')$(DIO(i,'09_PAPERPRO','05_MNG') lt 0.0000068505) = 0.000001 ;
+ DIO(ene,j2,z)$(DIO(ene,j2,z) lt 0.1) = sum(enee,DIO(enee,j2,z))*0.015 ;
+ DIO(i,j,z)$(DIO(i,j,z) lt 0.1) = 0.1 ;
 
+* for data balancing
+* DIO(i,'09_PAPERPRO','05_MNG')$(DIO(i,'09_PAPERPRO','05_MNG') lt 0.0000068505) = 0.000001 ;
 
  tssm(i,j,z)    = SUM[(comm,acts,reg)$[i2comm(i,comm)
                       $j2acts(j,acts)$z2reg(z,reg)],
@@ -638,9 +698,12 @@ $LOAD VTMFSD, VXSB, VFOB, XTRV
                        VCIF(comm,regj,reg)-
                        SUM[marg,VTMFSD(marg,comm,regj,reg)]};
 *lt Strictly less than
-* IMO(i,zj, z)$(IMO(i, zj, z) lt  0.0001) = 0.00001 ;
- IMO(i,zj, z)$(IMO(i, zj, z) lt 0.0001) = 0 ;
+ IMO(i,zj, z)$(IMO(i, zj, z) lt 0.1) = 0.1 ;
  IMO(i,zj,z)$sameas(zj,z) = 0 ;
+
+* IMO(i,zj,z)$(abs(IMO(i,zj,z)) < 1e-3) = 0;
+* IMO(i,zj,z)$sameas(zj,z) = 0 ;
+
 *==============================================================================
 * 2.4.6 Exports
 *==============================================================================
@@ -650,10 +713,17 @@ $LOAD VTMFSD, VXSB, VFOB, XTRV
  EXO(i,zj,z)     = IMO(i,zj,z);
  EXTO(i,z)       = sum(zj, EXO(i,z,zj));
 
+* VXSB(comm,z1c,z1c)        = 0;
+ 
 * Alternative method bring the export value
-* EXO(i,zj,z)     = SUM{(comm,regj,reg)$[j2comm(i,comm)
+* EXO(i,zj,z)     = SUM{(comm,regj,reg)$[i2comm(i,comm)
 *                       $z2reg(zj,regj)$z2reg(z,reg)],
 *                       VXSB(comm,regj,reg)};
+*
+*;
+                       
+* EXO(i,zj,z)$(abs(EXO(i,zj,z)) < 1e-8) = 1e-3;
+* EXTO(i,z)       = sum(zj, EXO(i,z,zj));
 
 *==============================================================================
 * 2.4.7 Margins
@@ -669,20 +739,29 @@ $LOAD VTMFSD, VXSB, VFOB, XTRV
                        $z2reg(zj,regj)$z2reg(z,reg)],
                        VTMFSD('otp',comm,regj,reg)};
 
+ tmrg('20_LTRP',ij,zj,z)$(tmrg('20_LTRP',ij,zj,z)lt 0.1) = 0.1 ;
+
  tmrg('21_WTRP',ij,zj,z)$IMO(ij,zj,z)
                  = SUM{(comm,regj,reg)$[i2comm(ij,comm)
                        $z2reg(zj,regj)$z2reg(z,reg)],
                        VTMFSD('wtp',comm,regj,reg)};
+
+ tmrg('21_WTRP',ij,zj,z)$(tmrg('21_WTRP',ij,zj,z)lt 0.1) = 0.1 ;
 
  tmrg('22_ATRP',ij,zj,z)$IMO(ij,zj,z)
                  = SUM{(comm,regj,reg)$[i2comm(ij,comm)
                        $z2reg(zj,regj)$z2reg(z,reg)],
                        VTMFSD('atp',comm,regj,reg)};
 
+ tmrg('22_ATRP',ij,zj,z)$(tmrg('22_ATRP',ij,zj,z)lt 0.1) = 0.1 ;
+
+
 * Supply of transport margin are given by the variable VST
  MRGNO(i,z)      = SUM{(marg,reg)$[i2comm(i,marg)$z2reg(z,reg)],
                        VST(marg,reg)};
-
+                       
+ MRGNO(i,z)$(MRGNO(i,z)lt 0.1) = 0.1 ;
+ 
 *==============================================================================
 * 2.4.8 Import duties
 *==============================================================================
@@ -696,9 +775,8 @@ $LOAD VTMFSD, VXSB, VFOB, XTRV
 *==============================================================================
 * 2.4.9 Taxes on exports
 *==============================================================================
-*  Taxes on exports are given by the sum of MRRV and XTRV
+*  Taxes on exports are given by the sum of MFRV and XTRV
 
-* TIXO(i,z,zj)$IMO(i,z,zj)
  TIXO(i,z,zj)$IMO(i,z,zj)
                  = SUM{(comm,reg,regj)$[i2comm(i,comm)
                        $z2reg(z,reg)$z2reg(zj,regj)],
@@ -715,7 +793,7 @@ $LOAD VTMFSD, VXSB, VFOB, XTRV
                        FTRV(endw,acts,reg)+
                        FBEP(endw,acts,reg)};
 
- TIWO_J(l,z) = SUM(j, TIWO(l,j,z));
+ TIWO_J(l,z)   = SUM(j, TIWO(l,j,z));
 
  TIKO(k,j,z)     = SUM{(endw,acts,reg)$[f2endw(k,endw)
                        $j2acts(j,acts)$z2reg(z,reg)],
@@ -723,7 +801,7 @@ $LOAD VTMFSD, VXSB, VFOB, XTRV
                        FBEP(endw,acts,reg)};
 
  TIKO_J(k,z) = SUM(j, TIKO(k,j,z));
- 
+  
 *==============================================================================
 * 2.4.11 Taxes on production
 *==============================================================================
@@ -750,6 +828,14 @@ $LOAD VTMFSD, VXSB, VFOB, XTRV
                      -SUM[acts,VDFB(comm,acts,reg)
                            +VMFB(comm,acts,reg)]};
 
+
+*Balancing 2019
+
+TICO('04_GAS','06_PRK')   = TICO('04_GAS','06_PRK') -3.59655 -1.0;
+TICO('04_GAS','05_MNG')   = TICO('04_GAS','05_MNG') -2.15382 -1.0;
+TICO('03_OIL','05_MNG')   = TICO('03_OIL','05_MNG') -3.30004 -1.0;
+TICO('03_OIL','06_PRK')   = TICO('03_OIL','06_PRK') -2.13592 -1.0;
+
 *==============================================================================
 * 2.4.13 Direct taxes
 *==============================================================================
@@ -770,15 +856,22 @@ $LOAD VTMFSD, VXSB, VFOB, XTRV
 * Remuneration of the production factors is evaluated at market prices,
 * that is before taxes (EVFB).
 
- LDO(l,j,z)      = SUM{(endw,acts,reg)$[f2endw(l,endw)
+ LDO(l,j,z)       = SUM{(endw,acts,reg)$[f2endw(l,endw)
                        $j2acts(j,acts)$z2reg(z,reg)],
                        EVFB(endw,acts,reg)};
 
- LDO_J(l,z)       = SUM(j,LDO(l,j,z)) - DTAX(l,z);
+ LDO(l,j,z)$(LDO(l,j,z) lt 0.1) = 0.1 ;
+ LDO_J(l,z)  = SUM(j,LDO(l,j,z)) - DTAX(l,z);
 
  RKDO(k,j,z)      = SUM{(endw,acts,reg)$[f2endw(k,endw)
                        $j2acts(j,acts)$z2reg(z,reg)],
                        EVFB(endw,acts,reg)};
+
+ RKDO("cap",j,z)$(RKDO("cap",j,z) lt 0.1) = 0.1 ;
+ RKDO("natr","04_GAS","01_KOR")$(RKDO("natr","04_GAS","01_KOR") lt 0.1) = 0.1 ;
+ RKDO("natr","04_GAS","05_MNG")$(RKDO("natr","04_GAS","05_MNG") lt 0.1) = 0.1 ;
+ RKDO("natr","04_GAS","06_PRK")$(RKDO("natr","04_GAS","06_PRK") lt 0.1) = 0.1 ;
+ RKDO("natr","05_MINING","06_PRK")$(RKDO("natr","05_MINING","06_PRK") lt 0.1) = 0.1 ;
 
 * Total capital stock at the beginning of the period
  KSTO(z)         = SUM{reg$z2reg(z,reg),VKB(reg)};
@@ -841,7 +934,6 @@ $LOAD VTMFSD, VXSB, VFOB, XTRV
  XSO_I(i,z)        = DDO(i,z)+MRGNO(i,z)+SUM[zj,EXO(i,z,zj)-TIXO(i,z,zj)];
  XSO(j,i,z)        = XSO_I(i,z)*[MAKE(j,i,z)/sum(jj,MAKE(jj,i,z))];
  XSTO(j,z)         = SUM(i, XSO(j,i,z));
-
  EXTO(i,z)         = SUM[zj,EXO(i,z,zj)];
  DSO(j,i,z)        = DDO(i,z)*[MAKE(j,i,z)/sum(jj,MAKE(jj,i,z))];
 
@@ -851,15 +943,42 @@ $LOAD VTMFSD, VXSB, VFOB, XTRV
 *  should not be any other descrepency.
 
 * for Data Balancing in 2019 Database
- TIPO('09_PAPERPRO','05_MNG') = 0.0001  ;
- TIXO('10_PETROLCOAL','05_MNG','06_PRK') = 0 ;
- RKDO('cap',j,z)  = XSTO(j,z)-SUM[i,DIO(i,j,z)]-SUM[l,LDO(l,j,z)+TIWO(l,j,z)]
+TIPO('04_GAS','06_PRK')       = -9.19154 -0.1;
+TIPO('09_PAPERPRO','05_MNG')  = -7.77282  -0.1;
+TIPO('11_CHEMICAL','05_MNG')  = -7.2221  -0.809803 -0.1;
+TIPO('03_OIL','06_PRK')       = -6.11563 -0.1;
+TIPO('13_IRONSTL','05_MNG')   = -5.64578 -0.1;
+TIPO('19_eNuclear','06_PRK')  = -4.99124 -0.1;
+TIPO('23_eWind','06_PRK')     = -4.99122 -0.1;
+TIPO('24_eSolar','06_PRK')    = -4.92509 -0.1;
+TIPO('19_eNuclear','05_MNG')  = -4.81788 -0.1;
+TIPO('19_eNuclear','17_PAO')  = -4.80275 -0.1;
+TIPO('26_eOther','05_MNG')    = -4.80001 -0.1;
+TIPO('21_eGas','05_MNG')      = -4.78731 -0.1;
+TIPO('19_eNuclear','14_CPA')  = -4.63479 -0.1;
+TIPO('21_eGas','06_PRK')      = -4.12172 -0.1;
+TIPO('24_eSolar','14_CPA')    = -3.06953 -0.1;
+TIPO('26_eOther','06_PRK')    = -2.96659 -0.1;
+TIPO('14_NONFERR','06_PRK')   = -2.12762 -0.1;
+TIPO('10_PETROLCOAL','06_PRK')= -1.82929 -0.1;
+TIPO('24_eSolar','05_MNG')    = -0.654131 -0.1;
+TIPO('22_eOil','06_PRK')      = -0.408636 -0.1;
+TIPO('04_GAS','01_KOR')       = -0.00115488 -0.1;
+TIPO('04_GAS','05_MNG')       = -0.0039926 -7.1598 -0.1;
+TIPO('05_MINING','06_PRK ')   = -0.0394804 -0.1;
+
+* RKDO('cap',j,z)  = XSTO(j,z)-SUM[i,DIO(i,j,z)]-LDO(j,z)-TIWO(j,z)
+*                   -TIPO(j,z)-SUM[k,TIKO(k,j,z)]-RKDO('land',j,z) -RKDO('natr',j,z);
+
+RKDO('cap',j,z)  = XSTO(j,z)-SUM[i,DIO(i,j,z)]-SUM[l, LDO(l,j,z)+TIWO(l,j,z)]
                    -TIPO(j,z)-SUM[k,TIKO(k,j,z)]-RKDO('land',j,z) -RKDO('natr',j,z);
 
- RKDO_J(k,z) = sum(j,RKDO(k,j,z)) - DTAX(k,z);
+RKDO_J(k,z) = sum(j,RKDO(k,j,z)) - DTAX(k,z);
 
- TotalCost(j,z) = SUM[i,DIO(i,j,z)]+SUM[l,LDO(l,j,z)+TIWO(l,j,z)]+TIPO(j,z)
-                + SUM[k,TIKO(k,j,z)]+RKDO('land',j,z)+RKDO('natr',j,z)+RKDO('cap',j,z);
+TotalCost(j,z) = SUM[i,DIO(i,j,z)]
+                    +SUM[l,LDO(l,j,z)+TIWO(l,j,z)]
+                    +TIPO(j,z)
+                    +SUM[k,TIKO(k,j,z)+RKDO(k,j,z)];
 
 *==============================================================================
 * 3. CES elasticities
@@ -897,7 +1016,7 @@ PARAMETER
 *==============================================================================
 * 3.4 Load the GTAP file which includes the parameters
 *==============================================================================
-$GDXIN Input_w-t\GTAP11_Parameters2019.gdx
+$GDXIN Input_w-t\GTAP11c_Parameters2019.gdx
 $LOAD ESUBD, ESUBM, ESUBVA, ELFKLE
 
 *==============================================================================
@@ -961,7 +1080,6 @@ $LOAD ESUBD, ESUBM, ESUBVA, ELFKLE
 *==============================================================================
 *  3.8 sigma_KLE
 *==============================================================================
-
  KLE_GTAP(acts,z)
                  = SUM{endw,
                        SUM[reg$z2reg(z,reg),EVFB(endw,acts,reg)]} + 
@@ -1045,13 +1163,14 @@ PARAMETER
  TREND(z,time)           Value to Physical quantity
  TREND2(z,time)          Value to Physical quantity
  TREND_CPS(z,time)       Value to Physical quantity
- TREND_NZS(z,time)       Value to Physical quantity 
+ TREND_NZS(z,time)       Value to Physical quantity
+ PERMIT_Cal(z,time)      PERMIT
 
 ;
 
 $call gdxxrw Input_w-t\Projection.xlsx @Input_w-t\Projection.txt output = Input_w-t\Projection.gdx 
 $gdxIn Input_w-t\Projection.gdx
-$load GDP, TOT_POP, g_SDR, AEEI_low, AEEI_high, TREND, TREND2, TREND_CPS, TREND_NZS, CTAX_Cal, CTAX_CPS, CTAX_NZS
+$load GDP, TOT_POP, g_SDR, AEEI_low, AEEI_high, TREND, TREND2, TREND_CPS, TREND_NZS, CTAX_Cal, CTAX_CPS, CTAX_NZS, PERMIT_Cal
 
 $call gdxxrw Input_w-t\Employment.xlsx @Input_w-t\Employment.txt output = Input_w-t\Employment.gdx 
 $GDXIN Input_w-t\Employment.gdx
@@ -1089,16 +1208,16 @@ loop{time$[time.val lt 2100],
  Zrich('17_PAO')        = yes; 
  Zother(Z)              = yes$[not Zrich(Z)];
 
-execute_unload 'Input_w-t\DATA_AGG-2019_GTAP11b.gdx',
+execute_unload 'Input_w-t\DATA_AGG-2019_GTAP11c.gdx',
 
-*Sets used in PEP w-1 and PEP w-t
+*Sets
  J, I, BUS, PUB, F, L, K, Z, ZR, Z1, Zrich, Zother
 
-*Benchmark variables and parameters used in PEP w-1 and PEP w-t
+*Benchmark variables and parameters
  CO, CGO, DDO, DEPO, DIO, DSO,DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, POPO, RKDO,
  TDHO, DTAX, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, tssm, tssd, tmrg, XSO, XSO_I, XSTO, EXTO, TotalCost,
  sigma_M1, sigma_M2, sigma_VA, sigma_KLE, Q_GTAP, KLE_GTAP, SH_Q, SH_VA, SH_KLE, ESUBD, ELFKLE,
  elas_E, elas_elec, elas_gas, elas_oil, elas_coal, elas_petrolcoal, EMPLOY,
 
-*Parameters used in PEP w-t only
- TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, TREND, TREND2, TREND_CPS, TREND_NZS, CTAX_Cal, CTAX_CPS, CTAX_NZS ;
+*Parameters for RD-CGE
+ TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, TREND, TREND2, TREND_CPS, TREND_NZS, CTAX_Cal, CTAX_CPS, CTAX_NZS, PERMIT_Cal ;

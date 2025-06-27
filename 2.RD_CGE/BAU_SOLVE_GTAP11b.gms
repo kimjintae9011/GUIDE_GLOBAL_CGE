@@ -15,17 +15,13 @@ PARAMETER
  GX(z,time)           Current government expenditures on goods and services in region z
  G_REALX(z,time)      Current real government expenditures on goods and services in region z
  INDX(k,j,z,time)     Volume of new type k capital investment to industry j in region z
- sh0X(z,time)     Intercept (household savings)
- sh1X(z,time)     Household savings rate
- phi_BAU(z,time)
+ sh0X(z,time)         Intercept (household savings)
+ sh1X(z,time)         Household savings rate
 ;
 
-$GDXIN Input_w-t\B_line_GTAP11b.gdx
-*$LOAD A_VA_RES, sh0X, sh1X, GX, G_REALX, INDX
-$LOAD A_VA_RES, GX, G_REALX, INDX, sh1X, sh0X, phi_BAU
-
-display  A_VA_RES;
-*$EXIT
+*$GDXIN Input_w-t\B_line_GTAP11b.gdx
+$GDXIN Input_w-t\B_line_GTAP11c.gdx
+$LOAD A_VA_RES, GX, G_REALX, INDX, sh1X, sh0X
 
 *==============================================================================
 *  6.2.1.1.2 Choice of multifactor productivity
@@ -41,7 +37,6 @@ display  A_VA_RES;
 * By default, the reference region is USA,
  zr(z)           = no;
  zr('07_NAM')    = yes;
-*zr('ChinaHK')   = yes;
  z1(z)           = NOT[zr(z)];
 
 *==============================================================================
@@ -66,8 +61,6 @@ $offtext
 *==============================================================================
  G_REAL.FX(z,time)    = G_REALX(z,time);
  IND.fx(k,pub,z,time) = INDX(k,pub,z,time);
- phi.fx(z,time)       = phi_BAU(z,time);
-
  sh0.fx(z,time)       = sh0X(z,time);
  sh1.fx(z,time)       = sh1X(z,time);
 * ttdh0.fx(z,time)    = ttdh0O(z)*exogro(z,time);
@@ -81,7 +74,7 @@ $offtext
  ttix.fx(i,z,zj,time) = ttixO(i,z,zj);
  CTAX.fX(z,time)      = CTAX0(z);
  beta_X4_t.fx(power,z,time) = beta_X4(power,z);
- A_VA2.FX(j,z,time)   = 1 ;
+
 *==============================================================================
 *   6.2.2 Solution
 *==============================================================================
@@ -197,12 +190,10 @@ $offtext
 *==============================================================================
  CABX.FX(z1,t1)      = CABXO(z1);
  CABX.FX(z1,time)$[ord(time) gt 1]
-*                     = CABX.l(z1,time-1)*[1+growthz(z1)];
                      = CABX.l(z1,time-1)*[1+g_GDP(z1,time)];
                       
  CMIN.FX(i,z,t1)     = CMINO(i,z);
  CMIN.FX(i,z,time)$[ord(time) gt 1]
-*                     = CMIN.l(i,z,time-1)*[1+growthz(z)];
                       = CMIN.l(i,z,time-1)*[1+g_GDP(z,time)];
                      
  KD.fx(k,j,z,t1)$KDO(k,j,z)
@@ -217,49 +208,19 @@ $offtext
  KD.fx('land',j,z,time)${[ord(time) gt 1] and KDO('land',j,z)}
                      = KD.l('land',j,z,time-1);
 
-* LS.FX(l,z,t1)       = LSO(l,z);
-* LS.FX(l,z,time)$[ord(time) gt 1]
-*                     = LS.l(l,z,time-1)*[1+g_POP(z,time)];
-
- LST.FX(l,z,t1)       = LSTO(l,z);
- LST.FX(l,z,time)$[ord(time) gt 1]
-                      = LST.l(l,z,time-1)*[1+g_POP(z,time)];
- LS_lag.FX(l,z,t1)    = LSTO(l,z);
- LS_lag.FX(l,z,time)$[ord(time) gt 1]
-                      = LS.l(l,z,time-1);
-
- LST_lag.FX(l,z,t1)   = LSTO(l,z);
- LST_lag.FX(l,z,time)$[ord(time) gt 1]
-                      = LST.l(l,z,time-1);
-
- W2.FX(l,z,t1)       = W2O(l,z);
- W2.FX(l,z,time)$[ord(time) gt 1]
-                     = W2O(l,z)*W.l(l,z,time);
-                      
- PIXCON2.FX(z,t1)   = PIXCON2O(z);
- PIXCON2.FX(z,time)$[ord(time) gt 1]
-                    = PIXCON2O(z)*PIXCON.l(z,time);                   
+ LS.FX(l,z,t1)       = LSO(l,z);
+ LS.FX(l,z,time)$[ord(time) gt 1]
+                     = LS.l(l,z,time-1)*[1+g_POP(z,time)];
+                
 *==============================================================================
 *   CTAX
 *============================================================================== 
  CTAX.fx(z,time)$[ord(time) gt 1]
                             = CTAX_Cal(z,time);  
 
-* CTAX.fx('06_PRK',time)$[ord(time) gt 1]
-*                            = 0 ;  
-
 *==============================================================================
 *   AEEI
 *============================================================================== 
-* B_ENER_t(j2,'01_KOR',time) = B_ENER(j2,'01_KOR')*(AEEI_low('01_KOR',time));
-* beta_KLE2_t(j2,z,time) = beta_KLE2(j2,z)*AEEI(z,time);
-* aij2_t(ene,j3,'01_KOR',time)  =  aij2(ene,j3,'01_KOR')*AEEI_low('01_KOR',time) ;
-* io2_t(j,'01_KOR',time) = io2(j,'01_KOR')*(1/AEEI_low('01_KOR',time)) ;
-
-* io2_t(j,'01_KOR',t1)   = io2(j,'01_KOR');
-* io2_t(j,'01_KOR',time)$[ord(time) gt 1]
-*                        =  io2_t(j,'01_KOR',time-1)*[1- 0.01 ];
-
  AEEI(z,time) = AEEI_low(z,time);
  CO2FACTOR2(ene,j2,z,time) = CO2FACTOR(ene,j2,z)*AEEI(z,time);
 
@@ -337,29 +298,6 @@ if ((CTAX.L('17_PAO',time)  gt 1.0), switch(i3,'17_PAO',time) = 1  ;
 else switch(i3,'17_PAO',time) = 0 ;
 );
 
-
-$ontext
-penetration_rate('10_PETROLCOAL','01_KOR',time)$[CTAX.L('01_KOR',time) gt 1.0]
-                             = penetration_rate('10_PETROLCOAL','01_KOR',time-1)+0.02;
-
-penetration_rate('13_IRONSTL','01_KOR',time)$[PCE.L('13_IRONSTL','01_KOR',time) gt 2.0]
-                             = penetration_rate('13_IRONSTL','01_KOR',time-1)+0.04;
-
-penetration_rate('20_LTRP','01_KOR',time)$[CTAX.L('01_KOR',time) gt 1.0]
-                             = penetration_rate('20_LTRP','01_KOR',time-1)+0.04;
-
-if ((CTAX.L('01_KOR',time)  gt 1.0), switch('10_PETROLCOAL','01_KOR',time) = 1  ;
-else switch('10_PETROLCOAL','01_KOR',time) = 0 ;
-);
-
-if ((PCE.L('13_IRONSTL','01_KOR',time)  gt 2.0), switch('13_IRONSTL','01_KOR',time) = 1  ;
-else switch('13_IRONSTL','01_KOR',time) = 0 ;
-);
-
-if ((CTAX.L('01_KOR',time)  gt 1.0), switch('20_LTRP','01_KOR',time) = 1  ;
-else switch('20_LTRP','01_KOR',time) = 0 ;
-);
-$offtext
 
 *==============================================================================
 *   6.2.2.3 Resolution
