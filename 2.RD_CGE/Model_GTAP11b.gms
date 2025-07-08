@@ -2607,7 +2607,7 @@ $INCLUDE BAU_RESULTS_GTAP11b.gms
 
 *$INCLUDE BAU_AQ_Linkage.gms
 *$INCLUDE BAU_IAMC.gms
-$INCLUDE BAU_IPCC.gms
+*$INCLUDE BAU_IPCC.gms
 *$INCLUDE BAU_IAMC_GreenEcos.gms
 
 *==============================================================================

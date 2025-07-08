@@ -1178,11 +1178,12 @@ PARAMETER
  TREND_CPS(z,time)       Value to Physical quantity
  TREND_NZS(z,time)       Value to Physical quantity
  PERMIT_Cal(z,time)      PERMIT
+ TIW_Share_Cal(j,time)   PERMIT
 ;
 
 $call gdxxrw Input_w-t\Projection.xlsx @Input_w-t\Projection.txt output = Input_w-t\Projection.gdx 
 $gdxIn Input_w-t\Projection.gdx
-$load GDP, TOT_POP, g_SDR, AEEI_low, AEEI_high, TREND, TREND2, TREND_CPS, TREND_NZS, CTAX_Cal, CTAX_CPS, CTAX_NZS, PERMIT_Cal
+$load GDP, TOT_POP, g_SDR, AEEI_low, AEEI_high, TREND, TREND2, TREND_CPS, TREND_NZS, CTAX_Cal, CTAX_CPS, CTAX_NZS, PERMIT_Cal,TIW_Share_Cal
 
 $call gdxxrw Input_w-t\Employment.xlsx @Input_w-t\Employment.txt output = Input_w-t\Employment.gdx 
 $GDXIN Input_w-t\Employment.gdx
@@ -1220,12 +1221,16 @@ loop{time$[time.val lt 2100],
  Zrich('17_PAO')        = yes; 
  Zother(Z)              = yes$[not Zrich(Z)];
 
-*==============================================================================
-* SAM Balancing
-*==============================================================================
-$INCLUDE DATA_SamBal.gms
+execute_unload 'Input_w-t\DATA_AGG-2019_GTAP11c_new.gdx',
 
-*==============================================================================
-* Replacing Initial Data
-*==============================================================================
-$INCLUDE DATA_Cal.gms
+*Sets
+ J, I, BUS, PUB, F, L, K, Z, ZR, Z1, Zrich, Zother
+
+*Benchmark variables and parameters
+ CO, CGO, DDO, DEPO, DIO, DSO,DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, POPO, RKDO,
+ TDHO, DTAX, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, tssm, tssd, tmrg, XSO, XSO_I, XSTO, EXTO, TotalCost,
+ sigma_M1, sigma_M2, sigma_VA, sigma_KLE, Q_GTAP, KLE_GTAP, SH_Q, SH_VA, SH_KLE, ESUBD, ELFKLE,
+ elas_E, elas_elec, elas_gas, elas_oil, elas_coal, elas_petrolcoal, EMPLOY,
+
+*Parameters for RD-CGE
+ TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, TREND, TREND2, TREND_CPS, TREND_NZS, CTAX_Cal, CTAX_CPS, CTAX_NZS, PERMIT_Cal,TIW_Share_Cal ;

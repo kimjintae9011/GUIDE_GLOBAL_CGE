@@ -19,7 +19,7 @@ PARAMETER
  sh1X(z,time)             Household savings rate
 ;
 
-$GDXIN Input_w-t\B_line_GTAP11c.gdx
+$GDXIN Input_w-t\B_line_GTAP11c_new.gdx
 $LOAD A_VA_RES, GX, G_REALX, INDX, sh1X, sh0X
 
 *==============================================================================
@@ -34,9 +34,9 @@ $LOAD A_VA_RES, GX, G_REALX, INDX, sh1X, sh0X
 *   6.2.1.2 Choice of reference region
 *==============================================================================
 * By default, the reference region is USA,
- zr(z)           = no;
+ zr(z)                = no;
  zr('07_NAM')    = yes;
- z1(z)           = NOT[zr(z)];
+ z1(z)               = NOT[zr(z)];
 
 *==============================================================================
 *   6.2.1.3 Choice between closures FE and FP
@@ -68,10 +68,11 @@ $offtext
  ttik.fx(k,j,z,time)              = ttikO(k,j,z);
  ttim.fx(i,zj,z,time)            = ttimO(i,zj,z);
  ttip.fx(j,z,time)                = ttipO(j,z);
- ttiw.fx(l,j,z,time)              = ttiwO(l,j,z);
+* ttiw.fx(j,z,time)                = ttiwO(j,z);
  ttix.fx(i,z,zj,time)             = ttixO(i,z,zj);
  CTAX.fX(CTAX_Z,time)      = CTAX0(CTAX_Z);
  PERMIT_TOTAL.fx(PERMIT_Z,time) = PERMIT_TOTALO(PERMIT_Z) ;
+* TIW_Share.fx(j,z,time)      =  TIW_Share_Cal(j,time) ;
 
 *==============================================================================
 *   Taking account of the existence or not of a feasible solution
@@ -102,7 +103,7 @@ T(time) = YES;
 *   6.2.2.1 Initialisation
 *==============================================================================
 
-$INCLUDE INIT.gms
+$INCLUDE INIT_new.gms
 
 *==============================================================================
 *   6.1.1.1 Lower bounds on some variables
@@ -141,16 +142,30 @@ $offtext
  KD.fx(k,j,z,time)${[ord(time) gt 1] and KDO(k,j,z)}
                       = KD.l(k,j,z,time-1)*[1-delta(z)]+IND.l(k,j,z,time-1);
 
- KD.fx('natr',j,z,time)${[ord(time) gt 1] and KDO('natr',j,z)}
-                     = KD.l('natr',j,z,time-1)*(1-0.01);
+ LST.FX(z,t1)       = LSTO(z);
+ LST.FX(z,time)$[ord(time) gt 1]
+                      = LST.l(z,time-1)*[1+g_POP(z,time)];
 
- KD.fx('land',j,z,time)${[ord(time) gt 1] and KDO('land',j,z)}
-                     = KD.l('land',j,z,time-1);
+ LS_lag(z,t1)    = LSO(z);
+ LS_lag(z,time)$[ord(time) gt 1]
+                      = LS.l(z,time-1);
 
- LS.FX(l,z,t1)       = LSO(l,z);
- LS.FX(l,z,time)$[ord(time) gt 1]
-                      = LS.l(l,z,time-1)*[1+g_POP(z,time)];
+ LST_lag(z,t1)   = LSTO(z);
+ LST_lag(z,time)$[ord(time) gt 1]
+                      = LST.l(z,time-1);
+
+ W_lag(z,t1)       = WO_lag(z);
+ W_lag(z,time)$[ord(time) gt 1]
+                     = W.l(z,time-1);
+                      
+ PIXCON_lag(z,t1)   = PIXCONO_lag(z);
+ PIXCON_lag(z,time)$[ord(time) gt 1]
+                    = PIXCON.l(z,time-1); 
  
+ ttiw_lag.fx(j,z,t1)  =ttiwO(j,z);
+ ttiw_lag.fx(j,z,time)$[ord(time) gt 1]
+                     =ttiwO(j,z);
+
 *==============================================================================
 *   CTAX and PERMIT
 *============================================================================== 

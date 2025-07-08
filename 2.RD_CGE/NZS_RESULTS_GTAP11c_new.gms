@@ -43,9 +43,10 @@ PARAMETER
  valKD(k,j,z,time,scen)      Demand for type k capital by industry j in region z
  valKDC(j,z,time,scen)       Demand for composite capital by industry j in region z
  valKS(k,z,time,scen)        Supply of type k capital in region z
- valLD(l,j,z,time,scen)      Demand for type l labor by industry j in region z
+ valLD(j,z,time,scen)      Demand for type l labor by industry j in region z
  valLDC(j,z,time,scen)       Demand for composite labor by industry j in region z
- valLS(l,z,time,scen)        Supply of type l labor in region z
+ valLS(z,time,scen)        Supply of type l labor in region z
+ valLST(z,time,scen)        Supply of type l labor in region z
  valMRGN(i,z,time,scen)      Domestic production of commodity i in region z exported as international margin services
  valP(i,z,time,scen)         Basic price of industry j production in region z
  valPC(i,z,time,scen)        Purchaser price of composite commodity i (including all taxes and margins) in region z
@@ -88,7 +89,7 @@ PARAMETER
  valTIMT(z,time,scen)        Total government revenue from import duties in region z
  valTIP(j,z,time,scen)       Government revenue from taxes on industry j production in region z (excluding taxes directly related to the use of capital and labor)
  valTIPT(z,time,scen)        Total government revenue from production taxes in region z (excluding taxes directly related to the use of capital and labor)
- valTIW(l,j,z,time,scen)     Government revenue from payroll taxes on type l labor in industry j of region z
+ valTIW(j,z,time,scen)     Government revenue from payroll taxes on type l labor in industry j of region z
  valTIWT(z,time,scen)        Total government revenue from payroll taxes in region z
  valTIX(i,z,zj,time,scen)    Government revenue from export taxes on commodity i exported by region z to region zj
  valTIXT(z,time,scen)        Total government revenue from export taxes in region z
@@ -100,14 +101,14 @@ PARAMETER
  valttik(k,j,z,time,scen)    Tax rate on capital k used in industry j
  valttim(i,zj,z,time,scen)   Rate of taxes and duties on imports of commodity i from country zj
  valttip(j,z,time,scen)      Tax rate on the production of industry j
- valttiw(l,j,z,time,scen)    Tax rate on type l worker compensation in industry j
+ valttiw(j,z,time,scen)    Tax rate on type l worker compensation in industry j
  valttix(i,z,zj,time,scen)   Export tax rate on exported commodity i
  valU(z,time,scen)           User cost of capital in region z
  valVA(j,z,time,scen)        Value added of industry j in region z
  valKLE(j,z,time,scen)      Value added of industry j in region z
- valW(l,z,time,scen)         Wage rate of type l labor in region z
+ valW(z,time,scen)         Wage rate of type l labor in region z
  valWC(j,z,time,scen)        Wage rate of industry j composite labor in region z
- valWTI(l,j,z,time,scen)     Wage rate paid z by industry j for type l labor in region including payroll taxes
+ valWTI(j,z,time,scen)     Wage rate paid z by industry j for type l labor in region including payroll taxes
  valXS(j,i,z,time,scen)      Total output of commodity i by industry j in region z
  valXS_I(i,z,time,scen)      Total output of commodity i in region z
  valXST(j,z,time,scen)       Total output of industry j in region z
@@ -120,6 +121,8 @@ PARAMETER
  valYROW2(z,time,scen)
  valPERMIT_TOTAL(z,time,scen) Total emissions
  valPERMIT(j,z,time,scen)
+* valTIW_Share(j,z,time,scen)
+* valTIK_Share(k,j,z,time,scen)
  valCO2FACTOR(ene,j,z,time,scen) CO2 FACTOR
  valAbateCost(j,z,time,scen)
 *=================== Energy ================================================================== 
@@ -207,7 +210,7 @@ PARAMETER
  valC_Conventional(i3,z,time,scen) backstop activity
  valXDBS(i3,z,time,scen)
  valXDBS2(j,z,time,scen)
- valLBS(l,j,z,time,scen)
+ valLBS(j,z,time,scen)
  valKBS(k,j,z,time,scen)
  valCLBS(i3,z,time,scen)
  valCKBS(i3,z,time,scen)
@@ -258,9 +261,10 @@ PARAMETER
  valKD(k,j,z,time,'NZS')     = KD.l(k,j,z,time);
  valKDC(j,z,time,'NZS')      = KDC.l(j,z,time);
  valKS(k,z,time,'NZS')       = KS.l(k,z,time);
- valLD(l,j,z,time,'NZS')     = LD.l(l,j,z,time);
+ valLD(j,z,time,'NZS')     = LD.l(j,z,time);
  valLDC(j,z,time,'NZS')      = LDC.l(j,z,time);
- valLS(l,z,time,'NZS')       = LS.l(l,z,time);
+ valLS(z,time,'NZS')       = LS.l(z,time);
+ valLST(z,time,'NZS')       = LST.l(z,time);
  valMRGN(i,z,time,'NZS')     = MRGN.l(i,z,time);
  valP(i,z,time,'NZS')        = P.l(i,z,time);
  valPC(i,z,time,'NZS')       = PC.l(i,z,time);
@@ -303,7 +307,7 @@ PARAMETER
  valTIMT(z,time,'NZS')       = TIMT.l(z,time);
  valTIP(j,z,time,'NZS')      = TIP.l(j,z,time);
  valTIPT(z,time,'NZS')       = TIPT.l(z,time);
- valTIW(l,j,z,time,'NZS')    = TIW.l(l,j,z,time);
+ valTIW(j,z,time,'NZS')    = TIW.l(j,z,time);
  valTIWT(z,time,'NZS')       = TIWT.l(z,time);
  valTIX(i,z,zj,time,'NZS')   = TIX.l(i,z,zj,time);
  valTIXT(z,time,'NZS')       = TIXT.l(z,time);
@@ -315,14 +319,14 @@ PARAMETER
  valttik(k,j,z,time,'NZS')   = ttik.l(k,j,z,time);
  valttim(i,zj,z,time,'NZS')  = ttim.l(i,zj,z,time);
  valttip(j,z,time,'NZS')     = ttip.l(j,z,time);
- valttiw(l,j,z,time,'NZS')   = ttiw.l(l,j,z,time);
+ valttiw(j,z,time,'NZS')   = ttiw.l(j,z,time);
  valttix(i,z,zj,time,'NZS')  = ttix.l(i,z,zj,time);
  valU(z,time,'NZS')          = U.l(z,time);
  valVA(j,z,time,'NZS')       = VA.l(j,z,time);
  valKLE(j,z,time,'NZS')      = KLE.l(j,z,time);
- valW(l,z,time,'NZS')        = W.l(l,z,time);
+ valW(z,time,'NZS')        = W.l(z,time);
  valWC(j,z,time,'NZS')       = WC.l(j,z,time);
- valWTI(l,j,z,time,'NZS')    = WTI.l(l,j,z,time);
+ valWTI(j,z,time,'NZS')    = WTI.l(j,z,time);
  valXS(j,i,z,time,'NZS')     = XS.l(j,i,z,time);
  valXS_I(i,z,time,'NZS')     = XS_I.l(i,z,time);
  valXST(j,z,time,'NZS')      = XST.l(j,z,time);
@@ -338,6 +342,9 @@ PARAMETER
 
  valPERMIT_TOTAL(z,time,'NZS') = PERMIT_TOTAL.l(z,time);
  valPERMIT(j,z,time,'NZS')     = PERMIT.l(j,z,time);
+* valTIW_Share(j,z,time,'NZS') = TIW_Share.l(j,z,time); 
+* valTIK_Share(k,j,z,time,'NZS') = TIK_Share.l(k,j,z,time); 
+
 * EQ34(z,t)..       SROW(z,t) =e= YROW(z,t)-e(z,t)*SUM[(i,zj)$EXO(i,z,zj),
 *                               EX(i,z,zj,t)*PWX(i,z,zj,t)]-e(z,t)
 *                               *SUM[i$MRGNO(i,z),MRGN(i,z,t)*PWMG(i,t)];
@@ -491,7 +498,7 @@ PARAMETER
  valC_Conventional(i3,z,time,'NZS') = C_Conventional.l(i3,z,time) ;
  valXDBS(i3,z,time,'NZS')  = XDBS.l(i3,z,time) ;
  valXDBS2(j,z,time,'NZS')  = XDBS2.l(j,z,time) ; 
- valLBS(l,j,z,time,'NZS')      = LBS.l(l,j,z,time) ;
+ valLBS(j,z,time,'NZS')      = LBS.l(j,z,time) ;
  valKBS(k,j,z,time,'NZS')      = KBS.l(k,j,z,time) ;
  valCLBS(i3,z,time,'NZS')   = CLBS.l(i3,z,time) ;
  valCKBS(i3,z,time,'NZS')   = CKBS.l(i3,z,time) ;
@@ -499,7 +506,7 @@ PARAMETER
 *$Offtext 
 *=====================================================================================================
 
- execute_unload 'Output_w-t\NZS_Results_GTAP11c.gdx',
+ execute_unload 'Output_w-t\NZS_Results_GTAP11c_new.gdx',
 *$Ontext
  valA_VA,
  valC,
@@ -543,6 +550,7 @@ PARAMETER
  valLD,
  valLDC,
  valLS,
+ valLST,
  valMRGN,
  valP,
  valPC,
@@ -677,6 +685,8 @@ PARAMETER
  valYROW2,
  valPERMIT,
  valPERMIT_TOTAL,
+* valTIW_Share,
+* valTIK_Share,
  valCO2FACTOR,
  valAbateCost
  ;

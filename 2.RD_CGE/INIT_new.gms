@@ -63,11 +63,9 @@
  KD.L(k,j,z,t1)        = KDO(k,j,z);
  KDC.L(j,z,t1)      = KDCO(j,z);
  KS.L(k,z,t1)          = KSO(k,z);
- LD.L(l,j,z,t1)        = LDO(l,j,z);
- LS.L(z,t1)         = LSO(z);
+ LD.L(j,z,t1)        = LDO(j,z);
+ LS.L(z,t1)          = LSO(z);
  LST.L(z,t1)        = LSTO(z);
- LS_lag.L(z,t1)    = LSO_lag(z) ; 
- LST_lag.L(z,t1)  = LSTO_lag(z) ; 
  LDC.L(j,z,t1)      = LDCO(j,z);
  MRGN.L(i,z,t1)   = MRGNO(i,z);
  Q.L(i,z,t1)         = QO(i,z);
@@ -77,11 +75,11 @@
  XS_I.L(i,z,t1)     = XSO_I(i,z);
  XST.L(j,z,t1)       = XSTO(j,z);
  POWERQ.L(z,t1) = POWERQO(z);
- OBJ.L                 = 1;
  C_Conventional.L(i3,z,t1)  = QO(i3,z);
-* PERMIT.L(j,z,t1)     = PERMITO(j,z);
-* PERMIT_TOTAL.L(z,t1) = PERMIT_TOTALO(z);
+ PERMIT.L(j,z,t1)     = PERMITO(j,z);
+ PERMIT_TOTAL.L(z,t1) = PERMIT_TOTALO(z);
  CTAX.L(z,t1)         = CTAX0(z);
+
 
 *==============================================================================
 *   A.1.2 Price variables
@@ -108,7 +106,6 @@
  PE.L(i,z,zj,t1)   = PEO(i,z,zj);
  PET.L(i,z,t1)     = PETO(i,z);
  PIXCON.L(z,t1)    = PIXCONO(z);
-* PIXCON2.L(z,t1)   = PIXCON2O(z);
  PIXGDP.L(z,t1)    = PIXGDPO(z);
  PIXGDP_W.L(t1)    = PIXGDP_WO;
  PIXGVT.L(z,t1)    = PIXGVTO(z);
@@ -127,9 +124,9 @@
  RC.L(j,z,t1)      = RCO(j,z);
  RTI.L(k,j,z,t1)   = RTIO(k,j,z);
  U.L(z,t1)         = UO(z);
- W.L(l,z,t1)       = WO(l,z);
+ W.L(z,t1)       = WO(z);
  WC.L(j,z,t1)      = WCO(j,z);
- WTI.L(l,j,z,t1)   = WTIO(l,j,z);
+ WTI.L(j,z,t1)   = WTIO(j,z);
 
 *==============================================================================
 *   A.1.3 Nominal (value) variables
@@ -157,8 +154,14 @@
  TIMT.L(z,t1)      = TIMTO(z);
  TIP.L(j,z,t1)     = TIPO(j,z);
  TIPT.L(z,t1)      = TIPTO(z);
- TIW.L(l,j,z,t1)   = TIWO(l,j,z);
+ TIW.L(j,z,t1)     = TIWO(j,z);
  TIWT.L(z,t1)      = TIWTO(z);
+* TIW_Share.L(j,z,t1) = TIWO_Share(j,z);
+* TIK_Share.L(k,j,z,t1) = TIKO_Share(k,j,z);
+ deltatiw.L(j,z,t1) = 0;
+ ttiw.L(j,z,t1) = ttiwO(j,z);
+ ttiw_lag.L(j,z,t1) = ttiwO(j,z);
+ TIW_Share.L(j,z,t1) = TIWO_Share(j,z);
  TIX.L(i,z,zj,t1)  = TIXO(i,z,zj);
  TIXT.L(z,t1)      = TIXTO(z);
  TPRODN.l(z,t1)    = TPRODNO(z);
@@ -218,8 +221,9 @@ IF{ord(time) gt 1,
  KD.L(k,j,z,time)    = KD.L(k,j,z,time-1);
  KDC.L(j,z,time)     = KDC.L(j,z,time-1);
  KS.L(k,z,time)      = KS.L(k,z,time-1);
- LD.L(l,j,z,time)    = LD.L(l,j,z,time-1);
- LS.L(l,z,time)      = LS.L(l,z,time-1);
+ LD.L(j,z,time)    = LD.L(j,z,time-1);
+ LS.L(z,time)      = LS.L(z,time-1);
+ LST.L(z,time)     = LST.L(z,time-1);
  LDC.l(j,z,time)     = LDC.l(j,z,time-1);
  MRGN.L(i,z,time)    = MRGN.L(i,z,time-1);
  Q.L(i,z,time)       = Q.L(i,z,time-1);
@@ -230,8 +234,8 @@ IF{ord(time) gt 1,
  XST.L(j,z,time)     = XST.L(j,z,time-1);
  POWERQ.L(z,time)    = POWERQ.L(z,time-1);
  C_Conventional.L(i3,z,time)  = C_Conventional.L(i3,z,time-1);
-*PERMIT.L(j,z,time)     = PERMIT.L(j,z,time-1) ;
-*PERMIT_TOTAL.L(z,time) = PERMIT_TOTAL.L(z,time-1);
+ PERMIT.L(j,z,time)     = PERMIT.L(j,z,time-1) ;
+ PERMIT_TOTAL.L(z,time) = PERMIT_TOTAL.L(z,time-1);
  CTAX.L(z,time)         = CTAX.L(z,time-1);
 
 *==============================================================================
@@ -260,7 +264,7 @@ IF{ord(time) gt 1,
  PE.L(i,z,zj,time)   = PE.L(i,z,zj,time-1);
  PET.L(i,z,time)     = PET.L(i,z,time-1);
  PIXCON.L(z,time)    = PIXCON.L(z,time-1);
-* PIXCON2.L(z,time)   = PIXCON2.L(z,time-1);
+* PIXCON_lag.L(z,time)   = PIXCON_lag.L(z,time-1);
  PIXGDP.L(z,time)    = PIXGDP.L(z,time-1);
  PIXGDP_W.L(time)    = PIXGDP_W.L(time-1);
  PIXGVT.L(z,time)    = PIXGVT.L(z,time-1);
@@ -279,9 +283,9 @@ IF{ord(time) gt 1,
  RC.L(j,z,time)      = RC.L(j,z,time-1);
  RTI.L(k,j,z,time)   = RTI.L(k,j,z,time-1);
  U.L(z,time)         = U.L(z,time-1);
- W.L(l,z,time)       = W.L(l,z,time-1);
+ W.L(z,time)       = W.L(z,time-1);
  WC.L(j,z,time)      = WC.L(j,z,time-1);
- WTI.L(l,j,z,time)   = WTI.L(l,j,z,time-1);
+ WTI.L(j,z,time)   = WTI.L(j,z,time-1);
 
 *==============================================================================
 *   A.2.3 Nominal (value) variables
@@ -309,8 +313,14 @@ IF{ord(time) gt 1,
  TIMT.L(z,time)      = TIMT.L(z,time-1);
  TIP.L(j,z,time)     = TIP.L(j,z,time-1);
  TIPT.L(z,time)      = TIPT.L(z,time-1);
- TIW.L(l,j,z,time)   = TIW.L(l,j,z,time-1);
+ TIW.L(j,z,time)   = TIW.L(j,z,time-1);
  TIWT.L(z,time)      = TIWT.L(z,time-1);
+*  TIW_Share.L(j,z,time) = TIW_Share.L(j,z,time-1);
+* TIK_Share.L(k,j,z,time) = TIK_Share.L(k,j,z,time-1);
+ deltatiw.L(j,z,time) = deltatiw.L(j,z,time-1);
+ ttiw.L(j,z,time) = ttiw.L(j,z,time-1);
+ ttiw_lag.L(j,z,time) = ttiw_lag.L(j,z,time-1);
+ TIW_Share.L(j,z,time) = TIW_Share.L(j,z,time-1);
  TIX.L(i,z,zj,time)  = TIX.L(i,z,zj,time-1);
  TIXT.L(z,time)      = TIXT.L(z,time-1);
  TPRODN.l(z,time)    = TPRODN.l(z,time-1);
@@ -326,6 +336,74 @@ IF{ord(time) gt 1,
 *   A.2.4 Rates and intercepts
 *==============================================================================
  phi.L(z,time)       = phi.L(z,time-1);
+
+*==============================================================================
+*   6.1.1.1 Lower bounds on some variables
+*==============================================================================
+$Ontext
+ R.LO(k,j,z,time)$(ord(time) gt 1)    = 0.00001*R.l(k,j,z,time-1);
+ RTI.LO(k,j,z,time)$(ord(time) gt 1)  = 0.00001*RTI.l(k,j,z,time-1);
+ LD.LO(j,z,time)$(ord(time) gt 1)   = 0.00001*LD.l(j,z,time-1);
+ LDC.LO(j,z,time)$(ord(time) gt 1)    = 0.00001*LDC.l(j,z,time-1);
+ RC.LO(j,z,time)$(ord(time) gt 1)     = 0.00001*RC.l(j,z,time-1);
+ WC.LO(j,z,time)$(ord(time) gt 1)     = 0.00001*WC.l(j,z,time-1);
+ U.LO(z,time)$(ord(time) gt 1)        = 0.00001*U.l(z,time-1);
+ DS_I.LO(i,z,time)$(ord(time) gt 1)   = 0.00001*DS_I.l(i,z,time-1);
+ EXT.LO(i,z,time)$(ord(time) gt 1)    = 0.00001*EXT.l(i,z,time-1);
+ EX.LO(i,z,zj,time)$(ord(time) gt 1)  = 0.00001*EX.l(i,z,zj,time-1);
+ EXTT.LO(j,i,z,time)$(ord(time) gt 1) = 0.00001*EXTT.l(j,i,z,time-1);
+ IM.LO(i,zj,z,time)$(ord(time) gt 1)  = 0.00001*IM.l(i,zj,z,time-1);
+ IMT.LO(i,z,time)$(ord(time) gt 1)    = 0.00001*IMT.l(i,z,time-1);
+ KD.LO(k,j,z,time)$(ord(time) gt 1)   = 0.00001*KD.L(k,j,z,time-1);
+ KDC.LO(j,z,time)$(ord(time) gt 1)    = 0.00001*KDC.L(j,z,time-1);
+ VA.LO(j,z,time)$(ord(time) gt 1)      = 0.00001*VA.L(j,z,time-1);
+ XS.LO(j,i,z,time)$(ord(time) gt 1)   = 0.00001*XS.L(j,i,z,time-1);
+ XS_I.LO(i,z,time)$(ord(time) gt 1)   = 0.00001*XS_I.L(i,z,time-1);
+ XST.LO(j,z,time)$(ord(time) gt 1)    = 0.00001*XST.L(j,z,time-1);
+ C.LO(i,z,time)$(ord(time) gt 1)      = 0.00001*C.L(i,z,time-1);
+ CG.LO(i,z,time)$(ord(time) gt 1)     = 0.00001*CG.L(i,z,time-1);
+ CI.LO(j,z,time)$(ord(time) gt 1)     = 0.00001*CI.L(j,z,time-1);
+ CE.LO(j,z,time)$(ord(time) gt 1)     = 0.00001*CE.L(j,z,time-1); 
+ CMIN.LO(i,z,time)$(ord(time) gt 1)   = 0.00001*CMIN.L(i,z,time-1);
+ CTH_REAL.LO(z,time)$(ord(time) gt 1) = 0.00001*CTH_REAL.l(z,time-1);
+ DI.LO(i,j,z,time)$(ord(time) gt 1)   = 0.00001*DI.L(i,j,z,time-1);
+ DE.LO(ene,j,z,time)$(ord(time) gt 1) = 0.00001*DE.L(ene,j,z,time-1);
+ DIT.LO(i,z,time)$(ord(time) gt 1)    = 0.00001*DIT.L(i,z,time-1);
+ DD.LO(i,z,time)$(ord(time) gt 1)     = 0.00001*DD.L(i,z,time-1); 
+ MRGN.LO(i,z,time)$(ord(time) gt 1)   = 0.00001*MRGN.L(i,z,time-1);
+ Q.LO(i,z,time)$(ord(time) gt 1)      = 0.00001*Q.L(i,z,time-1);
+ VA.LO(j,z,time)$(ord(time) gt 1)     = 0.00001*VA.L(j,z,time-1);
+ e.LO(z,time)$(ord(time) gt 1)        = 0.00001*e.L(z,time-1);
+ IR.LO(z,time)$(ord(time) gt 1)       = 0.00001*IR.L(z,time-1);
+ P.LO(i,z,time)$(ord(time) gt 1)      = 0.00001*P.L(i,z,time-1);
+ P2.LO(j,i,z,time)$(ord(time) gt 1)   = 0.00001*P2.L(j,i,z,time-1);
+ P4.LO(ene,j,z,time)$(ord(time) gt 1) = 0.00001*P4.L(ene,j,z,time-1);
+ PPOWER.LO(z,time) $(ord(time) gt 1)  = 0.00001*PPOWER.L(z,time-1);
+ PI.lO(i,z,time)$(ord(time) gt 1)     = 0.00001*PI.L(i,z,time-1);
+ PT.LO(j,z,time)$(ord(time) gt 1)     = 0.00001*PT.L(j,z,time-1);
+ PP.LO(j,z,time)$(ord(time) gt 1)     = 0.00001*PP.L(j,z,time-1); 
+ PC.LO(i,z,time)$(ord(time) gt 1)     = 0.00001*PC.L(i,z,time-1);
+ PCI.LO(j,z,time)$(ord(time) gt 1)    = 0.00001*PCI.L(j,z,time-1);
+ PCE.LO(j,z,time)$(ord(time) gt 1)    = 0.00001*PCE.L(j,z,time-1);
+ PD.LO(i,z,time)$(ord(time) gt 1)     = 0.00001*PD.L(i,z,time-1);
+ PE.LO(i,z,zj,time)$(ord(time) gt 1)  = 0.00001*PE.L(i,z,zj,time-1);
+ PET.LO(i,z,time)$(ord(time) gt 1)    = 0.00001*PET.L(i,z,time-1);
+ PIXCON.LO(z,time)$(ord(time) gt 1)   = 0.00001*PIXCON.L(z,time-1);
+ PIXGDP.LO(z,time)$(ord(time) gt 1)   = 0.00001*PIXGDP.L(z,time-1);
+ PIXGDP_W.LO(time)$(ord(time) gt 1)   = 0.00001*PIXGDP_W.L(time-1);
+ PIXGVT.LO(z,time)$(ord(time) gt 1)   = 0.00001*PIXGVT.L(z,time-1);
+ PIXINV.LO(z,time)$(ord(time) gt 1)   = 0.00001*PIXINV.L(z,time-1);
+ PK.LO(z,time)$(ord(time) gt 1)       = 0.00001*PK.L(z,time-1);
+ PL.LO(i,z,time)$(ord(time) gt 1)     = 0.00001*PL.L(i,z,time-1);
+ PM.LO(i,zj,z,time)$(ord(time) gt 1)  = 0.00001*PM.L(i,zj,z,time-1);
+ PMT.LO(i,z,time)$(ord(time) gt 1)    = 0.00001*PMT.L(i,z,time-1);
+ PP.LO(j,z,time)$(ord(time) gt 1)     = 0.00001*PP.L(j,z,time-1);
+ PVA.LO(j,Z,time)$(ord(time) gt 1)    = 0.00001*PVA.L(j,Z,time-1);
+ PKLE.LO(j,Z,time)$(ord(time) gt 1)   = 0.00001*PKLE.L(j,Z,time-1);
+ PWM.LO(i,zj,z,time)$(ord(time) gt 1) = 0.00001*PWM.L(i,zj,z,time-1);
+ PWMG.LO(i,time)$(ord(time) gt 1)     = 0.00001*PWMG.L(i,time-1);
+ PWX.LO(i,z,zj,time) $(ord(time) gt 1) = 0.00001*PWX.L(i,z,zj,time-1);
+$Offtext
 
 * End of the IF command
 };

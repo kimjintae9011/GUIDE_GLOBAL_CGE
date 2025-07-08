@@ -57,17 +57,17 @@ I1(I) Commodities excluding agriculture and backstop technology
  09_PAPERPRO    Paper products
  10_PETROLCOAL  Petroleum and coal products
 * 11_CHEMICAL    Chemical products
- 12_NONMET      Non-metallic mineral products
- 13_IRONSTL     Primary iron and steel products
+* 12_NONMET      Non-metallic mineral products
+* 13_IRONSTL     Primary iron and steel products
  14_NONFERR     Non-ferrous metal products
  15_MACHINE     Fabricated metal products Electronic and electrical equipment Machinery and equipment
  16_TRANSEQ     Motor vehicles Other transport equipment
  17_OTHERIND    Other manufactured products Water supply
  18_ELEC        Electricity
  19_CONSTRUC    Construction
- 20_LTRP        Land transport service(road rail)
- 21_WTRP        Water transport service
- 22_ATRP        Air transport service
+* 20_LTRP        Land transport service(road rail)
+* 21_WTRP        Water transport service
+* 22_ATRP        Air transport service
  23_SER         Service
 /
 
@@ -100,12 +100,12 @@ I2(I) Commodities excluding electricity
 
 I3(I) Commodities for backstop technology
 /
- 11_CHEMICAL   Chemical products
-* 12_NONMET     Non-metallic mineral products
-* 13_IRONSTL     Primary iron and steel products
-* 20_LTRP           Land transport service(road rail)
-* 21_WTRP         Water transport service
-* 22_ATRP          Air transport service 
+ 11_CHEMICAL    Chemical products
+ 12_NONMET      Non-metallic mineral products
+ 13_IRONSTL     Primary iron and steel products
+ 20_LTRP        Land transport service(road rail)
+ 21_WTRP        Water transport service
+ 22_ATRP        Air transport service 
 /
 
 ENE(I) Energy commodities full list
@@ -449,21 +449,21 @@ CTAX_Z(z)
 COMtoIND(j,i3) 
 /
  11_CHEMICAL.    (11_CHEMICAL)
-* 12_NONMET.      (12_NONMET)
-* 13_IRONSTL.     (13_IRONSTL)
-* 28_LTRP.        (20_LTRP)
-* 29_WTRP.        (21_WTRP )
-* 30_ATRP.        (22_ATRP )
+ 12_NONMET.      (12_NONMET)
+ 13_IRONSTL.     (13_IRONSTL)
+ 28_LTRP.        (20_LTRP)
+ 29_WTRP.        (21_WTRP )
+ 30_ATRP.        (22_ATRP )
 /
 
 INDtoCOM(i3,j) 
 /
  11_CHEMICAL.    (11_CHEMICAL)
-* 12_NONMET.      (12_NONMET)
-* 13_IRONSTL.     (13_IRONSTL)
-* 20_LTRP.        (28_LTRP )
-* 21_WTRP.        (29_WTRP )
-* 22_ATRP.        (30_ATRP )
+ 12_NONMET.      (12_NONMET)
+ 13_IRONSTL.     (13_IRONSTL)
+ 20_LTRP.        (28_LTRP )
+ 21_WTRP.        (29_WTRP )
+ 22_ATRP.        (30_ATRP )
 /
 
 *==============================================================================
@@ -505,116 +505,115 @@ PARAMETER
 *==============================================================================
 *  2.1 Parameters
 *==============================================================================
- A_K(z)               Scale parameter (investment function)
- aij(i,j,z)           Input output coefficient
- aij2(i,j,z)          Input output coefficient (intermediate energy)
- B_KD(j,z)            Scale parameter (CES - composite capital)
- B_LD(j,z)            Scale parameter (CES - composite labor)
- B_M1(i,z)            Scale parameter (CES - composite commodity)
- B_M2(i,z)            Scale parameter (CES - composite import)
- B_VA(j,z)            Scale parameter (CES - value added)
- B_KLE(j,z)           Scale parameter (CES - composite KLE)
- B_ENER(j,z)          Scale parameter (CES - composite ENER)
- B_ENER_t(j,z,time)   Scale parameter (CES - composite ENER)
- B_ENER2(j,z)         Scale parameter (CES - composite ENER)
- B_ENER3(j,z)         Scale parameter (CES - composite ENER)
- B_ENER4(j,z)         Scale parameter (CES - composite ENER)
- B_ENER5_1(j,z)       Scale parameter (CES - composite ENER)
- B_ENER5_2(j,z)       Scale parameter (CES - composite ENER)
- B_X1(i,z)            Scale parameter (CET - total output)
- B_X2(i,z)            Scale parameter (CET - composite export)
- B_X3(i,z)            Scale parameter (CES - top level)
- B_X4(z)              Scale parameter (CES - Aggregated Electricity)
- beta_D_X1(i,z)       Share parameter (CET - total output - local sales)
- beta_EX_X1(i,z)      Share parameter (CET - total output - export)
- beta_X2(i,z,zj)      Share parameter (CET - composite export)
- beta_X3(j,i,z)       Share parameter (CES - top level)
- beta_X4(power, z)    Share parameter (CES - Aggregated Electricity)
- beta_KD(k,j,z)       Share parameter (CES - composite capital)
- beta_LD(l,j,z)       Share parameter (CES - composite labor)
- beta_M1(i,z)         Share parameter (CES - composite commodity)
- beta_M2(i,zj,z)      Share parameter (CES - composite import)
- beta_VA(j,z)         Share parameter (CES - value added)
- beta_KLE(j,z)        Share parameter (CES - KLE composite)
- beta_KLE2(j,z)       Share parameter (CES - KLE composite)
- beta_KLE2_t(j,z,time) Share parameter (CES - KLE composite)
- beta_ENER(ene,j,z)    Share parameter (CES - ENER composite)
- beta_ENER_t(ene,j,z,time)
- beta_ENER2(j,z)      Share parameter (CES - ENER composite)
- beta_ENER3(ene3,j,z) Share parameter (CES - ENER composite)
- beta_ENER4(j,z)      Share parameter (CES - ENER composite)
- beta_ENER5_1(ene5,j,z)    Share parameter (CES - ENER composite)
- beta_ENER5_2(ene6,j,z)    Share parameter (CES - ENER composite)
- delta(z)             Depreciation rate of capital in country z
- eta                  Price elasticity of indexed transfers and parameters
- frisch(z)            Frisch parameter (LES function)
- gamma_GVT(i,z)       Share of commodity i in total current public expenditures on goods and services
- gamma_INV(i,z)       Share of commodity i in total investment expenditures
- gamma_LES(i,z)       Marginal share of commodity i in household consumption budget
- io(j,z)              Coefficient (Leontief - intermediate consumption)
- io2(j,z)             Coefficient (Leontief - intermediate energy consumption)
- v(j,z)               value added Coefficient (Leontief)
- v2(j,z)              KLE Share parameter (Leontief)
- kmob                 Flag parameter (1 if capital is mobile)
- RES                  Rescaling factor
- rho_KD(j,z)          Elasticity paameter (CES - composite capital)
- rho_LD(j,z)          Elasticity parameter (CES - composite labor)
- rho_M1(i,z)          Elasticity parameter (CES - composite commodity)
- rho_M2(i,z)          Elasticity parameter (CES - composite import)
- rho_VA(j,z)          Elasticity parameter (CES - value added)
- rho_KLE(j,z)         Elasticity parameter (CES - KLE)
- rho_ENER(j,z)        Elasticity parameter (CES - ENER)
- rho_ENER2(j,z)       Elasticity parameter (CES - ENER)
- rho_ENER3(j,z)       Elasticity parameter (CES - ENER)
- rho_ENER4(j,z)       Elasticity parameter (CES - ENER)
- rho_ENER5_1(j,z)     Elasticity parameter (CES - ENER)
- rho_ENER5_2(j,z)     Elasticity parameter (CES - ENER)
- rho_X1(i,z)          Elasticity parameter (CET - composite export)
- rho_X2(i,z)          Elasticity parameter (CET - composite export)
- rho_X3(i,z)          Elasticity parameter (CES - top level)
- rho_X4(z)            Elasticity parameter (CES - Aggregated Electricity)
- sigma_INV(k,j,z)     Elasticity (investment demand)
- sigma_KD(j,z)        Elasticity (CES - composite capital)
- sigma_LD(j,z)        Elasticity (CES - composite labor)
- sigma_M1(i,z)        Elasticity (CES - composite commodity)
- sigma_M2(i,z)        Elasticity (CES - composite import)
- sigma_VA(j,z)        Elasticity (CES - value added)
- sigma_KLE(j,z)       Elasticity (CES - kle)
- sigma_ENER(j,z)      Elasticity (CES - within energy)
- sigma_ENER2(j,z)     Elasticity (CES - within energy)
- sigma_ENER3(j,z)     Elasticity (CES - within energy)
- sigma_ENER4(j,z)     Elasticity (CES - within energy)
- sigma_ENER5_1(j,z)   Elasticity (CES - within energy)
- sigma_ENER5_2(j,z)   Elasticity (CES - within energy)
- sigma_X0(j,z)        Elasticity (CET - exports and local sales)
- sigma_X1(i,z)        Elasticity (CET - total output)
- sigma_X2(i,z)        Elasticity (CET - composite export)
- sigma_X3(i,z)        Elasticity (CES - top level)
- sigma_X4(z)          Elasticity (CES - Aggregated Electricity)
- sigma_Y(i,z)         Income elasticity of consumption
- tmrg(i,ij,zj,z)      Rate of margin i applied to commodity ij imported from country zj
- TnDShare(z)          T&D share of Aggregated electricity
- PowerShare(z)        Power Industries share of Aggregated electricity    
- theta2(j,i,z)        Export share of composite activity
- TOT_POP(z,time)      Total population from 1980 to 2050 based on the PEP w aggregation
- g_GDP(z,time)        GDP past and projected growth rate
- g_LS(z,time)         Active population past and projected growth rate
- g_POP(z,time)        Population past and projected growth rate
- g_SDR(z,time)        Growth rate of domestic savings rate
- gamma_GVT(i,z)       Share of commodity i in total current public expenditures on goods and services
- gamma_INV(i,z)       Share of commodity i in total investment expenditures
- gamma_LES(i,z)       Marginal share of commodity i in household consumption budget
- exogro(z,time)       Exogenous growth factor for exogenously growing variables except labor
- growthz(z)           Steady state grwoth
- AEEI(z,time)         Autonomous energy efficiency improvement (Reference)
- AEEI_low(z,time)     Autonomous energy efficiency improvement (Low)
- AEEI_high(z,time)    Autonomous energy efficiency improvement (High)
- CTAX_Cal(z,time)     Carbon Tax for Baseline Scenario
- CTAX_CPS(z,time)     Carbon Tax for Current Policy Scenario
- CTAX_NZS(z,time)     Carbon Tax for Net Zero Scenario
- PERMIT_Cal(z,time)   PERMIT
- switch(i3,z,time) binary variable - equals zero if no use of backstop technologies
- penetration_rate(i3,z,time) penetration_rate
+ A_K(z)                       Scale parameter (investment function)
+ aij(i,j,z)                   Input output coefficient
+ aij2(i,j,z)                  Input output coefficient (intermediate energy)
+ B_KD(j,z)                    Scale parameter (CES - composite capital)
+ B_LD(j,z)                    Scale parameter (CES - composite labor)
+ B_M1(i,z)                    Scale parameter (CES - composite commodity)
+ B_M2(i,z)                    Scale parameter (CES - composite import)
+ B_VA(j,z)                    Scale parameter (CES - value added)
+ B_KLE(j,z)                   Scale parameter (CES - composite KLE)
+ B_ENER(j,z)                  Scale parameter (CES - composite ENER)
+ B_ENER_t(j,z,time)           Scale parameter (CES - composite ENER)
+ B_ENER2(j,z)                 Scale parameter (CES - composite ENER)
+ B_ENER3(j,z)                 Scale parameter (CES - composite ENER)
+ B_ENER4(j,z)                 Scale parameter (CES - composite ENER)
+ B_ENER5_1(j,z)               Scale parameter (CES - composite ENER)
+ B_ENER5_2(j,z)               Scale parameter (CES - composite ENER)
+ B_X1(i,z)                    Scale parameter (CET - total output)
+ B_X2(i,z)                    Scale parameter (CET - composite export)
+ B_X3(i,z)                    Scale parameter (CES - top level)
+ B_X4(z)                      Scale parameter (CES - Aggregated Electricity)
+ beta_D_X1(i,z)               Share parameter (CET - total output - local sales)
+ beta_EX_X1(i,z)              Share parameter (CET - total output - export)
+ beta_X2(i,z,zj)              Share parameter (CET - composite export)
+ beta_X3(j,i,z)               Share parameter (CES - top level)
+ beta_X4(power, z)            Share parameter (CES - Aggregated Electricity)
+ beta_KD(k,j,z)               Share parameter (CES - composite capital)
+ beta_LD(l,j,z)               Share parameter (CES - composite labor)
+ beta_M1(i,z)                 Share parameter (CES - composite commodity)
+ beta_M2(i,zj,z)              Share parameter (CES - composite import)
+ beta_VA(j,z)                 Share parameter (CES - value added)
+ beta_KLE(j,z)                Share parameter (CES - KLE composite)
+ beta_KLE2(j,z)               Share parameter (CES - KLE composite)
+ beta_KLE2_t(j,z,time)        Share parameter (CES - KLE composite)
+ beta_ENER(ene,j,z)           Share parameter (CES - ENER composite)
+ beta_ENER2(j,z)              Share parameter (CES - ENER composite)
+ beta_ENER3(ene3,j,z)         Share parameter (CES - ENER composite)
+ beta_ENER4(j,z)              Share parameter (CES - ENER composite)
+ beta_ENER5_1(ene5,j,z)       Share parameter (CES - ENER composite)
+ beta_ENER5_2(ene6,j,z)       Share parameter (CES - ENER composite)
+ delta(z)                     Depreciation rate of capital in country z
+ eta                          Price elasticity of indexed transfers and parameters
+ frisch(z)                    Frisch parameter (LES function)
+ gamma_GVT(i,z)               Share of commodity i in total current public expenditures on goods and services
+ gamma_INV(i,z)               Share of commodity i in total investment expenditures
+ gamma_LES(i,z)               Marginal share of commodity i in household consumption budget
+ io(j,z)                      Coefficient (Leontief - intermediate consumption)
+ io2(j,z)                     Coefficient (Leontief - intermediate energy consumption)
+ v(j,z)                       value added Coefficient (Leontief)
+ v2(j,z)                      KLE Share parameter (Leontief)
+ kmob                         Flag parameter (1 if capital is mobile)
+ RES                          Rescaling factor
+ rho_KD(j,z)                  Elasticity paameter (CES - composite capital)
+ rho_LD(j,z)                  Elasticity parameter (CES - composite labor)
+ rho_M1(i,z)                  Elasticity parameter (CES - composite commodity)
+ rho_M2(i,z)                  Elasticity parameter (CES - composite import)
+ rho_VA(j,z)                  Elasticity parameter (CES - value added)
+ rho_KLE(j,z)                 Elasticity parameter (CES - KLE)
+ rho_ENER(j,z)                Elasticity parameter (CES - ENER)
+ rho_ENER2(j,z)               Elasticity parameter (CES - ENER)
+ rho_ENER3(j,z)               Elasticity parameter (CES - ENER)
+ rho_ENER4(j,z)               Elasticity parameter (CES - ENER)
+ rho_ENER5_1(j,z)             Elasticity parameter (CES - ENER)
+ rho_ENER5_2(j,z)             Elasticity parameter (CES - ENER)
+ rho_X1(i,z)                  Elasticity parameter (CET - composite export)
+ rho_X2(i,z)                  Elasticity parameter (CET - composite export)
+ rho_X3(i,z)                  Elasticity parameter (CES - top level)
+ rho_X4(z)                    Elasticity parameter (CES - Aggregated Electricity)
+ sigma_INV(k,j,z)             Elasticity (investment demand)
+ sigma_KD(j,z)                Elasticity (CES - composite capital)
+ sigma_LD(j,z)                Elasticity (CES - composite labor)
+ sigma_M1(i,z)                Elasticity (CES - composite commodity)
+ sigma_M2(i,z)                Elasticity (CES - composite import)
+ sigma_VA(j,z)                Elasticity (CES - value added)
+ sigma_KLE(j,z)               Elasticity (CES - kle)
+ sigma_ENER(j,z)              Elasticity (CES - within energy)
+ sigma_ENER2(j,z)             Elasticity (CES - within energy)
+ sigma_ENER3(j,z)             Elasticity (CES - within energy)
+ sigma_ENER4(j,z)             Elasticity (CES - within energy)
+ sigma_ENER5_1(j,z)           Elasticity (CES - within energy)
+ sigma_ENER5_2(j,z)           Elasticity (CES - within energy)
+ sigma_X0(j,z)                Elasticity (CET - exports and local sales)
+ sigma_X1(i,z)                Elasticity (CET - total output)
+ sigma_X2(i,z)                Elasticity (CET - composite export)
+ sigma_X3(i,z)                Elasticity (CES - top level)
+ sigma_X4(z)                  Elasticity (CES - Aggregated Electricity)
+ sigma_Y(i,z)                 Income elasticity of consumption
+ tmrg(i,ij,zj,z)              Rate of margin i applied to commodity ij imported from country zj
+ TnDShare(z)                  T&D share of Aggregated electricity
+ PowerShare(z)                Power Industries share of Aggregated electricity    
+ theta2(j,i,z)                Export share of composite activity
+ TOT_POP(z,time)              Total population from 1980 to 2050 based on the PEP w aggregation
+ g_GDP(z,time)                GDP past and projected growth rate
+ g_LS(z,time)                 Active population past and projected growth rate
+ g_POP(z,time)                Population past and projected growth rate
+ g_SDR(z,time)                Growth rate of domestic savings rate
+ gamma_GVT(i,z)               Share of commodity i in total current public expenditures on goods and services
+ gamma_INV(i,z)               Share of commodity i in total investment expenditures
+ gamma_LES(i,z)               Marginal share of commodity i in household consumption budget
+ exogro(z,time)               Exogenous growth factor for exogenously growing variables except labor
+ growthz(z)                   Steady state grwoth
+ AEEI(z,time)                 Autonomous energy efficiency improvement (Reference)
+ AEEI_low(z,time)             Autonomous energy efficiency improvement (Low)
+ AEEI_high(z,time)            Autonomous energy efficiency improvement (High)
+ CTAX_Cal(z,time)             Carbon Tax for Baseline Scenario
+ CTAX_CPS(z,time)             Carbon Tax for Current Policy Scenario
+ CTAX_NZS(z,time)             Carbon Tax for Net Zero Scenario
+ PERMIT_Cal(z,time)           PERMIT
+ switch(i3,z,time)            binary variable - equals zero if no use of backstop technologies
+ penetration_rate(i3,z,time)  penetration_rate
  
 *==============================================================================
 *  2.2 Variables - Benchmark
@@ -1470,8 +1469,6 @@ eta = 1;
 
  B_ENER_t(j,z,time) = B_ENER(j,z)*(1/AEEI_low(z,'2019'));
 
- beta_ENER_t(ene,j,z,time) = beta_ENER(ene,j,z) ;
-
 *Level 5_1 (Coal/Gas)
  rho_ENER5_1(j2,z)   = (1-sigma_ENER5_1(j2,z))/sigma_ENER5_1(j2,z);
 
@@ -1929,8 +1926,8 @@ VARIABLES
  CLBS(i3,z,time)
  CKBS(i3,z,time)
  MARKUP(i3,z,time)
- PERMIT(j,z,time)  
- PERMIT_TOTAL(z,time)
+* PERMIT(j,z,time)  
+* PERMIT_TOTAL(z,time)
  
 *==============================================================================
 *   5.1.2 Price variables
@@ -2181,11 +2178,11 @@ EQUATIONS
  EQ92(z,time)            Current account balance of region z in terms of the reference currency
  EQ93                    fictitious OBJ. fuction
  WALRAS(z,time)          Walras law verification
-* EQB_1(i,z)        Top Nest - CES function Aggregated acitivty
-* EQB_2(j,i,z)      Top Nest - CES function Aggregated acitivty
-* EQB_3(j,i,z)      Total producer price is equal to P if there is only one product
-* EQB_4(j,i,z)      Basic price of industry j's production of commodity i
-* EQB_5(j,i,z)      Supply of exports for compsite activity
+* EQB_1(i,z)             Top Nest - CES function Aggregated acitivty
+* EQB_2(j,i,z)           Top Nest - CES function Aggregated acitivty
+* EQB_3(j,i,z)           Total producer price is equal to P if there is only one product
+* EQB_4(j,i,z)           Basic price of industry j's production of commodity i
+* EQB_5(j,i,z)           Supply of exports for compsite activity
  EQA_1(z,time)           Top Nest - Leontief function Aggregated-Electricity
  EQA_2(Z,time)           Top Nest - Leontief function Aggregated-Electricity
  EQA_3(z,time)           Second Nest - CES function - Aggregated-Electricity
@@ -2208,8 +2205,8 @@ EQUATIONS
  EQ103(i3,z,time)
  EQ104(i3,z,time)
  EQ105(i3,z,time)
- EQ107(j,z,time)
- EQ108(z,time)
+* EQ107(j,z,time)
+* EQ108(z,time)
 ;
 
 *==============================================================================
@@ -2461,7 +2458,6 @@ $OFFTEXT
 *                                *XS(POWER,'18_ELEC',z,t)**(-rho_X4(z))]**(-1/rho_X4(z));
  EQA_3(z,t)..    POWERQ(z,t) =e= B_X4(z)*SUM[POWER, beta_X4(power,z)
                                 *XS(POWER,'18_ELEC',z,t)**(-rho_X4(z))]**(-1/rho_X4(z));
-*beta_X4_t(power2,z,time)
 
 * EQA_4(power,'18_ELEC',z,t)..  XS(POWER,'18_ELEC',z,t) =e= POWERQ(z,t)/B_X4(z)**(1-sigma_X4(z))*
 *                               [beta_X4(power,z)*PPOWER(z,t)/P2(POWER,'18_ELEC',z,t)]
@@ -2772,9 +2768,9 @@ $OFFTEXT
 *==============================================================================
 *   5.3.11 PERMET
 *==============================================================================
- EQ107(j,z,t).. PERMIT(j,z,t) =e= sum(ene, CO2FACTOR2(ene,j,z,t)*DE(ene,j,z,t));
+* EQ107(j,z,t).. PERMIT(j,z,t) =e= sum(ene, CO2FACTOR2(ene,j,z,t)*DE(ene,j,z,t));
  
- EQ108(z,t)..  PERMIT_TOTAL(z,t) =E=  sum(j,PERMIT(j,z,t))  ;
+* EQ108(z,t)..  PERMIT_TOTAL(z,t) =E=  sum(j,PERMIT(j,z,t))  ;
 
 *==============================================================================
 * 6 Numerical resolution to compute A_VA, sh0, G, G_REAL and IND
@@ -2899,8 +2895,8 @@ $offText
 *==============================================================================
 *   CTAX
 *============================================================================== 
- CTAX.fx(z,time)$[ord(time) gt 1]
-                      = CTAX_Cal(z,time);  
+* CTAX.fx(z,time)$[ord(time) gt 1]
+*                      = CTAX_Cal(z,time);  
 
 * PERMIT_TOTAL.fx(z,time)$[ord(time) gt 1]
 *                             = PERMIT_TOTALO(Z);

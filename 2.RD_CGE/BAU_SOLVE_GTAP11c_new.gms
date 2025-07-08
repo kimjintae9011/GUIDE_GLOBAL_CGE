@@ -19,7 +19,7 @@ PARAMETER
  sh1X(z,time)             Household savings rate
 ;
 
-$GDXIN Input_w-t\B_line_GTAP11c.gdx
+$GDXIN Input_w-t\B_line_GTAP11c_new.gdx
 $LOAD A_VA_RES, GX, G_REALX, INDX, sh1X, sh0X
 
 *==============================================================================
@@ -58,18 +58,18 @@ $offtext
 *==============================================================================
 *   6.2.1.4 Other exogenous variables
 *==============================================================================
- G_REAL.FX(z,time)             = G_REALX(z,time);
+ G_REAL.FX(z,time)               = G_REALX(z,time);
  IND.fx(k,pub,z,time)             = INDX(k,pub,z,time);
- sh0.fx(z,time)                   = sh0X(z,time);
- sh1.fx(z,time)                   = sh1X(z,time);
- ttdh0.fx(z,time)                = ttdh0O(z);
- ttdh1.fx(z,time)     = ttdh1O(z);
- ttic.fx(i,z,time)    = tticO(i,z);
- ttik.fx(k,j,z,time)  = ttikO(k,j,z);
- ttim.fx(i,zj,z,time) = ttimO(i,zj,z);
- ttip.fx(j,z,time)    = ttipO(j,z);
- ttiw.fx(l,j,z,time)  = ttiwO(l,j,z);
- ttix.fx(i,z,zj,time) = ttixO(i,z,zj);
+ sh0.fx(z,time)                      = sh0X(z,time);
+ sh1.fx(z,time)                      = sh1X(z,time);
+ ttdh0.fx(z,time)                    = ttdh0O(z);
+ ttdh1.fx(z,time)                    = ttdh1O(z);
+ ttic.fx(i,z,time)                     = tticO(i,z);
+ ttik.fx(k,j,z,time)                  = ttikO(k,j,z);
+ ttim.fx(i,zj,z,time)                = ttimO(i,zj,z);
+ ttip.fx(j,z,time)                    = ttipO(j,z);
+* ttiw.fx(j,z,time)                   = ttiwO(j,z);
+ ttix.fx(i,z,zj,time)                 = ttixO(i,z,zj);
  CTAX.fX(z,time)                  = CTAX0(z);
 *==============================================================================
 *   6.2.2 Solution
@@ -89,7 +89,7 @@ T(time) = YES;
 *   6.2.2.1 Initialisation
 *==============================================================================
 
-$INCLUDE INIT.gms
+$INCLUDE INIT_new.gms
 
 *==============================================================================
 *   6.1.1.1 Lower bounds on some variables
@@ -128,16 +128,30 @@ $offtext
  KD.fx(k,j,z,time)${[ord(time) gt 1] and KDO(k,j,z)}
                       = KD.l(k,j,z,time-1)*[1-delta(z)]+IND.l(k,j,z,time-1);
 
- KD.fx('natr',j,z,time)${[ord(time) gt 1] and KDO('natr',j,z)}
-                     = KD.l('natr',j,z,time-1)*(1-0.01);
+ LST.FX(z,t1)       = LSTO(z);
+ LST.FX(z,time)$[ord(time) gt 1]
+                      = LST.l(z,time-1)*[1+g_POP(z,time)];
 
- KD.fx('land',j,z,time)${[ord(time) gt 1] and KDO('land',j,z)}
-                     = KD.l('land',j,z,time-1);
+ LS_lag(z,t1)    = LSO(z);
+ LS_lag(z,time)$[ord(time) gt 1]
+                      = LS.l(z,time-1);
 
- LS.FX(l,z,t1)       = LSO(l,z);
- LS.FX(l,z,time)$[ord(time) gt 1]
-                      = LS.l(l,z,time-1)*[1+g_POP(z,time)];
-                
+ LST_lag(z,t1)   = LSTO(z);
+ LST_lag(z,time)$[ord(time) gt 1]
+                      = LST.l(z,time-1);
+
+ W_lag(z,t1)       = WO_lag(z);
+ W_lag(z,time)$[ord(time) gt 1]
+                     = W.l(z,time-1);
+                      
+ PIXCON_lag(z,t1)   = PIXCONO_lag(z);
+ PIXCON_lag(z,time)$[ord(time) gt 1]
+                    = PIXCON.l(z,time-1);     
+  
+ ttiw_lag.fx(j,z,t1)  =ttiwO(j,z);
+ ttiw_lag.fx(j,z,time)$[ord(time) gt 1]
+                     =ttiw.l(j,z,time-1);
+               
 *==============================================================================
 *   CTAX and PERMIT
 *==============================================================================  

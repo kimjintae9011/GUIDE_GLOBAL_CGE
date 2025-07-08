@@ -181,7 +181,7 @@ BUS(J) Private industries
  28_LTRP        Land transport service(road rail)
  29_WTRP        Water transport service
  30_ATRP        Air transport service
-* 31_SER         Service
+ 31_SER         Service
 /
 
 TRP(J) TRANSPORT
@@ -223,7 +223,7 @@ PUB(J) Public industries
 * 28_LTRP        Land transport service(road rail)
 * 29_WTRP        Water transport service
 * 30_ATRP        Air transport service
- 31_SER         Service
+* 31_SER         Service
 /
 
 F Production factors
