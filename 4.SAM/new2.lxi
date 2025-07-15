@@ -1,0 +1,56 @@
+B 3 C o m p i l a t i o n
+B 388 Include File Summary
+B 400 E x e c u t i o n
+I 400 T0
+I 417 Abar0
+I 433 "NON-NEGATI..."
+I 434 redsam
+I 445 T1
+I 461 Abar0
+I 476 Abar1
+I 491 rtot
+I 496 ctot
+I 502 gdpfc0
+I 503 gdp0
+B 507 Range Statistics    SOLVE SAMENTROP Using NLP From line 298
+B 518 Model Statistics    SOLVE SAMENTROP Using NLP From line 298
+B 532 Solution Report     SOLVE SAMENTROP Using NLP From line 298
+F 576 SAMEQ
+F 590 SAMMAKE
+F 624 ENTROPY
+F 628 ROWSUM
+F 641 COLSUM
+F 657 GDPFCDEF
+F 658 GDPDEF
+G 663 A
+G 695 TSAM
+G 727 Y
+G 743 DENTROPY
+B 754 Range Statistics    SOLVE m_SAMENTROP Using MCP From line 383
+B 765 Model Statistics    SOLVE m_SAMENTROP Using MCP From line 383
+B 779 Solution Report     SOLVE m_SAMENTROP Using MCP From line 383
+F 826 d_A
+F 858 d_TSAM
+F 944 d_Y
+F 958 d_X
+F 974 d_GDPFC
+F 975 d_GDP
+F 976 GDPFCDEF
+F 982 COLSUM
+F 996 SAMEQ
+F 1012 GDPDEF
+F 1016 ROWSUM
+F 1029 SAMMAKE
+G 1061 A
+G 1093 TSAM
+G 1179 Y
+G 1193 X
+G 1209 GDPFC
+G 1210 GDP
+G 1215 m_SAMEQ
+G 1229 m_SAMMAKE
+G 1261 m_ROWSUM
+G 1274 m_COLSUM
+G 1290 m_GDPFCDEF
+G 1291 m_GDPDEF
+B 1304 E x e c u t i o n

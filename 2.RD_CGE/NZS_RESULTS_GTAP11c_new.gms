@@ -215,6 +215,7 @@ PARAMETER
  valCLBS(i3,z,time,scen)
  valCKBS(i3,z,time,scen)
  valMARKUP(i3,z,time,scen)
+ valMARKUP_RATIO(i3,z,time,scen)
 ;
 
 *==============================================================================
@@ -503,6 +504,8 @@ PARAMETER
  valCLBS(i3,z,time,'NZS')   = CLBS.l(i3,z,time) ;
  valCKBS(i3,z,time,'NZS')   = CKBS.l(i3,z,time) ;
  valMARKUP(i3,z,time,'NZS') = MARKUP.l(i3,z,time) ;
+ valMARKUP_RATIO(i3,z,time,'NZS')  =  valPC(i3,z,time,'NZS')*valXDBS(i3,z,time,'NZS') / (valCLBS(i3,z,time,'NZS') +valCKBS(i3,z,time,'NZS')+0.000000000001 )  ;
+
 *$Offtext 
 *=====================================================================================================
 
@@ -682,6 +685,7 @@ PARAMETER
  valCLBS,
  valCKBS,
  valMARKUP,
+ valMARKUP_RATIO,
  valYROW2,
  valPERMIT,
  valPERMIT_TOTAL,

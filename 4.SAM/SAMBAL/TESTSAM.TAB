@@ -1,0 +1,36 @@
+! program to test if SAM rowsum = colsums !
+File INFILE;
+File (new) OUTFILE;
+Set ACC # sam accounts # read elements from file INFILE header "ACC";
+
+Coefficient (all,r,ACC)(all,c,ACC) SAM(r,c) # Social Accounting Matrix #;
+Read SAM from file INFILE header "SAM0";
+
+Coefficient
+ (all,r,ACC) ROWTOT(r) # current row total #;
+ (all,c,ACC) COLTOT(c) # current col total #;
+ (all,a,ACC) DIFF(a)   # imbalance #;
+ (all,a,ACC) PDIFF(a)   # imbalance as % of row/col totals #;
+Zerodivide default 0;
+Formula
+ (all,r,ACC) ROWTOT(r) = sum{c,ACC, SAM(r,c)};
+ (all,c,ACC) COLTOT(c) = sum{r,ACC, SAM(r,c)};
+ (all,a,ACC) DIFF(a)   = ROWTOT(a) - COLTOT(a);
+ (all,a,ACC) PDIFF(a)   = 200*DIFF(a)/[ROWTOT(a) + COLTOT(a)];
+
+Write
+ (set) ACC to file OUTFILE header "ACC";
+ SAM to file OUTFILE header "SAM";
+ ROWTOT to file OUTFILE header "RTOT";
+ COLTOT to file OUTFILE header "CTOT";
+ DIFF   to file OUTFILE header "DIFF";
+ PDIFF  to file OUTFILE header "PDIF";
+
+
+
+
+
+
+
+
+

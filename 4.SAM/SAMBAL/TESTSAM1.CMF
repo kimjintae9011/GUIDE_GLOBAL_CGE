@@ -1,0 +1,15 @@
+auxiliary files = testsam;
+File INFILE = sam1.har;
+File OUTFILE = testsam1.har;
+
+
+
+
+
+
+
+
+
+
+
+

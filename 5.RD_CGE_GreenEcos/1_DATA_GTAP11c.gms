@@ -1,5 +1,5 @@
 *==============================================================================*
-*GTAP DataBase Verion 11b Mapping Code Manual
+*GTAP DataBase Verion 11c Mapping Code Manual
 *Version: 1.0
 *Author: [Jintae Kim]
 *Original Code Authors: Veronique Robichaud, Andre Lemelin, Helene Maisonnave, Bernard Decaluwe (PEP-w-1)
@@ -30,8 +30,8 @@
 
 * The har2gdx facility allows converting these two files into GDX format.
 *==============================================================================
-$CALL har2gdx Input_GTAP11DB\basedata2019_250422.har Input_w-t\GTAP11c_basedata2019.gdx
-$CALL har2gdx Input_GTAP11DB\parameter2019_250422.prm Input_w-t\GTAP11c_Parameters2019.gdx
+$CALL har2gdx Input\basedata2019_250422.har Input\GTAP11c_basedata2019.gdx
+$CALL har2gdx Input\parameter2019_250422.prm Input\GTAP11c_Parameters2019.gdx
 
 *==============================================================================
 * 1. Define the sets
@@ -315,7 +315,7 @@ TIME Time periods
  reg(GlobalSet)  All regions
  marg(comm) Margin commodities
 
-$GDXIN Input_w-t\GTAP11c_basedata2019.gdx
+$GDXIN Input\GTAP11c_basedata2019.gdx
 
 $LOAD GlobalSet, reg, endw, acts, comm, marg
 
@@ -743,21 +743,21 @@ $LOAD VTMFSD, VXSB, VFOB, XTRV
                        $z2reg(zj,regj)$z2reg(z,reg)],
                        VTMFSD('otp',comm,regj,reg)};
 
- tmrg('20_LTRP',ij,zj,z)$(tmrg('20_LTRP',ij,zj,z)lt 0.1) = 0.1 ;
+* tmrg('20_LTRP',ij,zj,z)$(tmrg('20_LTRP',ij,zj,z)lt 0.1) = 0.1 ;
 
  tmrg('21_WTRP',ij,zj,z)$IMO(ij,zj,z)
                  = SUM{(comm,regj,reg)$[i2comm(ij,comm)
                        $z2reg(zj,regj)$z2reg(z,reg)],
                        VTMFSD('wtp',comm,regj,reg)};
 
- tmrg('21_WTRP',ij,zj,z)$(tmrg('21_WTRP',ij,zj,z)lt 0.1) = 0.1 ;
+* tmrg('21_WTRP',ij,zj,z)$(tmrg('21_WTRP',ij,zj,z)lt 0.1) = 0.1 ;
 
  tmrg('22_ATRP',ij,zj,z)$IMO(ij,zj,z)
                  = SUM{(comm,regj,reg)$[i2comm(ij,comm)
                        $z2reg(zj,regj)$z2reg(z,reg)],
                        VTMFSD('atp',comm,regj,reg)};
 
- tmrg('22_ATRP',ij,zj,z)$(tmrg('22_ATRP',ij,zj,z)lt 0.1) = 0.1 ;
+* tmrg('22_ATRP',ij,zj,z)$(tmrg('22_ATRP',ij,zj,z)lt 0.1) = 0.1 ;
 
 
 * Supply of transport margin are given by the variable VST
@@ -1029,7 +1029,7 @@ PARAMETER
 *==============================================================================
 * 3.4 Load the GTAP file which includes the parameters
 *==============================================================================
-$GDXIN Input_w-t\GTAP11c_Parameters2019.gdx
+$GDXIN Input\GTAP11c_Parameters2019.gdx
 $LOAD ESUBD, ESUBM, ESUBVA, ELFKLE
 
 *==============================================================================
@@ -1178,15 +1178,12 @@ PARAMETER
  TREND_CPS(z,time)       Value to Physical quantity
  TREND_NZS(z,time)       Value to Physical quantity
  PERMIT_Cal(z,time)      PERMIT
+ TIW_Share_Cal(j,time)   PERMIT
 ;
 
-$call gdxxrw Input_w-t\Projection.xlsx @Input_w-t\Projection.txt output = Input_w-t\Projection.gdx 
-$gdxIn Input_w-t\Projection.gdx
-$load GDP, TOT_POP, g_SDR, AEEI_low, AEEI_high, TREND, TREND2, TREND_CPS, TREND_NZS, CTAX_Cal, CTAX_CPS, CTAX_NZS, PERMIT_Cal
-
-$call gdxxrw Input_w-t\Employment.xlsx @Input_w-t\Employment.txt output = Input_w-t\Employment.gdx 
-$GDXIN Input_w-t\Employment.gdx
-$LOAD EMPLOY
+$call gdxxrw Input\Projection.xlsx @Input\Projection.txt output = Input\Projection.gdx 
+$gdxIn Input\Projection.gdx
+$load GDP, TOT_POP, g_SDR, AEEI_low, AEEI_high, TREND, TREND2, TREND_CPS, TREND_NZS, CTAX_Cal, CTAX_CPS, CTAX_NZS, PERMIT_Cal,TIW_Share_Cal
 
 *==============================================================================
 * 4.1 Real GDP projections
@@ -1220,13 +1217,16 @@ loop{time$[time.val lt 2100],
  Zrich('17_PAO')        = yes; 
  Zother(Z)              = yes$[not Zrich(Z)];
 
-*==============================================================================
-* SAM Balancing
-*==============================================================================
-*$INCLUDE DATA_SamBal.gms
-$INCLUDE new3.gms
+execute_unload 'Input\DATA_AGG-2019_GTAP11c.gdx',
 
-*==============================================================================
-* Replacing Initial Data
-*==============================================================================
-*$INCLUDE DATA_Cal.gms
+*Sets
+ J, I, BUS, PUB, F, L, K, Z, ZR, Z1, Zrich, Zother
+
+*Benchmark variables and parameters
+ CO, CGO, DDO, DEPO, DIO, DSO,DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, POPO, RKDO,
+ TDHO, DTAX, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, tssm, tssd, tmrg, XSO, XSO_I, XSTO, EXTO, TotalCost,
+ sigma_M1, sigma_M2, sigma_VA, sigma_KLE, Q_GTAP, KLE_GTAP, SH_Q, SH_VA, SH_KLE, ESUBD, ELFKLE,
+ elas_E, elas_elec, elas_gas, elas_oil, elas_coal, elas_petrolcoal, EMPLOY,
+
+*Parameters for RD-CGE
+ TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, TREND, TREND2, TREND_CPS, TREND_NZS, CTAX_Cal, CTAX_CPS, CTAX_NZS, PERMIT_Cal,TIW_Share_Cal ;

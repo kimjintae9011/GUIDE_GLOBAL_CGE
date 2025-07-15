@@ -818,12 +818,15 @@ sam_sce12(WORLD1, z) Mapping of sectors
 169_ww_r_17PAO. 17_PAO
 /
 
-INT(A) All accounts except total;
+;
 
 ALIAS(A,B);
 ALIAS(A1,A11);
 ALIAS(C1,C11);
 ALIAS(INT,JNT);
+
+INT(A) = YES;
+INT('175_TOT') = NO;
 
 *============ 2.Initial matrix ===========================================
 Table SAM0(A,B,z) initial matrix ;
@@ -1063,18 +1066,20 @@ CONSTRAINT1..     SUM((INT,JNT),SAM(INT,JNT))=E=1 ;
 
 *============ KOR =======================================
 
-SAM.L(A,B)                           = SAM0(A,B,'01_KOR');
+SAM.L(INT,JNT)                        = SAM0(INT,JNT,'01_KOR');
 SAM.LO(INT,JNT)                      = 0 ;
 SAM.UP(INT,JNT)                      = +INF ;
 SAM.FX(INT,JNT)$(NOT SAM0(INT,JNT,'01_KOR'))  = 0 ;
-OPT.L                                = 0;
+OPT.L                                       = 0;
 
-SAM.FX(WORLD1,C1)=SAM0(WORLD1,C1,'01_KOR');
-SAM.FX(C1,WORLD1)=SAM0(C1,WORLD1,'01_KOR');
+*SAM.FX(A1,A1)=0;
+*SAM.FX(A1,C1)=SAM0(A1,C1,'01_KOR');
+*SAM.FX(WORLD1,C1)=SAM0(WORLD1,C1,'01_KOR');
+*SAM.FX(C1,WORLD1)=SAM0(C1,WORLD1,'01_KOR');
 
 MODEL SAMBAL_KOR / OPTIMIZE_KOR, CONSTRAINT, CONSTRAINT1  /;
 OPTION NLP             = CONOPT3;
-OPTION iterlim = 99999;
+OPTION iterlim         = 99999;
 
 SOLVE SAMBAL_KOR USING NLP MINIMIZING OPT;
 
@@ -1100,6 +1105,10 @@ NSAM_01_KOR(INT,'175_TOT') = SUM(B,NSAM_01_KOR(INT,B));
 NSAM_01_KOR('175_TOT',B) = SUM(A,NSAM_01_KOR(A,B));
 NSAM_01_KOR(A,B)$(NSAM_01_KOR(A,B) = 0) = eps ;
 DIFF_01_KOR(A,B) = NSAM_01_KOR(A,B) - SAM0_01_KOR(A,B) ;
+
+execute_unload "SAM_BAL" ;
+
+$EXIT
 
 *============ CHN =======================================
 SAM.L(A,B)                           = SAM0(A,B,'02_CHN');

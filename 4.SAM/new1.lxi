@@ -1,0 +1,39 @@
+B 3 C o m p i l a t i o n
+B 442 E x e c u t i o n
+I 442 T0
+I 459 Abar0
+I 475 "NON-NEGATI..."
+I 476 redsam
+I 487 T1
+I 503 Abar0
+I 518 Abar1
+I 533 rtot
+I 538 ctot
+I 544 gdpfc0
+I 545 gdp0
+I 546 vbar1
+I 561 vbar2
+I 569 sigmay1
+I 574 sigmay2
+B 582 Range Statistics    SOLVE SAMENTROP Using NLP From line 446
+B 593 Model Statistics    SOLVE SAMENTROP Using NLP From line 446
+B 607 Solution Report     SOLVE SAMENTROP Using NLP From line 446
+F 650 SAMEQ
+F 664 SAMMAKE
+F 696 ERROR1EQ
+F 710 ERROR2EQ
+F 717 SUMW1
+F 731 SUMW2
+F 740 ENTROPY
+F 744 ROWSUM
+F 757 COLSUM
+F 773 GDPFCDEF
+F 774 GDPDEF
+G 779 A
+G 811 TSAM
+G 843 Y
+G 857 ERR1
+G 871 ERR2
+G 878 W1
+G 928 W2
+G 945 DENTROPY

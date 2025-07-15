@@ -106,12 +106,6 @@
         },
         {
             "codecMib": 106,
-            "file": "CAL_B_line_GTAP11b_new2.lst",
-            "name": "CAL_B_line_GTAP11b_new2.lst",
-            "type": "lst"
-        },
-        {
-            "codecMib": 106,
             "file": "CPS_AQ_Linkage.gms",
             "name": "CPS_AQ_Linkage.gms",
             "type": "gms"

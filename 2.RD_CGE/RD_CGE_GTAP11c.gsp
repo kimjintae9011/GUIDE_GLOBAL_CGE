@@ -76,21 +76,15 @@
         },
         {
             "codecMib": 106,
-            "file": "Calibration_Check_GTAP11c.gdx",
-            "name": "Calibration_Check_GTAP11c.gdx",
-            "type": "gdx"
+            "file": "DATA_CO2coef.gms",
+            "name": "DATA_CO2coef.gms",
+            "type": "gms"
         },
         {
             "codecMib": 106,
             "file": "DATA_GTAP11c_new.gms",
             "name": "DATA_GTAP11c_new.gms",
             "type": "gms"
-        },
-        {
-            "codecMib": 106,
-            "file": "DATA_GTAP11c_new.lst",
-            "name": "DATA_GTAP11c_new.lst",
-            "type": "lst"
         },
         {
             "codecMib": 106,

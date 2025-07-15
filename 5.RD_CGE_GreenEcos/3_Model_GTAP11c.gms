@@ -1,6 +1,6 @@
 $TITLE     GUIDE_GLOBAL_CGE model GTAP11c 
 *==============================================================================                                                                             
-*           GUIDE_GLOBAL_CGE GTAP11c Model Code Manual                  
+*           GUIDE_GLOBAL_CGE GTAP11c Model                   
 *           Version: 1.0                                                       
 *           Author: Jintae Kim                                                 
 *           Original Code Authors: Veronique Robichaud, Andre Lemelin,        
@@ -23,7 +23,6 @@ SET
  BUS(J)          Private industries
  PUB(J)          Public industries
  F               Production factors
-* L(F)           Labor categories
  K(F)            Capital categories
  Z               Regions
  ZR(Z)           Reference country (USA)
@@ -31,7 +30,7 @@ SET
  Zrich(Z)        Rich regions
  Zother(Z)       Non-rich regions
 
-$GDXIN Input_w-t/DATA_AGG-2019_GTAP11c_new.gdx
+$GDXIN Input/DATA_AGG-2019_GTAP11c.gdx
 $LOAD J, I, BUS, PUB, F, K, Z, ZR, Z1, Zrich, Zother
 
 I1(I) Commodities excluding agriculture and backstop technology
@@ -779,8 +778,8 @@ $LOAD tmrg, sigma_M1, sigma_M2, sigma_VA, sigma_KLE, POPO
 * Other exogenous parameters can be defined if the Excel file VAL_PAR.XLS
 PARAMETER PARZ;
 
-$CALL gdxxrw Input_w-t\PAR.xlsx @Input_w-t\PAR.txt Rdim=2 Cdim=1 output = Input_w-t\PAR.gdx
-$GDXIN Input_w-t\PAR.gdx
+$CALL gdxxrw Input\PAR.xlsx @Input\PAR.txt Rdim=2 Cdim=1 output = Input\PAR.gdx
+$GDXIN Input\PAR.gdx
 $LOAD sigma_KD, sigma_LD, sigma_X1, sigma_X2, sigma_X3, sigma_X0, sigma_y, sigma_inv, PARZ
 
 *===============================================================================
@@ -1521,8 +1520,8 @@ $offtext
 *==============================================================================
 *  Energy & CO2 emission
 *==============================================================================
- $INCLUDE DATA_WEB_2024.gms
- $INCLUDE DATA_CO2coef.gms
+$INCLUDE DATA_WEB.gms
+$INCLUDE DATA_CO2.gms
 
 *==============================================================================
 *  Electricity Generation coefficients
@@ -1611,7 +1610,7 @@ Parameters
  LST_lag(z,time)       Supply of type l labor in region z (Trend T-1)
 ;
  
-execute_unload 'Calibration_Check_GTAP11c';
+*execute_unload 'Calibration_Check_GTAP11c';
 
 *==============================================================================
 * Variable
@@ -2571,8 +2570,8 @@ $Offlisting
 $Offsymlist
 $Offinclude 
 
-MODEL PEPWT World wide dynamic model /all/ ;
-PEPWT.holdfixed=1;
+MODEL GUIDE_GLOBAL_CGE World wide dynamic model /all/ ;
+GUIDE_GLOBAL_CGE.holdfixed=1;
 
 *==============================================================================
 *  6.1 Scenarios
@@ -2591,15 +2590,10 @@ SCEN  List of scenarios
 ;
 
 *==============================================================================
-*  6.2 BAU scenario and Results
+*  BAU scenario and Results
 *==============================================================================
-$INCLUDE BAU_SOLVE_GTAP11c_new.gms
-$INCLUDE BAU_RESULTS_GTAP11c_new.gms
-
-*==============================================================================
-*  6.3 NZS scenarios and Results
-*==============================================================================
-*$INCLUDE NZS_SOLVE_GTAP11c_new.gms
-*$INCLUDE NZS_RESULTS_GTAP11c_new.gms
+$INCLUDE BAU_SOLVE_GTAP11c.gms
+$INCLUDE BAU_RESULTS_GTAP11c.gms
+$INCLUDE BAU_RESULTS_GreenEcos.gms
 
 $exit

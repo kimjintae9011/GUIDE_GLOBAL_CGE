@@ -1,6 +1,6 @@
-$TITLE     GUIDE_GLOBAL_CGE model GTAP11c 
+$TITLE     GUIDE_GLOBAL_CGE model Baseline Calibration GTAP11c
 *==============================================================================                                                                             
-*           GUIDE_GLOBAL_CGE GTAP11c Model Code Manual                  
+*           GUIDE_GLOBAL_CGE GTAP11c Baseline Calibration                
 *           Version: 1.0                                                       
 *           Author: Jintae Kim                                                 
 *           Original Code Authors: Veronique Robichaud, Andre Lemelin,        
@@ -11,9 +11,8 @@ $TITLE     GUIDE_GLOBAL_CGE model GTAP11c
 *           (CC BY-NC-SA 3.0) License.                                         
 *           https://creativecommons.org/licenses/by-nc-sa/3.0/                
 *==============================================================================
-
 *==============================================================================
-* Set 
+* 1 Set definition
 *==============================================================================
 SET
  J               All industries
@@ -23,7 +22,7 @@ SET
  BUS(J)          Private industries
  PUB(J)          Public industries
  F               Production factors
-* L(F)           Labor categories
+* L(F)            Labor categories
  K(F)            Capital categories
  Z               Regions
  ZR(Z)           Reference country (USA)
@@ -31,9 +30,12 @@ SET
  Zrich(Z)        Rich regions
  Zother(Z)       Non-rich regions
 
-$GDXIN Input_w-t/DATA_AGG-2019_GTAP11c_new.gdx
+$GDXIN Input/DATA_AGG-2019_GTAP11c.gdx
 $LOAD J, I, BUS, PUB, F, K, Z, ZR, Z1, Zrich, Zother
 
+*==============================================================================
+*  1.1 Sub sets for commodities
+*==============================================================================
 I1(I) Commodities excluding agriculture and backstop technology
 /
 * 01_AGRICULT    Agricultural forest and fishery goods
@@ -184,6 +186,9 @@ NENE(I) Non-energy commodities
 * 18_ELEC        Electricity
 /
 
+*==============================================================================
+*  1.2 Sub sets for industries
+*==============================================================================
 J2(J) KLE Sectors
 /
  01_AGRICULT    Agricultural forest and fishery goods
@@ -223,7 +228,7 @@ J3(J) Non-KLE Sectors
  26_eOther      Other generation
 /
 
-J4(J) Industries excluding specified energy-related industries
+J4(J) 'Industries excluding specified energy-related industries'
 /
  01_AGRICULT    Agricultural forest and fishery goods
 * 02_COAL        Coal
@@ -265,7 +270,7 @@ J5(J) Fossil fuel power sector
  22_eOil        Oil generation
 /
 
-J6(J) Industries excluding specified energy-related industries
+J6(J) 'Industries excluding specified energy-related industries'
 /
  01_AGRICULT    Agricultural forest and fishery goods
  02_COAL        Coal
@@ -384,6 +389,9 @@ Elec(J) Industries
  26_eOther      Other generation
 /
 
+*==============================================================================
+*  1.3 Sub sets for region
+*==============================================================================
 NEA(Z) NorthEastAisa 6 Countires
 /
  01_KOR Korea
@@ -400,6 +408,7 @@ NEA2(Z) Sub NEA KOR-CHN-JPN
  02_CHN China
  03_JPN Japan
 /
+
 
 NEA3(Z) Sub NEA KOR-CHN-JPN
 /
@@ -434,6 +443,9 @@ CTAX_Z(z)
  17_PAO Pacific OECD
 /
 
+*==============================================================================
+*  1.4 Mapping for Backstop technologies 
+*==============================================================================
 COMtoIND(j,i3) 
 /
  11_CHEMICAL.    (11_CHEMICAL)
@@ -454,6 +466,9 @@ INDtoCOM(i3,j)
  22_ATRP.        (30_ATRP )
 /
 
+*==============================================================================
+*   1.5 Periods
+*==============================================================================
 TIME Time periods
 /
 2019*2050
@@ -465,6 +480,9 @@ T1(time)         = yes$[ord(time) eq 1];
 
 Parameter EndTime /2050/;
 
+*===============================================================================
+*   1.6 Alias
+*===============================================================================
 ALIAS (j,jj)
 ALIAS (i,ii,ij)
 *ALIAS (l,lj)
@@ -483,9 +501,12 @@ Alias (ene7, enee7)
 ;
 
 *==============================================================================
-* Parameters
+* 2 Declaration of parameters and benchmark variables
 *==============================================================================
 PARAMETER
+*==============================================================================
+*  2.1 Parameters
+*==============================================================================
  A_K(z)                       Scale parameter (investment function)
  aij(i,j,z)                   Input output coefficient
  aij2(i,j,z)                  Input output coefficient (intermediate energy)
@@ -599,7 +620,13 @@ PARAMETER
  penetration_rate(i3,z,time)  penetration_rate
  
 *==============================================================================
-*  Volume
+*  2.2 Variables - Benchmark
+*==============================================================================
+*  Benchmark values of variables are parameters. Their acronyms are the
+*  corresponding variable names,followed by the letter "O".
+
+*==============================================================================
+*   2.2.1 Volume variables
 *==============================================================================
  CABXO(z)        Current account balance of region z in terms of the international currency (pseudo-volume variable)
  CO(i,z)         Consumption of commodity i by households in region z
@@ -663,7 +690,7 @@ PARAMETER
  Share_coalgas(ene5,j2,z)
  Share_oilpetrol(ene6,j2,z) 
 *==============================================================================
-*   Price
+*   2.2.2 Price variables
 *==============================================================================
  eO(z)                Exchange rate (price of international currency in terms of region z local currency)
  IRO(z)               Interest rate
@@ -715,7 +742,7 @@ PARAMETER
  WTIO(j,z)            Wage rate paid z by industry j for type l labor in region including payroll taxes
 
 *==============================================================================
-*   Nominal (value)
+*   2.2.3 Nominal (value) variables
 *==============================================================================
  CABO(z)         Current account balance of region z
  CTHO(z)         Consumption budget of households in region z
@@ -756,7 +783,7 @@ PARAMETER
  TIKO_Share(k,j,z)     Government revenue from taxes on type k capital used by industry j in region z
  TIPO_Share(j,z)
 *==============================================================================
-*   Rates and intercepts
+*   2.2.4 Rates and intercepts
 *==============================================================================
  phiO(z)         Scale variable (allocation of investment to industries)
  sh0O(z)         Intercept (household savings)
@@ -771,48 +798,69 @@ PARAMETER
  ttixO(i,z,zj)   Export tax rate on exported commodity x
 ;
 
+*==============================================================================
+* 3 Data
+*==============================================================================
+*  3.1 Data input from GTAP8.1
+*==============================================================================
+*   3.1.1 Reading data aggregated with DATA_AGG-2007.gms
+*==============================================================================
+*  The PEP w-t model uses aggregated data from GTAP8.1. The following file
+*  includes data for some variables and substitution elasticities.
+
 $LOAD CO, CGO, DDO, DEPO, DIO, DSO, DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, XSO, XSO_I, XSTO, 
-$LOAD TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, CTAX_Cal, CTAX_CPS, CTAX_NZS, PERMIT_cal, TIW_Share_Cal, 
-$LOAD RKDO, TDHO, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, 
+$LOAD TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, CTAX_Cal, CTAX_CPS, CTAX_NZS, PERMIT_cal, TIW_Share_Cal, RKDO, TDHO, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, 
 $LOAD tmrg, sigma_M1, sigma_M2, sigma_VA, sigma_KLE, POPO
 
 * Other exogenous parameters can be defined if the Excel file VAL_PAR.XLS
-PARAMETER PARZ;
+PARAMETER
+PARZ;
 
-$CALL gdxxrw Input_w-t\PAR.xlsx @Input_w-t\PAR.txt Rdim=2 Cdim=1 output = Input_w-t\PAR.gdx
-$GDXIN Input_w-t\PAR.gdx
+$CALL gdxxrw Input\PAR.xlsx @Input\PAR.txt Rdim=2 Cdim=1 output = Input\PAR.gdx
+$GDXIN Input\PAR.gdx
 $LOAD sigma_KD, sigma_LD, sigma_X1, sigma_X2, sigma_X3, sigma_X0, sigma_y, sigma_inv, PARZ
 
 *===============================================================================
 * CES - composite capital
- sigma_KD(j,z)             = 0.5;
+ sigma_KD(j,z)             = 2*sigma_VA(j,z);
  sigma_KD('02_COAL',z)     = 0.2;
  sigma_KD('03_OIL',z)      = 0.2;
  sigma_KD('04_GAS',z)      = 0.2;
  sigma_KD('05_MINING',z)   = 0.2;
-
+ 
 * CES - composite labor
  sigma_LD(j,z)   = 2*sigma_VA(j,z); 
 
 * CES - composite K-L
- sigma_VA('10_PETROLCOAL',z)  = 1.26;
- sigma_VA('18_TnD',z)         = 0.2;
- sigma_VA('19_eNuclear',z)    = 0.2;
- sigma_VA('20_eCoal',z)       = 0.2;
- sigma_VA('21_eGas',z)        = 0.2;
- sigma_VA('22_eOil',z)        = 0.2;
- sigma_VA('23_eWind',z)       = 0.2;
- sigma_VA('24_eSolar',z)      = 0.2;
- sigma_VA('25_eHydro',z)      = 0.2;
- sigma_VA('26_eOther',z)      = 0.2;
+* 02_COAL, 20_e_Coal, 22_eOil -> 0.1
+* Exec Error at line 3250: rPower: FUNC DOMAIN: x**y, x < 0
+* Evaluation error(s) in equation "EQ4(02_COAL,03_JPN,2046)"
+* Exec Error at line 3670: rPower: FUNC DOMAIN: x**y, x < 0
+* Evaluation error(s) in equation "EQ96(cap,02_COAL,03_JPN,2046)"
+* Evaluation error(s) in equation "EQ96(natr,02_COAL,03_JPN,2046)"
+* why? No issues with 0.2 : 02_COAL, 20_e_Coal, 22_eOil -> 0.2
+
+ sigma_VA('18_TnD',z)  = 0.2;
+ sigma_VA('19_eNuclear',z)  = 0.2;
+ sigma_VA('20_eCoal',z)  = 0.2;
+ sigma_VA('21_eGas',z)  = 0.2;
+ sigma_VA('22_eOil',z)  = 0.2;
+ sigma_VA('23_eWind',z)  = 0.2;
+ sigma_VA('24_eSolar',z)  = 0.2;
+ sigma_VA('25_eHydro',z)  = 0.2;
+ sigma_VA('26_eOther',z)  = 0.2;
+* sigma_VA('27_CONSTRUC','05_MNG')  = 0.2;
+
+* 10_PETROLCOAL 1.0 -> 1.26
+ sigma_VA('10_PETROLCOAL',z) = 1.26;
 
 * CES - composite ENER
- sigma_ENER(j,z)              = 1.1 ;
- sigma_ENER2(j2,z)            = 1.1 ;
- sigma_ENER3(j2,z)            = 1.1 ;
- sigma_ENER4(j2,z)            = 2.0 ;
- sigma_ENER5_1(j2,z)          = 2.0 ;
- sigma_ENER5_2(j2,z)          = 2.0 ;
+ sigma_ENER(j,z)     = 1.1 ;
+ sigma_ENER2(j2,z)   = 1.1 ;
+ sigma_ENER3(j2,z)   = 1.1 ;
+ sigma_ENER4(j2,z)   = 2.0 ;
+ sigma_ENER5_1(j2,z) = 2.0 ;
+ sigma_ENER5_2(j2,z) = 2.0 ;
 
 * CES - composite Power sector
  sigma_X4(z)    = 1.1;
@@ -834,47 +882,126 @@ $LOAD sigma_KD, sigma_LD, sigma_X1, sigma_X2, sigma_X3, sigma_X0, sigma_y, sigma
 
 * Investment demand elasticity
  sigma_INV(k,j,z) = 2;
+* sigma_INV(k,j,'05_MNG') = 0.1;
 
 * Income elasticity of consumption
-* sigma_Y('03_OIL','06_PRK') = 1.01;
+ sigma_Y('03_OIL','06_PRK') = 1.01;
 
 * LES parameters - Frisch all (1.1)
  frisch(z)      = PARZ(z,'frisch');
 
-* Labour supply 
- elasLS(z)      = 0.5 ; 
+* CES - Capital
+ sigma_KD('02_COAL',z)  = 0.2;
 
- growthz(z)     = 0.02 ;
+* Labour supply 
+ elasLS(z) = 0.5 ; 
 *==============================================================================
-*   Rescaling 
+*   3.1.2 Rescaling the variables
 *==============================================================================
-* GTAP data are in millions of US dollars With RES = 10000, model results are in tens of billions (10G$)
+* GTAP 8.1 data are in millions of (2004 and 2007) US dollars
+* (see www.gtap.agecon.purdue.edu/resources/download/5679.pdf)
+* With RES = 10000, model results are in tens of billions (10G$)
 RES              = 10000;
+
+* NOTE: In GTAP parlance, "agents' prices" are prices paid by buyers, and
+*       "market prices" are prices received by sellers.
+
+* Household consumption = GTAP domestic purchases (VDPA) + import purchases (VIPA)
+* by households at agents' prices.
 CO(i,z)          = CO(i,z)/RES;
+
+* Public final consumption = domestic purchases (VDGA) + import purchases (VIGA)
+* by government at agents' prices.
 CGO(i,z)         = CGO(i,z)/RES;
+
+* Domestic purchases = domestic absorption:
+* (CO + CGO + INVO + DIO) - [ imports (IMO) + transport margins (tmrg)
+*                              + indirect taxes (TICO + TIMO) ]
 DDO(i,z)         = DDO(i,z)/RES;
+
+* Capital depreciation (DEP)
 DEPO(z)          = DEPO(z)/RES;
+
+* Intermediate consumption = domestic purchases (VDFA) + import purchases (VIFA)
+* by firms belonging to sectors other than CGDS, at agents' prices.
 DIO(i,j,z)       = DIO(i,j,z)/RES;
-DSO(j,i,z)       = DSO(j,i,z)/RES;
-DSO_I(i,z)       = DSO_I(i,z)/RES;
+
+* Domestic supply = domestic demand (DDO) in GTAP_AGG.gms
+DSO(j,i,z)        = DSO(j,i,z)/RES;
+DSO_I(i,z)        = DSO_I(i,z)/RES;
+
+* Exports = exports at world prices (VXWD) = imports at world prices
+* Note: the GTAP variable VXWD is NOT used in the DATA_AGG.gms program; the
+* value recorded in DATA_AGG.gdx is actually identical to IMO
 EXO(i,z,zj)      = EXO(i,z,zj)/RES;
+
+* Imports = imports at world prices (VIWS) - sum of transport margins on imports (VTWR)
 IMO(i,z,zj)      = IMO(i,z,zj)/RES;
+
+* Demand for investment purposes = domestic purchases (VDFA)+ import purchases (VIFA)
+* by firms of the CGDS sector at agents' prices.
 INVO(i,z)        = INVO(i,z)/RES;
+
+* Total capital stock at the beginning of the period (VKB)
 KSTO(z)          = KSTO(z)/RES;
-LDO(j,z)         = LDO(j,z)/RES;
+
+* Labor demand = Remuneration of labor at market prices, before taxes
+* (components of VFM, "primary factor purchases, by households, at market prices")
+*LDO(l,j,z)       = LDO(l,j,z)/RES;
+LDO(j,z)       = LDO(j,z)/RES;
+
+* Supply of transport margins at market prices (VST), adjusted proportionately
+* so that MRGNO = sum of tmrg for every margin commodity
 MRGNO(i,z)       = MRGNO(i,z)/RES;
+
+* Remuneration of capital at market prices, before taxes
+* (components of VFM, "primary factor purchases, by households, at market prices")
 RKDO(k,j,z)      = RKDO(k,j,z)/RES;
+
+* Direct taxes = factor payment at market prices (VFM)
+*                - primary factor sales at agents' prices (EVOA)
 TDHO(z)          = TDHO(z)/RES;
+
+* Domestic taxes on commodities = demand at agents' prices - demand at market prices:
+* Include 6 pairs of GTAP components
+*       VDPA - VDPM
+*       VIPA - VIPM
+*       VDGA - VDGM
+*       VIGA - VIGM
+*       VDFA - VDFM
+*       VIFA - VIFM
 TICO(i,z)        = TICO(i,z)/RES;
+
+* Net taxes on factor of production = factor employment tax revenue (FTRV)
+*                                     - factor-based subsidies (FBEP).
 TIKO(k,j,z)      = TIKO(k,j,z)/RES;
+
+* Import duties = "ordinary" import duties (TFRV)
 TIMO(i,z,zj)     = TIMO(i,z,zj)/RES;
+
+* Taxes on production = MINUS "ordinary output subsidies" (OSEP)
 TIPO(j,z)        = TIPO(j,z)/RES;
-TIWO(j,z)        = TIWO(j,z)/RES;
+
+* Net taxes on factor of production = factor employment tax revenue (FTRV)
+*                                     - factor-based subsidies (FBEP).
+*TIWO(l,j,z)      = TIWO(l,j,z)/RES;
+ TIWO(j,z)      = TIWO(j,z)/RES;
+
+* Taxes on exports = export tax equivalent of the Multi-Fiber Agreement (MFA)
+* quota premium(MFRV) + "ordinary" export taxes (XTRV)
 TIXO(i,z,zj)     = TIXO(i,z,zj)/RES;
+
+* Transport margins at world prices = sum of margins on imports (VTWR)
 tmrg(i,ij,z,zj)  = tmrg(i,ij,z,zj)/RES;
-XSO_I(i,z)       = XSO_I(i,z)/RES;
-XSO(j,i,z)       = XSO(j,i,z)/RES;
-XSTO(j,z)        = XSTO(j,z)/RES;
+
+* Domestic output = domestic supply (DSO) + supply of transport margins (MRGNO)
+*                   + exports (EXO) - taxes on exports (TIXO)
+
+XSO_I(i,z)        = XSO_I(i,z)/RES;
+XSO(j,i,z)        = XSO(j,i,z)/RES;
+XSTO(j,z)         = XSTO(j,z)/RES;
+
+growthz(z)        = 0.02;
 
 *==============================================================================
 *  3.3 Exogenous prices and parameters
@@ -894,6 +1021,7 @@ eta = 1;
 *   If the user wishes to assume otherwise, he can fill the appropriate area in
 *   the Excel file VAL_PAR.xls.
 * ttdh0O(z)       = PARZ(z,'ttdh0O');
+
  ttdh0O(z)       = 0;
 *   The slope ttdh1O is calibrated below in the mane GAMS file
 
@@ -917,11 +1045,14 @@ eta = 1;
  PEO(i,z,zj)      = 1;
  PLO(i,z)         = 1;
  PWMGO(i)         = 1;
+* WO(l,z)          = 1;
  WO(z)            = 1;
  WO_lag(z)        = WO(z) ;
 
 *==============================================================================
-* Calibration
+* 4 Calibration
+*==============================================================================
+*  4.1 Calculation of income and savings related variables and parameters
 *==============================================================================
  YHKO(z)         = SUM[(k,j),RKDO(k,j,z)];
  YHLO(z)         = SUM[(j),LDO(j,z)];
@@ -929,6 +1060,7 @@ eta = 1;
  YDHO(z)         = YHO(z)-TDHO(z);
  CTHO(z)         = SUM[i,CO(i,z)];
  SHO(z)          = YDHO(z)-CTHO(z);
+
  TICTO(z)        = SUM[i,TICO(i,z)];
  TIMTO(z)        = SUM[(i,zj),TIMO(i,zj,z)];
  TIWTO(z)        = SUM[(j),TIWO(j,z)];
@@ -940,21 +1072,23 @@ eta = 1;
  YGO(z)          = TDHO(z)+TPRCTSO(z)+TPRODNO(z);
  GO(z)           = SUM[i,CGO(i,z)];
  SGO(z)          = YGO(z)-GO(z);
+
  YROWO(z)        = SUM[(i,zj),IMO(i,zj,z)]+SUM[(i,ij,zj),tmrg(i,ij,zj,z)];
  SROWO(z)        = YROWO(z)-SUM[(i,zj),EXO(i,z,zj)]-SUM[i,MRGNO(i,z)];
  CABO(z)         = -SROWO(z);
+
  ITO(z)          = SHO(z)+SGO(z)+SROWO(z);
 
 *==============================================================================
-*  Calibration of parameters and other variables
+*  4.2 Calibration of parameters and other variables
 *==============================================================================
-*  Calibration of investment and government spending shares
+*  4.2.1 Calibration of investment and government spending shares
 *==============================================================================
  gamma_GVT(i,z)  = CGO(i,z)/SUM[ij,CGO(ij,z)];
  gamma_INV(i,z)  = INVO(i,z)/SUM[ij,INVO(ij,z)] ;
 
 *==============================================================================
-*  Calibration of other prices and revised volumes (part 1)
+*  4.2.2 Calibration of other prices and revised volumes (part 1)
 *==============================================================================
  LDO(j,z)      = LDO(j,z)/WO(z);
  LDCO(j,z)     = LDO(j,z);
@@ -997,6 +1131,7 @@ eta = 1;
 
  PTO(j,z)       = SUM[i$XSO(j,i,z),PO2(j,i,z)*XSO(j,i,z)]/XSTO(j,z);
 
+* PPO(j,z)       = [SUM[l,TIWO(l,j,z)+WO(l,z)*LDO(l,j,z)]
  PPO(j,z)       = (TIWO(j,z)+WO(z)*LDO(j,z)
                   +SUM[k,TIKO(k,j,z)+RKDO(k,j,z)]
                   +SUM[nene,DIO(nene,j,z)]+SUM[ene,DIO(ene,j,z)])/XSTO(j,z);
@@ -1006,9 +1141,9 @@ eta = 1;
  EXTTO(j,i,z)$DSO(j,i,z) = theta2(j,i,z)*EXTO(i,z);
 
 *==============================================================================
-*  Calibration of tax rates, margins, prices and volumes
+*  4.3 Calibration of tax rates, margins, prices and volumes
 *==============================================================================
-*  Margin rates and tax rates
+*  4.3.1 Margin rates and tax rates
 *==============================================================================
  ttixO(i,z,zj)   = [eO(z)*PWXO(i,z,zj)/PEO(i,z,zj)]-1;
  tticO(i,z)      = TICO(i,z)/{PLO(i,z)*DDO(i,z)
@@ -1022,6 +1157,8 @@ eta = 1;
                  = TIMO(i,zj,z)/{IMO(i,zj,z)*eO(z)*(PWMO(i,zj,z)
                   +SUM[ij,PWMGO(ij)*tmrg(ij,i,zj,z)])};
 
+* ttiwO(l,j,z)$LDO(l,j,z)
+*                 = TIWO(l,j,z)/[WO(l,z)*LDO(l,j,z)];
  ttiwO(j,z)$LDO(j,z)
                  = TIWO(j,z)/[WO(z)*LDO(j,z)];
 
@@ -1033,7 +1170,7 @@ eta = 1;
  ttdh1O(z)       = [TDHO(z)-ttdh0O(z)]/YHO(z);
 
 *==============================================================================
-*  Calibration of other prices and revised volumes (part 2)
+*  4.3.2 Calibration of other prices and revised volumes (part 2)
 *==============================================================================
  PDO(i,z)        = PLO(i,z)*(1+tticO(i,z));
  PMO(i,zj,z)     = eO(z)*(PWMO(i,zj,z)+SUM[ij,PWMGO(ij)*tmrg(ij,i,zj,z)])
@@ -1085,14 +1222,20 @@ eta = 1;
                    /DEnelecO(j,z) ;
 
  PCEelecO(j,z)   = SUM[ene4,PCO(ene4,z)*DEO(ene4,j,z)]/DEelecO(j,z) ;
+* PCEnelecO(j,z)  = SUM[ene3,PCO(ene3,z)*DEO(ene3,j,z)]/DEnelecO(j,z) ;
+ 
  PCEO(j,z)       = [PCEelecO(j,z)*DEelecO(j,z)+PCEnelecO(j,z)*DEnelecO(j,z)]/CEO(j,z) ;
  PCEO(j3,z)       = SUM[ene,PCO(ene,z)*DEO(ene,j3,z)]/CEO(j3,z) ;
+
+* WTIO(l,j,z)     = WO(l,z)*(1+ttiwO(l,j,z));
  WTIO(j,z)     = WO(z)*(1+ttiwO(j,z));
+
  WCO(j,z)$LDCO(j,z)
+*                 = SUM[l,WTIO(l,j,z)*LDO(l,j,z)]/LDCO(j,z);
                  = (WTIO(j,z)*LDO(j,z))/LDCO(j,z);
 
 *==============================================================================
-*  Calibration of dynamic parameters
+*  4.4 Calibration of dynamic parameters
 *==============================================================================
 * Calibration of dynamic parameters following new procedure.
 * The price of capital is arbitrary:
@@ -1112,7 +1255,7 @@ eta = 1;
 
 * From GTAP, we know KSTO.
  KSTO(z)         = KSTO(z)/PKO(z);
-
+ 
 * Assuming a uniform depreciation rate for all types
 * of capital and all industries:
  delta(z)        = DEPO(z)/[PKO(z)*KSTO(z)];
@@ -1155,7 +1298,7 @@ eta = 1;
                  = SUM[k,RTIO(k,j,z)*KDO(k,j,z)]/KDCO(j,z);
 
 *==============================================================================
-*  Calibration of other prices and revised volumes (part 3)
+*  4.5 Calibration of other prices and revised volumes (part 3)
 *==============================================================================
  VAO(j,z)        = LDCO(j,z)+KDCO(j,z);
 
@@ -1190,9 +1333,9 @@ eta = 1;
  PIXGVTO(z)      = 1;
 
 *==============================================================================
-*  Calibration of function parameters
+*  4.6 Calibration of function parameters
 *==============================================================================
-*   Leontief functions
+*   4.6.1 Leontief functions
 *==============================================================================
  io(j,z)         = CIO(j,z)/XSTO(j,z) ;
 
@@ -1205,11 +1348,11 @@ eta = 1;
  aij(nene,j,z)   = DIO(nene,j,z)/CIO(j,z);
 
  aij2(ene,j,z)   = DEO(ene,j,z)/CEO(j,z);
- 
+
 *==============================================================================
-*   Calibration of CET parameters
+*   4.6.2 Calibration of CET parameters
 *==============================================================================
-*    CET between total exports, domestic supply and margins
+*    4.6.2.1 CET between total exports, domestic supply and margins
 *==============================================================================
  rho_X1(i,z)     = (1+sigma_X1(i,z))/sigma_X1(i,z);
 
@@ -1240,7 +1383,7 @@ eta = 1;
                   -beta_D_X1(i,z))*MRGNO(i,z)**rho_X1(i,z)]**(1/rho_X1(i,z));
 
 *==============================================================================
-*    CET between exports to different trading partners
+*    4.6.2.2 CET between exports to different trading partners
 *==============================================================================
  rho_X2(i,z)     = (1+sigma_X2(i,z))/sigma_X2(i,z);
 
@@ -1253,9 +1396,9 @@ eta = 1;
                    **(1/rho_X2(i,z))};
 
 *==============================================================================
-*   Calibration of CES parameters
+*   4.6.3 Calibration of CES parameters
 *==============================================================================
-*    Composite output
+*    4.6.3.0 Composite output
 *==============================================================================
  rho_X3(i,z)   = (1-sigma_X3(i,z))/sigma_X3(i,z);
 
@@ -1284,7 +1427,7 @@ eta = 1;
  PPOWERO(z) = 1;
 
 *==============================================================================
-*    Composite good
+*    4.6.3.1 Composite good
 *==============================================================================
  rho_M1(i,z)     = (1-sigma_m1(i,z))/sigma_m1(i,z);
 
@@ -1296,7 +1439,7 @@ eta = 1;
                   +(1-beta_M1(i,z))*DDO(i,z)**(-rho_M1(i,z))}**(-1/rho_M1(i,z));
  
 *==============================================================================
-*   CES between imports from different trading partners
+*    4.6.3.2 CES between imports from different trading partners
 *==============================================================================
  rho_M2(i,z)     = (1-sigma_M2(i,z))/sigma_M2(i,z);
 
@@ -1309,7 +1452,7 @@ eta = 1;
                    **(-rho_M2(i,z))]**(-1/rho_M2(i,z))};
 
 *==============================================================================
-*    Composite capital
+*    4.6.3.3 Composite capital
 *==============================================================================
  rho_KD(j,z)     = (1-sigma_KD(j,z))/sigma_KD(j,z);
 
@@ -1319,6 +1462,18 @@ eta = 1;
  B_KD(j,z)$KDCO(j,z)
                  = KDCO(j,z)/{SUM[k$KDO(k,j,z),beta_KD(k,j,z)*KDO(k,j,z)
                    **(-rho_KD(j,z))]**(-1/rho_KD(j,z))};
+
+*==============================================================================
+*    4.6.3.4 Composite labor
+*==============================================================================
+* rho_LD(j,z)     = (1-sigma_LD(j,z))/sigma_LD(j,z);
+* beta_LD(l,j,z)$LDO(l,j,z)
+*                 = [WTIO(l,j,z)*LDO(l,j,z)**(1+rho_LD(j,z))]/
+*                   SUM[lj$LDO(lj,j,z),WTIO(lj,j,z)*LDO(lj,j,z)
+*                   **(1+rho_LD(j,z))];
+* B_LD(j,z)$LDCO(j,z)
+*                 = LDCO(j,z)/{SUM[l$LDO(l,j,z),beta_LD(l,j,z)*LDO(l,j,z)
+*                   **(-rho_LD(j,z))]**(-1/rho_LD(j,z))};
  
 *===============================================================================
 *   Composite E
@@ -1405,6 +1560,10 @@ eta = 1;
                    (1-beta_ENER2(j2,z))*DEnelecO(j2,z)**(-rho_ENER2(j2,z))
                    ]**(-1/rho_ENER2(j2,z))};
 
+*Display rho_ENER2, beta_ENER2, B_ENER2, rho_ENER3, beta_ENER3, B_ENER3,
+*        rho_ENER4, beta_ENER4, B_ENER4, rho_ENER5_1, beta_ENER5_1, B_ENER5_1,
+*        rho_ENER5_2, beta_ENER5_2, B_ENER5_2 ;
+
 *==============================================================================
 *    4.6.3.5 Value added
 *==============================================================================
@@ -1446,7 +1605,7 @@ eta = 1;
  beta_KLE2_t(j,z,time) = beta_KLE2(j,z)*AEEI_low(z,'2019');
 
 *==============================================================================
-*  Calibration of LES parameters
+*   4.6.4 Calibration of LES parameters
 *==============================================================================
 *   As the assigned values of income elasticities may not result in
 *   consumption shares that add up to 1, this first step
@@ -1457,7 +1616,7 @@ eta = 1;
  CMINO(i,z)      = CO(i,z)+gamma_LES(i,z)*CTHO(z)/{PCO(i,z)*frisch(z)};
 
 *==============================================================================
-*  Calibration of gross domestic products
+*  4.7 Calibration of gross domestic products
 *==============================================================================
  GDP_BPO(z)      = SUM[j,PVAO(j,z)*VAO(j,z)]+TIPTO(z);
  GDP_MPO(z)      = GDP_BPO(z)+TPRCTSO(z);
@@ -1507,13 +1666,16 @@ $offtext
  IT_REALO(z)     = ITO(z)/PIXINVO(z);
 
 *==============================================================================
-*  Parameters of the household savings function
+*  4.9 Parameters of the household savings function
 *==============================================================================
+* sh1O(z)         = SHO(z)/YDHO(z);
+* sh0O(z)         = 0 ;
+
  sh1O(z)         = [SHO(z)+SGO(z)]/GDP_IBO(z);
  sh0O(z)         = SHO(z)-sh1O(z)*YDHO(z);
  
 *==============================================================================
-*  Re-calibration of indexed transfers and parameters
+*  4.10 Re-calibration of indexed transfers and parameters
 *==============================================================================
  sh0O(z)         = sh0O(z)/PIXCONO(z)**eta;
  ttdh0O(z)       = ttdh0O(z)/PIXCONO(z)**eta;
@@ -1521,8 +1683,8 @@ $offtext
 *==============================================================================
 *  Energy & CO2 emission
 *==============================================================================
- $INCLUDE DATA_WEB_2024.gms
- $INCLUDE DATA_CO2coef.gms
+$INCLUDE DATA_WEB.gms
+$INCLUDE DATA_CO2.gms
 
 *==============================================================================
 *  Electricity Generation coefficients
@@ -1611,14 +1773,14 @@ Parameters
  LST_lag(z,time)       Supply of type l labor in region z (Trend T-1)
 ;
  
-execute_unload 'Calibration_Check_GTAP11c';
-
 *==============================================================================
-* Variable
+* 5 Model
+*==============================================================================
+*  5.1 Variable declarations
 *==============================================================================
 VARIABLES
 *==============================================================================
-*   Volume variables
+*   5.1.1 Volume variables
 *==============================================================================
  C(i,z,time)             Consumption of commodity i by households in region z
  CABX(z,time)            Current account balance of region z in terms of the international currency
@@ -1630,7 +1792,7 @@ VARIABLES
  DD(i,z,time)            Domestic demand for commodity i produced locally in region z
  DI(i,j,z,time)          Intermediate consumption of commodity i by industry j in region z
  DE(i,j,z,time)          Intermediate energy consumption of commodity i by industry j in region z
- DEelec(j2,z,time)       Intermediate energy consumption of commodity i by industry j in region z
+ DEelec(j2,z,time)       Intermediate energy consumption of commodity i by industry j in region z 
  DEnelec(j2,z,time)      Intermediate energy consumption of commodity i by industry j in region z  
  DEcoalgas(j2,z,time)    Intermediate energy consumption of commodity i by industry j in region z  
  DEoilpetrol(j2,z,time)  Intermediate energy consumption of commodity i by industry j in region z  
@@ -1652,10 +1814,10 @@ VARIABLES
  KD(k,j,z,time)          Demand for type k capital by industry j in region z
  KDC(j,z,time)           Demand for composite capital by industry j in region z
  KS(k,z,time)            Supply of type k capital in region z
- LD(j,z,time)            Demand for type l labor by industry j in region z
+ LD(j,z,time)          Demand for type l labor by industry j in region z
  LDC(j,z,time)           Demand for composite labor by industry j in region z
- LS(z,time)              Supply of type l labor in region z
- LST(z,time)             Supply of type l labor in region z (Trend)
+ LS(z,time)            Supply of type l labor in region z
+ LST(z,time)           Supply of type l labor in region z (Trend)
  MRGN(i,z,time)          Domestic production of commodity i in region z exported as international margin services
  Q(i,z,time)             Quantity demanded of composite commodity i in region z
  VA(j,z,time)            Value added of industry j in region z
@@ -1677,7 +1839,7 @@ VARIABLES
  deltatiw(j,z,time)
 
 *==============================================================================
-*   Price variables
+*   5.1.2 Price variables
 *==============================================================================
  e(z,time)               Exchange rate (price of international currency in terms of region z local currency)
  IR(z,time)              Interest rate 
@@ -1721,7 +1883,7 @@ VARIABLES
  WC(j,z,time)            Wage rate of industry j composite labor in region z
  WTI(j,z,time)           Wage rate paid z by industry j for type l labor in region including payroll taxes
  CTAX(Z,time)            Carbon tax in region z
-
+ 
 *==============================================================================
 *   5.1.3 Nominal (value) variables
 *==============================================================================
@@ -1764,9 +1926,9 @@ VARIABLES
  TIW_Share(j,z,time)
 * TIK_Share(k,j,z,time)
 * TIP_Share(j,z,time)
-
+ 
 *==============================================================================
-*  Rates and intercepts
+*   5.1.4 Rates and intercepts
 *==============================================================================
  phi(z,time)             Scale variable (allocation of investment to industries)
  sh0(z,time)             Intercept (household savings)
@@ -1782,7 +1944,7 @@ VARIABLES
  ttiw_lag(j,z,time)
 
 *==============================================================================
-*   Other variables
+*   5.1.5 Other variables
 *==============================================================================
  A_VA(z,time)            Multifactor productivity
  LEON(z,time)            Excess supply on the last market in region z
@@ -1790,7 +1952,7 @@ VARIABLES
 ;
 
 *==============================================================================
-*  Equations
+*  5.2 Equation declarations
 *==============================================================================
 EQUATIONS
  EQ1(j,z,time)           Leontief - demand for value added
@@ -1818,13 +1980,13 @@ EQUATIONS
  EQ9_6(ene2,j2,z,time) 
  EQ9_7(ene5,j2,z,time)
  EQ9_8(ene6,j2,z,time)
-
+ 
  EQ10(z,time)            Household total income
  EQ11(z,time)            Household labor income
  EQ12(z,time)            Household capital income
  EQ13(z,time)            Household disposable income
  EQ14(z,time)            Household consumption budget
-* CALEQ1(z,time)         Aggregate domestic savings
+ CALEQ1(z,time)          Aggregate domestic savings
  EQ15(z,time)            Household savings
  EQ16(z,time)            Government total income
  EQ16_1(z,time)          Government revenue from Ctax
@@ -1851,7 +2013,7 @@ EQUATIONS
  EQ36(i,z,time)          Household consumption of commodity i
  EQ37(i,z,time)          Final demand of commodity i for investment purposes
  EQ38(i,z,time)          Public final consumption of commodity i
-* CALEQ2(z,time)         Current government expenditures on goods and services
+ CALEQ2(z,time)          Current government expenditures on goods and services
  EQ39(i,z,time)          Total intermediate consumption of commodity i
  EQ39_1(i,z,time)        Total intermediate consumption of commodity i
  EQ39_2(i,z,time)        Total intermediate consumption of commodity i
@@ -1951,7 +2113,7 @@ EQUATIONS
  EQ94(z,time)            Total investment expenditure constraint
  EQ95(z,time)            Aggregate price of capital
  EQ96(k,bus,z,time)      Investment demand by industry
-* CALEQ3(k,pub,z,time)   Public investment demand
+ CALEQ3(k,pub,z,time)    Public investment demand
  EQ97a(z,time)           Interest rate (weighted average rate of return on capital)
  EQ97b(z,time)           User cost of capital
  EQ98(i3,z,time)
@@ -2101,8 +2263,8 @@ EQUATIONS
 *    5.3.2.1 Households
 *==============================================================================
  EQ10(z,t)..       YH(z,t) =e= YHL(z,t)+YHK(z,t)+SUM(i3,MARKUP(i3,z,t));
-* EQ10(z,t)..       YH(z,t) =e= YHL(z,t)+YHK(z,t)+SUM(i3,MARKUP(i3,z,t))+TCTAX(z,t);
 
+* EQ11(z,t)..       YHL(z,t) =e= SUM[(l,j)$LDO(l,j,z),W(l,z,t)*LD(l,j,z,t)];
  EQ11(z,t)..       YHL(z,t) =e= SUM[(j)$LDO(j,z),W(z,t)*LD(j,z,t)];
 
  EQ12(z,t)..       YHK(z,t) =e= SUM[(k,j)$KDO(k,j,z),R(k,j,z,t)*KD(k,j,z,t)];
@@ -2113,11 +2275,12 @@ EQUATIONS
 
  EQ15(z,t)..       SH(z,t) =e= PIXCON(z,t)**eta*sh0(z,t)+sh1(z,t)*YDH(z,t);
 
+ CALEQ1(z,t)..     SH(z,t)+SG(z,t) =e= sh1(z,t)*GDP_IB(z,t);
+
 *==============================================================================
 *    5.3.2.2 Government
 *==============================================================================
-* EQ16(z,t)..       YG(z,t) =e= TDH(z,t)+TPRODN(z,t)+TPRCTS(z,t)+TCTAX(z,t);
- EQ16(z,t)..       YG(z,t) =e= TDH(z,t)+TPRODN(z,t)+TPRCTS(z,t);
+ EQ16(z,t)..       YG(z,t) =e= TDH(z,t)+TPRODN(z,t)+TPRCTS(z,t)+TCTAX(z,t);
 
  EQ16_1(z,t)..     TCTAX(z,t) =e= sum((ene,j), PC(ene,z,t)*CTAX(z,t)*CO2FACTOR2(ene,j,z,t)*DE(ene,j,z,t));
 
@@ -2141,7 +2304,7 @@ EQUATIONS
 
  EQ26(j,z,t)$LDO(j,z)..
                  TIW(j,z,t) =e= ttiw(j,z,t)*W(z,t)*LD(j,z,t);
- 
+
  EQ27(k,j,z,t)$KDO(k,j,z)..
                  TIK(k,j,z,t) =e= ttik(k,j,z,t)*R(k,j,z,t)*KD(k,j,z,t);
 
@@ -2182,6 +2345,8 @@ EQUATIONS
  EQ37(i,z,t)..     PC(i,z,t)*INV(i,z,t) =e= gamma_INV(i,z)*IT(z,t);
 
  EQ38(i,z,t)..     PC(i,z,t)*CG(i,z,t) =e= gamma_GVT(i,z)*G(z,t);
+
+ CALEQ2(z,t)..     G(z,t) =e= GO(z)*GDP_BP(z,t)/GDP_BPO(z);
 
  EQ39(nene,z,t)..    DIT(nene,z,t) =e= SUM[j,DI(nene,j,z,t)];
  
@@ -2415,7 +2580,7 @@ $OFFTEXT
  EQ72(z,t)..     LS(z,t) =e= SUM[j$LDO(j,z),LD(j,z,t)];
 
  EQ73(k,z,t)$KSO(k,z)..
-                       KS(k,z,t) =e= SUM[j$KDO(k,j,z),KD(k,j,z,t)];
+                   KS(k,z,t) =e= SUM[j$KDO(k,j,z),KD(k,j,z,t)];
 
  EQ74(z,t)..       IT(z,t) =e= SH(z,t)+SG(z,t)-CAB(z,t);
 
@@ -2481,11 +2646,15 @@ $OFFTEXT
 
  EQ95(z,t)..     PK(z,t) =e= 1/A_K(z)*PROD[i$gamma_INV(i,z),(PC(i,z,t)
                                /gamma_INV(i,z))**gamma_INV(i,z)];
-                               
+
  EQ96(k,bus,z,t)$KDO(k,bus,z)..
                  IND(k,bus,z,t) =e= phi(z,t)*[R(k,bus,z,t)/U(z,t)]
                                   **sigma_INV(k,bus,z)*KD(k,bus,z,t);
-                                  
+
+ CALEQ3(k,pub,z,t)$KDO(k,pub,z)..
+                 IND(k,pub,z,t)*PK(z,t) =e= INDO(k,pub,z)*PKO(z)*GDP_BP(z,t)
+                                            /GDP_BPO(z);
+
  EQ97a(z,t)..    IR(z,t) =e= {SUM[(k,j)$KDO(k,j,z),
                               R(k,j,z,t)*KD(k,j,z,t)]-DEP(z,t)}/
                              {PK(z,t)*SUM[(k,j)$KDO(k,j,z),KD(k,j,z,t)]};
@@ -2507,9 +2676,9 @@ $OFFTEXT
 
  EQ100(j,z,t)..    XDBS2(j,z,t) =e= sum{i3$COMtoIND(j,i3),XDBS(i3,z,t)};
 
- EQ101(j,z,t)..    LBS(j,z,t) =e= 0.6*XDBS2(j,z,t);
- 
- EQ102(k,j,z,t)..   KBS(k,j,z,t) =e= 0.3*XDBS2(j,z,t)*KDO(k,j,z)/sum(kj,KDO(kj,j,z));
+ EQ101(j,z,t)..    LBS(j,z,t) =e= 0.1*XDBS2(j,z,t);
+
+ EQ102(k,j,z,t)..   KBS(k,j,z,t) =e= 0.1*XDBS2(j,z,t)*KDO(k,j,z)/sum(kj,KDO(kj,j,z));
 
  EQ103(i3,z,t)..   CLBS(i3,z,t)  =e= sum{j$INDtoCOM(i3,j),LBS(j,z,t)*WC(j,z,t)};
 
@@ -2520,7 +2689,7 @@ $OFFTEXT
 *================================================================================
 * 6 Labour Supply
 *================================================================================
- EQ106(z,t)..  LS(z,t) =e= LST(z,t) *((W(z,t)/PIXCON(z,t)) / (W_lag(z,t)/PIXCON_lag(z,t)))**elasLS(z);
+EQ106(z,t)..  LS(z,t) =e= LST(z,t) *((W(z,t)/PIXCON(z,t)) / (W_lag(z,t)/PIXCON_lag(z,t)))** elasLS(z);
 
 *==============================================================================
 * 7 PERMET
@@ -2533,15 +2702,14 @@ $OFFTEXT
 *   8 Carbon Tax Revenue Recycling
 *==============================================================================
 
-EQ109(j,z,t)..   TIW_Share(j,z,t) =e= LD(j,z,t)/SUM(jj,LD(jj,z,t));
-*EQ109(j,z,t)..   TIW_Share(j,z,t) =e= 0;
+*EQ109(j,z,t)..   TIW_Share(j,z,t) =e= LD(j,z,t)/SUM(jj,LD(jj,z,t));
+EQ109(j,z,t)..   TIW_Share(j,z,t) =e= 0;
 
 EQ110(j,z,t)..    ttiw(j,z,t) =e= ttiw_lag(j,z,t) + deltatiw(j,z,t);
 
 EQ111(j,z,t)..   deltatiw(j,z,t) =e= -TIW_Share(j,z,t) * REBATE(z,t) / (W(z,t)*LD(j,z,t));
    
 EQ112(z,t)..  REBATE(z,t) =e= TCTAX(z,t);
-
 *==============================================================================
 * 6 Numerical resolution to compute A_VA, sh0, G, G_REAL and IND
 *==============================================================================
@@ -2571,35 +2739,238 @@ $Offlisting
 $Offsymlist
 $Offinclude 
 
-MODEL PEPWT World wide dynamic model /all/ ;
-PEPWT.holdfixed=1;
+MODEL GUIDE_GLOBAL_CGE World wide dynamic model /all/ ;
+GUIDE_GLOBAL_CGE.holdfixed=1;
 
 *==============================================================================
 *  6.1 Scenarios
 *==============================================================================
-* Define the set of scenarios
-* For each scenario, there are two files to $INCLUDE:
-* SOLVE, and RESULTS.
 
-SET
-SCEN  List of scenarios
-/
- BAU             Business as usual values
- NDC             30 NDC Target
- NZS             Net Zero Scenario
-/
+LOOP[time,
+T(time) = YES;
+
+*==============================================================================
+*   6.1.1 Initialisation
+*==============================================================================
+$INCLUDE INIT.gms
+
+*==============================================================================
+*   6.1.3 Closures
+*==============================================================================
+*$ontext
+* FP CLOSURE: fixed PIXGDPs; numeraire is exchange rate of reference region
+* The exchange rates are endogenous, except for the reference region.
+ e.FX(zr,time)      = eO(zr);
+ PIXGDP.FX(z,time)  = PIXGDPO(z)/sum[zr,eO(zr)];
+*$offtext
+
+$ontext
+* FE CLOSURE: fixed exchange rates; numeraire is PIXGDP of reference region
+* The exchange rates can be fixed at arbitrary values
+ PIXGDP.FX(zr,time)  = PIXGDPO(zr);
+ e.FX(z,time)        = eO(z);
+$offText
+
+ ttdh0.fx(z,time)     = ttdh0O(z);
+ ttdh1.fx(z,time)     = ttdh1O(z);
+ ttic.fx(i,z,time)    = tticO(i,z);
+ ttik.fx(k,j,z,time)  = ttikO(k,j,z);
+ ttim.fx(i,zj,z,time) = ttimO(i,zj,z);
+ ttip.fx(j,z,time)    = ttipO(j,z);
+* ttiw.fx(j,z,time)    = ttiwO(j,z);
+ ttix.fx(i,z,zj,time) = ttixO(i,z,zj);
+ CTAX.fX(z,time)      = CTAX0(z);
+
+*==============================================================================
+*   6.1.2 Fixing GDP_BP_REAL and sh1, and initializing A_VA and sh0
+*==============================================================================
+* To compute the baseline, real GDP is set to grow at the projected growth rate
+* and multifactor productivity is endogenous.
+ GDP_BP_REAL.fx(z,t1)  = GDP_BP_REALO(z);
+ GDP_BP_REAL.fx(z,time)$[ord(time) gt 1]
+                       = GDP_BP_REAL.l(z,time-1)*[1+g_GDP(z,time)];
+
+ A_VA.L(z,t1)          = 1;
+ A_VA.L(z,time)$[ord(time) gt 1]
+                       = A_VA.L(z,time-1);
+
+* Domestic savings rates are made to follow the evolution anticipated by FBQF
+* and the intercept for the household savings function is endogenously
+* determined from the added constraint labeled CALEQ1:
+ sh1.fx(z,t1)          = sh1O(z);
+ sh1.fx(z,time)$[ord(time) gt 1]
+                       = sh1.l(z,time-1)*[1+g_SDR(z,time-1)];
+
+ sh0.l(z,t1)           = sh0O(z);
+ sh0.l(z,time)$[ord(time) gt 1]
+                       = sh0.l(z,time-1)*[1+growthz(z)];
+
+*==============================================================================
+*   6.1.4 Other exogenous variables
+*==============================================================================
+ CABX.FX(z1,time)     = CABXO(z1);
+ CABX.FX(z1,time)$[ord(time) gt 1]
+                      = CABX.l(z1,time-1)*[1+g_GDP(z1,time)];
+
+ CMIN.FX(i,z,t1)      = CMINO(i,z);
+ CMIN.FX(i,z,time)$[ord(time) gt 1]
+                      = CMIN.l(i,z,time-1)*[1+g_POP(z,time)];
+
+ KD.fx(k,j,z,t1)$KDO(k,j,z)
+                      = KDO(k,j,z);
+ KD.fx(k,j,z,time)${[ord(time) gt 1] and KDO(k,j,z)}
+                      = KD.l(k,j,z,time-1)*[1-delta(z)]+IND.l(k,j,z,time-1);
+
+ LST.FX(z,t1)       = LSTO(z);
+ LST.FX(z,time)$[ord(time) gt 1]
+                      = LST.l(z,time-1)*[1+g_POP(z,time)];
+
+ LS_lag(z,t1)    = LSO(z);
+ LS_lag(z,time)$[ord(time) gt 1]
+                      = LS.l(z,time-1);
+
+ LST_lag(z,t1)   = LSTO(z);
+ LST_lag(z,time)$[ord(time) gt 1]
+                      = LST.l(z,time-1);
+
+ W_lag(z,t1)       = WO_lag(z);
+ W_lag(z,time)$[ord(time) gt 1]
+                     = W.l(z,time-1);
+                      
+ PIXCON_lag(z,t1)   = PIXCONO_lag(z);
+ PIXCON_lag(z,time)$[ord(time) gt 1]
+                    = PIXCON.l(z,time-1); 
+ 
+ ttiw_lag.fx(j,z,t1)  =ttiwO(j,z);
+ ttiw_lag.fx(j,z,time)$[ord(time) gt 1]
+                     =ttiwO(j,z);
+
+*==============================================================================
+*   CTAX
+*============================================================================== 
+* CTAX.fx(z,time)$[ord(time) gt 1]
+*                      = CTAX_Cal(z,time);  
+
+* PERMIT_TOTAL.fx(z,time)$[ord(time) gt 1]
+*                             = PERMIT_TOTALO(Z);
+
+*==============================================================================
+*   AEEI
+*============================================================================== 
+ AEEI(z,time) = AEEI_low(z,time);
+ CO2FACTOR2(ene,j,z,time) = CO2FACTOR(ene,j,z)*AEEI(z,time);
+
+*==============================================================================
+*Backstop technologies
+*==============================================================================
+penetration_rate(i3,z,time)$[CTAX.L(z,time) gt 0.8]
+                             = penetration_rate(i3,z,time-1)+0.02;
+
+if ((CTAX.L('01_KOR',time)  gt 0.8), switch(i3,'01_KOR',time) = 1  ;
+else switch(i3,'01_KOR',time) = 0 ;
+);
+
+if ((CTAX.L('02_CHN',time)  gt 0.8), switch(i3,'02_CHN',time) = 1  ;
+else switch(i3,'02_CHN',time) = 0 ;
+);
+
+if ((CTAX.L('03_JPN',time)  gt 0.8), switch(i3,'03_JPN',time) = 1  ;
+else switch(i3,'03_JPN',time) = 0 ;
+);
+
+if ((CTAX.L('04_RUS',time)  gt 0.8), switch(i3,'04_RUS',time) = 1  ;
+else switch(i3,'04_RUS',time) = 0 ;
+);
+
+if ((CTAX.L('05_MNG',time)  gt 0.8), switch(i3,'05_MNG',time) = 1  ;
+else switch(i3,'05_MNG',time) = 0 ;
+);
+
+if ((CTAX.L('06_PRK',time)  gt 0.8), switch(i3,'06_PRK',time) = 1  ;
+else switch(i3,'06_PRK',time) = 0 ;
+);
+
+if ((CTAX.L('07_NAM',time)  gt 0.8), switch(i3,'07_NAM',time) = 1  ;
+else switch(i3,'07_NAM',time) = 0 ;
+);
+
+if ((CTAX.L('08_LAM',time)  gt 0.8), switch(i3,'08_LAM',time) = 1  ;
+else switch(i3,'08_LAM',time) = 0 ;
+);
+
+if ((CTAX.L('09_WEU',time)  gt 0.8), switch(i3,'09_WEU',time) = 1  ;
+else switch(i3,'09_WEU',time) = 0 ;
+);
+
+if ((CTAX.L('10_EEU',time)  gt 0.8), switch(i3,'10_EEU',time) = 1  ;
+else switch(i3,'10_EEU',time) = 0 ;
+);
+
+if ((CTAX.L('11_FSU',time)  gt 0.8), switch(i3,'11_FSU',time) = 1  ;
+else switch(i3,'11_FSU',time) = 0 ;
+);
+
+if ((CTAX.L('12_MEA',time)  gt 0.8), switch(i3,'12_MEA',time) = 1  ;
+else switch(i3,'12_MEA',time) = 0 ;
+);
+
+if ((CTAX.L('13_AFR',time)  gt 0.8), switch(i3,'13_AFR',time) = 1  ;
+else switch(i3,'13_AFR',time) = 0 ;
+);
+
+if ((CTAX.L('14_CPA',time)  gt 0.8), switch(i3,'14_CPA',time) = 1  ;
+else switch(i3,'14_CPA',time) = 0 ;
+);
+
+if ((CTAX.L('15_SAS',time)  gt 0.8), switch(i3,'15_SAS',time) = 1  ;
+else switch(i3,'15_SAS',time) = 0 ;
+);
+
+if ((CTAX.L('16_PAS',time)  gt 0.8), switch(i3,'16_PAS',time) = 1  ;
+else switch(i3,'16_PAS',time) = 0 ;
+);
+
+if ((CTAX.L('17_PAO',time)  gt 0.8), switch(i3,'17_PAO',time) = 1  ;
+else switch(i3,'17_PAO',time) = 0 ;
+);
+
+*==============================================================================
+*   6.1.5 Resolution
+*==============================================================================
+
+SOLVE GUIDE_GLOBAL_CGE USING CNS;
+
+* The single element in subset T(time) is removed, and the subset is now empty.
+T(time)          = NO;
+* End of LOOP over time periods
+];
+
+*==============================================================================
+* 7. Output
+*==============================================================================
+* Preparation of a GDX file that includes the baseline values for A_VA, sh0, G,
+* G_REAL and IND. This file will then be used in the main program.
+
+PARAMETER
+ A_VA_RES(z,time) Value of A_VA to reproduce real GDP projections
+ GX(z,time)       Current government expenditures on goods and services in region z
+ G_REALX(z,time)  Current real government expenditures on goods and services in region z
+ INDX(k,j,z,time) Volume of new type k capital investment to industry j in region z
+ sh0X(z,time)     Intercept (household savings)
+ sh1X(z,time)     Household savings rate
+ phi_BAU(z,time)
+ valCTAX(z,time)
 ;
 
-*==============================================================================
-*  6.2 BAU scenario and Results
-*==============================================================================
-$INCLUDE BAU_SOLVE_GTAP11c_new.gms
-$INCLUDE BAU_RESULTS_GTAP11c_new.gms
+ A_VA_RES(z,time)      = A_VA.l(z,time);
+ GX(z,time)                 = G.l(z,time);
+ G_REALX(z,time)        = G_REAL.l(z,time);
+ INDX(k,pub,z,time)     = IND.l(k,pub,z,time);
+ sh1X(z,time)              = sh1.l(z,time);
+ sh0X(z,time)              = sh0.l(z,time);
+ phi_BAU(z,time)         = phi.l(z,time);
+ valCTAX(z,time)          = CTAX.l(z,time);
 
-*==============================================================================
-*  6.3 NZS scenarios and Results
-*==============================================================================
-*$INCLUDE NZS_SOLVE_GTAP11c_new.gms
-*$INCLUDE NZS_RESULTS_GTAP11c_new.gms
-
-$exit
+execute_unload 'Input/B_line_GTAP11c.gdx',
+ A_VA_RES, GX, G_REALX, INDX, delta, XST, VA, LS, KS, LD, KD, IND, EX, g_GDP, g_POP, GDP_BP, RC, IT, SH, SG, CABX, R, PK, sigma_LD, sigma_INV,
+ sh1X, sh0X, phi_BAU, valCTAX ;

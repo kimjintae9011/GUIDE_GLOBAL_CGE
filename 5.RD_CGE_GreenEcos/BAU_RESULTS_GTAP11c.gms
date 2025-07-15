@@ -1,24 +1,3 @@
-*==============================================================================*
-*                                                                              *
-*           Except where otherwise noted, this work is licensed under          *
-*               http://creativecommons.org/licenses/by-nc-sa/3.0/              *
-*                                                                              *
-*                                                                              *
-*  You are free to share, to copy, distribute and transmit the work under      *
-*  the following conditions:                                                   *
-*                                                                              *
-*  - Attribution:         You must attribute the work to:                      *
-*                         Veronique Robichaud, Andre Lemelin,                  *
-*                         Bernard Decaluwe and Helene Maisonnave.              *
-*  - Noncommercial:       You may not use this work for commercial purposes.   *
-*  - Share Alike:         If you alter, transform, or build upon this work,    *
-*                         you may distribute the resulting work only under     *
-*                         the same or similar license to this one.             *
-*                                                                              *
-*==============================================================================*
-
-* This file is included in the program file BAU_SOLVE.gms
-
 *==============================================================================
 *   6.2.3 Results
 *==============================================================================
@@ -549,7 +528,7 @@ PARAMETER
  valMARKUP_RATIO(i3,z,time,'bau')  =  valPC(i3,z,time,'bau')*valXDBS(i3,z,time,'bau') / (valCLBS(i3,z,time,'bau') +valCKBS(i3,z,time,'bau')+0.000000000001 )  ;
 
 *$Ontext
- execute_unload 'Output_w-t\Baseline_Results_GTAP11c_new',
+ execute_unload 'Output\Baseline_Results_GTAP11c',
  valA_VA,
  valC,
  valCAB,
