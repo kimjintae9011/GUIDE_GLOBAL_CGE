@@ -411,11 +411,12 @@ NEA3(Z) Sub NEA KOR-CHN-JPN
 
 PERMIT_Z(z)
 /
- 01_KOR Korea
+* 01_KOR Korea
  /
 
 CTAX_Z(z)
 /
+01_KOR Korea
  02_CHN China
  03_JPN Japan
  04_RUS Russian Federation
@@ -808,7 +809,8 @@ $LOAD sigma_KD, sigma_LD, sigma_X1, sigma_X2, sigma_X3, sigma_X0, sigma_y, sigma
 
 * CES - composite ENER
  sigma_ENER(j,z)              = 1.1 ;
- sigma_ENER2(j2,z)            = 1.1 ;
+* sigma_ENER2(j2,z)            = 1.1 ;
+ sigma_ENER2(j2,z)            = 0.5;
  sigma_ENER3(j2,z)            = 1.1 ;
  sigma_ENER4(j2,z)            = 2.0 ;
  sigma_ENER5_1(j2,z)          = 2.0 ;
@@ -1521,8 +1523,8 @@ $offtext
 *==============================================================================
 *  Energy & CO2 emission
 *==============================================================================
- $INCLUDE DATA_WEB_2024.gms
- $INCLUDE DATA_CO2coef.gms
+$INCLUDE DATA_WEB_2024.gms
+$INCLUDE  DATA_CO2coef.gms
 
 *==============================================================================
 *  Electricity Generation coefficients

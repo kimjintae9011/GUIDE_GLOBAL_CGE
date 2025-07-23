@@ -1,21 +1,39 @@
 auxiliary files = sambal;
-File INFILE = SAM0_NEW.har;
-Updated File INFILE = sam1.har;
-start with MMNZ =21251 ; ! suitable for SAM size 64*64 
+File INFILE = SAM0.har;
+Updated File INFILE = SAM1.har;
+start with MMNZ = 21251 ; ! suitable for SAM size 64*64 
 method = Gragg;
-steps = 3 5 7;
+steps = 13 15 17;
 log file = yes; 
 verbal description = SAM balancing;
-exogenous ShockDiff fmult;
+exogenous ShockDiff fmult fsam;
 rest endogenous;
 !swap fmult("gov") = ROWTOT("gov");
 !FINAL_LEVEL ROWTOT("gov") = 150000; ! to make gov col add to 150000 !  
 
-!swap fmult("GOVT") = ROWTOT("GOVT");
-!FINAL_LEVEL ROWTOT("GOVT") = 100; 
-
-!swap fmult("ww_r_01KOR") = ROWTOT("ww_r_01KOR");
-!FINAL_LEVEL ROWTOT("ww_r_01KOR") = 0; 
+swap fsam("c_AGRICULT","ww_r_01KOR")    =p_sam("c_AGRICULT","ww_r_01KOR");
+swap fsam("c_COAL","ww_r_01KOR")        =p_sam("c_COAL","ww_r_01KOR");
+swap fsam("c_OIL","ww_r_01KOR")         =p_sam("c_OIL","ww_r_01KOR");
+swap fsam("c_GAS","ww_r_01KOR")         =p_sam("c_GAS","ww_r_01KOR");
+swap fsam("c_MINING","ww_r_01KOR")      =p_sam("c_MINING","ww_r_01KOR");
+swap fsam("c_FOODPRO","ww_r_01KOR")     =p_sam("c_FOODPRO","ww_r_01KOR");
+swap fsam("c_TEXTILES","ww_r_01KOR")    =p_sam("c_TEXTILES","ww_r_01KOR");
+swap fsam("c_WOODPRO","ww_r_01KOR")     =p_sam("c_WOODPRO","ww_r_01KOR");
+swap fsam("c_PAPERPRO","ww_r_01KOR")    =p_sam("c_PAPERPRO","ww_r_01KOR");
+swap fsam("c_PETROLCOAL","ww_r_01KOR")  =p_sam("c_PETROLCOAL","ww_r_01KOR");
+swap fsam("c_CHEMICAL","ww_r_01KOR")    =p_sam("c_CHEMICAL","ww_r_01KOR");
+swap fsam("c_NONMET","ww_r_01KOR")      =p_sam("c_NONMET","ww_r_01KOR");
+swap fsam("c_IRONSTL","ww_r_01KOR")     =p_sam("c_IRONSTL","ww_r_01KOR");
+swap fsam("c_NONFERR","ww_r_01KOR")     =p_sam("c_NONFERR","ww_r_01KOR");
+swap fsam("c_MACHINE","ww_r_01KOR")     =p_sam("c_MACHINE","ww_r_01KOR");
+swap fsam("c_TRANSEQ","ww_r_01KOR")     =p_sam("c_TRANSEQ","ww_r_01KOR");
+swap fsam("c_OTHERIND","ww_r_01KOR")    =p_sam("c_OTHERIND","ww_r_01KOR");
+swap fsam("c_ELEC","ww_r_01KOR")        =p_sam("c_ELEC","ww_r_01KOR");
+swap fsam("c_CONSTRUC","ww_r_01KOR")    =p_sam("c_CONSTRUC","ww_r_01KOR");
+swap fsam("c_LTRP","ww_r_01KOR")        =p_sam("c_LTRP","ww_r_01KOR");
+swap fsam("c_WTRP","ww_r_01KOR")        =p_sam("c_WTRP","ww_r_01KOR");
+swap fsam("c_ATRP","ww_r_01KOR")        =p_sam("c_ATRP","ww_r_01KOR");
+swap fsam("c_SER","ww_r_01KOR")         =p_sam("c_SER","ww_r_01KOR");
 
 FINAL_LEVEL ShockDiff = uniform 0;  ! to eliminate (row-col) differences !
  

@@ -61,17 +61,17 @@ $offtext
 *==============================================================================
  G_REAL.FX(z,time)    = G_REALX(z,time);
  IND.fx(k,pub,z,time) = INDX(k,pub,z,time);
- sh0.fx(z,time)       = sh0X(z,time);
- sh1.fx(z,time)       = sh1X(z,time);
+ sh0.fx(z,time)          = sh0X(z,time);
+ sh1.fx(z,time)          = sh1X(z,time);
 * ttdh0.fx(z,time)    = ttdh0O(z)*exogro(z,time);
- ttdh0.fx(z,time)     = ttdh0O(z);
- ttdh1.fx(z,time)     = ttdh1O(z);
- ttic.fx(i,z,time)    = tticO(i,z);
- ttik.fx(k,j,z,time)  = ttikO(k,j,z);
- ttim.fx(i,zj,z,time) = ttimO(i,zj,z);
- ttip.fx(j,z,time)    = ttipO(j,z);
- ttiw.fx(l,j,z,time)  = ttiwO(l,j,z);
- ttix.fx(i,z,zj,time) = ttixO(i,z,zj);
+ ttdh0.fx(z,time)      = ttdh0O(z);
+ ttdh1.fx(z,time)      = ttdh1O(z);
+ ttic.fx(i,z,time)       = tticO(i,z);
+ ttik.fx(k,j,z,time)    = ttikO(k,j,z);
+ ttim.fx(i,zj,z,time)   = ttimO(i,zj,z);
+ ttip.fx(j,z,time)       = ttipO(j,z);
+ ttiw.fx(l,j,z,time)     = ttiwO(l,j,z);
+ ttix.fx(i,z,zj,time)    = ttixO(i,z,zj);
  CTAX.fX(z,time)      = CTAX0(z);
  beta_X4_t.fx(power,z,time) = beta_X4(power,z);
 

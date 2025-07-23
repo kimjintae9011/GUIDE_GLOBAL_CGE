@@ -1,5 +1,5 @@
 {
-    "file": "BAU_AQ_Linkage.gms",
+    "file": "Model_GTAP11b.gms",
     "name": "RD_CGE_GTAP11b",
     "nodes": [
         {

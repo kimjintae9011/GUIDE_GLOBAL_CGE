@@ -12,16 +12,22 @@
 
 PARAMETER
  A_VA_RES(z,time)     Value of A_VA to reproduce real GDP projections
- GX(z,time)                Current government expenditures on goods and services in region z
- G_REALX(z,time)       Current real government expenditures on goods and services in region z
- INDX(k,j,z,time)           Volume of new type k capital investment to industry j in region z
- sh0X(z,time)             Intercept (household savings)
- sh1X(z,time)             Household savings rate
+ GX(z,time)           Current government expenditures on goods and services in region z
+ G_REALX(z,time)      Current real government expenditures on goods and services in region z
+ INDX(k,j,z,time)     Volume of new type k capital investment to industry j in region z
+ sh0X(z,time)         Intercept (household savings)
+ sh1X(z,time)         Household savings rate
 ;
 
 $GDXIN Input_w-t\B_line_GTAP11c_new.gdx
 $LOAD A_VA_RES, GX, G_REALX, INDX, sh1X, sh0X
 
+PARAMETER
+valPD(i,z,time,scen)     
+;
+
+$GDXIN Output_w-t\Baseline_Results_GTAP11c_new.gdx
+$LOAD valPD
 *==============================================================================
 *  6.2.1.1.2 Choice of multifactor productivity
 *==============================================================================
@@ -34,9 +40,9 @@ $LOAD A_VA_RES, GX, G_REALX, INDX, sh1X, sh0X
 *   6.2.1.2 Choice of reference region
 *==============================================================================
 * By default, the reference region is USA,
- zr(z)                = no;
+ zr(z)           = no;
  zr('07_NAM')    = yes;
- z1(z)               = NOT[zr(z)];
+ z1(z)           = NOT[zr(z)];
 
 *==============================================================================
 *   6.2.1.3 Choice between closures FE and FP
@@ -58,22 +64,23 @@ $offtext
 *==============================================================================
 *   6.2.1.4 Other exogenous variables
 *==============================================================================
- G_REAL.FX(z,time)           = G_REALX(z,time);
- IND.fx(k,pub,z,time)         = INDX(k,pub,z,time);
- sh0.fx(z,time)                  = sh0X(z,time);
- sh1.fx(z,time)                  = sh1X(z,time);
- ttdh0.fx(z,time)                = ttdh0O(z); 
- ttdh1.fx(z,time)                = ttdh1O(z);
- ttic.fx(i,z,time)                 = tticO(i,z);
+ G_REAL.FX(z,time)                = G_REALX(z,time);
+ IND.fx(k,pub,z,time)             = INDX(k,pub,z,time);
+ sh0.fx(z,time)                   = sh0X(z,time);
+ sh1.fx(z,time)                   = sh1X(z,time);
+ ttdh0.fx(z,time)                 = ttdh0O(z); 
+ ttdh1.fx(z,time)                 = ttdh1O(z);
+* ttic.fx(i,z,time)               = tticO(i,z);
+ ttic.fx(i,z,time)$(not (sameas(i, "18_ELEC") and sameas(z, "01_KOR")))   = tticO(i,z);
+ PD.fx("18_ELEC","01_KOR",time)   = PDO("18_ELEC","01_KOR");
  ttik.fx(k,j,z,time)              = ttikO(k,j,z);
- ttim.fx(i,zj,z,time)            = ttimO(i,zj,z);
+ ttim.fx(i,zj,z,time)             = ttimO(i,zj,z);
  ttip.fx(j,z,time)                = ttipO(j,z);
-* ttiw.fx(j,z,time)                = ttiwO(j,z);
+* ttiw.fx(j,z,time)               = ttiwO(j,z);
  ttix.fx(i,z,zj,time)             = ttixO(i,z,zj);
- CTAX.fX(CTAX_Z,time)      = CTAX0(CTAX_Z);
- PERMIT_TOTAL.fx(PERMIT_Z,time) = PERMIT_TOTALO(PERMIT_Z) ;
-* TIW_Share.fx(j,z,time)      =  TIW_Share_Cal(j,time) ;
-
+* CTAX.fX(Z,time)                 = CTAX0(Z);
+ CTAX.fX(CTAX_Z,time)             = CTAX0(CTAX_Z);
+ PERMIT_TOTAL.fx(PERMIT_Z,time)   = PERMIT_TOTALO(PERMIT_Z) ;
 *==============================================================================
 *   Taking account of the existence or not of a feasible solution
 *==============================================================================
@@ -164,16 +171,20 @@ $offtext
  
  ttiw_lag.fx(j,z,t1)  =ttiwO(j,z);
  ttiw_lag.fx(j,z,time)$[ord(time) gt 1]
-                     =ttiwO(j,z);
+                     =ttiw.l(j,z,time-1);
 
+ PD.fx("18_ELEC","01_KOR",t1)  = PDO("18_ELEC","01_KOR");
+ PD.fx("18_ELEC","01_KOR",time)$[ord(time) gt 1]
+*                       =PD.l("18_ELEC","01_KOR",time-1)*[1+0.01];
+                        = valPD("18_ELEC","01_KOR",time,'bau')*[1+0.01] ;                     
 *==============================================================================
 *   CTAX and PERMIT
 *============================================================================== 
 * CTAX.fx(z,time)$[ord(time) gt 1]
 *                            = CTAX_NZS(z,time); 
 
- PERMIT_TOTAL.fx(PERMIT_Z,time)$[ord(time) gt 1]
-                             = PERMIT_TOTALO(PERMIT_Z)*PERMIT_Cal(PERMIT_Z,time);  
+* PERMIT_TOTAL.fx(PERMIT_Z,time)$[ord(time) gt 1]
+*                             = PERMIT_TOTALO(PERMIT_Z)*PERMIT_Cal(PERMIT_Z,time);  
                 
 *==============================================================================
 *   AEEI
@@ -193,39 +204,19 @@ $offtext
 *==============================================================================
 *   Marginal abatement curves for emissions
 *============================================================================== 
-CTAX_CO2(ene,j,'01_KOR',time)$[ord(time) gt 2]  =(1+ CTAX.L('01_KOR',time))** gamma_CO2(ene,j,'01_KOR');
+*CTAX_CO2(ene,j,'01_KOR',time)$[ord(time) gt 2]  =(1+ CTAX.L('01_KOR',time))** gamma_CO2(ene,j,'01_KOR');
 
-CO2FACTOR2_Star(ene,j,'01_KOR',time)$[ord(time) gt 2]= 
- CO2FACTOR(ene,j,'01_KOR') * exp(
-   alpha_CO2(ene,j,'01_KOR') - alpha_CO2(ene,j,'01_KOR') *CTAX_CO2(ene,j,'01_KOR',time)
-   );
+*CO2FACTOR2_Star(ene,j,'01_KOR',time)$[ord(time) gt 2]= 
+*CO2FACTOR(ene,j,'01_KOR') * exp(
+* alpha_CO2(ene,j,'01_KOR') - alpha_CO2(ene,j,'01_KOR') *CTAX_CO2(ene,j,'01_KOR',time)
+* );
 
-CO2FACTOR2(ene,j,'01_KOR',time)$[ord(time) gt 2]= CO2FACTOR2(ene,j,'01_KOR',time-1)+0.3*(CO2FACTOR2_Star(ene,j,'01_KOR',time)-CO2FACTOR2(ene,j,'01_KOR',time-1));
+*CO2FACTOR2(ene,j,'01_KOR',time)$[ord(time) gt 2]= CO2FACTOR2(ene,j,'01_KOR',time-1)+0.3*(CO2FACTOR2_Star(ene,j,'01_KOR',time)-CO2FACTOR2(ene,j,'01_KOR',time-1));
 
-*CO2FACTOR2(ene,j,'01_KOR',time)$(CO2FACTOR2(ene,j,'01_KOR',time) lt MINCO2FACTOR(ene,j,'01_KOR')) = MINCO2FACTOR(ene,j,'01_KOR') ;
- 
-*AbateCost(j,'05_MNG',time)$[ord(time) gt 6] =  theta_CO2(j,'05_MNG') * (1 - CO2FACTOR2('02_COAL','11_CHEMICAL','05_MNG',time) / CO2FACTOR2('02_COAL','11_CHEMICAL','05_MNG',time-1))**delta_CO2(j,'05_MNG')
-*    * XST.L(j,'05_MNG',time);
-
-$ontext
-CTAX_CO2(ene,j,z,time)$[ord(time) gt 6]  =(1+ CTAX.L(z,time))** gamma_CO2(ene,j,z);
-
-CO2FACTOR2_Star(ene,j,z,time)$[ord(time) gt 6]= 
- CO2FACTOR(ene,j,z) * exp(
-   alpha_CO2(ene,j,z) - alpha_CO2(ene,j,z) *CTAX_CO2(ene,j,z,time)
-   );
-
-CO2FACTOR2(ene,j,z,time)$[ord(time) gt 4]= CO2FACTOR2(ene,j,z,time-1)+0.3*(CO2FACTOR2_Star(ene,j,z,time)-CO2FACTOR2(ene,j,z,time-1));
-
- CO2FACTOR2(ene,j,z,time)$(CO2FACTOR2(ene,j,z,time) lt MINCO2FACTOR(ene,j,z)) = MINCO2FACTOR(ene,j,z) ;
-
- AbateCost(j,z,time)$[ord(time) gt 4] =  theta_CO2(j,z) * (1 - CO2FACTOR2('02_COAL','11_CHEMICAL',z,time) / CO2FACTOR2('02_COAL','11_CHEMICAL',z,time-1))**delta_CO2(j,z)
-    * XST.L(j,z,time);
-$offText   
 *==============================================================================
 *Backstop technologies
 *==============================================================================
-*$ontext
+$ontext
 penetration_rate(i3,z,time)$[CTAX.L(z,time) gt 1.0] = penetration_rate(i3,z,time-1)+0.03;
 
 if ((CTAX.L('01_KOR',time) gt 0.8), switch(i3,'01_KOR',time) = 1  ;
@@ -295,7 +286,7 @@ else switch(i3,'16_PAS',time) = 0 ;
 if ((CTAX.L('17_PAO',time) gt 0.8), switch(i3,'17_PAO',time) = 1  ;
 else switch(i3,'17_PAO',time) = 0 ;
 );
-*$offText
+$offText
 
 *==============================================================================
 * 6.2.2.3 Resolution

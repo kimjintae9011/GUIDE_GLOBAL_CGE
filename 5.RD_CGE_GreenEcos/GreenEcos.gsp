@@ -4,9 +4,27 @@
     "nodes": [
         {
             "codecMib": 106,
+            "file": "Input/DATA_AGG-2019_GTAP11c.gdx",
+            "name": "DATA_AGG-2019_GTAP11c.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
+            "file": "Input/B_line_GTAP11c.gdx",
+            "name": "B_line_GTAP11c.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
             "file": "1_DATA_GTAP11c.gms",
             "name": "1_DATA_GTAP11c.gms",
             "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "1_DATA_GTAP11c.lst",
+            "name": "1_DATA_GTAP11c.lst",
+            "type": "lst"
         },
         {
             "codecMib": 106,
@@ -16,9 +34,21 @@
         },
         {
             "codecMib": 106,
+            "file": "2_CAL_B_line_GTAP11c.lst",
+            "name": "2_CAL_B_line_GTAP11c.lst",
+            "type": "lst"
+        },
+        {
+            "codecMib": 106,
             "file": "3_Model_GTAP11c.gms",
             "name": "3_Model_GTAP11c.gms",
             "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "3_Model_GTAP11c.lst",
+            "name": "3_Model_GTAP11c.lst",
+            "type": "lst"
         },
         {
             "codecMib": 106,

@@ -1,0 +1,1505 @@
+
+--- Job 3_Model_GTAP11c.gms Start 07/16/25 10:31:44 45.7.0 64fbf3ce WEX-WEI x86 64bit/MS Windows
+--- Applying:
+    C:\GAMS\45\gmsprmNT.txt
+    C:\Users\kimc0\Documents\GAMS\gamsconfig.yaml
+--- GAMS Parameters defined
+    Input C:\Users\kimc0\GUIDE_GLOBAL_CGE\5.RD_CGE_GreenEcos\3_Model_GTAP11c.gms
+    PageSize 0
+    ScrDir C:\Users\kimc0\GUIDE_GLOBAL_CGE\5.RD_CGE_GreenEcos\225a\
+    SysDir C:\GAMS\45\
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+*** License file too old for this version of GAMS.
+*** Maintenance expired 25 days ago.
+Licensee: Medium MUD - 10 User License                   S220825|0002AO-WIN
+          Konkuk University, Dept of Technology Fusion Engineering  DC16297
+          C:\Users\kimc0\Documents\GAMS\gamslice.txt
+          License Admin: MInyoung Choi, mychoi1119@naver.com               
+          The maintenance period of the license expired on Sep 19, 2023
+          Please contact GAMS or your distributor for further information
+Processor information: 1 socket(s), 6 core(s), and 12 thread(s) available
+GAMS 45.7.0   Copyright (C) 1987-2024 GAMS Development. All rights reserved
+--- Starting compilation
+--- 3_Model_GTAP11c.gms(33) 2 Mb
+--- GDXin=C:\Users\kimc0\GUIDE_GLOBAL_CGE\5.RD_CGE_GreenEcos\Input\DATA_AGG-2019_GTAP11c.gdx
+--- GDX File ($gdxIn) C:\Users\kimc0\GUIDE_GLOBAL_CGE\5.RD_CGE_GreenEcos\Input\DATA_AGG-2019_GTAP11c.gdx
+--- 3_Model_GTAP11c.gms(781) 6 Mb
+--- call gdxxrw Input\PAR.xlsx @Input\PAR.txt Rdim=2 Cdim=1 output = Input\PAR.gdx
+
+GDXXRW           45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+Input file : C:\Users\kimc0\GUIDE_GLOBAL_CGE\5.RD_CGE_GreenEcos\Input\PAR.xlsx
+Output file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\5.RD_CGE_GreenEcos\Input\PAR.gdx
+Total time = 1266 Ms
+--- 3_Model_GTAP11c.gms(782) 6 Mb
+--- GDXin=C:\Users\kimc0\GUIDE_GLOBAL_CGE\5.RD_CGE_GreenEcos\Input\PAR.gdx
+--- GDX File ($gdxIn) C:\Users\kimc0\GUIDE_GLOBAL_CGE\5.RD_CGE_GreenEcos\Input\PAR.gdx
+--- 3_Model_GTAP11c.gms(1523) 6 Mb
+--- . DATA_WEB.gms(914) 6 Mb
+--- $echo File C:\Users\kimc0\GUIDE_GLOBAL_CGE\5.RD_CGE_GreenEcos\Input\WEB19.txt
+--- . DATA_WEB.gms(936) 6 Mb
+--- call gdxxrw Input/250328_WEB19.xlsx @Input/WEB19.txt trace=0 output=Input/WEB19.gdx
+--- . DATA_WEB.gms(937) 6 Mb
+--- GDXin=C:\Users\kimc0\GUIDE_GLOBAL_CGE\5.RD_CGE_GreenEcos\Input\WEB19.gdx
+--- GDX File ($gdxIn) C:\Users\kimc0\GUIDE_GLOBAL_CGE\5.RD_CGE_GreenEcos\Input\WEB19.gdx
+--- . DATA_WEB.gms(1720) 6 Mb
+--- 3_Model_GTAP11c.gms(1524) 6 Mb
+--- . DATA_CO2.gms(158) 6 Mb
+--- 3_Model_GTAP11c.gms(2595) 6 Mb
+--- . BAU_SOLVE_GTAP11c.gms(22) 6 Mb
+--- GDXin=C:\Users\kimc0\GUIDE_GLOBAL_CGE\5.RD_CGE_GreenEcos\Input\B_line_GTAP11c.gdx
+--- GDX File ($gdxIn) C:\Users\kimc0\GUIDE_GLOBAL_CGE\5.RD_CGE_GreenEcos\Input\B_line_GTAP11c.gdx
+--- . BAU_SOLVE_GTAP11c.gms(92) 6 Mb
+--- .. INIT.gms(409) 6 Mb
+--- . BAU_SOLVE_GTAP11c.gms(188) 6 Mb
+--- 3_Model_GTAP11c.gms(2596) 6 Mb
+--- . BAU_RESULTS_GTAP11c.gms(705) 6 Mb
+--- 3_Model_GTAP11c.gms(2597) 6 Mb
+--- . BAU_RESULTS_GreenEcos.gms(447) 6 Mb
+--- 3_Model_GTAP11c.gms(2599) 6 Mb
+--- Starting execution: elapsed 0:00:03.416
+--- 3_Model_GTAP11c.gms(3210) 13 Mb
+--- GDX File (execute_unload) C:\Users\kimc0\GUIDE_GLOBAL_CGE\5.RD_CGE_GreenEcos\Input\DATA_WEB-2019.gdx
+--- 3_Model_GTAP11c.gms(4556) 56 Mb
+--- Generating CNS model GUIDE_GLOBAL_CGE
+--- 3_Model_GTAP11c.gms(5064) 101 Mb
+--- LOOPS TIME = 2019
+---   92,894 rows  92,894 columns  457,665 non-zeroes
+---   810,505 nl-code  282,525 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 4.474E-07, 5.315E+03] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.091E-20, 1.588E+04] - Zero values observed as well
+--- 3_Model_GTAP11c.gms(5064) 94 Mb
+--- Executing CONOPT4 (Solvelink=2): elapsed 0:00:04.133
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The user model has 92894 constraints and 92894 variables
+    with 457665 Jacobian elements, 282525 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          8.8149207104E-11 (Input point)
+ 
+    The pre-triangular part of the model has 8682 constraints and variables.
+    The post-triangular part of the model has 1078 constraints and variables.
+ 
+    Preprocessed model has 83134 constraints and 83134 variables
+    with 406179 Jacobian elements, 250292 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      8.6520534572E-11 (Full preprocessed model)
+                      2.3062523739E-11 (After scaling)
+       1   1       0  2.3062523739E-11                 0.0E+00     1 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model GUIDE_GLOBAL_CGE
+--- Executing after solve: elapsed 0:00:05.010
+--- 3_Model_GTAP11c.gms(4556) 94 Mb
+--- Generating CNS model GUIDE_GLOBAL_CGE
+--- 3_Model_GTAP11c.gms(5064) 115 Mb
+--- LOOPS TIME = 2020
+---   92,894 rows  92,894 columns  457,665 non-zeroes
+---   810,505 nl-code  282,525 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 4.474E-07, 5.577E+03] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.091E-20, 1.588E+04] - Zero values observed as well
+--- 3_Model_GTAP11c.gms(5064) 109 Mb
+--- Executing CONOPT4 (Solvelink=2): elapsed 0:00:05.722
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The user model has 92894 constraints and 92894 variables
+    with 457665 Jacobian elements, 282525 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          6.1929146993E+03 (Input point)
+ 
+    The pre-triangular part of the model has 8682 constraints and variables.
+    The post-triangular part of the model has 1078 constraints and variables.
+ 
+    Preprocessed model has 83134 constraints and 83134 variables
+    with 406179 Jacobian elements, 250292 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      1.8788377351E+03 (Full preprocessed model)
+                      7.4693788123E+01 (After scaling)
+       1   1       0  3.1550689290E-09                 1.0E+00    21 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model GUIDE_GLOBAL_CGE
+--- Executing after solve: elapsed 0:00:07.045
+--- 3_Model_GTAP11c.gms(4556) 109 Mb
+--- Generating CNS model GUIDE_GLOBAL_CGE
+--- 3_Model_GTAP11c.gms(5064) 127 Mb
+--- LOOPS TIME = 2021
+---   92,894 rows  92,894 columns  457,665 non-zeroes
+---   810,522 nl-code  282,525 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 4.474E-07, 5.816E+03] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.076E-20, 1.536E+04] - Zero values observed as well
+--- 3_Model_GTAP11c.gms(5064) 121 Mb
+--- Executing CONOPT4 (Solvelink=2): elapsed 0:00:07.865
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The user model has 92894 constraints and 92894 variables
+    with 457665 Jacobian elements, 282525 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          5.0605374284E+03 (Input point)
+ 
+    The pre-triangular part of the model has 8682 constraints and variables.
+    The post-triangular part of the model has 1078 constraints and variables.
+ 
+    Preprocessed model has 83134 constraints and 83134 variables
+    with 406179 Jacobian elements, 250292 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      2.1816561564E+03 (Full preprocessed model)
+                      7.1533308153E+01 (After scaling)
+       1   0       0  6.3966659635E-06                 1.0E+00     9 F  F
+       2   1       0  4.6447027101E-12                 1.0E+00     2 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model GUIDE_GLOBAL_CGE
+--- Executing after solve: elapsed 0:00:09.345
+--- 3_Model_GTAP11c.gms(4556) 121 Mb
+--- Generating CNS model GUIDE_GLOBAL_CGE
+--- 3_Model_GTAP11c.gms(5064) 140 Mb
+--- LOOPS TIME = 2022
+---   92,894 rows  92,894 columns  457,665 non-zeroes
+---   810,522 nl-code  282,525 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 4.474E-07, 6.069E+03] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.114E-20, 1.626E+04] - Zero values observed as well
+--- 3_Model_GTAP11c.gms(5064) 134 Mb
+--- Executing CONOPT4 (Solvelink=2): elapsed 0:00:10.271
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The user model has 92894 constraints and 92894 variables
+    with 457665 Jacobian elements, 282525 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          4.9629515321E+03 (Input point)
+ 
+    The pre-triangular part of the model has 8682 constraints and variables.
+    The post-triangular part of the model has 1078 constraints and variables.
+ 
+    Preprocessed model has 83134 constraints and 83134 variables
+    with 406179 Jacobian elements, 250292 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      1.6950859092E+03 (Full preprocessed model)
+                      6.6835366424E+01 (After scaling)
+       1   0       0  3.4794920963E+01                 5.0E-01     1 F  T
+       2   1       0  1.3936590275E-09                 1.0E+00    13 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model GUIDE_GLOBAL_CGE
+--- Executing after solve: elapsed 0:00:11.814
+--- 3_Model_GTAP11c.gms(4556) 134 Mb
+--- Generating CNS model GUIDE_GLOBAL_CGE
+--- 3_Model_GTAP11c.gms(5064) 153 Mb
+--- LOOPS TIME = 2023
+---   92,894 rows  92,894 columns  457,665 non-zeroes
+---   810,522 nl-code  282,525 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 4.474E-07, 6.320E+03] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.166E-20, 1.647E+04] - Zero values observed as well
+--- 3_Model_GTAP11c.gms(5064) 146 Mb
+--- Executing CONOPT4 (Solvelink=2): elapsed 0:00:12.831
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The user model has 92894 constraints and 92894 variables
+    with 457665 Jacobian elements, 282525 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          5.0974854040E+03 (Input point)
+ 
+    The pre-triangular part of the model has 8682 constraints and variables.
+    The post-triangular part of the model has 1078 constraints and variables.
+ 
+    Preprocessed model has 83134 constraints and 83134 variables
+    with 406179 Jacobian elements, 250292 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      1.6783301467E+03 (Full preprocessed model)
+                      6.3259576717E+01 (After scaling)
+       1   0       0  1.4756478786E-02                 1.0E+00     7 F  F
+       2   1       0  1.0931000649E-10                 1.0E+00     4 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model GUIDE_GLOBAL_CGE
+--- Executing after solve: elapsed 0:00:14.384
+--- 3_Model_GTAP11c.gms(4556) 146 Mb
+--- Generating CNS model GUIDE_GLOBAL_CGE
+--- 3_Model_GTAP11c.gms(5064) 165 Mb
+--- LOOPS TIME = 2024
+---   92,894 rows  92,894 columns  457,665 non-zeroes
+---   810,522 nl-code  282,525 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 4.474E-07, 6.568E+03] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.211E-20, 1.669E+04] - Zero values observed as well
+--- 3_Model_GTAP11c.gms(5064) 159 Mb
+--- Executing CONOPT4 (Solvelink=2): elapsed 0:00:15.474
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The user model has 92894 constraints and 92894 variables
+    with 457665 Jacobian elements, 282525 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          5.2120806545E+03 (Input point)
+ 
+    The pre-triangular part of the model has 8682 constraints and variables.
+    The post-triangular part of the model has 1078 constraints and variables.
+ 
+    Preprocessed model has 83134 constraints and 83134 variables
+    with 406179 Jacobian elements, 250292 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      1.6591669023E+03 (Full preprocessed model)
+                      6.2013434054E+01 (After scaling)
+       1   0       0  3.2945916490E+01                 5.0E-01     1 F  T
+       2   0       0  2.8844795129E+01                 1.2E-01     1 F  T
+       3   0       0  2.1666225077E+01                 2.5E-01     1 F  T
+       4   0       0  1.0883888847E+01                 5.0E-01     1 F  T
+       5   1       0  2.3140566921E-10                 1.0E+00    13 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model GUIDE_GLOBAL_CGE
+--- Executing after solve: elapsed 0:00:18.249
+--- 3_Model_GTAP11c.gms(4556) 159 Mb
+--- Generating CNS model GUIDE_GLOBAL_CGE
+--- 3_Model_GTAP11c.gms(5064) 178 Mb
+--- LOOPS TIME = 2025
+---   92,894 rows  92,894 columns  457,665 non-zeroes
+---   810,522 nl-code  282,525 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 4.474E-07, 7.006E+03] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.246E-20, 1.692E+04] - Zero values observed as well
+--- 3_Model_GTAP11c.gms(5064) 171 Mb
+--- Executing CONOPT4 (Solvelink=2): elapsed 0:00:19.498
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The user model has 92894 constraints and 92894 variables
+    with 457665 Jacobian elements, 282525 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          5.3180696095E+03 (Input point)
+ 
+    The pre-triangular part of the model has 8682 constraints and variables.
+    The post-triangular part of the model has 1078 constraints and variables.
+ 
+    Preprocessed model has 83134 constraints and 83134 variables
+    with 406179 Jacobian elements, 250292 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      1.6557548729E+03 (Full preprocessed model)
+                      5.8896214437E+01 (After scaling)
+       1   0       0  3.0332559778E+01                 5.0E-01     1 F  T
+       2   0       0  1.2507855410E-01                 1.0E+00     4 F  F
+       3   1       0  3.0528905903E-10                 1.0E+00    12 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model GUIDE_GLOBAL_CGE
+--- Executing after solve: elapsed 0:00:21.595
+--- 3_Model_GTAP11c.gms(4556) 171 Mb
+--- Generating CNS model GUIDE_GLOBAL_CGE
+--- 3_Model_GTAP11c.gms(5064) 190 Mb
+--- LOOPS TIME = 2026
+---   92,894 rows  92,894 columns  457,665 non-zeroes
+---   810,522 nl-code  282,525 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 4.474E-07, 7.548E+03] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.259E-20, 1.789E+04] - Zero values observed as well
+--- 3_Model_GTAP11c.gms(5064) 184 Mb
+--- Executing CONOPT4 (Solvelink=2): elapsed 0:00:22.874
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The user model has 92894 constraints and 92894 variables
+    with 457665 Jacobian elements, 282525 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          5.3207370854E+03 (Input point)
+ 
+    The pre-triangular part of the model has 8682 constraints and variables.
+    The post-triangular part of the model has 1078 constraints and variables.
+ 
+    Preprocessed model has 83134 constraints and 83134 variables
+    with 406179 Jacobian elements, 250292 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      1.7617663399E+03 (Full preprocessed model)
+                      6.0000700492E+01 (After scaling)
+       1   0       0  8.0442062447E-05                 1.0E+00    11 F  F
+       2   1       0  6.6772547353E-12                 1.0E+00     2 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model GUIDE_GLOBAL_CGE
+--- Executing after solve: elapsed 0:00:24.468
+--- 3_Model_GTAP11c.gms(4556) 184 Mb
+--- Generating CNS model GUIDE_GLOBAL_CGE
+--- 3_Model_GTAP11c.gms(5064) 203 Mb
+--- LOOPS TIME = 2027
+---   92,894 rows  92,894 columns  457,665 non-zeroes
+---   810,522 nl-code  282,525 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 4.474E-07, 8.113E+03] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.277E-20, 1.876E+04] - Zero values observed as well
+--- 3_Model_GTAP11c.gms(5064) 197 Mb
+--- Executing CONOPT4 (Solvelink=2): elapsed 0:00:25.849
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The user model has 92894 constraints and 92894 variables
+    with 457665 Jacobian elements, 282525 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          5.4574650793E+03 (Input point)
+ 
+    The pre-triangular part of the model has 8682 constraints and variables.
+    The post-triangular part of the model has 1078 constraints and variables.
+ 
+    Preprocessed model has 83134 constraints and 83134 variables
+    with 406179 Jacobian elements, 250292 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      1.7891455800E+03 (Full preprocessed model)
+                      5.8762527595E+01 (After scaling)
+       1   0       0  2.0397649696E-03                 1.0E+00    10 F  F
+       2   1       0  5.7782368906E-11                 1.0E+00     5 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model GUIDE_GLOBAL_CGE
+--- Executing after solve: elapsed 0:00:27.513
+--- 3_Model_GTAP11c.gms(4556) 197 Mb
+--- Generating CNS model GUIDE_GLOBAL_CGE
+--- 3_Model_GTAP11c.gms(5064) 216 Mb
+--- LOOPS TIME = 2028
+---   92,894 rows  92,894 columns  457,665 non-zeroes
+---   810,522 nl-code  282,525 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 4.474E-07, 8.701E+03] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.291E-20, 1.963E+04] - Zero values observed as well
+--- 3_Model_GTAP11c.gms(5064) 210 Mb
+--- Executing CONOPT4 (Solvelink=2): elapsed 0:00:28.988
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The user model has 92894 constraints and 92894 variables
+    with 457665 Jacobian elements, 282525 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          5.5982709385E+03 (Input point)
+ 
+    The pre-triangular part of the model has 8682 constraints and variables.
+    The post-triangular part of the model has 1078 constraints and variables.
+ 
+    Preprocessed model has 83134 constraints and 83134 variables
+    with 406179 Jacobian elements, 250292 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      1.8001470793E+03 (Full preprocessed model)
+                      5.7787198881E+01 (After scaling)
+       1   1       0  1.4674221891E-09                 1.0E+00    18 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model GUIDE_GLOBAL_CGE
+--- Executing after solve: elapsed 0:00:30.328
+--- 3_Model_GTAP11c.gms(4556) 210 Mb
+--- Generating CNS model GUIDE_GLOBAL_CGE
+--- 3_Model_GTAP11c.gms(5064) 229 Mb
+--- LOOPS TIME = 2029
+---   92,894 rows  92,894 columns  457,665 non-zeroes
+---   810,522 nl-code  282,525 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 4.474E-07, 9.310E+03] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.299E-20, 2.051E+04] - Zero values observed as well
+--- 3_Model_GTAP11c.gms(5064) 222 Mb
+--- Executing CONOPT4 (Solvelink=2): elapsed 0:00:31.885
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The user model has 92894 constraints and 92894 variables
+    with 457665 Jacobian elements, 282525 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          5.7354395297E+03 (Input point)
+ 
+    The pre-triangular part of the model has 8682 constraints and variables.
+    The post-triangular part of the model has 1078 constraints and variables.
+ 
+    Preprocessed model has 83134 constraints and 83134 variables
+    with 406179 Jacobian elements, 250292 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      1.8069707290E+03 (Full preprocessed model)
+                      5.5760685606E+01 (After scaling)
+       1   0       0  3.2063002469E-02                 1.0E+00     5 F  F
+       2   1       0  5.6946194303E-10                 1.0E+00    18 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model GUIDE_GLOBAL_CGE
+--- Executing after solve: elapsed 0:00:33.722
+--- 3_Model_GTAP11c.gms(4556) 222 Mb
+--- Generating CNS model GUIDE_GLOBAL_CGE
+--- 3_Model_GTAP11c.gms(5064) 241 Mb
+--- LOOPS TIME = 2030
+---   92,894 rows  92,894 columns  457,665 non-zeroes
+---   810,522 nl-code  282,525 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 4.474E-07, 9.941E+03] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.308E-20, 2.138E+04] - Zero values observed as well
+--- 3_Model_GTAP11c.gms(5064) 235 Mb
+--- Executing CONOPT4 (Solvelink=2): elapsed 0:00:35.321
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The user model has 92894 constraints and 92894 variables
+    with 457665 Jacobian elements, 282525 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          5.8713868276E+03 (Input point)
+ 
+    The pre-triangular part of the model has 8682 constraints and variables.
+    The post-triangular part of the model has 1078 constraints and variables.
+ 
+    Preprocessed model has 83134 constraints and 83134 variables
+    with 406179 Jacobian elements, 250292 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      1.8114199898E+03 (Full preprocessed model)
+                      5.4453948212E+01 (After scaling)
+       1   0       0  2.7868181223E+01                 5.0E-01     1 F  T
+       2   0       0  1.4079149632E+01                 5.0E-01     1 F  T
+       3   1       0  1.2912621268E-09                 1.0E+00    17 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model GUIDE_GLOBAL_CGE
+--- Executing after solve: elapsed 0:00:37.483
+--- 3_Model_GTAP11c.gms(4556) 235 Mb
+--- Generating CNS model GUIDE_GLOBAL_CGE
+--- 3_Model_GTAP11c.gms(5064) 254 Mb
+--- LOOPS TIME = 2031
+---   92,894 rows  92,894 columns  457,665 non-zeroes
+---   810,522 nl-code  282,525 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 4.474E-07, 1.059E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.313E-20, 2.300E+04] - Zero values observed as well
+--- 3_Model_GTAP11c.gms(5064) 248 Mb
+--- Executing CONOPT4 (Solvelink=2): elapsed 0:00:39.195
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The user model has 92894 constraints and 92894 variables
+    with 457665 Jacobian elements, 282525 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          6.0277808893E+03 (Input point)
+ 
+    The pre-triangular part of the model has 8682 constraints and variables.
+    The post-triangular part of the model has 1078 constraints and variables.
+ 
+    Preprocessed model has 83134 constraints and 83134 variables
+    with 406179 Jacobian elements, 250292 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      1.8256425007E+03 (Full preprocessed model)
+                      5.4449315496E+01 (After scaling)
+       1   0       0  3.9370164576E-02                 1.0E+00     8 F  F
+       2   1       0  2.2598366270E-10                 1.0E+00     6 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model GUIDE_GLOBAL_CGE
+--- Executing after solve: elapsed 0:00:40.956
+--- 3_Model_GTAP11c.gms(4556) 248 Mb
+--- Generating CNS model GUIDE_GLOBAL_CGE
+--- 3_Model_GTAP11c.gms(5064) 267 Mb
+--- LOOPS TIME = 2032
+---   92,894 rows  92,894 columns  457,665 non-zeroes
+---   810,522 nl-code  282,525 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 4.474E-07, 1.127E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.318E-20, 2.524E+04] - Zero values observed as well
+--- 3_Model_GTAP11c.gms(5064) 261 Mb
+--- Executing CONOPT4 (Solvelink=2): elapsed 0:00:42.757
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The user model has 92894 constraints and 92894 variables
+    with 457665 Jacobian elements, 282525 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          6.1721310350E+03 (Input point)
+ 
+    The pre-triangular part of the model has 8682 constraints and variables.
+    The post-triangular part of the model has 1078 constraints and variables.
+ 
+    Preprocessed model has 83134 constraints and 83134 variables
+    with 406179 Jacobian elements, 250292 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      1.8329503822E+03 (Full preprocessed model)
+                      5.3955013064E+01 (After scaling)
+       1   0       0  2.7641568209E+01                 5.0E-01     1 F  T
+       2   0       0  1.3982615232E+01                 5.0E-01     1 F  T
+       3   1       0  9.5236099932E-10                 1.0E+00    19 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model GUIDE_GLOBAL_CGE
+--- Executing after solve: elapsed 0:00:45.001
+--- 3_Model_GTAP11c.gms(4556) 261 Mb
+--- Generating CNS model GUIDE_GLOBAL_CGE
+--- 3_Model_GTAP11c.gms(5064) 279 Mb
+--- LOOPS TIME = 2033
+---   92,894 rows  92,894 columns  457,665 non-zeroes
+---   810,522 nl-code  282,525 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 4.474E-07, 1.196E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.321E-20, 2.763E+04] - Zero values observed as well
+--- 3_Model_GTAP11c.gms(5064) 273 Mb
+--- Executing CONOPT4 (Solvelink=2): elapsed 0:00:46.882
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The user model has 92894 constraints and 92894 variables
+    with 457665 Jacobian elements, 282525 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          6.3142789581E+03 (Input point)
+ 
+    The pre-triangular part of the model has 8682 constraints and variables.
+    The post-triangular part of the model has 1078 constraints and variables.
+ 
+    Preprocessed model has 83134 constraints and 83134 variables
+    with 406179 Jacobian elements, 250292 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      1.8373906701E+03 (Full preprocessed model)
+                      5.2085850547E+01 (After scaling)
+       1   0       0  1.2423272326E-02                 1.0E+00     8 F  F
+       2   1       0  6.5143012865E-10                 1.0E+00     4 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model GUIDE_GLOBAL_CGE
+--- Executing after solve: elapsed 0:00:48.609
+--- 3_Model_GTAP11c.gms(4556) 273 Mb
+--- Generating CNS model GUIDE_GLOBAL_CGE
+--- 3_Model_GTAP11c.gms(5064) 291 Mb
+--- LOOPS TIME = 2034
+---   92,894 rows  92,894 columns  457,665 non-zeroes
+---   810,522 nl-code  282,525 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 4.474E-07, 1.267E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.297E-20, 3.016E+04] - Zero values observed as well
+--- 3_Model_GTAP11c.gms(5064) 285 Mb
+--- Executing CONOPT4 (Solvelink=2): elapsed 0:00:50.615
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The user model has 92894 constraints and 92894 variables
+    with 457665 Jacobian elements, 282525 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          6.4540490119E+03 (Input point)
+ 
+    The pre-triangular part of the model has 8682 constraints and variables.
+    The post-triangular part of the model has 1078 constraints and variables.
+ 
+    Preprocessed model has 83134 constraints and 83134 variables
+    with 406179 Jacobian elements, 250292 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      1.8413143230E+03 (Full preprocessed model)
+                      5.1193810201E+01 (After scaling)
+       1   0       0  4.7426891034E-03                 1.0E+00     6 F  F
+       2   1       0  2.7348742640E-10                 1.0E+00     3 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model GUIDE_GLOBAL_CGE
+--- Executing after solve: elapsed 0:00:52.275
+--- 3_Model_GTAP11c.gms(4556) 285 Mb
+--- Generating CNS model GUIDE_GLOBAL_CGE
+--- 3_Model_GTAP11c.gms(5064) 304 Mb
+--- LOOPS TIME = 2035
+---   92,894 rows  92,894 columns  457,665 non-zeroes
+---   810,522 nl-code  282,525 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 4.474E-07, 1.341E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.247E-20, 3.283E+04] - Zero values observed as well
+--- 3_Model_GTAP11c.gms(5064) 297 Mb
+--- Executing CONOPT4 (Solvelink=2): elapsed 0:00:54.326
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The user model has 92894 constraints and 92894 variables
+    with 457665 Jacobian elements, 282525 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          6.5939745341E+03 (Input point)
+ 
+    The pre-triangular part of the model has 8682 constraints and variables.
+    The post-triangular part of the model has 1078 constraints and variables.
+ 
+    Preprocessed model has 83134 constraints and 83134 variables
+    with 406179 Jacobian elements, 250292 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      1.8451852509E+03 (Full preprocessed model)
+                      4.9961222581E+01 (After scaling)
+       1   0       0  8.3120569764E-03                 1.0E+00     5 F  F
+       2   1       0  3.0679103735E-11                 1.0E+00     4 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model GUIDE_GLOBAL_CGE
+--- Executing after solve: elapsed 0:00:56.038
+--- 3_Model_GTAP11c.gms(4556) 297 Mb
+--- Generating CNS model GUIDE_GLOBAL_CGE
+--- 3_Model_GTAP11c.gms(5064) 316 Mb
+--- LOOPS TIME = 2036
+---   92,894 rows  92,894 columns  457,665 non-zeroes
+---   810,522 nl-code  282,525 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 4.474E-07, 1.416E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.054E-20, 3.563E+04] - Zero values observed as well
+--- 3_Model_GTAP11c.gms(5064) 310 Mb
+--- Executing CONOPT4 (Solvelink=2): elapsed 0:00:58.226
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The user model has 92894 constraints and 92894 variables
+    with 457665 Jacobian elements, 282525 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          6.8011749305E+03 (Input point)
+ 
+    The pre-triangular part of the model has 8682 constraints and variables.
+    The post-triangular part of the model has 1078 constraints and variables.
+ 
+    Preprocessed model has 83134 constraints and 83134 variables
+    with 406179 Jacobian elements, 250292 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      1.8296955094E+03 (Full preprocessed model)
+                      4.9680125046E+01 (After scaling)
+       1   0       0  2.2276097196E-04                 1.0E+00     9 F  F
+       2   1       0  1.1598329123E-11                 1.0E+00     2 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model GUIDE_GLOBAL_CGE
+--- Executing after solve: elapsed 0:00:59.891
+--- 3_Model_GTAP11c.gms(4556) 310 Mb
+--- Generating CNS model GUIDE_GLOBAL_CGE
+--- 3_Model_GTAP11c.gms(5064) 329 Mb
+--- LOOPS TIME = 2037
+---   92,894 rows  92,894 columns  457,665 non-zeroes
+---   810,522 nl-code  282,525 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 4.474E-07, 1.492E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.120E-20, 3.875E+04] - Zero values observed as well
+--- 3_Model_GTAP11c.gms(5064) 322 Mb
+--- Executing CONOPT4 (Solvelink=2): elapsed 0:01:02.152
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The user model has 92894 constraints and 92894 variables
+    with 457665 Jacobian elements, 282525 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          6.9229335809E+03 (Input point)
+ 
+    The pre-triangular part of the model has 8682 constraints and variables.
+    The post-triangular part of the model has 1078 constraints and variables.
+ 
+    Preprocessed model has 83134 constraints and 83134 variables
+    with 406179 Jacobian elements, 250292 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      1.8311974488E+03 (Full preprocessed model)
+                      4.8477474647E+01 (After scaling)
+       1   0       0  7.6526014744E-03                 1.0E+00     5 F  F
+       2   1       0  2.0384184093E-11                 1.0E+00     4 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model GUIDE_GLOBAL_CGE
+--- Executing after solve: elapsed 0:01:03.866
+--- 3_Model_GTAP11c.gms(4556) 322 Mb
+--- Generating CNS model GUIDE_GLOBAL_CGE
+--- 3_Model_GTAP11c.gms(5064) 341 Mb
+--- LOOPS TIME = 2038
+---   92,894 rows  92,894 columns  457,665 non-zeroes
+---   810,522 nl-code  282,525 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 4.474E-07, 1.570E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.109E-20, 4.203E+04] - Zero values observed as well
+--- 3_Model_GTAP11c.gms(5064) 335 Mb
+--- Executing CONOPT4 (Solvelink=2): elapsed 0:01:06.206
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The user model has 92894 constraints and 92894 variables
+    with 457665 Jacobian elements, 282525 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          7.0421675186E+03 (Input point)
+ 
+    The pre-triangular part of the model has 8682 constraints and variables.
+    The post-triangular part of the model has 1078 constraints and variables.
+ 
+    Preprocessed model has 83134 constraints and 83134 variables
+    with 406179 Jacobian elements, 250292 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      1.8325163898E+03 (Full preprocessed model)
+                      4.7590141816E+01 (After scaling)
+       1   0       0  4.7927767470E-02                 1.0E+00     4 F  F
+       2   1       0  9.4396195456E-11                 1.0E+00     6 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model GUIDE_GLOBAL_CGE
+--- Executing after solve: elapsed 0:01:07.885
+--- 3_Model_GTAP11c.gms(4556) 335 Mb
+--- Generating CNS model GUIDE_GLOBAL_CGE
+--- 3_Model_GTAP11c.gms(5064) 354 Mb
+--- LOOPS TIME = 2039
+---   92,894 rows  92,894 columns  457,665 non-zeroes
+---   810,522 nl-code  282,525 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 4.474E-07, 1.650E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.067E-20, 4.545E+04] - Zero values observed as well
+--- 3_Model_GTAP11c.gms(5064) 348 Mb
+--- Executing CONOPT4 (Solvelink=2): elapsed 0:01:10.278
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The user model has 92894 constraints and 92894 variables
+    with 457665 Jacobian elements, 282525 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          7.1615350311E+03 (Input point)
+ 
+    The pre-triangular part of the model has 8682 constraints and variables.
+    The post-triangular part of the model has 1078 constraints and variables.
+ 
+    Preprocessed model has 83134 constraints and 83134 variables
+    with 406179 Jacobian elements, 250292 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      1.8347647861E+03 (Full preprocessed model)
+                      4.6580953314E+01 (After scaling)
+       1   1       0  6.4724146807E-10                 1.0E+00    24 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model GUIDE_GLOBAL_CGE
+--- Executing after solve: elapsed 0:01:11.930
+--- 3_Model_GTAP11c.gms(4556) 348 Mb
+--- Generating CNS model GUIDE_GLOBAL_CGE
+--- 3_Model_GTAP11c.gms(5064) 366 Mb
+--- LOOPS TIME = 2040
+---   92,894 rows  92,894 columns  457,665 non-zeroes
+---   810,522 nl-code  282,525 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 4.474E-07, 1.731E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.028E-20, 4.902E+04] - Zero values observed as well
+--- 3_Model_GTAP11c.gms(5064) 360 Mb
+--- Executing CONOPT4 (Solvelink=2): elapsed 0:01:14.442
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The user model has 92894 constraints and 92894 variables
+    with 457665 Jacobian elements, 282525 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          7.2810220551E+03 (Input point)
+ 
+    The pre-triangular part of the model has 8682 constraints and variables.
+    The post-triangular part of the model has 1078 constraints and variables.
+ 
+    Preprocessed model has 83134 constraints and 83134 variables
+    with 406179 Jacobian elements, 250292 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      1.8370867823E+03 (Full preprocessed model)
+                      4.5756239953E+01 (After scaling)
+       1   0       0  3.5290572214E-02                 1.0E+00     4 F  F
+       2   1       0  1.0573603655E-10                 1.0E+00     5 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model GUIDE_GLOBAL_CGE
+--- Executing after solve: elapsed 0:01:16.172
+--- 3_Model_GTAP11c.gms(4556) 360 Mb
+--- Generating CNS model GUIDE_GLOBAL_CGE
+--- 3_Model_GTAP11c.gms(5064) 379 Mb
+--- LOOPS TIME = 2041
+---   92,894 rows  92,894 columns  457,665 non-zeroes
+---   810,522 nl-code  282,525 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 4.474E-07, 1.813E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.314E-20, 5.273E+04] - Zero values observed as well
+--- 3_Model_GTAP11c.gms(5064) 373 Mb
+--- Executing CONOPT4 (Solvelink=2): elapsed 0:01:18.738
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The user model has 92894 constraints and 92894 variables
+    with 457665 Jacobian elements, 282525 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          7.4460089631E+03 (Input point)
+ 
+    The pre-triangular part of the model has 8682 constraints and variables.
+    The post-triangular part of the model has 1078 constraints and variables.
+ 
+    Preprocessed model has 83134 constraints and 83134 variables
+    with 406179 Jacobian elements, 250292 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      1.8709972633E+03 (Full preprocessed model)
+                      4.5339469691E+01 (After scaling)
+       1   0       0  5.8274094364E-03                 1.0E+00     5 F  F
+       2   1       0  7.2318186489E-10                 1.0E+00     3 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model GUIDE_GLOBAL_CGE
+--- Executing after solve: elapsed 0:01:20.509
+--- 3_Model_GTAP11c.gms(4556) 373 Mb
+--- Generating CNS model GUIDE_GLOBAL_CGE
+--- 3_Model_GTAP11c.gms(5064) 392 Mb
+--- LOOPS TIME = 2042
+---   92,894 rows  92,894 columns  457,665 non-zeroes
+---   810,522 nl-code  282,525 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 4.474E-07, 1.897E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.310E-20, 5.661E+04] - Zero values observed as well
+--- 3_Model_GTAP11c.gms(5064) 385 Mb
+--- Executing CONOPT4 (Solvelink=2): elapsed 0:01:23.102
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The user model has 92894 constraints and 92894 variables
+    with 457665 Jacobian elements, 282525 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          7.5753728130E+03 (Input point)
+ 
+    The pre-triangular part of the model has 8682 constraints and variables.
+    The post-triangular part of the model has 1078 constraints and variables.
+ 
+    Preprocessed model has 83134 constraints and 83134 variables
+    with 406179 Jacobian elements, 250292 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      1.8818958561E+03 (Full preprocessed model)
+                      4.4588499099E+01 (After scaling)
+       1   1       0  1.6587773656E-09                 1.0E+00    16 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model GUIDE_GLOBAL_CGE
+--- Executing after solve: elapsed 0:01:24.671
+--- 3_Model_GTAP11c.gms(4556) 385 Mb
+--- Generating CNS model GUIDE_GLOBAL_CGE
+--- 3_Model_GTAP11c.gms(5064) 404 Mb
+--- LOOPS TIME = 2043
+---   92,894 rows  92,894 columns  457,665 non-zeroes
+---   810,522 nl-code  282,525 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 4.474E-07, 1.982E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.305E-20, 6.064E+04] - Zero values observed as well
+--- 3_Model_GTAP11c.gms(5064) 398 Mb
+--- Executing CONOPT4 (Solvelink=2): elapsed 0:01:27.430
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The user model has 92894 constraints and 92894 variables
+    with 457665 Jacobian elements, 282525 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          7.7046454201E+03 (Input point)
+ 
+    The pre-triangular part of the model has 8682 constraints and variables.
+    The post-triangular part of the model has 1078 constraints and variables.
+ 
+    Preprocessed model has 83134 constraints and 83134 variables
+    with 406179 Jacobian elements, 250292 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      1.8885860918E+03 (Full preprocessed model)
+                      4.3672486615E+01 (After scaling)
+       1   0       0  2.1546262251E-03                 1.0E+00     5 F  F
+       2   1       0  9.5441781101E-12                 1.0E+00     3 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model GUIDE_GLOBAL_CGE
+--- Executing after solve: elapsed 0:01:29.238
+--- 3_Model_GTAP11c.gms(4556) 398 Mb
+--- Generating CNS model GUIDE_GLOBAL_CGE
+--- 3_Model_GTAP11c.gms(5064) 417 Mb
+--- LOOPS TIME = 2044
+---   92,894 rows  92,894 columns  457,665 non-zeroes
+---   810,522 nl-code  282,525 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 4.474E-07, 2.068E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.301E-20, 6.482E+04] - Zero values observed as well
+--- 3_Model_GTAP11c.gms(5064) 410 Mb
+--- Executing CONOPT4 (Solvelink=2): elapsed 0:01:32.072
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The user model has 92894 constraints and 92894 variables
+    with 457665 Jacobian elements, 282525 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          7.8333804446E+03 (Input point)
+ 
+    The pre-triangular part of the model has 8682 constraints and variables.
+    The post-triangular part of the model has 1078 constraints and variables.
+ 
+    Preprocessed model has 83134 constraints and 83134 variables
+    with 406179 Jacobian elements, 250292 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      1.8937697171E+03 (Full preprocessed model)
+                      4.2660900817E+01 (After scaling)
+       1   1       0  1.3515233094E-09                 1.0E+00    13 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model GUIDE_GLOBAL_CGE
+--- Executing after solve: elapsed 0:01:33.565
+--- 3_Model_GTAP11c.gms(4556) 410 Mb
+--- Generating CNS model GUIDE_GLOBAL_CGE
+--- 3_Model_GTAP11c.gms(5064) 429 Mb
+--- LOOPS TIME = 2045
+---   92,894 rows  92,894 columns  457,665 non-zeroes
+---   810,522 nl-code  282,525 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 4.474E-07, 2.156E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.297E-20, 6.914E+04] - Zero values observed as well
+--- 3_Model_GTAP11c.gms(5064) 423 Mb
+--- Executing CONOPT4 (Solvelink=2): elapsed 0:01:36.452
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The user model has 92894 constraints and 92894 variables
+    with 457665 Jacobian elements, 282525 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          7.9642744244E+03 (Input point)
+ 
+    The pre-triangular part of the model has 8682 constraints and variables.
+    The post-triangular part of the model has 1078 constraints and variables.
+ 
+    Preprocessed model has 83134 constraints and 83134 variables
+    with 406179 Jacobian elements, 250292 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      1.8987093956E+03 (Full preprocessed model)
+                      4.1681033785E+01 (After scaling)
+       1   1       0  3.2599471292E-10                 1.0E+00    14 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model GUIDE_GLOBAL_CGE
+--- Executing after solve: elapsed 0:01:38.035
+--- 3_Model_GTAP11c.gms(4556) 424 Mb
+--- Generating CNS model GUIDE_GLOBAL_CGE
+--- 3_Model_GTAP11c.gms(5064) 442 Mb
+--- LOOPS TIME = 2046
+---   92,894 rows  92,894 columns  457,665 non-zeroes
+---   810,522 nl-code  282,525 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 4.474E-07, 2.246E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.292E-20, 7.362E+04] - Zero values observed as well
+--- 3_Model_GTAP11c.gms(5064) 436 Mb
+--- Executing CONOPT4 (Solvelink=2): elapsed 0:01:41.016
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The user model has 92894 constraints and 92894 variables
+    with 457665 Jacobian elements, 282525 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          8.1455290835E+03 (Input point)
+ 
+    The pre-triangular part of the model has 8682 constraints and variables.
+    The post-triangular part of the model has 1078 constraints and variables.
+ 
+    Preprocessed model has 83134 constraints and 83134 variables
+    with 406179 Jacobian elements, 250292 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      1.9336566385E+03 (Full preprocessed model)
+                      4.1917423871E+01 (After scaling)
+       1   1       0  4.1255839187E-10                 1.0E+00    11 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model GUIDE_GLOBAL_CGE
+--- Executing after solve: elapsed 0:01:42.527
+--- 3_Model_GTAP11c.gms(4556) 436 Mb
+--- Generating CNS model GUIDE_GLOBAL_CGE
+--- 3_Model_GTAP11c.gms(5064) 455 Mb
+--- LOOPS TIME = 2047
+---   92,894 rows  92,894 columns  457,665 non-zeroes
+---   810,522 nl-code  282,525 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 4.474E-07, 2.337E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.287E-20, 7.831E+04] - Zero values observed as well
+--- 3_Model_GTAP11c.gms(5064) 448 Mb
+--- Executing CONOPT4 (Solvelink=2): elapsed 0:01:45.625
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The user model has 92894 constraints and 92894 variables
+    with 457665 Jacobian elements, 282525 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          8.2818843356E+03 (Input point)
+ 
+    The pre-triangular part of the model has 8682 constraints and variables.
+    The post-triangular part of the model has 1078 constraints and variables.
+ 
+    Preprocessed model has 83134 constraints and 83134 variables
+    with 406179 Jacobian elements, 250292 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      1.9467411095E+03 (Full preprocessed model)
+                      4.1210212444E+01 (After scaling)
+       1   1       0  1.1255270163E-09                 1.0E+00    12 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model GUIDE_GLOBAL_CGE
+--- Executing after solve: elapsed 0:01:47.128
+--- 3_Model_GTAP11c.gms(4556) 449 Mb
+--- Generating CNS model GUIDE_GLOBAL_CGE
+--- 3_Model_GTAP11c.gms(5064) 467 Mb
+--- LOOPS TIME = 2048
+---   92,894 rows  92,894 columns  457,665 non-zeroes
+---   810,522 nl-code  282,525 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 4.474E-07, 2.429E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.282E-20, 8.316E+04] - Zero values observed as well
+--- 3_Model_GTAP11c.gms(5064) 461 Mb
+--- Executing CONOPT4 (Solvelink=2): elapsed 0:01:50.229
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The user model has 92894 constraints and 92894 variables
+    with 457665 Jacobian elements, 282525 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          8.4168920919E+03 (Input point)
+ 
+    The pre-triangular part of the model has 8682 constraints and variables.
+    The post-triangular part of the model has 1078 constraints and variables.
+ 
+    Preprocessed model has 83134 constraints and 83134 variables
+    with 406179 Jacobian elements, 250292 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      1.9551741473E+03 (Full preprocessed model)
+                      4.0551567656E+01 (After scaling)
+       1   1       0  1.3558219396E-09                 1.0E+00     9 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model GUIDE_GLOBAL_CGE
+--- Executing after solve: elapsed 0:01:51.707
+--- 3_Model_GTAP11c.gms(4556) 462 Mb
+--- Generating CNS model GUIDE_GLOBAL_CGE
+--- 3_Model_GTAP11c.gms(5064) 480 Mb
+--- LOOPS TIME = 2049
+---   92,894 rows  92,894 columns  457,665 non-zeroes
+---   810,522 nl-code  282,525 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 4.474E-07, 2.523E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.277E-20, 8.817E+04] - Zero values observed as well
+--- 3_Model_GTAP11c.gms(5064) 473 Mb
+--- Executing CONOPT4 (Solvelink=2): elapsed 0:01:54.891
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The user model has 92894 constraints and 92894 variables
+    with 457665 Jacobian elements, 282525 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          8.5524891575E+03 (Input point)
+ 
+    The pre-triangular part of the model has 8682 constraints and variables.
+    The post-triangular part of the model has 1078 constraints and variables.
+ 
+    Preprocessed model has 83134 constraints and 83134 variables
+    with 406179 Jacobian elements, 250292 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      1.9621974194E+03 (Full preprocessed model)
+                      3.9724402444E+01 (After scaling)
+       1   1       0  4.8656271882E-10                 1.0E+00    10 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model GUIDE_GLOBAL_CGE
+--- Executing after solve: elapsed 0:01:56.459
+--- 3_Model_GTAP11c.gms(4556) 475 Mb
+--- Generating CNS model GUIDE_GLOBAL_CGE
+--- 3_Model_GTAP11c.gms(5064) 492 Mb
+--- LOOPS TIME = 2050
+---   92,894 rows  92,894 columns  457,665 non-zeroes
+---   810,522 nl-code  282,525 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 4.474E-07, 2.618E+04] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA]
+--- Matrix    [min, max] : [ 1.272E-20, 9.334E+04] - Zero values observed as well
+--- 3_Model_GTAP11c.gms(5064) 486 Mb
+--- Executing CONOPT4 (Solvelink=2): elapsed 0:01:59.745
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The user model has 92894 constraints and 92894 variables
+    with 457665 Jacobian elements, 282525 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          8.6900837276E+03 (Input point)
+ 
+    The pre-triangular part of the model has 8682 constraints and variables.
+    The post-triangular part of the model has 1078 constraints and variables.
+ 
+    Preprocessed model has 83134 constraints and 83134 variables
+    with 406179 Jacobian elements, 250292 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      1.9687872390E+03 (Full preprocessed model)
+                      3.9194007710E+01 (After scaling)
+       1   1       0  4.6904814436E-10                 1.0E+00     8 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model GUIDE_GLOBAL_CGE
+--- Executing after solve: elapsed 0:02:01.284
+--- 3_Model_GTAP11c.gms(5602) 682 Mb
+--- GDX File (execute_unload) C:\Users\kimc0\GUIDE_GLOBAL_CGE\5.RD_CGE_GreenEcos\Output\Baseline_Results_GTAP11c.gdx
+--- 3_Model_GTAP11c.gms(6221) 684 Mb
+--- GDX File (execute_unload) C:\Users\kimc0\GUIDE_GLOBAL_CGE\5.RD_CGE_GreenEcos\Output\Baseline_Results_GreenEcos.gdx
+*** Status: Normal completion
+--- Job 3_Model_GTAP11c.gms Stop 07/16/25 10:33:47 elapsed 0:02:03.231

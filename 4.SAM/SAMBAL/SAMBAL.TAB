@@ -59,9 +59,11 @@ Variable
                    # Percent change in Multipliers (initial value = 1) #;
 (linear, percent_change) (all,a,ACC) fmult(a)
                    # Slack to allow extra constraint #;
+(linear, percent_change) (all,r,ACC)(all,c,ACC) fsam(r,c)
+                   # Slack to allow extra constraint #;
 Equation (linear) E_p_SAM (all,r,ACC)(all,c,ACC)
-   p_SAM(r,c) =   ZZ(r,c)*[mult(r) - mult(c) + fmult(r) + fmult(c)];
-Substitute p_SAM using E_p_SAM;
+   p_SAM(r,c) =   ZZ(r,c)*[mult(r) - mult(c) + fmult(r) + fmult(c)+fsam(r,c)];
+!Substitute p_SAM using E_p_SAM;!
 ! The additional fmult scale, normally exogenous and zero, could be freed
   to accomodate an additional rowsum (=colsum) constraint. For example, we
   might wish to set the total size of government spending. !

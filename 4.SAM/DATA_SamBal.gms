@@ -829,26 +829,27 @@ INT(A) = YES;
 INT('175_TOT') = NO;
 
 *============ 2.Initial matrix ===========================================
-Table SAM0(A,B,z) initial matrix ;
-Table SAM0_01_KOR(A,B) initial matrix ;
-Table SAM0_02_CHN(A,B) initial matrix ;
-Table SAM0_03_JPN(A,B) initial matrix ;
-Table SAM0_04_RUS(A,B) initial matrix ;
-Table SAM0_05_MNG(A,B) initial matrix ;
-Table SAM0_06_PRK(A,B) initial matrix ;
-Table SAM0_07_NAM(A,B) initial matrix ;
-Table SAM0_08_LAM(A,B) initial matrix ;
-Table SAM0_09_WEU(A,B) initial matrix ;
-Table SAM0_10_EEU(A,B) initial matrix ;
-Table SAM0_11_FSU(A,B) initial matrix ;
-Table SAM0_12_MEA(A,B) initial matrix ;
-Table SAM0_13_AFR(A,B) initial matrix ;
-Table SAM0_14_CPA(A,B) initial matrix ;
-Table SAM0_15_SAS(A,B) initial matrix ;
-Table SAM0_16_PAS(A,B) initial matrix ;
-Table SAM0_17_PAO(A,B) initial matrix ;
+PARAMETER
+SAM0(A,B,z) initial matrix ,
+SAM0_01_KOR(A,B), 
+SAM0_02_CHN(A,B),
+SAM0_03_JPN(A,B),
+SAM0_04_RUS(A,B),
+SAM0_05_MNG(A,B),
+SAM0_06_PRK(A,B),
+SAM0_07_NAM(A,B),
+SAM0_08_LAM(A,B),
+SAM0_09_WEU(A,B),
+SAM0_10_EEU(A,B),
+SAM0_11_FSU(A,B),
+SAM0_12_MEA(A,B),
+SAM0_13_AFR(A,B),
+SAM0_14_CPA(A,B),
+SAM0_15_SAS(A,B),
+SAM0_16_PAS(A,B),
+SAM0_17_PAO(A,B) 
+;
 
-*Scalar Tiny "tiny" /0.0000000000000000000000000000000000000001/;
 SAM0(INT,JNT,z) = EPS;
 
 *Acitivities
@@ -859,9 +860,7 @@ SAM0(tf1,A1,Z)  = SUM[(l,j)$[sam_sce7(tf1,l)$sam_sce1(A1,j)], TIWO2(l,j,Z)];
 SAM0(tf2,A1,Z)  = SUM[(k,j)$[sam_sce8(tf2,k)$sam_sce1(A1,j)], TIKO(k,j,Z)];
 SAM0(PTX1,A1,Z) = SUM[(j)$[sam_sce1(A1,j)], TIPO(j,Z)];
 
- 
 *Commodities
-*SAM0(A1,C1,Z)       = SUM[(i,j)$[sam_sce1(A1,j)$sam_sce2(C1,i)], XSO_Matrix(i,j,Z)];
 SAM0(A1,C1,Z)       = SUM[(i,j)$[sam_sce1(A1,j)$sam_sce2(C1,i)],  XSO(j,i,z)];
 SAM0(ITAX1,C1,Z)  = SUM[(i,zj)$[sam_sce5(ITAX1,zj)$sam_sce2(C1,i)], TIMO(i,zj,Z)];
 SAM0(ETAX1,C1,Z)  = SUM[(i,zj)$[sam_sce6(ETAX1,zj)$sam_sce2(C1,i)], TIXO(i,Z,zj)];
@@ -914,7 +913,8 @@ SAM0(INV1,PRI1,Z)= SUM(B,SAM0(PRI1,B,Z))- SUM(C1,SAM0(C1,PRI1,Z));
 SAM0(GOV1,PTX1,Z)= SUM(B,SAM0(PTX1,B,Z));
 
 *Direct tax
-SAM0(GOV1,DTX1,Z)= SUM(B,SAM0(DTX1,B,Z));
+SAM0(GOV1,DTX1,Z)=  TDHO(z) ;
+*SAM0(GOV1,DTX1,Z)= SUM(B,SAM0(DTX1,B,Z));
 
 *Government
 SAM0(C1,GOV1,Z)= SUM[(i)$[sam_sce2(C1,I)], CGO(i,Z)];
@@ -927,7 +927,6 @@ SAM0(INV1,GOV1,Z)= SUM(C1, SAM0(C1,INV1,Z))-SUM(B,SAM0(INV1,B,Z));
 SAM0('175_TOT',B,Z)= SUM(A,SAM0(A,B,Z));
 SAM0(A,'175_TOT',Z)= SUM(B,SAM0(A,B,Z));
 
-*Scaling
 SAM0_01_KOR(A,B) = SAM0(A,B,'01_KOR');
 SAM0_02_CHN(A,B) = SAM0(A,B,'02_CHN');
 SAM0_03_JPN(A,B) = SAM0(A,B,'03_JPN');
@@ -951,714 +950,56 @@ SAM0_01_KOR, SAM0_02_CHN, SAM0_03_JPN, SAM0_04_RUS, SAM0_05_MNG, SAM0_06_PRK,
 SAM0_07_NAM, SAM0_08_LAM, SAM0_09_WEU, SAM0_10_EEU, SAM0_11_FSU, SAM0_12_MEA,
 SAM0_13_AFR, SAM0_14_CPA, SAM0_15_SAS, SAM0_16_PAS, SAM0_17_PAO
 ;
-*$EXIT
-*========== 3. Matrix of negative defined and negative values transposed =======
-PARAMETER NEG(A,B,Z) Matrix of negative values;
-NEG(INT,JNT,Z)$[(SAM0(INT,JNT,Z) LT 0)
-               AND (SAM0(JNT,INT,Z)-SAM0(INT,JNT,Z) GT 0)
-               AND (SAM0(JNT,INT,Z)+SAM0(INT,JNT,Z) LT 0)]=1;
 
-SAM0(INT,JNT,Z)$[(SAM0(JNT,INT,Z) LT 0)
-               AND (SAM0(INT,JNT,Z)-SAM0(JNT,INT,Z) GT 0)]=SAM0(INT,JNT,Z)-SAM0(JNT,INT,Z);
-SAM0(JNT,INT,Z)$[(SAM0(JNT,INT,Z) LT 0)
-               AND (SAM0(INT,JNT,Z)-SAM0(JNT,INT,Z) GT 0)]=0;
-
-*============ 4. Initial matrix values transformed in proportion ===============
 PARAMETER
-TOTO(Z)  initial matrix total ;
-TOTO(Z) = SUM((INT,JNT), SAM0(INT,JNT,Z));
-SAM0(INT,JNT,Z) = SAM0(INT,JNT,Z)/TOTO(Z);
-
-*============ 5. Non-zero logs parameter =======================================
-SCALARS
-delta      Non-zero logs parameter;
-*delta      =.00000000000001;
-delta      =.0000000000000000001;
-
-*============ 6. Variable definition ===========================================
-VARIABLES
-SAM(A,B)     New SAM with transposed negative values
-OPT          Distance variable
-;
-*============ 7. Equation definition ===========================================
-EQUATIONS
-OPTIMIZE_KOR     Optimization criterion
-OPTIMIZE_CHN
-OPTIMIZE_JPN
-OPTIMIZE_RUS
-OPTIMIZE_MNG
-OPTIMIZE_PRK
-OPTIMIZE_NAM
-OPTIMIZE_LAM
-OPTIMIZE_WEU
-OPTIMIZE_EEU
-OPTIMIZE_FSU
-OPTIMIZE_MEA
-OPTIMIZE_AFR
-OPTIMIZE_CPA
-OPTIMIZE_SAS
-OPTIMIZE_PAS
-OPTIMIZE_PAO
-
-CONSTRAINT(A)    Equality between matrix and row sums
-CONSTRAINT1      Sum of proportions equals one
+SAM1(A,B,Z) New (balanced) matrix
+SAM1_01_KOR(A,B),
+SAM1_02_CHN(A,B),
+SAM1_03_JPN(A,B),
+SAM1_04_RUS(A,B),
+SAM1_05_MNG(A,B),
+SAM1_06_PRK(A,B), 
+SAM1_07_NAM(A,B),
+SAM1_08_LAM(A,B),
+SAM1_09_WEU(A,B),
+SAM1_10_EEU(A,B),
+SAM1_11_FSU(A,B),
+SAM1_12_MEA(A,B), 
+SAM1_13_AFR(A,B),
+SAM1_14_CPA(A,B),
+SAM1_15_SAS(A,B),
+SAM1_16_PAS(A,B),
+SAM1_17_PAO(A,B)
 ;
 
-*----------------------------------------------------------------------------
-* Entropy optimization criterion
-OPTIMIZE_KOR..   OPT =E= SUM((INT,JNT)$(SAM0(INT,JNT,'01_KOR') NE 0),(SAM(INT,JNT))
-                     *(LOG(SAM(INT,JNT)+delta)-LOG(SAM0(INT,JNT,'01_KOR')+delta)));
-
-OPTIMIZE_CHN..   OPT =E= SUM((INT,JNT)$(SAM0(INT,JNT,'02_CHN') NE 0),(SAM(INT,JNT))
-                     *(LOG(SAM(INT,JNT)+delta)-LOG(SAM0(INT,JNT,'02_CHN')+delta)));
-
-OPTIMIZE_JPN..   OPT =E= SUM((INT,JNT)$(SAM0(INT,JNT,'03_JPN') NE 0),(SAM(INT,JNT))
-                     *(LOG(SAM(INT,JNT)+delta)-LOG(SAM0(INT,JNT,'03_JPN')+delta)));
-
-OPTIMIZE_RUS..   OPT =E= SUM((INT,JNT)$(SAM0(INT,JNT,'04_RUS') NE 0),(SAM(INT,JNT))
-                     *(LOG(SAM(INT,JNT)+delta)-LOG(SAM0(INT,JNT,'04_RUS')+delta)));
-
-OPTIMIZE_MNG..   OPT =E= SUM((INT,JNT)$(SAM0(INT,JNT,'05_MNG') NE 0),(SAM(INT,JNT))
-                     *(LOG(SAM(INT,JNT)+delta)-LOG(SAM0(INT,JNT,'05_MNG')+delta)));
-
-OPTIMIZE_PRK..   OPT =E= SUM((INT,JNT)$(SAM0(INT,JNT,'06_PRK') NE 0),(SAM(INT,JNT))
-                     *(LOG(SAM(INT,JNT)+delta)-LOG(SAM0(INT,JNT,'06_PRK')+delta)));
-
-OPTIMIZE_NAM..   OPT =E= SUM((INT,JNT)$(SAM0(INT,JNT,'07_NAM') NE 0),(SAM(INT,JNT))
-                     *(LOG(SAM(INT,JNT)+delta)-LOG(SAM0(INT,JNT,'07_NAM')+delta)));
-
-OPTIMIZE_LAM..   OPT =E= SUM((INT,JNT)$(SAM0(INT,JNT,'08_LAM') NE 0),(SAM(INT,JNT))
-                     *(LOG(SAM(INT,JNT)+delta)-LOG(SAM0(INT,JNT,'08_LAM')+delta)));
-
-OPTIMIZE_WEU..   OPT =E= SUM((INT,JNT)$(SAM0(INT,JNT,'09_WEU') NE 0),(SAM(INT,JNT))
-                     *(LOG(SAM(INT,JNT)+delta)-LOG(SAM0(INT,JNT,'09_WEU')+delta)));
-
-OPTIMIZE_EEU..   OPT =E= SUM((INT,JNT)$(SAM0(INT,JNT,'10_EEU') NE 0),(SAM(INT,JNT))
-                     *(LOG(SAM(INT,JNT)+delta)-LOG(SAM0(INT,JNT,'10_EEU')+delta)));
-
-OPTIMIZE_FSU..   OPT =E= SUM((INT,JNT)$(SAM0(INT,JNT,'11_FSU') NE 0),(SAM(INT,JNT))
-                     *(LOG(SAM(INT,JNT)+delta)-LOG(SAM0(INT,JNT,'11_FSU')+delta)));
-
-OPTIMIZE_MEA..   OPT =E= SUM((INT,JNT)$(SAM0(INT,JNT,'12_MEA') NE 0),(SAM(INT,JNT))
-                     *(LOG(SAM(INT,JNT)+delta)-LOG(SAM0(INT,JNT,'12_MEA')+delta)));
-
-OPTIMIZE_AFR..   OPT =E= SUM((INT,JNT)$(SAM0(INT,JNT,'13_AFR') NE 0),(SAM(INT,JNT))
-                     *(LOG(SAM(INT,JNT)+delta)-LOG(SAM0(INT,JNT,'13_AFR')+delta)));
-
-OPTIMIZE_CPA..   OPT =E= SUM((INT,JNT)$(SAM0(INT,JNT,'14_CPA') NE 0),(SAM(INT,JNT))
-                     *(LOG(SAM(INT,JNT)+delta)-LOG(SAM0(INT,JNT,'14_CPA')+delta)));
-
-OPTIMIZE_SAS..   OPT =E= SUM((INT,JNT)$(SAM0(INT,JNT,'15_SAS') NE 0),(SAM(INT,JNT))
-                     *(LOG(SAM(INT,JNT)+delta)-LOG(SAM0(INT,JNT,'15_SAS')+delta)));
-
-OPTIMIZE_PAS..   OPT =E= SUM((INT,JNT)$(SAM0(INT,JNT,'16_PAS') NE 0),(SAM(INT,JNT))
-                     *(LOG(SAM(INT,JNT)+delta)-LOG(SAM0(INT,JNT,'16_PAS')+delta)));
-
-OPTIMIZE_PAO..   OPT =E= SUM((INT,JNT)$(SAM0(INT,JNT,'17_PAO') NE 0),(SAM(INT,JNT))
-                     *(LOG(SAM(INT,JNT)+delta)-LOG(SAM0(INT,JNT,'17_PAO')+delta)));
-*----------------------------------------------------------------------------
-
-* Equality between row and column sums
-CONSTRAINT(INT).. SUM(JNT,SAM(INT,JNT))=E=SUM(JNT,SAM(JNT,INT));
-
-* Proportions sum equal one
-CONSTRAINT1..     SUM((INT,JNT),SAM(INT,JNT))=E=1 ;
-
-*============ KOR =======================================
-
-SAM.L(INT,JNT)                        = SAM0(INT,JNT,'01_KOR');
-SAM.LO(INT,JNT)                      = 0 ;
-SAM.UP(INT,JNT)                      = +INF ;
-SAM.FX(INT,JNT)$(NOT SAM0(INT,JNT,'01_KOR'))  = 0 ;
-OPT.L                                       = 0;
-
-*SAM.FX(A1,A1)=0;
-*SAM.FX(A1,C1)=SAM0(A1,C1,'01_KOR');
-*SAM.FX(WORLD1,C1)=SAM0(WORLD1,C1,'01_KOR');
-*SAM.FX(C1,WORLD1)=SAM0(C1,WORLD1,'01_KOR');
-
-MODEL SAMBAL_KOR / OPTIMIZE_KOR, CONSTRAINT, CONSTRAINT1  /;
-OPTION NLP             = CONOPT3;
-OPTION iterlim         = 99999;
-
-SOLVE SAMBAL_KOR USING NLP MINIMIZING OPT;
-
-PARAMETER
-NSAM(A,B) New (balanced) matrix;
-NSAM(INT,JNT)=SAM.L(INT,JNT);
-
-* Negative values retransposed to original position
-NSAM(INT,JNT)$(NEG(INT,JNT,'01_KOR')=1)=-NSAM(JNT,INT);
-NSAM(JNT,INT)$(NEG(INT,JNT,'01_KOR')=1)=0;
-
-* Transformation of proportions into SAM transaction flow
-NSAM(INT,JNT) = NSAM(INT,JNT)*TOTO('01_KOR');
-*NSAM(INT,JNT)$(NSAM(INT,JNT)=0);
-* Export results first to a GDX file, then to an Excel file
-
-PARAMETER
-NSAM_01_KOR(A,B) New (balanced) matrix,
-DIFF_01_KOR(A,B) ;
-
-NSAM_01_KOR(A,B) = NSAM(A,B);
-NSAM_01_KOR(INT,'175_TOT') = SUM(B,NSAM_01_KOR(INT,B));
-NSAM_01_KOR('175_TOT',B) = SUM(A,NSAM_01_KOR(A,B));
-NSAM_01_KOR(A,B)$(NSAM_01_KOR(A,B) = 0) = eps ;
-DIFF_01_KOR(A,B) = NSAM_01_KOR(A,B) - SAM0_01_KOR(A,B) ;
-
-execute_unload "SAM_BAL" ;
-
-$EXIT
-
-*============ CHN =======================================
-SAM.L(A,B)                           = SAM0(A,B,'02_CHN');
-SAM.LO(INT,JNT)                      = 0 ;
-SAM.UP(INT,JNT)                      = +INF ;
-SAM.FX(INT,JNT)$(NOT SAM0(INT,JNT,'02_CHN'))  = 0 ;
-OPT.L                                = 0;
-
-SAM.FX(WORLD1,C1)=SAM0(WORLD1,C1,'02_CHN');
-SAM.FX(C1,WORLD1)=SAM0(C1,WORLD1,'02_CHN');
-
-MODEL SAMBAL_CHN / OPTIMIZE_CHN, CONSTRAINT, CONSTRAINT1  /;
-OPTION NLP             = CONOPT3;
-OPTION iterlim = 99999;
-
-SOLVE SAMBAL_CHN USING NLP MINIMIZING OPT;
-
-PARAMETER
-NSAM(A,B) New (balanced) matrix;
-NSAM(INT,JNT)=SAM.L(INT,JNT);
-
-NSAM(INT,JNT)$(NEG(INT,JNT,'02_CHN')=1)=-NSAM(JNT,INT);
-NSAM(JNT,INT)$(NEG(INT,JNT,'02_CHN')=1)=0;
-NSAM(INT,JNT) = NSAM(INT,JNT)*TOTO('02_CHN');
-
-PARAMETER
-NSAM_02_CHN(A,B) New (balanced) matrix,
-DIFF_02_CHN(A,B) ;
-
-NSAM_02_CHN(A,B) = NSAM(A,B);
-NSAM_02_CHN(INT,'175_TOT') = SUM(B,NSAM_02_CHN(INT,B));
-NSAM_02_CHN('175_TOT',B) = SUM(A,NSAM_02_CHN(A,B));
-NSAM_02_CHN(A,B)$(NSAM_02_CHN(A,B) = 0) = eps ;
-DIFF_02_CHN(A,B) = NSAM_02_CHN(A,B) - SAM0_02_CHN(A,B) ;
-
-*============ JPN =======================================
-SAM.L(A,B)                           = SAM0(A,B,'03_JPN');
-SAM.LO(INT,JNT)                      = 0 ;
-SAM.UP(INT,JNT)                      = +INF ;
-SAM.FX(INT,JNT)$(NOT SAM0(INT,JNT,'03_JPN'))  = 0 ;
-OPT.L                                = 0;
-
-SAM.FX(WORLD1,C1)=SAM0(WORLD1,C1,'03_JPN');
-SAM.FX(C1,WORLD1)=SAM0(C1,WORLD1,'03_JPN');
-
-MODEL SAMBAL_JPN / OPTIMIZE_JPN, CONSTRAINT, CONSTRAINT1  /;
-OPTION NLP             = CONOPT3;
-OPTION iterlim = 99999;
-
-SOLVE SAMBAL_JPN USING NLP MINIMIZING OPT;
-
-PARAMETER
-NSAM(A,B) New (balanced) matrix;
-NSAM(INT,JNT)=SAM.L(INT,JNT);
-NSAM(INT,JNT)$(NEG(INT,JNT,'03_JPN')=1)=-NSAM(JNT,INT);
-NSAM(JNT,INT)$(NEG(INT,JNT,'03_JPN')=1)=0;
-NSAM(INT,JNT) = NSAM(INT,JNT)*TOTO('03_JPN');
-
-PARAMETER
-NSAM_03_JPN(A,B) New (balanced) matrix,
-DIFF_03_JPN(A,B) ;
-
-NSAM_03_JPN(A,B) = NSAM(A,B);
-NSAM_03_JPN(INT,'175_TOT') = SUM(B,NSAM_03_JPN(INT,B));
-NSAM_03_JPN('175_TOT',B) = SUM(A,NSAM_03_JPN(A,B));
-NSAM_03_JPN(A,B)$(NSAM_03_JPN(A,B) = 0) = eps ;
-DIFF_03_JPN(A,B) = NSAM_03_JPN(A,B) - SAM0_03_JPN(A,B) ;
-
-*============ RUS =======================================
-SAM.L(A,B)                           = SAM0(A,B,'04_RUS');
-SAM.LO(INT,JNT)                      = 0 ;
-SAM.UP(INT,JNT)                      = +INF ;
-SAM.FX(INT,JNT)$(NOT SAM0(INT,JNT,'04_RUS'))  = 0 ;
-OPT.L                                = 0;
-
-SAM.FX(WORLD1,C1)=SAM0(WORLD1,C1,'04_RUS');
-SAM.FX(C1,WORLD1)=SAM0(C1,WORLD1,'04_RUS');
-
-MODEL SAMBAL_RUS / OPTIMIZE_RUS, CONSTRAINT, CONSTRAINT1  /;
-OPTION NLP             = CONOPT3;
-OPTION iterlim = 99999;
-
-SOLVE SAMBAL_RUS USING NLP MINIMIZING OPT;
-
-PARAMETER
-NSAM(A,B) New (balanced) matrix;
-NSAM(INT,JNT)=SAM.L(INT,JNT);
-NSAM(INT,JNT)$(NEG(INT,JNT,'04_RUS')=1)=-NSAM(JNT,INT);
-NSAM(JNT,INT)$(NEG(INT,JNT,'04_RUS')=1)=0;
-NSAM(INT,JNT) = NSAM(INT,JNT)*TOTO('04_RUS');
-
-PARAMETER
-NSAM_04_RUS(A,B) New (balanced) matrix,
-DIFF_04_RUS(A,B) ;
-
-NSAM_04_RUS(A,B) = NSAM(A,B);
-NSAM_04_RUS(INT,'175_TOT') = SUM(B,NSAM_04_RUS(INT,B));
-NSAM_04_RUS('175_TOT',B) = SUM(A,NSAM_04_RUS(A,B));
-NSAM_04_RUS(A,B)$(NSAM_04_RUS(A,B) = 0) = eps ;
-DIFF_04_RUS(A,B) = NSAM_04_RUS(A,B) - SAM0_04_RUS(A,B) ;
-
-*============ MNG =======================================
-SAM.L(A,B)                           = SAM0(A,B,'05_MNG');
-SAM.LO(INT,JNT)                      = 0 ;
-SAM.UP(INT,JNT)                      = +INF ;
-SAM.FX(INT,JNT)$(NOT SAM0(INT,JNT,'05_MNG'))  = 0 ;
-OPT.L                                = 0;
-
-SAM.FX(WORLD1,C1)=SAM0(WORLD1,C1,'05_MNG');
-SAM.FX(C1,WORLD1)=SAM0(C1,WORLD1,'05_MNG');
-
-MODEL SAMBAL_MNG / OPTIMIZE_MNG, CONSTRAINT, CONSTRAINT1  /;
-OPTION NLP             = CONOPT3;
-OPTION iterlim = 99999;
-
-SOLVE SAMBAL_MNG USING NLP MINIMIZING OPT;
-
-PARAMETER
-NSAM(A,B) New (balanced) matrix;
-NSAM(INT,JNT)=SAM.L(INT,JNT);
-
-NSAM(INT,JNT)$(NEG(INT,JNT,'05_MNG')=1)=-NSAM(JNT,INT);
-NSAM(JNT,INT)$(NEG(INT,JNT,'05_MNG')=1)=0;
-NSAM(INT,JNT) = NSAM(INT,JNT)*TOTO('05_MNG');
-
-PARAMETER
-NSAM_05_MNG(A,B) New (balanced) matrix,
-DIFF_05_MNG(A,B) ;
-
-NSAM_05_MNG(A,B) = NSAM(A,B);
-NSAM_05_MNG(INT,'175_TOT') = SUM(B,NSAM_05_MNG(INT,B));
-NSAM_05_MNG('175_TOT',B) = SUM(A,NSAM_05_MNG(A,B));
-NSAM_05_MNG(A,B)$(NSAM_05_MNG(A,B) = 0) = eps ;
-DIFF_05_MNG(A,B) = NSAM_05_MNG(A,B) - SAM0_05_MNG(A,B) ;
-
-*============ PRK =======================================
-SAM.L(A,B)                              = SAM0(A,B,'06_PRK');
-SAM.LO(INT,JNT)                      = 0 ;
-SAM.UP(INT,JNT)                      = +INF ;
-SAM.FX(INT,JNT)$(NOT SAM0(INT,JNT,'06_PRK'))  = 0 ;
-OPT.L                                       = 0;
-
-SAM.FX('56_UnSkLab','31_a_SER')  = SAM0('56_UnSkLab','31_a_SER','06_PRK')*0.5;
-SAM.FX('57_SkLab','31_a_SER')      = SAM0('57_SkLab','31_a_SER','06_PRK')*0.5;
-SAM.FX('58_Capital','31_a_SER')     = SAM0('58_Capital','31_a_SER','06_PRK')*0.5;
-SAM.FX(WORLD1,C1)=SAM0(WORLD1,C1,'06_PRK');
-SAM.FX(C1,WORLD1)=SAM0(C1,WORLD1,'06_PRK');
-
-MODEL SAMBAL_PRK / OPTIMIZE_PRK, CONSTRAINT, CONSTRAINT1  /;
-OPTION NLP             = CONOPT3;
-OPTION iterlim = 99999;
-
-SOLVE SAMBAL_PRK USING NLP MINIMIZING OPT;
-
-PARAMETER
-NSAM(A,B) New (balanced) matrix;
-NSAM(INT,JNT) =EPS;
-NSAM(INT,JNT)=SAM.L(INT,JNT);
-
-NSAM(INT,JNT)$(NEG(INT,JNT,'06_PRK')=1)=-NSAM(JNT,INT);
-NSAM(JNT,INT)$(NEG(INT,JNT,'06_PRK')=1)=0;
-NSAM(INT,JNT) = NSAM(INT,JNT)*TOTO('06_PRK');
-
-PARAMETER
-NSAM_06_PRK(A,B) New (balanced) matrix,
-DIFF_06_PRK(A,B) ;
-
-
-NSAM_06_PRK(A,B) = NSAM(A,B);
-NSAM_06_PRK(INT,'175_TOT') = SUM(B,NSAM_06_PRK(INT,B));
-NSAM_06_PRK('175_TOT',B) = SUM(A,NSAM_06_PRK(A,B));
-NSAM_06_PRK(A,B)$(NSAM_06_PRK(A,B) = 0) = eps ;
-DIFF_06_PRK(A,B) = NSAM_06_PRK(A,B) - SAM0_06_PRK(A,B) ;
-
-*============ NAM =======================================
-SAM.L(A,B)                           = SAM0(A,B,'07_NAM');
-SAM.LO(INT,JNT)                      = 0 ;
-SAM.UP(INT,JNT)                      = +INF ;
-SAM.FX(INT,JNT)$(NOT SAM0(INT,JNT,'07_NAM'))  = 0 ;
-OPT.L                                = 0;
-
-SAM.FX(WORLD1,C1)=SAM0(WORLD1,C1,'07_NAM');
-SAM.FX(C1,WORLD1)=SAM0(C1,WORLD1,'07_NAM');
-
-MODEL SAMBAL_NAM / OPTIMIZE_NAM, CONSTRAINT, CONSTRAINT1  /;
-OPTION NLP             = CONOPT3;
-OPTION iterlim = 99999;
-
-SOLVE SAMBAL_NAM USING NLP MINIMIZING OPT;
-
-PARAMETER
-NSAM(A,B) New (balanced) matrix;
-NSAM(INT,JNT)=SAM.L(INT,JNT);
-
-NSAM(INT,JNT)$(NEG(INT,JNT,'07_NAM')=1)=-NSAM(JNT,INT);
-NSAM(JNT,INT)$(NEG(INT,JNT,'07_NAM')=1)=0;
-NSAM(INT,JNT) = NSAM(INT,JNT)*TOTO('07_NAM');
-
-PARAMETER
-NSAM_07_NAM(A,B) New (balanced) matrix,
-DIFF_07_NAM(A,B) ;
-
-NSAM_07_NAM(A,B) = NSAM(A,B);
-NSAM_07_NAM(INT,'175_TOT') = SUM(B,NSAM_07_NAM(INT,B));
-NSAM_07_NAM('175_TOT',B) = SUM(A,NSAM_07_NAM(A,B));
-NSAM_07_NAM(A,B)$(NSAM_07_NAM(A,B) = 0) = eps ;
-DIFF_07_NAM(A,B) = NSAM_07_NAM(A,B) - SAM0_07_NAM(A,B) ;
-
-*============ LAM =======================================
-SAM.L(A,B)                           = SAM0(A,B,'08_LAM');
-SAM.LO(INT,JNT)                      = 0 ;
-SAM.UP(INT,JNT)                      = +INF ;
-SAM.FX(INT,JNT)$(NOT SAM0(INT,JNT,'08_LAM'))  = 0 ;
-OPT.L                                = 0;
-
-SAM.FX(WORLD1,C1)=SAM0(WORLD1,C1,'08_LAM');
-SAM.FX(C1,WORLD1)=SAM0(C1,WORLD1,'08_LAM');
-
-MODEL SAMBAL_LAM / OPTIMIZE_LAM, CONSTRAINT, CONSTRAINT1  /;
-OPTION NLP             = CONOPT3;
-OPTION iterlim = 99999;
-
-SOLVE SAMBAL_LAM USING NLP MINIMIZING OPT;
-
-PARAMETER
-NSAM(A,B) New (balanced) matrix;
-NSAM(INT,JNT)=SAM.L(INT,JNT);
-
-NSAM(INT,JNT)$(NEG(INT,JNT,'08_LAM')=1)=-NSAM(JNT,INT);
-NSAM(JNT,INT)$(NEG(INT,JNT,'08_LAM')=1)=0;
-NSAM(INT,JNT) = NSAM(INT,JNT)*TOTO('08_LAM');
-
-PARAMETER
-NSAM_08_LAM(A,B) New (balanced) matrix,
-DIFF_08_LAM(A,B) ;
-
-NSAM_08_LAM(A,B) = NSAM(A,B);
-NSAM_08_LAM(INT,'175_TOT') = SUM(B,NSAM_08_LAM(INT,B));
-NSAM_08_LAM('175_TOT',B) = SUM(A,NSAM_08_LAM(A,B));
-NSAM_08_LAM(A,B)$(NSAM_08_LAM(A,B) = 0) = eps ;
-DIFF_08_LAM(A,B) = NSAM_08_LAM(A,B) - SAM0_08_LAM(A,B) ;
-
-*============ WEU =======================================
-SAM.L(A,B)                           = SAM0(A,B,'09_WEU');
-SAM.LO(INT,JNT)                      = 0 ;
-SAM.UP(INT,JNT)                      = +INF ;
-SAM.FX(INT,JNT)$(NOT SAM0(INT,JNT,'09_WEU'))  = 0 ;
-OPT.L                                = 0;
-
-SAM.FX(WORLD1,C1)=SAM0(WORLD1,C1,'09_WEU');
-SAM.FX(C1,WORLD1)=SAM0(C1,WORLD1,'09_WEU');
-
-MODEL SAMBAL_WEU / OPTIMIZE_WEU, CONSTRAINT, CONSTRAINT1  /;
-OPTION NLP             = CONOPT3;
-OPTION iterlim = 99999;
-
-SOLVE SAMBAL_WEU USING NLP MINIMIZING OPT;
-
-PARAMETER
-NSAM(A,B) New (balanced) matrix;
-NSAM(INT,JNT)=SAM.L(INT,JNT);
-
-NSAM(INT,JNT)$(NEG(INT,JNT,'09_WEU')=1)=-NSAM(JNT,INT);
-NSAM(JNT,INT)$(NEG(INT,JNT,'09_WEU')=1)=0;
-NSAM(INT,JNT) = NSAM(INT,JNT)*TOTO('09_WEU');
-
-PARAMETER
-NSAM_09_WEU(A,B) New (balanced) matrix,
-DIFF_09_WEU(A,B) ;
-
-NSAM_09_WEU(A,B) = NSAM(A,B);
-NSAM_09_WEU(INT,'175_TOT') = SUM(B,NSAM_09_WEU(INT,B));
-NSAM_09_WEU('175_TOT',B) = SUM(A,NSAM_09_WEU(A,B));
-NSAM_09_WEU(A,B)$(NSAM_09_WEU(A,B) = 0) = eps ;
-DIFF_09_WEU(A,B) = NSAM_09_WEU(A,B) - SAM0_09_WEU(A,B) ;
-
-*============ EEU =======================================
-SAM.L(A,B)                           = SAM0(A,B,'10_EEU');
-SAM.LO(INT,JNT)                      = 0 ;
-SAM.UP(INT,JNT)                      = +INF ;
-SAM.FX(INT,JNT)$(NOT SAM0(INT,JNT,'10_EEU'))  = 0 ;
-OPT.L                                = 0;
-
-SAM.FX(WORLD1,C1)=SAM0(WORLD1,C1,'10_EEU');
-SAM.FX(C1,WORLD1)=SAM0(C1,WORLD1,'10_EEU');
-
-MODEL SAMBAL_EEU / OPTIMIZE_EEU, CONSTRAINT, CONSTRAINT1  /;
-OPTION NLP             = CONOPT3;
-OPTION iterlim = 99999;
-
-SOLVE SAMBAL_EEU USING NLP MINIMIZING OPT;
-
-PARAMETER
-NSAM(A,B) New (balanced) matrix;
-NSAM(INT,JNT)=SAM.L(INT,JNT);
-
-NSAM(INT,JNT)$(NEG(INT,JNT,'10_EEU')=1)=-NSAM(JNT,INT);
-NSAM(JNT,INT)$(NEG(INT,JNT,'10_EEU')=1)=0;
-NSAM(INT,JNT) = NSAM(INT,JNT)*TOTO('10_EEU');
-
-PARAMETER
-NSAM_10_EEU(A,B) New (balanced) matrix,
-DIFF_10_EEU(A,B) ;
-
-NSAM_10_EEU(A,B) = NSAM(A,B);
-NSAM_10_EEU(INT,'175_TOT') = SUM(B,NSAM_10_EEU(INT,B));
-NSAM_10_EEU('175_TOT',B) = SUM(A,NSAM_10_EEU(A,B));
-NSAM_10_EEU(A,B)$(NSAM_10_EEU(A,B) = 0) = eps ;
-DIFF_10_EEU(A,B) = NSAM_10_EEU(A,B) - SAM0_10_EEU(A,B) ;
-
-*============ FSU =======================================
-SAM.L(A,B)                           = SAM0(A,B,'11_FSU');
-SAM.LO(INT,JNT)                      = 0 ;
-SAM.UP(INT,JNT)                      = +INF ;
-SAM.FX(INT,JNT)$(NOT SAM0(INT,JNT,'11_FSU'))  = 0 ;
-OPT.L                                = 0;
-
-SAM.FX(WORLD1,C1)=SAM0(WORLD1,C1,'11_FSU');
-SAM.FX(C1,WORLD1)=SAM0(C1,WORLD1,'11_FSU');
-
-MODEL SAMBAL_FSU / OPTIMIZE_FSU, CONSTRAINT, CONSTRAINT1  /;
-OPTION NLP             = CONOPT3;
-OPTION iterlim = 99999;
-
-SOLVE SAMBAL_FSU USING NLP MINIMIZING OPT;
-
-PARAMETER
-NSAM(A,B) New (balanced) matrix;
-NSAM(INT,JNT)=SAM.L(INT,JNT);
-
-NSAM(INT,JNT)$(NEG(INT,JNT,'11_FSU')=1)=-NSAM(JNT,INT);
-NSAM(JNT,INT)$(NEG(INT,JNT,'11_FSU')=1)=0;
-NSAM(INT,JNT) = NSAM(INT,JNT)*TOTO('11_FSU');
-
-PARAMETER
-NSAM_11_FSU(A,B) New (balanced) matrix,
-DIFF_11_FSU(A,B) ;
-
-NSAM_11_FSU(A,B) = NSAM(A,B);
-NSAM_11_FSU(INT,'175_TOT') = SUM(B,NSAM_11_FSU(INT,B));
-NSAM_11_FSU('175_TOT',B) = SUM(A,NSAM_11_FSU(A,B));
-NSAM_11_FSU(A,B)$(NSAM_11_FSU(A,B) = 0) = eps ;
-DIFF_11_FSU(A,B) = NSAM_11_FSU(A,B) - SAM0_11_FSU(A,B) ;
-
-*============ MEA =======================================
-SAM.L(A,B)                           = SAM0(A,B,'12_MEA');
-SAM.LO(INT,JNT)                      = 0 ;
-SAM.UP(INT,JNT)                      = +INF ;
-SAM.FX(INT,JNT)$(NOT SAM0(INT,JNT,'12_MEA'))  = 0 ;
-OPT.L                                = 0;
-
-SAM.FX(WORLD1,C1)=SAM0(WORLD1,C1,'12_MEA');
-SAM.FX(C1,WORLD1)=SAM0(C1,WORLD1,'12_MEA');
-
-MODEL SAMBAL_MEA / OPTIMIZE_MEA, CONSTRAINT, CONSTRAINT1  /;
-OPTION NLP             = CONOPT3;
-OPTION iterlim = 99999;
-
-SOLVE SAMBAL_MEA USING NLP MINIMIZING OPT;
-
-PARAMETER
-NSAM(A,B) New (balanced) matrix;
-NSAM(INT,JNT)=SAM.L(INT,JNT);
-
-NSAM(INT,JNT)$(NEG(INT,JNT,'12_MEA')=1)=-NSAM(JNT,INT);
-NSAM(JNT,INT)$(NEG(INT,JNT,'12_MEA')=1)=0;
-NSAM(INT,JNT) = NSAM(INT,JNT)*TOTO('12_MEA');
-
-PARAMETER
-NSAM_12_MEA(A,B) New (balanced) matrix,
-DIFF_12_MEA(A,B) ;
-
-NSAM_12_MEA(A,B) = NSAM(A,B);
-NSAM_12_MEA(INT,'175_TOT') = SUM(B,NSAM_12_MEA(INT,B));
-NSAM_12_MEA('175_TOT',B) = SUM(A,NSAM_12_MEA(A,B));
-NSAM_12_MEA(A,B)$(NSAM_12_MEA(A,B) = 0) = eps ;
-DIFF_12_MEA(A,B) = NSAM_12_MEA(A,B) - SAM0_12_MEA(A,B) ;
-
-*============ AFR =======================================
-SAM.L(A,B)                           = SAM0(A,B,'13_AFR');
-SAM.LO(INT,JNT)                      = 0 ;
-SAM.UP(INT,JNT)                      = +INF ;
-SAM.FX(INT,JNT)$(NOT SAM0(INT,JNT,'13_AFR'))  = 0 ;
-OPT.L                                = 0;
-
-SAM.FX(WORLD1,C1)=SAM0(WORLD1,C1,'13_AFR');
-SAM.FX(C1,WORLD1)=SAM0(C1,WORLD1,'13_AFR');
-
-MODEL SAMBAL_AFR / OPTIMIZE_AFR, CONSTRAINT, CONSTRAINT1  /;
-OPTION NLP             = CONOPT3;
-OPTION iterlim = 99999;
-
-SOLVE SAMBAL_AFR USING NLP MINIMIZING OPT;
-
-PARAMETER
-NSAM(A,B) New (balanced) matrix;
-NSAM(INT,JNT)=SAM.L(INT,JNT);
-
-NSAM(INT,JNT)$(NEG(INT,JNT,'13_AFR')=1)=-NSAM(JNT,INT);
-NSAM(JNT,INT)$(NEG(INT,JNT,'13_AFR')=1)=0;
-NSAM(INT,JNT) = NSAM(INT,JNT)*TOTO('13_AFR');
-
-PARAMETER
-NSAM_13_AFR(A,B) New (balanced) matrix,
-DIFF_13_AFR(A,B) ;
-
-NSAM_13_AFR(A,B) = NSAM(A,B);
-NSAM_13_AFR(INT,'175_TOT') = SUM(B,NSAM_13_AFR(INT,B));
-NSAM_13_AFR('175_TOT',B) = SUM(A,NSAM_13_AFR(A,B));
-NSAM_13_AFR(A,B)$(NSAM_13_AFR(A,B) = 0) = eps ;
-DIFF_13_AFR(A,B) = NSAM_13_AFR(A,B) - SAM0_13_AFR(A,B) ;
-
-*============ CPA =======================================
-SAM.L(A,B)                           = SAM0(A,B,'14_CPA');
-SAM.LO(INT,JNT)                      = 0 ;
-SAM.UP(INT,JNT)                      = +INF ;
-SAM.FX(INT,JNT)$(NOT SAM0(INT,JNT,'14_CPA'))  = 0 ;
-OPT.L                                = 0;
-
-SAM.FX(WORLD1,C1)=SAM0(WORLD1,C1,'14_CPA');
-SAM.FX(C1,WORLD1)=SAM0(C1,WORLD1,'14_CPA');
-
-MODEL SAMBAL_CPA / OPTIMIZE_CPA, CONSTRAINT, CONSTRAINT1  /;
-OPTION NLP             = CONOPT3;
-OPTION iterlim = 99999;
-
-SOLVE SAMBAL_CPA USING NLP MINIMIZING OPT;
-
-PARAMETER
-NSAM(A,B) New (balanced) matrix;
-NSAM(INT,JNT)=SAM.L(INT,JNT);
-
-NSAM(INT,JNT)$(NEG(INT,JNT,'14_CPA')=1)=-NSAM(JNT,INT);
-NSAM(JNT,INT)$(NEG(INT,JNT,'14_CPA')=1)=0;
-NSAM(INT,JNT) = NSAM(INT,JNT)*TOTO('14_CPA');
-
-PARAMETER
-NSAM_14_CPA(A,B) New (balanced) matrix,
-DIFF_14_CPA(A,B) ;
-
-NSAM_14_CPA(A,B) = NSAM(A,B);
-NSAM_14_CPA(INT,'175_TOT') = SUM(B,NSAM_14_CPA(INT,B));
-NSAM_14_CPA('175_TOT',B) = SUM(A,NSAM_14_CPA(A,B));
-NSAM_14_CPA(A,B)$(NSAM_14_CPA(A,B) = 0) = eps ;
-DIFF_14_CPA(A,B) = NSAM_14_CPA(A,B) - SAM0_14_CPA(A,B) ;
-
-*============ SAS =======================================
-SAM.L(A,B)                           = SAM0(A,B,'15_SAS');
-SAM.LO(INT,JNT)                      = 0 ;
-SAM.UP(INT,JNT)                      = +INF ;
-SAM.FX(INT,JNT)$(NOT SAM0(INT,JNT,'15_SAS'))  = 0 ;
-OPT.L                                = 0;
-
-SAM.FX(WORLD1,C1)=SAM0(WORLD1,C1,'15_SAS');
-SAM.FX(C1,WORLD1)=SAM0(C1,WORLD1,'15_SAS');
-
-MODEL SAMBAL_SAS / OPTIMIZE_SAS, CONSTRAINT, CONSTRAINT1  /;
-OPTION NLP             = CONOPT3;
-OPTION iterlim = 99999;
-
-SOLVE SAMBAL_SAS USING NLP MINIMIZING OPT;
-
-PARAMETER
-NSAM(A,B) New (balanced) matrix;
-NSAM(INT,JNT)=SAM.L(INT,JNT);
-
-NSAM(INT,JNT)$(NEG(INT,JNT,'15_SAS')=1)=-NSAM(JNT,INT);
-NSAM(JNT,INT)$(NEG(INT,JNT,'15_SAS')=1)=0;
-NSAM(INT,JNT) = NSAM(INT,JNT)*TOTO('15_SAS');
-
-PARAMETER
-NSAM_15_SAS(A,B) New (balanced) matrix,
-DIFF_15_SAS(A,B) ;
-
-NSAM_15_SAS(A,B) = NSAM(A,B);
-NSAM_15_SAS(INT,'175_TOT') = SUM(B,NSAM_15_SAS(INT,B));
-NSAM_15_SAS('175_TOT',B) = SUM(A,NSAM_15_SAS(A,B));
-NSAM_15_SAS(A,B)$(NSAM_15_SAS(A,B) = 0) = eps ;
-DIFF_15_SAS(A,B) = NSAM_15_SAS(A,B) - SAM0_15_SAS(A,B) ;
-
-*============ PAS =======================================
-SAM.L(A,B)                           = SAM0(A,B,'16_PAS');
-SAM.LO(INT,JNT)                      = 0 ;
-SAM.UP(INT,JNT)                      = +INF ;
-SAM.FX(INT,JNT)$(NOT SAM0(INT,JNT,'16_PAS'))  = 0 ;
-OPT.L                                = 0;
-
-SAM.FX(WORLD1,C1)=SAM0(WORLD1,C1,'16_PAS');
-SAM.FX(C1,WORLD1)=SAM0(C1,WORLD1,'16_PAS');
-
-MODEL SAMBAL_PAS / OPTIMIZE_PAS, CONSTRAINT, CONSTRAINT1  /;
-OPTION NLP             = CONOPT3;
-OPTION iterlim = 99999;
-
-SOLVE SAMBAL_PAS USING NLP MINIMIZING OPT;
-
-PARAMETER
-NSAM(A,B) New (balanced) matrix;
-NSAM(INT,JNT)=SAM.L(INT,JNT);
-
-NSAM(INT,JNT)$(NEG(INT,JNT,'16_PAS')=1)=-NSAM(JNT,INT);
-NSAM(JNT,INT)$(NEG(INT,JNT,'16_PAS')=1)=0;
-NSAM(INT,JNT) = NSAM(INT,JNT)*TOTO('16_PAS');
-
-PARAMETER
-NSAM_16_PAS(A,B) New (balanced) matrix,
-DIFF_16_PAS(A,B) ;
-NSAM_16_PAS(A,B) = NSAM(A,B);
-NSAM_16_PAS(INT,'175_TOT') = SUM(B,NSAM_16_PAS(INT,B));
-NSAM_16_PAS('175_TOT',B) = SUM(A,NSAM_16_PAS(A,B));
-NSAM_16_PAS(A,B)$(NSAM_16_PAS(A,B) = 0) = eps ;
-DIFF_16_PAS(A,B) = NSAM_16_PAS(A,B) - SAM0_16_PAS(A,B) ;
-
-*============ PAO =======================================
-SAM.L(A,B)                           = SAM0(A,B,'17_PAO');
-SAM.LO(INT,JNT)                      = 0 ;
-SAM.UP(INT,JNT)                      = +INF ;
-SAM.FX(INT,JNT)$(NOT SAM0(INT,JNT,'17_PAO'))  = 0 ;
-OPT.L                                = 0;
-
-SAM.FX(WORLD1,C1)=SAM0(WORLD1,C1,'17_PAO');
-SAM.FX(C1,WORLD1)=SAM0(C1,WORLD1,'17_PAO');
-
-MODEL SAMBAL_PAO / OPTIMIZE_PAO, CONSTRAINT, CONSTRAINT1  /;
-OPTION NLP             = CONOPT3;
-OPTION iterlim = 99999;
-
-SOLVE SAMBAL_PAO USING NLP MINIMIZING OPT;
-
-PARAMETER
-NSAM(A,B) New (balanced) matrix;
-NSAM(INT,JNT)=SAM.L(INT,JNT);
-
-NSAM(INT,JNT)$(NEG(INT,JNT,'17_PAO')=1)=-NSAM(JNT,INT);
-NSAM(JNT,INT)$(NEG(INT,JNT,'17_PAO')=1)=0;
-NSAM(INT,JNT) = NSAM(INT,JNT)*TOTO('17_PAO');
-
-PARAMETER
-NSAM_17_PAO(A,B) New (balanced) matrix,
-DIFF_17_PAO(A,B) ;
-
-NSAM_17_PAO(A,B) = NSAM(A,B);
-NSAM_17_PAO(INT,'175_TOT') = SUM(B,NSAM_17_PAO(INT,B));
-NSAM_17_PAO('175_TOT',B) = SUM(A,NSAM_17_PAO(A,B));
-NSAM_17_PAO(A,B)$(NSAM_17_PAO(A,B) = 0) = eps ;
-DIFF_17_PAO(A,B) = NSAM_17_PAO(A,B) - SAM0_17_PAO(A,B) ;
-
+SAM1(A,B,Z)  = SAM0(A,B,z) ;
+SAM1_01_KOR(A,B) = SAM0(A,B,'01_KOR');
+SAM1_02_CHN(A,B) = SAM0(A,B,'02_CHN');
+SAM1_03_JPN(A,B) = SAM0(A,B,'03_JPN');
+SAM1_04_RUS(A,B) = SAM0(A,B,'04_RUS');
+SAM1_05_MNG(A,B) = SAM0(A,B,'05_MNG');
+*SAM1_06_PRK(A,B) = SAM0(A,B,'06_PRK');
+SAM1_07_NAM(A,B) = SAM0(A,B,'07_NAM');
+SAM1_08_LAM(A,B) = SAM0(A,B,'08_LAM');
+SAM1_09_WEU(A,B) = SAM0(A,B,'09_WEU');
+SAM1_10_EEU(A,B) = SAM0(A,B,'10_EEU');
+SAM1_11_FSU(A,B) = SAM0(A,B,'11_FSU');
+SAM1_12_MEA(A,B) = SAM0(A,B,'12_MEA');
+SAM1_13_AFR(A,B) = SAM0(A,B,'13_AFR');
+SAM1_14_CPA(A,B) = SAM0(A,B,'14_CPA');
+SAM1_15_SAS(A,B) = SAM0(A,B,'15_SAS');
+SAM1_16_PAS(A,B) = SAM0(A,B,'16_PAS');
+SAM1_17_PAO(A,B) = SAM0(A,B,'17_PAO');
+
+*Balanced PRK SAM using SAMBAL (GEMPACK)
+$call gdxxrw Input_w-t\PRK_SAM.xlsx @Input_w-t\PRK_SAM.txt output = Input_w-t\PRK_SAM.gdx 
+$gdxIn Input_w-t\PRK_SAM.gdx
+$load SAM1_06_PRK
+
+SAM1(A,B,'06_PRK') = SAM1_06_PRK(A,B);
 
 execute_unload "SAM_BAL",
-NSAM_01_KOR, NSAM_02_CHN, NSAM_03_JPN, NSAM_04_RUS, NSAM_05_MNG, NSAM_06_PRK, 
-NSAM_07_NAM, NSAM_08_LAM, NSAM_09_WEU, NSAM_10_EEU, NSAM_11_FSU, NSAM_12_MEA, 
-NSAM_13_AFR, NSAM_14_CPA, NSAM_15_SAS, NSAM_16_PAS, NSAM_17_PAO ;
-
+SAM1_01_KOR, SAM1_02_CHN, SAM1_03_JPN, SAM1_04_RUS, SAM1_05_MNG, SAM1_06_PRK,
+SAM1_07_NAM, SAM1_08_LAM, SAM1_09_WEU, SAM1_10_EEU, SAM1_11_FSU, SAM1_12_MEA,
+SAM1_13_AFR, SAM1_14_CPA, SAM1_15_SAS, SAM1_16_PAS, SAM1_17_PAO
+;

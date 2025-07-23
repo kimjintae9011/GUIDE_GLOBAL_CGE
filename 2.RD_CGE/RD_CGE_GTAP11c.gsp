@@ -70,12 +70,6 @@
         },
         {
             "codecMib": 106,
-            "file": "CAL_B_line_GTAP11c_new.lst",
-            "name": "CAL_B_line_GTAP11c_new.lst",
-            "type": "lst"
-        },
-        {
-            "codecMib": 106,
             "file": "DATA_CO2coef.gms",
             "name": "DATA_CO2coef.gms",
             "type": "gms"
