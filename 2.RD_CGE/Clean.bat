@@ -5,6 +5,7 @@ del *.lxi
 del *.bak
 del *.log~*
 del *.gdx
+del *.inc
 
 
 

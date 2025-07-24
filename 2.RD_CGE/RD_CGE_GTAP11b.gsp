@@ -4,18 +4,6 @@
     "nodes": [
         {
             "codecMib": 106,
-            "file": "Input_w-t/GTAP11_basedata2019.gdx",
-            "name": "GTAP11_basedata2019.gdx",
-            "type": "gdx"
-        },
-        {
-            "codecMib": 106,
-            "file": "Input_w-t/DATA_AGG-2019_GTAP11b.gdx",
-            "name": "DATA_AGG-2019_GTAP11b.gdx",
-            "type": "gdx"
-        },
-        {
-            "codecMib": 106,
             "file": "Input_w-t/PAR.gdx",
             "name": "PAR.gdx",
             "type": "gdx"

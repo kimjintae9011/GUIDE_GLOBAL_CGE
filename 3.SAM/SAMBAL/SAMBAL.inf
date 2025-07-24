@@ -1,0 +1,444 @@
+
+    TTTTTTTTTT  AAAAAAAAAA   BBBBBBB      LLLL        OOOOOOOOOO
+    TTTTTTTTTT  AAA    AAA   BBBBBBBBB    LLLL        OOOOOOOOOO
+       TTT      AAA    AAA   BBB    BBB   LLLL        OOO    OOO
+       TTT      AAA    AAA   BBB  BBB     LLLL        OOO    OOO
+       TTT      AAAAAAAAAA   BBBBBBB      LLLL        OOO    OOO
+       TTT      AAAAAAAAAA   BBB  BBB     LLLL        OOO    OOO
+       TTT      AAA    AAA   BBB    BBB   LLLL        OOO    OOO
+       TTT      AAA    AAA   BBBBBBBBB    LLLLLLLLL   OOOOOOOOOO
+       TTT      AAA    AAA   BBBBBBB      LLLLLLLLL   OOOOOOOOOO
+
+ <TABLO  Version 7.0   August 2018>                                    
+
+
+
+
+
+                     GEMPACK SOFTWARE
+     << COPYRIGHT 1987-2018:  The Impact Project and KPSOFT >>
+   
+   
+
+    +++  INFORMATION ABOUT THIS PRINT FILE  +++
+   
+
+ ! This file was created at 16:37:43 on 24-JUL-2025 by the program
+ !  <TABLO  Version 7.0   August 2018>
+ ! which accesses some of the routines in the GEMPACK software release
+ !  <GEMPACK Release 12.1.004   January 2020>
+ 
+ !     -------------------------------------------------------                
+ !    !            GEMPACK Software System Licence            !               
+ !    !  Source Code Licence for the GEMPACK Software System  !               
+ !    !                 Licence No.  GFM-1944                 !               
+ !    !          Licence for Release 12.1 of GEMPACK          !               
+ !    ! Laboratory for Sustainable Economy and Policy (LSEP)  !               
+ !    !    Graduate School of Environmental Studies (GSES)    !               
+ !    !               Seoul National University               !               
+ !     -------------------------------------------------------                
+    
+
+    +++  END OF INFORMATION ABOUT THIS PRINT FILE  +++
+
+ ======================================================
+           TABLO PORTABLE   
+ ++> TABLO OPTIONS   ( --> indicates those in effect )
+ ======================================================
+
+
+
+      -----------                   ----------
+  --> F1 CHECK                      L1 CHECK
+      F2 CONDENSATION               L2 CONDENSATION
+      F3 CODE GENERATION        --> L3 CODE GENERATION
+      Mode
+      ----
+      INTERACTIVE
+      BATCH
+  --> UNSPECIFIED
+
+
+ ==================================================
+ ++> TABLO Input file is 'SAMBAL.tab'
+ ++> This Information file is 'SAMBAL'
+ ==================================================
+
+
+
+ ******************************************************************************
+ -1-
+ -->                     Starting CHECK stage
+
+ ******************************************************************************
+
+
+      1   ! TABLO program to balance a square SAM!
+      2   ! Mark Horridge October 2003 !
+      3   ! Revised to use levels notation May 2008 !
+      4    
+      5   ! SAM BALANCING PROGRAM FOR SQUARE SAMS
+      6     Adjusts original matrix SAM(row,col)
+      7     with scaling factors or multipliers MULT(i)
+      8     so that   new SAM(row,col) = old SAM(row,col)*MULT(row)/MULT(col)
+      9     and       Row totals of new SAM = Col totals of new SAM
+     10   Also allows selected row or col totals to be held to specific values
+     11    
+     12   More explanations are in the accompanying files README.TXT and SAMBAL.DOC. !
+     13    
+     14   ! These statements put GEMPACK into 'levels' mode !
+     15   Variable    (default=levels);
+     16   Variable    (default=change);
+     17   Equation    (default=levels);
+     18   Formula     (default=initial);
+     19   Coefficient (default=parameter);
+     20    
+     21   File INFILE # The original SAM #; ! the update file will contain new SAM !
+     22    
+     23   Set ACC # SAM accounts # read elements from file INFILE header "ACC";
+     24    
+     25   Variable (percent_change) ! so % variable will be p_SAM. We prefer % here
+     26   because scaling rule is expressed in proportional terms !
+     27    (all,r,ACC)(all,c,ACC) SAM(r,c) # Social Accounting Matrix #;
+     28   Read SAM from file INFILE header "SAM0";
+     29    
+     30   ! Compute row-col differences in levels and in changes !
+     31   Variable
+     32    (all,r,ACC) ROWTOT(r) # Current row total #;
+     33    (all,c,ACC) COLTOT(c) # Current col total #;
+     34    (all,a,ACC) DIFF(a)   # Imbalance = ROWTOT-COLTOT#;
+     35   Formula&Equation
+     36   E_ROWTOT (all,r,ACC) ROWTOT(r) = sum{c,ACC, SAM(r,c)};
+       !  EQUATION(LINEAR) E_ROWTOT
+          (ALL,r,ACC) c_ROWTOT(r) = SUM(c,ACC,SAM(r,c) / 100.0  * p_SAM(r,c))
+
+           ;  ! 
+
+     37   Formula&Equation
+     38   E_COLTOT (all,c,ACC) COLTOT(c) = sum{r,ACC, SAM(r,c)};
+       !  EQUATION(LINEAR) E_COLTOT
+          (ALL,c,ACC) c_COLTOT(c) = SUM(r,ACC,SAM(r,c) / 100.0  * p_SAM(r,c))
+
+           ;  ! 
+
+     39   Formula&Equation
+     40   E_DIFF   (all,a,ACC) DIFF(a)   = ROWTOT(a) - COLTOT(a);
+       !  EQUATION(LINEAR) E_DIFF
+          (ALL,a,ACC) c_DIFF(a) = c_ROWTOT(a) - c_COLTOT(a) ;  ! 
+
+     41    
+     42   Coefficient (all,r,ACC)(all,c,ACC) Z(r,c) # Error weights #;
+     43   Formula     (all,r,ACC)(all,c,ACC) Z(r,c) = 1.0;
+     44   ! Z is a parameter you can use to hold particular SAM cells fixed, or to force
+     45     some cells to vary more than others. If Z(r,c)=0, SAM(r,c) will not change.
+     46     If Z(r,c)=0.5, SAM(r,c) will change less than other cells with Z=1.0.
+     47     But be warned -- the more cells you hold fixed, the greater the changes
+     48     needed in other cells !
+     49    
+     50   ! Next equation:
+     51    (i)   causes zero SAM cells to remain zero [pSAM(r,c) = 0]
+     52    (ii)  causes +ve  SAM cells to be scaled by a factor [MULT(r)/MULT(c)]
+     53    (iii) causes -ve  SAM cells to be scaled by a factor [MULT(c)/MULT(r)] !
+     54   Coefficient (all,r,ACC)(all,c,ACC) ZZ(r,c) # Sign-adjusted error weights #;
+     55   Formula     (all,r,ACC)(all,c,ACC) ZZ(r,c) = if (SAM(r,c)>0, +Z(r,c))
+     56                                              + if (SAM(r,c)<0, -Z(r,c));
+     57   Variable
+     58   (linear, percent_change) (all,a,ACC) mult(a)
+     59                      # Percent change in Multipliers (initial value = 1) #;
+     60   (linear, percent_change) (all,a,ACC) fmult(a)
+     61                      # Slack to allow extra constraint #;
+     62   (linear, percent_change) (all,r,ACC)(all,c,ACC) fsam(r,c)
+     63                      # Slack to allow extra constraint #;
+     64   Equation (linear) E_p_SAM (all,r,ACC)(all,c,ACC)
+     65      p_SAM(r,c) =   ZZ(r,c)*[mult(r) - mult(c) + fmult(r) + fmult(c)+fsam(r,c)];
+     66   !Substitute p_SAM using E_p_SAM;!
+     67   ! The additional fmult scale, normally exogenous and zero, could be freed
+     68     to accomodate an additional rowsum (=colsum) constraint. For example, we
+     69     might wish to set the total size of government spending. !
+     70    
+     71   ! Since each cell is scaled by MULT(r)/MULT(c)
+     72     doubling all MULT would yield the same revised SAM.
+     73     To determine the average absolute size of the MULT
+     74     we need an additional normalization rule, for example:!
+     75   Equation (linear) E_slack
+     76      sum{r,ACC,sum{c,ACC, ABS[SAM(r,c)]*[mult(r)+mult(c)]}} = 0;
+     77   ! The form of the normalization rule affects the average absolute size of the
+     78   MULTs, but does not affect the final updated SAM. !
+     79    
+     80   ! For empty SAM rows or columns, the multiplier would be undetermined.
+     81     So multiplier must be set to zero change for these "inactive" accounts. !
+     82   Set INACTIVE = (all,a,ACC: [sum{c,ACC, ABS[SAM(a,c)]}=0]
+     83                           or [sum{r,ACC, ABS[SAM(r,a)]}=0]);
+     84   Equation (linear) E_multA (all,a,INACTIVE)  mult(a) = 0;
+     85    
+     86   !  We wish to shock the DIFF terms to zero -- but there is a difficulty.
+     87      Sum of all ROWTOTs = matrix total = sum of all COLTOTs
+     88      Therefore, sum of DIFFs is necessarily zero
+     89        -- so we cannot independently shock all DIFF elements.
+     90      To get round the problem, we construct an ancillary exogenous variable
+     91      ShockDiff, which is equal to DIFF plus an endogenous slack variable.
+     92      We will shock ShockDiff by the desired change in DIFF (slack should turn out
+     93      to be zero or tiny). !
+     94   Set ACTIVE   =  ACC - INACTIVE;
+     95   Variable
+     96   (linear, orig_level=DIFF) (all,a,ACC) ShockDiff(a)  # variable to shock #;
+     97   (linear) slack # Slack variable to accommodate not-quite-independent shocks #;
+     98   Equation
+     99    (linear) E_multB (all,a,ACTIVE)  c_Diff(a) = ShockDiff(a)  + slack;
+    100    
+
+
+
+
+ ========================
+ ++ INPUT STATEMENT TABLE
+ ========================
+
+          Starts   Syntax  Semantic
+  Number  at line  Error?   Error?            Description
+  ------------------------------------------------------------
+     1        21     no       no      FILE 'INFILE'                           
+     2        23     no       no      SET 'ACC'                               
+     3        25     no       no      VARIABLE 'p_SAM'                        
+     4        25     no       no      COEFFICIENT 'SAM'                       
+     5        28     no       no      READ into 'SAM'                         
+     6        31     no       no      VARIABLE 'c_ROWTOT'                     
+     7        31     no       no      COEFFICIENT 'ROWTOT'                    
+     8        33     no       no      VARIABLE 'c_COLTOT'                     
+     9        33     no       no      COEFFICIENT 'COLTOT'                    
+    10        34     no       no      VARIABLE 'c_DIFF'                       
+    11        34     no       no      COEFFICIENT 'DIFF'                      
+    12        35     no       no      Formula for 'ROWTOT'                    
+    13        35     no       no      EQUATION 'E_ROWTOT'                     
+    14        37     no       no      Formula for 'COLTOT'                    
+    15        37     no       no      EQUATION 'E_COLTOT'                     
+    16        39     no       no      Formula for 'DIFF'                      
+    17        39     no       no      EQUATION 'E_DIFF'                       
+    18        42     no       no      COEFFICIENT 'Z'                         
+    19        43     no       no      Formula for 'Z'                         
+    20        54     no       no      COEFFICIENT 'ZZ'                        
+    21        55     no       no      Formula for 'ZZ'                        
+    22        57     no       no      VARIABLE 'mult'                         
+    23        60     no       no      VARIABLE 'fmult'                        
+    24        62     no       no      VARIABLE 'fsam'                         
+    25        64     no       no      EQUATION 'E_p_SAM'                      
+    26        75     no       no      EQUATION 'E_slack'                      
+    27        82     no       no      SET 'INACTIVE'                          
+    28        82     no       no      Formula for Set 'INACTIVE'              
+    29        82     no       no      SUBSET 1 'INACTIVE' of 'ACC'            
+    30        84     no       no      EQUATION 'E_multA'                      
+    31        94     no       no      SET 'ACTIVE'                            
+    32        94     no       no      SUBSET 2 'ACTIVE' of 'ACC'              
+    33        95     no       no      VARIABLE 'ShockDiff'                    
+    34        97     no       no      VARIABLE 'slack'                        
+    35        98     no       no      EQUATION 'E_multB'                      
+    36         0     no       no      UPDATE of 'SAM'                         
+    37         0     no       no      UPDATE of 'ROWTOT'                      
+    38         0     no       no      UPDATE of 'COLTOT'                      
+    39         0     no       no      UPDATE of 'DIFF'                        
+
+
+
+
+ ============
+ ++ SET TABLE
+ ============
+
+                    Defined   [Max] Inter             Set numbers this
+  Number    Name    at line    Size temp? Elements    is subset of
+  ---------------------------------------------------------------------
+     1  ACC            23 [       0]  no   read 
+     2  INACTIVE       82 [       0]  no   other     1
+     3  ACTIVE         94 [       0]  no   other     1
+
+
+
+
+ ===============
+ ++ SUBSET TABLE
+ ===============
+
+  Number  Lt Set  Lt Set        Big set  Big set
+          number  name          number   name   
+  ---------------------------------------------------
+       1       2  INACTIVE            1  ACC         
+       2       3  ACTIVE              1  ACC         
+
+
+
+
+ =============
+ ++ FILE TABLE
+ =============
+
+         Logical            Defined  File  File
+  Number  Name              at line  Type  Form  Actual name (if given)
+  --------------------------------------------------------------------
+     1  INFILE                  21    old  head
+
+
+
+
+ =================
+ ++ VARIABLE TABLE
+ =================
+
+                        Defined  No            Arguments range
+  Number    Name        at line  Args Type     over sets numbered
+  ------------------------------------------------------------
+     1   p_SAM              25     2  perc       1     1
+     2   c_ROWTOT           31     1  chng       1
+     3   c_COLTOT           33     1  chng       1
+     4   c_DIFF             34     1  chng       1
+     5   mult               57     1  perc       1
+     6   fmult              60     1  perc       1
+     7   fsam               62     2  perc       1     1
+     8   ShockDiff          95     1  chng       1
+     9   slack              97     0  chng
+
+
+
+
+ ====================
+ ++ COEFFICIENT TABLE
+ ====================
+
+                        Defined  No            Arguments range
+  Number    Name        at line  Args Type     over sets numbered
+  ------------------------------------------------------------
+     1    SAM               25     2  real       1     1
+     2    ROWTOT            31     1  real       1
+     3    COLTOT            33     1  real       1
+     4    DIFF              34     1  real       1
+     5    Z                 42     2  real       1     1
+     6    ZZ                54     2  real       1     1
+
+
+
+
+ =================
+ ++ EQUATION TABLE
+ =================
+
+           Defined     Semantic                        ALL quantifiers range
+  Number   at line      Error?   Equation name         over sets numbered
+  --------------------------------------------------------------------------
+     1          35       no      E_ROWTOT                   1
+     2          37       no      E_COLTOT                   1
+     3          39       no      E_DIFF                     1
+     4          64       no      E_p_SAM                    1     1
+     5          75       no      E_slack             
+     6          84       no      E_multA                    2
+     7          98       no      E_multB                    3
+
+
+
+
+ ================
+ ++ FORMULA TABLE
+ ================
+
+           Defined   Semantic      LHS                RHS
+  Number   at line    Error?    coefficient       coefficient numbers
+  -------------------------------------------------------------------
+     1          35     no      ROWTOT             1
+     2          37     no      COLTOT             1
+     3          39     no      DIFF               2     3
+     4          43     no      Z           
+     5          55     no      ZZ                 1     5
+     6          82     no      Fm for Set         1
+
+
+
+
+ ===============
+ ++ UPDATE TABLE
+ ===============
+
+           Defined   Semantic    Updated         RHS coeff/var nos
+  Number   at line    Error?    coefficient       (vars are negative)
+  -------------------------------------------------------------------
+     1           0     no      SAM                1    -1
+     2           0     no      ROWTOT             2    -2
+     3           0     no      COLTOT             3    -3
+     4           0     no      DIFF               4    -4
+
+
+
+
+ =============
+ ++ READ TABLE
+ =============
+
+           Defined    Semantic  Coefficient   File number
+  Number   at line     Error?    read into     read from   Header
+  ---------------------------------------------------------------
+     1         28       no      SAM                 1       SAM0
+
+
+   
+ ======================
+ ++ INPUT CHECK SUMMARY
+ ======================
+
+ Total number of statements is 39.
+ There are NO syntax errors or semantic problems.
+
+
+ ******************************************************************************
+ -3-
+ -->                     Starting CODE GENERATION
+
+ ******************************************************************************
+
+
+
+  CODE OPTIONS CHOSEN
+  -------------------
+
+
+                         TABLO PORTABLE
+               CODE OPTIONS   ( --> indicates those in effect )
+
+      NEQ Do no equations       --> PGS Prepare output for GEMSIM
+      NDS Do no displays            WFP Write a Fortran Program
+      NWR Do no writes                    (i.e. a TABLO-generated program)
+                                --> FC5 Fast Compile TG-prog under LF95
+      ACC All comment lines in      NMS Don't allow simulations
+             code
+                                    CIN Code file name same as
+                                          Information file name
+                                    CDM Old option. Has no effect.
+                                    NRZ No run-time reports re use of
+                                           ZERODIVIDE default values
+                                    NXS No "extra" statements allowed
+
+  Select an option   :  <opt>      Deselect an option      : -<opt>
+  Help for an option : ?<opt>      Help on all options     : ??
+  Redisplay options  : /           Finish option selection : Carriage return
+
+  END OF CODE OPTIONS CHOSEN
+  --------------------------
+  
+
+ When used with GEMSIM, the GEMSIM Statement
+  and Table files produced in this run of TABLO
+     o can create the Equations file
+     o can carry out multi-step simulations
+
+ MXGSRS = 9, MXGSIS = 9.
+ MXGSLG = 3, MXGSIC = 2.
+
+ MXGSOP = 42, MXGSIN = 83.
+ MXGSRC = 1, MXGSNS=2.
+! (Model Information file is 'SAMBAL.min'.)
+
+ *******************************************************************
+ Successful completion of TABLO.
+
+ When used with GEMSIM, the GEMSIM Statement 
+  and Table files produced in this run of TABLO
+     o can create the Equations file
+     o can carry out multi-step simulations
+
+ *******************************************************************

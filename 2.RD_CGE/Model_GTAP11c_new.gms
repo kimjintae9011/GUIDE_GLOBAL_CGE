@@ -484,19 +484,26 @@ Alias (ene7, enee7)
 ;
 
 *==============================================================================
+* Scalar
+*==============================================================================
+*scalar solar_growth solar ;
+*scalar solar_growth / 0.04823 /;
+
+*==============================================================================
 * Parameters
 *==============================================================================
 PARAMETER
- A_K(z)                       Scale parameter (investment function)
- aij(i,j,z)                   Input output coefficient
- aij2(i,j,z)                  Input output coefficient (intermediate energy)
+ A_K(z)                        Scale parameter (investment function)
+ aij(i,j,z)                       Input output coefficient
+ aij2(i,j,z)                     Input output coefficient (intermediate energy)
  B_KD(j,z)                    Scale parameter (CES - composite capital)
  B_LD(j,z)                    Scale parameter (CES - composite labor)
  B_M1(i,z)                    Scale parameter (CES - composite commodity)
  B_M2(i,z)                    Scale parameter (CES - composite import)
  B_VA(j,z)                    Scale parameter (CES - value added)
- B_KLE(j,z)                   Scale parameter (CES - composite KLE)
- B_ENER(j,z)                  Scale parameter (CES - composite ENER)
+ B_VA_t(j,z,time)          Scale parameter (CES - value added)
+ B_KLE(j,z)                  Scale parameter (CES - composite KLE)
+ B_ENER(j,z)                Scale parameter (CES - composite ENER)
  B_ENER_t(j,z,time)           Scale parameter (CES - composite ENER)
  B_ENER2(j,z)                 Scale parameter (CES - composite ENER)
  B_ENER3(j,z)                 Scale parameter (CES - composite ENER)
@@ -809,12 +816,12 @@ $LOAD sigma_KD, sigma_LD, sigma_X1, sigma_X2, sigma_X3, sigma_X0, sigma_y, sigma
 
 * CES - composite ENER
  sigma_ENER(j,z)              = 1.1 ;
-* sigma_ENER2(j2,z)            = 1.1 ;
- sigma_ENER2(j2,z)            = 0.5;
- sigma_ENER3(j2,z)            = 1.1 ;
- sigma_ENER4(j2,z)            = 2.0 ;
- sigma_ENER5_1(j2,z)          = 2.0 ;
- sigma_ENER5_2(j2,z)          = 2.0 ;
+ sigma_ENER2(j2,z)           = 1.1 ;
+* sigma_ENER2(j2,z)          = 0.5;
+ sigma_ENER3(j2,z)           = 1.1 ;
+ sigma_ENER4(j2,z)           = 2.0 ;
+ sigma_ENER5_1(j2,z)        = 2.0 ;
+ sigma_ENER5_2(j2,z)        = 2.0 ;
 
 * CES - composite Power sector
  sigma_X4(z)    = 1.1;
@@ -1422,6 +1429,9 @@ eta = 1;
                    (1-beta_VA(j,z))*KDCO(j,z)**(-rho_VA(j,z))
                    ]**(-1/rho_VA(j,z))};
 
+ B_VA_t(j,z,time) = B_VA(j,z);
+* B_VA_t(j,z,time) = B_VA(j,z)*(1/AEEI_low(z,'2019'));
+
 *==============================================================================
 *    Composite KLE
 *==============================================================================
@@ -1986,7 +1996,8 @@ EQUATIONS
  
  EQ2_1(j3,z,t)..   CE(j3,z,t) =e= io2(j3,z)*XST(j3,z,t);
 
- EQ3(j,z,t)..      VA(j,z,t) =e= A_VA(z,t)*B_VA(j,z)*{
+* EQ3(j,z,t)..      VA(j,z,t) =e= A_VA(z,t)*B_VA(j,z)*{
+ EQ3(j,z,t)..      VA(j,z,t) =e= A_VA(z,t)*B_VA_t(j,z,t)*{
                     [beta_VA(j,z)*LDC(j,z,t)**(-rho_VA(j,z))]$LDCO(j,z)
                    +[(1-beta_VA(j,z))*KDC(j,z,t)**(-rho_VA(j,z))]$KDCO(j,z)
                                                    }**(-1/rho_VA(j,z));
@@ -2593,15 +2604,21 @@ SCEN  List of scenarios
 ;
 
 *==============================================================================
+*   6.2.2  Monte Carlo Simulation
+*==============================================================================
+*$if not set runid $set runid 001
+*scalar solar_growth;
+*$include input_params_%runid%.inc
+
+*==============================================================================
 *  6.2 BAU scenario and Results
 *==============================================================================
 $INCLUDE BAU_SOLVE_GTAP11c_new.gms
 $INCLUDE BAU_RESULTS_GTAP11c_new.gms
+$INCLUDE BAU_IPCC_GTAP11c_new.gms
 
 *==============================================================================
 *  6.3 NZS scenarios and Results
 *==============================================================================
 *$INCLUDE NZS_SOLVE_GTAP11c_new.gms
 *$INCLUDE NZS_RESULTS_GTAP11c_new.gms
-
-$exit

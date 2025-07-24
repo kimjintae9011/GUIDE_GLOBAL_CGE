@@ -1,0 +1,13 @@
+par=GDP             rng=GDP_Projection!A1:CN18
+par=TOT_POP       rng=TOT_POP_Projection!A1:CN18
+par=g_SDR           rng=g_SDR!A1:CN18
+par=AEEI_low        rng=AEEI_low!A1:CN18
+par=AEEI_high       rng=AEEI_high!A1:CN18
+par=TREND           rng=TREND!A1:CN18
+par=TREND2         rng=TREND2!A1:CN18
+par=TREND_CPS    rng=TREND_CPS!A1:CN18
+par=TREND_NZS   rng=TREND_NZS!A1:CN18
+par=CTAX_Cal       rng=CTAX_Cal!A1:CN18
+par=CTAX_CPS      rng=CTAX_CPS!A1:CN18
+par=CTAX_NZS      rng=CTAX_NZS!A1:CN18
+par=PERMIT_Cal     rng=PERMIT!A1:CN18

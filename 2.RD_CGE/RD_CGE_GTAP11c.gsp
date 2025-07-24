@@ -4,18 +4,6 @@
     "nodes": [
         {
             "codecMib": 106,
-            "file": "Input_w-t/B_line_GTAP11c.gdx",
-            "name": "B_line_GTAP11c.gdx",
-            "type": "gdx"
-        },
-        {
-            "codecMib": 106,
-            "file": "Input_w-t/DATA_AGG-2019_GTAP11c.gdx",
-            "name": "DATA_AGG-2019_GTAP11c.gdx",
-            "type": "gdx"
-        },
-        {
-            "codecMib": 106,
             "file": "Input_w-t/DATA_AGG-2019_GTAP11c_new.gdx",
             "name": "DATA_AGG-2019_GTAP11c_new.gdx",
             "type": "gdx"
@@ -40,15 +28,9 @@
         },
         {
             "codecMib": 106,
-            "file": "Output_w-t/Baseline_Results_GTAP11c_new.gdx",
-            "name": "Baseline_Results_GTAP11c_new.gdx",
-            "type": "gdx"
-        },
-        {
-            "codecMib": 106,
-            "file": "Output_w-t/NZS_Results_GTAP11c_new.gdx",
-            "name": "NZS_Results_GTAP11c_new.gdx",
-            "type": "gdx"
+            "file": "BAU_IPCC_GTAP11c_new.gms",
+            "name": "BAU_IPCC_GTAP11c_new.gms",
+            "type": "gms"
         },
         {
             "codecMib": 106,

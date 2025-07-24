@@ -40,9 +40,9 @@ $LOAD valPD
 *   6.2.1.2 Choice of reference region
 *==============================================================================
 * By default, the reference region is USA,
- zr(z)           = no;
+ zr(z)               = no;
  zr('07_NAM')    = yes;
- z1(z)           = NOT[zr(z)];
+ z1(z)               = NOT[zr(z)];
 
 *==============================================================================
 *   6.2.1.3 Choice between closures FE and FP
@@ -70,9 +70,9 @@ $offtext
  sh1.fx(z,time)                   = sh1X(z,time);
  ttdh0.fx(z,time)                 = ttdh0O(z); 
  ttdh1.fx(z,time)                 = ttdh1O(z);
-* ttic.fx(i,z,time)               = tticO(i,z);
- ttic.fx(i,z,time)$(not (sameas(i, "18_ELEC") and sameas(z, "01_KOR")))   = tticO(i,z);
- PD.fx("18_ELEC","01_KOR",time)   = PDO("18_ELEC","01_KOR");
+ttic.fx(i,z,time)               = tticO(i,z);
+* ttic.fx(i,z,time)$(not (sameas(i, "18_ELEC") and sameas(z, "06_PRK")))   = tticO(i,z);
+* PD.fx("18_ELEC","06_PRK",time)   = PDO("18_ELEC","06_PRK");
  ttik.fx(k,j,z,time)              = ttikO(k,j,z);
  ttim.fx(i,zj,z,time)             = ttimO(i,zj,z);
  ttip.fx(j,z,time)                = ttipO(j,z);
@@ -122,7 +122,7 @@ $INCLUDE INIT_new.gms
 *$ontext
 * FP CLOSURE: fixed PIXGDPs; numeraire is exchange rate of reference region
 * The exchange rates are endogenous, except for the reference region.
- e.FX(zr,time)      = eO(zr);
+ e.FX(zr,time)          = eO(zr);
  PIXGDP.FX(z,time)  = PIXGDPO(z)/sum[zr,eO(zr)];
 *$offtext
 
@@ -173,10 +173,10 @@ $offtext
  ttiw_lag.fx(j,z,time)$[ord(time) gt 1]
                      =ttiw.l(j,z,time-1);
 
- PD.fx("18_ELEC","01_KOR",t1)  = PDO("18_ELEC","01_KOR");
- PD.fx("18_ELEC","01_KOR",time)$[ord(time) gt 1]
-*                       =PD.l("18_ELEC","01_KOR",time-1)*[1+0.01];
-                        = valPD("18_ELEC","01_KOR",time,'bau')*[1+0.01] ;                     
+ PD.fx("18_ELEC","06_PRK",t1)  = PDO("18_ELEC","06_PRK");
+ PD.fx("18_ELEC","06_PRK",time)$[ord(time) gt 1]
+                                             = valPD("18_ELEC","06_PRK",time,'bau')*[1+0.01] ;
+                                             
 *==============================================================================
 *   CTAX and PERMIT
 *============================================================================== 
@@ -291,9 +291,7 @@ $offText
 *==============================================================================
 * 6.2.2.3 Resolution
 *==============================================================================
-
 SOLVE PEPWT USING CNS ;
-*solve PEPWT maximizing OBJ  using nlp ;
 
 *==============================================================================
 *   Taking account of the existence or not of a feasible solution

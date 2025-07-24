@@ -257,6 +257,10 @@ PARAMETER
  valCKBS(i3,z,time,scen)
  valMARKUP(i3,z,time,scen)
  valMARKUP_RATIO(i3,z,time,scen)
+ 
+*==================  Monte Carlo Simulation ============================================
+ valB_VA(z,time,scen)
+ valAct(z,time,scen)
 ;
 
 *==============================================================================
@@ -548,7 +552,14 @@ PARAMETER
  valMARKUP(i3,z,time,'bau')= MARKUP.l(i3,z,time) ;
  valMARKUP_RATIO(i3,z,time,'bau')  =  valPC(i3,z,time,'bau')*valXDBS(i3,z,time,'bau') / (valCLBS(i3,z,time,'bau') +valCKBS(i3,z,time,'bau')+0.000000000001 )  ;
 
-*$Ontext
+*============================= Monte Carlo Simulation  ==================================
+ valB_VA(z,time,'bau') = B_VA_t('24_eSolar',z,time);
+ valAct(z,time,'bau') = sum((product,elec),valEE(product,Elec,z,time,'bau')) + sum((product,elec),valNE(product,Elec,z,time,'bau'));
+
+execute_unload 'Output_w-t\results_%runid%',
+valCO2I, valCO2NE, valCO2H, valCO2I2, valCO2NE2, valCO2I3, valTCO2I, valTCO2NE, valTCO2H, valTCO2, valEndo_CO2, valEndo_TotalCO2, valB_VA, valAct ;
+
+$Ontext
  execute_unload 'Output_w-t\Baseline_Results_GTAP11c_new',
  valA_VA,
  valC,
@@ -723,4 +734,4 @@ PARAMETER
  valPERMIT_TOTAL,
  valCO2FACTOR
  ;
-*$Offtext
+$Offtext

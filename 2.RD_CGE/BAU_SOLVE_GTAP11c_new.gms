@@ -9,7 +9,6 @@
 * growth rates. So the solution is forced to follow the GDP projected growth
 * paths. The solution values of A_VA are stored as parameter A_VA_RES.
 *-------------------------------------------------------------------------------
-
 PARAMETER
  A_VA_RES(z,time)     Value of A_VA to reproduce real GDP projections
  GX(z,time)           Current government expenditures on goods and services in region z
@@ -34,9 +33,9 @@ $LOAD A_VA_RES, GX, G_REALX, INDX, sh1X, sh0X
 *   6.2.1.2 Choice of reference region
 *==============================================================================
 * By default, the reference region is USA,
- zr(z)           = no;
+ zr(z)                = no;
  zr('07_NAM')    = yes;
- z1(z)           = NOT[zr(z)];
+ z1(z)               = NOT[zr(z)];
 
 *==============================================================================
 *   6.2.1.3 Choice between closures FE and FP
@@ -73,6 +72,7 @@ $offtext
 * CTAX.fX(z,time)                 = CTAX0(z); 
  CTAX.fX(CTAX_Z,time)             = CTAX0(CTAX_Z);
  PERMIT_TOTAL.fx(PERMIT_Z,time)   = PERMIT_TOTALO(PERMIT_Z) ;
+
 *==============================================================================
 *   6.2.2 Solution
 *==============================================================================
@@ -172,6 +172,10 @@ $offtext
 *=============================================================================
 * Solar & Wind Productivity Shock
 *=============================================================================
+ B_VA_t('24_eSolar',z,t1)  = B_VA('24_eSolar',z);
+ B_VA_t('24_eSolar',z,time)$[ord(time) gt 1]
+                                     = B_VA_t('24_eSolar',z,time-1)*[1+solar_growth];
+
 * B_VA2('23_eWind',z,time)$[ord(time) gt 2]
 *                        = B_VA2('23_eWind',z,time-1)*[1+0.02];
 
@@ -189,4 +193,3 @@ SOLVE PEPWT USING CNS;
 T(time)          = NO;
 * End of LOOP over time periods
 ];
-*$exit

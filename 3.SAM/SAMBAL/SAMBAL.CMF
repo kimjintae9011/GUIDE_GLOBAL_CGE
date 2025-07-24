@@ -1,0 +1,43 @@
+auxiliary files = sambal;
+File INFILE = SAM0.har;
+Updated File INFILE = SAM1.har;
+start with MMNZ = 21251 ; ! suitable for SAM size 64*64 
+method = Gragg;
+steps = 13 15 17;
+log file = yes; 
+verbal description = SAM balancing;
+exogenous ShockDiff fmult fsam;
+rest endogenous;
+!swap fmult("gov") = ROWTOT("gov");
+!FINAL_LEVEL ROWTOT("gov") = 150000; ! to make gov col add to 150000 !  
+
+xSet EXOGENE  # 'exogenous' energy efficiency improvement #
+(c_AGRICULT,c_COAL,c_OIL,c_GAS,c_MINING,c_FOODPRO,c_TEXTILES,
+c_WOODPRO,c_PAPERPRO,c_PETROLCOAL,c_CHEMICAL,c_NONMET,c_IRONSTL,c_NONFERR,
+c_MACHINE,c_TRANSEQ,c_OTHERIND,c_ELEC,c_CONSTRUC,c_LTRP,c_WTRP,c_ATRP,
+c_SER); 
+
+xSubset EXOGENE  is subset of ACC; 
+
+xSet WW_R  # ww_r_country #
+!(ww_r_01KOR, ww_r_02CHN, ww_r_03JPN, ww_r_04RUS, ww_r_05MNG, ww_r_06PRK
+!,ww_r_07NAM, ww_r_08LAM, ww_r_09WEU, ww_r_10EEU, ww_r_11FSU, ww_r_12MEA, ww_r_13AFR
+!,ww_r_14CPA, ww_r_15SAS, ww_r_16PAS,ww_r_17PAO); 
+
+(ww_r_01KOR, ww_r_02CHN, ww_r_03JPN, ww_r_04RUS, ww_r_05MNG, ww_r_07NAM, 
+ ww_r_08LAM, ww_r_09WEU, ww_r_10EEU, ww_r_11FSU, ww_r_12MEA, ww_r_13AFR
+,ww_r_14CPA, ww_r_15SAS, ww_r_16PAS,ww_r_17PAO); 
+
+xSubset WW_R is subset of ACC; 
+
+swap fsam(EXOGENE,WW_R)    =p_sam(EXOGENE,WW_R);
+
+FINAL_LEVEL ShockDiff = uniform 0;  ! to eliminate (row-col) differences !
+ 
+
+
+
+
+
+
+
