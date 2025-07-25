@@ -57,22 +57,21 @@ $offtext
 *==============================================================================
 *   6.2.1.4 Other exogenous variables
 *==============================================================================
- G_REAL.FX(z,time)                = G_REALX(z,time);
- IND.fx(k,pub,z,time)             = INDX(k,pub,z,time);
+ G_REAL.FX(z,time)            = G_REALX(z,time);
+ IND.fx(k,pub,z,time)          = INDX(k,pub,z,time);
  sh0.fx(z,time)                   = sh0X(z,time);
  sh1.fx(z,time)                   = sh1X(z,time);
  ttdh0.fx(z,time)                 = ttdh0O(z);
  ttdh1.fx(z,time)                 = ttdh1O(z);
- ttic.fx(i,z,time)                = tticO(i,z);
- ttik.fx(k,j,z,time)              = ttikO(k,j,z);
+ ttic.fx(i,z,time)                  = tticO(i,z);
  ttim.fx(i,zj,z,time)             = ttimO(i,zj,z);
- ttip.fx(j,z,time)                = ttipO(j,z);
+ ttix.fx(i,z,zj,time)              = ttixO(i,z,zj);
+ ttik.fx('land',j,z,time)         = ttikO('land',j,z);
+ ttik.fx('natr',j,z,time)         = ttikO('natr',j,z);
 * ttiw.fx(j,z,time)               = ttiwO(j,z);
- ttix.fx(i,z,zj,time)             = ttixO(i,z,zj);
-* CTAX.fX(z,time)                 = CTAX0(z); 
- CTAX.fX(CTAX_Z,time)             = CTAX0(CTAX_Z);
- PERMIT_TOTAL.fx(PERMIT_Z,time)   = PERMIT_TOTALO(PERMIT_Z) ;
-
+* ttik.fx(k,j,z,time)              = ttikO(k,j,z);
+* ttip.fx(j,z,time)                = ttipO(j,z);
+ CTAX.fX(z,time)                 = CTAX0(z); 
 *==============================================================================
 *   6.2.2 Solution
 *==============================================================================
@@ -117,20 +116,20 @@ $offtext
 *==============================================================================
 *   6.2.2.2 Variables fixed each period according to their lagged values
 *==============================================================================
- CABX.FX(z1,t1)      = CABXO(z1);
+ CABX.FX(z1,t1)  = CABXO(z1);
  CABX.FX(z1,time)$[ord(time) gt 1]
-                      = CABX.l(z1,time-1)*[1+g_GDP(z1,time)];
+                         = CABX.l(z1,time-1)*[1+g_GDP(z1,time)];
                       
- CMIN.FX(i,z,t1)     = CMINO(i,z);
+ CMIN.FX(i,z,t1)  = CMINO(i,z);
  CMIN.FX(i,z,time)$[ord(time) gt 1]
-                      = CMIN.l(i,z,time-1)*[1+g_GDP(z,time)];
+                        = CMIN.l(i,z,time-1)*[1+g_GDP(z,time)];
                      
  KD.fx(k,j,z,t1)$KDO(k,j,z)
                       = KDO(k,j,z);
  KD.fx(k,j,z,time)${[ord(time) gt 1] and KDO(k,j,z)}
                       = KD.l(k,j,z,time-1)*[1-delta(z)]+IND.l(k,j,z,time-1);
 
- LST.FX(z,t1)       = LSTO(z);
+ LST.FX(z,t1)    = LSTO(z);
  LST.FX(z,time)$[ord(time) gt 1]
                       = LST.l(z,time-1)*[1+g_POP(z,time)];
 
@@ -142,7 +141,7 @@ $offtext
  LST_lag(z,time)$[ord(time) gt 1]
                       = LST.l(z,time-1);
 
- W_lag(z,t1)       = WO_lag(z);
+ W_lag(z,t1)    = WO_lag(z);
  W_lag(z,time)$[ord(time) gt 1]
                      = W.l(z,time-1);
                       
@@ -154,14 +153,28 @@ $offtext
  ttiw_lag.fx(j,z,time)$[ord(time) gt 1]
                      =ttiw.l(j,z,time-1);
  
+ ttik_lag.fx(j,z,t1)  =ttikO('cap',j,z);
+ ttik_lag.fx(j,z,time)$[ord(time) gt 1]
+                     =ttik.l('cap',j,z,time-1);
+ 
+ ttip_lag.fx(j,z,t1)  =ttipO(j,z);
+ ttip_lag.fx(j,z,time)$[ord(time) gt 1]
+                     =ttip.l(j,z,time-1);
+ 
 *==============================================================================
-*   CTAX and PERMIT
+*   CTAX and PERMIT and TCTAX Recycling
 *==============================================================================  
 * CTAX.fx(z,time)$[ord(time) gt 1]
 *                            = CTAX_Cal(z,time);  
 
 * PERMIT_TOTAL.fx(z,time)$[ord(time) gt 1]
 *                             = PERMIT_TOTALO(Z)*PERMIT_Cal(z,time);  
+
+ recycle_gov(z,time)     = 0;          
+ recycle_hou(z,time)     = 0;           
+ recycle_labor(z,time)   = 0;         
+ recycle_capital(z,time) = 0;        
+ recycle_ptax(z,time)    = 1;            
 
 *==============================================================================
 *   AEEI
@@ -172,22 +185,21 @@ $offtext
 *=============================================================================
 * Solar & Wind Productivity Shock
 *=============================================================================
- B_VA_t('24_eSolar','01_KOR',t1)  = B_VA('24_eSolar','01_KOR');
- B_VA_t('24_eSolar','01_KOR',time)$[ord(time) gt 1]
-                           = B_VA_t('24_eSolar','01_KOR',time-1)*[1+solar_growth];
+* For Monte Carlo Simulation
+* B_VA_t('24_eSolar','01_KOR',t1)  = B_VA('24_eSolar','01_KOR');
+* B_VA_t('24_eSolar','01_KOR',time)$[ord(time) gt 1]
+*                           = B_VA_t('24_eSolar','01_KOR',time-1)*[1+solar_growth];
 
-* B_VA2('23_eWind',z,time)$[ord(time) gt 2]
-*                        = B_VA2('23_eWind',z,time-1)*[1+0.02];
+ B_VA_t('23_eWind',z,time)$[ord(time) gt 1]
+                        = B_VA_t('23_eWind',z,time-1)*[1+0.02];
 
-* B_VA2('24_eSolar',z,time)$[ord(time) gt 2]
-*                        = B_VA2('24_eSolar',z,time-1)*[1+0.02];
+ B_VA_t('24_eSolar',z,time)$[ord(time) gt 1]
+                        = B_VA_t('24_eSolar',z,time-1)*[1+0.02];
 
 *==============================================================================
 *   6.2.2.3 Resolution
 *==============================================================================
 SOLVE PEPWT USING CNS;
-*SOLVE PEPWT using NLP maximizing OBJ;
-*SOLVE PEPWT USING MCP;
 
 * The single element in subset T(time) is removed, and the subset is now empty.
 T(time)          = NO;

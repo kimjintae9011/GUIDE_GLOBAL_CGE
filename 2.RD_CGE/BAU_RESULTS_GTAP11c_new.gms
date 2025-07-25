@@ -556,10 +556,10 @@ PARAMETER
  valB_VA(z,time,'bau') = B_VA_t('24_eSolar',z,time);
  valAct(z,time,'bau') = sum((product,elec),valEE(product,Elec,z,time,'bau')) + sum((product,elec),valNE(product,Elec,z,time,'bau'));
 
-execute_unload 'Output_w-t\results_%runid%',
-valCO2I, valCO2NE, valCO2H, valCO2I2, valCO2NE2, valCO2I3, valTCO2I, valTCO2NE, valTCO2H, valTCO2, valEndo_CO2, valEndo_TotalCO2, valB_VA, valAct ;
+*execute_unload 'Output_w-t\results_%runid%',
+*valCO2I, valCO2NE, valCO2H, valCO2I2, valCO2NE2, valCO2I3, valTCO2I, valTCO2NE, valTCO2H, valTCO2, valEndo_CO2, valEndo_TotalCO2, valB_VA, valAct ;
 
-$Ontext
+*$Ontext
  execute_unload 'Output_w-t\Baseline_Results_GTAP11c_new',
  valA_VA,
  valC,
@@ -734,4 +734,4 @@ $Ontext
  valPERMIT_TOTAL,
  valCO2FACTOR
  ;
-$Offtext
+*$Offtext

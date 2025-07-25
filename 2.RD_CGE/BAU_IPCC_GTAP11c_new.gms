@@ -380,29 +380,31 @@ NONCO2_PAO(IPCC06_CODE,Substance)
 ;
 
 $onEcho > Input_WEB/NONCO219.txt
-par=NONCO2_KOR       rng=01_KOR!A1:BQ109
-par=NONCO2_CHN       rng=02_CHN!A1:BQ109
-par=NONCO2_JPN        rng=03_JPN!A1:BQ109
-par=NONCO2_RUS       rng=04_RUS!A1:BQ109
-par=NONCO2_MNG      rng=05_MNG!A1:BQ109
-par=NONCO2_PRK       rng=06_PRK!A1:BQ109
-par=NONCO2_NAM      rng=07_NAM!A1:BQ109
-par=NONCO2_LAM       rng=08_LAM!A1:BQ109
-par=NONCO2_WEU      rng=09_WEU!A1:BQ109
-par=NONCO2_EEU       rng=10_EEU!A1:BQ109
-par=NONCO2_FSU       rng=11_FSU!A1:BQ109
-par=NONCO2_MEA       rng=12_MEA!A1:BQ109
-par=NONCO2_AFR       rng=13_AFR!A1:BQ109
-par=NONCO2_CPA       rng=14_CPA!A1:BQ109
-par=NONCO2_SAS       rng=15_SAS!A1:BQ109
-par=NONCO2_PAS       rng=16_PAS!A1:BQ109
-par=NONCO2_PAO       rng=17_PAO!A1:BQ109
+par=NONCO2_KOR       rng=01_KOR!A1:E38
+par=NONCO2_CHN       rng=02_CHN!A1:E38
+par=NONCO2_JPN        rng=03_JPN!A1:E38
+par=NONCO2_RUS       rng=04_RUS!A1:E38
+par=NONCO2_MNG      rng=05_MNG!A1:E38
+par=NONCO2_PRK       rng=06_PRK!A1:E38
+par=NONCO2_NAM      rng=07_NAM!A1:E38
+par=NONCO2_LAM       rng=08_LAM!A1:E38
+par=NONCO2_WEU      rng=09_WEU!A1:E38
+par=NONCO2_EEU       rng=10_EEU!A1:E38
+par=NONCO2_FSU       rng=11_FSU!A1:E38
+par=NONCO2_MEA       rng=12_MEA!A1:E38
+par=NONCO2_AFR       rng=13_AFR!A1:E38
+par=NONCO2_CPA       rng=14_CPA!A1:E38
+par=NONCO2_SAS       rng=15_SAS!A1:E38
+par=NONCO2_PAS       rng=16_PAS!A1:E38
+par=NONCO2_PAO       rng=17_PAO!A1:E38
 $offEcho
 
 *$call  gdxxrw Input_WEB/240522_Non-CO2_coef.xlsx @Input_WEB/NONCO219.txt trace=0 output=Input_WEB/240522_Non-CO2_coef.gdx
 *$gdxIn Input_WEB/240522_Non-CO2_coef.gdx
+
 $call  gdxxrw Input_WEB/250724_Non-CO2_coef.xlsx @Input_WEB/NONCO219.txt trace=0 output=Input_WEB/250724_Non-CO2_coef.gdx
 $gdxIn Input_WEB/250724_Non-CO2_coef.gdx
+
 $load  NONCO2_KOR NONCO2_CHN NONCO2_JPN NONCO2_RUS NONCO2_MNG NONCO2_PRK NONCO2_NAM NONCO2_LAM NONCO2_WEU NONCO2_EEU NONCO2_FSU NONCO2_MEA NONCO2_AFR NONCO2_CPA NONCO2_SAS NONCO2_PAS NONCO2_PAO   
 
 Parameter NONCO2(IPCC06_CODE,Substance,z);

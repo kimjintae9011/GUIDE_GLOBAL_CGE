@@ -411,12 +411,12 @@ NEA3(Z) Sub NEA KOR-CHN-JPN
 
 PERMIT_Z(z)
 /
-* 01_KOR Korea
+01_KOR Korea
  /
 
 CTAX_Z(z)
 /
-01_KOR Korea
+* 01_KOR Korea
  02_CHN China
  03_JPN Japan
  04_RUS Russian Federation
@@ -457,7 +457,8 @@ INDtoCOM(i3,j)
 
 TIME Time periods
 /
-2019*2050
+*2019*2050
+2019*2033
 /
 
 T(time)
@@ -603,9 +604,13 @@ PARAMETER
  CTAX_NZS(z,time)             Carbon Tax for Net Zero Scenario
  PERMIT_Cal(z,time)           PERMIT
  TIW_Share_Cal(j,time)        PERMIT
- switch(i3,z,time)            binary variable - equals zero if no use of backstop technologies
+ switch(i3,z,time)                 binary variable - equals zero if no use of backstop technologies
  penetration_rate(i3,z,time)  penetration_rate
- 
+ recycle_gov(z,time)            binary variable - equals zero if no use of CTAX Rebate
+ recycle_hou(z,time)            binary variable - equals zero if no use of CTAX Rebate
+ recycle_labor(z,time)          binary variable - equals zero if no use of CTAX Rebate
+ recycle_capital(z,time)        binary variable - equals zero if no use of CTAX Rebate
+ recycle_ptax(z,time)           binary variable - equals zero if no use of CTAX Rebate
 *==============================================================================
 *  Volume
 *==============================================================================
@@ -1687,7 +1692,8 @@ VARIABLES
  PERMIT(j,z,time)  
  PERMIT_TOTAL(z,time)
  deltatiw(j,z,time)
-
+ deltatik(j,z,time)
+ deltatip(j,z,time)
 *==============================================================================
 *   Price variables
 *==============================================================================
@@ -1774,25 +1780,27 @@ VARIABLES
  YROW(z,time)            Rest-of-the-world total income from region z
  REBATE(z,time)
  TIW_Share(j,z,time)
-* TIK_Share(k,j,z,time)
-* TIP_Share(j,z,time)
+ TIK_Share(j,z,time)
+ TIP_Share(j,z,time)
 
 *==============================================================================
 *  Rates and intercepts
 *==============================================================================
  phi(z,time)             Scale variable (allocation of investment to industries)
- sh0(z,time)             Intercept (household savings)
- sh1(z,time)             Slope (household savings)
- ttdh0(z,time)           Intercept (household income tax)
- ttdh1(z,time)           Slope (household income tax)
- ttic(i,z,time)          Tax rate on commodity i
+ sh0(z,time)            Intercept (household savings)
+ sh1(z,time)            Slope (household savings)
+ ttdh0(z,time)          Intercept (household income tax)
+ ttdh1(z,time)          Slope (household income tax)
+ ttic(i,z,time)           Tax rate on commodity i
  ttik(k,j,z,time)        Tax rate on capital k used in industry j
  ttim(i,zj,z,time)       Rate of taxes and duties on imports of commodity i from country zj
- ttip(j,z,time)          Tax rate on the production of industry j
+ ttip(j,z,time)           Tax rate on the production of industry j
  ttiw(j,z,time)          Tax rate on type l worker compensation in industry j
- ttix(i,z,zj,time)       Export tax rate on exported commodity i
+ ttix(i,z,zj,time)        Export tax rate on exported commodity i
  ttiw_lag(j,z,time)
-
+ ttik_lag(j,z,time)
+ ttip_lag(j,z,time)
+ 
 *==============================================================================
 *   Other variables
 *==============================================================================
@@ -1977,10 +1985,16 @@ EQUATIONS
  EQ106(z,time)           labor supply
  EQ107(j,z,time)
  EQ108(z,time)
- EQ109(j,z,time)
- EQ110(j,z,time)
+ EQ109(z,time) 
  EQ111(j,z,time)
- EQ112(z,time)
+ EQ112(j,z,time)
+ EQ113(j,z,time)
+ EQ114(j,z,time)
+ EQ115(j,z,time)
+ EQ116(j,z,time)
+ EQ117(j,z,time)
+ EQ118(j,z,time)
+ EQ119(j,z,time)
 ;
 
 *==============================================================================
@@ -2113,8 +2127,7 @@ EQUATIONS
 *==============================================================================
 *    5.3.2.1 Households
 *==============================================================================
- EQ10(z,t)..       YH(z,t) =e= YHL(z,t)+YHK(z,t)+SUM(i3,MARKUP(i3,z,t));
-* EQ10(z,t)..       YH(z,t) =e= YHL(z,t)+YHK(z,t)+SUM(i3,MARKUP(i3,z,t))+TCTAX(z,t);
+ EQ10(z,t)..       YH(z,t) =e= YHL(z,t)+YHK(z,t)+SUM(i3,MARKUP(i3,z,t))+REBATE(z,t)*recycle_hou(z,t) ;
 
  EQ11(z,t)..       YHL(z,t) =e= SUM[(j)$LDO(j,z),W(z,t)*LD(j,z,t)];
 
@@ -2129,10 +2142,9 @@ EQUATIONS
 *==============================================================================
 *    5.3.2.2 Government
 *==============================================================================
-* EQ16(z,t)..       YG(z,t) =e= TDH(z,t)+TPRODN(z,t)+TPRCTS(z,t)+TCTAX(z,t);
- EQ16(z,t)..       YG(z,t) =e= TDH(z,t)+TPRODN(z,t)+TPRCTS(z,t);
+ EQ16(z,t)..       YG(z,t) =e= TDH(z,t)+TPRODN(z,t)+TPRCTS(z,t)+REBATE(z,t)*recycle_gov(z,t);
 
- EQ16_1(z,t)..     TCTAX(z,t) =e= sum((ene,j), PC(ene,z,t)*CTAX(z,t)*CO2FACTOR2(ene,j,z,t)*DE(ene,j,z,t));
+ EQ16_1(z,t)..    TCTAX(z,t) =e= sum((ene,j), PC(ene,z,t)*CTAX(z,t)*CO2FACTOR2(ene,j,z,t)*DE(ene,j,z,t));
 
  EQ17(z,t)..       TPRODN(z,t) =e= TIWT(z,t)+TIKT(z,t)+TIPT(z,t);
 
@@ -2306,13 +2318,13 @@ $OFFTEXT
 *==============================================================================
 *   5.3.5 Prices
 *==============================================================================
- EQ49(j2,z,t)..     PP(j2,z,t)*XST(j2,z,t) =e= PKLE(j2,z,t)*KLE(j2,z,t)+PCI(j2,z,t)*CI(j2,z,t);
+ EQ49(j2,z,t)..      PP(j2,z,t)*XST(j2,z,t) =e= PKLE(j2,z,t)*KLE(j2,z,t)+PCI(j2,z,t)*CI(j2,z,t);
 
  EQ49_1(j3,z,t)..   PP(j3,z,t)*XST(j3,z,t) =e= PVA(j3,z,t)*VA(j3,z,t)+PCI(j3,z,t)*CI(j3,z,t)+PCE(j3,z,t)*CE(j3,z,t);
 
- EQ50(j,z,t)..      PT(j,z,t) =e= (1+ttip(j,z,t))*PP(j,z,t);
+ EQ50(j,z,t)..        PT(j,z,t) =e= (1+ttip(j,z,t))*PP(j,z,t);
 
- EQ51(j,z,t)..      PCI(j,z,t)*CI(j,z,t) =e= SUM[nene,PC(nene,z,t)*DI(nene,j,z,t)];
+ EQ51(j,z,t)..        PCI(j,z,t)*CI(j,z,t) =e= SUM[nene,PC(nene,z,t)*DI(nene,j,z,t)];
 
 *Simple Nesting
 * EQ51_1(j,z,t)..    PCE(j,z,t)*CE(j,z,t) =e= SUM[ene,PC(ene,z,t)*DE(ene,j,z,t) + PC(ene,z,t)*CTAX(z,t)*CO2FACTOR2(ene,j,z,t)*DE(ene,j,z,t)];
@@ -2522,7 +2534,7 @@ $OFFTEXT
 
  EQ101(j,z,t)..    LBS(j,z,t) =e= 0.6*XDBS2(j,z,t);
  
- EQ102(k,j,z,t)..   KBS(k,j,z,t) =e= 0.3*XDBS2(j,z,t)*KDO(k,j,z)/sum(kj,KDO(kj,j,z));
+ EQ102(k,j,z,t)..  KBS(k,j,z,t) =e= 0.3*XDBS2(j,z,t)*KDO(k,j,z)/sum(kj,KDO(kj,j,z));
 
  EQ103(i3,z,t)..   CLBS(i3,z,t)  =e= sum{j$INDtoCOM(i3,j),LBS(j,z,t)*WC(j,z,t)};
 
@@ -2545,25 +2557,32 @@ $OFFTEXT
 *==============================================================================
 *   8 Carbon Tax Revenue Recycling
 *==============================================================================
+EQ109(z,t)..     REBATE(z,t) =e= TCTAX(z,t);
 
-EQ109(j,z,t)..   TIW_Share(j,z,t) =e= LD(j,z,t)/SUM(jj,LD(jj,z,t));
-*EQ109(j,z,t)..   TIW_Share(j,z,t) =e= 0;
+EQ111(j,z,t)..   TIW_Share(j,z,t) =e= LD(j,z,t)/SUM(jj,LD(jj,z,t));
 
-EQ110(j,z,t)..    ttiw(j,z,t) =e= ttiw_lag(j,z,t) + deltatiw(j,z,t);
+EQ112(j,z,t)..   ttiw(j,z,t) =e= ttiw_lag(j,z,t) + deltatiw(j,z,t);
 
-EQ111(j,z,t)..   deltatiw(j,z,t) =e= -TIW_Share(j,z,t) * REBATE(z,t) / (W(z,t)*LD(j,z,t));
-   
-EQ112(z,t)..  REBATE(z,t) =e= TCTAX(z,t);
+EQ113(j,z,t)..   deltatiw(j,z,t) =e= -TIW_Share(j,z,t) * REBATE(z,t) / (W(z,t)*LD(j,z,t))*recycle_labor(z,t);
+ 
+EQ114(j,z,t)..   TIK_Share(j,z,t) =e= KD('cap',j,z,t)/SUM(jj,KD('cap',jj,z,t));
 
+EQ115(j,z,t)..   ttik('cap',j,z,t) =e= ttik_lag(j,z,t) + deltatik(j,z,t)*recycle_capital(z,t);
+
+EQ116(j,z,t)..   deltatik(j,z,t) =e= -TIK_Share(j,z,t)*REBATE(z,t)/(R('cap',j,z,t)*KD('cap',j,z,t));
+
+EQ117(j,z,t)..   TIP_Share(j,z,t) =e= XST(j,z,t)/SUM(jj,XST(jj,z,t));
+
+EQ118(j,z,t)..   ttip(j,z,t) =e= ttip_lag(j,z,t) + deltatip(j,z,t);
+
+EQ119(j,z,t)..   deltatip(j,z,t) =e= -TIP_Share(j,z,t) * REBATE(z,t) / (PP(j,z,t)*XST(j,z,t))*recycle_ptax(z,t);
+  
 *==============================================================================
 * 6 Numerical resolution to compute A_VA, sh0, G, G_REAL and IND
 *==============================================================================
 option cns = conopt4;
 *option cns = path;
 *option cns = minos;
-*option NLP = conopt4;
-*option NLP = minos;
-*option NLP = pathnlp ;
 
 *option conopt4.TolPiv = 1e-6;
 *option iterlim = 100;
@@ -2606,19 +2625,19 @@ SCEN  List of scenarios
 *==============================================================================
 *   6.2.2  Monte Carlo Simulation
 *==============================================================================
-$if not set runid $set runid 001
-scalar solar_growth;
-$include input_params_%runid%.inc
+*$if not set runid $set runid 001
+*scalar solar_growth;
+*$include input_params_%runid%.inc
 
 *==============================================================================
 *  6.2 BAU scenario and Results
 *==============================================================================
-$INCLUDE BAU_SOLVE_GTAP11c_new.gms
-$INCLUDE BAU_RESULTS_GTAP11c_new.gms
+*$INCLUDE BAU_SOLVE_GTAP11c_new.gms
+*$INCLUDE BAU_RESULTS_GTAP11c_new.gms
 *$INCLUDE BAU_IPCC_GTAP11c_new.gms
 
 *==============================================================================
 *  6.3 NZS scenarios and Results
 *==============================================================================
-*$INCLUDE NZS_SOLVE_GTAP11c_new.gms
-*$INCLUDE NZS_RESULTS_GTAP11c_new.gms
+$INCLUDE NZS_SOLVE_GTAP11c_new.gms
+$INCLUDE NZS_RESULTS_GTAP11c_new.gms

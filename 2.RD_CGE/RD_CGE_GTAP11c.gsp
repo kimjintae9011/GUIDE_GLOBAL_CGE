@@ -22,6 +22,24 @@
         },
         {
             "codecMib": 106,
+            "file": "Output_w-t/Baseline_Results_IPCC_GTAP11c_new.gdx",
+            "name": "Baseline_Results_IPCC_GTAP11c_new.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
+            "file": "Output_w-t/Baseline_Results_GTAP11c_new.gdx",
+            "name": "Baseline_Results_GTAP11c_new.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
+            "file": "Output_w-t/NZS_Results_GTAP11c_new.gdx",
+            "name": "NZS_Results_GTAP11c_new.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
             "file": "BAU_IPCC_GTAP11c_new.gms",
             "name": "BAU_IPCC_GTAP11c_new.gms",
             "type": "gms"
