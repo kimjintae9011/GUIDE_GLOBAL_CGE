@@ -16,12 +16,6 @@
         },
         {
             "codecMib": 106,
-            "file": "Input_WEB/250328_WEB19.gdx",
-            "name": "250328_WEB19.gdx",
-            "type": "gdx"
-        },
-        {
-            "codecMib": 106,
             "file": "Input_WEB/WEB19.txt",
             "name": "WEB19.txt",
             "type": "txt"

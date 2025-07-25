@@ -172,9 +172,9 @@ $offtext
 *=============================================================================
 * Solar & Wind Productivity Shock
 *=============================================================================
- B_VA_t('24_eSolar',z,t1)  = B_VA('24_eSolar',z);
- B_VA_t('24_eSolar',z,time)$[ord(time) gt 1]
-                                     = B_VA_t('24_eSolar',z,time-1)*[1+solar_growth];
+ B_VA_t('24_eSolar','01_KOR',t1)  = B_VA('24_eSolar','01_KOR');
+ B_VA_t('24_eSolar','01_KOR',time)$[ord(time) gt 1]
+                           = B_VA_t('24_eSolar','01_KOR',time-1)*[1+solar_growth];
 
 * B_VA2('23_eWind',z,time)$[ord(time) gt 2]
 *                        = B_VA2('23_eWind',z,time-1)*[1+0.02];

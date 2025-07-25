@@ -2606,16 +2606,16 @@ SCEN  List of scenarios
 *==============================================================================
 *   6.2.2  Monte Carlo Simulation
 *==============================================================================
-*$if not set runid $set runid 001
-*scalar solar_growth;
-*$include input_params_%runid%.inc
+$if not set runid $set runid 001
+scalar solar_growth;
+$include input_params_%runid%.inc
 
 *==============================================================================
 *  6.2 BAU scenario and Results
 *==============================================================================
 $INCLUDE BAU_SOLVE_GTAP11c_new.gms
 $INCLUDE BAU_RESULTS_GTAP11c_new.gms
-$INCLUDE BAU_IPCC_GTAP11c_new.gms
+*$INCLUDE BAU_IPCC_GTAP11c_new.gms
 
 *==============================================================================
 *  6.3 NZS scenarios and Results
