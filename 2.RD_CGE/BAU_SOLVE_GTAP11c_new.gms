@@ -68,7 +68,7 @@ $offtext
  ttix.fx(i,z,zj,time)              = ttixO(i,z,zj);
  ttik.fx('land',j,z,time)         = ttikO('land',j,z);
  ttik.fx('natr',j,z,time)         = ttikO('natr',j,z);
-* ttiw.fx(j,z,time)               = ttiwO(j,z);
+ ttiw.fx(j,z,time)                = ttiwO(j,z);
 * ttik.fx(k,j,z,time)              = ttikO(k,j,z);
 * ttip.fx(j,z,time)                = ttipO(j,z);
  CTAX.fX(z,time)                 = CTAX0(z); 
@@ -148,10 +148,6 @@ $offtext
  PIXCON_lag(z,t1)   = PIXCONO_lag(z);
  PIXCON_lag(z,time)$[ord(time) gt 1]
                     = PIXCON.l(z,time-1);     
-  
- ttiw_lag.fx(j,z,t1)  =ttiwO(j,z);
- ttiw_lag.fx(j,z,time)$[ord(time) gt 1]
-                     =ttiw.l(j,z,time-1);
  
  ttik_lag.fx(j,z,t1)  =ttikO('cap',j,z);
  ttik_lag.fx(j,z,time)$[ord(time) gt 1]
@@ -170,11 +166,11 @@ $offtext
 * PERMIT_TOTAL.fx(z,time)$[ord(time) gt 1]
 *                             = PERMIT_TOTALO(Z)*PERMIT_Cal(z,time);  
 
- recycle_gov(z,time)     = 0;          
+ recycle_gov(z,time)     = 1;          
  recycle_hou(z,time)     = 0;           
  recycle_labor(z,time)   = 0;         
  recycle_capital(z,time) = 0;        
- recycle_ptax(z,time)    = 1;            
+ recycle_ptax(z,time)    = 0;            
 
 *==============================================================================
 *   AEEI
@@ -195,6 +191,81 @@ $offtext
 
  B_VA_t('24_eSolar',z,time)$[ord(time) gt 1]
                         = B_VA_t('24_eSolar',z,time-1)*[1+0.02];
+
+
+*==============================================================================
+*Backstop technologies
+*==============================================================================
+penetration_rate(i3,z,time)$[CTAX.L(z,time) gt 0.8]
+                             = penetration_rate(i3,z,time-1)+0.02;
+
+if ((CTAX.L('01_KOR',time)  gt 0.8), switch(i3,'01_KOR',time) = 1  ;
+else switch(i3,'01_KOR',time) = 0 ;
+);
+
+if ((CTAX.L('02_CHN',time)  gt 0.8), switch(i3,'02_CHN',time) = 1  ;
+else switch(i3,'02_CHN',time) = 0 ;
+);
+
+if ((CTAX.L('03_JPN',time)  gt 0.8), switch(i3,'03_JPN',time) = 1  ;
+else switch(i3,'03_JPN',time) = 0 ;
+);
+
+if ((CTAX.L('04_RUS',time)  gt 0.8), switch(i3,'04_RUS',time) = 1  ;
+else switch(i3,'04_RUS',time) = 0 ;
+);
+
+if ((CTAX.L('05_MNG',time)  gt 0.8), switch(i3,'05_MNG',time) = 1  ;
+else switch(i3,'05_MNG',time) = 0 ;
+);
+
+if ((CTAX.L('06_PRK',time)  gt 0.8), switch(i3,'06_PRK',time) = 1  ;
+else switch(i3,'06_PRK',time) = 0 ;
+);
+
+if ((CTAX.L('07_NAM',time)  gt 0.8), switch(i3,'07_NAM',time) = 1  ;
+else switch(i3,'07_NAM',time) = 0 ;
+);
+
+if ((CTAX.L('08_LAM',time)  gt 0.8), switch(i3,'08_LAM',time) = 1  ;
+else switch(i3,'08_LAM',time) = 0 ;
+);
+
+if ((CTAX.L('09_WEU',time)  gt 0.8), switch(i3,'09_WEU',time) = 1  ;
+else switch(i3,'09_WEU',time) = 0 ;
+);
+
+if ((CTAX.L('10_EEU',time)  gt 0.8), switch(i3,'10_EEU',time) = 1  ;
+else switch(i3,'10_EEU',time) = 0 ;
+);
+
+if ((CTAX.L('11_FSU',time)  gt 0.8), switch(i3,'11_FSU',time) = 1  ;
+else switch(i3,'11_FSU',time) = 0 ;
+);
+
+if ((CTAX.L('12_MEA',time)  gt 0.8), switch(i3,'12_MEA',time) = 1  ;
+else switch(i3,'12_MEA',time) = 0 ;
+);
+
+if ((CTAX.L('13_AFR',time)  gt 0.8), switch(i3,'13_AFR',time) = 1  ;
+else switch(i3,'13_AFR',time) = 0 ;
+);
+
+if ((CTAX.L('14_CPA',time)  gt 0.8), switch(i3,'14_CPA',time) = 1  ;
+else switch(i3,'14_CPA',time) = 0 ;
+);
+
+if ((CTAX.L('15_SAS',time)  gt 0.8), switch(i3,'15_SAS',time) = 1  ;
+else switch(i3,'15_SAS',time) = 0 ;
+);
+
+if ((CTAX.L('16_PAS',time)  gt 0.8), switch(i3,'16_PAS',time) = 1  ;
+else switch(i3,'16_PAS',time) = 0 ;
+);
+
+if ((CTAX.L('17_PAO',time)  gt 0.8), switch(i3,'17_PAO',time) = 1  ;
+else switch(i3,'17_PAO',time) = 0 ;
+);
 
 *==============================================================================
 *   6.2.2.3 Resolution

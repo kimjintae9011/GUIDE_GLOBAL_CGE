@@ -22,8 +22,8 @@
         },
         {
             "codecMib": 106,
-            "file": "Output_w-t/Baseline_Results_IPCC_GTAP11c_new.gdx",
-            "name": "Baseline_Results_IPCC_GTAP11c_new.gdx",
+            "file": "Output_w-t/NZS_Results_GTAP11c_new.gdx",
+            "name": "NZS_Results_GTAP11c_new.gdx",
             "type": "gdx"
         },
         {
@@ -34,9 +34,9 @@
         },
         {
             "codecMib": 106,
-            "file": "Output_w-t/NZS_Results_GTAP11c_new.gdx",
-            "name": "NZS_Results_GTAP11c_new.gdx",
-            "type": "gdx"
+            "file": "Output_w-t/ModelStatus.xls",
+            "name": "ModelStatus.xls",
+            "type": ""
         },
         {
             "codecMib": 106,
@@ -64,6 +64,18 @@
         },
         {
             "codecMib": 106,
+            "file": "CAL_B_line_GTAP11c_new.lst",
+            "name": "CAL_B_line_GTAP11c_new.lst",
+            "type": "lst"
+        },
+        {
+            "codecMib": 106,
+            "file": "Calibration_Check_GTAP11c.gdx",
+            "name": "Calibration_Check_GTAP11c.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
             "file": "DATA_CO2coef.gms",
             "name": "DATA_CO2coef.gms",
             "type": "gms"
@@ -73,6 +85,12 @@
             "file": "DATA_GTAP11c_new.gms",
             "name": "DATA_GTAP11c_new.gms",
             "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "DATA_GTAP11c_new.lst",
+            "name": "DATA_GTAP11c_new.lst",
+            "type": "lst"
         },
         {
             "codecMib": 106,

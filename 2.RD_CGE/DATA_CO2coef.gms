@@ -146,6 +146,15 @@ Parameters
 
  CO2FACTOR2(ene,j,z,time) = CO2FACTOR(ene,j,z);
 
+
+*===========
+* Coal 2.7tCO2 per 100$
+* CO2FACTOR2('02_COAL',j,z,time)$CO2FACTOR('02_COAL',j,z)           = 2.7 ;
+* Gas 1.8tCO2 per 100$
+* CO2FACTOR2('04_GAS',j,z,time)$CO2FACTOR('04_GAS',j,z)             = 0.67;
+* Oilrproduct  0.6tCO2 per 100$
+* CO2FACTOR2('10_PETROLCOAL',j,z,time)$CO2FACTOR('10_PETROLCOAL',j,z) = 0.67;
+
 $ontext
 *Petrolcoal
  CO2FACTOR('10_PETROLCOAL','10_PETROLCOAL',z) = 0;

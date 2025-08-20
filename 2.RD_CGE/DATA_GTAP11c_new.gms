@@ -1142,7 +1142,6 @@ PARAMETER
 *==============================================================================
 PARAMETER
  ACT_POP(z,time)         Active population from 1980 to 2050 based on the PEP w aggregation
-* ACT_POP_GTAP8(reg,time) Active population from 1980 to 2050 based on the GTAP8 aggregation
  CAB_Foure(z,time)       Implicit CAB in Foure et al projections
  exogro(z,time)          Exogenous growth factor for exogenously growing variables
  exogro_LS(z,time)       Exogenous growth factor for exogenously growing labor supply
@@ -1152,21 +1151,15 @@ PARAMETER
  g_POP(z,time)           Population growth rate
  g_SDR(z,time)           Domestic savings rate growth rate
  GDP(z,time)             GDP projection based on the PEP w aggregation
-* GDP_GTAP8(reg,time)     GDP from 1980 to 2050 based on the GTAP8 aggregation
  gdp_per_cap(z)          GDP per capita
  I_rate(z,time)          Investment rate - domestic savings over GDP
  Invest(z,time)          Investments from 1980 to 2050 based on PEP w aggregation
-* Invest_GTAP8(reg,time)  Investments from 1980 to 2050 based on GTAP8 aggregation
-* K_Stock_GTAP8(reg,time) Capital stock from 1980 to 2050 based on the GTAP8 aggregation
  K_Stock(z,time)         Capital stock from 1980 to 2050 based on the PEP w aggregation
  TFP(z,time)             Total factor productivity index 1980-2050 for PEP w aggregation
-* TFP_GTAP8(reg,time)     Total factor productivity 1980-2050 for GTAP8 aggregation
  S_rate(z,time)          Savings rate - domestic savings over GDP
  Savings(z,time)         Domestic savings from 1980 to 2050 based on PEP w aggregation
-* Savings_GTAP8(reg,time) Domestic savings from 1980 to 2050 based on GTAP8 aggregation
  sdr_fac(z,time)         Exogenous change factor for domestic savings rate
  TOT_POP(z,time)         Total population from 1980 to 2050 based on the PEP w aggregation
-* TOT_POP_GTAP8(reg,time) Total population from 1980 to 2050 based on the GTAP8 aggregation
  CTAX_Cal(z,time)        Carbon Tax for Baseline Scenario
  CTAX_CPS(z,time)        Carbon Tax for Current Policy Scenario
  CTAX_NZS(z,time)        Carbon Tax for Net-Zero Scenario
@@ -1177,13 +1170,12 @@ PARAMETER
  TREND2(z,time)          Value to Physical quantity
  TREND_CPS(z,time)       Value to Physical quantity
  TREND_NZS(z,time)       Value to Physical quantity
- PERMIT_Cal(z,time)      PERMIT
- TIW_Share_Cal(j,time)   PERMIT
+ PERMIT_NZS(z,time)      PERMIT
 ;
 
 $call gdxxrw Input_w-t\Projection.xlsx @Input_w-t\Projection.txt output = Input_w-t\Projection.gdx 
 $gdxIn Input_w-t\Projection.gdx
-$load GDP, TOT_POP, g_SDR, AEEI_low, AEEI_high, TREND, TREND2, TREND_CPS, TREND_NZS, CTAX_Cal, CTAX_CPS, CTAX_NZS, PERMIT_Cal,TIW_Share_Cal
+$load GDP, TOT_POP, g_SDR, AEEI_low, AEEI_high, TREND, TREND2, TREND_CPS, TREND_NZS, CTAX_Cal, CTAX_CPS, CTAX_NZS, PERMIT_NZS
 
 $call gdxxrw Input_w-t\Employment.xlsx @Input_w-t\Employment.txt output = Input_w-t\Employment.gdx 
 $GDXIN Input_w-t\Employment.gdx
@@ -1213,13 +1205,13 @@ loop{time$[time.val lt 2100],
 * 5. Endogenous definition of set for rich regions/countries
 *==============================================================================
 * High Income Countries
- Zrich('01_KOR')        = yes;
+ Zrich('01_KOR')       = yes;
  Zrich('03_JPN')        = yes;
- Zrich('07_NAM')        = yes;
- Zrich('09_WEU')        = yes; 
+ Zrich('07_NAM')       = yes;
+ Zrich('09_WEU')       = yes; 
  Zrich('10_EEU')        = yes; 
  Zrich('17_PAO')        = yes; 
- Zother(Z)              = yes$[not Zrich(Z)];
+ Zother(Z)                = yes$[not Zrich(Z)];
 
 execute_unload 'Input_w-t\DATA_AGG-2019_GTAP11c_new.gdx',
 
@@ -1233,4 +1225,4 @@ execute_unload 'Input_w-t\DATA_AGG-2019_GTAP11c_new.gdx',
  elas_E, elas_elec, elas_gas, elas_oil, elas_coal, elas_petrolcoal, EMPLOY,
 
 *Parameters for RD-CGE
- TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, TREND, TREND2, TREND_CPS, TREND_NZS, CTAX_Cal, CTAX_CPS, CTAX_NZS, PERMIT_Cal,TIW_Share_Cal ;
+ TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, TREND, TREND2, TREND_CPS, TREND_NZS, CTAX_Cal, CTAX_CPS, CTAX_NZS, PERMIT_NZS ;

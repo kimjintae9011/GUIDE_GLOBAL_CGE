@@ -112,6 +112,7 @@ J3(J) Non-KLE Sectors
  26_eOther      Other generation
 /
 
+
 I All commodities except agriculture
 /
  01_AGRICULT    Agricultural forest and fishery goods
@@ -306,6 +307,7 @@ TIME Time periods
 *==============================================================================
 *  1.2 Sets used in GTAP DB
 *==============================================================================
+
  GlobalSet(*) All of the elements of all sets
  endw(GlobalSet)  All factors of production
  acts(GlobalSet)  All industries
@@ -314,11 +316,13 @@ TIME Time periods
  marg(comm) Margin commodities
 
 $GDXIN Input_w-t\GTAP11c_basedata2019.gdx
+
 $LOAD GlobalSet, reg, endw, acts, comm, marg
 
 *==============================================================================
 *  1.3 Mapping between sets used in PEP-w and GTAP DB
 *==============================================================================
+
 z1c(reg)  Elements in GTAP that refer to one single country
 /
 r_01KOR, r_02CHN, r_03JPN, r_04RUS, r_05MNG, r_06PRK, r_07NAM, r_08LAM,
@@ -595,6 +599,8 @@ Parameter
  XSO_I(i,z)      total production by commodity
  XSO(j,i,z)      Industry j production of commodity i
  XSTO(j,z)       Total aggregate output of industry j
+ tssm(i,j,z)     Intermediate tax by source import
+ tssd(i,j,z)     Intermediate tax by source domestic
  MAKE(j,i,z)     Make matrix valued at basic prices
  DSO_I(i,z)      Supplys of domestic production of commodity i
  XSO_I(i,z)      Total aggregate output of commoity i
@@ -658,6 +664,17 @@ $LOAD VTMFSD, VXSB, VFOB, XTRV
 
  DIO(ene,j2,z)$(DIO(ene,j2,z) lt 0.1) = sum(enee,DIO(enee,j2,z))*0.015 ;
  DIO(i,j,z)$(DIO(i,j,z) lt 0.1) = 0.1 ;
+
+* for data balancing
+* DIO(i,'09_PAPERPRO','05_MNG')$(DIO(i,'09_PAPERPRO','05_MNG') lt 0.0000068505) = 0.000001 ;
+
+ tssm(i,j,z)    = SUM[(comm,acts,reg)$[i2comm(i,comm)
+                      $j2acts(j,acts)$z2reg(z,reg)],
+                      VMFP(comm,acts,reg)-VMFB(comm,acts,reg)];
+
+ tssd(i,j,z)    = SUM[(comm,acts,reg)$[i2comm(i,comm)
+                      $j2acts(j,acts)$z2reg(z,reg)],
+                      VDFP(comm,acts,reg)-VDFB(comm,acts,reg)];
 
 *==============================================================================
 * 2.4.5 Imports
@@ -726,21 +743,21 @@ $LOAD VTMFSD, VXSB, VFOB, XTRV
                        $z2reg(zj,regj)$z2reg(z,reg)],
                        VTMFSD('otp',comm,regj,reg)};
 
- tmrg('20_LTRP',ij,zj,z)$(tmrg('20_LTRP',ij,zj,z)lt 0.1) = 0.1 ;
+* tmrg('20_LTRP',ij,zj,z)$(tmrg('20_LTRP',ij,zj,z)lt 0.1) = 0.1 ;
 
  tmrg('21_WTRP',ij,zj,z)$IMO(ij,zj,z)
                  = SUM{(comm,regj,reg)$[i2comm(ij,comm)
                        $z2reg(zj,regj)$z2reg(z,reg)],
                        VTMFSD('wtp',comm,regj,reg)};
 
- tmrg('21_WTRP',ij,zj,z)$(tmrg('21_WTRP',ij,zj,z)lt 0.1) = 0.1 ;
+* tmrg('21_WTRP',ij,zj,z)$(tmrg('21_WTRP',ij,zj,z)lt 0.1) = 0.1 ;
 
  tmrg('22_ATRP',ij,zj,z)$IMO(ij,zj,z)
                  = SUM{(comm,regj,reg)$[i2comm(ij,comm)
                        $z2reg(zj,regj)$z2reg(z,reg)],
                        VTMFSD('atp',comm,regj,reg)};
 
- tmrg('22_ATRP',ij,zj,z)$(tmrg('22_ATRP',ij,zj,z)lt 0.1) = 0.1 ;
+* tmrg('22_ATRP',ij,zj,z)$(tmrg('22_ATRP',ij,zj,z)lt 0.1) = 0.1 ;
 
 
 * Supply of transport margin are given by the variable VST
@@ -819,7 +836,9 @@ $LOAD VTMFSD, VXSB, VFOB, XTRV
                      -SUM[acts,VDFB(comm,acts,reg)
                            +VMFB(comm,acts,reg)]};
 
+
 *Balancing 2019
+
 TICO('04_GAS','06_PRK')   = TICO('04_GAS','06_PRK') -3.59655 -1.0;
 TICO('04_GAS','05_MNG')   = TICO('04_GAS','05_MNG') -2.15382 -1.0;
 TICO('03_OIL','05_MNG')   = TICO('03_OIL','05_MNG') -3.30004 -1.0;
@@ -850,7 +869,7 @@ TICO('03_OIL','06_PRK')   = TICO('03_OIL','06_PRK') -2.13592 -1.0;
                        EVFB(endw,acts,reg)};
 
  LDO2(l,j,z)$(LDO2(l,j,z) lt 0.1) = 0.1 ;
- LDO2_J(l,z)  = SUM(j,LDO2(l,j,z));
+ LDO2_J(l,z)  = SUM(j,LDO2(l,j,z)) - DTAX(l,z);
 
  LDO(j,z) = SUM(l,LDO2(l,j,z));
  LDO_J(z) = SUM(j,LDO(j,z));
@@ -959,12 +978,20 @@ TIPO('04_GAS','01_KOR')       = -0.00115488 -0.1;
 TIPO('04_GAS','05_MNG')       = -0.0039926 -7.1598 -0.1;
 TIPO('05_MINING','06_PRK ')   = -0.0394804 -0.1;
 
+*RKDO('cap',j,z)  = XSTO(j,z)-SUM[i,DIO(i,j,z)]-SUM[l, LDO(l,j,z)+TIWO(l,j,z)]
+*                   -TIPO(j,z)-SUM[k,TIKO(k,j,z)]-RKDO('land',j,z) -RKDO('natr',j,z);
+
 RKDO('cap',j,z)  = XSTO(j,z)-SUM[i,DIO(i,j,z)]-LDO(j,z)-TIWO(j,z)
                    -TIPO(j,z)-SUM[k,TIKO(k,j,z)]-RKDO('land',j,z) -RKDO('natr',j,z);
 
-RKDO_J(k,z) = sum(j,RKDO(k,j,z));
 
-TotalCost(j,z) = SUM[i,DIO(i,j,z)]+LDO(j,z)+TIWO(j,z)+TIPO(j,z)+SUM[k,TIKO(k,j,z)+RKDO(k,j,z)];
+RKDO_J(k,z) = sum(j,RKDO(k,j,z)) - DTAX(k,z);
+
+TotalCost(j,z) = SUM[i,DIO(i,j,z)]
+*                    +SUM[l,LDO(l,j,z)+TIWO(l,j,z)]
+                    +LDO(j,z)+TIWO(j,z)
+                    +TIPO(j,z)
+                    +SUM[k,TIKO(k,j,z)+RKDO(k,j,z)];
 
 *==============================================================================
 * 3. CES elasticities
@@ -1087,6 +1114,30 @@ $LOAD ESUBD, ESUBM, ESUBVA, ELFKLE
                     ELFKLE(acts, reg)*SH_KLE(acts,j,z)};
 
 *==============================================================================
+* 4. Own price elasticities (Conditional)
+*==============================================================================
+PARAMETER
+ E_Composite(j,z)      E nest susbtitution elasticies
+ KLE_Composite(j,z)    KLE nest susbtitution elasticies
+ elas_E(j,z)           Own price elasticities(Composite Energy)
+ elas_elec(j,z)        Own price elasticities(electricity)
+ elas_gas(j,z)         Own price elasticities(gas)       
+ elas_oil(j,z)         Own price elasticities(oil)
+ elas_coal(j,z)        Own price elasticities(coal)
+ elas_petrolcoal(j,z)  Own price elasticities(petrolcoal) 
+;
+
+ E_Composite(j,z)   = SUM{(acts)$[j2acts(j,acts)], E_GTAP(acts,z)};
+ KLE_Composite(j,z) = SUM{(acts)$[j2acts(j,acts)], KLE_GTAP(acts,z)};
+
+ elas_E(j,z) = sigma_KLE(j,z)*(1- E_Composite(j,z)/KLE_Composite(j,z));
+ elas_elec(j,z) = 1.1*(1- DIO('18_ELEC',j,z)/E_Composite(j,z));
+ elas_gas(j,z) = 1.1*(1- DIO('04_GAS',j,z)/E_Composite(j,z));
+ elas_oil(j,z) = 1.1*(1- DIO('03_OIL',j,z)/E_Composite(j,z));
+ elas_coal(j,z) = 1.1*(1- DIO('02_COAL',j,z)/E_Composite(j,z));
+ elas_petrolcoal(j,z) = 1.1*(1- DIO('10_PETROLCOAL',j,z)/E_Composite(j,z));
+
+*==============================================================================
 * Projections used in Recursive Dynamic model
 *==============================================================================
 PARAMETER
@@ -1119,12 +1170,12 @@ PARAMETER
  TREND2(z,time)          Value to Physical quantity
  TREND_CPS(z,time)       Value to Physical quantity
  TREND_NZS(z,time)       Value to Physical quantity
- PERMIT_Cal(z,time)      PERMIT
+ PERMIT_NZS(z,time)      PERMIT
 ;
 
 $call gdxxrw Input_w-t\Projection.xlsx @Input_w-t\Projection.txt output = Input_w-t\Projection.gdx 
 $gdxIn Input_w-t\Projection.gdx
-$load GDP, TOT_POP, g_SDR, AEEI_low, AEEI_high, TREND, TREND2, TREND_CPS, TREND_NZS, CTAX_Cal, CTAX_CPS, CTAX_NZS, PERMIT_Cal
+$load GDP, TOT_POP, g_SDR, AEEI_low, AEEI_high, TREND, TREND2, TREND_CPS, TREND_NZS, CTAX_Cal, CTAX_CPS, CTAX_NZS, PERMIT_NZS
 
 $call gdxxrw Input_w-t\Employment.xlsx @Input_w-t\Employment.txt output = Input_w-t\Employment.gdx 
 $GDXIN Input_w-t\Employment.gdx
@@ -1154,13 +1205,13 @@ loop{time$[time.val lt 2100],
 * 5. Endogenous definition of set for rich regions/countries
 *==============================================================================
 * High Income Countries
- Zrich('01_KOR')  = yes;
- Zrich('03_JPN')   = yes;
- Zrich('07_NAM')  = yes;
- Zrich('09_WEU')  = yes; 
- Zrich('10_EEU')   = yes; 
- Zrich('17_PAO')   = yes; 
- Zother(Z)           = yes$[not Zrich(Z)];
+ Zrich('01_KOR')       = yes;
+ Zrich('03_JPN')        = yes;
+ Zrich('07_NAM')       = yes;
+ Zrich('09_WEU')       = yes; 
+ Zrich('10_EEU')        = yes; 
+ Zrich('17_PAO')        = yes; 
+ Zother(Z)                = yes$[not Zrich(Z)];
 
 execute_unload 'Input_w-t\DATA_AGG-2019_GTAP11c.gdx',
 
@@ -1169,14 +1220,12 @@ execute_unload 'Input_w-t\DATA_AGG-2019_GTAP11c.gdx',
 
 *Benchmark variables and parameters
  CO, CGO, DDO, DEPO, DIO, DSO,DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, POPO, RKDO,
- TDHO, DTAX, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, tmrg, XSO, XSO_I, XSTO, EXTO, TotalCost,
+ TDHO, DTAX, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, tssm, tssd, tmrg, XSO, XSO_I, XSTO, EXTO, TotalCost,
  sigma_M1, sigma_M2, sigma_VA, sigma_KLE, Q_GTAP, KLE_GTAP, SH_Q, SH_VA, SH_KLE, ESUBD, ELFKLE,
- EMPLOY,
+ elas_E, elas_elec, elas_gas, elas_oil, elas_coal, elas_petrolcoal, EMPLOY,
 
 *Parameters for RD-CGE
- TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, TREND, TREND2, TREND_CPS, TREND_NZS,
- CTAX_Cal, CTAX_CPS, CTAX_NZS,
- PERMIT_Cal ;
+ TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, TREND, TREND2, TREND_CPS, TREND_NZS, CTAX_Cal, CTAX_CPS, CTAX_NZS, PERMIT_NZS ;
 
 *==============================================================================
 * 6. SAM Balancing

@@ -1,0 +1,234 @@
+
+--- Job DATA_GTAP11c.gms Start 08/20/25 10:54:54 45.7.0 64fbf3ce WEX-WEI x86 64bit/MS Windows
+--- Applying:
+    C:\GAMS\45\gmsprmNT.txt
+    C:\Users\kimc0\Documents\GAMS\gamsconfig.yaml
+--- GAMS Parameters defined
+    Input C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\DATA_GTAP11c.gms
+    PageSize 0
+    ScrDir C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\225a\
+    SysDir C:\GAMS\45\
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+*** License file too old for this version of GAMS.
+*** Maintenance expired 25 days ago.
+Licensee: Medium MUD - 10 User License                   S220825|0002AO-WIN
+          Konkuk University, Dept of Technology Fusion Engineering  DC16297
+          C:\Users\kimc0\Documents\GAMS\gamslice.txt
+          License Admin: MInyoung Choi, mychoi1119@naver.com               
+          The maintenance period of the license expired on Sep 19, 2023
+          Please contact GAMS or your distributor for further information
+Processor information: 1 socket(s), 6 core(s), and 12 thread(s) available
+GAMS 45.7.0   Copyright (C) 1987-2024 GAMS Development. All rights reserved
+--- Starting compilation
+--- DATA_GTAP11c.gms(33) 2 Mb
+--- call har2gdx Input_GTAP11DB\basedata2019_250422.har Input_w-t\GTAP11c_basedata2019.gdx
+Running program: C:\GAMS\45\har2gdx.exe
+ Input file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_GTAP11DB\basedata2019_250422.har
+Output file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\GTAP11c_basedata2019.gdx
+Deleted existing file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\GTAP11c_basedata2019.gdx
+Read HAR file OK
+Above is DLL version: GDX Library C++ V7 (AUDIT) Thu Jan 18 08:14:50 2024 UnknownInstructionSet Windows
+Built set library OK: 6 sets
+95 Unique set elements
+Processing  set compiler
+Processing  set COMM
+Processing  set ACTS
+Processing  set REG
+Processing  set ENDW
+Processing  set MARG
+Finished ordering elements
+writing to GDX set compiler
+writing to GDX set COMM
+writing to GDX set ACTS
+writing to GDX set REG
+writing to GDX set ENDW
+writing to GDX set MARG
+Wrote sets OK
+Writing header DVER  as GAMS parameter VERNUM
+Writing header VDFB  as GAMS parameter VDFB
+Writing header VMFB  as GAMS parameter VMFB
+Writing header VDFP  as GAMS parameter VDFP
+Writing header VMFP  as GAMS parameter VMFP
+Writing header EVOS  as GAMS parameter EVOS
+Writing header EVFB  as GAMS parameter EVFB
+Writing header EVFP  as GAMS parameter EVFP
+Writing header MAKS  as GAMS parameter MAKES
+Writing header MAKB  as GAMS parameter MAKEB
+Writing header VDGB  as GAMS parameter VDGB
+Writing header VMGB  as GAMS parameter VMGB
+Writing header VDGP  as GAMS parameter VDGP
+Writing header VMGP  as GAMS parameter VMGP
+Writing header VDPB  as GAMS parameter VDPB
+Writing header VMPB  as GAMS parameter VMPB
+Writing header VDPP  as GAMS parameter VDPP
+Writing header VMPP  as GAMS parameter VMPP
+Writing header VDIB  as GAMS parameter VDIB
+Writing header VMIB  as GAMS parameter VMIB
+Writing header VDIP  as GAMS parameter VDIP
+Writing header VMIP  as GAMS parameter VMIP
+Writing header SAVE  as GAMS parameter SAVE
+Writing header VDEP  as GAMS parameter VDEP
+Writing header VXSB  as GAMS parameter VXSB
+Writing header VFOB  as GAMS parameter VFOB
+Writing header VCIF  as GAMS parameter VCIF
+Writing header VMSB  as GAMS parameter VMSB
+Writing header VST   as GAMS parameter VST
+Writing header DPSM  as GAMS parameter DPARSUM
+Writing header VTWR  as GAMS parameter VTMFSD
+Writing header VKB   as GAMS parameter VKB
+Writing header FBEP  as GAMS parameter FBEP
+Writing header FTRV  as GAMS parameter FTRV
+Writing header POP   as GAMS parameter POP
+Writing header OSEP  as GAMS parameter OSEP
+Writing header XTRV  as GAMS parameter XTRV
+Writing header TFRV  as GAMS parameter TFRV
+Writing header MFRV  as GAMS parameter MFRV
+39 real matrices were stored in GDX.
+GDX file is V7, ComprLev 0
+Finished OK: created file C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\GTAP11c_basedata2019.gdx
+There were no warnings.
+Finished OK; created file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\GTAP11c_basedata2019.gdx
+--- DATA_GTAP11c.gms(34) 2 Mb
+--- call har2gdx Input_GTAP11DB\parameter2019_250422.prm Input_w-t\GTAP11c_Parameters2019.gdx
+Running program: C:\GAMS\45\har2gdx.exe
+ Input file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_GTAP11DB\parameter2019_250422.prm
+Output file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\GTAP11c_Parameters2019.gdx
+Deleted existing file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\GTAP11c_Parameters2019.gdx
+Read HAR file OK
+Above is DLL version: GDX Library C++ V7 (AUDIT) Thu Jan 18 08:14:50 2024 UnknownInstructionSet Windows
+Built set library OK: 10 sets
+101 Unique set elements
+Processing  set compiler
+Processing  set DREL
+Processing  set TRBL
+Processing  set COMM
+Processing  set REG
+Processing  set ACTS
+Processing  set ENDW
+Processing  set MARG
+Processing  set ENDWT
+Processing  set FOSSILMIN
+Finished ordering elements
+writing to GDX set compiler
+writing to GDX set DREL
+writing to GDX set TRBL
+writing to GDX set COMM
+writing to GDX set REG
+writing to GDX set ACTS
+writing to GDX set ENDW
+writing to GDX set MARG
+writing to GDX set ENDWT
+writing to GDX set FOSSILMIN
+Wrote sets OK
+Writing header DVER  as GAMS parameter DVER
+Writing header SUB1  as GAMS parameter SUBPAR1
+Writing header INC1  as GAMS parameter INCPAR1
+Writing header SUBP  as GAMS parameter SUBPAR
+Writing header INCP  as GAMS parameter INCPAR
+Writing header ESBT  as GAMS parameter ESUBT
+Writing header ETRE  as GAMS parameter ETRAE
+Writing header ESBD  as GAMS parameter ESUBD
+Writing header ESBM  as GAMS parameter ESUBM
+Writing header ESBC  as GAMS parameter ESUBC
+Writing header ETRQ  as GAMS parameter ETRAQ
+Writing header ESBS  as GAMS parameter ESUBS
+Writing header ESBG  as GAMS parameter ESUBG
+Writing header ESBI  as GAMS parameter ESUBI
+Writing header ESBQ  as GAMS parameter ESUBQ
+Writing header EFLG  as GAMS parameter ENDOWFLAG
+Writing header RFLX  as GAMS parameter RORFLEX
+Writing header SBCR  as GAMS parameter ESUBCR
+Writing header SBDR  as GAMS parameter ESUBDR
+Writing header SBMR  as GAMS parameter ESUBMR
+Writing header EFVE  as GAMS parameter ELFVAEN
+Writing header EFKE  as GAMS parameter ELFKEN
+Writing header EFEN  as GAMS parameter ELFENY
+Writing header EFNC  as GAMS parameter ELFNCOAL
+Writing header EFNL  as GAMS parameter ELFNELY
+Writing header EFCO  as GAMS parameter ELFCOAL
+Writing header EFGS  as GAMS parameter ELFGASS
+Writing header EFOP  as GAMS parameter ELFOPCF
+Writing header EPEN  as GAMS parameter ELPENY
+Writing header EGUG  as GAMS parameter ELGUG
+Writing header EGEN  as GAMS parameter ELGENY
+Writing header EGNN  as GAMS parameter ELGNENY
+Writing header SPLY  as GAMS parameter SUPPLY_ELAST
+Writing header EFEL  as GAMS parameter ELFELY
+Writing header EFEG  as GAMS parameter ELFEGEN
+Writing header EFEB  as GAMS parameter ELFEBL
+Writing header EFEP  as GAMS parameter ELFEPL
+Writing header EPEL  as GAMS parameter ELPELY
+Writing header EPEG  as GAMS parameter ELPEGEN
+Writing header EPEB  as GAMS parameter ELPEBL
+Writing header EPEP  as GAMS parameter ELPEPL
+Writing header EGEL  as GAMS parameter ELGELY
+Writing header EGEG  as GAMS parameter ELGEGEN
+Writing header EGEB  as GAMS parameter ELGEBL
+Writing header EGEP  as GAMS parameter ELGEPL
+Writing header EIEL  as GAMS parameter ELIELY
+Writing header EIEG  as GAMS parameter ELIEGEN
+Writing header EIEB  as GAMS parameter ELIEBL
+Writing header EIEP  as GAMS parameter ELIEPL
+Writing header ESBV  as GAMS parameter ESUBVA
+Writing header EKLE  as GAMS parameter ELFKLE
+51 real matrices were stored in GDX.
+GDX file is V7, ComprLev 0
+Finished OK: created file C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\GTAP11c_Parameters2019.gdx
+There were no warnings.
+Finished OK; created file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\GTAP11c_Parameters2019.gdx
+--- DATA_GTAP11c.gms(318) 3 Mb
+--- GDXin=C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\GTAP11c_basedata2019.gdx
+--- GDX File ($gdxIn) C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\GTAP11c_basedata2019.gdx
+--- DATA_GTAP11c.gms(1032) 20 Mb
+--- GDXin=C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\GTAP11c_Parameters2019.gdx
+--- GDX File ($gdxIn) C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\GTAP11c_Parameters2019.gdx
+--- DATA_GTAP11c.gms(1176) 20 Mb
+--- call gdxxrw Input_w-t\Projection.xlsx @Input_w-t\Projection.txt output = Input_w-t\Projection.gdx
+
+GDXXRW           45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+Input file : C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\Projection.xlsx
+Output file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\Projection.gdx
+Total time = 1437 Ms
+--- DATA_GTAP11c.gms(1177) 20 Mb
+--- GDXin=C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\Projection.gdx
+--- GDX File ($gdxIn) C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\Projection.gdx
+--- DATA_GTAP11c.gms(1180) 21 Mb
+--- call gdxxrw Input_w-t\Employment.xlsx @Input_w-t\Employment.txt output = Input_w-t\Employment.gdx
+
+GDXXRW           45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+Input file : C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\Employment.xlsx
+Output file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\Employment.gdx
+Total time = 1188 Ms
+--- DATA_GTAP11c.gms(1181) 21 Mb
+--- GDXin=C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\Employment.gdx
+--- GDX File ($gdxIn) C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\Employment.gdx
+--- DATA_GTAP11c.gms(1233) 21 Mb
+--- . DATA_SamBal.gms(995) 21 Mb
+--- call gdxxrw Input_w-t\PRK_SAM.xlsx @Input_w-t\PRK_SAM.txt output = Input_w-t\PRK_SAM.gdx
+
+GDXXRW           45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+Input file : C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\PRK_SAM.xlsx
+Output file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\PRK_SAM.gdx
+Total time = 1266 Ms
+--- . DATA_SamBal.gms(996) 21 Mb
+--- GDXin=C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\PRK_SAM.gdx
+--- GDX File ($gdxIn) C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\PRK_SAM.gdx
+--- . DATA_SamBal.gms(1005) 21 Mb
+--- DATA_GTAP11c.gms(1238) 21 Mb
+--- . DATA_ReGen.gms(293) 21 Mb
+--- DATA_GTAP11c.gms(1238) 21 Mb
+--- Starting execution: elapsed 0:00:04.550
+--- DATA_GTAP11c.gms(1216) 32 Mb
+--- GDX File (execute_unload) C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\DATA_AGG-2019_GTAP11c.gdx
+--- DATA_GTAP11c.gms(2181) 70 Mb
+--- GDX File (execute_unload) C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\SAM_Initial.gdx
+--- DATA_GTAP11c.gms(2234) 89 Mb
+--- GDX File (execute_unload) C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\SAM_BAL.gdx
+--- DATA_GTAP11c.gms(2523) 89 Mb
+--- GDX File (execute_unload) C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\DATA_AGG-2019_GTAP11c_Regen.gdx
+*** Status: Normal completion
+--- Job DATA_GTAP11c.gms Stop 08/20/25 10:55:00 elapsed 0:00:05.724

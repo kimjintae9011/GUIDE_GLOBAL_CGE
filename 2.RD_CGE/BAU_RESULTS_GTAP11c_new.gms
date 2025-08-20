@@ -35,13 +35,14 @@ PARAMETER
  valCABX(z,time,scen)        Current account balance or region z in terms of the international currency
  valCG(i,z,time,scen)        Public consumption of commodity i in region z
  valCI(j,z,time,scen)        Total intermediate consumption of industry j in region z
+ valCE(j,z,time,scen)        Total intermediate(energy) consumption of industry j in region z
  valCMIN(i,z,time,scen)      Minimum consumption of commodity i by households in region z
  valCTH(z,time,scen)         Consumption budget of households in region z
  valCTH_REAL(z,time,scen)    Real household consumption in region z
  valDD(i,z,time,scen)        Domestic demand for commodity i produced locally in region z
  valDEP(z,time,scen)         Amount of depreciation (capital consumption allowance) in region z
  valDI(i,j,z,time,scen)      Intermediate consumption of commodity i by industry j in region z
- valDE(i,j,z,time,scen)
+ valDE(i,j,z,time,scen)     Intermediate consumption(energy) of commodity i by industry j in region z
  valDIT(i,z,time,scen)       Total intermediate demand of commodity i in region z
  valDS(j,i,z,time,scen)      Supply of inudstry i to the domestic market of region z
  valDS_I(i,z,time,scen)      Supply of commodity j to the domestic market of region z
@@ -92,7 +93,9 @@ PARAMETER
  valPM(i,zj,z,time,scen)     Price of commodity i imported by region z from region zj (including all taxes duties and margins)
  valPMT(i,z,time,scen)       Price of composite commodity i imported by region z (including all taxes duties and margins)
  valPP(j,z,time,scen)        Unit cost of industry j in region z including taxes directly related to the use of capital and labor but excluding other taxes on production
- valPVA(j,Z,time,scen)       Price of industry j value added in region z (including taxes on production directly related to the use of capital and labor)
+ valPT(j,z,time,scen)        Basic price of industry js output
+ valPVA(j,z,time,scen)       Price of industry j value added in region z (including taxes on production directly related to the use of capital and labor)
+ valPKLE(j,z,time,scen)       Price of industry j KLE in region z
  valPWM(i,zj,z,time,scen)    World price of commodity i imported from country zj by region z (expressed in international currency)
  valPWMG(i,time,scen)        World price of margin i (expressed in international currency)
  valPWX(i,z,zj,time,scen)    World price of commodity i exported to country zj by region z (expressed in international currency)
@@ -272,6 +275,7 @@ PARAMETER
  valCABX(z,time,'bau')       = CABX.l(z,time);
  valCG(i,z,time,'bau')       = CG.l(i,z,time);
  valCI(j,z,time,'bau')       = CI.l(j,z,time);
+ valCE(j,z,time,'bau')       = CE.l(j,z,time);
  valCMIN(i,z,time,'bau')     = CMIN.l(i,z,time);
  valCTH(z,time,'bau')        = CTH.l(z,time);
  valCTH_REAL(z,time,'bau')   = CTH_REAL.l(z,time);
@@ -328,7 +332,9 @@ PARAMETER
  valPM(i,zj,z,time,'bau')    = PM.l(i,zj,z,time);
  valPMT(i,z,time,'bau')      = PMT.l(i,z,time);
  valPP(j,z,time,'bau')       = PP.l(j,z,time);
- valPVA(j,Z,time,'bau')      = PVA.l(j,Z,time);
+ valPT(j,z,time,'bau')       = PT.l(j,z,time);
+ valPVA(j,z,time,'bau')      = PVA.l(j,z,time);
+ valPKLE(j,z,time,'bau')     = PKLE.l(j,z,time);
  valPWM(i,zj,z,time,'bau')   = PWM.l(i,zj,z,time);
  valPWMG(i,time,'bau')       = PWMG.l(i,time);
  valPWX(i,z,zj,time,'bau')   = PWX.l(i,z,zj,time);
@@ -567,6 +573,7 @@ PARAMETER
  valCABX,
  valCG,
  valCI,
+ valCE,
  valCMIN,
  valCTH,
  valCTH_REAL,
@@ -578,6 +585,7 @@ PARAMETER
  valDS,
  valDS_I,
  vale,
+ valEX,
  valEXT,
  valG,
  valG_REAL,
@@ -623,7 +631,9 @@ PARAMETER
  valPM,
  valPMT,
  valPP,
+ valPT,
  valPVA,
+ valPKLE,
  valPWM,
  valPWMG,
  valPWX,

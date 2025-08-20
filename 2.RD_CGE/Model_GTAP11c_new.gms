@@ -31,7 +31,8 @@ SET
  Zrich(Z)        Rich regions
  Zother(Z)       Non-rich regions
 
-$GDXIN Input_w-t/DATA_AGG-2019_GTAP11c_new.gdx
+*$GDXIN Input_w-t/DATA_AGG-2019_GTAP11c_new.gdx
+$GDXIN Input_w-t/DATA_AGG-2019_GTAP11c_Regen.gdx
 $LOAD J, I, BUS, PUB, F, K, Z, ZR, Z1, Zrich, Zother
 
 I1(I) Commodities excluding agriculture and backstop technology
@@ -155,7 +156,6 @@ ENE7(ene) Energy commodities exclduing electricity
  04_GAS          Natural gas
 * 10_PETROLCOAL   Petroleum and coal products
 /
-
 
 NENE(I) Non-energy commodities
 /
@@ -412,27 +412,44 @@ NEA3(Z) Sub NEA KOR-CHN-JPN
 PERMIT_Z(z)
 /
 01_KOR Korea
+02_CHN China
+03_JPN Japan
+04_RUS Russian Federation
+05_MNG Mongolia
+06_PRK Peoples Republic of Korea
+07_NAM North America
+08_LAM Latin America and the Caribbean
+09_WEU Western Europe
+10_EEU Central and Eastern Europe
+11_FSU Former Soviet Union
+12_MEA Middle East and North Africa
+13_AFR Sub-Saharan Africa
+14_CPA Centrally Planned Asia and China
+15_SAS South Asia
+16_PAS Other Pacific Asia
+17_PAO Pacific OECD
+
  /
 
 CTAX_Z(z)
 /
 * 01_KOR Korea
- 02_CHN China
- 03_JPN Japan
- 04_RUS Russian Federation
- 05_MNG Mongolia
- 06_PRK Peoples Republic of Korea
- 07_NAM North America
- 08_LAM Latin America and the Caribbean
- 09_WEU Western Europe
- 10_EEU Central and Eastern Europe
- 11_FSU Former Soviet Union
- 12_MEA Middle East and North Africa
- 13_AFR Sub-Saharan Africa
- 14_CPA Centrally Planned Asia and China
- 15_SAS South Asia
- 16_PAS Other Pacific Asia
- 17_PAO Pacific OECD
+*02_CHN China
+* 03_JPN Japan
+* 04_RUS Russian Federation
+*05_MNG Mongolia
+* 06_PRK Peoples Republic of Korea
+* 07_NAM North America
+* 08_LAM Latin America and the Caribbean
+* 09_WEU Western Europe
+* 10_EEU Central and Eastern Europe
+* 11_FSU Former Soviet Union
+* 12_MEA Middle East and North Africa
+* 13_AFR Sub-Saharan Africa
+* 14_CPA Centrally Planned Asia and China
+* 15_SAS South Asia
+* 16_PAS Other Pacific Asia
+* 17_PAO Pacific OECD
 /
 
 COMtoIND(j,i3) 
@@ -457,8 +474,10 @@ INDtoCOM(i3,j)
 
 TIME Time periods
 /
-*2019*2050
-2019*2033
+*2019*2035
+*2019*2036
+*2019*2045
+2019*2050
 /
 
 T(time)
@@ -467,14 +486,13 @@ T1(time)         = yes$[ord(time) eq 1];
 
 Parameter EndTime /2050/;
 
-ALIAS (j,jj)
-ALIAS (i,ii,ij)
-*ALIAS (l,lj)
-ALIAS (k,kj)
-ALIAS (z,zj,zjj)
-ALIAS (power, powerr)
-AlIAS (ENE,ENEE)
-AlIAS (TIME, TIMEE)
+Alias (j,jj)
+Alias (i,ii,ij)
+Alias (k,kj)
+Alias (z,zj,zjj)
+Alias (power, powerr)
+Alias (ENE,ENEE)
+Alias (TIME, TIMEE)
 Alias (Elec, Elecc)
 Alias (ene1, enee1)
 Alias (ene3, enee3)
@@ -485,26 +503,20 @@ Alias (ene7, enee7)
 ;
 
 *==============================================================================
-* Scalar
-*==============================================================================
-*scalar solar_growth solar ;
-*scalar solar_growth / 0.04823 /;
-
-*==============================================================================
 * Parameters
 *==============================================================================
 PARAMETER
- A_K(z)                        Scale parameter (investment function)
- aij(i,j,z)                       Input output coefficient
- aij2(i,j,z)                     Input output coefficient (intermediate energy)
+ A_K(z)                       Scale parameter (investment function)
+ aij(i,j,z)                   Input output coefficient
+ aij2(i,j,z)                  Input output coefficient (intermediate energy)
  B_KD(j,z)                    Scale parameter (CES - composite capital)
  B_LD(j,z)                    Scale parameter (CES - composite labor)
  B_M1(i,z)                    Scale parameter (CES - composite commodity)
  B_M2(i,z)                    Scale parameter (CES - composite import)
  B_VA(j,z)                    Scale parameter (CES - value added)
- B_VA_t(j,z,time)          Scale parameter (CES - value added)
- B_KLE(j,z)                  Scale parameter (CES - composite KLE)
- B_ENER(j,z)                Scale parameter (CES - composite ENER)
+ B_VA_t(j,z,time)             Scale parameter (CES - value added)
+ B_KLE(j,z)                   Scale parameter (CES - composite KLE)
+ B_ENER(j,z)                  Scale parameter (CES - composite ENER)
  B_ENER_t(j,z,time)           Scale parameter (CES - composite ENER)
  B_ENER2(j,z)                 Scale parameter (CES - composite ENER)
  B_ENER3(j,z)                 Scale parameter (CES - composite ENER)
@@ -602,15 +614,14 @@ PARAMETER
  CTAX_Cal(z,time)             Carbon Tax for Baseline Scenario
  CTAX_CPS(z,time)             Carbon Tax for Current Policy Scenario
  CTAX_NZS(z,time)             Carbon Tax for Net Zero Scenario
- PERMIT_Cal(z,time)           PERMIT
- TIW_Share_Cal(j,time)        PERMIT
- switch(i3,z,time)                 binary variable - equals zero if no use of backstop technologies
+ PERMIT_NZS(z,time)           PERMIT
+ switch(i3,z,time)            binary variable - equals zero if no use of backstop technologies
  penetration_rate(i3,z,time)  penetration_rate
- recycle_gov(z,time)            binary variable - equals zero if no use of CTAX Rebate
- recycle_hou(z,time)            binary variable - equals zero if no use of CTAX Rebate
- recycle_labor(z,time)          binary variable - equals zero if no use of CTAX Rebate
- recycle_capital(z,time)        binary variable - equals zero if no use of CTAX Rebate
- recycle_ptax(z,time)           binary variable - equals zero if no use of CTAX Rebate
+ recycle_gov(z,time)          binary variable - equals zero if no use of CTAX Rebate
+ recycle_hou(z,time)          binary variable - equals zero if no use of CTAX Rebate
+ recycle_labor(z,time)        binary variable - equals zero if no use of CTAX Rebate
+ recycle_capital(z,time)      binary variable - equals zero if no use of CTAX Rebate
+ recycle_ptax(z,time)         binary variable - equals zero if no use of CTAX Rebate
 *==============================================================================
 *  Volume
 *==============================================================================
@@ -785,7 +796,7 @@ PARAMETER
 ;
 
 $LOAD CO, CGO, DDO, DEPO, DIO, DSO, DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, XSO, XSO_I, XSTO, 
-$LOAD TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, CTAX_Cal, CTAX_CPS, CTAX_NZS, PERMIT_cal, TIW_Share_Cal, 
+$LOAD TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, CTAX_Cal, CTAX_CPS, CTAX_NZS, PERMIT_NZS, 
 $LOAD RKDO, TDHO, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, 
 $LOAD tmrg, sigma_M1, sigma_M2, sigma_VA, sigma_KLE, POPO
 
@@ -798,35 +809,40 @@ $LOAD sigma_KD, sigma_LD, sigma_X1, sigma_X2, sigma_X3, sigma_X0, sigma_y, sigma
 
 *===============================================================================
 * CES - composite capital
- sigma_KD(j,z)             = 0.5;
- sigma_KD('02_COAL',z)     = 0.2;
- sigma_KD('03_OIL',z)      = 0.2;
- sigma_KD('04_GAS',z)      = 0.2;
- sigma_KD('05_MINING',z)   = 0.2;
+ sigma_KD(j,z)  = 0.5;
+* sigma_KD('02_COAL',z)     = 0.2;
+* sigma_KD('03_OIL',z)      = 0.2;
+* sigma_KD('04_GAS',z)      = 0.2;
+* sigma_KD('05_MINING',z)   = 0.2;
 
 * CES - composite labor
- sigma_LD(j,z)   = 2*sigma_VA(j,z); 
+sigma_LD(j,z)  = 0.5;
+* sigma_LD(j,z)   = 2*sigma_VA(j,z); 
 
 * CES - composite K-L
  sigma_VA('10_PETROLCOAL',z)  = 1.26;
- sigma_VA('18_TnD',z)         = 0.2;
- sigma_VA('19_eNuclear',z)    = 0.2;
- sigma_VA('20_eCoal',z)       = 0.2;
- sigma_VA('21_eGas',z)        = 0.2;
- sigma_VA('22_eOil',z)        = 0.2;
- sigma_VA('23_eWind',z)       = 0.2;
- sigma_VA('24_eSolar',z)      = 0.2;
- sigma_VA('25_eHydro',z)      = 0.2;
- sigma_VA('26_eOther',z)      = 0.2;
+ sigma_VA('18_TnD',z)               = 0.2;
+ sigma_VA('19_eNuclear',z)        = 0.2;
+ sigma_VA('20_eCoal',z)             = 0.2;
+ sigma_VA('21_eGas',z)              = 0.2;
+ sigma_VA('22_eOil',z)               = 0.2;
+ sigma_VA('23_eWind',z)            = 0.2;
+ sigma_VA('24_eSolar',z)            = 0.2;
+ sigma_VA('25_eHydro',z)           = 0.2;
+ sigma_VA('26_eOther',z)           = 0.2;
+
+*RUS 
+* sigma_VA('27_CONSTRUC',z)    = 0.2;
 
 * CES - composite ENER
  sigma_ENER(j,z)              = 1.1 ;
  sigma_ENER2(j2,z)           = 1.1 ;
-* sigma_ENER2(j2,z)          = 0.5;
  sigma_ENER3(j2,z)           = 1.1 ;
  sigma_ENER4(j2,z)           = 2.0 ;
  sigma_ENER5_1(j2,z)        = 2.0 ;
  sigma_ENER5_2(j2,z)        = 2.0 ;
+
+ sigma_X0(j,z)  = 1.5; 
 
 * CES - composite Power sector
  sigma_X4(z)    = 1.1;
@@ -843,12 +859,13 @@ $LOAD sigma_KD, sigma_LD, sigma_X1, sigma_X2, sigma_X3, sigma_X0, sigma_y, sigma
  sigma_X2(i,Z)  = 2;
 
 * CES - composite Power sector
- sigma_X4(z)    = 2;
- sigma_X4(NEA2) = 5;
+ sigma_X4(z)       = 2;
+ sigma_X4(NEA2) = 2;
 
 * Investment demand elasticity
  sigma_INV(k,j,z) = 2;
-
+ sigma_INV(k,j,'05_MNG') = 0.5;
+* sigma_INV(k,'27_CONSTRUC','04_RUS') = 0.1;
 * Income elasticity of consumption
 * sigma_Y('03_OIL','06_PRK') = 1.01;
 
@@ -856,7 +873,7 @@ $LOAD sigma_KD, sigma_LD, sigma_X1, sigma_X2, sigma_X3, sigma_X0, sigma_y, sigma
  frisch(z)      = PARZ(z,'frisch');
 
 * Labour supply 
- elasLS(z)      = 0.5 ; 
+ elasLS(z) = 0.5 ; 
 
  growthz(z)     = 0.02 ;
 *==============================================================================
@@ -1614,7 +1631,6 @@ Parameters
 *   Carbon tax recycling
 *============================================================================== 
  TIWO_Share(j,z)    =   LDO(j,z)/LSO(z); 
-* TIWO_Share(j,z)    =   PERMITO(j,z)/ PERMIT_TOTALO(z); 
  TIKO_Share(k,j,z)   =  KDO(k,j,z)/KSO(k,z);
  TIPO_Share(j,z)     =  XSTO(j,z)/sum(jj,XSTO(jj,z)); 
 
@@ -1629,7 +1645,6 @@ Parameters
 ;
  
 execute_unload 'Calibration_Check_GTAP11c';
-
 *==============================================================================
 * Variable
 *==============================================================================
@@ -1691,7 +1706,6 @@ VARIABLES
  MARKUP(i3,z,time)
  PERMIT(j,z,time)  
  PERMIT_TOTAL(z,time)
- deltatiw(j,z,time)
  deltatik(j,z,time)
  deltatip(j,z,time)
 *==============================================================================
@@ -1782,22 +1796,21 @@ VARIABLES
  TIW_Share(j,z,time)
  TIK_Share(j,z,time)
  TIP_Share(j,z,time)
-
+ LaborRebate(j,z,time)
 *==============================================================================
 *  Rates and intercepts
 *==============================================================================
  phi(z,time)             Scale variable (allocation of investment to industries)
- sh0(z,time)            Intercept (household savings)
- sh1(z,time)            Slope (household savings)
- ttdh0(z,time)          Intercept (household income tax)
- ttdh1(z,time)          Slope (household income tax)
- ttic(i,z,time)           Tax rate on commodity i
+ sh0(z,time)             Intercept (household savings)
+ sh1(z,time)             Slope (household savings)
+ ttdh0(z,time)           Intercept (household income tax)
+ ttdh1(z,time)           Slope (household income tax)
+ ttic(i,z,time)          Tax rate on commodity i
  ttik(k,j,z,time)        Tax rate on capital k used in industry j
  ttim(i,zj,z,time)       Rate of taxes and duties on imports of commodity i from country zj
- ttip(j,z,time)           Tax rate on the production of industry j
+ ttip(j,z,time)          Tax rate on the production of industry j
  ttiw(j,z,time)          Tax rate on type l worker compensation in industry j
- ttix(i,z,zj,time)        Export tax rate on exported commodity i
- ttiw_lag(j,z,time)
+ ttix(i,z,zj,time)       Export tax rate on exported commodity i
  ttik_lag(j,z,time)
  ttip_lag(j,z,time)
  
@@ -1813,19 +1826,19 @@ VARIABLES
 *  Equations
 *==============================================================================
 EQUATIONS
- EQ1(j,z,time)           Leontief - demand for value added
+ EQ1(j,z,time)            Leontief - demand for value added
  EQ1_1(j,z,time)         Leontief - demand for KLE(Industries) 
- EQ2(j,z,time)           Leontief - demand for intermediate consumption
+ EQ2(j,z,time)            Leontief - demand for intermediate consumption
  EQ2_1(j,z,time)         Leontief - demand for intermediate energy consumption(Energy Industries)
- EQ3(j,z,time)           CES - combination of labor and capital
+ EQ3(j,z,time)            CES - combination of labor and capital
  EQ3_1(j,z,time)         CES - combination of composite energy and value added
- EQ4(j,z,time)           CES - demand for composite labor
+ EQ4(j,z,time)            CES - demand for composite labor
  EQ4_1(j,z,time)         Demand for value added relative to composite energy
- EQ5(j,z,time)           CES between labor categories
+ EQ5(j,z,time)            CES between labor categories
 * EQ6(l,j,z,time)         Demand for labor
- EQ7(j,z,time)           CES between capital categories
- EQ8(k,j,z,time)         Demand for capital
- EQ9(i,j,z,time)         Leontief - demand for commodity i by sector j
+ EQ7(j,z,time)            CES between capital categories
+ EQ8(k,j,z,time)          Demand for capital
+ EQ9(i,j,z,time)          Leontief - demand for commodity i by sector j
  EQ9_1(ene,j3,z,time)
 *Simple Nesting
 *EQ9_2(ene,j2,z,time)
@@ -1904,7 +1917,6 @@ EQUATIONS
  EQ51_4(j2,z,time)
  EQ51_5(j2,z,time)
  EQ51_6(j2,z,time)
-
  EQ52(j,z,time)          Value added price
  EQ52_1(j,z,time)        KLE price
  EQ53(j,z,time)          Price of composite labor in industry j (redundant)
@@ -1940,7 +1952,7 @@ EQUATIONS
  EQ77(i,z,zj,time)       Exports supply equals imports demand
  EQ78(i,z,zj,time)       Exports price equals imports price
  EQ79(i,time)            World demand for margins equals world supply
-* EQ80                   Sum of foreign savings equals zero (redundant)
+* EQ80                       Sum of foreign savings equals zero (redundant)
  EQ81(z,time)            GDP at basic prices
  EQ82(z,time)            GDP at market prices
  EQ83(z,time)            GDP at market prices (income-based)
@@ -1986,6 +1998,7 @@ EQUATIONS
  EQ107(j,z,time)
  EQ108(z,time)
  EQ109(z,time) 
+ EQ110(j,z,time)
  EQ111(j,z,time)
  EQ112(j,z,time)
  EQ113(j,z,time)
@@ -1993,8 +2006,6 @@ EQUATIONS
  EQ115(j,z,time)
  EQ116(j,z,time)
  EQ117(j,z,time)
- EQ118(j,z,time)
- EQ119(j,z,time)
 ;
 
 *==============================================================================
@@ -2010,7 +2021,6 @@ EQUATIONS
  
  EQ2_1(j3,z,t)..   CE(j3,z,t) =e= io2(j3,z)*XST(j3,z,t);
 
-* EQ3(j,z,t)..      VA(j,z,t) =e= A_VA(z,t)*B_VA(j,z)*{
  EQ3(j,z,t)..      VA(j,z,t) =e= A_VA(z,t)*B_VA_t(j,z,t)*{
                     [beta_VA(j,z)*LDC(j,z,t)**(-rho_VA(j,z))]$LDCO(j,z)
                    +[(1-beta_VA(j,z))*KDC(j,z,t)**(-rho_VA(j,z))]$KDCO(j,z)
@@ -2165,7 +2175,7 @@ EQUATIONS
  EQ25(z,t)..       TDH(z,t) =e= PIXCON(z,t)**eta*ttdh0(z,t)+ttdh1(z,t)*YH(z,t);
 
  EQ26(j,z,t)$LDO(j,z)..
-                 TIW(j,z,t) =e= ttiw(j,z,t)*W(z,t)*LD(j,z,t);
+                 TIW(j,z,t) =e= ttiw(j,z,t)*W(z,t)*LD(j,z,t) -LaborRebate(j,z,t);
  
  EQ27(k,j,z,t)$KDO(k,j,z)..
                  TIK(k,j,z,t) =e= ttik(k,j,z,t)*R(k,j,z,t)*KD(k,j,z,t);
@@ -2318,7 +2328,7 @@ $OFFTEXT
 *==============================================================================
 *   5.3.5 Prices
 *==============================================================================
- EQ49(j2,z,t)..      PP(j2,z,t)*XST(j2,z,t) =e= PKLE(j2,z,t)*KLE(j2,z,t)+PCI(j2,z,t)*CI(j2,z,t);
+ EQ49(j2,z,t)..       PP(j2,z,t)*XST(j2,z,t) =e= PKLE(j2,z,t)*KLE(j2,z,t)+PCI(j2,z,t)*CI(j2,z,t);
 
  EQ49_1(j3,z,t)..   PP(j3,z,t)*XST(j3,z,t) =e= PVA(j3,z,t)*VA(j3,z,t)+PCI(j3,z,t)*CI(j3,z,t)+PCE(j3,z,t)*CE(j3,z,t);
 
@@ -2364,7 +2374,7 @@ $OFFTEXT
  EQ53(j,z,t)..     WC(j,z,t)*LDC(j,z,t) =e= WTI(j,z,t)*LD(j,z,t);
 
  EQ54(j,z,t)$LDO(j,z)..
-                 WTI(j,z,t) =e= W(z,t)*(1+ttiw(j,z,t));
+                 WTI(j,z,t)*LD(j,z,t) =e= W(z,t)*(1+ttiw(j,z,t))*LD(j,z,t) -LaborRebate(j,z,t);
 
  EQ54_1(ene,j2,z,t)$DEO(ene,j2,z)..
                  P4(ene,j2,z,t) =e= PC(ene,z,t);
@@ -2459,7 +2469,7 @@ $OFFTEXT
                                                  tmrg(i,ij,zj,z)*IM(ij,zj,z,t)];
 
 * Given equations 33, 34 and 77, equation 80 is redundant
-* EQ80..          SUM[z,SROW(z)/e(z)] =e= 0;
+*EQ80..          SUM[z,SROW(z,t)/e(z,t)] =e= 0;
 
 *==============================================================================
 *   5.3.7 Gross domestic product
@@ -2478,7 +2488,8 @@ $OFFTEXT
                 +SUM[i$MRGNO(i,z),e(z,t)*PWMG(i,t)*MRGN(i,z,t)]
                 -SUM[(i,zj)$IMO(i,zj,z),e(z,t)*IM(i,zj,z,t)
                     *(PWM(i,zj,z,t)+SUM[ij,PWMG(ij,t)*tmrg(ij,i,zj,z)])]
-                -TCTAX(z,t) ;
+                -TCTAX(z,t) -SUM(i3,MARKUP(i3,z,t));
+* GDP_MP, GDP_IB, GDP_FD                
 
  EQ85(t)..          GDP_BP_W(t) =e= SUM[z,GDP_BP(z,t)/e(z,t)];
 
@@ -2532,9 +2543,9 @@ $OFFTEXT
 
  EQ100(j,z,t)..    XDBS2(j,z,t) =e= sum{i3$COMtoIND(j,i3),XDBS(i3,z,t)};
 
- EQ101(j,z,t)..    LBS(j,z,t) =e= 0.6*XDBS2(j,z,t);
+ EQ101(j,z,t)..    LBS(j,z,t) =e= 0.1*XDBS2(j,z,t);
  
- EQ102(k,j,z,t)..  KBS(k,j,z,t) =e= 0.3*XDBS2(j,z,t)*KDO(k,j,z)/sum(kj,KDO(kj,j,z));
+ EQ102(k,j,z,t)..  KBS(k,j,z,t) =e= 0.1*XDBS2(j,z,t)*KDO(k,j,z)/sum(kj,KDO(kj,j,z));
 
  EQ103(i3,z,t)..   CLBS(i3,z,t)  =e= sum{j$INDtoCOM(i3,j),LBS(j,z,t)*WC(j,z,t)};
 
@@ -2559,23 +2570,21 @@ $OFFTEXT
 *==============================================================================
 EQ109(z,t)..     REBATE(z,t) =e= TCTAX(z,t);
 
-EQ111(j,z,t)..   TIW_Share(j,z,t) =e= LD(j,z,t)/SUM(jj,LD(jj,z,t));
+EQ110(j,z,t)..   TIW_Share(j,z,t) =e= LD(j,z,t)/SUM(jj,LD(jj,z,t));
 
-EQ112(j,z,t)..   ttiw(j,z,t) =e= ttiw_lag(j,z,t) + deltatiw(j,z,t);
+EQ111(j,z,t)..   LaborRebate(j,z,t) =e= TIW_Share(j,z,t) * TCTAX(z,t) * recycle_labor(z,t);
 
-EQ113(j,z,t)..   deltatiw(j,z,t) =e= -TIW_Share(j,z,t) * REBATE(z,t) / (W(z,t)*LD(j,z,t))*recycle_labor(z,t);
- 
-EQ114(j,z,t)..   TIK_Share(j,z,t) =e= KD('cap',j,z,t)/SUM(jj,KD('cap',jj,z,t));
+EQ112(j,z,t)..   TIK_Share(j,z,t) =e= KD('cap',j,z,t)/SUM(jj,KD('cap',jj,z,t));
 
-EQ115(j,z,t)..   ttik('cap',j,z,t) =e= ttik_lag(j,z,t) + deltatik(j,z,t)*recycle_capital(z,t);
+EQ113(j,z,t)..   ttik('cap',j,z,t) =e= ttik_lag(j,z,t) + deltatik(j,z,t);
 
-EQ116(j,z,t)..   deltatik(j,z,t) =e= -TIK_Share(j,z,t)*REBATE(z,t)/(R('cap',j,z,t)*KD('cap',j,z,t));
+EQ114(j,z,t)..   deltatik(j,z,t) =e= -TIK_Share(j,z,t)*REBATE(z,t)/(R('cap',j,z,t)*KD('cap',j,z,t))*recycle_capital(z,t);
 
-EQ117(j,z,t)..   TIP_Share(j,z,t) =e= XST(j,z,t)/SUM(jj,XST(jj,z,t));
+EQ115(j,z,t)..   TIP_Share(j,z,t) =e= XST(j,z,t)/SUM(jj,XST(jj,z,t));
 
-EQ118(j,z,t)..   ttip(j,z,t) =e= ttip_lag(j,z,t) + deltatip(j,z,t);
+EQ116(j,z,t)..   ttip(j,z,t) =e= ttip_lag(j,z,t) + deltatip(j,z,t);
 
-EQ119(j,z,t)..   deltatip(j,z,t) =e= -TIP_Share(j,z,t) * REBATE(z,t) / (PP(j,z,t)*XST(j,z,t))*recycle_ptax(z,t);
+EQ117(j,z,t)..   deltatip(j,z,t) =e= -TIP_Share(j,z,t) * REBATE(z,t) / (PP(j,z,t)*XST(j,z,t))*recycle_ptax(z,t);
   
 *==============================================================================
 * 6 Numerical resolution to compute A_VA, sh0, G, G_REAL and IND

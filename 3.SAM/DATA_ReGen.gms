@@ -290,5 +290,4 @@ execute_unload 'Input_w-t\DATA_AGG-2019_GTAP11c_Regen.gdx',
 
 *Parameters for RD-CGE
  TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, TREND, TREND2, TREND_CPS, TREND_NZS,
- CTAX_Cal, CTAX_CPS, CTAX_NZS,
- PERMIT_Cal ;
+ CTAX_Cal, CTAX_CPS, CTAX_NZS, PERMIT_NZS ;

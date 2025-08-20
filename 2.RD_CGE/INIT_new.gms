@@ -127,9 +127,9 @@
  TIPT.L(z,t1)               = TIPTO(z);
  TIW.L(j,z,t1)              = TIWO(j,z);
  TIWT.L(z,t1)               = TIWTO(z);
- deltatiw.L(j,z,t1)         = 0;
+* deltatiw.L(j,z,t1)         = 0;
  ttiw.L(j,z,t1)             = ttiwO(j,z);
- ttiw_lag.L(j,z,t1)         = ttiwO(j,z);
+* ttiw_lag.L(j,z,t1)         = ttiwO(j,z);
  TIW_Share.L(j,z,t1)        = TIWO_Share(j,z);
  deltatik.L(j,z,t1)         = 0;
  ttik.L(k,j,z,t1)           = ttikO(k,j,z);
@@ -283,9 +283,7 @@ IF{ord(time) gt 1,
  TIPT.L(z,time)             = TIPT.L(z,time-1);
  TIW.L(j,z,time)            = TIW.L(j,z,time-1);
  TIWT.L(z,time)             = TIWT.L(z,time-1);
- deltatiw.L(j,z,time)       = deltatiw.L(j,z,time-1);
  ttiw.L(j,z,time)           = ttiw.L(j,z,time-1);
- ttiw_lag.L(j,z,time)       = ttiw_lag.L(j,z,time-1);
  TIW_Share.L(j,z,time)      = TIW_Share.L(j,z,time-1);
  deltatik.L(j,z,time)       = deltatik.L(j,z,time-1);
  ttik.L('cap',j,z,time)     = ttik.L('cap',j,z,time-1);
@@ -310,4 +308,5 @@ IF{ord(time) gt 1,
 *   A.2.4 Rates and intercepts
 *==============================================================================
  phi.L(z,time)       = phi.L(z,time-1);
+ 
 };

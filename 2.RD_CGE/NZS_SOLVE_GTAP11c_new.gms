@@ -49,7 +49,7 @@ $LOAD A_VA_RES, GX, G_REALX, INDX, sh1X, sh0X
 *$ontext
 * FP CLOSURE: fixed PIXGDPs; numeraire is exchange rate of reference region
 * The exchange rates are endogenous, except for the reference region.
- e.FX(zr,time)      = eO(zr);
+ e.FX(zr,time)          = eO(zr);
  PIXGDP.FX(z,time)  = PIXGDPO(z)/sum(zr,eO(zr));
 *$offtext
 
@@ -74,7 +74,7 @@ $offtext
  ttix.fx(i,z,zj,time)             = ttixO(i,z,zj);
  ttik.fx('land',j,z,time)        = ttikO('land',j,z);
  ttik.fx('natr',j,z,time)        = ttikO('natr',j,z);
-* ttiw.fx(j,z,time)             = ttiwO(j,z);
+ ttiw.fx(j,z,time)               = ttiwO(j,z);
 * ttik.fx(k,j,z,time)           = ttikO(k,j,z);
 * ttip.fx(j,z,time)             = ttipO(j,z);
 
@@ -173,9 +173,9 @@ $offtext
  PIXCON_lag(z,time)$[ord(time) gt 1]
                     = PIXCON.l(z,time-1); 
  
- ttiw_lag.fx(j,z,t1)  =ttiwO(j,z);
- ttiw_lag.fx(j,z,time)$[ord(time) gt 1]
-                     =ttiw.l(j,z,time-1);
+* ttiw_lag.fx(j,z,t1)  =ttiwO(j,z);
+* ttiw_lag.fx(j,z,time)$[ord(time) gt 1]
+*                     =ttiw.l(j,z,time-1);
  
  ttik_lag.fx(j,z,t1)  =ttikO('cap',j,z);
  ttik_lag.fx(j,z,time)$[ord(time) gt 1]
@@ -188,7 +188,6 @@ $offtext
 *==============================================================================
 *   For Own price elasticity experiment
 *============================================================================== 
-
 * PD.fx("18_ELEC","06_PRK",t1)  = PDO("18_ELEC","06_PRK");
 * PD.fx("18_ELEC","06_PRK",time)$[ord(time) gt 1]
 *                                             = valPD("18_ELEC","06_PRK",time,'bau')*[1+0.01] ;
@@ -200,12 +199,12 @@ $offtext
 *                            = CTAX_NZS(z,time); 
 
  PERMIT_TOTAL.fx(PERMIT_Z,time)$[ord(time) gt 1]
-                             = PERMIT_TOTALO(PERMIT_Z)*PERMIT_Cal(PERMIT_Z,time);  
+                             = PERMIT_TOTALO(PERMIT_Z)*PERMIT_NZS(PERMIT_Z,time);  
 
- recycle_gov(z,time)     = 0;          
+ recycle_gov(z,time)     = 1;          
  recycle_hou(z,time)     = 0;           
  recycle_labor(z,time)   = 0;         
- recycle_capital(z,time) = 1;        
+ recycle_capital(z,time) = 0;        
  recycle_ptax(z,time)    = 0;    
                 
 *==============================================================================
@@ -226,14 +225,14 @@ $offtext
 *==============================================================================
 *  Marginal abatement curves for emissions
 *============================================================================== 
-CTAX_CO2(ene,j,'01_KOR',time)$[ord(time) gt 2]  =(1+ CTAX.L('01_KOR',time))** gamma_CO2(ene,j,'01_KOR');
+CTAX_CO2(ene,j,PERMIT_Z,time)$[ord(time) gt 2]  =(1+ CTAX.L(PERMIT_Z,time))** gamma_CO2(ene,j,PERMIT_Z);
 
-CO2FACTOR2_Star(ene,j,'01_KOR',time)$[ord(time) gt 2]= 
-CO2FACTOR(ene,j,'01_KOR') * exp(
- alpha_CO2(ene,j,'01_KOR') - alpha_CO2(ene,j,'01_KOR') *CTAX_CO2(ene,j,'01_KOR',time)
+CO2FACTOR2_Star(ene,j,PERMIT_Z,time)$[ord(time) gt 2]= 
+CO2FACTOR(ene,j,PERMIT_Z) * exp(
+ alpha_CO2(ene,j,PERMIT_Z) - alpha_CO2(ene,j,PERMIT_Z) *CTAX_CO2(ene,j,PERMIT_Z,time)
  );
 
-CO2FACTOR2(ene,j,'01_KOR',time)$[ord(time) gt 2]= CO2FACTOR2(ene,j,'01_KOR',time-1)+0.3*(CO2FACTOR2_Star(ene,j,'01_KOR',time)-CO2FACTOR2(ene,j,'01_KOR',time-1));
+CO2FACTOR2(ene,j,PERMIT_Z,time)$[ord(time) gt 2]= CO2FACTOR2(ene,j,PERMIT_Z,time-1)+0.3*(CO2FACTOR2_Star(ene,j,PERMIT_Z,time)-CO2FACTOR2(ene,j,PERMIT_Z,time-1));
 
 *==============================================================================
 * Backstop technologies

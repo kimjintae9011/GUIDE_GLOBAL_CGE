@@ -37,7 +37,7 @@ PARAMETER
  valIMT(i,z,time,scen)       Quantity demanded of composite imports of commodity i by region z
  valIND(k,j,z,time,scen)       Volume of new type k capital investment to industry j in region z
  valINV(i,z,time,scen)       Final demand of commodity i for investment purposes (GFCF) in region z
- valIR(z,time,scen)          Interest rate
+ valIR(z,time,scen)       F   Interest rate
  valIT(z,time,scen)          Total investment expenditures in region z
  valIT_REAL(z,time,scen)     Real gross fixed capital formation
  valKD(k,j,z,time,scen)      Demand for type k capital by industry j in region z
@@ -119,6 +119,7 @@ PARAMETER
  valYHL(z,time,scen)         Household labor income in region z
  valYROW(z,time,scen)        Rest-of-the-world total income from region z
  valYROW2(z,time,scen)
+ valYROW3(z,time,scen)
  valPERMIT_TOTAL(z,time,scen) Total emissions
  valPERMIT(j,z,time,scen)
  valCO2FACTOR(ene,j,z,time,scen) CO2 FACTOR
@@ -207,6 +208,7 @@ PARAMETER
  valdeltatiw(j,z,time,scen)
  valdeltatik(j,z,time,scen)
  valdeltatip(j,z,time,scen)
+ valrebatetot(z,time,scen)
 *================== Backstop technology ===========================================================
  valswitch(i3,z,time,scen) switch
  valpenetration_rate(i3,z,time,scen)
@@ -340,10 +342,8 @@ PARAMETER
  valYHK(z,time,'NZS')        = YHK.l(z,time);
  valYHL(z,time,'NZS')        = YHL.l(z,time);
  valYROW(z,time,'NZS')       = YROW.l(z,time);
- valYROW2(z,time,'NZS')       = e.l(z,time)*SUM[(i,zj)$EXO(i,z,zj),
-                               EX.l(i,z,zj,time)*PWX.l(i,z,zj,time)]-e.l(z,time)
-                               *SUM[i$MRGNO(i,z),MRGN.l(i,z,time)*PWMG.l(i,time)];
-
+ valYROW2(z,time,'NZS')     = -1*e.l(z,time)*SUM[(i,zj)$EXO(i,z,zj), EX.l(i,z,zj,time)*PWX.l(i,z,zj,time)] ;
+  valYROW3(z,time,'NZS')    = -1*e.l(z,time)*SUM[i$MRGNO(i,z),MRGN.l(i,z,time)*PWMG.l(i,time)] ;
  valPERMIT_TOTAL(z,time,'NZS') = PERMIT_TOTAL.l(z,time);
  valPERMIT(j,z,time,'NZS')     = PERMIT.l(j,z,time);
 * valTIW_Share(j,z,time,'NZS') = TIW_Share.l(j,z,time); 
@@ -491,12 +491,13 @@ PARAMETER
 *============================== Carbon Tax ============================================
  valCTAX(z,time,'NZS') = CTAX.l(z,time) ;
  valTCTAX(z,time,'NZS') = TCTAX.l(z,time) ;
- valTIW_Share(j,z,time,'NZS') = TIW_Share.l(j,z,time);
+* valTIW_Share(j,z,time,'NZS') = TIW_Share.l(j,z,time);
  valTIK_Share(j,z,time,'NZS') = TIK_Share.l(j,z,time);
  valTIP_Share(j,z,time,'NZS') = TIP_Share.l(j,z,time);
- valdeltatiw(j,z,time,'NZS') = deltatiw.l(j,z,time);
+* valdeltatiw(j,z,time,'NZS') = deltatiw.l(j,z,time);
  valdeltatik(j,z,time,'NZS') = deltatik.l(j,z,time);
  valdeltatip(j,z,time,'NZS') = deltatip.l(j,z,time);
+ valrebatetot(z,time,'NZS') =sum(j, LaborRebate.l(j,z,time));
 
 *$Ontext
 *================== Backstop technology ===========================================================
@@ -535,6 +536,7 @@ PARAMETER
  valDS,
  valDS_I,
  vale,
+ valEX,
  valEXT,
  valG,
  valG_REAL,
@@ -629,6 +631,8 @@ PARAMETER
  valYHK,       
  valYHL,        
  valYROW,
+ valYROW2,
+ valYROW3,
  valEE,
  valNE,
  valEH,
@@ -683,7 +687,7 @@ PARAMETER
  valTIW_Share,
  valTIK_Share,
  valTIP_Share,
- valdeltatiw,
+* valdeltatiw,
  valdeltatik,
  valdeltatip,
  valAEEI,
@@ -698,10 +702,10 @@ PARAMETER
  valCKBS,
  valMARKUP,
  valMARKUP_RATIO,
- valYROW2,
  valPERMIT,
  valPERMIT_TOTAL,
  valCO2FACTOR,
- valAbateCost
+ valAbateCost,
+ valrebatetot
  ;
 *$Offtext 
