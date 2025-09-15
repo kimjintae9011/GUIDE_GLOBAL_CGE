@@ -1,5 +1,4 @@
 $TITLE     GUIDE_GLOBAL_CGE Baseline Calibration GTAP11c
-
 *==============================================================================*
 *           GUIDE_GLOBAL_CGE GTAP11c Model Code Manual                  
 *           Version: 1.0                                                       
@@ -14,7 +13,7 @@ $TITLE     GUIDE_GLOBAL_CGE Baseline Calibration GTAP11c
 *==============================================================================*
 
 *==============================================================================
-* 1 Set definition
+* Set
 *==============================================================================
 SET
  J               All industries
@@ -24,7 +23,7 @@ SET
  BUS(J)          Private industries
  PUB(J)          Public industries
  F               Production factors
-* L(F)            Labor categories
+* L(F)           Labor categories
  K(F)            Capital categories
  Z               Regions
  ZR(Z)           Reference country (USA)
@@ -33,12 +32,9 @@ SET
  Zother(Z)       Non-rich regions
 
 *$GDXIN Input_w-t/DATA_AGG-2019_GTAP11c_new.gdx
-$GDXIN Input_w-t/DATA_AGG-2019_GTAP11c_Regen.gdx
+$GDXIN Input_CGE/DATA_AGG-2019_GTAP11c_Regen.gdx
 $LOAD J, I, BUS, PUB, F, K, Z, ZR, Z1, Zrich, Zother
 
-*==============================================================================
-*  1.1 Sub sets for commodities
-*==============================================================================
 I1(I) Commodities excluding agriculture and backstop technology
 /
 * 01_AGRICULT    Agricultural forest and fishery goods
@@ -188,9 +184,6 @@ NENE(I) Non-energy commodities
 * 18_ELEC        Electricity
 /
 
-*==============================================================================
-*  1.2 Sub sets for industries
-*==============================================================================
 J2(J) KLE Sectors
 /
  01_AGRICULT    Agricultural forest and fishery goods
@@ -391,9 +384,6 @@ Elec(J) Industries
  26_eOther      Other generation
 /
 
-*==============================================================================
-*  1.3 Sub sets for region
-*==============================================================================
 NEA(Z) NorthEastAisa 6 Countires
 /
  01_KOR Korea
@@ -422,11 +412,6 @@ NEA3(Z) Sub NEA KOR-CHN-JPN
 PERMIT_Z(z)
 /
  01_KOR Korea
- /
-
-CTAX_Z(z)
-/
-* 01_KOR Korea
  02_CHN China
  03_JPN Japan
  04_RUS Russian Federation
@@ -443,11 +428,50 @@ CTAX_Z(z)
  15_SAS South Asia
  16_PAS Other Pacific Asia
  17_PAO Pacific OECD
+ /
+
+CTAX_Z(z)
+/
+* 01_KOR Korea
+* 02_CHN China
+* 03_JPN Japan
+* 04_RUS Russian Federation
+* 05_MNG Mongolia
+* 06_PRK Peoples Republic of Korea
+* 07_NAM North America
+* 08_LAM Latin America and the Caribbean
+* 09_WEU Western Europe
+* 10_EEU Central and Eastern Europe
+* 11_FSU Former Soviet Union
+* 12_MEA Middle East and North Africa
+* 13_AFR Sub-Saharan Africa
+* 14_CPA Centrally Planned Asia and China
+* 15_SAS South Asia
+* 16_PAS Other Pacific Asia
+* 17_PAO Pacific OECD
 /
 
-*==============================================================================
-*  1.4 Mapping for Backstop technologies 
-*==============================================================================
+Z2(z)
+/
+ 01_KOR Korea
+ 02_CHN China
+ 03_JPN Japan
+ 04_RUS Russian Federation
+ 05_MNG Mongolia
+ 06_PRK Peoples Republic of Korea
+* 07_NAM North America
+ 08_LAM Latin America and the Caribbean
+ 09_WEU Western Europe
+ 10_EEU Central and Eastern Europe
+ 11_FSU Former Soviet Union
+ 12_MEA Middle East and North Africa
+ 13_AFR Sub-Saharan Africa
+ 14_CPA Centrally Planned Asia and China
+ 15_SAS South Asia
+ 16_PAS Other Pacific Asia
+ 17_PAO Pacific OECD
+/
+
 COMtoIND(j,i3) 
 /
  11_CHEMICAL.    (11_CHEMICAL)
@@ -468,11 +492,9 @@ INDtoCOM(i3,j)
  22_ATRP.        (30_ATRP )
 /
 
-*==============================================================================
-*   1.5 Periods
-*==============================================================================
 TIME Time periods
 /
+*2019
 2019*2050
 /
 
@@ -482,12 +504,8 @@ T1(time)         = yes$[ord(time) eq 1];
 
 Parameter EndTime /2050/;
 
-*===============================================================================
-*   1.6 Alias
-*===============================================================================
 ALIAS (j,jj)
 ALIAS (i,ii,ij)
-*ALIAS (l,lj)
 ALIAS (k,kj)
 ALIAS (z,zj,zjj)
 ALIAS (power, powerr)
@@ -601,23 +619,23 @@ PARAMETER
  TnDShare(z)                  T&D share of Aggregated electricity
  PowerShare(z)                Power Industries share of Aggregated electricity    
  theta2(j,i,z)                Export share of composite activity
- TOT_POP(z,time)              Total population from 1980 to 2050 based on the PEP w aggregation
+ TOT_POP(z,time)              Total population
  g_GDP(z,time)                GDP past and projected growth rate
  g_LS(z,time)                 Active population past and projected growth rate
  g_POP(z,time)                Population past and projected growth rate
  g_SDR(z,time)                Growth rate of domestic savings rate
- gamma_GVT(i,z)               Share of commodity i in total current public expenditures on goods and services
- gamma_INV(i,z)               Share of commodity i in total investment expenditures
- gamma_LES(i,z)               Marginal share of commodity i in household consumption budget
+ gamma_GVT(i,z)            Share of commodity i in total current public expenditures on goods and services
+ gamma_INV(i,z)            Share of commodity i in total investment expenditures
+ gamma_LES(i,z)             Marginal share of commodity i in household consumption budget
  exogro(z,time)               Exogenous growth factor for exogenously growing variables except labor
- growthz(z)                   Steady state grwoth
- AEEI(z,time)                 Autonomous energy efficiency improvement (Reference)
- AEEI_low(z,time)             Autonomous energy efficiency improvement (Low)
- AEEI_high(z,time)            Autonomous energy efficiency improvement (High)
- CTAX_Cal(z,time)             Carbon Tax for Baseline Scenario
- CTAX_CPS(z,time)             Carbon Tax for Current Policy Scenario
- CTAX_NZS(z,time)             Carbon Tax for Net Zero Scenario
- PERMIT_NZS(z,time)           PERMIT
+ growthz(z)                    Steady state grwoth
+ AEEI(z,time)                  Autonomous energy efficiency improvement (Reference)
+ AEEI_low(z,time)            Autonomous energy efficiency improvement (Low)
+ AEEI_medium(z,time)       Autonomous energy efficiency improvement (Medium)
+ AEEI_high(z,time)           Autonomous energy efficiency improvement (High)
+ PERMIT_NDC_old(z,time)      PERMIT
+ PERMIT_NZ(z,time)              PERMIT
+ EMPLOY(j,z)                  Employment by sector 2019 (thousand) 
  switch(i3,z,time)            binary variable - equals zero if no use of backstop technologies
  penetration_rate(i3,z,time)  penetration_rate
  recycle_gov(z,time)          binary variable - equals zero if no use of CTAX Rebate
@@ -789,7 +807,7 @@ PARAMETER
  TIKO_Share(k,j,z)     Government revenue from taxes on type k capital used by industry j in region z
  TIPO_Share(j,z)
 *==============================================================================
-*   2.2.4 Rates and intercepts
+*   Rates and intercepts
 *==============================================================================
  phiO(z)         Scale variable (allocation of investment to industries)
  sh0O(z)         Intercept (household savings)
@@ -804,26 +822,16 @@ PARAMETER
  ttixO(i,z,zj)   Export tax rate on exported commodity x
 ;
 
-*==============================================================================
-* 3 Data
-*==============================================================================
-*  3.1 Data input from GTAP8.1
-*==============================================================================
-*   3.1.1 Reading data aggregated with DATA_AGG-2007.gms
-*==============================================================================
-*  The PEP w-t model uses aggregated data from GTAP8.1. The following file
-*  includes data for some variables and substitution elasticities.
-
 $LOAD CO, CGO, DDO, DEPO, DIO, DSO, DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, XSO, XSO_I, XSTO, 
-$LOAD TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, CTAX_Cal, CTAX_CPS, CTAX_NZS, PERMIT_NZS,
+$LOAD TOT_POP, g_GDP, g_POP, g_SDR, EMPLOY, AEEI_low, AEEI_medium, AEEI_high, PERMIT_NDC_old, PERMIT_NZ,
 $LOAD RKDO, TDHO, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, 
 $LOAD tmrg, sigma_M1, sigma_M2, sigma_VA, sigma_KLE, POPO
 
 * Other exogenous parameters can be defined if the Excel file VAL_PAR.XLS
 PARAMETER PARZ;
 
-$CALL gdxxrw Input_w-t\PAR.xlsx @Input_w-t\PAR.txt Rdim=2 Cdim=1 output = Input_w-t\PAR.gdx
-$GDXIN Input_w-t\PAR.gdx
+$CALL gdxxrw Input_CGE\PAR.xlsx @Input_CGE\PAR.txt Rdim=2 Cdim=1 output = Input_CGE\PAR.gdx
+$GDXIN Input_CGE\PAR.gdx
 $LOAD sigma_KD, sigma_LD, sigma_X1, sigma_X2, sigma_X3, sigma_X0, sigma_y, sigma_inv, PARZ
 
 *===============================================================================
@@ -1609,17 +1617,24 @@ eta = 1;
 * updating factors of positive (SURplus) and negative (DEFicit) CABX's in such
 * a way that their sum remains zero.
 
-$ontext
+*$ontext
 Parameter CABXsur(z,time), CABXdef(z,time), bal(time), mu(time), CABix(z,time);
- CABXsur(z,time) = CABXO(z)*exogro(z,time)$[CABXO(z) gt 0];
- CABXdef(z,time) = CABXO(z)*exogro(z,time)$[CABXO(z) lt 0];
- Bal(time)       = sum(zj,CABXsur(zj,time))+sum(zj,CABXdef(zj,time));
- mu(time)        = sum(zj,CABXsur(zj,time))/
-                     {sum(zj,CABXsur(zj,time))+sum(zj,abs[CABXdef(zj,time)])};
+* CABXsur(z,time) = CABXO(z)*exogro(z,time)$[CABXO(z) gt 0];
+* CABXdef(z,time) = CABXO(z)*exogro(z,time)$[CABXO(z) lt 0];
+
+ CABXsur(z,t1) = CABXO(z)$[CABXO(z) gt 0];
+ CABXdef(z,t1) = CABXO(z)$[CABXO(z) lt 0];
+  
+ CABXsur(z,time)$[ord(time) gt 1] = CABXO(z)*(1+g_GDP(z,time))$[CABXO(z) gt 0];
+ CABXdef(z,time)$[ord(time) gt 1] = CABXO(z)*(1+g_GDP(z,time))$[CABXO(z) lt 0];
+ 
+ Bal(time)           = sum(zj,CABXsur(zj,time))+sum(zj,CABXdef(zj,time));
+ mu(time)           = sum(zj,CABXsur(zj,time))/
+                        {sum(zj,CABXsur(zj,time))+sum(zj,abs[CABXdef(zj,time)])};
  CABXsur(z,time) = CABXsur(z,time)*{1-mu(time)*Bal(time)/sum(zj,CABXsur(zj,time))};
  CABXdef(z,time) = CABXdef(z,time)*{1-[1-mu(time)]*Bal(time)/sum(zj,CABXdef(zj,time))};
- CABix(z,time)   = [CABXsur(z,time)+CABXdef(z,time)]/CABXO(z);
-$offtext
+ CABix(z,time)     = [CABXsur(z,time)+CABXdef(z,time)]/CABXO(z);
+*$offtext
 *------------------------------------------------------------------------------
 
  CTH_REALO(z)    = CTHO(z)/PIXCONO(z);
@@ -1644,8 +1659,8 @@ $offtext
 *==============================================================================
 *  4.9 CO2 emission
 *==============================================================================
-$INCLUDE DATA_WEB_2024.gms
-$INCLUDE  DATA_CO2coef.gms
+$INCLUDE DATA_WEB_2024_new.gms
+$INCLUDE DATA_CO2coef_new.gms
 
 *==============================================================================
 Parameter
@@ -1685,13 +1700,15 @@ Parameters
  TCTAX0(z)          Initial Government Revenue from Carbon tax
  PERMITO(j,z)       CO2 emissions 
  PERMIT_TOTALO(z)   Total CO2 emissions (billion ton)
+ PERMIT_NEA_TOTALO
 ;
 
  CTAX0(z)          = 0;
  TCTAX0(z)         = 0;
  PERMITO(j,z)      = sum(ene, CO2FACTOR(ene,j,z)*DEO(ene,j,z)) ;
  PERMIT_TOTALO(z)  = sum(j,PERMITO(j,z));
-
+ PERMIT_NEA_TOTALO = sum(NEA, PERMIT_TOTALO(NEA));
+ 
 *==============================================================================
 *   Marginal abatement curves for emissions
 *============================================================================== 
@@ -1732,6 +1749,7 @@ Parameters
 ;
    
 execute_unload 'Baseline_Calibration_Check_GTAP11c';
+*$exit
 *==============================================================================
 * 5 Model
 *==============================================================================
@@ -1795,6 +1813,7 @@ VARIABLES
  MARKUP(i3,z,time)
  PERMIT(j,z,time)  
  PERMIT_TOTAL(z,time)
+ PERMIT_NEA_TOTAL(time)
  deltatik(j,z,time)
  deltatip(j,z,time)
 *==============================================================================
@@ -2087,6 +2106,7 @@ EQUATIONS
  EQ106(z,time)           labor supply
  EQ107(j,z,time)
  EQ108(z,time)
+ EQ108_1(time)
  EQ109(z,time) 
  EQ110(j,z,time)
  EQ111(j,z,time)
@@ -2654,6 +2674,7 @@ $OFFTEXT
 * 6 Labour Supply
 *================================================================================
  EQ106(z,t)..  LS(z,t) =e= LST(z,t) *((W(z,t)/PIXCON(z,t)) / (W_lag(z,t)/PIXCON_lag(z,t)))**elasLS(z);
+* EQ106(z,t)..  elasLS(z)*(LS(z,t)/ LST(z,t) -1) =e= (((W(z,t)/PIXCON(z,t))-(W_lag(z,t)/PIXCON_lag(z,t)))/(W_lag(z,t)/PIXCON_lag(z,t)));
 
 *==============================================================================
 * 7 PERMET
@@ -2661,6 +2682,8 @@ $OFFTEXT
  EQ107(j,z,t).. PERMIT(j,z,t) =e= sum(ene, CO2FACTOR2(ene,j,z,t)*DE(ene,j,z,t));
  
  EQ108(z,t)..  PERMIT_TOTAL(z,t) =E=  sum(j,PERMIT(j,z,t))  ;
+
+ EQ108_1(t).. PERMIT_NEA_TOTAL(t) =e= sum(NEA, PERMIT_TOTAL(NEA,t)); 
 
 *==============================================================================
 *   8 Carbon Tax Revenue Recycling
@@ -2703,14 +2726,14 @@ option cns = conopt4;
 *option profiletol=10;
 
 *Fast solve option
-option profile=0;
-option limrow=0, limcol=0, solprint = off;
-$Offlisting
-$Offsymlist
-$Offinclude 
+*option profile=0;
+*option limrow=0, limcol=0, solprint = off;
+*$Offlisting
+*$Offsymlist
+*$Offinclude 
 
-MODEL PEPWT World wide dynamic model /all/ ;
-PEPWT.holdfixed=1;
+MODEL CGE World wide dynamic model /all/ ;
+CGE.holdfixed=1;
 
 *==============================================================================
 *  6.1 Scenarios
@@ -2741,14 +2764,14 @@ $ontext
  e.FX(z,time)        = eO(z);
 $offText
 
- ttdh0.fx(z,time)               = ttdh0O(z);
- ttdh1.fx(z,time)               = ttdh1O(z);
- ttic.fx(i,z,time)                = tticO(i,z);
+ ttdh0.fx(z,time)                = ttdh0O(z);
+ ttdh1.fx(z,time)                = ttdh1O(z);
+ ttic.fx(i,z,time)                 = tticO(i,z);
  ttim.fx(i,zj,z,time)            = ttimO(i,zj,z);
  ttix.fx(i,z,zj,time)             = ttixO(i,z,zj);
- ttik.fx('land',j,z,time)       = ttikO('land',j,z);
- ttik.fx('natr',j,z,time)       = ttikO('natr',j,z);
- ttiw.fx(j,z,time)              = ttiwO(j,z);
+ ttik.fx('land',j,z,time)        = ttikO('land',j,z);
+ ttik.fx('natr',j,z,time)        = ttikO('natr',j,z);
+ ttiw.fx(j,z,time)               = ttiwO(j,z);
 * ttik.fx(k,j,z,time)              = ttikO(k,j,z);
 * ttip.fx(j,z,time)                = ttipO(j,z);
  CTAX.fX(z,time)                 = CTAX0(z); 
@@ -2764,29 +2787,25 @@ $offText
 
  A_VA.L(z,t1)          = 1;
  A_VA.L(z,time)$[ord(time) gt 1]
-                       = A_VA.L(z,time-1);
+                            = A_VA.L(z,time-1);
 
 * Domestic savings rates are made to follow the evolution anticipated by FBQF
 * and the intercept for the household savings function is endogenously
 * determined from the added constraint labeled CALEQ1:
  sh1.fx(z,t1)          = sh1O(z);
  sh1.fx(z,time)$[ord(time) gt 1]
-                       = sh1.l(z,time-1)*[1+g_SDR(z,time-1)];
+                           = sh1.l(z,time-1)*[1+g_SDR(z,time-1)];
 
  sh0.l(z,t1)           = sh0O(z);
  sh0.l(z,time)$[ord(time) gt 1]
-                       = sh0.l(z,time-1)*[1+growthz(z)];
+                          = sh0.l(z,time-1)*[1+growthz(z)];
 
 *==============================================================================
 *   6.1.4 Other exogenous variables
 *==============================================================================
- CABX.FX(z1,time)     = CABXO(z1);
- CABX.FX(z1,time)$[ord(time) gt 1]
-                      = CABX.l(z1,time-1)*[1+g_GDP(z1,time)];
- 
- CABX.FX('05_MNG',time)$[ord(time) gt 14]
-                      = CABX.l('05_MNG',time-1)*[1+0.04];
-                     
+ CABX.FX(z1,time)    = CABXO(z1)*cabix(z1,time);
+
+                    
  CMIN.FX(i,z,t1)      = CMINO(i,z);
  CMIN.FX(i,z,time)$[ord(time) gt 1]
                       = CMIN.l(i,z,time-1)*[1+g_POP(z,time)];
@@ -2841,8 +2860,8 @@ $offText
 *==============================================================================
 *   AEEI
 *============================================================================== 
- AEEI(z,time) = AEEI_low(z,time);
- CO2FACTOR2(ene,j,z,time) = CO2FACTOR(ene,j,z)*AEEI(z,time);
+ AEEI(z,time) = 1;
+* AEEI(z,time) = AEEI_low(z,time);
 
 *=============================================================================
 * Solar & Wind Productivity Shock
@@ -2861,84 +2880,81 @@ $offText
 *==============================================================================
 *Backstop technologies
 *==============================================================================
-penetration_rate(i3,z,time)$[CTAX.L(z,time) gt 0.8]
-                             = penetration_rate(i3,z,time-1)+0.02;
+penetration_rate(i3,z,time)$[CTAX.L(z,time) gt 1.0] = penetration_rate(i3,z,time-1)+0.03;
 
-if ((CTAX.L('01_KOR',time)  gt 0.8), switch(i3,'01_KOR',time) = 1  ;
+
+if ((CTAX.L('01_KOR',time) gt 1.0), switch(i3,'01_KOR',time) = 1  ;
 else switch(i3,'01_KOR',time) = 0 ;
 );
 
-if ((CTAX.L('02_CHN',time)  gt 0.8), switch(i3,'02_CHN',time) = 1  ;
+if ((CTAX.L('02_CHN',time) gt 1.0), switch(i3,'02_CHN',time) = 1  ;
 else switch(i3,'02_CHN',time) = 0 ;
 );
 
-if ((CTAX.L('03_JPN',time)  gt 0.8), switch(i3,'03_JPN',time) = 1  ;
+if ((CTAX.L('03_JPN',time) gt 1.0), switch(i3,'03_JPN',time) = 1  ;
 else switch(i3,'03_JPN',time) = 0 ;
 );
 
-if ((CTAX.L('04_RUS',time)  gt 0.8), switch(i3,'04_RUS',time) = 1  ;
+if ((CTAX.L('04_RUS',time) gt 1.0), switch(i3,'04_RUS',time) = 1  ;
 else switch(i3,'04_RUS',time) = 0 ;
 );
 
-if ((CTAX.L('05_MNG',time)  gt 0.8), switch(i3,'05_MNG',time) = 1  ;
+if ((CTAX.L('05_MNG',time) gt 1.0), switch(i3,'05_MNG',time) = 1  ;
 else switch(i3,'05_MNG',time) = 0 ;
 );
 
-if ((CTAX.L('06_PRK',time)  gt 0.8), switch(i3,'06_PRK',time) = 1  ;
+if ((CTAX.L('06_PRK',time) gt 1.0), switch(i3,'06_PRK',time) = 1  ;
 else switch(i3,'06_PRK',time) = 0 ;
 );
 
-if ((CTAX.L('07_NAM',time)  gt 0.8), switch(i3,'07_NAM',time) = 1  ;
+if ((CTAX.L('07_NAM',time) gt 1.0), switch(i3,'07_NAM',time) = 1  ;
 else switch(i3,'07_NAM',time) = 0 ;
 );
 
-if ((CTAX.L('08_LAM',time)  gt 0.8), switch(i3,'08_LAM',time) = 1  ;
+if ((CTAX.L('08_LAM',time) gt 1.0), switch(i3,'08_LAM',time) = 1  ;
 else switch(i3,'08_LAM',time) = 0 ;
 );
 
-if ((CTAX.L('09_WEU',time)  gt 0.8), switch(i3,'09_WEU',time) = 1  ;
+if ((CTAX.L('09_WEU',time) gt 1.0), switch(i3,'09_WEU',time) = 1  ;
 else switch(i3,'09_WEU',time) = 0 ;
 );
 
-if ((CTAX.L('10_EEU',time)  gt 0.8), switch(i3,'10_EEU',time) = 1  ;
+if ((CTAX.L('10_EEU',time) gt 1.0), switch(i3,'10_EEU',time) = 1  ;
 else switch(i3,'10_EEU',time) = 0 ;
 );
 
-if ((CTAX.L('11_FSU',time)  gt 0.8), switch(i3,'11_FSU',time) = 1  ;
+if ((CTAX.L('11_FSU',time) gt 1.0), switch(i3,'11_FSU',time) = 1  ;
 else switch(i3,'11_FSU',time) = 0 ;
 );
 
-if ((CTAX.L('12_MEA',time)  gt 0.8), switch(i3,'12_MEA',time) = 1  ;
+if ((CTAX.L('12_MEA',time) gt 1.0), switch(i3,'12_MEA',time) = 1  ;
 else switch(i3,'12_MEA',time) = 0 ;
 );
 
-if ((CTAX.L('13_AFR',time)  gt 0.8), switch(i3,'13_AFR',time) = 1  ;
+if ((CTAX.L('13_AFR',time) gt 1.0), switch(i3,'13_AFR',time) = 1  ;
 else switch(i3,'13_AFR',time) = 0 ;
 );
 
-if ((CTAX.L('14_CPA',time)  gt 0.8), switch(i3,'14_CPA',time) = 1  ;
+if ((CTAX.L('14_CPA',time) gt 1.0), switch(i3,'14_CPA',time) = 1  ;
 else switch(i3,'14_CPA',time) = 0 ;
 );
 
-if ((CTAX.L('15_SAS',time)  gt 0.8), switch(i3,'15_SAS',time) = 1  ;
+if ((CTAX.L('15_SAS',time) gt 1.0), switch(i3,'15_SAS',time) = 1  ;
 else switch(i3,'15_SAS',time) = 0 ;
 );
 
-if ((CTAX.L('16_PAS',time)  gt 0.8), switch(i3,'16_PAS',time) = 1  ;
+if ((CTAX.L('16_PAS',time) gt 1.0), switch(i3,'16_PAS',time) = 1  ;
 else switch(i3,'16_PAS',time) = 0 ;
 );
 
-if ((CTAX.L('17_PAO',time)  gt 0.8), switch(i3,'17_PAO',time) = 1  ;
+if ((CTAX.L('17_PAO',time) gt 1.0), switch(i3,'17_PAO',time) = 1  ;
 else switch(i3,'17_PAO',time) = 0 ;
 );
 
 *==============================================================================
 *   6.1.5 Resolution
 *==============================================================================
-
-SOLVE PEPWT USING CNS;
-*SOLVE PEPWT using NLP maximizing OBJ;
-*SOLVE PEPWT USING MCP;
+SOLVE CGE USING CNS;
 
 * The single element in subset T(time) is removed, and the subset is now empty.
 T(time)          = NO;
@@ -2971,6 +2987,6 @@ PARAMETER
  phi_BAU(z,time)         = phi.l(z,time);
  valCTAX(z,time)          = CTAX.l(z,time);
 
-execute_unload 'Input_w-t/B_line_GTAP11c_new.gdx',
+execute_unload 'Input_CGE/B_line_GTAP11c_new.gdx',
  A_VA_RES, GX, G_REALX, INDX, delta, XST, VA, LS, KS, LD, KD, IND, EX, g_GDP, g_POP, GDP_BP, RC, IT, SH, SG, CABX, R, PK, sigma_LD, sigma_INV,
- sh1X, sh0X, phi_BAU, valCTAX ;
+ sh1X, sh0X, phi_BAU, valCTAX, cabix ;

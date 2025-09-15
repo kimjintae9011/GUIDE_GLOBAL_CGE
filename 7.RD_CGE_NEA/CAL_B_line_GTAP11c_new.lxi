@@ -1,0 +1,140 @@
+B 3 C o m p i l a t i o n
+B 4647 E x e c u t i o n
+I 4647 TCoke_Share
+I 4659 TBlast_Share
+I 4669 Coal_DIO
+I 4832 CoalR_DIO
+I 4995 CoalR_CO
+I 5008 Gas_DIO
+I 5057 GasR_DIO
+I 5104 GasR_CO
+I 5112 Oil_DIO
+I 5134 OilR_DIO
+I 5156 Oilp_DIO
+I 5404 Oilp_CO
+I 5420 OilpR_DIO
+I 5667 OilpR_CO
+I 5683 Elec_DIO
+I 5726 Elec_CO
+I 5734 ElecR_DIO
+I 5777 ElecR_CO
+I 5785 Waste_DIO
+I 5840 WasteR_DIO
+I 5894 WasteR_CO
+I 5898 Bio_DIO
+I 5993 BioR_DIO
+I 6080 BioR_CO
+I 6091 Charcoal_DIO
+I 6109 CharcoalR_DIO
+I 6127 CharcoalR_CO
+I 6134 Geo_DIO
+I 6151 GeoR_DIO
+I 6168 GeoR_CO
+I 6175 Solar_DIO
+I 6197 SolarR_DIO
+I 6218 SolarR_CO
+I 6225 NCoal_DIO
+I 6235 NCoalR_DIO
+I 6245 NGas_DIO
+I 6254 NGasR_DIO
+I 6263 NOil_DIO
+I 6270 NOilR_DIO
+I 6277 NOilp_DIO
+I 6346 NOilpR_DIO
+B 6418 Range Statistics    SOLVE PEPWT Using CNS From line 5137
+B 6429 Model Statistics    SOLVE PEPWT Using CNS From line 5137
+B 6449 Solution Report     SOLVE PEPWT Using CNS From line 5137
+B 6495 Range Statistics    SOLVE PEPWT Using CNS From line 5137
+B 6506 Model Statistics    SOLVE PEPWT Using CNS From line 5137
+B 6526 Solution Report     SOLVE PEPWT Using CNS From line 5137
+B 6572 Range Statistics    SOLVE PEPWT Using CNS From line 5137
+B 6583 Model Statistics    SOLVE PEPWT Using CNS From line 5137
+B 6603 Solution Report     SOLVE PEPWT Using CNS From line 5137
+B 6649 Range Statistics    SOLVE PEPWT Using CNS From line 5137
+B 6660 Model Statistics    SOLVE PEPWT Using CNS From line 5137
+B 6680 Solution Report     SOLVE PEPWT Using CNS From line 5137
+B 6726 Range Statistics    SOLVE PEPWT Using CNS From line 5137
+B 6737 Model Statistics    SOLVE PEPWT Using CNS From line 5137
+B 6757 Solution Report     SOLVE PEPWT Using CNS From line 5137
+B 6803 Range Statistics    SOLVE PEPWT Using CNS From line 5137
+B 6814 Model Statistics    SOLVE PEPWT Using CNS From line 5137
+B 6834 Solution Report     SOLVE PEPWT Using CNS From line 5137
+B 6880 Range Statistics    SOLVE PEPWT Using CNS From line 5137
+B 6891 Model Statistics    SOLVE PEPWT Using CNS From line 5137
+B 6911 Solution Report     SOLVE PEPWT Using CNS From line 5137
+B 6957 Range Statistics    SOLVE PEPWT Using CNS From line 5137
+B 6968 Model Statistics    SOLVE PEPWT Using CNS From line 5137
+B 6988 Solution Report     SOLVE PEPWT Using CNS From line 5137
+B 7034 Range Statistics    SOLVE PEPWT Using CNS From line 5137
+B 7045 Model Statistics    SOLVE PEPWT Using CNS From line 5137
+B 7065 Solution Report     SOLVE PEPWT Using CNS From line 5137
+B 7111 Range Statistics    SOLVE PEPWT Using CNS From line 5137
+B 7122 Model Statistics    SOLVE PEPWT Using CNS From line 5137
+B 7142 Solution Report     SOLVE PEPWT Using CNS From line 5137
+B 7188 Range Statistics    SOLVE PEPWT Using CNS From line 5137
+B 7199 Model Statistics    SOLVE PEPWT Using CNS From line 5137
+B 7219 Solution Report     SOLVE PEPWT Using CNS From line 5137
+B 7265 Range Statistics    SOLVE PEPWT Using CNS From line 5137
+B 7276 Model Statistics    SOLVE PEPWT Using CNS From line 5137
+B 7296 Solution Report     SOLVE PEPWT Using CNS From line 5137
+B 7342 Range Statistics    SOLVE PEPWT Using CNS From line 5137
+B 7353 Model Statistics    SOLVE PEPWT Using CNS From line 5137
+B 7373 Solution Report     SOLVE PEPWT Using CNS From line 5137
+B 7419 Range Statistics    SOLVE PEPWT Using CNS From line 5137
+B 7430 Model Statistics    SOLVE PEPWT Using CNS From line 5137
+B 7450 Solution Report     SOLVE PEPWT Using CNS From line 5137
+B 7496 Range Statistics    SOLVE PEPWT Using CNS From line 5137
+B 7507 Model Statistics    SOLVE PEPWT Using CNS From line 5137
+B 7527 Solution Report     SOLVE PEPWT Using CNS From line 5137
+B 7573 Range Statistics    SOLVE PEPWT Using CNS From line 5137
+B 7584 Model Statistics    SOLVE PEPWT Using CNS From line 5137
+B 7604 Solution Report     SOLVE PEPWT Using CNS From line 5137
+B 7650 Range Statistics    SOLVE PEPWT Using CNS From line 5137
+B 7661 Model Statistics    SOLVE PEPWT Using CNS From line 5137
+B 7681 Solution Report     SOLVE PEPWT Using CNS From line 5137
+B 7727 Range Statistics    SOLVE PEPWT Using CNS From line 5137
+B 7738 Model Statistics    SOLVE PEPWT Using CNS From line 5137
+B 7758 Solution Report     SOLVE PEPWT Using CNS From line 5137
+B 7804 Range Statistics    SOLVE PEPWT Using CNS From line 5137
+B 7815 Model Statistics    SOLVE PEPWT Using CNS From line 5137
+B 7835 Solution Report     SOLVE PEPWT Using CNS From line 5137
+B 7881 Range Statistics    SOLVE PEPWT Using CNS From line 5137
+B 7892 Model Statistics    SOLVE PEPWT Using CNS From line 5137
+B 7912 Solution Report     SOLVE PEPWT Using CNS From line 5137
+B 7958 Range Statistics    SOLVE PEPWT Using CNS From line 5137
+B 7969 Model Statistics    SOLVE PEPWT Using CNS From line 5137
+B 7989 Solution Report     SOLVE PEPWT Using CNS From line 5137
+B 8035 Range Statistics    SOLVE PEPWT Using CNS From line 5137
+B 8046 Model Statistics    SOLVE PEPWT Using CNS From line 5137
+B 8066 Solution Report     SOLVE PEPWT Using CNS From line 5137
+B 8112 Range Statistics    SOLVE PEPWT Using CNS From line 5137
+B 8123 Model Statistics    SOLVE PEPWT Using CNS From line 5137
+B 8143 Solution Report     SOLVE PEPWT Using CNS From line 5137
+B 8189 Range Statistics    SOLVE PEPWT Using CNS From line 5137
+B 8200 Model Statistics    SOLVE PEPWT Using CNS From line 5137
+B 8220 Solution Report     SOLVE PEPWT Using CNS From line 5137
+B 8266 Range Statistics    SOLVE PEPWT Using CNS From line 5137
+B 8277 Model Statistics    SOLVE PEPWT Using CNS From line 5137
+B 8297 Solution Report     SOLVE PEPWT Using CNS From line 5137
+B 8343 Range Statistics    SOLVE PEPWT Using CNS From line 5137
+B 8354 Model Statistics    SOLVE PEPWT Using CNS From line 5137
+B 8374 Solution Report     SOLVE PEPWT Using CNS From line 5137
+B 8420 Range Statistics    SOLVE PEPWT Using CNS From line 5137
+B 8431 Model Statistics    SOLVE PEPWT Using CNS From line 5137
+B 8451 Solution Report     SOLVE PEPWT Using CNS From line 5137
+B 8497 Range Statistics    SOLVE PEPWT Using CNS From line 5137
+B 8508 Model Statistics    SOLVE PEPWT Using CNS From line 5137
+B 8528 Solution Report     SOLVE PEPWT Using CNS From line 5137
+B 8574 Range Statistics    SOLVE PEPWT Using CNS From line 5137
+B 8585 Model Statistics    SOLVE PEPWT Using CNS From line 5137
+B 8605 Solution Report     SOLVE PEPWT Using CNS From line 5137
+B 8651 Range Statistics    SOLVE PEPWT Using CNS From line 5137
+B 8662 Model Statistics    SOLVE PEPWT Using CNS From line 5137
+B 8682 Solution Report     SOLVE PEPWT Using CNS From line 5137
+B 8728 Range Statistics    SOLVE PEPWT Using CNS From line 5137
+B 8739 Model Statistics    SOLVE PEPWT Using CNS From line 5137
+B 8759 Solution Report     SOLVE PEPWT Using CNS From line 5137
+B 8805 Range Statistics    SOLVE PEPWT Using CNS From line 5137
+B 8816 Model Statistics    SOLVE PEPWT Using CNS From line 5137
+B 8836 Solution Report     SOLVE PEPWT Using CNS From line 5137
+B 8882 E x e c u t i o n

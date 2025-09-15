@@ -1,4 +1,4 @@
-GAMS 45.7.0  64fbf3ce Jan 18, 2024          WEX-WEI x86 64bit/MS Windows - 08/20/25 10:54:54 Page 1
+GAMS 45.7.0  64fbf3ce Jan 18, 2024          WEX-WEI x86 64bit/MS Windows - 09/15/25 17:13:41 Page 1
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
 C o m p i l a t i o n
 
@@ -318,7 +318,7 @@ C o m p i l a t i o n
  315   reg(GlobalSet)  All regions
  316   marg(comm) Margin commodities
  317   
-GDXIN   C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\GTAP11c_basedata2019.gdx
+GDXIN   C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\GTAP11c_basedata2019.gdx
  319   
 --- LOAD  GlobalSet = 1:GlobalSet
 --- LOAD  reg = 5:REG
@@ -1069,7 +1069,7 @@ GDXIN   C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\GTAP11c_basedata2019.gdx
 1029  *==============================================================================
 1030  * 3.4 Load the GTAP file which includes the parameters
 1031  *==============================================================================
-GDXIN   C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\GTAP11c_Parameters2019.gdx
+GDXIN   C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\GTAP11c_Parameters2019.gdx
 --- LOAD  ESUBD = 19:ESUBD
 --- LOAD  ESUBM = 20:ESUBM
 --- LOAD  ESUBVA = 61:ESUBVA
@@ -1157,1436 +1157,1427 @@ GDXIN   C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\GTAP11c_Parameters2019.g
 1114                      ELFKLE(acts, reg)*SH_KLE(acts,j,z)};
 1115   
 1116  *==============================================================================
-1117  * 4. Own price elasticities (Conditional)
+1117  * Backstop technology Parameters
 1118  *==============================================================================
 1119  PARAMETER
-1120   E_Composite(j,z)      E nest susbtitution elasticies
-1121   KLE_Composite(j,z)    KLE nest susbtitution elasticies
-1122   elas_E(j,z)           Own price elasticities(Composite Energy)
-1123   elas_elec(j,z)        Own price elasticities(electricity)
-1124   elas_gas(j,z)         Own price elasticities(gas)
-1125   elas_oil(j,z)         Own price elasticities(oil)
-1126   elas_coal(j,z)        Own price elasticities(coal)
-1127   elas_petrolcoal(j,z)  Own price elasticities(petrolcoal)
-1128  ;
-1129   
-1130   E_Composite(j,z)   = SUM{(acts)$[j2acts(j,acts)], E_GTAP(acts,z)};
-1131   KLE_Composite(j,z) = SUM{(acts)$[j2acts(j,acts)], KLE_GTAP(acts,z)};
-1132   
-1133   elas_E(j,z) = sigma_KLE(j,z)*(1- E_Composite(j,z)/KLE_Composite(j,z));
-1134   elas_elec(j,z) = 1.1*(1- DIO('18_ELEC',j,z)/E_Composite(j,z));
-1135   elas_gas(j,z) = 1.1*(1- DIO('04_GAS',j,z)/E_Composite(j,z));
-1136   elas_oil(j,z) = 1.1*(1- DIO('03_OIL',j,z)/E_Composite(j,z));
-1137   elas_coal(j,z) = 1.1*(1- DIO('02_COAL',j,z)/E_Composite(j,z));
-1138   elas_petrolcoal(j,z) = 1.1*(1- DIO('10_PETROLCOAL',j,z)/E_Composite(j,z));
-1139   
-1140  *==============================================================================
-1141  * Projections used in Recursive Dynamic model
-1142  *==============================================================================
-1143  PARAMETER
-1144   ACT_POP(z,time)         Active population from 1980 to 2050 based on the PEP w aggregation
-1145   CAB_Foure(z,time)       Implicit CAB in Foure et al projections
-1146   exogro(z,time)          Exogenous growth factor for exogenously growing variables
-1147   exogro_LS(z,time)       Exogenous growth factor for exogenously growing labor supply
-1148   g_GDP(z,time)           GDP growth
-1149   g_KS(z,time)            Capital stock growth rate
-1150   g_LS(z,time)            Active population growth rate
-1151   g_POP(z,time)           Population growth rate
-1152   g_SDR(z,time)           Domestic savings rate growth rate
-1153   GDP(z,time)             GDP projection based on the PEP w aggregation
-1154   gdp_per_cap(z)          GDP per capita
-1155   I_rate(z,time)          Investment rate - domestic savings over GDP
-1156   Invest(z,time)          Investments from 1980 to 2050 based on PEP w aggregation
-1157   K_Stock(z,time)         Capital stock from 1980 to 2050 based on the PEP w aggregation
-1158   TFP(z,time)             Total factor productivity index 1980-2050 for PEP w aggregation
-1159   S_rate(z,time)          Savings rate - domestic savings over GDP
-1160   Savings(z,time)         Domestic savings from 1980 to 2050 based on PEP w aggregation
-1161   sdr_fac(z,time)         Exogenous change factor for domestic savings rate
-1162   TOT_POP(z,time)         Total population from 1980 to 2050 based on the PEP w aggregation
-1163   CTAX_Cal(z,time)        Carbon Tax for Baseline Scenario
-1164   CTAX_CPS(z,time)        Carbon Tax for Current Policy Scenario
-1165   CTAX_NZS(z,time)        Carbon Tax for Net-Zero Scenario
-1166   EMPLOY(j,z)             Employment by sector 2019 (thousand)
-1167   AEEI_low(z,time)        Autonomous energy efficiency improvement
-1168   AEEI_high(z,time)       Autonomous energy efficiency improvement
-1169   TREND(z,time)           Value to Physical quantity
-1170   TREND2(z,time)          Value to Physical quantity
-1171   TREND_CPS(z,time)       Value to Physical quantity
-1172   TREND_NZS(z,time)       Value to Physical quantity
-1173   PERMIT_NZS(z,time)      PERMIT
-1174  ;
-1175   
-GDXIN   C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\Projection.gdx
+1120   Cap_Share(j,z)       Capital Cost Share
+1121   Lab_Share(j,z)       Labor Cost Share
+1122  ;
+1123   
+GDXIN   C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\Backstop_technology.gdx
+--- LOAD  Cap_Share = 1:Cap_Share
+--- LOAD  Lab_Share = 2:Lab_Share
+1127   
+1128  *==============================================================================
+1129  * Projections used in Recursive Dynamic model
+1130  *==============================================================================
+1131  PARAMETER
+1132   ACT_POP(z,time)         Active population from 1980 to 2050 based on the PEP w aggregation
+1133   CAB_Foure(z,time)       Implicit CAB in Foure et al projections
+1134   exogro(z,time)          Exogenous growth factor for exogenously growing variables
+1135   exogro_LS(z,time)       Exogenous growth factor for exogenously growing labor supply
+1136   g_GDP(z,time)           GDP growth
+1137   g_KS(z,time)            Capital stock growth rate
+1138   g_LS(z,time)            Active population growth rate
+1139   g_POP(z,time)           Population growth rate
+1140   g_SDR(z,time)           Domestic savings rate growth rate
+1141   GDP(z,time)             GDP projection based on the PEP w aggregation
+1142   gdp_per_cap(z)          GDP per capita
+1143   I_rate(z,time)          Investment rate - domestic savings over GDP
+1144   Invest(z,time)          Investments from 1980 to 2050 based on PEP w aggregation
+1145   K_Stock(z,time)         Capital stock from 1980 to 2050 based on the PEP w aggregation
+1146   TFP(z,time)             Total factor productivity index 1980-2050 for PEP w aggregation
+1147   S_rate(z,time)          Savings rate - domestic savings over GDP
+1148   Savings(z,time)         Domestic savings from 1980 to 2050 based on PEP w aggregation
+1149   sdr_fac(z,time)         Exogenous change factor for domestic savings rate
+1150   TOT_POP(z,time)         Total population from 1980 to 2050 based on the PEP w aggregation
+1151  * CTAX_Cal(z,time)        Carbon Tax for Baseline Scenario
+1152  * CTAX_CPS(z,time)        Carbon Tax for Current Policy Scenario
+1153  * CTAX_NZ(z,time)        Carbon Tax for Net-Zero Scenario
+1154   AEEI_low(z,time)        Autonomous energy efficiency improvement
+1155   AEEI_medium(z,time) Autonomous energy efficiency improvement
+1156   AEEI_high(z,time)       Autonomous energy efficiency improvement
+1157   PERMIT_NDC_old(z,time)
+1158   PERMIT_NZ(z,time)      PERMIT
+1159  ;
+1160   
+GDXIN   C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\Projection.gdx
 --- LOAD  GDP = 1:GDP
 --- LOAD  TOT_POP = 2:TOT_POP
 --- LOAD  g_SDR = 3:g_SDR
 --- LOAD  AEEI_low = 4:AEEI_low
---- LOAD  AEEI_high = 5:AEEI_high
---- LOAD  TREND = 6:TREND
---- LOAD  TREND2 = 7:TREND2
---- LOAD  TREND_CPS = 8:TREND_CPS
---- LOAD  TREND_NZS = 9:TREND_NZS
---- LOAD  CTAX_Cal = 10:CTAX_Cal
---- LOAD  CTAX_CPS = 11:CTAX_CPS
---- LOAD  CTAX_NZS = 12:CTAX_NZS
---- LOAD  PERMIT_NZS = 13:PERMIT_NZS
-1179   
-GDXIN   C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\Employment.gdx
+--- LOAD  AEEI_medium = 5:AEEI_medium
+--- LOAD  AEEI_high = 6:AEEI_high
+--- LOAD  PERMIT_NDC_old = 7:PERMIT_NDC_old
+--- LOAD  PERMIT_NZ = 8:PERMIT_NZ
+1164   
+1165  PARAMETER
+1166   EMPLOY(j,z)             Employment by sector 2019 (thousand)
+1167  ;
+GDXIN   C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\Employment.gdx
 --- LOAD  EMPLOY = 1:EMPLOY
-1183   
+1171   
+1172  *==============================================================================
+1173  * 4.1 Real GDP projections
+1174  *==============================================================================
+1175   
+1176  loop{time$[time.val lt 2100],
+1177   g_GDP(z,time+1)           = [GDP(z,time+1)/GDP(z,time)]-1;
+1178  };
+1179   g_GDP(z,time)$[time.val ge 2100]
+1180                           = g_GDP(z,time+2);
+1181   
+1182  *==============================================================================
+1183  * 4.2 Total population projections
 1184  *==============================================================================
-1185  * 4.1 Real GDP projections
-1186  *==============================================================================
-1187   
-1188  loop{time$[time.val lt 2100],
-1189   g_GDP(z,time+1)           = [GDP(z,time+1)/GDP(z,time)]-1;
-1190  };
-1191   g_GDP(z,time)$[time.val ge 2100]
-1192                           = g_GDP(z,time+2);
-1193   
+1185   
+1186  loop{time$[time.val lt 2100],
+1187   g_POP(z,time+1)           = [TOT_POP(z,time+1)/TOT_POP(z,time)]-1;
+1188  };
+1189   g_POP(z,time)$[time.val ge 2100]
+1190                           = g_POP(z,time+1);
+1191   
+1192  *==============================================================================
+1193  * 5. Endogenous definition of set for rich regions/countries
 1194  *==============================================================================
-1195  * 4.2 Total population projections
-1196  *==============================================================================
-1197   
-1198  loop{time$[time.val lt 2100],
-1199   g_POP(z,time+1)           = [TOT_POP(z,time+1)/TOT_POP(z,time)]-1;
-1200  };
-1201   g_POP(z,time)$[time.val ge 2100]
-1202                           = g_POP(z,time+1);
+1195  * High Income Countries
+1196   Zrich('01_KOR')       = yes;
+1197   Zrich('03_JPN')        = yes;
+1198   Zrich('07_NAM')       = yes;
+1199   Zrich('09_WEU')       = yes;
+1200   Zrich('10_EEU')        = yes;
+1201   Zrich('17_PAO')        = yes;
+1202   Zother(Z)                = yes$[not Zrich(Z)];
 1203   
-1204  *==============================================================================
-1205  * 5. Endogenous definition of set for rich regions/countries
-1206  *==============================================================================
-1207  * High Income Countries
-1208   Zrich('01_KOR')       = yes;
-1209   Zrich('03_JPN')        = yes;
-1210   Zrich('07_NAM')       = yes;
-1211   Zrich('09_WEU')       = yes;
-1212   Zrich('10_EEU')        = yes;
-1213   Zrich('17_PAO')        = yes;
-1214   Zother(Z)                = yes$[not Zrich(Z)];
-1215   
-1216  execute_unload 'Input_w-t\DATA_AGG-2019_GTAP11c.gdx',
-1217   
-1218  *Sets
-1219   J, I, BUS, PUB, F, L, K, Z, ZR, Z1, Zrich, Zother
-1220   
-1221  *Benchmark variables and parameters
-1222   CO, CGO, DDO, DEPO, DIO, DSO,DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, POPO, RKDO,
-1223   TDHO, DTAX, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, tssm, tssd, tmrg, XSO, XSO_I, XSTO, EXTO, TotalCost,
-1224   sigma_M1, sigma_M2, sigma_VA, sigma_KLE, Q_GTAP, KLE_GTAP, SH_Q, SH_VA, SH_KLE, ESUBD, ELFKLE,
-1225   elas_E, elas_elec, elas_gas, elas_oil, elas_coal, elas_petrolcoal, EMPLOY,
-1226   
-1227  *Parameters for RD-CGE
-1228   TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, TREND, TREND2, TREND_CPS, TREND_NZS, CTAX_Cal, CTAX_CPS, CTAX_NZS, PERMIT_NZS ;
-1229   
-1230  *==============================================================================
-1231  * 6. SAM Balancing
-1232  *==============================================================================
+1204  execute_unload 'Input_CGE\DATA_AGG-2019_GTAP11c.gdx',
+1205   
+1206  *Sets
+1207   J, I, BUS, PUB, F, L, K, Z, ZR, Z1, Zrich, Zother
+1208   
+1209  *Benchmark variables and parameters
+1210   CO, CGO, DDO, DEPO, DIO, DSO,DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, POPO, RKDO,
+1211   TDHO, DTAX, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, tssm, tssd, tmrg, XSO, XSO_I, XSTO, EXTO, TotalCost,
+1212   sigma_M1, sigma_M2, sigma_VA, sigma_KLE, Q_GTAP, KLE_GTAP, SH_Q, SH_VA, SH_KLE, ESUBD, ELFKLE,
+1213   
+1214  *Employment
+1215   EMPLOY,
+1216   
+1217  *Backstop technology
+1218  Cap_Share, Lab_Share,
+1219   
+1220  *Parameters for RD-CGE
+1221   TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_medium,  AEEI_high, PERMIT_NDC_old, PERMIT_NZ ;
+1222  *==============================================================================
+1223  * 6. SAM Balancing
+1224  *==============================================================================
 INCLUDE    C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\DATA_SamBal.gms
-1234  *=========== 1. Input names of matrix accounts =================================
-1235  SETS
-1236  A MATRIX ACCOUNTS
-1237  /
-1238  1_a_AGRICULT
-1239  2_a_COAL
-1240  3_a_OIL
-1241  4_a_GAS
-1242  5_a_MINING
-1243  6_a_FOODPRO
-1244  7_a_TEXTILES
-1245  8_a_WOODPRO
-1246  9_a_PAPERPRO
-1247  10_a_PETROLCOAL
-1248  11_a_CHEMICAL
-1249  12_a_NONMET
-1250  13_a_IRONSTL
-1251  14_a_NONFERR
-1252  15_a_MACHINE
-1253  16_a_TRANSEQ
-1254  17_a_OTHERIND
-1255  18_a_TnD
-1256  19_a_eNuclear
-1257  20_a_eCoal
-1258  21_a_eGas
-1259  22_a_eOil
-1260  23_a_eWind
-1261  24_a_eSolar
-1262  25_a_eHydro
-1263  26_a_eOther
-1264  27_a_CONSTRUC
-1265  28_a_LTRP
-1266  29_a_WTRP
-1267  30_a_ATRP
-1268  31_a_SER
-1269  32_c_AGRICULT
-1270  33_c_COAL
-1271  34_c_OIL
-1272  35_c_GAS
-1273  36_c_MINING
-1274  37_c_FOODPRO
-1275  38_c_TEXTILES
-1276  39_c_WOODPRO
-1277  40_c_PAPERPRO
-1278  41_c_PETROLCOAL
-1279  42_c_CHEMICAL
-1280  43_c_NONMET
-1281  44_c_IRONSTL
-1282  45_c_NONFERR
-1283  46_c_MACHINE
-1284  47_c_TRANSEQ
-1285  48_c_OTHERIND
-1286  49_c_ELEC
-1287  50_c_CONSTRUC
-1288  51_c_LTRP
-1289  52_c_WTRP
-1290  53_c_ATRP
-1291  54_c_SER
-1292  55_Land
-1293  56_UnSkLab
-1294  57_SkLab
-1295  58_Capital
-1296  59_NatRes
-1297  60_tmm_r_01KOR
-1298  61_tmm_r_02CHN
-1299  62_tmm_r_03JPN
-1300  63_tmm_r_04RUS
-1301  64_tmm_r_05MNG
-1302  65_tmm_r_06PRK
-1303  66_tmm_r_07NAM
-1304  67_tmm_r_08LAM
-1305  68_tmm_r_09WEU
-1306  69_tmm_r_10EEU
-1307  70_tmm_r_11FSU
-1308  71_tmm_r_12MEA
-1309  72_tmm_r_13AFR
-1310  73_tmm_r_14CPA
-1311  74_tmm_r_15SAS
-1312  75_tmm_r_16PAS
-1313  76_tmm_r_17PAO
-1314  77_tee_r_01KOR
-1315  78_tee_r_02CHN
-1316  79_tee_r_03JPN
-1317  80_tee_r_04RUS
-1318  81_tee_r_05MNG
-1319  82_tee_r_06PRK
-1320  83_tee_r_07NAM
-1321  84_tee_r_08LAM
-1322  85_tee_r_09WEU
-1323  86_tee_r_10EEU
-1324  87_tee_r_11FSU
-1325  88_tee_r_12MEA
-1326  89_tee_r_13AFR
-1327  90_tee_r_14CPA
-1328  91_tee_r_15SAS
-1329  92_tee_r_16PAS
-1330  93_tee_r_17PAO
-1331  94_tf_Land
-1332  95_tf_UnSkLab
-1333  96_tf_SkLab
-1334  97_tf_Capital
-1335  98_tf_NatRes
-1336  99_M1c20__R1r
-1337  100_M2c21__R1r
-1338  101_M3c22__R1r
-1339  102_M1c20__R2r
-1340  103_M2c21__R2r
-1341  104_M3c22__R2r
-1342  105_M1c20__R3r
-1343  106_M2c21__R3r
-1344  107_M3c22__R3r
-1345  108_M1c20__R4r
-1346  109_M2c21__R4r
-1347  110_M3c22__R4r
-1348  111_M1c20__R5r
-1349  112_M2c21__R5r
-1350  113_M3c22__R5r
-1351  114_M1c20__R6r
-1352  115_M2c21__R6r
-1353  116_M3c22__R6r
-1354  117_M1c20__R7r
-1355  118_M2c21__R7r
-1356  119_M3c22__R7r
-1357  120_M1c20__R8r
-1358  121_M2c21__R8r
-1359  122_M3c22__R8r
-1360  123_M1c20__R9r
-1361  124_M2c21__R9r
-1362  125_M3c22__R9r
-1363  126_M1c20__R10r
-1364  127_M2c21__R10r
-1365  128_M3c22__R10r
-1366  129_M1c20__R11r
-1367  130_M2c21__R11r
-1368  131_M3c22__R11r
-1369  132_M1c20__R12r
-1370  133_M2c21__R12r
-1371  134_M3c22__R12r
-1372  135_M1c20__R13r
-1373  136_M2c21__R13r
-1374  137_M3c22__R13r
-1375  138_M1c20__R14r
-1376  139_M2c21__R14r
-1377  140_M3c22__R14r
-1378  141_M1c20__R15r
-1379  142_M2c21__R15r
-1380  143_M3c22__R15r
-1381  144_M1c20__R16r
-1382  145_M2c21__R16r
-1383  146_M3c22__R16r
-1384  147_M1c20__R17r
-1385  148_M2c21__R17r
-1386  149_M3c22__R17r
-1387  150_M1c20_L_pvst
-1388  151_M2c21_W_pvst
-1389  152_M3c22_A_pvst
-1390  153_ww_r_01KOR
-1391  154_ww_r_02CHN
-1392  155_ww_r_03JPN
-1393  156_ww_r_04RUS
-1394  157_ww_r_05MNG
-1395  158_ww_r_06PRK
-1396  159_ww_r_07NAM
-1397  160_ww_r_08LAM
-1398  161_ww_r_09WEU
-1399  162_ww_r_10EEU
-1400  163_ww_r_11FSU
-1401  164_ww_r_12MEA
-1402  165_ww_r_13AFR
-1403  166_ww_r_14CPA
-1404  167_ww_r_15SAS
-1405  168_ww_r_16PAS
-1406  169_ww_r_17PAO
-1407  170_PRIV
-1408  171_PRODTAX
-1409  172_DIRTAX
-1410  173_GOVT
-1411  174_CGDS
-1412  175_TOT
-1413  /
-1414   
-1415  INT(A) MATRIX ACCOUNTS
-1416  /
-1417  1_a_AGRICULT
-1418  2_a_COAL
-1419  3_a_OIL
-1420  4_a_GAS
-1421  5_a_MINING
-1422  6_a_FOODPRO
-1423  7_a_TEXTILES
-1424  8_a_WOODPRO
-1425  9_a_PAPERPRO
-1426  10_a_PETROLCOAL
-1427  11_a_CHEMICAL
-1428  12_a_NONMET
-1429  13_a_IRONSTL
-1430  14_a_NONFERR
-1431  15_a_MACHINE
-1432  16_a_TRANSEQ
-1433  17_a_OTHERIND
-1434  18_a_TnD
-1435  19_a_eNuclear
-1436  20_a_eCoal
-1437  21_a_eGas
-1438  22_a_eOil
-1439  23_a_eWind
-1440  24_a_eSolar
-1441  25_a_eHydro
-1442  26_a_eOther
-1443  27_a_CONSTRUC
-1444  28_a_LTRP
-1445  29_a_WTRP
-1446  30_a_ATRP
-1447  31_a_SER
-1448  32_c_AGRICULT
-1449  33_c_COAL
-1450  34_c_OIL
-1451  35_c_GAS
-1452  36_c_MINING
-1453  37_c_FOODPRO
-1454  38_c_TEXTILES
-1455  39_c_WOODPRO
-1456  40_c_PAPERPRO
-1457  41_c_PETROLCOAL
-1458  42_c_CHEMICAL
-1459  43_c_NONMET
-1460  44_c_IRONSTL
-1461  45_c_NONFERR
-1462  46_c_MACHINE
-1463  47_c_TRANSEQ
-1464  48_c_OTHERIND
-1465  49_c_ELEC
-1466  50_c_CONSTRUC
-1467  51_c_LTRP
-1468  52_c_WTRP
-1469  53_c_ATRP
-1470  54_c_SER
-1471  55_Land
-1472  56_UnSkLab
-1473  57_SkLab
-1474  58_Capital
-1475  59_NatRes
-1476  60_tmm_r_01KOR
-1477  61_tmm_r_02CHN
-1478  62_tmm_r_03JPN
-1479  63_tmm_r_04RUS
-1480  64_tmm_r_05MNG
-1481  65_tmm_r_06PRK
-1482  66_tmm_r_07NAM
-1483  67_tmm_r_08LAM
-1484  68_tmm_r_09WEU
-1485  69_tmm_r_10EEU
-1486  70_tmm_r_11FSU
-1487  71_tmm_r_12MEA
-1488  72_tmm_r_13AFR
-1489  73_tmm_r_14CPA
-1490  74_tmm_r_15SAS
-1491  75_tmm_r_16PAS
-1492  76_tmm_r_17PAO
-1493  77_tee_r_01KOR
-1494  78_tee_r_02CHN
-1495  79_tee_r_03JPN
-1496  80_tee_r_04RUS
-1497  81_tee_r_05MNG
-1498  82_tee_r_06PRK
-1499  83_tee_r_07NAM
-1500  84_tee_r_08LAM
-1501  85_tee_r_09WEU
-1502  86_tee_r_10EEU
-1503  87_tee_r_11FSU
-1504  88_tee_r_12MEA
-1505  89_tee_r_13AFR
-1506  90_tee_r_14CPA
-1507  91_tee_r_15SAS
-1508  92_tee_r_16PAS
-1509  93_tee_r_17PAO
-1510  94_tf_Land
-1511  95_tf_UnSkLab
-1512  96_tf_SkLab
-1513  97_tf_Capital
-1514  98_tf_NatRes
-1515  99_M1c20__R1r
-1516  100_M2c21__R1r
-1517  101_M3c22__R1r
-1518  102_M1c20__R2r
-1519  103_M2c21__R2r
-1520  104_M3c22__R2r
-1521  105_M1c20__R3r
-1522  106_M2c21__R3r
-1523  107_M3c22__R3r
-1524  108_M1c20__R4r
-1525  109_M2c21__R4r
-1526  110_M3c22__R4r
-1527  111_M1c20__R5r
-1528  112_M2c21__R5r
-1529  113_M3c22__R5r
-1530  114_M1c20__R6r
-1531  115_M2c21__R6r
-1532  116_M3c22__R6r
-1533  117_M1c20__R7r
-1534  118_M2c21__R7r
-1535  119_M3c22__R7r
-1536  120_M1c20__R8r
-1537  121_M2c21__R8r
-1538  122_M3c22__R8r
-1539  123_M1c20__R9r
-1540  124_M2c21__R9r
-1541  125_M3c22__R9r
-1542  126_M1c20__R10r
-1543  127_M2c21__R10r
-1544  128_M3c22__R10r
-1545  129_M1c20__R11r
-1546  130_M2c21__R11r
-1547  131_M3c22__R11r
-1548  132_M1c20__R12r
-1549  133_M2c21__R12r
-1550  134_M3c22__R12r
-1551  135_M1c20__R13r
-1552  136_M2c21__R13r
-1553  137_M3c22__R13r
-1554  138_M1c20__R14r
-1555  139_M2c21__R14r
-1556  140_M3c22__R14r
-1557  141_M1c20__R15r
-1558  142_M2c21__R15r
-1559  143_M3c22__R15r
-1560  144_M1c20__R16r
-1561  145_M2c21__R16r
-1562  146_M3c22__R16r
-1563  147_M1c20__R17r
-1564  148_M2c21__R17r
-1565  149_M3c22__R17r
-1566  150_M1c20_L_pvst
-1567  151_M2c21_W_pvst
-1568  152_M3c22_A_pvst
-1569  153_ww_r_01KOR
-1570  154_ww_r_02CHN
-1571  155_ww_r_03JPN
-1572  156_ww_r_04RUS
-1573  157_ww_r_05MNG
-1574  158_ww_r_06PRK
-1575  159_ww_r_07NAM
-1576  160_ww_r_08LAM
-1577  161_ww_r_09WEU
-1578  162_ww_r_10EEU
-1579  163_ww_r_11FSU
-1580  164_ww_r_12MEA
-1581  165_ww_r_13AFR
-1582  166_ww_r_14CPA
-1583  167_ww_r_15SAS
-1584  168_ww_r_16PAS
-1585  169_ww_r_17PAO
-1586  170_PRIV
-1587  171_PRODTAX
-1588  172_DIRTAX
-1589  173_GOVT
-1590  174_CGDS
-1591  *175_TOT
-1592  /
-1593   
-1594  A1(A)
-1595  /
-1596  1_a_AGRICULT
-1597  2_a_COAL
-1598  3_a_OIL
-1599  4_a_GAS
-1600  5_a_MINING
-1601  6_a_FOODPRO
-1602  7_a_TEXTILES
-1603  8_a_WOODPRO
-1604  9_a_PAPERPRO
-1605  10_a_PETROLCOAL
-1606  11_a_CHEMICAL
-1607  12_a_NONMET
-1608  13_a_IRONSTL
-1609  14_a_NONFERR
-1610  15_a_MACHINE
-1611  16_a_TRANSEQ
-1612  17_a_OTHERIND
-1613  18_a_TnD
-1614  19_a_eNuclear
-1615  20_a_eCoal
-1616  21_a_eGas
-1617  22_a_eOil
-1618  23_a_eWind
-1619  24_a_eSolar
-1620  25_a_eHydro
-1621  26_a_eOther
-1622  27_a_CONSTRUC
-1623  28_a_LTRP
-1624  29_a_WTRP
-1625  30_a_ATRP
-1626  31_a_SER
-1627  /
-1628   
-1629  C1(A)
-1630  /
-1631  32_c_AGRICULT
-1632  33_c_COAL
-1633  34_c_OIL
-1634  35_c_GAS
-1635  36_c_MINING
-1636  37_c_FOODPRO
-1637  38_c_TEXTILES
-1638  39_c_WOODPRO
-1639  40_c_PAPERPRO
-1640  41_c_PETROLCOAL
-1641  42_c_CHEMICAL
-1642  43_c_NONMET
-1643  44_c_IRONSTL
-1644  45_c_NONFERR
-1645  46_c_MACHINE
-1646  47_c_TRANSEQ
-1647  48_c_OTHERIND
-1648  49_c_ELEC
-1649  50_c_CONSTRUC
-1650  51_c_LTRP
-1651  52_c_WTRP
-1652  53_c_ATRP
-1653  54_c_SER
-1654  /
-1655   
-1656  L1(A)
-1657  /
-1658  56_UnSkLab
-1659  57_SkLab
-1660  /
-1661   
-1662  K1(A)
-1663  /
-1664  55_Land
-1665  58_Capital
-1666  59_NatRes
-1667  /
-1668   
-1669  ITAX1(A)
-1670  /
-1671  60_tmm_r_01KOR
-1672  61_tmm_r_02CHN
-1673  62_tmm_r_03JPN
-1674  63_tmm_r_04RUS
-1675  64_tmm_r_05MNG
-1676  65_tmm_r_06PRK
-1677  66_tmm_r_07NAM
-1678  67_tmm_r_08LAM
-1679  68_tmm_r_09WEU
-1680  69_tmm_r_10EEU
-1681  70_tmm_r_11FSU
-1682  71_tmm_r_12MEA
-1683  72_tmm_r_13AFR
-1684  73_tmm_r_14CPA
-1685  74_tmm_r_15SAS
-1686  75_tmm_r_16PAS
-1687  76_tmm_r_17PAO
-1688  /
-1689   
-1690  ETAX1(A)
-1691  /
-1692  77_tee_r_01KOR
-1693  78_tee_r_02CHN
-1694  79_tee_r_03JPN
-1695  80_tee_r_04RUS
-1696  81_tee_r_05MNG
-1697  82_tee_r_06PRK
-1698  83_tee_r_07NAM
-1699  84_tee_r_08LAM
-1700  85_tee_r_09WEU
-1701  86_tee_r_10EEU
-1702  87_tee_r_11FSU
-1703  88_tee_r_12MEA
-1704  89_tee_r_13AFR
-1705  90_tee_r_14CPA
-1706  91_tee_r_15SAS
-1707  92_tee_r_16PAS
-1708  93_tee_r_17PAO
-1709  /
-1710   
-1711  tf1(A)
-1712  /
-1713  95_tf_UnSkLab
-1714  96_tf_SkLab
-1715  /
-1716   
-1717  tf2(A)
-1718  /
-1719  94_tf_Land
-1720  97_tf_Capital
-1721  98_tf_NatRes
-1722  /
-1723   
-1724  MAR1(A)
-1725  /
-1726  99_M1c20__R1r
-1727  102_M1c20__R2r
-1728  105_M1c20__R3r
-1729  108_M1c20__R4r
-1730  111_M1c20__R5r
-1731  114_M1c20__R6r
-1732  117_M1c20__R7r
-1733  120_M1c20__R8r
-1734  123_M1c20__R9r
-1735  126_M1c20__R10r
-1736  129_M1c20__R11r
-1737  132_M1c20__R12r
-1738  135_M1c20__R13r
-1739  138_M1c20__R14r
-1740  141_M1c20__R15r
-1741  144_M1c20__R16r
-1742  147_M1c20__R17r
-1743  /
-1744   
-1745  MAR2(A)
-1746  /
-1747  100_M2c21__R1r
-1748  103_M2c21__R2r
-1749  106_M2c21__R3r
-1750  109_M2c21__R4r
-1751  112_M2c21__R5r
-1752  115_M2c21__R6r
-1753  118_M2c21__R7r
-1754  121_M2c21__R8r
-1755  124_M2c21__R9r
-1756  127_M2c21__R10r
-1757  130_M2c21__R11r
-1758  133_M2c21__R12r
-1759  136_M2c21__R13r
-1760  139_M2c21__R14r
-1761  142_M2c21__R15r
-1762  145_M2c21__R16r
-1763  148_M2c21__R17r
-1764  /
-1765   
-1766  MAR3(A)
-1767  /
-1768  101_M3c22__R1r
-1769  104_M3c22__R2r
-1770  107_M3c22__R3r
-1771  110_M3c22__R4r
-1772  113_M3c22__R5r
-1773  116_M3c22__R6r
-1774  119_M3c22__R7r
-1775  122_M3c22__R8r
-1776  125_M3c22__R9r
-1777  128_M3c22__R10r
-1778  131_M3c22__R11r
-1779  134_M3c22__R12r
-1780  137_M3c22__R13r
-1781  140_M3c22__R14r
-1782  143_M3c22__R15r
-1783  146_M3c22__R16r
-1784  149_M3c22__R17r
-1785  /
-1786   
-1787  MART1(A)
-1788  /
-1789  150_M1c20_L_pvst
-1790  151_M2c21_W_pvst
-1791  152_M3c22_A_pvst
-1792  /
-1793   
-1794  WORLD1(A)
-1795  /
-1796  153_ww_r_01KOR
-1797  154_ww_r_02CHN
-1798  155_ww_r_03JPN
-1799  156_ww_r_04RUS
-1800  157_ww_r_05MNG
-1801  158_ww_r_06PRK
-1802  159_ww_r_07NAM
-1803  160_ww_r_08LAM
-1804  161_ww_r_09WEU
-1805  162_ww_r_10EEU
-1806  163_ww_r_11FSU
-1807  164_ww_r_12MEA
-1808  165_ww_r_13AFR
-1809  166_ww_r_14CPA
-1810  167_ww_r_15SAS
-1811  168_ww_r_16PAS
-1812  169_ww_r_17PAO
+1226  *=========== 1. Input names of matrix accounts =================================
+1227  SETS
+1228  A MATRIX ACCOUNTS
+1229  /
+1230  1_a_AGRICULT
+1231  2_a_COAL
+1232  3_a_OIL
+1233  4_a_GAS
+1234  5_a_MINING
+1235  6_a_FOODPRO
+1236  7_a_TEXTILES
+1237  8_a_WOODPRO
+1238  9_a_PAPERPRO
+1239  10_a_PETROLCOAL
+1240  11_a_CHEMICAL
+1241  12_a_NONMET
+1242  13_a_IRONSTL
+1243  14_a_NONFERR
+1244  15_a_MACHINE
+1245  16_a_TRANSEQ
+1246  17_a_OTHERIND
+1247  18_a_TnD
+1248  19_a_eNuclear
+1249  20_a_eCoal
+1250  21_a_eGas
+1251  22_a_eOil
+1252  23_a_eWind
+1253  24_a_eSolar
+1254  25_a_eHydro
+1255  26_a_eOther
+1256  27_a_CONSTRUC
+1257  28_a_LTRP
+1258  29_a_WTRP
+1259  30_a_ATRP
+1260  31_a_SER
+1261  32_c_AGRICULT
+1262  33_c_COAL
+1263  34_c_OIL
+1264  35_c_GAS
+1265  36_c_MINING
+1266  37_c_FOODPRO
+1267  38_c_TEXTILES
+1268  39_c_WOODPRO
+1269  40_c_PAPERPRO
+1270  41_c_PETROLCOAL
+1271  42_c_CHEMICAL
+1272  43_c_NONMET
+1273  44_c_IRONSTL
+1274  45_c_NONFERR
+1275  46_c_MACHINE
+1276  47_c_TRANSEQ
+1277  48_c_OTHERIND
+1278  49_c_ELEC
+1279  50_c_CONSTRUC
+1280  51_c_LTRP
+1281  52_c_WTRP
+1282  53_c_ATRP
+1283  54_c_SER
+1284  55_Land
+1285  56_UnSkLab
+1286  57_SkLab
+1287  58_Capital
+1288  59_NatRes
+1289  60_tmm_r_01KOR
+1290  61_tmm_r_02CHN
+1291  62_tmm_r_03JPN
+1292  63_tmm_r_04RUS
+1293  64_tmm_r_05MNG
+1294  65_tmm_r_06PRK
+1295  66_tmm_r_07NAM
+1296  67_tmm_r_08LAM
+1297  68_tmm_r_09WEU
+1298  69_tmm_r_10EEU
+1299  70_tmm_r_11FSU
+1300  71_tmm_r_12MEA
+1301  72_tmm_r_13AFR
+1302  73_tmm_r_14CPA
+1303  74_tmm_r_15SAS
+1304  75_tmm_r_16PAS
+1305  76_tmm_r_17PAO
+1306  77_tee_r_01KOR
+1307  78_tee_r_02CHN
+1308  79_tee_r_03JPN
+1309  80_tee_r_04RUS
+1310  81_tee_r_05MNG
+1311  82_tee_r_06PRK
+1312  83_tee_r_07NAM
+1313  84_tee_r_08LAM
+1314  85_tee_r_09WEU
+1315  86_tee_r_10EEU
+1316  87_tee_r_11FSU
+1317  88_tee_r_12MEA
+1318  89_tee_r_13AFR
+1319  90_tee_r_14CPA
+1320  91_tee_r_15SAS
+1321  92_tee_r_16PAS
+1322  93_tee_r_17PAO
+1323  94_tf_Land
+1324  95_tf_UnSkLab
+1325  96_tf_SkLab
+1326  97_tf_Capital
+1327  98_tf_NatRes
+1328  99_M1c20__R1r
+1329  100_M2c21__R1r
+1330  101_M3c22__R1r
+1331  102_M1c20__R2r
+1332  103_M2c21__R2r
+1333  104_M3c22__R2r
+1334  105_M1c20__R3r
+1335  106_M2c21__R3r
+1336  107_M3c22__R3r
+1337  108_M1c20__R4r
+1338  109_M2c21__R4r
+1339  110_M3c22__R4r
+1340  111_M1c20__R5r
+1341  112_M2c21__R5r
+1342  113_M3c22__R5r
+1343  114_M1c20__R6r
+1344  115_M2c21__R6r
+1345  116_M3c22__R6r
+1346  117_M1c20__R7r
+1347  118_M2c21__R7r
+1348  119_M3c22__R7r
+1349  120_M1c20__R8r
+1350  121_M2c21__R8r
+1351  122_M3c22__R8r
+1352  123_M1c20__R9r
+1353  124_M2c21__R9r
+1354  125_M3c22__R9r
+1355  126_M1c20__R10r
+1356  127_M2c21__R10r
+1357  128_M3c22__R10r
+1358  129_M1c20__R11r
+1359  130_M2c21__R11r
+1360  131_M3c22__R11r
+1361  132_M1c20__R12r
+1362  133_M2c21__R12r
+1363  134_M3c22__R12r
+1364  135_M1c20__R13r
+1365  136_M2c21__R13r
+1366  137_M3c22__R13r
+1367  138_M1c20__R14r
+1368  139_M2c21__R14r
+1369  140_M3c22__R14r
+1370  141_M1c20__R15r
+1371  142_M2c21__R15r
+1372  143_M3c22__R15r
+1373  144_M1c20__R16r
+1374  145_M2c21__R16r
+1375  146_M3c22__R16r
+1376  147_M1c20__R17r
+1377  148_M2c21__R17r
+1378  149_M3c22__R17r
+1379  150_M1c20_L_pvst
+1380  151_M2c21_W_pvst
+1381  152_M3c22_A_pvst
+1382  153_ww_r_01KOR
+1383  154_ww_r_02CHN
+1384  155_ww_r_03JPN
+1385  156_ww_r_04RUS
+1386  157_ww_r_05MNG
+1387  158_ww_r_06PRK
+1388  159_ww_r_07NAM
+1389  160_ww_r_08LAM
+1390  161_ww_r_09WEU
+1391  162_ww_r_10EEU
+1392  163_ww_r_11FSU
+1393  164_ww_r_12MEA
+1394  165_ww_r_13AFR
+1395  166_ww_r_14CPA
+1396  167_ww_r_15SAS
+1397  168_ww_r_16PAS
+1398  169_ww_r_17PAO
+1399  170_PRIV
+1400  171_PRODTAX
+1401  172_DIRTAX
+1402  173_GOVT
+1403  174_CGDS
+1404  175_TOT
+1405  /
+1406   
+1407  INT(A) MATRIX ACCOUNTS
+1408  /
+1409  1_a_AGRICULT
+1410  2_a_COAL
+1411  3_a_OIL
+1412  4_a_GAS
+1413  5_a_MINING
+1414  6_a_FOODPRO
+1415  7_a_TEXTILES
+1416  8_a_WOODPRO
+1417  9_a_PAPERPRO
+1418  10_a_PETROLCOAL
+1419  11_a_CHEMICAL
+1420  12_a_NONMET
+1421  13_a_IRONSTL
+1422  14_a_NONFERR
+1423  15_a_MACHINE
+1424  16_a_TRANSEQ
+1425  17_a_OTHERIND
+1426  18_a_TnD
+1427  19_a_eNuclear
+1428  20_a_eCoal
+1429  21_a_eGas
+1430  22_a_eOil
+1431  23_a_eWind
+1432  24_a_eSolar
+1433  25_a_eHydro
+1434  26_a_eOther
+1435  27_a_CONSTRUC
+1436  28_a_LTRP
+1437  29_a_WTRP
+1438  30_a_ATRP
+1439  31_a_SER
+1440  32_c_AGRICULT
+1441  33_c_COAL
+1442  34_c_OIL
+1443  35_c_GAS
+1444  36_c_MINING
+1445  37_c_FOODPRO
+1446  38_c_TEXTILES
+1447  39_c_WOODPRO
+1448  40_c_PAPERPRO
+1449  41_c_PETROLCOAL
+1450  42_c_CHEMICAL
+1451  43_c_NONMET
+1452  44_c_IRONSTL
+1453  45_c_NONFERR
+1454  46_c_MACHINE
+1455  47_c_TRANSEQ
+1456  48_c_OTHERIND
+1457  49_c_ELEC
+1458  50_c_CONSTRUC
+1459  51_c_LTRP
+1460  52_c_WTRP
+1461  53_c_ATRP
+1462  54_c_SER
+1463  55_Land
+1464  56_UnSkLab
+1465  57_SkLab
+1466  58_Capital
+1467  59_NatRes
+1468  60_tmm_r_01KOR
+1469  61_tmm_r_02CHN
+1470  62_tmm_r_03JPN
+1471  63_tmm_r_04RUS
+1472  64_tmm_r_05MNG
+1473  65_tmm_r_06PRK
+1474  66_tmm_r_07NAM
+1475  67_tmm_r_08LAM
+1476  68_tmm_r_09WEU
+1477  69_tmm_r_10EEU
+1478  70_tmm_r_11FSU
+1479  71_tmm_r_12MEA
+1480  72_tmm_r_13AFR
+1481  73_tmm_r_14CPA
+1482  74_tmm_r_15SAS
+1483  75_tmm_r_16PAS
+1484  76_tmm_r_17PAO
+1485  77_tee_r_01KOR
+1486  78_tee_r_02CHN
+1487  79_tee_r_03JPN
+1488  80_tee_r_04RUS
+1489  81_tee_r_05MNG
+1490  82_tee_r_06PRK
+1491  83_tee_r_07NAM
+1492  84_tee_r_08LAM
+1493  85_tee_r_09WEU
+1494  86_tee_r_10EEU
+1495  87_tee_r_11FSU
+1496  88_tee_r_12MEA
+1497  89_tee_r_13AFR
+1498  90_tee_r_14CPA
+1499  91_tee_r_15SAS
+1500  92_tee_r_16PAS
+1501  93_tee_r_17PAO
+1502  94_tf_Land
+1503  95_tf_UnSkLab
+1504  96_tf_SkLab
+1505  97_tf_Capital
+1506  98_tf_NatRes
+1507  99_M1c20__R1r
+1508  100_M2c21__R1r
+1509  101_M3c22__R1r
+1510  102_M1c20__R2r
+1511  103_M2c21__R2r
+1512  104_M3c22__R2r
+1513  105_M1c20__R3r
+1514  106_M2c21__R3r
+1515  107_M3c22__R3r
+1516  108_M1c20__R4r
+1517  109_M2c21__R4r
+1518  110_M3c22__R4r
+1519  111_M1c20__R5r
+1520  112_M2c21__R5r
+1521  113_M3c22__R5r
+1522  114_M1c20__R6r
+1523  115_M2c21__R6r
+1524  116_M3c22__R6r
+1525  117_M1c20__R7r
+1526  118_M2c21__R7r
+1527  119_M3c22__R7r
+1528  120_M1c20__R8r
+1529  121_M2c21__R8r
+1530  122_M3c22__R8r
+1531  123_M1c20__R9r
+1532  124_M2c21__R9r
+1533  125_M3c22__R9r
+1534  126_M1c20__R10r
+1535  127_M2c21__R10r
+1536  128_M3c22__R10r
+1537  129_M1c20__R11r
+1538  130_M2c21__R11r
+1539  131_M3c22__R11r
+1540  132_M1c20__R12r
+1541  133_M2c21__R12r
+1542  134_M3c22__R12r
+1543  135_M1c20__R13r
+1544  136_M2c21__R13r
+1545  137_M3c22__R13r
+1546  138_M1c20__R14r
+1547  139_M2c21__R14r
+1548  140_M3c22__R14r
+1549  141_M1c20__R15r
+1550  142_M2c21__R15r
+1551  143_M3c22__R15r
+1552  144_M1c20__R16r
+1553  145_M2c21__R16r
+1554  146_M3c22__R16r
+1555  147_M1c20__R17r
+1556  148_M2c21__R17r
+1557  149_M3c22__R17r
+1558  150_M1c20_L_pvst
+1559  151_M2c21_W_pvst
+1560  152_M3c22_A_pvst
+1561  153_ww_r_01KOR
+1562  154_ww_r_02CHN
+1563  155_ww_r_03JPN
+1564  156_ww_r_04RUS
+1565  157_ww_r_05MNG
+1566  158_ww_r_06PRK
+1567  159_ww_r_07NAM
+1568  160_ww_r_08LAM
+1569  161_ww_r_09WEU
+1570  162_ww_r_10EEU
+1571  163_ww_r_11FSU
+1572  164_ww_r_12MEA
+1573  165_ww_r_13AFR
+1574  166_ww_r_14CPA
+1575  167_ww_r_15SAS
+1576  168_ww_r_16PAS
+1577  169_ww_r_17PAO
+1578  170_PRIV
+1579  171_PRODTAX
+1580  172_DIRTAX
+1581  173_GOVT
+1582  174_CGDS
+1583  *175_TOT
+1584  /
+1585   
+1586  A1(A)
+1587  /
+1588  1_a_AGRICULT
+1589  2_a_COAL
+1590  3_a_OIL
+1591  4_a_GAS
+1592  5_a_MINING
+1593  6_a_FOODPRO
+1594  7_a_TEXTILES
+1595  8_a_WOODPRO
+1596  9_a_PAPERPRO
+1597  10_a_PETROLCOAL
+1598  11_a_CHEMICAL
+1599  12_a_NONMET
+1600  13_a_IRONSTL
+1601  14_a_NONFERR
+1602  15_a_MACHINE
+1603  16_a_TRANSEQ
+1604  17_a_OTHERIND
+1605  18_a_TnD
+1606  19_a_eNuclear
+1607  20_a_eCoal
+1608  21_a_eGas
+1609  22_a_eOil
+1610  23_a_eWind
+1611  24_a_eSolar
+1612  25_a_eHydro
+1613  26_a_eOther
+1614  27_a_CONSTRUC
+1615  28_a_LTRP
+1616  29_a_WTRP
+1617  30_a_ATRP
+1618  31_a_SER
+1619  /
+1620   
+1621  C1(A)
+1622  /
+1623  32_c_AGRICULT
+1624  33_c_COAL
+1625  34_c_OIL
+1626  35_c_GAS
+1627  36_c_MINING
+1628  37_c_FOODPRO
+1629  38_c_TEXTILES
+1630  39_c_WOODPRO
+1631  40_c_PAPERPRO
+1632  41_c_PETROLCOAL
+1633  42_c_CHEMICAL
+1634  43_c_NONMET
+1635  44_c_IRONSTL
+1636  45_c_NONFERR
+1637  46_c_MACHINE
+1638  47_c_TRANSEQ
+1639  48_c_OTHERIND
+1640  49_c_ELEC
+1641  50_c_CONSTRUC
+1642  51_c_LTRP
+1643  52_c_WTRP
+1644  53_c_ATRP
+1645  54_c_SER
+1646  /
+1647   
+1648  L1(A)
+1649  /
+1650  56_UnSkLab
+1651  57_SkLab
+1652  /
+1653   
+1654  K1(A)
+1655  /
+1656  55_Land
+1657  58_Capital
+1658  59_NatRes
+1659  /
+1660   
+1661  ITAX1(A)
+1662  /
+1663  60_tmm_r_01KOR
+1664  61_tmm_r_02CHN
+1665  62_tmm_r_03JPN
+1666  63_tmm_r_04RUS
+1667  64_tmm_r_05MNG
+1668  65_tmm_r_06PRK
+1669  66_tmm_r_07NAM
+1670  67_tmm_r_08LAM
+1671  68_tmm_r_09WEU
+1672  69_tmm_r_10EEU
+1673  70_tmm_r_11FSU
+1674  71_tmm_r_12MEA
+1675  72_tmm_r_13AFR
+1676  73_tmm_r_14CPA
+1677  74_tmm_r_15SAS
+1678  75_tmm_r_16PAS
+1679  76_tmm_r_17PAO
+1680  /
+1681   
+1682  ETAX1(A)
+1683  /
+1684  77_tee_r_01KOR
+1685  78_tee_r_02CHN
+1686  79_tee_r_03JPN
+1687  80_tee_r_04RUS
+1688  81_tee_r_05MNG
+1689  82_tee_r_06PRK
+1690  83_tee_r_07NAM
+1691  84_tee_r_08LAM
+1692  85_tee_r_09WEU
+1693  86_tee_r_10EEU
+1694  87_tee_r_11FSU
+1695  88_tee_r_12MEA
+1696  89_tee_r_13AFR
+1697  90_tee_r_14CPA
+1698  91_tee_r_15SAS
+1699  92_tee_r_16PAS
+1700  93_tee_r_17PAO
+1701  /
+1702   
+1703  tf1(A)
+1704  /
+1705  95_tf_UnSkLab
+1706  96_tf_SkLab
+1707  /
+1708   
+1709  tf2(A)
+1710  /
+1711  94_tf_Land
+1712  97_tf_Capital
+1713  98_tf_NatRes
+1714  /
+1715   
+1716  MAR1(A)
+1717  /
+1718  99_M1c20__R1r
+1719  102_M1c20__R2r
+1720  105_M1c20__R3r
+1721  108_M1c20__R4r
+1722  111_M1c20__R5r
+1723  114_M1c20__R6r
+1724  117_M1c20__R7r
+1725  120_M1c20__R8r
+1726  123_M1c20__R9r
+1727  126_M1c20__R10r
+1728  129_M1c20__R11r
+1729  132_M1c20__R12r
+1730  135_M1c20__R13r
+1731  138_M1c20__R14r
+1732  141_M1c20__R15r
+1733  144_M1c20__R16r
+1734  147_M1c20__R17r
+1735  /
+1736   
+1737  MAR2(A)
+1738  /
+1739  100_M2c21__R1r
+1740  103_M2c21__R2r
+1741  106_M2c21__R3r
+1742  109_M2c21__R4r
+1743  112_M2c21__R5r
+1744  115_M2c21__R6r
+1745  118_M2c21__R7r
+1746  121_M2c21__R8r
+1747  124_M2c21__R9r
+1748  127_M2c21__R10r
+1749  130_M2c21__R11r
+1750  133_M2c21__R12r
+1751  136_M2c21__R13r
+1752  139_M2c21__R14r
+1753  142_M2c21__R15r
+1754  145_M2c21__R16r
+1755  148_M2c21__R17r
+1756  /
+1757   
+1758  MAR3(A)
+1759  /
+1760  101_M3c22__R1r
+1761  104_M3c22__R2r
+1762  107_M3c22__R3r
+1763  110_M3c22__R4r
+1764  113_M3c22__R5r
+1765  116_M3c22__R6r
+1766  119_M3c22__R7r
+1767  122_M3c22__R8r
+1768  125_M3c22__R9r
+1769  128_M3c22__R10r
+1770  131_M3c22__R11r
+1771  134_M3c22__R12r
+1772  137_M3c22__R13r
+1773  140_M3c22__R14r
+1774  143_M3c22__R15r
+1775  146_M3c22__R16r
+1776  149_M3c22__R17r
+1777  /
+1778   
+1779  MART1(A)
+1780  /
+1781  150_M1c20_L_pvst
+1782  151_M2c21_W_pvst
+1783  152_M3c22_A_pvst
+1784  /
+1785   
+1786  WORLD1(A)
+1787  /
+1788  153_ww_r_01KOR
+1789  154_ww_r_02CHN
+1790  155_ww_r_03JPN
+1791  156_ww_r_04RUS
+1792  157_ww_r_05MNG
+1793  158_ww_r_06PRK
+1794  159_ww_r_07NAM
+1795  160_ww_r_08LAM
+1796  161_ww_r_09WEU
+1797  162_ww_r_10EEU
+1798  163_ww_r_11FSU
+1799  164_ww_r_12MEA
+1800  165_ww_r_13AFR
+1801  166_ww_r_14CPA
+1802  167_ww_r_15SAS
+1803  168_ww_r_16PAS
+1804  169_ww_r_17PAO
+1805  /
+1806   
+1807  PRI1(A)
+1808  /
+1809  170_PRIV
+1810  /
+1811   
+1812  PTX1(A)
 1813  /
-1814   
-1815  PRI1(A)
-1816  /
-1817  170_PRIV
+1814  171_PRODTAX
+1815  /
+1816   
+1817  DTX1(A)
 1818  /
-1819   
-1820  PTX1(A)
-1821  /
-1822  171_PRODTAX
+1819  172_DIRTAX
+1820  /
+1821   
+1822  GOV1(A)
 1823  /
-1824   
-1825  DTX1(A)
-1826  /
-1827  172_DIRTAX
+1824  173_GOVT
+1825  /
+1826   
+1827  INV1(A)
 1828  /
-1829   
-1830  GOV1(A)
-1831  /
-1832  173_GOVT
+1829  174_CGDS
+1830  /
+1831   
+1832  sam_sce1(A1,j) Mapping of sectors
 1833  /
-1834   
-1835  INV1(A)
-1836  /
-1837  174_CGDS
-1838  /
-1839   
-1840  sam_sce1(A1,j) Mapping of sectors
-1841  /
-1842  1_a_AGRICULT.       01_AGRICULT
-1843  2_a_COAL.           02_COAL
-1844  3_a_OIL.            03_OIL
-1845  4_a_GAS.            04_GAS
-1846  5_a_MINING.         05_MINING
-1847  6_a_FOODPRO.        06_FOODPRO
-1848  7_a_TEXTILES.       07_TEXTILES
-1849  8_a_WOODPRO.        08_WOODPRO
-1850  9_a_PAPERPRO.       09_PAPERPRO
-1851  10_a_PETROLCOAL.    10_PETROLCOAL
-1852  11_a_CHEMICAL.      11_CHEMICAL
-1853  12_a_NONMET.        12_NONMET
-1854  13_a_IRONSTL.       13_IRONSTL
-1855  14_a_NONFERR.       14_NONFERR
-1856  15_a_MACHINE.       15_MACHINE
-1857  16_a_TRANSEQ.       16_TRANSEQ
-1858  17_a_OTHERIND.      17_OTHERIND
-1859  18_a_TnD.           18_TnD
-1860  19_a_eNuclear.      19_eNuclear
-1861  20_a_eCoal.         20_eCoal
-1862  21_a_eGas.          21_eGas
-1863  22_a_eOil.          22_eOil
-1864  23_a_eWind.         23_eWind
-1865  24_a_eSolar.        24_eSolar
-1866  25_a_eHydro.        25_eHydro
-1867  26_a_eOther.        26_eOther
-1868  27_a_CONSTRUC.      27_CONSTRUC
-1869  28_a_LTRP.          28_LTRP
-1870  29_a_WTRP.          29_WTRP
-1871  30_a_ATRP.          30_ATRP
-1872  31_a_SER.           31_SER
-1873  /
-1874   
-1875  sam_sce2(C1,i) Mapping of sectors
-1876  /
-1877  32_c_AGRICULT.        01_AGRICULT
-1878  33_c_COAL.            02_COAL
-1879  34_c_OIL.             03_OIL
-1880  35_c_GAS.             04_GAS
-1881  36_c_MINING.          05_MINING
-1882  37_c_FOODPRO.         06_FOODPRO
-1883  38_c_TEXTILES.        07_TEXTILES
-1884  39_c_WOODPRO.         08_WOODPRO
-1885  40_c_PAPERPRO.        09_PAPERPRO
-1886  41_c_PETROLCOAL.      10_PETROLCOAL
-1887  42_c_CHEMICAL.        11_CHEMICAL
-1888  43_c_NONMET.          12_NONMET
-1889  44_c_IRONSTL.         13_IRONSTL
-1890  45_c_NONFERR.         14_NONFERR
-1891  46_c_MACHINE.         15_MACHINE
-1892  47_c_TRANSEQ.         16_TRANSEQ
-1893  48_c_OTHERIND.        17_OTHERIND
-1894  49_c_ELEC.            18_ELEC
-1895  50_c_CONSTRUC.        19_CONSTRUC
-1896  51_c_LTRP.            20_LTRP
-1897  52_c_WTRP.            21_WTRP
-1898  53_c_ATRP.            22_ATRP
-1899  54_c_SER.             23_SER
-1900  /
-1901   
-1902  sam_sce3(L1,f) Mapping of sectors
-1903  /
-1904  56_UnSkLab.     ulab
-1905  57_SkLab.       slab
-1906  /
-1907   
-1908  sam_sce4(K1,f) Mapping of sectors
-1909  /
-1910  55_Land.        land
-1911  58_Capital.     cap
-1912  59_NatRes.      natr
-1913  /
-1914   
-1915  sam_sce5(ITAX1,z)
-1916  /
-1917  60_tmm_r_01KOR. 01_KOR
-1918  61_tmm_r_02CHN. 02_CHN
-1919  62_tmm_r_03JPN. 03_JPN
-1920  63_tmm_r_04RUS. 04_RUS
-1921  64_tmm_r_05MNG. 05_MNG
-1922  65_tmm_r_06PRK. 06_PRK
-1923  66_tmm_r_07NAM. 07_NAM
-1924  67_tmm_r_08LAM. 08_LAM
-1925  68_tmm_r_09WEU. 09_WEU
-1926  69_tmm_r_10EEU. 10_EEU
-1927  70_tmm_r_11FSU. 11_FSU
-1928  71_tmm_r_12MEA. 12_MEA
-1929  72_tmm_r_13AFR. 13_AFR
-1930  73_tmm_r_14CPA. 14_CPA
-1931  74_tmm_r_15SAS. 15_SAS
-1932  75_tmm_r_16PAS. 16_PAS
-1933  76_tmm_r_17PAO. 17_PAO
-1934  /
-1935   
-1936  sam_sce6(ETAX1,z)
-1937  /
-1938  77_tee_r_01KOR. 01_KOR
-1939  78_tee_r_02CHN. 02_CHN
-1940  79_tee_r_03JPN. 03_JPN
-1941  80_tee_r_04RUS. 04_RUS
-1942  81_tee_r_05MNG. 05_MNG
-1943  82_tee_r_06PRK. 06_PRK
-1944  83_tee_r_07NAM. 07_NAM
-1945  84_tee_r_08LAM. 08_LAM
-1946  85_tee_r_09WEU. 09_WEU
-1947  86_tee_r_10EEU. 10_EEU
-1948  87_tee_r_11FSU. 11_FSU
-1949  88_tee_r_12MEA. 12_MEA
-1950  89_tee_r_13AFR. 13_AFR
-1951  90_tee_r_14CPA. 14_CPA
-1952  91_tee_r_15SAS. 15_SAS
-1953  92_tee_r_16PAS. 16_PAS
-1954  93_tee_r_17PAO. 17_PAO
-1955  /
-1956   
-1957  sam_sce7(tf1,f) Mapping of sectors
-1958  /
-1959  95_tf_UnSkLab.     ulab
-1960  96_tf_SkLab.       slab
-1961  /
-1962   
-1963  sam_sce8(tf2,f) Mapping of sectors
-1964  /
-1965  94_tf_Land.        land
-1966  97_tf_Capital.     cap
-1967  98_tf_NatRes.      natr
-1968  /
-1969   
-1970  sam_sce9(MAR1,zj) Mapping of sectors
-1971  /
-1972  99_M1c20__R1r.   01_KOR
-1973  102_M1c20__R2r.   02_CHN
-1974  105_M1c20__R3r.   03_JPN
-1975  108_M1c20__R4r.  04_RUS
-1976  111_M1c20__R5r.  05_MNG
-1977  114_M1c20__R6r.  06_PRK
-1978  117_M1c20__R7r.  07_NAM
-1979  120_M1c20__R8r.  08_LAM
-1980  123_M1c20__R9r.  09_WEU
-1981  126_M1c20__R10r. 10_EEU
-1982  129_M1c20__R11r. 11_FSU
-1983  132_M1c20__R12r. 12_MEA
-1984  135_M1c20__R13r. 13_AFR
-1985  138_M1c20__R14r. 14_CPA
-1986  141_M1c20__R15r. 15_SAS
-1987  144_M1c20__R16r. 16_PAS
-1988  147_M1c20__R17r. 17_PAO
-1989  /
-1990   
-1991  sam_sce10(MAR2,zj) Mapping of sectors
-1992  /
-1993  100_M2c21__R1r. 01_KOR
-1994  103_M2c21__R2r. 02_CHN
-1995  106_M2c21__R3r. 03_JPN
-1996  109_M2c21__R4r. 04_RUS
-1997  112_M2c21__R5r. 05_MNG
-1998  115_M2c21__R6r. 06_PRK
-1999  118_M2c21__R7r. 07_NAM
-2000  121_M2c21__R8r. 08_LAM
-2001  124_M2c21__R9r. 09_WEU
-2002  127_M2c21__R10r. 10_EEU
-2003  130_M2c21__R11r. 11_FSU
-2004  133_M2c21__R12r. 12_MEA
-2005  136_M2c21__R13r. 13_AFR
-2006  139_M2c21__R14r. 14_CPA
-2007  142_M2c21__R15r. 15_SAS
-2008  145_M2c21__R16r. 16_PAS
-2009  148_M2c21__R17r. 17_PAO
-2010  /
-2011   
-2012  sam_sce11(MAR3,zj) Mapping of sectors
-2013  /
-2014  101_M3c22__R1r. 01_KOR
-2015  104_M3c22__R2r. 02_CHN
-2016  107_M3c22__R3r. 03_JPN
-2017  110_M3c22__R4r. 04_RUS
-2018  113_M3c22__R5r. 05_MNG
-2019  116_M3c22__R6r. 06_PRK
-2020  119_M3c22__R7r. 07_NAM
-2021  122_M3c22__R8r. 08_LAM
-2022  125_M3c22__R9r. 09_WEU
-2023  128_M3c22__R10r. 10_EEU
-2024  131_M3c22__R11r. 11_FSU
-2025  134_M3c22__R12r. 12_MEA
-2026  137_M3c22__R13r. 13_AFR
-2027  140_M3c22__R14r. 14_CPA
-2028  143_M3c22__R15r. 15_SAS
-2029  146_M3c22__R16r. 16_PAS
-2030  149_M3c22__R17r. 17_PAO
-2031  /
-2032   
-2033  sam_sce12(WORLD1, z) Mapping of sectors
-2034  /
-2035  153_ww_r_01KOR. 01_KOR
-2036  154_ww_r_02CHN. 02_CHN
-2037  155_ww_r_03JPN. 03_JPN
-2038  156_ww_r_04RUS. 04_RUS
-2039  157_ww_r_05MNG. 05_MNG
-2040  158_ww_r_06PRK. 06_PRK
-2041  159_ww_r_07NAM. 07_NAM
-2042  160_ww_r_08LAM. 08_LAM
-2043  161_ww_r_09WEU. 09_WEU
-2044  162_ww_r_10EEU. 10_EEU
-2045  163_ww_r_11FSU. 11_FSU
-2046  164_ww_r_12MEA. 12_MEA
-2047  165_ww_r_13AFR. 13_AFR
-2048  166_ww_r_14CPA. 14_CPA
-2049  167_ww_r_15SAS. 15_SAS
-2050  168_ww_r_16PAS. 16_PAS
-2051  169_ww_r_17PAO. 17_PAO
-2052  /
-2053   
-2054  ;
+1834  1_a_AGRICULT.       01_AGRICULT
+1835  2_a_COAL.           02_COAL
+1836  3_a_OIL.            03_OIL
+1837  4_a_GAS.            04_GAS
+1838  5_a_MINING.         05_MINING
+1839  6_a_FOODPRO.        06_FOODPRO
+1840  7_a_TEXTILES.       07_TEXTILES
+1841  8_a_WOODPRO.        08_WOODPRO
+1842  9_a_PAPERPRO.       09_PAPERPRO
+1843  10_a_PETROLCOAL.    10_PETROLCOAL
+1844  11_a_CHEMICAL.      11_CHEMICAL
+1845  12_a_NONMET.        12_NONMET
+1846  13_a_IRONSTL.       13_IRONSTL
+1847  14_a_NONFERR.       14_NONFERR
+1848  15_a_MACHINE.       15_MACHINE
+1849  16_a_TRANSEQ.       16_TRANSEQ
+1850  17_a_OTHERIND.      17_OTHERIND
+1851  18_a_TnD.           18_TnD
+1852  19_a_eNuclear.      19_eNuclear
+1853  20_a_eCoal.         20_eCoal
+1854  21_a_eGas.          21_eGas
+1855  22_a_eOil.          22_eOil
+1856  23_a_eWind.         23_eWind
+1857  24_a_eSolar.        24_eSolar
+1858  25_a_eHydro.        25_eHydro
+1859  26_a_eOther.        26_eOther
+1860  27_a_CONSTRUC.      27_CONSTRUC
+1861  28_a_LTRP.          28_LTRP
+1862  29_a_WTRP.          29_WTRP
+1863  30_a_ATRP.          30_ATRP
+1864  31_a_SER.           31_SER
+1865  /
+1866   
+1867  sam_sce2(C1,i) Mapping of sectors
+1868  /
+1869  32_c_AGRICULT.        01_AGRICULT
+1870  33_c_COAL.            02_COAL
+1871  34_c_OIL.             03_OIL
+1872  35_c_GAS.             04_GAS
+1873  36_c_MINING.          05_MINING
+1874  37_c_FOODPRO.         06_FOODPRO
+1875  38_c_TEXTILES.        07_TEXTILES
+1876  39_c_WOODPRO.         08_WOODPRO
+1877  40_c_PAPERPRO.        09_PAPERPRO
+1878  41_c_PETROLCOAL.      10_PETROLCOAL
+1879  42_c_CHEMICAL.        11_CHEMICAL
+1880  43_c_NONMET.          12_NONMET
+1881  44_c_IRONSTL.         13_IRONSTL
+1882  45_c_NONFERR.         14_NONFERR
+1883  46_c_MACHINE.         15_MACHINE
+1884  47_c_TRANSEQ.         16_TRANSEQ
+1885  48_c_OTHERIND.        17_OTHERIND
+1886  49_c_ELEC.            18_ELEC
+1887  50_c_CONSTRUC.        19_CONSTRUC
+1888  51_c_LTRP.            20_LTRP
+1889  52_c_WTRP.            21_WTRP
+1890  53_c_ATRP.            22_ATRP
+1891  54_c_SER.             23_SER
+1892  /
+1893   
+1894  sam_sce3(L1,f) Mapping of sectors
+1895  /
+1896  56_UnSkLab.     ulab
+1897  57_SkLab.       slab
+1898  /
+1899   
+1900  sam_sce4(K1,f) Mapping of sectors
+1901  /
+1902  55_Land.        land
+1903  58_Capital.     cap
+1904  59_NatRes.      natr
+1905  /
+1906   
+1907  sam_sce5(ITAX1,z)
+1908  /
+1909  60_tmm_r_01KOR. 01_KOR
+1910  61_tmm_r_02CHN. 02_CHN
+1911  62_tmm_r_03JPN. 03_JPN
+1912  63_tmm_r_04RUS. 04_RUS
+1913  64_tmm_r_05MNG. 05_MNG
+1914  65_tmm_r_06PRK. 06_PRK
+1915  66_tmm_r_07NAM. 07_NAM
+1916  67_tmm_r_08LAM. 08_LAM
+1917  68_tmm_r_09WEU. 09_WEU
+1918  69_tmm_r_10EEU. 10_EEU
+1919  70_tmm_r_11FSU. 11_FSU
+1920  71_tmm_r_12MEA. 12_MEA
+1921  72_tmm_r_13AFR. 13_AFR
+1922  73_tmm_r_14CPA. 14_CPA
+1923  74_tmm_r_15SAS. 15_SAS
+1924  75_tmm_r_16PAS. 16_PAS
+1925  76_tmm_r_17PAO. 17_PAO
+1926  /
+1927   
+1928  sam_sce6(ETAX1,z)
+1929  /
+1930  77_tee_r_01KOR. 01_KOR
+1931  78_tee_r_02CHN. 02_CHN
+1932  79_tee_r_03JPN. 03_JPN
+1933  80_tee_r_04RUS. 04_RUS
+1934  81_tee_r_05MNG. 05_MNG
+1935  82_tee_r_06PRK. 06_PRK
+1936  83_tee_r_07NAM. 07_NAM
+1937  84_tee_r_08LAM. 08_LAM
+1938  85_tee_r_09WEU. 09_WEU
+1939  86_tee_r_10EEU. 10_EEU
+1940  87_tee_r_11FSU. 11_FSU
+1941  88_tee_r_12MEA. 12_MEA
+1942  89_tee_r_13AFR. 13_AFR
+1943  90_tee_r_14CPA. 14_CPA
+1944  91_tee_r_15SAS. 15_SAS
+1945  92_tee_r_16PAS. 16_PAS
+1946  93_tee_r_17PAO. 17_PAO
+1947  /
+1948   
+1949  sam_sce7(tf1,f) Mapping of sectors
+1950  /
+1951  95_tf_UnSkLab.     ulab
+1952  96_tf_SkLab.       slab
+1953  /
+1954   
+1955  sam_sce8(tf2,f) Mapping of sectors
+1956  /
+1957  94_tf_Land.        land
+1958  97_tf_Capital.     cap
+1959  98_tf_NatRes.      natr
+1960  /
+1961   
+1962  sam_sce9(MAR1,zj) Mapping of sectors
+1963  /
+1964  99_M1c20__R1r.   01_KOR
+1965  102_M1c20__R2r.   02_CHN
+1966  105_M1c20__R3r.   03_JPN
+1967  108_M1c20__R4r.  04_RUS
+1968  111_M1c20__R5r.  05_MNG
+1969  114_M1c20__R6r.  06_PRK
+1970  117_M1c20__R7r.  07_NAM
+1971  120_M1c20__R8r.  08_LAM
+1972  123_M1c20__R9r.  09_WEU
+1973  126_M1c20__R10r. 10_EEU
+1974  129_M1c20__R11r. 11_FSU
+1975  132_M1c20__R12r. 12_MEA
+1976  135_M1c20__R13r. 13_AFR
+1977  138_M1c20__R14r. 14_CPA
+1978  141_M1c20__R15r. 15_SAS
+1979  144_M1c20__R16r. 16_PAS
+1980  147_M1c20__R17r. 17_PAO
+1981  /
+1982   
+1983  sam_sce10(MAR2,zj) Mapping of sectors
+1984  /
+1985  100_M2c21__R1r. 01_KOR
+1986  103_M2c21__R2r. 02_CHN
+1987  106_M2c21__R3r. 03_JPN
+1988  109_M2c21__R4r. 04_RUS
+1989  112_M2c21__R5r. 05_MNG
+1990  115_M2c21__R6r. 06_PRK
+1991  118_M2c21__R7r. 07_NAM
+1992  121_M2c21__R8r. 08_LAM
+1993  124_M2c21__R9r. 09_WEU
+1994  127_M2c21__R10r. 10_EEU
+1995  130_M2c21__R11r. 11_FSU
+1996  133_M2c21__R12r. 12_MEA
+1997  136_M2c21__R13r. 13_AFR
+1998  139_M2c21__R14r. 14_CPA
+1999  142_M2c21__R15r. 15_SAS
+2000  145_M2c21__R16r. 16_PAS
+2001  148_M2c21__R17r. 17_PAO
+2002  /
+2003   
+2004  sam_sce11(MAR3,zj) Mapping of sectors
+2005  /
+2006  101_M3c22__R1r. 01_KOR
+2007  104_M3c22__R2r. 02_CHN
+2008  107_M3c22__R3r. 03_JPN
+2009  110_M3c22__R4r. 04_RUS
+2010  113_M3c22__R5r. 05_MNG
+2011  116_M3c22__R6r. 06_PRK
+2012  119_M3c22__R7r. 07_NAM
+2013  122_M3c22__R8r. 08_LAM
+2014  125_M3c22__R9r. 09_WEU
+2015  128_M3c22__R10r. 10_EEU
+2016  131_M3c22__R11r. 11_FSU
+2017  134_M3c22__R12r. 12_MEA
+2018  137_M3c22__R13r. 13_AFR
+2019  140_M3c22__R14r. 14_CPA
+2020  143_M3c22__R15r. 15_SAS
+2021  146_M3c22__R16r. 16_PAS
+2022  149_M3c22__R17r. 17_PAO
+2023  /
+2024   
+2025  sam_sce12(WORLD1, z) Mapping of sectors
+2026  /
+2027  153_ww_r_01KOR. 01_KOR
+2028  154_ww_r_02CHN. 02_CHN
+2029  155_ww_r_03JPN. 03_JPN
+2030  156_ww_r_04RUS. 04_RUS
+2031  157_ww_r_05MNG. 05_MNG
+2032  158_ww_r_06PRK. 06_PRK
+2033  159_ww_r_07NAM. 07_NAM
+2034  160_ww_r_08LAM. 08_LAM
+2035  161_ww_r_09WEU. 09_WEU
+2036  162_ww_r_10EEU. 10_EEU
+2037  163_ww_r_11FSU. 11_FSU
+2038  164_ww_r_12MEA. 12_MEA
+2039  165_ww_r_13AFR. 13_AFR
+2040  166_ww_r_14CPA. 14_CPA
+2041  167_ww_r_15SAS. 15_SAS
+2042  168_ww_r_16PAS. 16_PAS
+2043  169_ww_r_17PAO. 17_PAO
+2044  /
+2045   
+2046  ;
+2047   
+2048  ALIAS(A,B);
+2049  ALIAS(A1,A11);
+2050  ALIAS(C1,C11);
+2051  ALIAS(INT,JNT);
+2052   
+2053  INT(A) = YES;
+2054  INT('175_TOT') = NO;
 2055   
-2056  ALIAS(A,B);
-2057  ALIAS(A1,A11);
-2058  ALIAS(C1,C11);
-2059  ALIAS(INT,JNT);
-2060   
-2061  INT(A) = YES;
-2062  INT('175_TOT') = NO;
-2063   
-2064  *============ 2.Initial matrix ===========================================
-2065  PARAMETER
-2066  SAM0(A,B,z) initial matrix ,
-2067  SAM0_01_KOR(A,B),
-2068  SAM0_02_CHN(A,B),
-2069  SAM0_03_JPN(A,B),
-2070  SAM0_04_RUS(A,B),
-2071  SAM0_05_MNG(A,B),
-2072  SAM0_06_PRK(A,B),
-2073  SAM0_07_NAM(A,B),
-2074  SAM0_08_LAM(A,B),
-2075  SAM0_09_WEU(A,B),
-2076  SAM0_10_EEU(A,B),
-2077  SAM0_11_FSU(A,B),
-2078  SAM0_12_MEA(A,B),
-2079  SAM0_13_AFR(A,B),
-2080  SAM0_14_CPA(A,B),
-2081  SAM0_15_SAS(A,B),
-2082  SAM0_16_PAS(A,B),
-2083  SAM0_17_PAO(A,B)
-2084  ;
-2085   
-2086  SAM0(INT,JNT,z) = EPS;
+2056  *============ 2.Initial matrix ===========================================
+2057  PARAMETER
+2058  SAM0(A,B,z) initial matrix ,
+2059  SAM0_01_KOR(A,B),
+2060  SAM0_02_CHN(A,B),
+2061  SAM0_03_JPN(A,B),
+2062  SAM0_04_RUS(A,B),
+2063  SAM0_05_MNG(A,B),
+2064  SAM0_06_PRK(A,B),
+2065  SAM0_07_NAM(A,B),
+2066  SAM0_08_LAM(A,B),
+2067  SAM0_09_WEU(A,B),
+2068  SAM0_10_EEU(A,B),
+2069  SAM0_11_FSU(A,B),
+2070  SAM0_12_MEA(A,B),
+2071  SAM0_13_AFR(A,B),
+2072  SAM0_14_CPA(A,B),
+2073  SAM0_15_SAS(A,B),
+2074  SAM0_16_PAS(A,B),
+2075  SAM0_17_PAO(A,B)
+2076  ;
+2077   
+2078  SAM0(INT,JNT,z) = EPS;
+2079   
+2080  *Acitivities
+2081  SAM0(C1,A1,Z)  = SUM[(i,j)$[sam_sce2(C1,i)$sam_sce1(A1,j)], DIO(i,j,Z)];
+2082  SAM0(L1,A1,Z)  = SUM[(l,j)$[sam_sce3(L1,l)$sam_sce1(A1,j)], LDO2(l,j,Z)];
+2083  SAM0(K1,A1,Z)  = SUM[(k,j)$[sam_sce4(K1,k)$sam_sce1(A1,j)], RKDO(k,j,Z)];
+2084  SAM0(tf1,A1,Z)  = SUM[(l,j)$[sam_sce7(tf1,l)$sam_sce1(A1,j)], TIWO2(l,j,Z)];
+2085  SAM0(tf2,A1,Z)  = SUM[(k,j)$[sam_sce8(tf2,k)$sam_sce1(A1,j)], TIKO(k,j,Z)];
+2086  SAM0(PTX1,A1,Z) = SUM[(j)$[sam_sce1(A1,j)], TIPO(j,Z)];
 2087   
-2088  *Acitivities
-2089  SAM0(C1,A1,Z)  = SUM[(i,j)$[sam_sce2(C1,i)$sam_sce1(A1,j)], DIO(i,j,Z)];
-2090  SAM0(L1,A1,Z)  = SUM[(l,j)$[sam_sce3(L1,l)$sam_sce1(A1,j)], LDO2(l,j,Z)];
-2091  SAM0(K1,A1,Z)  = SUM[(k,j)$[sam_sce4(K1,k)$sam_sce1(A1,j)], RKDO(k,j,Z)];
-2092  SAM0(tf1,A1,Z)  = SUM[(l,j)$[sam_sce7(tf1,l)$sam_sce1(A1,j)], TIWO2(l,j,Z)];
-2093  SAM0(tf2,A1,Z)  = SUM[(k,j)$[sam_sce8(tf2,k)$sam_sce1(A1,j)], TIKO(k,j,Z)];
-2094  SAM0(PTX1,A1,Z) = SUM[(j)$[sam_sce1(A1,j)], TIPO(j,Z)];
-2095   
-2096  *Commodities
-2097  SAM0(A1,C1,Z)       = SUM[(i,j)$[sam_sce1(A1,j)$sam_sce2(C1,i)],  XSO(j,i,z)];
-2098  SAM0(ITAX1,C1,Z)  = SUM[(i,zj)$[sam_sce5(ITAX1,zj)$sam_sce2(C1,i)], TIMO(i,zj,Z)];
-2099  SAM0(ETAX1,C1,Z)  = SUM[(i,zj)$[sam_sce6(ETAX1,zj)$sam_sce2(C1,i)], TIXO(i,Z,zj)];
-2100  SAM0(MAR1,C1,Z)  = SUM[(ij,zj)$[sam_sce9(MAR1,zj)$sam_sce2(C1,ij)],tmrg('20_LTRP',ij,zj,Z)];
-2101  SAM0(MAR2,C1,Z)  = SUM[(ij,zj)$[sam_sce10(MAR2,zj)$sam_sce2(C1,ij)],tmrg('21_WTRP',ij,zj,Z)];
-2102  SAM0(MAR3,C1,Z)  = SUM[(ij,zj)$[sam_sce11(MAR3,zj)$sam_sce2(C1,ij)],tmrg('22_ATRP',ij,zj,Z)];
-2103  SAM0(WORLD1,C1,Z) = SUM[(i,zj)$[sam_sce12(WORLD1,zj)$sam_sce2(C1,i)], IMO(i,zj,Z)];
-2104  SAM0(PTX1,C1,Z) = SUM[(i)$[sam_sce2(C1,i)], TICO(i,Z)];
-2105   
-2106  *Factors
-2107  SAM0(PRI1,L1,Z)  = sum{(l)$[sam_sce3(L1,l)],LDO2_J(l,Z)};
-2108  SAM0(PRI1,K1,Z)  = sum{(k)$[sam_sce4(K1,k)],RKDO_J(k,Z)};
-2109  SAM0(DTX1,L1,Z)  = sum{(l)$[sam_sce3(L1,l)],DTAX(l,Z)};
-2110  SAM0(DTX1,K1,Z)  = sum{(k)$[sam_sce4(K1,k)],DTAX(k,Z)};
-2111   
-2112  *Import tariffs
-2113  SAM0(PTX1,ITAX1,Z) = SUM[(zj)$[sam_sce5(ITAX1,zj)], sum(i,TIMO(i,zj,Z))];
-2114   
-2115  *Export taxes
-2116  SAM0(PTX1,ETAX1,Z) = SUM[(zj)$[sam_sce6(ETAX1,zj)], sum(i,TIXO(i,Z,zj))];
-2117   
-2118  *Factor taxes
-2119  SAM0(PTX1,tf1,Z)  = sum{(l)$[sam_sce7(tf1,l)],sum(j,TIWO2(l,j,Z))};
-2120  SAM0(PTX1,tf2,Z)  = sum{(k)$[sam_sce8(tf2,k)],sum(j,TIKO(k,j,Z))};
-2121   
-2122  *Transaction cost
-2123  SAM0('150_M1c20_L_pvst',MAR1,Z) = SUM[(zj)$[sam_sce9(MAR1,zj)],sum(ij,tmrg('20_LTRP',ij,zj,Z))];
-2124  SAM0('151_M2c21_W_pvst',MAR2,Z) = SUM[(zj)$[sam_sce10(MAR2,zj)],sum(ij,tmrg('21_WTRP',ij,zj,Z))];
-2125  SAM0('152_M3c22_A_pvst',MAR3,Z) = SUM[(zj)$[sam_sce11(MAR3,zj)],sum(ij,tmrg('22_ATRP',ij,zj,Z))];
+2088  *Commodities
+2089  SAM0(A1,C1,Z)       = SUM[(i,j)$[sam_sce1(A1,j)$sam_sce2(C1,i)],  XSO(j,i,z)];
+2090  SAM0(ITAX1,C1,Z)  = SUM[(i,zj)$[sam_sce5(ITAX1,zj)$sam_sce2(C1,i)], TIMO(i,zj,Z)];
+2091  SAM0(ETAX1,C1,Z)  = SUM[(i,zj)$[sam_sce6(ETAX1,zj)$sam_sce2(C1,i)], TIXO(i,Z,zj)];
+2092  SAM0(MAR1,C1,Z)  = SUM[(ij,zj)$[sam_sce9(MAR1,zj)$sam_sce2(C1,ij)],tmrg('20_LTRP',ij,zj,Z)];
+2093  SAM0(MAR2,C1,Z)  = SUM[(ij,zj)$[sam_sce10(MAR2,zj)$sam_sce2(C1,ij)],tmrg('21_WTRP',ij,zj,Z)];
+2094  SAM0(MAR3,C1,Z)  = SUM[(ij,zj)$[sam_sce11(MAR3,zj)$sam_sce2(C1,ij)],tmrg('22_ATRP',ij,zj,Z)];
+2095  SAM0(WORLD1,C1,Z) = SUM[(i,zj)$[sam_sce12(WORLD1,zj)$sam_sce2(C1,i)], IMO(i,zj,Z)];
+2096  SAM0(PTX1,C1,Z) = SUM[(i)$[sam_sce2(C1,i)], TICO(i,Z)];
+2097   
+2098  *Factors
+2099  SAM0(PRI1,L1,Z)  = sum{(l)$[sam_sce3(L1,l)],LDO2_J(l,Z)};
+2100  SAM0(PRI1,K1,Z)  = sum{(k)$[sam_sce4(K1,k)],RKDO_J(k,Z)};
+2101  SAM0(DTX1,L1,Z)  = sum{(l)$[sam_sce3(L1,l)],DTAX(l,Z)};
+2102  SAM0(DTX1,K1,Z)  = sum{(k)$[sam_sce4(K1,k)],DTAX(k,Z)};
+2103   
+2104  *Import tariffs
+2105  SAM0(PTX1,ITAX1,Z) = SUM[(zj)$[sam_sce5(ITAX1,zj)], sum(i,TIMO(i,zj,Z))];
+2106   
+2107  *Export taxes
+2108  SAM0(PTX1,ETAX1,Z) = SUM[(zj)$[sam_sce6(ETAX1,zj)], sum(i,TIXO(i,Z,zj))];
+2109   
+2110  *Factor taxes
+2111  SAM0(PTX1,tf1,Z)  = sum{(l)$[sam_sce7(tf1,l)],sum(j,TIWO2(l,j,Z))};
+2112  SAM0(PTX1,tf2,Z)  = sum{(k)$[sam_sce8(tf2,k)],sum(j,TIKO(k,j,Z))};
+2113   
+2114  *Transaction cost
+2115  SAM0('150_M1c20_L_pvst',MAR1,Z) = SUM[(zj)$[sam_sce9(MAR1,zj)],sum(ij,tmrg('20_LTRP',ij,zj,Z))];
+2116  SAM0('151_M2c21_W_pvst',MAR2,Z) = SUM[(zj)$[sam_sce10(MAR2,zj)],sum(ij,tmrg('21_WTRP',ij,zj,Z))];
+2117  SAM0('152_M3c22_A_pvst',MAR3,Z) = SUM[(zj)$[sam_sce11(MAR3,zj)],sum(ij,tmrg('22_ATRP',ij,zj,Z))];
+2118   
+2119  SAM0('51_c_LTRP','150_M1c20_L_pvst',Z)= MRGNO('20_LTRP',Z);
+2120  SAM0('52_c_WTRP','151_M2c21_W_pvst',Z)= MRGNO('21_WTRP',Z);
+2121  SAM0('53_c_ATRP','152_M3c22_A_pvst',Z)= MRGNO('22_ATRP',Z);
+2122   
+2123  SAM0(INV1,'150_M1c20_L_pvst',Z) = sum(B,SAM0('150_M1c20_L_pvst',B,Z))-SAM0('51_c_LTRP','150_M1c20_L_pvst',Z);
+2124  SAM0(INV1,'151_M2c21_W_pvst',Z) = sum(B,SAM0('151_M2c21_W_pvst',B,Z))-SAM0('52_c_WTRP','151_M2c21_W_pvst',Z);
+2125  SAM0(INV1,'152_M3c22_A_pvst',Z) = sum(B,SAM0('152_M3c22_A_pvst',B,Z))-SAM0('53_c_ATRP','152_M3c22_A_pvst',Z);
 2126   
-2127  SAM0('51_c_LTRP','150_M1c20_L_pvst',Z)= MRGNO('20_LTRP',Z);
-2128  SAM0('52_c_WTRP','151_M2c21_W_pvst',Z)= MRGNO('21_WTRP',Z);
-2129  SAM0('53_c_ATRP','152_M3c22_A_pvst',Z)= MRGNO('22_ATRP',Z);
-2130   
-2131  SAM0(INV1,'150_M1c20_L_pvst',Z) = sum(B,SAM0('150_M1c20_L_pvst',B,Z))-SAM0('51_c_LTRP','150_M1c20_L_pvst',Z);
-2132  SAM0(INV1,'151_M2c21_W_pvst',Z) = sum(B,SAM0('151_M2c21_W_pvst',B,Z))-SAM0('52_c_WTRP','151_M2c21_W_pvst',Z);
-2133  SAM0(INV1,'152_M3c22_A_pvst',Z) = sum(B,SAM0('152_M3c22_A_pvst',B,Z))-SAM0('53_c_ATRP','152_M3c22_A_pvst',Z);
-2134   
-2135  *Import&Export
-2136  SAM0(C1,WORLD1,Z)= SUM[(i,zj)$[sam_sce12(WORLD1,zj)$sam_sce2(C1,i)],EXO(i,Z,zj)];
-2137   
-2138  *Balance of Trade
-2139  SAM0(INV1,WORLD1,Z)= SUM(B,SAM0(WORLD1,B,Z))-SUM(C1,SAM0(C1,WORLD1,Z));
-2140   
-2141  *Household
-2142  SAM0(C1,PRI1,Z)= SUM[(i)$[sam_sce2(C1,I)], CO(i,Z)];
-2143  SAM0(INV1,PRI1,Z)= SUM(B,SAM0(PRI1,B,Z))- SUM(C1,SAM0(C1,PRI1,Z));
-2144   
-2145  *Indirect tax
-2146  SAM0(GOV1,PTX1,Z)= SUM(B,SAM0(PTX1,B,Z));
-2147   
-2148  *Direct tax
-2149  SAM0(GOV1,DTX1,Z)=  TDHO(z) ;
-2150  *SAM0(GOV1,DTX1,Z)= SUM(B,SAM0(DTX1,B,Z));
-2151   
-2152  *Government
-2153  SAM0(C1,GOV1,Z)= SUM[(i)$[sam_sce2(C1,I)], CGO(i,Z)];
+2127  *Import&Export
+2128  SAM0(C1,WORLD1,Z)= SUM[(i,zj)$[sam_sce12(WORLD1,zj)$sam_sce2(C1,i)],EXO(i,Z,zj)];
+2129   
+2130  *Balance of Trade
+2131  SAM0(INV1,WORLD1,Z)= SUM(B,SAM0(WORLD1,B,Z))-SUM(C1,SAM0(C1,WORLD1,Z));
+2132   
+2133  *Household
+2134  SAM0(C1,PRI1,Z)= SUM[(i)$[sam_sce2(C1,I)], CO(i,Z)];
+2135  SAM0(INV1,PRI1,Z)= SUM(B,SAM0(PRI1,B,Z))- SUM(C1,SAM0(C1,PRI1,Z));
+2136   
+2137  *Indirect tax
+2138  SAM0(GOV1,PTX1,Z)= SUM(B,SAM0(PTX1,B,Z));
+2139   
+2140  *Direct tax
+2141  SAM0(GOV1,DTX1,Z)=  TDHO(z) ;
+2142  *SAM0(GOV1,DTX1,Z)= SUM(B,SAM0(DTX1,B,Z));
+2143   
+2144  *Government
+2145  SAM0(C1,GOV1,Z)= SUM[(i)$[sam_sce2(C1,I)], CGO(i,Z)];
+2146   
+2147  *Saving-Investment
+2148  SAM0(C1,INV1,Z)= SUM[(i)$[sam_sce2(C1,I)], INVO(i,Z)];
+2149  SAM0(INV1,GOV1,Z)= SUM(C1, SAM0(C1,INV1,Z))-SUM(B,SAM0(INV1,B,Z));
+2150   
+2151  *Total
+2152  SAM0('175_TOT',B,Z)= SUM(A,SAM0(A,B,Z));
+2153  SAM0(A,'175_TOT',Z)= SUM(B,SAM0(A,B,Z));
 2154   
-2155  *Saving-Investment
-2156  SAM0(C1,INV1,Z)= SUM[(i)$[sam_sce2(C1,I)], INVO(i,Z)];
-2157  SAM0(INV1,GOV1,Z)= SUM(C1, SAM0(C1,INV1,Z))-SUM(B,SAM0(INV1,B,Z));
-2158   
-2159  *Total
-2160  SAM0('175_TOT',B,Z)= SUM(A,SAM0(A,B,Z));
-2161  SAM0(A,'175_TOT',Z)= SUM(B,SAM0(A,B,Z));
-2162   
-2163  SAM0_01_KOR(A,B) = SAM0(A,B,'01_KOR');
-2164  SAM0_02_CHN(A,B) = SAM0(A,B,'02_CHN');
-2165  SAM0_03_JPN(A,B) = SAM0(A,B,'03_JPN');
-2166  SAM0_04_RUS(A,B) = SAM0(A,B,'04_RUS');
-2167  SAM0_05_MNG(A,B) = SAM0(A,B,'05_MNG');
-2168  SAM0_06_PRK(A,B) = SAM0(A,B,'06_PRK');
-2169  SAM0_07_NAM(A,B) = SAM0(A,B,'07_NAM');
-2170  SAM0_08_LAM(A,B) = SAM0(A,B,'08_LAM');
-2171  SAM0_09_WEU(A,B) = SAM0(A,B,'09_WEU');
-2172  SAM0_10_EEU(A,B) = SAM0(A,B,'10_EEU');
-2173  SAM0_11_FSU(A,B) = SAM0(A,B,'11_FSU');
-2174  SAM0_12_MEA(A,B) = SAM0(A,B,'12_MEA');
-2175  SAM0_13_AFR(A,B) = SAM0(A,B,'13_AFR');
-2176  SAM0_14_CPA(A,B) = SAM0(A,B,'14_CPA');
-2177  SAM0_15_SAS(A,B) = SAM0(A,B,'15_SAS');
-2178  SAM0_16_PAS(A,B) = SAM0(A,B,'16_PAS');
-2179  SAM0_17_PAO(A,B) = SAM0(A,B,'17_PAO');
-2180   
-2181  execute_unload "SAM_Initial",
-2182  SAM0_01_KOR, SAM0_02_CHN, SAM0_03_JPN, SAM0_04_RUS, SAM0_05_MNG, SAM0_06_PRK,
-2183  SAM0_07_NAM, SAM0_08_LAM, SAM0_09_WEU, SAM0_10_EEU, SAM0_11_FSU, SAM0_12_MEA,
-2184  SAM0_13_AFR, SAM0_14_CPA, SAM0_15_SAS, SAM0_16_PAS, SAM0_17_PAO
-2185  ;
-2186   
-2187  PARAMETER
-2188  SAM1(A,B,Z) New (balanced) matrix
-2189  SAM1_01_KOR(A,B),
-2190  SAM1_02_CHN(A,B),
-2191  SAM1_03_JPN(A,B),
-2192  SAM1_04_RUS(A,B),
-2193  SAM1_05_MNG(A,B),
-2194  SAM1_06_PRK(A,B),
-2195  SAM1_07_NAM(A,B),
-2196  SAM1_08_LAM(A,B),
-2197  SAM1_09_WEU(A,B),
-2198  SAM1_10_EEU(A,B),
-2199  SAM1_11_FSU(A,B),
-2200  SAM1_12_MEA(A,B),
-2201  SAM1_13_AFR(A,B),
-2202  SAM1_14_CPA(A,B),
-2203  SAM1_15_SAS(A,B),
-2204  SAM1_16_PAS(A,B),
-2205  SAM1_17_PAO(A,B)
-2206  ;
-2207   
-2208  SAM1(A,B,Z)  = SAM0(A,B,z) ;
-2209  SAM1_01_KOR(A,B) = SAM0(A,B,'01_KOR');
-2210  SAM1_02_CHN(A,B) = SAM0(A,B,'02_CHN');
-2211  SAM1_03_JPN(A,B) = SAM0(A,B,'03_JPN');
-2212  SAM1_04_RUS(A,B) = SAM0(A,B,'04_RUS');
-2213  SAM1_05_MNG(A,B) = SAM0(A,B,'05_MNG');
-2214  *SAM1_06_PRK(A,B) = SAM0(A,B,'06_PRK');
-2215  SAM1_07_NAM(A,B) = SAM0(A,B,'07_NAM');
-2216  SAM1_08_LAM(A,B) = SAM0(A,B,'08_LAM');
-2217  SAM1_09_WEU(A,B) = SAM0(A,B,'09_WEU');
-2218  SAM1_10_EEU(A,B) = SAM0(A,B,'10_EEU');
-2219  SAM1_11_FSU(A,B) = SAM0(A,B,'11_FSU');
-2220  SAM1_12_MEA(A,B) = SAM0(A,B,'12_MEA');
-2221  SAM1_13_AFR(A,B) = SAM0(A,B,'13_AFR');
-2222  SAM1_14_CPA(A,B) = SAM0(A,B,'14_CPA');
-2223  SAM1_15_SAS(A,B) = SAM0(A,B,'15_SAS');
-2224  SAM1_16_PAS(A,B) = SAM0(A,B,'16_PAS');
-2225  SAM1_17_PAO(A,B) = SAM0(A,B,'17_PAO');
-2226   
-2227  *Balanced PRK SAM using SAMBAL (GEMPACK)
-GDXIN   C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\PRK_SAM.gdx
+2155  SAM0_01_KOR(A,B) = SAM0(A,B,'01_KOR');
+2156  SAM0_02_CHN(A,B) = SAM0(A,B,'02_CHN');
+2157  SAM0_03_JPN(A,B) = SAM0(A,B,'03_JPN');
+2158  SAM0_04_RUS(A,B) = SAM0(A,B,'04_RUS');
+2159  SAM0_05_MNG(A,B) = SAM0(A,B,'05_MNG');
+2160  SAM0_06_PRK(A,B) = SAM0(A,B,'06_PRK');
+2161  SAM0_07_NAM(A,B) = SAM0(A,B,'07_NAM');
+2162  SAM0_08_LAM(A,B) = SAM0(A,B,'08_LAM');
+2163  SAM0_09_WEU(A,B) = SAM0(A,B,'09_WEU');
+2164  SAM0_10_EEU(A,B) = SAM0(A,B,'10_EEU');
+2165  SAM0_11_FSU(A,B) = SAM0(A,B,'11_FSU');
+2166  SAM0_12_MEA(A,B) = SAM0(A,B,'12_MEA');
+2167  SAM0_13_AFR(A,B) = SAM0(A,B,'13_AFR');
+2168  SAM0_14_CPA(A,B) = SAM0(A,B,'14_CPA');
+2169  SAM0_15_SAS(A,B) = SAM0(A,B,'15_SAS');
+2170  SAM0_16_PAS(A,B) = SAM0(A,B,'16_PAS');
+2171  SAM0_17_PAO(A,B) = SAM0(A,B,'17_PAO');
+2172   
+2173  execute_unload "SAM_Initial",
+2174  SAM0_01_KOR, SAM0_02_CHN, SAM0_03_JPN, SAM0_04_RUS, SAM0_05_MNG, SAM0_06_PRK,
+2175  SAM0_07_NAM, SAM0_08_LAM, SAM0_09_WEU, SAM0_10_EEU, SAM0_11_FSU, SAM0_12_MEA,
+2176  SAM0_13_AFR, SAM0_14_CPA, SAM0_15_SAS, SAM0_16_PAS, SAM0_17_PAO
+2177  ;
+2178   
+2179  PARAMETER
+2180  SAM1(A,B,Z) New (balanced) matrix
+2181  SAM1_01_KOR(A,B),
+2182  SAM1_02_CHN(A,B),
+2183  SAM1_03_JPN(A,B),
+2184  SAM1_04_RUS(A,B),
+2185  SAM1_05_MNG(A,B),
+2186  SAM1_06_PRK(A,B),
+2187  SAM1_07_NAM(A,B),
+2188  SAM1_08_LAM(A,B),
+2189  SAM1_09_WEU(A,B),
+2190  SAM1_10_EEU(A,B),
+2191  SAM1_11_FSU(A,B),
+2192  SAM1_12_MEA(A,B),
+2193  SAM1_13_AFR(A,B),
+2194  SAM1_14_CPA(A,B),
+2195  SAM1_15_SAS(A,B),
+2196  SAM1_16_PAS(A,B),
+2197  SAM1_17_PAO(A,B)
+2198  ;
+2199   
+2200  SAM1(A,B,Z)  = SAM0(A,B,z) ;
+2201  SAM1_01_KOR(A,B) = SAM0(A,B,'01_KOR');
+2202  SAM1_02_CHN(A,B) = SAM0(A,B,'02_CHN');
+2203  SAM1_03_JPN(A,B) = SAM0(A,B,'03_JPN');
+2204  SAM1_04_RUS(A,B) = SAM0(A,B,'04_RUS');
+2205  SAM1_05_MNG(A,B) = SAM0(A,B,'05_MNG');
+2206  *SAM1_06_PRK(A,B) = SAM0(A,B,'06_PRK');
+2207  SAM1_07_NAM(A,B) = SAM0(A,B,'07_NAM');
+2208  SAM1_08_LAM(A,B) = SAM0(A,B,'08_LAM');
+2209  SAM1_09_WEU(A,B) = SAM0(A,B,'09_WEU');
+2210  SAM1_10_EEU(A,B) = SAM0(A,B,'10_EEU');
+2211  SAM1_11_FSU(A,B) = SAM0(A,B,'11_FSU');
+2212  SAM1_12_MEA(A,B) = SAM0(A,B,'12_MEA');
+2213  SAM1_13_AFR(A,B) = SAM0(A,B,'13_AFR');
+2214  SAM1_14_CPA(A,B) = SAM0(A,B,'14_CPA');
+2215  SAM1_15_SAS(A,B) = SAM0(A,B,'15_SAS');
+2216  SAM1_16_PAS(A,B) = SAM0(A,B,'16_PAS');
+2217  SAM1_17_PAO(A,B) = SAM0(A,B,'17_PAO');
+2218   
+2219  *Balanced PRK SAM using SAMBAL (GEMPACK)
+GDXIN   C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\PRK_SAM.gdx
 --- LOAD  SAM1_06_PRK = 1:SAM1_06_PRK
+2223   
+2224  SAM1(A,B,'06_PRK') = SAM1_06_PRK(A,B);
+2225   
+2226  execute_unload "SAM_BAL",
+2227  SAM1_01_KOR, SAM1_02_CHN, SAM1_03_JPN, SAM1_04_RUS, SAM1_05_MNG, SAM1_06_PRK,
+2228  SAM1_07_NAM, SAM1_08_LAM, SAM1_09_WEU, SAM1_10_EEU, SAM1_11_FSU, SAM1_12_MEA,
+2229  SAM1_13_AFR, SAM1_14_CPA, SAM1_15_SAS, SAM1_16_PAS, SAM1_17_PAO
+2230  ;
 2231   
-2232  SAM1(A,B,'06_PRK') = SAM1_06_PRK(A,B);
-2233   
-2234  execute_unload "SAM_BAL",
-2235  SAM1_01_KOR, SAM1_02_CHN, SAM1_03_JPN, SAM1_04_RUS, SAM1_05_MNG, SAM1_06_PRK,
-2236  SAM1_07_NAM, SAM1_08_LAM, SAM1_09_WEU, SAM1_10_EEU, SAM1_11_FSU, SAM1_12_MEA,
-2237  SAM1_13_AFR, SAM1_14_CPA, SAM1_15_SAS, SAM1_16_PAS, SAM1_17_PAO
-2238  ;
-2239   
-2240  *==============================================================================
-2241  * 7.  Regenerating Input Data
-2242  *==============================================================================
+2232  *==============================================================================
+2233  * 7.  Regenerating Input Data
+2234  *==============================================================================
 INCLUDE    C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\DATA_ReGen.gms
-2244  SETS
-2245  sam_sce13(j,A1) Mapping of sectors
-2246  /
-2247   01_AGRICULT.         1_a_AGRICULT
-2248   02_COAL.               2_a_COAL
-2249   03_OIL.                  3_a_OIL
-2250   04_GAS.                 4_a_GAS
-2251   05_MINING.            5_a_MINING
-2252   06_FOODPRO.         6_a_FOODPRO
-2253   07_TEXTILES.         7_a_TEXTILES
-2254   08_WOODPRO.       8_a_WOODPRO
-2255   09_PAPERPRO.       9_a_PAPERPRO
-2256   10_PETROLCOAL.   10_a_PETROLCOAL
-2257   11_CHEMICAL.       11_a_CHEMICAL
-2258   12_NONMET.          12_a_NONMET
-2259   13_IRONSTL.          13_a_IRONSTL
-2260   14_NONFERR.         14_a_NONFERR
-2261   15_MACHINE.         15_a_MACHINE
-2262   16_TRANSEQ.         16_a_TRANSEQ
-2263   17_OTHERIND.       17_a_OTHERIND
-2264   18_TnD.                 18_a_TnD
-2265   19_eNuclear.           19_a_eNuclear
-2266   20_eCoal.               20_a_eCoal
-2267   21_eGas.                21_a_eGas
-2268   22_eOil.                  22_a_eOil
-2269   23_eWind.              23_a_eWind
-2270   24_eSolar.               24_a_eSolar
-2271   25_eHydro.             25_a_eHydro
-2272   26_eOther.              26_a_eOther
-2273   27_CONSTRUC.       27_a_CONSTRUC
-2274   28_LTRP.                28_a_LTRP
-2275   29_WTRP.              29_a_WTRP
-2276   30_ATRP.               30_a_ATRP
-2277   31_SER.                 31_a_SER
-2278   /
-2279   
-2280  sam_sce14(i,C1) Mapping of sectors
-2281  /
-2282  01_AGRICULT.       32_c_AGRICULT
-2283  02_COAL.             33_c_COAL
-2284  03_OIL.                34_c_OIL
-2285  04_GAS.               35_c_GAS
-2286  05_MINING.          36_c_MINING
-2287  06_FOODPRO.       37_c_FOODPRO
-2288  07_TEXTILES.        38_c_TEXTILES
-2289  08_WOODPRO.      39_c_WOODPRO
-2290  09_PAPERPRO.      40_c_PAPERPRO
-2291  10_PETROLCOAL.  41_c_PETROLCOAL
-2292  11_CHEMICAL.      42_c_CHEMICAL
-2293  12_NONMET.         43_c_NONMET
-2294  13_IRONSTL.        44_c_IRONSTL
-2295  14_NONFERR.       45_c_NONFERR
-2296  15_MACHINE.       46_c_MACHINE
-2297  16_TRANSEQ.       47_c_TRANSEQ
-2298  17_OTHERIND.     48_c_OTHERIND
-2299  18_ELEC.             49_c_ELEC
-2300  19_CONSTRUC.    50_c_CONSTRUC
-2301  20_LTRP.              51_c_LTRP
-2302  21_WTRP.            52_c_WTRP
-2303  22_ATRP.             53_c_ATRP
-2304  23_SER.              54_c_SER
-2305  /
-2306   
-2307  sam_sce15(f,L1) Mapping of sectors
-2308  /
-2309  ulab.     56_UnSkLab
-2310  slab.     57_SkLab
-2311  /
-2312   
-2313  sam_sce16(f,K1) Mapping of sectors
-2314  /
-2315  land.     55_Land
-2316  cap.      58_Capital
-2317  natr.      59_NatRes
-2318  /
-2319   
-2320  sam_sce17(f,tf1) Mapping of sectors
-2321  /
-2322  ulab.      95_tf_UnSkLab
-2323  slab.      96_tf_SkLab
-2324  /
-2325   
-2326  sam_sce18(f,tf2) Mapping of sectors
-2327  /
-2328  land.      94_tf_Land
-2329  cap.       97_tf_Capital
-2330  natr.       98_tf_NatRes
-2331  /
-2332   
-2333  sam_sce19(zj,ITAX1)
-2334  /
-2335  01_KOR. 60_tmm_r_01KOR
-2336  02_CHN. 61_tmm_r_02CHN
-2337  03_JPN.  62_tmm_r_03JPN
-2338  04_RUS. 63_tmm_r_04RUS
-2339  05_MNG. 64_tmm_r_05MNG
-2340  06_PRK. 65_tmm_r_06PRK
-2341  07_NAM. 66_tmm_r_07NAM
-2342  08_LAM. 67_tmm_r_08LAM
-2343  09_WEU. 68_tmm_r_09WEU
-2344  10_EEU. 69_tmm_r_10EEU
-2345  11_FSU. 70_tmm_r_11FSU
-2346  12_MEA. 71_tmm_r_12MEA
-2347  13_AFR. 72_tmm_r_13AFR
-2348  14_CPA. 73_tmm_r_14CPA
-2349  15_SAS. 74_tmm_r_15SAS
-2350  16_PAS. 75_tmm_r_16PAS
-2351  17_PAO. 76_tmm_r_17PAO
-2352  /
-2353   
-2354  sam_sce20(z,ETAX1)
-2355  /
-2356  01_KOR.  77_tee_r_01KOR
-2357  02_CHN.  78_tee_r_02CHN
-2358  03_JPN.   79_tee_r_03JPN
-2359  04_RUS.  80_tee_r_04RUS
-2360  05_MNG. 81_tee_r_05MNG
-2361  06_PRK.  82_tee_r_06PRK
-2362  07_NAM. 83_tee_r_07NAM
-2363  08_LAM.  84_tee_r_08LAM
-2364  09_WEU. 85_tee_r_09WEU
-2365  10_EEU.  86_tee_r_10EEU
-2366  11_FSU.  87_tee_r_11FSU
-2367  12_MEA. 88_tee_r_12MEA
-2368  13_AFR.  89_tee_r_13AFR
-2369  14_CPA.  90_tee_r_14CPA
-2370  15_SAS.  91_tee_r_15SAS
-2371  16_PAS.  92_tee_r_16PAS
-2372  17_PAO.  93_tee_r_17PAO
-2373  /
-2374   
-2375  sam_sce21(zj,MAR1) Mapping of sectors
-2376  /
-2377  01_KOR.  99_M1c20__R1r
-2378  02_CHN.  102_M1c20__R2r
-2379  03_JPN.   105_M1c20__R3r
-2380  04_RUS.  108_M1c20__R4r
-2381  05_MNG. 111_M1c20__R5r
-2382  06_PRK.  114_M1c20__R6r
-2383  07_NAM. 117_M1c20__R7r
-2384  08_LAM.  120_M1c20__R8r
-2385  09_WEU. 123_M1c20__R9r
-2386  10_EEU.  126_M1c20__R10r
-2387  11_FSU.  129_M1c20__R11r
-2388  12_MEA.  132_M1c20__R12r
-2389  13_AFR.  135_M1c20__R13r
-2390  14_CPA.  138_M1c20__R14r
-2391  15_SAS.  141_M1c20__R15r
-2392  16_PAS.  144_M1c20__R16r
-2393  17_PAO.  147_M1c20__R17r
-2394  /
-2395   
-2396  sam_sce22(zj,MAR2) Mapping of sectors
-2397  /
-2398  01_KOR.   100_M2c21__R1r
-2399  02_CHN.   103_M2c21__R2r
-2400  03_JPN.    106_M2c21__R3r
-2401  04_RUS.   109_M2c21__R4r
-2402  05_MNG.  112_M2c21__R5r
-2403  06_PRK.   115_M2c21__R6r
-2404  07_NAM.  118_M2c21__R7r
-2405  08_LAM.   121_M2c21__R8r
-2406  09_WEU.  124_M2c21__R9r
-2407  10_EEU.   127_M2c21__R10r
-2408  11_FSU.   130_M2c21__R11r
-2409  12_MEA.  133_M2c21__R12r
-2410  13_AFR.   136_M2c21__R13r
-2411  14_CPA.   139_M2c21__R14r
-2412  15_SAS.   142_M2c21__R15r
-2413  16_PAS.   145_M2c21__R16r
-2414  17_PAO.   148_M2c21__R17r
-2415  /
-2416   
-2417  sam_sce23(zj,MAR3) Mapping of sectors
-2418  /
-2419  01_KOR.  101_M3c22__R1r
-2420  02_CHN.  104_M3c22__R2r
-2421  03_JPN.   107_M3c22__R3r
-2422  04_RUS.  110_M3c22__R4r
-2423  05_MNG. 113_M3c22__R5r
-2424  06_PRK.  116_M3c22__R6r
-2425  07_NAM. 119_M3c22__R7r
-2426  08_LAM.  122_M3c22__R8r
-2427  09_WEU. 125_M3c22__R9r
-2428  10_EEU.  128_M3c22__R10r
-2429  11_FSU.  131_M3c22__R11r
-2430  12_MEA.  134_M3c22__R12r
-2431  13_AFR.   137_M3c22__R13r
-2432  14_CPA.   140_M3c22__R14r
-2433  15_SAS.   143_M3c22__R15r
-2434  16_PAS.   146_M3c22__R16r
-2435  17_PAO.   149_M3c22__R17r
-2436  /
-2437   
-2438  sam_sce24(z, WORLD1) Mapping of sectors
-2439  /
-2440  01_KOR.  153_ww_r_01KOR
-2441  02_CHN.  154_ww_r_02CHN
-2442  03_JPN.   155_ww_r_03JPN
-2443  04_RUS.  156_ww_r_04RUS
-2444  05_MNG. 157_ww_r_05MNG
-2445  06_PRK.  158_ww_r_06PRK
-2446  07_NAM. 159_ww_r_07NAM
-2447  08_LAM.  160_ww_r_08LAM
-2448  09_WEU. 161_ww_r_09WEU
-2449  10_EEU.  162_ww_r_10EEU
-2450  11_FSU.  163_ww_r_11FSU
-2451  12_MEA. 164_ww_r_12MEA
-2452  13_AFR. 165_ww_r_13AFR
-2453  14_CPA. 166_ww_r_14CPA
-2454  15_SAS. 167_ww_r_15SAS
-2455  16_PAS. 168_ww_r_16PAS
-2456  17_PAO. 169_ww_r_17PAO
-2457  /
-2458  ;
-2459   
-2460  CO(i,z) = SUM[(C1,PRI1)$[sam_sce14(i,C1)], SAM1(C1,PRI1,Z)];
-2461  CGO(i,z) = SUM[(C1,GOV1)$[sam_sce14(i,C1)], SAM1(C1,GOV1,Z)];
-2462  INVO(i,z) = SUM[(C1,INV1)$[sam_sce14(i,C1)], SAM1(C1,INV1,Z)];
-2463  DIO(i,j,z) = SUM[(C1,A1)$[sam_sce14(i,C1)$sam_sce13(j,A1)], SAM1(C1,A1,Z)];
-2464  IMO(i,zj,z) = SUM[(World1,C1)$[sam_sce24(zj,World1)$sam_sce14(i,C1)], SAM1(World1,C1,Z)];
-2465  EXO(i,zj,z) = IMO(i,zj,z);
-2466  EXTO(i,z) = SUM(zj, EXO(i,z,zj));
-2467  tmrg('20_LTRP',ij,zj,z) = SUM[(MAR1,C1)$[sam_sce21(zj,MAR1)$sam_sce14(ij,C1)],SAM1(MAR1,C1,Z)];
-2468  tmrg('21_WTRP',ij,zj,z) = SUM[(MAR2,C1)$[sam_sce22(zj,MAR2)$sam_sce14(ij,C1)],SAM1(MAR2,C1,Z)];
-2469  tmrg('22_ATRP',ij,zj,z) = SUM[(MAR3,C1)$[sam_sce23(zj,MAR3)$sam_sce14(ij,C1)],SAM1(MAR3,C1,Z)];
-2470  MRGNO('20_LTRP',z) = SAM1('51_c_LTRP','150_M1c20_L_pvst',Z);
-2471  MRGNO('21_WTRP',z) = SAM1('52_c_WTRP','151_M2c21_W_pvst',Z);
-2472  MRGNO('22_ATRP',z) = SAM1('53_c_ATRP','152_M3c22_A_pvst',Z);
-2473  TIMO(i,zj,z) = SUM[(ITAX1,C1)$[sam_sce19(zj,ITAX1)$sam_sce14(i,C1)], SAM1(ITAX1,C1,Z)];
-2474  TIXO(i,z,zj) = SUM[(ETAX1,C1)$[sam_sce20(zJ,ETAX1)$sam_sce14(i,C1)], SAM1(ETAX1,C1,Z)];
-2475  TIWO2(l,j,z) = SUM[(tf1,A1)$[sam_sce17(l,tf1)$sam_sce13(j,A1)], SAM1(tf1,A1,Z)];
-2476  TIWO2_J(l,z) = SUM(j, TIWO2(l,j,z));
-2477  TIWO(j,z) = SUM(l, TIWO2(l,j,z));
-2478  TIWO_J(z) = SUM(j, TIWO(j,z));
-2479  TIKO(k,j,z) = SUM[(tf2,A1)$[sam_sce18(k,tf2)$sam_sce13(j,A1)], SAM1(tf2,A1,Z)];
-2480  TIKO_J(k,z) = SUM(j, TIKO(k,j,z));
-2481  TIPO(j,z) = SUM[(PTX1,A1)$[sam_sce13(j,A1)], SAM1(PTX1,A1,Z)];
-2482  TICO(i,z) = SUM[(PTX1,C1)$[sam_sce14(i,C1)], SAM1(PTX1,C1,Z)];
-2483  TDHO(z) = SUM[(DTX1),SAM1(DTX1,'175_TOT',Z)];
-2484  DTAX('land',z) = SAM1('172_DIRTAX','55_Land',Z);
-2485  DTAX('slab ',z) = SAM1('172_DIRTAX','56_UnSkLab',Z);
-2486  DTAX('ulab',z) = SAM1('172_DIRTAX','57_SkLab',Z);
-2487  DTAX('cap',z) = SAM1('172_DIRTAX','58_Capital',Z);
-2488  DTAX('natr',z) = SAM1('172_DIRTAX','59_NatRes',Z);
-2489  LDO2(l,j,Z) = SUM[(L1,A1)$[sam_sce15(l,L1)$sam_sce13(j,A1)], SAM1(L1,A1,Z)];
-2490  LDO2_J(l,z) = SUM(j,LDO2(l,j,z));
-2491  LDO(j,z) = SUM(l,LDO2(l,j,z));
-2492  LDO_J(z) = SUM(j,LDO(j,z));
-2493  RKDO(k,j,Z) = SUM[(K1,A1)$[sam_sce16(k,K1)$sam_sce13(j,A1)], SAM1(K1,A1,Z)];
-2494  * Once again, to avoid descrepencies, domestic purchases are calculated by substracting imports, transport margins and indirect taxes from total domestic absorption.
-2495  DDO(i,Z) = CO(i,Z)+CGO(i,Z)+INVO(i,Z)+SUM[j,DIO(i,j,Z)]-TICO(i,Z)-SUM[zj,TIMO(i,zj,Z)]-SUM[zj,IMO(i,zj,Z)]-SUM[(ij,zj),tmrg(ij,i,zj,Z)];
-2496  MAKE(j,i,z) = SUM[(A1,C1)$[sam_sce13(j,A1)$sam_sce14(i,C1)], SAM1(A1,C1,Z)];
+2236  SETS
+2237  sam_sce13(j,A1) Mapping of sectors
+2238  /
+2239   01_AGRICULT.         1_a_AGRICULT
+2240   02_COAL.               2_a_COAL
+2241   03_OIL.                  3_a_OIL
+2242   04_GAS.                 4_a_GAS
+2243   05_MINING.            5_a_MINING
+2244   06_FOODPRO.         6_a_FOODPRO
+2245   07_TEXTILES.         7_a_TEXTILES
+2246   08_WOODPRO.       8_a_WOODPRO
+2247   09_PAPERPRO.       9_a_PAPERPRO
+2248   10_PETROLCOAL.   10_a_PETROLCOAL
+2249   11_CHEMICAL.       11_a_CHEMICAL
+2250   12_NONMET.          12_a_NONMET
+2251   13_IRONSTL.          13_a_IRONSTL
+2252   14_NONFERR.         14_a_NONFERR
+2253   15_MACHINE.         15_a_MACHINE
+2254   16_TRANSEQ.         16_a_TRANSEQ
+2255   17_OTHERIND.       17_a_OTHERIND
+2256   18_TnD.                 18_a_TnD
+2257   19_eNuclear.           19_a_eNuclear
+2258   20_eCoal.               20_a_eCoal
+2259   21_eGas.                21_a_eGas
+2260   22_eOil.                  22_a_eOil
+2261   23_eWind.              23_a_eWind
+2262   24_eSolar.               24_a_eSolar
+2263   25_eHydro.             25_a_eHydro
+2264   26_eOther.              26_a_eOther
+2265   27_CONSTRUC.       27_a_CONSTRUC
+2266   28_LTRP.                28_a_LTRP
+2267   29_WTRP.              29_a_WTRP
+2268   30_ATRP.               30_a_ATRP
+2269   31_SER.                 31_a_SER
+2270   /
+2271   
+2272  sam_sce14(i,C1) Mapping of sectors
+2273  /
+2274  01_AGRICULT.       32_c_AGRICULT
+2275  02_COAL.             33_c_COAL
+2276  03_OIL.                34_c_OIL
+2277  04_GAS.               35_c_GAS
+2278  05_MINING.          36_c_MINING
+2279  06_FOODPRO.       37_c_FOODPRO
+2280  07_TEXTILES.        38_c_TEXTILES
+2281  08_WOODPRO.      39_c_WOODPRO
+2282  09_PAPERPRO.      40_c_PAPERPRO
+2283  10_PETROLCOAL.  41_c_PETROLCOAL
+2284  11_CHEMICAL.      42_c_CHEMICAL
+2285  12_NONMET.         43_c_NONMET
+2286  13_IRONSTL.        44_c_IRONSTL
+2287  14_NONFERR.       45_c_NONFERR
+2288  15_MACHINE.       46_c_MACHINE
+2289  16_TRANSEQ.       47_c_TRANSEQ
+2290  17_OTHERIND.     48_c_OTHERIND
+2291  18_ELEC.             49_c_ELEC
+2292  19_CONSTRUC.    50_c_CONSTRUC
+2293  20_LTRP.              51_c_LTRP
+2294  21_WTRP.            52_c_WTRP
+2295  22_ATRP.             53_c_ATRP
+2296  23_SER.              54_c_SER
+2297  /
+2298   
+2299  sam_sce15(f,L1) Mapping of sectors
+2300  /
+2301  ulab.     56_UnSkLab
+2302  slab.     57_SkLab
+2303  /
+2304   
+2305  sam_sce16(f,K1) Mapping of sectors
+2306  /
+2307  land.     55_Land
+2308  cap.      58_Capital
+2309  natr.      59_NatRes
+2310  /
+2311   
+2312  sam_sce17(f,tf1) Mapping of sectors
+2313  /
+2314  ulab.      95_tf_UnSkLab
+2315  slab.      96_tf_SkLab
+2316  /
+2317   
+2318  sam_sce18(f,tf2) Mapping of sectors
+2319  /
+2320  land.      94_tf_Land
+2321  cap.       97_tf_Capital
+2322  natr.       98_tf_NatRes
+2323  /
+2324   
+2325  sam_sce19(zj,ITAX1)
+2326  /
+2327  01_KOR. 60_tmm_r_01KOR
+2328  02_CHN. 61_tmm_r_02CHN
+2329  03_JPN.  62_tmm_r_03JPN
+2330  04_RUS. 63_tmm_r_04RUS
+2331  05_MNG. 64_tmm_r_05MNG
+2332  06_PRK. 65_tmm_r_06PRK
+2333  07_NAM. 66_tmm_r_07NAM
+2334  08_LAM. 67_tmm_r_08LAM
+2335  09_WEU. 68_tmm_r_09WEU
+2336  10_EEU. 69_tmm_r_10EEU
+2337  11_FSU. 70_tmm_r_11FSU
+2338  12_MEA. 71_tmm_r_12MEA
+2339  13_AFR. 72_tmm_r_13AFR
+2340  14_CPA. 73_tmm_r_14CPA
+2341  15_SAS. 74_tmm_r_15SAS
+2342  16_PAS. 75_tmm_r_16PAS
+2343  17_PAO. 76_tmm_r_17PAO
+2344  /
+2345   
+2346  sam_sce20(z,ETAX1)
+2347  /
+2348  01_KOR.  77_tee_r_01KOR
+2349  02_CHN.  78_tee_r_02CHN
+2350  03_JPN.   79_tee_r_03JPN
+2351  04_RUS.  80_tee_r_04RUS
+2352  05_MNG. 81_tee_r_05MNG
+2353  06_PRK.  82_tee_r_06PRK
+2354  07_NAM. 83_tee_r_07NAM
+2355  08_LAM.  84_tee_r_08LAM
+2356  09_WEU. 85_tee_r_09WEU
+2357  10_EEU.  86_tee_r_10EEU
+2358  11_FSU.  87_tee_r_11FSU
+2359  12_MEA. 88_tee_r_12MEA
+2360  13_AFR.  89_tee_r_13AFR
+2361  14_CPA.  90_tee_r_14CPA
+2362  15_SAS.  91_tee_r_15SAS
+2363  16_PAS.  92_tee_r_16PAS
+2364  17_PAO.  93_tee_r_17PAO
+2365  /
+2366   
+2367  sam_sce21(zj,MAR1) Mapping of sectors
+2368  /
+2369  01_KOR.  99_M1c20__R1r
+2370  02_CHN.  102_M1c20__R2r
+2371  03_JPN.   105_M1c20__R3r
+2372  04_RUS.  108_M1c20__R4r
+2373  05_MNG. 111_M1c20__R5r
+2374  06_PRK.  114_M1c20__R6r
+2375  07_NAM. 117_M1c20__R7r
+2376  08_LAM.  120_M1c20__R8r
+2377  09_WEU. 123_M1c20__R9r
+2378  10_EEU.  126_M1c20__R10r
+2379  11_FSU.  129_M1c20__R11r
+2380  12_MEA.  132_M1c20__R12r
+2381  13_AFR.  135_M1c20__R13r
+2382  14_CPA.  138_M1c20__R14r
+2383  15_SAS.  141_M1c20__R15r
+2384  16_PAS.  144_M1c20__R16r
+2385  17_PAO.  147_M1c20__R17r
+2386  /
+2387   
+2388  sam_sce22(zj,MAR2) Mapping of sectors
+2389  /
+2390  01_KOR.   100_M2c21__R1r
+2391  02_CHN.   103_M2c21__R2r
+2392  03_JPN.    106_M2c21__R3r
+2393  04_RUS.   109_M2c21__R4r
+2394  05_MNG.  112_M2c21__R5r
+2395  06_PRK.   115_M2c21__R6r
+2396  07_NAM.  118_M2c21__R7r
+2397  08_LAM.   121_M2c21__R8r
+2398  09_WEU.  124_M2c21__R9r
+2399  10_EEU.   127_M2c21__R10r
+2400  11_FSU.   130_M2c21__R11r
+2401  12_MEA.  133_M2c21__R12r
+2402  13_AFR.   136_M2c21__R13r
+2403  14_CPA.   139_M2c21__R14r
+2404  15_SAS.   142_M2c21__R15r
+2405  16_PAS.   145_M2c21__R16r
+2406  17_PAO.   148_M2c21__R17r
+2407  /
+2408   
+2409  sam_sce23(zj,MAR3) Mapping of sectors
+2410  /
+2411  01_KOR.  101_M3c22__R1r
+2412  02_CHN.  104_M3c22__R2r
+2413  03_JPN.   107_M3c22__R3r
+2414  04_RUS.  110_M3c22__R4r
+2415  05_MNG. 113_M3c22__R5r
+2416  06_PRK.  116_M3c22__R6r
+2417  07_NAM. 119_M3c22__R7r
+2418  08_LAM.  122_M3c22__R8r
+2419  09_WEU. 125_M3c22__R9r
+2420  10_EEU.  128_M3c22__R10r
+2421  11_FSU.  131_M3c22__R11r
+2422  12_MEA.  134_M3c22__R12r
+2423  13_AFR.   137_M3c22__R13r
+2424  14_CPA.   140_M3c22__R14r
+2425  15_SAS.   143_M3c22__R15r
+2426  16_PAS.   146_M3c22__R16r
+2427  17_PAO.   149_M3c22__R17r
+2428  /
+2429   
+2430  sam_sce24(z, WORLD1) Mapping of sectors
+2431  /
+2432  01_KOR.  153_ww_r_01KOR
+2433  02_CHN.  154_ww_r_02CHN
+2434  03_JPN.   155_ww_r_03JPN
+2435  04_RUS.  156_ww_r_04RUS
+2436  05_MNG. 157_ww_r_05MNG
+2437  06_PRK.  158_ww_r_06PRK
+2438  07_NAM. 159_ww_r_07NAM
+2439  08_LAM.  160_ww_r_08LAM
+2440  09_WEU. 161_ww_r_09WEU
+2441  10_EEU.  162_ww_r_10EEU
+2442  11_FSU.  163_ww_r_11FSU
+2443  12_MEA. 164_ww_r_12MEA
+2444  13_AFR. 165_ww_r_13AFR
+2445  14_CPA. 166_ww_r_14CPA
+2446  15_SAS. 167_ww_r_15SAS
+2447  16_PAS. 168_ww_r_16PAS
+2448  17_PAO. 169_ww_r_17PAO
+2449  /
+2450  ;
+2451   
+2452  CO(i,z) = SUM[(C1,PRI1)$[sam_sce14(i,C1)], SAM1(C1,PRI1,Z)];
+2453  CGO(i,z) = SUM[(C1,GOV1)$[sam_sce14(i,C1)], SAM1(C1,GOV1,Z)];
+2454  INVO(i,z) = SUM[(C1,INV1)$[sam_sce14(i,C1)], SAM1(C1,INV1,Z)];
+2455  DIO(i,j,z) = SUM[(C1,A1)$[sam_sce14(i,C1)$sam_sce13(j,A1)], SAM1(C1,A1,Z)];
+2456  IMO(i,zj,z) = SUM[(World1,C1)$[sam_sce24(zj,World1)$sam_sce14(i,C1)], SAM1(World1,C1,Z)];
+2457  EXO(i,zj,z) = IMO(i,zj,z);
+2458  EXTO(i,z) = SUM(zj, EXO(i,z,zj));
+2459  tmrg('20_LTRP',ij,zj,z) = SUM[(MAR1,C1)$[sam_sce21(zj,MAR1)$sam_sce14(ij,C1)],SAM1(MAR1,C1,Z)];
+2460  tmrg('21_WTRP',ij,zj,z) = SUM[(MAR2,C1)$[sam_sce22(zj,MAR2)$sam_sce14(ij,C1)],SAM1(MAR2,C1,Z)];
+2461  tmrg('22_ATRP',ij,zj,z) = SUM[(MAR3,C1)$[sam_sce23(zj,MAR3)$sam_sce14(ij,C1)],SAM1(MAR3,C1,Z)];
+2462  MRGNO('20_LTRP',z) = SAM1('51_c_LTRP','150_M1c20_L_pvst',Z);
+2463  MRGNO('21_WTRP',z) = SAM1('52_c_WTRP','151_M2c21_W_pvst',Z);
+2464  MRGNO('22_ATRP',z) = SAM1('53_c_ATRP','152_M3c22_A_pvst',Z);
+2465  TIMO(i,zj,z) = SUM[(ITAX1,C1)$[sam_sce19(zj,ITAX1)$sam_sce14(i,C1)], SAM1(ITAX1,C1,Z)];
+2466  TIXO(i,z,zj) = SUM[(ETAX1,C1)$[sam_sce20(zJ,ETAX1)$sam_sce14(i,C1)], SAM1(ETAX1,C1,Z)];
+2467  TIWO2(l,j,z) = SUM[(tf1,A1)$[sam_sce17(l,tf1)$sam_sce13(j,A1)], SAM1(tf1,A1,Z)];
+2468  TIWO2_J(l,z) = SUM(j, TIWO2(l,j,z));
+2469  TIWO(j,z) = SUM(l, TIWO2(l,j,z));
+2470  TIWO_J(z) = SUM(j, TIWO(j,z));
+2471  TIKO(k,j,z) = SUM[(tf2,A1)$[sam_sce18(k,tf2)$sam_sce13(j,A1)], SAM1(tf2,A1,Z)];
+2472  TIKO_J(k,z) = SUM(j, TIKO(k,j,z));
+2473  TIPO(j,z) = SUM[(PTX1,A1)$[sam_sce13(j,A1)], SAM1(PTX1,A1,Z)];
+2474  TICO(i,z) = SUM[(PTX1,C1)$[sam_sce14(i,C1)], SAM1(PTX1,C1,Z)];
+2475  TDHO(z) = SUM[(DTX1),SAM1(DTX1,'175_TOT',Z)];
+2476  DTAX('land',z) = SAM1('172_DIRTAX','55_Land',Z);
+2477  DTAX('slab ',z) = SAM1('172_DIRTAX','56_UnSkLab',Z);
+2478  DTAX('ulab',z) = SAM1('172_DIRTAX','57_SkLab',Z);
+2479  DTAX('cap',z) = SAM1('172_DIRTAX','58_Capital',Z);
+2480  DTAX('natr',z) = SAM1('172_DIRTAX','59_NatRes',Z);
+2481  LDO2(l,j,Z) = SUM[(L1,A1)$[sam_sce15(l,L1)$sam_sce13(j,A1)], SAM1(L1,A1,Z)];
+2482  LDO2_J(l,z) = SUM(j,LDO2(l,j,z));
+2483  LDO(j,z) = SUM(l,LDO2(l,j,z));
+2484  LDO_J(z) = SUM(j,LDO(j,z));
+2485  RKDO(k,j,Z) = SUM[(K1,A1)$[sam_sce16(k,K1)$sam_sce13(j,A1)], SAM1(K1,A1,Z)];
+2486  * Once again, to avoid descrepencies, domestic purchases are calculated by substracting imports, transport margins and indirect taxes from total domestic absorption.
+2487  DDO(i,Z) = CO(i,Z)+CGO(i,Z)+INVO(i,Z)+SUM[j,DIO(i,j,Z)]-TICO(i,Z)-SUM[zj,TIMO(i,zj,Z)]-SUM[zj,IMO(i,zj,Z)]-SUM[(ij,zj),tmrg(ij,i,zj,Z)];
+2488  MAKE(j,i,z) = SUM[(A1,C1)$[sam_sce13(j,A1)$sam_sce14(i,C1)], SAM1(A1,C1,Z)];
+2489   
+2490  *==============================================================================
+2491  * Equilibrate data
+2492  *==============================================================================
+2493  * Equilibrium on the world margin market
+2494  *  The first step would be to equilibrate international markets. As there is a small difference between supply of margins and demand, we chose to adjust
+2495  *  the supply side by increasing or reducing each region's production proportionately.
+2496  MRGNO(i,z)$MRGNO(i,z) = MRGNO(i,z)*SUM[(ij,zj,zjj),tmrg(i,ij,zj,zjj)] /SUM[zjj,MRGNO(i,zjj)];
 2497   
-2498  *==============================================================================
-2499  * Equilibrate data
-2500  *==============================================================================
-2501  * Equilibrium on the world margin market
-2502  *  The first step would be to equilibrate international markets. As there is a small difference between supply of margins and demand, we chose to adjust
-2503  *  the supply side by increasing or reducing each region's production proportionately.
-2504  MRGNO(i,z)$MRGNO(i,z) = MRGNO(i,z)*SUM[(ij,zj,zjj),tmrg(i,ij,zj,zjj)] /SUM[zjj,MRGNO(i,zjj)];
-2505   
-2506  *Equilibrium in each region
-2507  *  As exports have already been set equal to imports, the remaining differences would appear in the national data. Total production is first set equal to
-2508  *  the sum of production for the domestic market (DSO), adjusted production of margins (MRGNO) and exports.
-2509  DSO_I(i,z) = DDO(i,Z);
-2510  XSO_I(i,z) = DDO(i,z)+MRGNO(i,z)+SUM[zj,EXO(i,z,zj)-TIXO(i,z,zj)];
-2511  XSO(j,i,z) = XSO_I(i,z)*[MAKE(j,i,z)/sum(jj,MAKE(jj,i,z))];
-2512  XSTO(j,z) = SUM(i, XSO(j,i,z));
-2513  EXTO(i,z) = SUM[zj,EXO(i,z,zj)];
-2514  DSO(j,i,z) = DDO(i,z)*[MAKE(j,i,z)/sum(jj,MAKE(jj,i,z))];
-2515   
-2516  *Balancing
-2517  * The operating surplus is the variable that was used to equilibrate the regional data.
-2518  * As all other variables (income, savings and so on) will be calculated based on the variables described in these steps, there should not be any other descrepency.
-2519  RKDO('cap',j,z) = XSTO(j,z)-SUM[i,DIO(i,j,z)]-LDO(j,z)-TIWO(j,z)-TIPO(j,z)-SUM[k,TIKO(k,j,z)]-RKDO('land',j,z) -RKDO('natr',j,z);
-2520  TotalCost(j,z) = SUM[i,DIO(i,j,z)]+LDO(j,z)+TIWO(j,z)+TIPO(j,z)+SUM[k,TIKO(k,j,z)+RKDO(k,j,z)];
-2521   
-2522  *================================================================================
-2523  execute_unload 'Input_w-t\DATA_AGG-2019_GTAP11c_Regen.gdx',
+2498  *Equilibrium in each region
+2499  *  As exports have already been set equal to imports, the remaining differences would appear in the national data. Total production is first set equal to
+2500  *  the sum of production for the domestic market (DSO), adjusted production of margins (MRGNO) and exports.
+2501  DSO_I(i,z) = DDO(i,Z);
+2502  XSO_I(i,z) = DDO(i,z)+MRGNO(i,z)+SUM[zj,EXO(i,z,zj)-TIXO(i,z,zj)];
+2503  XSO(j,i,z) = XSO_I(i,z)*[MAKE(j,i,z)/sum(jj,MAKE(jj,i,z))];
+2504  XSTO(j,z) = SUM(i, XSO(j,i,z));
+2505  EXTO(i,z) = SUM[zj,EXO(i,z,zj)];
+2506  DSO(j,i,z) = DDO(i,z)*[MAKE(j,i,z)/sum(jj,MAKE(jj,i,z))];
+2507   
+2508  *Balancing
+2509  * The operating surplus is the variable that was used to equilibrate the regional data.
+2510  * As all other variables (income, savings and so on) will be calculated based on the variables described in these steps, there should not be any other descrepency.
+2511  RKDO('cap',j,z) = XSTO(j,z)-SUM[i,DIO(i,j,z)]-LDO(j,z)-TIWO(j,z)-TIPO(j,z)-SUM[k,TIKO(k,j,z)]-RKDO('land',j,z) -RKDO('natr',j,z);
+2512  TotalCost(j,z) = SUM[i,DIO(i,j,z)]+LDO(j,z)+TIWO(j,z)+TIPO(j,z)+SUM[k,TIKO(k,j,z)+RKDO(k,j,z)];
+2513   
+2514  *================================================================================
+2515  execute_unload 'Input_CGE\DATA_AGG-2019_GTAP11c_Regen.gdx',
+2516   
+2517  *Sets
+2518   J, I, BUS, PUB, F, L, K, Z, ZR, Z1, Zrich, Zother
+2519   
+2520  *Benchmark variables and parameters
+2521   CO, CGO, DDO, DEPO, DIO, DSO,DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, POPO, RKDO,
+2522   TDHO, DTAX, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, tssm, tssd, tmrg, XSO, XSO_I, XSTO, EXTO, TotalCost,
+2523   sigma_M1, sigma_M2, sigma_VA, sigma_KLE, Q_GTAP, KLE_GTAP, SH_Q, SH_VA, SH_KLE, ESUBD, ELFKLE,
 2524   
-2525  *Sets
-2526   J, I, BUS, PUB, F, L, K, Z, ZR, Z1, Zrich, Zother
+2525  *Employment
+2526   EMPLOY,
 2527   
-2528  *Benchmark variables and parameters
-2529   CO, CGO, DDO, DEPO, DIO, DSO,DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, POPO, RKDO,
-2530   TDHO, DTAX, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, tmrg, XSO, XSO_I, XSTO, EXTO, TotalCost,
-2531   sigma_M1, sigma_M2, sigma_VA, sigma_KLE, Q_GTAP, KLE_GTAP, SH_Q, SH_VA, SH_KLE, ESUBD, ELFKLE,
-2532   EMPLOY,
-2533   
-2534  *Parameters for RD-CGE
-2535   TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, TREND, TREND2, TREND_CPS, TREND_NZS,
-2536   CTAX_Cal, CTAX_CPS, CTAX_NZS, PERMIT_NZS ;
-GAMS 45.7.0  64fbf3ce Jan 18, 2024          WEX-WEI x86 64bit/MS Windows - 08/20/25 10:54:54 Page 2
+2528  *Backstop technology
+2529  Cap_Share, Lab_Share,
+2530   
+2531  *Parameters for RD-CGE
+2532   TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_medium, AEEI_high, PERMIT_NDC_old, PERMIT_NZ ;
+GAMS 45.7.0  64fbf3ce Jan 18, 2024          WEX-WEI x86 64bit/MS Windows - 09/15/25 17:13:41 Page 2
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
 Include File Summary
 
@@ -2596,25 +2587,27 @@ Include File Summary
      1        1 INPUT          0       0  C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\DATA_GTAP11c.gms
      2       33 CALL           1      33  PCharToStr Overflow
      3       34 CALL           1      34  PCharToStr Overflow
-     4      318 GDXIN          1     318  C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\GTAP11c_basedata2019.gdx
-     5     1032 GDXIN          1    1032  C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\GTAP11c_Parameters2019.gdx
-     6     1176 CALL           1    1176  PCharToStr Overflow
-     7     1177 GDXIN          1    1177  C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\Projection.gdx
-     8     1180 CALL           1    1180  PCharToStr Overflow
-     9     1181 GDXIN          1    1181  C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\Employment.gdx
-    10     1233 INCLUDE        1    1233  .C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\DATA_SamBal.gms
-    11     2228 CALL          10     995  .PCharToStr Overflow
-    12     2229 GDXIN         10     996  .C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\PRK_SAM.gdx
-    13     2243 INCLUDE        1    1238  .C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\DATA_ReGen.gms
+     4      318 GDXIN          1     318  C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\GTAP11c_basedata2019.gdx
+     5     1032 GDXIN          1    1032  C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\GTAP11c_Parameters2019.gdx
+     6     1124 CALL           1    1124  PCharToStr Overflow
+     7     1125 GDXIN          1    1125  C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\Backstop_technology.gdx
+     8     1161 CALL           1    1161  PCharToStr Overflow
+     9     1162 GDXIN          1    1162  C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\Projection.gdx
+    10     1168 CALL           1    1168  PCharToStr Overflow
+    11     1169 GDXIN          1    1169  C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\Employment.gdx
+    12     1225 INCLUDE        1    1225  .C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\DATA_SamBal.gms
+    13     2220 CALL          12     995  .PCharToStr Overflow
+    14     2221 GDXIN         12     996  .C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\PRK_SAM.gdx
+    15     2235 INCLUDE        1    1230  .C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\DATA_ReGen.gms
 
 
-COMPILATION TIME     =        4.547 SECONDS     21 MB  45.7.0 64fbf3ce WEX-WEI
-GAMS 45.7.0  64fbf3ce Jan 18, 2024          WEX-WEI x86 64bit/MS Windows - 08/20/25 10:54:54 Page 3
+COMPILATION TIME     =        6.062 SECONDS     21 MB  45.7.0 64fbf3ce WEX-WEI
+GAMS 45.7.0  64fbf3ce Jan 18, 2024          WEX-WEI x86 64bit/MS Windows - 09/15/25 17:13:41 Page 3
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
 E x e c u t i o n
 
 
-EXECUTION TIME       =        1.172 SECONDS     89 MB  45.7.0 64fbf3ce WEX-WEI
+EXECUTION TIME       =        1.297 SECONDS     89 MB  45.7.0 64fbf3ce WEX-WEI
 
 
 USER: Medium MUD - 10 User License                   S220825|0002AO-WIN

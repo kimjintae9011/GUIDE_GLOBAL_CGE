@@ -277,17 +277,21 @@ RKDO('cap',j,z) = XSTO(j,z)-SUM[i,DIO(i,j,z)]-LDO(j,z)-TIWO(j,z)-TIPO(j,z)-SUM[k
 TotalCost(j,z) = SUM[i,DIO(i,j,z)]+LDO(j,z)+TIWO(j,z)+TIPO(j,z)+SUM[k,TIKO(k,j,z)+RKDO(k,j,z)];
 
 *================================================================================
-execute_unload 'Input_w-t\DATA_AGG-2019_GTAP11c_Regen.gdx',
+execute_unload 'Input_CGE\DATA_AGG-2019_GTAP11c_Regen.gdx',
 
 *Sets
  J, I, BUS, PUB, F, L, K, Z, ZR, Z1, Zrich, Zother
 
 *Benchmark variables and parameters
  CO, CGO, DDO, DEPO, DIO, DSO,DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, POPO, RKDO,
- TDHO, DTAX, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, tmrg, XSO, XSO_I, XSTO, EXTO, TotalCost,
+ TDHO, DTAX, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, tssm, tssd, tmrg, XSO, XSO_I, XSTO, EXTO, TotalCost,
  sigma_M1, sigma_M2, sigma_VA, sigma_KLE, Q_GTAP, KLE_GTAP, SH_Q, SH_VA, SH_KLE, ESUBD, ELFKLE,
+
+*Employment
  EMPLOY,
 
+*Backstop technology 
+Cap_Share, Lab_Share,
+
 *Parameters for RD-CGE
- TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, TREND, TREND2, TREND_CPS, TREND_NZS,
- CTAX_Cal, CTAX_CPS, CTAX_NZS, PERMIT_NZS ;
+ TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_medium, AEEI_high, PERMIT_NDC_old, PERMIT_NZ ;

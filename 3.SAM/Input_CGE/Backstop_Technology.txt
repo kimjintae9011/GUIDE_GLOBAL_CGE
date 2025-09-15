@@ -1,0 +1,2 @@
+par=Cap_Share     rng=Capital!A1:R32
+par=Lab_Share     rng=Labor!A1:R32

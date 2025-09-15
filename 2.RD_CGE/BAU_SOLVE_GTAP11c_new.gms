@@ -18,7 +18,7 @@ PARAMETER
  sh1X(z,time)         Household savings rate
 ;
 
-$GDXIN Input_w-t\B_line_GTAP11c_new.gdx
+$GDXIN Input_CGE\B_line_GTAP11c_new.gdx
 $LOAD A_VA_RES, GX, G_REALX, INDX, sh1X, sh0X
 
 *==============================================================================
@@ -71,7 +71,8 @@ $offtext
  ttiw.fx(j,z,time)                = ttiwO(j,z);
 * ttik.fx(k,j,z,time)              = ttikO(k,j,z);
 * ttip.fx(j,z,time)                = ttipO(j,z);
- CTAX.fX(z,time)                 = CTAX0(z); 
+ CTAX.fX(z,time)                 = CTAX0(z);
+ 
 *==============================================================================
 *   6.2.2 Solution
 *==============================================================================
@@ -116,18 +117,16 @@ $offtext
 *==============================================================================
 *   6.2.2.2 Variables fixed each period according to their lagged values
 *==============================================================================
- CABX.FX(z1,t1)  = CABXO(z1);
- CABX.FX(z1,time)$[ord(time) gt 1]
-                         = CABX.l(z1,time-1)*[1+g_GDP(z1,time)];
+ CABX.FX(z1,time) = CABXO(z1)*cabix(z1,time);
                       
- CMIN.FX(i,z,t1)  = CMINO(i,z);
+ CMIN.FX(i,z,t1)    = CMINO(i,z);
  CMIN.FX(i,z,time)$[ord(time) gt 1]
-                        = CMIN.l(i,z,time-1)*[1+g_GDP(z,time)];
+                           = CMIN.l(i,z,time-1)*[1+g_GDP(z,time)];
                      
  KD.fx(k,j,z,t1)$KDO(k,j,z)
-                      = KDO(k,j,z);
+                           = KDO(k,j,z);
  KD.fx(k,j,z,time)${[ord(time) gt 1] and KDO(k,j,z)}
-                      = KD.l(k,j,z,time-1)*[1-delta(z)]+IND.l(k,j,z,time-1);
+                           = KD.l(k,j,z,time-1)*[1-delta(z)]+IND.l(k,j,z,time-1);
 
  LST.FX(z,t1)    = LSTO(z);
  LST.FX(z,time)$[ord(time) gt 1]
@@ -158,6 +157,12 @@ $offtext
                      =ttip.l(j,z,time-1);
  
 *==============================================================================
+* For Own price elasticity experiment 
+*==============================================================================  
+*PC.fx("18_ELEC",z,time)$[ord(time) gt 1]
+*                     =PC.l("18_ELEC",z,time-1)*(1+0.01);
+
+*==============================================================================
 *   CTAX and PERMIT and TCTAX Recycling
 *==============================================================================  
 * CTAX.fx(z,time)$[ord(time) gt 1]
@@ -175,8 +180,8 @@ $offtext
 *==============================================================================
 *   AEEI
 *============================================================================== 
- AEEI(z,time) = AEEI_low(z,time);
- CO2FACTOR2(ene,j,z,time) = CO2FACTOR(ene,j,z)*AEEI(z,time);
+ AEEI(z,time) = 1;
+* AEEI(z,time) = AEEI_low(z,time);
         
 *=============================================================================
 * Solar & Wind Productivity Shock
@@ -192,85 +197,83 @@ $offtext
  B_VA_t('24_eSolar',z,time)$[ord(time) gt 1]
                         = B_VA_t('24_eSolar',z,time-1)*[1+0.02];
 
-
 *==============================================================================
 *Backstop technologies
 *==============================================================================
-penetration_rate(i3,z,time)$[CTAX.L(z,time) gt 0.8]
-                             = penetration_rate(i3,z,time-1)+0.02;
+penetration_rate(i3,z,time)$[CTAX.L(z,time) gt 1.0] = penetration_rate(i3,z,time-1)+0.03;
 
-if ((CTAX.L('01_KOR',time)  gt 0.8), switch(i3,'01_KOR',time) = 1  ;
+if ((CTAX.L('01_KOR',time) gt 1.0), switch(i3,'01_KOR',time) = 1  ;
 else switch(i3,'01_KOR',time) = 0 ;
 );
 
-if ((CTAX.L('02_CHN',time)  gt 0.8), switch(i3,'02_CHN',time) = 1  ;
+if ((CTAX.L('02_CHN',time) gt 1.0), switch(i3,'02_CHN',time) = 1  ;
 else switch(i3,'02_CHN',time) = 0 ;
 );
 
-if ((CTAX.L('03_JPN',time)  gt 0.8), switch(i3,'03_JPN',time) = 1  ;
+if ((CTAX.L('03_JPN',time) gt 1.0), switch(i3,'03_JPN',time) = 1  ;
 else switch(i3,'03_JPN',time) = 0 ;
 );
 
-if ((CTAX.L('04_RUS',time)  gt 0.8), switch(i3,'04_RUS',time) = 1  ;
+if ((CTAX.L('04_RUS',time) gt 1.0), switch(i3,'04_RUS',time) = 1  ;
 else switch(i3,'04_RUS',time) = 0 ;
 );
 
-if ((CTAX.L('05_MNG',time)  gt 0.8), switch(i3,'05_MNG',time) = 1  ;
+if ((CTAX.L('05_MNG',time) gt 1.0), switch(i3,'05_MNG',time) = 1  ;
 else switch(i3,'05_MNG',time) = 0 ;
 );
 
-if ((CTAX.L('06_PRK',time)  gt 0.8), switch(i3,'06_PRK',time) = 1  ;
+if ((CTAX.L('06_PRK',time) gt 1.0), switch(i3,'06_PRK',time) = 1  ;
 else switch(i3,'06_PRK',time) = 0 ;
 );
 
-if ((CTAX.L('07_NAM',time)  gt 0.8), switch(i3,'07_NAM',time) = 1  ;
+if ((CTAX.L('07_NAM',time) gt 1.0), switch(i3,'07_NAM',time) = 1  ;
 else switch(i3,'07_NAM',time) = 0 ;
 );
 
-if ((CTAX.L('08_LAM',time)  gt 0.8), switch(i3,'08_LAM',time) = 1  ;
+if ((CTAX.L('08_LAM',time) gt 1.0), switch(i3,'08_LAM',time) = 1  ;
 else switch(i3,'08_LAM',time) = 0 ;
 );
 
-if ((CTAX.L('09_WEU',time)  gt 0.8), switch(i3,'09_WEU',time) = 1  ;
+if ((CTAX.L('09_WEU',time) gt 1.0), switch(i3,'09_WEU',time) = 1  ;
 else switch(i3,'09_WEU',time) = 0 ;
 );
 
-if ((CTAX.L('10_EEU',time)  gt 0.8), switch(i3,'10_EEU',time) = 1  ;
+if ((CTAX.L('10_EEU',time) gt 1.0), switch(i3,'10_EEU',time) = 1  ;
 else switch(i3,'10_EEU',time) = 0 ;
 );
 
-if ((CTAX.L('11_FSU',time)  gt 0.8), switch(i3,'11_FSU',time) = 1  ;
+if ((CTAX.L('11_FSU',time) gt 1.0), switch(i3,'11_FSU',time) = 1  ;
 else switch(i3,'11_FSU',time) = 0 ;
 );
 
-if ((CTAX.L('12_MEA',time)  gt 0.8), switch(i3,'12_MEA',time) = 1  ;
+if ((CTAX.L('12_MEA',time) gt 1.0), switch(i3,'12_MEA',time) = 1  ;
 else switch(i3,'12_MEA',time) = 0 ;
 );
 
-if ((CTAX.L('13_AFR',time)  gt 0.8), switch(i3,'13_AFR',time) = 1  ;
+if ((CTAX.L('13_AFR',time) gt 1.0), switch(i3,'13_AFR',time) = 1  ;
 else switch(i3,'13_AFR',time) = 0 ;
 );
 
-if ((CTAX.L('14_CPA',time)  gt 0.8), switch(i3,'14_CPA',time) = 1  ;
+if ((CTAX.L('14_CPA',time) gt 1.0), switch(i3,'14_CPA',time) = 1  ;
 else switch(i3,'14_CPA',time) = 0 ;
 );
 
-if ((CTAX.L('15_SAS',time)  gt 0.8), switch(i3,'15_SAS',time) = 1  ;
+if ((CTAX.L('15_SAS',time) gt 1.0), switch(i3,'15_SAS',time) = 1  ;
 else switch(i3,'15_SAS',time) = 0 ;
 );
 
-if ((CTAX.L('16_PAS',time)  gt 0.8), switch(i3,'16_PAS',time) = 1  ;
+if ((CTAX.L('16_PAS',time) gt 1.0), switch(i3,'16_PAS',time) = 1  ;
 else switch(i3,'16_PAS',time) = 0 ;
 );
 
-if ((CTAX.L('17_PAO',time)  gt 0.8), switch(i3,'17_PAO',time) = 1  ;
+if ((CTAX.L('17_PAO',time) gt 1.0), switch(i3,'17_PAO',time) = 1  ;
 else switch(i3,'17_PAO',time) = 0 ;
 );
 
 *==============================================================================
 *   6.2.2.3 Resolution
 *==============================================================================
-SOLVE PEPWT USING CNS;
+SOLVE CGE USING CNS;
 
 * The single element in subset T(time) is removed, and the subset is now empty.
 T(time)          = NO;

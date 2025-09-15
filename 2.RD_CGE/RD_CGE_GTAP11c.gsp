@@ -4,50 +4,98 @@
     "nodes": [
         {
             "codecMib": 106,
-            "file": "Input_w-t/DATA_AGG-2019_GTAP11c_new.gdx",
-            "name": "DATA_AGG-2019_GTAP11c_new.gdx",
-            "type": "gdx"
-        },
-        {
-            "codecMib": 106,
-            "file": "Input_w-t/B_line_GTAP11c_new.gdx",
-            "name": "B_line_GTAP11c_new.gdx",
-            "type": "gdx"
-        },
-        {
-            "codecMib": 106,
             "file": "Input_WEB/WEB19.txt",
             "name": "WEB19.txt",
             "type": "txt"
         },
         {
             "codecMib": 106,
-            "file": "Output_w-t/NZS_Results_GTAP11c_new.gdx",
-            "name": "NZS_Results_GTAP11c_new.gdx",
+            "file": "Output_CGE/NDC_Results_IPCC.gdx",
+            "name": "NDC_Results_IPCC.gdx",
             "type": "gdx"
         },
         {
             "codecMib": 106,
-            "file": "Output_w-t/Baseline_Results_GTAP11c_new.gdx",
-            "name": "Baseline_Results_GTAP11c_new.gdx",
+            "file": "Output_CGE/NDC_Results_GTAP11c_new.gdx",
+            "name": "NDC_Results_GTAP11c_new.gdx",
             "type": "gdx"
         },
         {
             "codecMib": 106,
-            "file": "Output_w-t/ModelStatus.xls",
-            "name": "ModelStatus.xls",
-            "type": ""
+            "file": "Output_CGE/NDC_Results_GreenEcos.gdx",
+            "name": "NDC_Results_GreenEcos.gdx",
+            "type": "gdx"
         },
         {
             "codecMib": 106,
-            "file": "BAU_IPCC_GTAP11c_new.gms",
-            "name": "BAU_IPCC_GTAP11c_new.gms",
+            "file": "Output_CGE/NDC_Results_AQLinkage.gdx",
+            "name": "NDC_Results_AQLinkage.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
+            "file": "Output_CGE/BAU_Results_IPCC.gdx",
+            "name": "BAU_Results_IPCC.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
+            "file": "Output_CGE/BAU_Results_GTAP11c_new.gdx",
+            "name": "BAU_Results_GTAP11c_new.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
+            "file": "Output_CGE/BAU_Results_GreenEcos.gdx",
+            "name": "BAU_Results_GreenEcos.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
+            "file": "Output_CGE/BAU_Results_AQLinkage.gdx",
+            "name": "BAU_Results_AQLinkage.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
+            "file": "Output_CGE/NZ_Results_IPCC.gdx",
+            "name": "NZ_Results_IPCC.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
+            "file": "Output_CGE/NZ_Results_GTAP11c_new.gdx",
+            "name": "NZ_Results_GTAP11c_new.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
+            "file": "Output_CGE/NZ_Results_GreenEcos.gdx",
+            "name": "NZ_Results_GreenEcos.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
+            "file": "BAU_RESULTS_AQLinkage_new.gms",
+            "name": "BAU_RESULTS_AQLinkage_new.gms",
+            "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "BAU_RESULTS_GreenEcos_new.gms",
+            "name": "BAU_RESULTS_GreenEcos_new.gms",
             "type": "gms"
         },
         {
             "codecMib": 106,
             "file": "BAU_RESULTS_GTAP11c_new.gms",
             "name": "BAU_RESULTS_GTAP11c_new.gms",
+            "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "BAU_RESULTS_IPCC_new.gms",
+            "name": "BAU_RESULTS_IPCC_new.gms",
             "type": "gms"
         },
         {
@@ -64,38 +112,14 @@
         },
         {
             "codecMib": 106,
-            "file": "CAL_B_line_GTAP11c_new.lst",
-            "name": "CAL_B_line_GTAP11c_new.lst",
-            "type": "lst"
-        },
-        {
-            "codecMib": 106,
-            "file": "Calibration_Check_GTAP11c.gdx",
-            "name": "Calibration_Check_GTAP11c.gdx",
-            "type": "gdx"
-        },
-        {
-            "codecMib": 106,
-            "file": "DATA_CO2coef.gms",
-            "name": "DATA_CO2coef.gms",
-            "type": "gms"
-        },
-        {
-            "codecMib": 106,
             "file": "DATA_GTAP11c_new.gms",
             "name": "DATA_GTAP11c_new.gms",
             "type": "gms"
         },
         {
             "codecMib": 106,
-            "file": "DATA_GTAP11c_new.lst",
-            "name": "DATA_GTAP11c_new.lst",
-            "type": "lst"
-        },
-        {
-            "codecMib": 106,
-            "file": "DATA_WEB_2024.gms",
-            "name": "DATA_WEB_2024.gms",
+            "file": "DATA_WEB_2024_new.gms",
+            "name": "DATA_WEB_2024_new.gms",
             "type": "gms"
         },
         {
@@ -118,14 +142,62 @@
         },
         {
             "codecMib": 106,
-            "file": "NZS_RESULTS_GTAP11c_new.gms",
-            "name": "NZS_RESULTS_GTAP11c_new.gms",
+            "file": "NDC_RESULTS_AQLinkage_new.gms",
+            "name": "NDC_RESULTS_AQLinkage_new.gms",
             "type": "gms"
         },
         {
             "codecMib": 106,
-            "file": "NZS_SOLVE_GTAP11c_new.gms",
-            "name": "NZS_SOLVE_GTAP11c_new.gms",
+            "file": "NDC_RESULTS_GreenEcos_new.gms",
+            "name": "NDC_RESULTS_GreenEcos_new.gms",
+            "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "NDC_RESULTS_GTAP11c_new.gms",
+            "name": "NDC_RESULTS_GTAP11c_new.gms",
+            "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "NDC_RESULTS_IPCC_new.gms",
+            "name": "NDC_RESULTS_IPCC_new.gms",
+            "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "NDC_SOLVE_GTAP11c_new.gms",
+            "name": "NDC_SOLVE_GTAP11c_new.gms",
+            "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "NZ_RESULTS_AQLinkage_new.gms",
+            "name": "NZ_RESULTS_AQLinkage_new.gms",
+            "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "NZ_RESULTS_GreenEcos_new.gms",
+            "name": "NZ_RESULTS_GreenEcos_new.gms",
+            "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "NZ_RESULTS_GTAP11c_new.gms",
+            "name": "NZ_RESULTS_GTAP11c_new.gms",
+            "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "NZ_RESULTS_IPCC_new.gms",
+            "name": "NZ_RESULTS_IPCC_new.gms",
+            "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "NZ_SOLVE_GTAP11c_new.gms",
+            "name": "NZ_SOLVE_GTAP11c_new.gms",
             "type": "gms"
         }
     ],

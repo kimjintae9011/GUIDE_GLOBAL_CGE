@@ -51,7 +51,8 @@
  POWERQ.L(z,t1)             = POWERQO(z);
  C_Conventional.L(i3,z,t1)  = QO(i3,z);
  PERMIT.L(j,z,t1)           = PERMITO(j,z);
- PERMIT_TOTAL.L(z,t1)       = PERMIT_TOTALO(z);
+ PERMIT_TOTAL.L(PERMIT_Z,t1)       = PERMIT_TOTALO(PERMIT_Z);
+ PERMIT_NEA_TOTAL.L(t) = PERMIT_NEA_TOTALO;
  CTAX.L(z,t1)               = CTAX0(z);
 
 *==============================================================================
@@ -207,7 +208,8 @@ IF{ord(time) gt 1,
  POWERQ.L(z,time)           = POWERQ.L(z,time-1);
  C_Conventional.L(i3,z,time)= C_Conventional.L(i3,z,time-1);
  PERMIT.L(j,z,time)         = PERMIT.L(j,z,time-1) ;
- PERMIT_TOTAL.L(z,time)     = PERMIT_TOTAL.L(z,time-1);
+ PERMIT_TOTAL.L(PERMIT_Z,time)     = PERMIT_TOTAL.L(PERMIT_Z,time-1);
+ PERMIT_NEA_TOTAL.L(time) = PERMIT_NEA_TOTAL.L(time-1);
  CTAX.L(z,time)             = CTAX.L(z,time-1);
 
 *==============================================================================

@@ -30,8 +30,8 @@
 
 * The har2gdx facility allows converting these two files into GDX format.
 *==============================================================================
-$CALL har2gdx Input_GTAP11DB\basedata2019_250422.har Input_w-t\GTAP11c_basedata2019.gdx
-$CALL har2gdx Input_GTAP11DB\parameter2019_250422.prm Input_w-t\GTAP11c_Parameters2019.gdx
+$CALL har2gdx Input_GTAP11DB\basedata2019_250422.har Input_CGE\GTAP11c_basedata2019.gdx
+$CALL har2gdx Input_GTAP11DB\parameter2019_250422.prm Input_CGE\GTAP11c_Parameters2019.gdx
 
 *==============================================================================
 * 1. Define the sets
@@ -315,7 +315,7 @@ TIME Time periods
  reg(GlobalSet)  All regions
  marg(comm) Margin commodities
 
-$GDXIN Input_w-t\GTAP11c_basedata2019.gdx
+$GDXIN Input_CGE\GTAP11c_basedata2019.gdx
 
 $LOAD GlobalSet, reg, endw, acts, comm, marg
 
@@ -1029,7 +1029,7 @@ PARAMETER
 *==============================================================================
 * 3.4 Load the GTAP file which includes the parameters
 *==============================================================================
-$GDXIN Input_w-t\GTAP11c_Parameters2019.gdx
+$GDXIN Input_CGE\GTAP11c_Parameters2019.gdx
 $LOAD ESUBD, ESUBM, ESUBVA, ELFKLE
 
 *==============================================================================
@@ -1114,28 +1114,16 @@ $LOAD ESUBD, ESUBM, ESUBVA, ELFKLE
                     ELFKLE(acts, reg)*SH_KLE(acts,j,z)};
 
 *==============================================================================
-* 4. Own price elasticities (Conditional)
+* Backstop technology Parameters
 *==============================================================================
 PARAMETER
- E_Composite(j,z)      E nest susbtitution elasticies
- KLE_Composite(j,z)    KLE nest susbtitution elasticies
- elas_E(j,z)           Own price elasticities(Composite Energy)
- elas_elec(j,z)        Own price elasticities(electricity)
- elas_gas(j,z)         Own price elasticities(gas)       
- elas_oil(j,z)         Own price elasticities(oil)
- elas_coal(j,z)        Own price elasticities(coal)
- elas_petrolcoal(j,z)  Own price elasticities(petrolcoal) 
+ Cap_Share(j,z)       Capital Cost Share
+ Lab_Share(j,z)       Labor Cost Share
 ;
 
- E_Composite(j,z)   = SUM{(acts)$[j2acts(j,acts)], E_GTAP(acts,z)};
- KLE_Composite(j,z) = SUM{(acts)$[j2acts(j,acts)], KLE_GTAP(acts,z)};
-
- elas_E(j,z) = sigma_KLE(j,z)*(1- E_Composite(j,z)/KLE_Composite(j,z));
- elas_elec(j,z) = 1.1*(1- DIO('18_ELEC',j,z)/E_Composite(j,z));
- elas_gas(j,z) = 1.1*(1- DIO('04_GAS',j,z)/E_Composite(j,z));
- elas_oil(j,z) = 1.1*(1- DIO('03_OIL',j,z)/E_Composite(j,z));
- elas_coal(j,z) = 1.1*(1- DIO('02_COAL',j,z)/E_Composite(j,z));
- elas_petrolcoal(j,z) = 1.1*(1- DIO('10_PETROLCOAL',j,z)/E_Composite(j,z));
+$call gdxxrw Input_CGE\Backstop_technology.xlsx @Input_CGE\Backstop_technology.txt output = Input_CGE\Backstop_technology.gdx 
+$gdxIn Input_CGE\Backstop_technology.gdx
+$load Cap_Share, Lab_Share
 
 *==============================================================================
 * Projections used in Recursive Dynamic model
@@ -1160,25 +1148,25 @@ PARAMETER
  Savings(z,time)         Domestic savings from 1980 to 2050 based on PEP w aggregation
  sdr_fac(z,time)         Exogenous change factor for domestic savings rate
  TOT_POP(z,time)         Total population from 1980 to 2050 based on the PEP w aggregation
- CTAX_Cal(z,time)        Carbon Tax for Baseline Scenario
- CTAX_CPS(z,time)        Carbon Tax for Current Policy Scenario
- CTAX_NZS(z,time)        Carbon Tax for Net-Zero Scenario
- EMPLOY(j,z)             Employment by sector 2019 (thousand)
+* CTAX_Cal(z,time)        Carbon Tax for Baseline Scenario
+* CTAX_CPS(z,time)        Carbon Tax for Current Policy Scenario
+* CTAX_NZ(z,time)        Carbon Tax for Net-Zero Scenario
  AEEI_low(z,time)        Autonomous energy efficiency improvement
+ AEEI_medium(z,time) Autonomous energy efficiency improvement
  AEEI_high(z,time)       Autonomous energy efficiency improvement
- TREND(z,time)           Value to Physical quantity
- TREND2(z,time)          Value to Physical quantity
- TREND_CPS(z,time)       Value to Physical quantity
- TREND_NZS(z,time)       Value to Physical quantity
- PERMIT_NZS(z,time)      PERMIT
+ PERMIT_NDC_old(z,time)
+ PERMIT_NZ(z,time)      PERMIT
 ;
 
-$call gdxxrw Input_w-t\Projection.xlsx @Input_w-t\Projection.txt output = Input_w-t\Projection.gdx 
-$gdxIn Input_w-t\Projection.gdx
-$load GDP, TOT_POP, g_SDR, AEEI_low, AEEI_high, TREND, TREND2, TREND_CPS, TREND_NZS, CTAX_Cal, CTAX_CPS, CTAX_NZS, PERMIT_NZS
+$call gdxxrw Input_CGE\Projection.xlsx @Input_CGE\Projection.txt output = Input_CGE\Projection.gdx 
+$gdxIn Input_CGE\Projection.gdx
+$load GDP, TOT_POP, g_SDR, AEEI_low, AEEI_medium, AEEI_high, PERMIT_NDC_old, PERMIT_NZ
 
-$call gdxxrw Input_w-t\Employment.xlsx @Input_w-t\Employment.txt output = Input_w-t\Employment.gdx 
-$GDXIN Input_w-t\Employment.gdx
+PARAMETER
+ EMPLOY(j,z)             Employment by sector 2019 (thousand) 
+;
+$call gdxxrw Input_CGE\Employment.xlsx @Input_CGE\Employment.txt output = Input_CGE\Employment.gdx 
+$GDXIN Input_CGE\Employment.gdx
 $LOAD EMPLOY
 
 *==============================================================================
@@ -1213,7 +1201,7 @@ loop{time$[time.val lt 2100],
  Zrich('17_PAO')        = yes; 
  Zother(Z)                = yes$[not Zrich(Z)];
 
-execute_unload 'Input_w-t\DATA_AGG-2019_GTAP11c.gdx',
+execute_unload 'Input_CGE\DATA_AGG-2019_GTAP11c.gdx',
 
 *Sets
  J, I, BUS, PUB, F, L, K, Z, ZR, Z1, Zrich, Zother
@@ -1222,11 +1210,15 @@ execute_unload 'Input_w-t\DATA_AGG-2019_GTAP11c.gdx',
  CO, CGO, DDO, DEPO, DIO, DSO,DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, POPO, RKDO,
  TDHO, DTAX, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, tssm, tssd, tmrg, XSO, XSO_I, XSTO, EXTO, TotalCost,
  sigma_M1, sigma_M2, sigma_VA, sigma_KLE, Q_GTAP, KLE_GTAP, SH_Q, SH_VA, SH_KLE, ESUBD, ELFKLE,
- elas_E, elas_elec, elas_gas, elas_oil, elas_coal, elas_petrolcoal, EMPLOY,
+
+*Employment
+ EMPLOY,
+ 
+*Backstop technology 
+Cap_Share, Lab_Share,
 
 *Parameters for RD-CGE
- TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_high, TREND, TREND2, TREND_CPS, TREND_NZS, CTAX_Cal, CTAX_CPS, CTAX_NZS, PERMIT_NZS ;
-
+ TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_medium,  AEEI_high, PERMIT_NDC_old, PERMIT_NZ ;
 *==============================================================================
 * 6. SAM Balancing
 *==============================================================================

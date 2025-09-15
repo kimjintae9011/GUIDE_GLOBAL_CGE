@@ -992,8 +992,8 @@ SAM1_16_PAS(A,B) = SAM0(A,B,'16_PAS');
 SAM1_17_PAO(A,B) = SAM0(A,B,'17_PAO');
 
 *Balanced PRK SAM using SAMBAL (GEMPACK)
-$call gdxxrw Input_w-t\PRK_SAM.xlsx @Input_w-t\PRK_SAM.txt output = Input_w-t\PRK_SAM.gdx 
-$gdxIn Input_w-t\PRK_SAM.gdx
+$call gdxxrw Input_CGE\PRK_SAM.xlsx @Input_CGE\PRK_SAM.txt output = Input_CGE\PRK_SAM.gdx 
+$gdxIn Input_CGE\PRK_SAM.gdx
 $load SAM1_06_PRK
 
 SAM1(A,B,'06_PRK') = SAM1_06_PRK(A,B);
