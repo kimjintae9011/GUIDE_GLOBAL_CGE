@@ -128,6 +128,16 @@ Parameters
  CO2FACTOR('04_GAS',j,z)$DEO('04_GAS',j,z)   = [sum(p_gas,CO2IO(p_gas,j,z))/DEO('04_GAS',j,z)]*(1000/(10**8));
  CO2FACTOR('10_PETROLCOAL',j,z)$DEO('10_PETROLCOAL',j,z) = [sum(p_oilproduct,CO2IO(p_oilproduct,j,z))/DEO('10_PETROLCOAL',j,z)]*(1000/(10**8));
 
+Parameters
+Global_CO2FACTOR(ene,j)       Global Average CO2 emissions factor (tCO2 per 100$)
+;
+
+ Global_CO2FACTOR('02_COAL',j)            = [sum((p_coal,z),CO2IO(p_coal,j,z))/sum(z,DEO('02_COAL',j,z))]*(1000/(10**8));
+ Global_CO2FACTOR('03_OIL',j)               = [sum((p_oil,z),CO2IO(p_oil,j,z))/sum(z,DEO('03_OIL',j,z))]*(1000/(10**8));
+ Global_CO2FACTOR('04_GAS',j)              = [sum((p_gas,z),CO2IO(p_gas,j,z))/sum(z,DEO('04_GAS',j,z))]*(1000/(10**8));
+ Global_CO2FACTOR('10_PETROLCOAL',j) = [sum((p_oilproduct,z),CO2IO(p_oilproduct,j,z))/sum(z,DEO('10_PETROLCOAL',j,z))]*(1000/(10**8));
+
+$ontext
 *MNG
 CO2FACTOR('02_COAL','31_SER','05_MNG')        = 2;
  
@@ -138,17 +148,32 @@ CO2FACTOR('02_COAL','31_SER','05_MNG')        = 2;
  CO2FACTOR('02_COAL','17_OTHERIND','06_PRK')        = CO2FACTOR('02_COAL','17_OTHERIND','05_MNG');
 
 *RUS
- CO2FACTOR('02_COAL','08_WOODPRO','04_RUS')         = CO2FACTOR('02_COAL','08_WOODPRO','10_EEU');
+ CO2FACTOR('02_COAL','08_WOODPRO','04_RUS')    = CO2FACTOR('02_COAL','08_WOODPRO','10_EEU');
+ CO2FACTOR('04_GAS','17_OTHERIND','04_RUS')      = SMAX(j$(not sameas(j, '17_OTHERIND')), CO2FACTOR('04_GAS', j, '04_RUS'));
 
 *LAM
  CO2FACTOR('04_GAS','02_COAL','08_LAM')             = CO2FACTOR('04_GAS','02_COAL','07_NAM');
 
- CO2FACTOR(ene,j,z)$(CO2FACTOR(ene,j,z) gt 10) = 10 ;
- CO2FACTOR(ene,j,z)$(CO2FACTOR(ene,j,z) lt 0) = 3.28666e-05 ; 
-* CO2FACTOR2(ene,j,z)$(CO2FACTOR2(ene,j,z) lt 0.1) = 0.1 ;
+* CO2FACTOR(ene,j,z)$(CO2FACTOR(ene,j,z) gt 10) = 10 ;
+$offtext
+
+CO2FACTOR(ene, j, z)$(
+    not sameas(j, '13_IRONSTL') and
+    not sameas(j, '20_eCoal') and
+    not sameas(j, '21_eGas') and
+    not sameas(j, '22_eOil')
+) = MIN(CO2FACTOR(ene, j, z), Global_CO2FACTOR(ene, j));
+
+*Otherind Sector
+ CO2FACTOR('02_COAL','17_OTHERIND',Z)$DEO('02_COAL','17_OTHERIND',z) = Global_CO2FACTOR('02_COAL','20_eCoal');
+ CO2FACTOR('03_OIL','17_OTHERIND',Z)$DEO('03_OIL','17_OTHERIND',z) = Global_CO2FACTOR('03_OIL','03_OIL');
+ CO2FACTOR('04_GAS','17_OTHERIND',Z)$DEO('04_GAS','17_OTHERIND',z) = Global_CO2FACTOR('04_Gas','21_eGas');
+ CO2FACTOR('10_PETROLCOAL','17_OTHERIND',Z)$DEO('10_PETROLCOAL','17_OTHERIND',z) = Global_CO2FACTOR('10_PETROLCOAL','22_eOil');
+
+ CO2FACTOR(ene,j,z)$(CO2FACTOR(ene,j,z) lt 0) = 0.1 ; 
+
 
  CO2FACTOR2(ene,j,z,time) = CO2FACTOR(ene,j,z);
-
 
 *===========
 * Coal 2.7tCO2 per 100$
@@ -158,13 +183,4 @@ CO2FACTOR('02_COAL','31_SER','05_MNG')        = 2;
 * Oilrproduct  0.6tCO2 per 100$
 * CO2FACTOR2('10_PETROLCOAL',j,z,time)$CO2FACTOR('10_PETROLCOAL',j,z) = 0.67;
 
-$ontext
-*Petrolcoal
- CO2FACTOR('10_PETROLCOAL','10_PETROLCOAL',z) = 0;
- CO2FACTOR('02_COAL','10_PETROLCOAL',z) = CO2FACTOR('02_COAL','13_IRONSTL',z);
-
-*KOR
-* CO2FACTOR('02_COAL','10_PETROLCOAL','01_KOR') = 0;
-* CO2FACTOR(ene,'20_eCoal','01_KOR') =  CO2FACTOR(ene,'20_eCoal','03_JPN');
-$offtext
 

@@ -1,5 +1,4 @@
-
---- Job DATA_GTAP11c.gms Start 09/15/25 12:37:30 45.7.0 64fbf3ce WEX-WEI x86 64bit/MS Windows
+--- Job DATA_GTAP11c.gms Start 09/15/25 13:05:00 45.7.0 64fbf3ce WEX-WEI x86 64bit/MS Windows
 --- Applying:
     C:\GAMS\45\gmsprmNT.txt
     C:\Users\kimc0\Documents\GAMS\gamsconfig.yaml
@@ -192,7 +191,7 @@ Finished OK; created file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\GTAP1
 GDXXRW           45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
 Input file : C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\Backstop_technology.xlsx
 Output file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\Backstop_technology.gdx
-Total time = 1500 Ms
+Total time = 1313 Ms
 --- DATA_GTAP11c.gms(1125) 20 Mb
 --- GDXin=C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\Backstop_technology.gdx
 --- GDX File ($gdxIn) C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\Backstop_technology.gdx
@@ -202,7 +201,7 @@ Total time = 1500 Ms
 GDXXRW           45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
 Input file : C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\Projection.xlsx
 Output file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\Projection.gdx
-Total time = 1782 Ms
+Total time = 1484 Ms
 --- DATA_GTAP11c.gms(1163) 20 Mb
 --- GDXin=C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\Projection.gdx
 --- GDX File ($gdxIn) C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\Projection.gdx
@@ -213,7 +212,7 @@ Total time = 1782 Ms
 GDXXRW           45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
 Input file : C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\PRK_SAM.xlsx
 Output file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\PRK_SAM.gdx
-Total time = 1281 Ms
+Total time = 1282 Ms
 --- . DATA_SamBal.gms(996) 21 Mb
 --- GDXin=C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\PRK_SAM.gdx
 --- GDX File ($gdxIn) C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\PRK_SAM.gdx
@@ -221,7 +220,7 @@ Total time = 1281 Ms
 --- DATA_GTAP11c.gms(1226) 21 Mb
 --- . DATA_ReGen.gms(294) 21 Mb
 --- DATA_GTAP11c.gms(1226) 21 Mb
---- Starting execution: elapsed 0:00:05.391
+--- Starting execution: elapsed 0:00:04.741
 --- DATA_GTAP11c.gms(1203) 32 Mb
 --- GDX File (execute_unload) C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\DATA_AGG-2019_GTAP11c.gdx
 --- DATA_GTAP11c.gms(2169) 69 Mb
@@ -231,4 +230,4 @@ Total time = 1281 Ms
 --- DATA_GTAP11c.gms(2511) 89 Mb
 --- GDX File (execute_unload) C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_w-t\DATA_AGG-2019_GTAP11c_Regen.gdx
 *** Status: Normal completion
---- Job DATA_GTAP11c.gms Stop 09/15/25 12:37:37 elapsed 0:00:06.739
+--- Job DATA_GTAP11c.gms Stop 09/15/25 13:05:06 elapsed 0:00:06.010

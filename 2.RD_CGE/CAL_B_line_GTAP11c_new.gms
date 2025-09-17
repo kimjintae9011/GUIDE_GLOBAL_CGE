@@ -1,5 +1,5 @@
 $TITLE     GUIDE_GLOBAL_CGE Baseline Calibration GTAP11c
-*==============================================================================*
+*==============================================================================
 *           GUIDE_GLOBAL_CGE GTAP11c Model Code Manual                  
 *           Version: 1.0                                                       
 *           Author: Jintae Kim                                                 
@@ -10,7 +10,7 @@ $TITLE     GUIDE_GLOBAL_CGE Baseline Calibration GTAP11c
 *           the Creative Commons Attribution-NonCommercial-ShareAlike 3.0     
 *           (CC BY-NC-SA 3.0) License.                                         
 *           https://creativecommons.org/licenses/by-nc-sa/3.0/                                                                                
-*==============================================================================*
+*==============================================================================
 
 *==============================================================================
 * Set
@@ -186,39 +186,39 @@ NENE(I) Non-energy commodities
 
 J2(J) KLE Sectors
 /
- 01_AGRICULT    Agricultural forest and fishery goods
- 06_FOODPRO     Food beverages and tobacco products
- 07_TEXTILES    Textile and leather products
- 08_WOODPRO     Wood products
- 09_PAPERPRO    Paper products
+ 01_AGRICULT   Agricultural forest and fishery goods
+ 05_MINING      Mined and quarried goods
+ 06_FOODPRO   Food beverages and tobacco products
+ 07_TEXTILES   Textile and leather products
+ 08_WOODPRO  Wood products
+ 09_PAPERPRO  Paper products
+ 10_PETROLCOAL  Petroleum and coal products
  11_CHEMICAL    Chemical products
  12_NONMET      Non-metallic mineral products
  13_IRONSTL     Primary iron and steel products
- 14_NONFERR     Non-ferrous metal products
- 15_MACHINE     Fabricated metal products Electronic and electrical equipment Machinery and equipment
- 16_TRANSEQ     Motor vehicles Other transport equipment
- 17_OTHERIND    Other manufactured products Water supply
+ 14_NONFERR     Non-ferrous metal products  
+ 15_MACHINE   Fabricated metal products Electronic and electrical equipment Machinery and equipment
+ 16_TRANSEQ   Motor vehicles Other transport equipment
+ 17_OTHERIND Other manufactured products Water supply
  27_CONSTRUC    Construction
- 28_LTRP        Land transport service(road rail)
+ 28_LTRP          Land transport service(road rail)
  29_WTRP        Water transport service
- 30_ATRP        Air transport service
- 31_SER         Service
+ 30_ATRP         Air transport service
+ 31_SER           Service
 /
 
 J3(J) Non-KLE Sectors
 /
  02_COAL        Coal
- 03_OIL         Crude petroleum
- 04_GAS         Natural gas Gas distribution
- 05_MINING      Mined and quarried goods
- 10_PETROLCOAL  Petroleum and coal products
- 18_TnD         Transmission and Distribution
+ 03_OIL           Crude petroleum
+ 04_GAS          Natural gas Gas distribution
+ 18_TnD          Transmission and Distribution
  19_eNuclear    Nuclear generation
- 20_eCoal       Coal generation
- 21_eGas        Gas generation
- 22_eOil        Oil generation
+ 20_eCoal        Coal generation
+ 21_eGas         Gas generation
+ 22_eOil          Oil generation
  23_eWind       Wind generation
- 24_eSolar      Solar generation
+ 24_eSolar       Solar generation
  25_eHydro      Hydro generation
  26_eOther      Other generation
 /
@@ -293,6 +293,41 @@ J6(J) Industries excluding specified energy-related industries
 * 24_eSolar      Solar generation
 * 25_eHydro      Hydro generation
 * 26_eOther      Other generation
+ 27_CONSTRUC    Construction
+ 28_LTRP        Land transport service(road rail)
+ 29_WTRP        Water transport service
+ 30_ATRP        Air transport service
+ 31_SER         Service
+/
+
+J7(J) Industries excluding specified energy-related industries
+/
+ 01_AGRICULT    Agricultural forest and fishery goods
+ 02_COAL        Coal
+ 03_OIL         Crude petroleum
+ 04_GAS         Natural gas Gas distribution
+ 05_MINING      Mined and quarried goods
+ 06_FOODPRO     Food beverages and tobacco products
+ 07_TEXTILES    Textile and leather products
+ 08_WOODPRO     Wood products
+ 09_PAPERPRO    Paper products
+ 10_PETROLCOAL  Petroleum and coal products
+ 11_CHEMICAL    Chemical products
+ 12_NONMET      Non-metallic mineral products
+ 13_IRONSTL     Primary iron and steel products
+ 14_NONFERR     Non-ferrous metal products
+ 15_MACHINE     Fabricated metal products Electronic and electrical equipment Machinery and equipment
+ 16_TRANSEQ     Motor vehicles Other transport equipment
+ 17_OTHERIND    Other manufactured products Water supply
+ 18_TnD         Transmission and Distribution
+ 19_eNuclear    Nuclear generation
+ 20_eCoal       Coal generation
+ 21_eGas        Gas generation
+ 22_eOil        Oil generation
+ 23_eWind       Wind generation
+ 24_eSolar      Solar generation
+ 25_eHydro      Hydro generation
+ 26_eOther      Other generation
  27_CONSTRUC    Construction
  28_LTRP        Land transport service(road rail)
  29_WTRP        Water transport service
@@ -494,7 +529,11 @@ INDtoCOM(i3,j)
 
 TIME Time periods
 /
-*2019
+*2019*2020
+*2019*2035
+*2019*2036
+*2019*2043
+*2019*2045
 2019*2050
 /
 
@@ -504,13 +543,13 @@ T1(time)         = yes$[ord(time) eq 1];
 
 Parameter EndTime /2050/;
 
-ALIAS (j,jj)
-ALIAS (i,ii,ij)
-ALIAS (k,kj)
-ALIAS (z,zj,zjj)
-ALIAS (power, powerr)
-AlIAS (ENE,ENEE)
-AlIAS (TIME, TIMEE)
+Alias (j,jj)
+Alias (i,ii,ij)
+Alias (k,kj)
+Alias (z,zj,zjj)
+Alias (power, powerr)
+Alias (ENE,ENEE)
+Alias (TIME, TIMEE)
 Alias (Elec, Elecc)
 Alias (ene1, enee1)
 Alias (ene3, enee3)
@@ -537,13 +576,13 @@ PARAMETER
  B_VA(j,z)                    Scale parameter (CES - value added)
  B_VA_t(j,z,time)             Scale parameter (CES - value added)
  B_KLE(j,z)                   Scale parameter (CES - composite KLE)
- B_ENER(j,z)                  Scale parameter (CES - composite ENER)
+* B_ENER(j,z)                  Scale parameter (CES - composite ENER)
+* B_ENER3(j,z)                 Scale parameter (CES - composite ENER)
  B_ENER_t(j,z,time)           Scale parameter (CES - composite ENER)
- B_ENER2(j,z)                 Scale parameter (CES - composite ENER)
- B_ENER3(j,z)                 Scale parameter (CES - composite ENER)
- B_ENER4(j,z)                 Scale parameter (CES - composite ENER)
- B_ENER5_1(j,z)               Scale parameter (CES - composite ENER)
- B_ENER5_2(j,z)               Scale parameter (CES - composite ENER)
+ B_ENER_elec(j,z)             Scale parameter (CES - composite ENER)
+ B_ENER_fossil(j,z)           Scale parameter (CES - composite ENER)
+ B_ENER_coalgas(j,z)          Scale parameter (CES - composite ENER)
+ B_ENER_oilprod(j,z)          Scale parameter (CES - composite ENER)
  B_X1(i,z)                    Scale parameter (CET - total output)
  B_X2(i,z)                    Scale parameter (CET - composite export)
  B_X3(i,z)                    Scale parameter (CES - top level)
@@ -561,12 +600,12 @@ PARAMETER
  beta_KLE(j,z)                Share parameter (CES - KLE composite)
  beta_KLE2(j,z)               Share parameter (CES - KLE composite)
  beta_KLE2_t(j,z,time)        Share parameter (CES - KLE composite)
- beta_ENER(ene,j,z)           Share parameter (CES - ENER composite)
- beta_ENER2(j,z)              Share parameter (CES - ENER composite)
- beta_ENER3(ene3,j,z)         Share parameter (CES - ENER composite)
- beta_ENER4(j,z)              Share parameter (CES - ENER composite)
- beta_ENER5_1(ene5,j,z)       Share parameter (CES - ENER composite)
- beta_ENER5_2(ene6,j,z)       Share parameter (CES - ENER composite)
+* beta_ENER(ene,j,z)           Share parameter (CES - ENER composite)
+* beta_ENER3(ene3,j,z)         Share parameter (CES - ENER composite)
+ beta_ENER_elec(j,z)          Share parameter (CES - ENER composite)
+ beta_ENER_fossil(j,z)        Share parameter (CES - ENER composite)
+ beta_ENER_coalgas(ene5,j,z)  Share parameter (CES - ENER composite)
+ beta_ENER_oilprod(ene6,j,z)  Share parameter (CES - ENER composite)
  delta(z)                     Depreciation rate of capital in country z
  eta                          Price elasticity of indexed transfers and parameters
  frisch(z)                    Frisch parameter (LES function)
@@ -585,12 +624,12 @@ PARAMETER
  rho_M2(i,z)                  Elasticity parameter (CES - composite import)
  rho_VA(j,z)                  Elasticity parameter (CES - value added)
  rho_KLE(j,z)                 Elasticity parameter (CES - KLE)
- rho_ENER(j,z)                Elasticity parameter (CES - ENER)
- rho_ENER2(j,z)               Elasticity parameter (CES - ENER)
- rho_ENER3(j,z)               Elasticity parameter (CES - ENER)
- rho_ENER4(j,z)               Elasticity parameter (CES - ENER)
- rho_ENER5_1(j,z)             Elasticity parameter (CES - ENER)
- rho_ENER5_2(j,z)             Elasticity parameter (CES - ENER)
+* rho_ENER(j,z)                Elasticity parameter (CES - ENER)
+* rho_ENER3(j,z)               Elasticity parameter (CES - ENER)
+ rho_ENER_elec(j,z)           Elasticity parameter (CES - ENER)
+ rho_ENER_fossil(j,z)         Elasticity parameter (CES - ENER)
+ rho_ENER_coalgas(j,z)        Elasticity parameter (CES - ENER)
+ rho_ENER_oilprod(j,z)        Elasticity parameter (CES - ENER)
  rho_X1(i,z)                  Elasticity parameter (CET - composite export)
  rho_X2(i,z)                  Elasticity parameter (CET - composite export)
  rho_X3(i,z)                  Elasticity parameter (CES - top level)
@@ -602,12 +641,12 @@ PARAMETER
  sigma_M2(i,z)                Elasticity (CES - composite import)
  sigma_VA(j,z)                Elasticity (CES - value added)
  sigma_KLE(j,z)               Elasticity (CES - kle)
- sigma_ENER(j,z)              Elasticity (CES - within energy)
- sigma_ENER2(j,z)             Elasticity (CES - within energy)
- sigma_ENER3(j,z)             Elasticity (CES - within energy)
- sigma_ENER4(j,z)             Elasticity (CES - within energy)
- sigma_ENER5_1(j,z)           Elasticity (CES - within energy)
- sigma_ENER5_2(j,z)           Elasticity (CES - within energy)
+* sigma_ENER(j,z)              Elasticity (CES - within energy)
+* sigma_ENER3(j,z)             Elasticity (CES - within energy)
+ sigma_ENER_elec(j,z)         Elasticity (CES - within energy)
+ sigma_ENER_fossil(j,z)       Elasticity (CES - within energy)
+ sigma_ENER_coalgas(j,z)      Elasticity (CES - within energy)
+ sigma_ENER_oilprod(j,z)      Elasticity (CES - within energy)
  sigma_X0(j,z)                Elasticity (CET - exports and local sales)
  sigma_X1(i,z)                Elasticity (CET - total output)
  sigma_X2(i,z)                Elasticity (CET - composite export)
@@ -624,20 +663,22 @@ PARAMETER
  g_LS(z,time)                 Active population past and projected growth rate
  g_POP(z,time)                Population past and projected growth rate
  g_SDR(z,time)                Growth rate of domestic savings rate
- gamma_GVT(i,z)            Share of commodity i in total current public expenditures on goods and services
- gamma_INV(i,z)            Share of commodity i in total investment expenditures
- gamma_LES(i,z)             Marginal share of commodity i in household consumption budget
+ gamma_GVT(i,z)               Share of commodity i in total current public expenditures on goods and services
+ gamma_INV(i,z)               Share of commodity i in total investment expenditures
+ gamma_LES(i,z)               Marginal share of commodity i in household consumption budget
  exogro(z,time)               Exogenous growth factor for exogenously growing variables except labor
- growthz(z)                    Steady state grwoth
- AEEI(z,time)                  Autonomous energy efficiency improvement (Reference)
- AEEI_low(z,time)            Autonomous energy efficiency improvement (Low)
- AEEI_medium(z,time)       Autonomous energy efficiency improvement (Medium)
- AEEI_high(z,time)           Autonomous energy efficiency improvement (High)
- PERMIT_NDC_old(z,time)      PERMIT
- PERMIT_NZ(z,time)              PERMIT
+ growthz(z)                   Steady state grwoth
+ AEEI(z,time)                 Autonomous energy efficiency improvement (Reference)
+ AEEI_low(z,time)             Autonomous energy efficiency improvement (Low)
+ AEEI_medium(z,time)          Autonomous energy efficiency improvement (Medium)
+ AEEI_high(z,time)            Autonomous energy efficiency improvement (High)
+ PERMIT_NDC_old(z,time)       PERMIT
+ PERMIT_NZ(z,time)            PERMIT
  EMPLOY(j,z)                  Employment by sector 2019 (thousand) 
  switch(i3,z,time)            binary variable - equals zero if no use of backstop technologies
  penetration_rate(i3,z,time)  penetration_rate
+ Cap_Share(j,z)               Capital Cost Share
+ Lab_Share(j,z)               Labor Cost Share
  recycle_gov(z,time)          binary variable - equals zero if no use of CTAX Rebate
  recycle_hou(z,time)          binary variable - equals zero if no use of CTAX Rebate
  recycle_labor(z,time)        binary variable - equals zero if no use of CTAX Rebate
@@ -823,7 +864,8 @@ PARAMETER
 ;
 
 $LOAD CO, CGO, DDO, DEPO, DIO, DSO, DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, XSO, XSO_I, XSTO, 
-$LOAD TOT_POP, g_GDP, g_POP, g_SDR, EMPLOY, AEEI_low, AEEI_medium, AEEI_high, PERMIT_NDC_old, PERMIT_NZ,
+$LOAD TOT_POP, g_GDP, g_POP, g_SDR, EMPLOY, AEEI_low, AEEI_Medium, AEEI_high, PERMIT_NDC_old, PERMIT_NZ,
+$LOAD Cap_Share, Lab_Share,
 $LOAD RKDO, TDHO, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, 
 $LOAD tmrg, sigma_M1, sigma_M2, sigma_VA, sigma_KLE, POPO
 
@@ -836,38 +878,35 @@ $LOAD sigma_KD, sigma_LD, sigma_X1, sigma_X2, sigma_X3, sigma_X0, sigma_y, sigma
 
 *===============================================================================
 * CES - composite capital
- sigma_KD(j,z)             = 0.5;
- sigma_KD('02_COAL',z)     = 0.2;
- sigma_KD('03_OIL',z)      = 0.2;
- sigma_KD('04_GAS',z)      = 0.2;
- sigma_KD('05_MINING',z)   = 0.2;
+  sigma_KD(j,z)   = 2*sigma_VA(j,z); 
+* sigma_KD(j,z)                  = 0.5;
+* sigma_KD('02_COAL',z)     = 0.2;
+* sigma_KD('03_OIL',z)        = 0.2;
+* sigma_KD('04_GAS',z)       = 0.2;
+* sigma_KD('05_MINING',z)  = 0.2;
  
 * CES - composite labor
  sigma_LD(j,z)   = 2*sigma_VA(j,z); 
 
 * CES - composite K-L
- sigma_VA('10_PETROLCOAL',z)  = 1.26;
- sigma_VA('18_TnD',z)         = 0.2;
- sigma_VA('19_eNuclear',z)    = 0.2;
- sigma_VA('20_eCoal',z)       = 0.2;
- sigma_VA('21_eGas',z)        = 0.2;
- sigma_VA('22_eOil',z)        = 0.2;
- sigma_VA('23_eWind',z)       = 0.2;
- sigma_VA('24_eSolar',z)      = 0.2;
- sigma_VA('25_eHydro',z)      = 0.2;
- sigma_VA('26_eOther',z)      = 0.2;
+* sigma_VA('10_PETROLCOAL',z)  = 1.26;
+ sigma_VA('18_TnD',z)               = 0.2;
+ sigma_VA('19_eNuclear',z)        = 0.2;
+ sigma_VA('20_eCoal',z)             = 0.2;
+ sigma_VA('21_eGas',z)              = 0.2;
+ sigma_VA('22_eOil',z)                = 0.2;
+ sigma_VA('23_eWind',z)             = 0.2;
+ sigma_VA('24_eSolar',z)             = 0.2;
+ sigma_VA('25_eHydro',z)            = 0.2;
+ sigma_VA('26_eOther',z)            = 0.2;
 
 * CES - composite ENER
- sigma_ENER(j,z)              = 1.1 ;
- sigma_ENER2(j2,z)           = 1.1 ;
-* sigma_ENER2(j2,z)          = 0.5;
- sigma_ENER3(j2,z)           = 1.1 ;
- sigma_ENER4(j2,z)           = 2.0 ;
- sigma_ENER5_1(j2,z)        = 2.0 ;
- sigma_ENER5_2(j2,z)        = 2.0 ;
-
-* CES - composite Power sector
- sigma_X4(z)    = 1.1;
+* sigma_ENER(j,z)             = 1.1 ;
+* sigma_ENER3(j2,z)           = 1.1 ;
+ sigma_ENER_elec(j2,z)        = 2.0 ;
+ sigma_ENER_fossil(j2,z)      = 2.0 ;
+ sigma_ENER_coalgas(j2,z)     = 1.5;
+ sigma_ENER_oilprod(j2,z)     = 0.5 ;
 
 * CES - DOM vs.IMP
  sigma_M1('03_OIL','06_PRK') = 0.5;
@@ -877,24 +916,22 @@ $LOAD sigma_KD, sigma_LD, sigma_X1, sigma_X2, sigma_X3, sigma_X0, sigma_y, sigma
  sigma_M2('03_OIL',Z) = 2;
  sigma_M2('04_GAS',Z) = 2;
 
+ sigma_X0(j,z)  = 1.5; 
 * CET - total output
  sigma_X2(i,Z)  = 2;
 
 * CES - composite Power sector
- sigma_X4(z)    = 2;
- sigma_X4(NEA2) = 5;
+ sigma_X4(z)    = 4;
 
 * Investment demand elasticity
  sigma_INV(k,j,z) = 2;
-
-* Income elasticity of consumption
-* sigma_Y('03_OIL','06_PRK') = 1.01;
 
 * LES parameters - Frisch all (1.1)
  frisch(z)      = PARZ(z,'frisch');
 
 * Labour supply 
- elasLS(z) = 0.5 ; 
+ elasLS(z) = 0.5 ;
+
   growthz(z)     = 0.02 ;
 *==============================================================================
 *   3.1.2 Rescaling the variables
@@ -1460,78 +1497,77 @@ eta = 1;
  Share_Oilpetrol(ene6,j2,z) = DEO(ene6,j2,z)/sum(enee6,DEO(enee6,j2,z));
 
 *CES No Level
- rho_ENER(j,z)   = (1-sigma_ENER(j,z))/sigma_ENER(j,z);
+* rho_ENER(j,z)   = (1-sigma_ENER(j,z))/sigma_ENER(j,z);
 
- beta_ENER(ene,j,z)$DEO(ene,j,z)
-                 = [PO4(ene,j,z)*DEO(ene,j,z)**(1+rho_ENER(j,z))]/
-                   SUM[enee,PO4(enee,j,z)*DEO(enee,j,z)
-                   **(1+rho_ENER(j,z))];
+* beta_ENER(ene,j,z)$DEO(ene,j,z)
+*                 = [PO4(ene,j,z)*DEO(ene,j,z)**(1+rho_ENER(j,z))]/
+*                   SUM[enee,PO4(enee,j,z)*DEO(enee,j,z)
+*                   **(1+rho_ENER(j,z))];
 
- B_ENER(j,z)$CEO(j,z)
-                 = CEO(j,z)/{SUM[ene,beta_ENER(ene,j,z)*DEO(ene,j,z)
-                   **(-rho_ENER(j,z))]**(-1/rho_ENER(j,z))};
-
- B_ENER_t(j,z,time) = B_ENER(j,z)*(1/AEEI_low(z,'2019'));
+* B_ENER(j,z)$CEO(j,z)
+*                 = CEO(j,z)/{SUM[ene,beta_ENER(ene,j,z)*DEO(ene,j,z)
+*                   **(-rho_ENER(j,z))]**(-1/rho_ENER(j,z))};
 
 *Level 5_1 (Coal/Gas)
- rho_ENER5_1(j2,z)   = (1-sigma_ENER5_1(j2,z))/sigma_ENER5_1(j2,z);
+ rho_ENER_coalgas(j2,z)   = (1-sigma_ENER_coalgas(j2,z))/sigma_ENER_coalgas(j2,z);
 
- beta_ENER5_1(ene5,j2,z)
-                 = [PO4(ene5,j2,z)*DEO(ene5,j2,z)**(1+rho_ENER5_1(j2,z))]/
+ beta_ENER_coalgas(ene5,j2,z)
+                 = [PO4(ene5,j2,z)*DEO(ene5,j2,z)**(1+rho_ENER_coalgas(j2,z))]/
                    SUM[enee5,PO4(enee5,j2,z)*DEO(enee5,j2,z)
-                   **(1+rho_ENER5_1(j2,z))];
- B_ENER5_1(j2,z)
-                 = DEcoalgasO(j2,z)/{SUM[ene5,beta_ENER5_1(ene5,j2,z)*DEO(ene5,j2,z)
-                   **(-rho_ENER5_1(j2,z))]**(-1/rho_ENER5_1(j2,z))};
+                   **(1+rho_ENER_coalgas(j2,z))];
+ B_ENER_coalgas(j2,z)
+                 = DEcoalgasO(j2,z)/{SUM[ene5,beta_ENER_coalgas(ene5,j2,z)*DEO(ene5,j2,z)
+                   **(-rho_ENER_coalgas(j2,z))]**(-1/rho_ENER_coalgas(j2,z))};
 
 *Level 5_2 (oil/petrol)
- rho_ENER5_2(j2,z)   = (1-sigma_ENER5_2(j2,z))/sigma_ENER5_2(j2,z);
+ rho_ENER_oilprod(j2,z)   = (1-sigma_ENER_oilprod(j2,z))/sigma_ENER_oilprod(j2,z);
 
- beta_ENER5_2(ene6,j2,z)
-                 = [PO4(ene6,j2,z)*DEO(ene6,j2,z)**(1+rho_ENER5_2(j2,z))]/
+ beta_ENER_oilprod(ene6,j2,z)
+                 = [PO4(ene6,j2,z)*DEO(ene6,j2,z)**(1+rho_ENER_oilprod(j2,z))]/
                    SUM[enee6,PO4(enee6,j2,z)*DEO(enee6,j2,z)
-                   **(1+rho_ENER5_2(j2,z))];
- B_ENER5_2(j2,z)
-                 = DEoilpetrolO(j2,z)/{SUM[ene6,beta_ENER5_2(ene6,j2,z)*DEO(ene6,j2,z)
-                   **(-rho_ENER5_2(j2,z))]**(-1/rho_ENER5_2(j2,z))};
+                   **(1+rho_ENER_oilprod(j2,z))];
+ B_ENER_oilprod(j2,z)
+                 = DEoilpetrolO(j2,z)/{SUM[ene6,beta_ENER_oilprod(ene6,j2,z)*DEO(ene6,j2,z)
+                   **(-rho_ENER_oilprod(j2,z))]**(-1/rho_ENER_oilprod(j2,z))};
 
 *Level 4 (Coal-Gas/Oil-Petrol)
- rho_ENER4(j2,z)   = (1-sigma_ENER4(j2,z))/sigma_ENER4(j2,z);
+ rho_ENER_fossil(j2,z)   = (1-sigma_ENER_fossil(j2,z))/sigma_ENER_fossil(j2,z);
 
- beta_ENER4(j2,z)
-                 = PCEcoalgasO(j2,z)*DEcoalgasO(j2,z)**(rho_ENER4(j2,z)+1)/
-                  {PCEcoalgasO(j2,z)*DEcoalgasO(j2,z)**(rho_ENER4(j2,z)+1)+
-                   PCEoilpetrolO(j2,z)*DEoilpetrolO(j2,z)**(rho_ENER4(j2,z)+1)};
- B_ENER4(j2,z)
+ beta_ENER_fossil(j2,z)
+                 = PCEcoalgasO(j2,z)*DEcoalgasO(j2,z)**(rho_ENER_fossil(j2,z)+1)/
+                  {PCEcoalgasO(j2,z)*DEcoalgasO(j2,z)**(rho_ENER_fossil(j2,z)+1)+
+                   PCEoilpetrolO(j2,z)*DEoilpetrolO(j2,z)**(rho_ENER_fossil(j2,z)+1)};
+ B_ENER_fossil(j2,z)
                  = DEnelecO(j2,z)
-                   /{[beta_ENER4(j2,z)*DEcoalgasO(j2,z)**(-rho_ENER4(j2,z))+
-                   (1-beta_ENER4(j2,z))*DEoilpetrolO(j2,z)**(-rho_ENER4(j2,z))
-                   ]**(-1/rho_ENER4(j2,z))};
+                   /{[beta_ENER_fossil(j2,z)*DEcoalgasO(j2,z)**(-rho_ENER_fossil(j2,z))+
+                   (1-beta_ENER_fossil(j2,z))*DEoilpetrolO(j2,z)**(-rho_ENER_fossil(j2,z))
+                   ]**(-1/rho_ENER_fossil(j2,z))};
 
 *Level 3 (Coal/Gas/Oil/Petrol)
- rho_ENER3(j2,z)   = (1-sigma_ENER3(j2,z))/sigma_ENER3(j2,z);
+* rho_ENER3(j2,z)   = (1-sigma_ENER3(j2,z))/sigma_ENER3(j2,z);
 
- beta_ENER3(ene3,j2,z)
-                 = [PO4(ene3,j2,z)*DEO(ene3,j2,z)**(1+rho_ENER3(j2,z))]/
-                   SUM[enee3,PO4(enee3,j2,z)*DEO(enee3,j2,z)
-                   **(1+rho_ENER3(j2,z))];
+* beta_ENER3(ene3,j2,z)
+*                 = [PO4(ene3,j2,z)*DEO(ene3,j2,z)**(1+rho_ENER3(j2,z))]/
+*                   SUM[enee3,PO4(enee3,j2,z)*DEO(enee3,j2,z)
+*                   **(1+rho_ENER3(j2,z))];
 
- B_ENER3(j2,z)
-                 = DEnelecO(j2,z)/{SUM[ene3,beta_ENER3(ene3,j2,z)*DEO(ene3,j2,z)
-                   **(-rho_ENER3(j2,z))]**(-1/rho_ENER3(j2,z))};
+* B_ENER3(j2,z)
+*                 = DEnelecO(j2,z)/{SUM[ene3,beta_ENER3(ene3,j2,z)*DEO(ene3,j2,z)
+*                   **(-rho_ENER3(j2,z))]**(-1/rho_ENER3(j2,z))};
 
 *Level 2 (Elec/Non Elec)
- rho_ENER2(j2,z)   = (1-sigma_ENER2(j2,z))/sigma_ENER2(j2,z);
+ rho_ENER_elec(j2,z)   = (1-sigma_ENER_elec(j2,z))/sigma_ENER_elec(j2,z);
 
- beta_ENER2(j2,z)
-                 = PCEelecO(j2,z)*DEelecO(j2,z)**(rho_ENER2(j2,z)+1)/
-                  {PCEelecO(j2,z)*DEelecO(j2,z)**(rho_ENER2(j2,z)+1)+
-                   PCEnelecO(j2,z)*DEnelecO(j2,z)**(rho_ENER2(j2,z)+1)};
- B_ENER2(j2,z)
+ beta_ENER_elec(j2,z)
+                 = PCEelecO(j2,z)*DEelecO(j2,z)**(rho_ENER_elec(j2,z)+1)/
+                  {PCEelecO(j2,z)*DEelecO(j2,z)**(rho_ENER_elec(j2,z)+1)+
+                   PCEnelecO(j2,z)*DEnelecO(j2,z)**(rho_ENER_elec(j2,z)+1)};
+ B_ENER_elec(j2,z)
                  = CEO(j2,z)
-                   /{[beta_ENER2(j2,z)*DEelecO(j2,z)**(-rho_ENER2(j2,z))+
-                   (1-beta_ENER2(j2,z))*DEnelecO(j2,z)**(-rho_ENER2(j2,z))
-                   ]**(-1/rho_ENER2(j2,z))};
+                   /{[beta_ENER_elec(j2,z)*DEelecO(j2,z)**(-rho_ENER_elec(j2,z))+
+                   (1-beta_ENER_elec(j2,z))*DEnelecO(j2,z)**(-rho_ENER_elec(j2,z))
+                   ]**(-1/rho_ENER_elec(j2,z))};
+
 
 *==============================================================================
 *    4.6.3.5 Value added
@@ -1549,7 +1585,6 @@ eta = 1;
                    ]**(-1/rho_VA(j,z))};
 
  B_VA_t(j,z,time) = B_VA(j,z);
-* B_VA_t(j,z,time) = B_VA(j,z)*(1/AEEI_low(z,'2019'));
 
 *==============================================================================
 *    Composite KLE
@@ -1573,8 +1608,6 @@ eta = 1;
                    /{[beta_KLE(j,z)*VAO(j,z)**(-rho_KLE(j,z))+
                    (beta_KLE2(j,z))*CEO(j,z)**(-rho_KLE(j,z))
                    ]**(-1/rho_KLE(j,z))};
-
- beta_KLE2_t(j,z,time) = beta_KLE2(j,z)*AEEI_low(z,'2019');
 
 *==============================================================================
 *   4.6.4 Calibration of LES parameters
@@ -1657,11 +1690,13 @@ Parameter CABXsur(z,time), CABXdef(z,time), bal(time), mu(time), CABix(z,time);
  ttdh0O(z)       = ttdh0O(z)/PIXCONO(z)**eta;
 
 *==============================================================================
-*  4.9 CO2 emission
+*  4.9 Energy & CO2 emission
 *==============================================================================
 $INCLUDE DATA_WEB_2024_new.gms
 $INCLUDE DATA_CO2coef_new.gms
 
+*==============================================================================
+*  Electricity Generation coefficients
 *==============================================================================
 Parameter
  EGINucGWh(j,z)    Nuclear GWh per 10 billion $
@@ -1693,7 +1728,14 @@ Parameter
 *  4.13 Backstop technology
 *==============================================================================
  switch(i3,z,time)  = 0 ;
- penetration_rate(i3,z,time) = 0.01 ;
+ penetration_rate(i3,z,time) = eps ;
+
+Parameters
+ Max_Pen(i3,z)           Maximum Penetration Rate
+ Growth_Coeff(i3,z)    Growth Rate Coefficient
+ Start_Year(i3, z)       First Year
+ Inflection_Lapse(i3, z) Inflection Point Time
+; 
 
 Parameters
  CTAX0(z)           Initial Carbon tax $ per ton CO2
@@ -1718,18 +1760,27 @@ Parameters
  MINCO2FACTOR(ene,j,z) minimum CO2 emission factor
  CTAX_CO2(ene,j,z,time)
  CO2FACTOR2_Star(ene,j,z,time)
- AbateCostO(j,z)
- AbateCost(j,z,time)
- theta_CO2(j,z)
- delta_CO2(j,z)
 ;
 
  alpha_CO2(ene,j,z)     = 0.15 ;
  gamma_CO2(ene,j,z)     = 1.5 ;
+* alpha_CO2(ene,j,z)    = 0.15 ;
+* gamma_CO2(ene,j,z)    = 1.70 ;
  MINCO2FACTOR(ene,j,z)  = CO2FACTOR(ene,j,z)*0.1 ;
- AbateCostO(j,z)        = 0 ;
- theta_CO2(j,z)         = 0.2;
- delta_CO2(j,z)         = 1;
+
+Scalar
+adjustment_factor
+trigger_price
+SolarWind_TFP_BAU
+SolarWind_TFP_NDC
+SolarWind_TFP_NZ
+;
+
+adjustment_factor = 0.3 ;
+trigger_price  = 1.0 ;
+SolarWind_TFP_BAU =0.02;
+SolarWind_TFP_NDC=0.02;
+SolarWind_TFP_NZ =0.04;
 
 *==============================================================================
 *   Labor taxes
@@ -1748,6 +1799,35 @@ Parameters
  LST_lag(z,time)       Supply of type l labor in region z (Trend T-1)
 ;
    
+*==============================================================================
+*  Own-price elasticities
+*==============================================================================
+PARAMETER
+ elas_elec(j,z)               Own price elasticities(electricity)
+ elas_gas(j,z)               Own price elasticities(gas)       
+ elas_oil(j,z)                 Own price elasticities(oil)
+ elas_coal(j,z)               Own price elasticities(coal)
+ elas_petrolcoal(j,z)       Own price elasticities(petrolcoal)
+ elas_Hou_ENER(ene,z)  Own price elasticities Household 
+;
+
+ elas_elec(j2,z)       = -1*(1- DEO('18_ELEC',j2,z)/sum(ene,DEO(ene,j2,z)))*sigma_ENER_elec(j2,z) ;
+ elas_elec(j3,z)       = eps ;
+ 
+ elas_gas(j2,z)        = -1*(1- DEO('04_GAS',j2,z)/(DEO('02_COAL',j2,z)+DEO('04_GAS',j2,z)))*sigma_ENER_coalgas(j2,z) ;
+ elas_gas(j3,z)        = eps ;
+
+ elas_coal(j2,z)       = -1*(1- DEO('02_COAL',j2,z)/(DEO('02_COAL',j2,z)+DEO('04_GAS',j2,z)))*sigma_ENER_coalgas(j2,z) ;
+ elas_coal(j3,z)       = eps ;
+
+ elas_oil(j2,z)          = -1*(1- DEO('03_OIL',j2,z)/(DEO('03_OIL',j2,z)+DEO('10_PETROLCOAL',j2,z)))*sigma_ENER_oilprod(j2,z) ;
+ elas_oil(j3,z)          = eps ;
+
+ elas_petrolcoal(j2,z)  = -1*(1- DEO('10_PETROLCOAL',j2,z)/(DEO('03_OIL',j2,z)+DEO('10_PETROLCOAL',j2,z)))*sigma_ENER_oilprod(j2,z) ;
+ elas_petrolcoal(j3,z)  = eps ;
+ 
+ elas_Hou_ENER(ene,z)   = CMINO(ene,z)/CO(ene,z)*(1-gamma_LES(ene,z)) -1 ; 
+
 execute_unload 'Baseline_Calibration_Check_GTAP11c';
 *$exit
 *==============================================================================
@@ -1927,7 +2007,6 @@ VARIABLES
 *==============================================================================
  A_VA(z,time)            Multifactor productivity
  LEON(z,time)            Excess supply on the last market in region z
-* OBJ                     Objective variable
 ;
 
 *==============================================================================
@@ -2025,11 +2104,10 @@ EQUATIONS
  EQ51_4(j2,z,time)
  EQ51_5(j2,z,time)
  EQ51_6(j2,z,time)
-
  EQ52(j,z,time)          Value added price
  EQ52_1(j,z,time)        KLE price
  EQ53(j,z,time)          Price of composite labor in industry j (redundant)
-* EQ53_1(j,z,time)        TIW Share
+* EQ53_1(j,z,time)       TIW Share
 * EQ53_1(k,j,z,time)     TIK Share
 * EQ54(l,j,z,time)       Wages including taxes
  EQ54(j,z,time)          Wages including taxes
@@ -2149,21 +2227,12 @@ EQUATIONS
                  LDC(j,z,t) =e= {[beta_VA(j,z)/(1-beta_VA(j,z))]
                               *[RC(j,z,t)/WC(j,z,t)]}**sigma_VA(j,z)*KDC(j,z,t);
 
-* EQ5(j,z,t)$LDCO(j,z)..
-*                 LDC(j,z,t) =e= B_LD(j,z)*SUM[l$LDO(l,j,z),beta_LD(l,j,z)
-*                                *LD(l,j,z,t)**(-rho_LD(j,z))]**(-1/rho_LD(j,z));
-
  EQ5(j,z,t)$LDCO(j,z)..
-                 LDC(j,z,t) =e= LD(j,z,t);
-
-* EQ6(l,j,z,t)$LDO(l,j,z)..
-*                 LD(l,j,z,t) =e= [beta_LD(l,j,z)*WC(j,z,t)/WTI(l,j,z,t)]
-*                               **sigma_LD(j,z)*B_LD(j,z)**(sigma_LD(j,z)-1)
-*                               *LDC(j,z,t);
+                 LDC(j,z,t) =e= LD(j,z,t)+LBS(j,z,t);
 
  EQ7(j,z,t)$KDCO(j,z)..
                  KDC(j,z,t) =e= B_KD(j,z)*SUM[k$KDO(k,j,z),beta_KD(k,j,z)
-                                *KD(k,j,z,t)**(-rho_KD(j,z))]**(-1/rho_KD(j,z));
+                                *KD(k,j,z,t)**(-rho_KD(j,z))]**(-1/rho_KD(j,z))+sum(k,KBS(k,j,z,t));
 
  EQ8(k,j,z,t)$KDO(k,j,z)..
                  KD(k,j,z,t) =e= [beta_KD(k,j,z)*RC(j,z,t)/RTI(k,j,z,t)]
@@ -2172,7 +2241,7 @@ EQUATIONS
 
  EQ9(nene,j,z,t)..   DI(nene,j,z,t) =e= aij(nene,j,z)*CI(j,z,t) ;
 
- EQ9_1(ene,j3,z,t)..  DE(ene,j3,z,t)   =e= aij2(ene,j3,z)*CE(j3,z,t) ;
+ EQ9_1(ene,j3,z,t)..  DE(ene,j3,z,t)   =e= aij2(ene,j3,z)*CE(j3,z,t)*AEEI(z,t) ;
 
 *=============================Simple Nesting=========================================
 * EQ9_2(ene,j2,z,t)..  DE(ene,j2,z,t) =e= [beta_ENER_t(ene,j2,z,t)*PCE(j2,z,t)/((P4(ene,j2,z,t)+P4(ene,j2,z,t)*CTAX(z,t)*CO2FACTOR2(ene,j2,z,t)))]
@@ -2218,29 +2287,29 @@ EQUATIONS
 * EQ9_8(ene6,j2,z,t)..   DE(ene6,j2,z,t) =e= Share_oilpetrol(ene6,j2,z)*DEoilpetrol(j2,z,t);
 
 *=============================Level 1, 2, 3 (CES) =======================================
- EQ9_2(j2,z,t)..        CE(j2,z,t)  =e= B_ENER2(j2,z)*{[(beta_ENER2(j2,z))*DEelec(j2,z,t)**(-rho_ENER2(j2,z))]
-                                           +[(1-beta_ENER2(j2,z))*DEnelec(j2,z,t)**(-rho_ENER2(j2,z))]
-                                            }**(-1/rho_ENER2(j2,z));
+ EQ9_2(j2,z,t)..        CE(j2,z,t)  =e= B_ENER_elec(j2,z)*{[(beta_ENER_elec(j2,z))*DEelec(j2,z,t)**(-rho_ENER_elec(j2,z))]
+                                           +[(1-beta_ENER_elec(j2,z))*DEnelec(j2,z,t)**(-rho_ENER_elec(j2,z))]
+                                            }**(-1/rho_ENER_elec(j2,z));
 
- EQ9_3(j2,z,t)..        DEnelec(j2,z,t) =e= {[(1-beta_ENER2(j2,z))/(beta_ENER2(j2,z))]
-                                        *[PCEelec(j2,z,t)/PCEnelec(j2,z,t)]}**sigma_ENER2(j2,z)*DEelec(j2,z,t);
+ EQ9_3(j2,z,t)..        DEnelec(j2,z,t) =e= {[(1-beta_ENER_elec(j2,z))/(beta_ENER_elec(j2,z))]
+                                        *[PCEelec(j2,z,t)/PCEnelec(j2,z,t)]}**sigma_ENER_elec(j2,z)*DEelec(j2,z,t);
 
- EQ9_4(j2,z,t)..        DEnelec(j2,z,t) =e= B_ENER4(j2,z)*{[(beta_ENER4(j2,z))*DEcoalgas(j2,z,t)**(-rho_ENER4(j2,z))]
-                                           +[(1-beta_ENER4(j2,z))*DEoilpetrol(j2,z,t)**(-rho_ENER4(j2,z))]
-                                            }**(-1/rho_ENER4(j2,z));
+ EQ9_4(j2,z,t)..        DEnelec(j2,z,t) =e= B_ENER_fossil(j2,z)*{[(beta_ENER_fossil(j2,z))*DEcoalgas(j2,z,t)**(-rho_ENER_fossil(j2,z))]
+                                           +[(1-beta_ENER_fossil(j2,z))*DEoilpetrol(j2,z,t)**(-rho_ENER_fossil(j2,z))]
+                                            }**(-1/rho_ENER_fossil(j2,z));
 
- EQ9_5(j2,z,t)..        DEoilpetrol(j2,z,t) =e= {[(1-beta_ENER4(j2,z))/(beta_ENER4(j2,z))]
-                                       *[PCEcoalgas(j2,z,t)/PCEoilpetrol(j2,z,t)]}**sigma_ENER4(j2,z)*DEcoalgas(j2,z,t);
+ EQ9_5(j2,z,t)..        DEoilpetrol(j2,z,t) =e= {[(1-beta_ENER_fossil(j2,z))/(beta_ENER_fossil(j2,z))]
+                                       *[PCEcoalgas(j2,z,t)/PCEoilpetrol(j2,z,t)]}**sigma_ENER_fossil(j2,z)*DEcoalgas(j2,z,t);
                                             
- EQ9_6(ene2,j2,z,t)..   DE(ene2,j2,z,t) =e= DEelec(j2,z,t) ;  
+ EQ9_6(ene2,j2,z,t)..   DE(ene2,j2,z,t) =e= DEelec(j2,z,t)*AEEI(z,t) ;  
  
- EQ9_7(ene5,j2,z,t)..   DE(ene5,j2,z,t) =e= [beta_ENER5_1(ene5,j2,z)*PCEcoalgas(j2,z,t)/(P4(ene5,j2,z,t)+P4(ene5,j2,z,t)*CTAX(z,t)*CO2FACTOR2(ene5,j2,z,t))]
-                                            **sigma_ENER5_1(j2,z)*B_ENER5_1(j2,z)**(sigma_ENER5_1(j2,z)-1)
-                                            *DEcoalgas(j2,z,t);
+ EQ9_7(ene5,j2,z,t)..   DE(ene5,j2,z,t) =e= [beta_ENER_coalgas(ene5,j2,z)*PCEcoalgas(j2,z,t)/(P4(ene5,j2,z,t)+P4(ene5,j2,z,t)*CTAX(z,t)*CO2FACTOR2(ene5,j2,z,t))]
+                                            **sigma_ENER_coalgas(j2,z)*B_ENER_coalgas(j2,z)**(sigma_ENER_coalgas(j2,z)-1)
+                                            *DEcoalgas(j2,z,t)*AEEI(z,t);
 
- EQ9_8(ene6,j2,z,t)..   DE(ene6,j2,z,t) =e= [beta_ENER5_2(ene6,j2,z)*PCEoilpetrol(j2,z,t)/(P4(ene6,j2,z,t)+P4(ene6,j2,z,t)*CTAX(z,t)*CO2FACTOR2(ene6,j2,z,t))]
-                                            **sigma_ENER5_2(j2,z)*B_ENER5_2(j2,z)**(sigma_ENER5_2(j2,z)-1)
-                                            *DEoilpetrol(j2,z,t);
+ EQ9_8(ene6,j2,z,t)..   DE(ene6,j2,z,t) =e= [beta_ENER_oilprod(ene6,j2,z)*PCEoilpetrol(j2,z,t)/(P4(ene6,j2,z,t)+P4(ene6,j2,z,t)*CTAX(z,t)*CO2FACTOR2(ene6,j2,z,t))]
+                                            **sigma_ENER_oilprod(j2,z)*B_ENER_oilprod(j2,z)**(sigma_ENER_oilprod(j2,z)-1)
+                                            *DEoilpetrol(j2,z,t)*AEEI(z,t);
 
 *==============================================================================
 *   5.3.2 Income and savings
@@ -2287,10 +2356,10 @@ EQUATIONS
  EQ25(z,t)..       TDH(z,t) =e= PIXCON(z,t)**eta*ttdh0(z,t)+ttdh1(z,t)*YH(z,t);
 
  EQ26(j,z,t)$LDO(j,z)..
-                 TIW(j,z,t) =e= ttiw(j,z,t)*W(z,t)*LD(j,z,t) -LaborRebate(j,z,t);
+                  TIW(j,z,t) =e= ttiw(j,z,t)*W(z,t)*LD(j,z,t) -LaborRebate(j,z,t);
  
  EQ27(k,j,z,t)$KDO(k,j,z)..
-                 TIK(k,j,z,t) =e= ttik(k,j,z,t)*R(k,j,z,t)*KD(k,j,z,t);
+                  TIK(k,j,z,t) =e= ttik(k,j,z,t)*R(k,j,z,t)*KD(k,j,z,t);
 
  EQ28(j,z,t)..     TIP(j,z,t) =e= ttip(j,z,t)*PP(j,z,t)*XST(j,z,t);
 
@@ -2323,8 +2392,8 @@ EQUATIONS
 *==============================================================================
 *   5.3.3 Demand
 *==============================================================================
- EQ36(i,z,t)..     PC(i,z,t)*C(i,z,t) =e= PC(i,z,t)*CMIN(i,z,t)+gamma_LES(i,z)
-                                 *{CTH(z,t)-SUM[ij,PC(ij,z,t)*CMIN(ij,z,t)]};
+ EQ36(i,z,t)..  PC(i,z,t)*C(i,z,t) =e= PC(i,z,t) * (CMIN(i,z,t))
+                       + gamma_LES(i,z) * {CTH(z,t) - SUM[ij, PC(ij,z,t) * (CMIN(ij,z,t))]};
 
  EQ37(i,z,t)..     PC(i,z,t)*INV(i,z,t) =e= gamma_INV(i,z)*IT(z,t);
 
@@ -2442,9 +2511,9 @@ $OFFTEXT
 *==============================================================================
 *   5.3.5 Prices
 *==============================================================================
- EQ49(j2,z,t)..      PP(j2,z,t)*XST(j2,z,t) =e= PKLE(j2,z,t)*KLE(j2,z,t)+PCI(j2,z,t)*CI(j2,z,t);
+ EQ49(j2,z,t)..       PP(j2,z,t)*XST(j2,z,t) =e= PKLE(j2,z,t)*KLE(j2,z,t)+PCI(j2,z,t)*CI(j2,z,t);
 
- EQ49_1(j3,z,t)..    PP(j3,z,t)*XST(j3,z,t) =e= PVA(j3,z,t)*VA(j3,z,t)+PCI(j3,z,t)*CI(j3,z,t)+PCE(j3,z,t)*CE(j3,z,t);
+ EQ49_1(j3,z,t)..     PP(j3,z,t)*XST(j3,z,t) =e= PVA(j3,z,t)*VA(j3,z,t)+PCI(j3,z,t)*CI(j3,z,t)+PCE(j3,z,t)*CE(j3,z,t);
 
  EQ50(j,z,t)..        PT(j,z,t) =e= (1+ttip(j,z,t))*PP(j,z,t);
 
@@ -2461,6 +2530,7 @@ $OFFTEXT
 * EQ51_2(j2,z,t)..   PCEelec(j2,z,t)*DEelec(j2,z,t) =e= PC("18_ELEC",z,t)*DE("18_ELEC",j2,z,t);
 
 * EQ51_3(j2,z,t)..   PCEnelec(j2,z,t)*DEnelec(j2,z,t) =e= SUM[ene3,PC(ene3,z,t)*DE(ene3,j2,z,t)+PC(ene3,z,t)*CTAX(z,t)*CO2FACTOR2(ene3,j2,z,t)*DE(ene3,j2,z,t)];
+
 *================================= Level 1-5 ======================================
  EQ51_2(j3,z,t)..   PCE(j3,z,t)*CE(j3,z,t) =e= SUM[ene,PC(ene,z,t)*DE(ene,j3,z,t)+PC(ene,z,t)*CTAX(z,t)*CO2FACTOR2(ene,j3,z,t)*DE(ene,j3,z,t)];
 
@@ -2475,6 +2545,7 @@ $OFFTEXT
 
  EQ51_6(j2,z,t)..   PCEoilpetrol(j2,z,t)*DEoilpetrol(j2,z,t) =e= [PC("03_OIL",z,t)*DE("03_OIL",j2,z,t)+PC("03_OIL",z,t)*CTAX(z,t)*CO2FACTOR2("03_OIL",j2,z,t)*DE("03_OIL",j2,z,t)
                     +PC("10_PETROLCOAL",z,t)*DE("10_PETROLCOAL",j2,z,t)+PC("10_PETROLCOAL",z,t)*CTAX(z,t)*CO2FACTOR2("10_PETROLCOAL",j2,z,t)*DE("10_PETROLCOAL",j2,z,t)];
+
 *==================================================================================
 
  EQ52(j,z,t)..      PVA(j,z,t)*VA(j,z,t) =e= [WC(j,z,t)*LDC(j,z,t)]$LDCO(j,z)
@@ -2561,10 +2632,10 @@ $OFFTEXT
 
  EQ71_2(i3,z,t)..  Q(i3,z,t) =e= C_Conventional(i3,z,t);
 
- EQ72(z,t)..     LS(z,t) =e= SUM[j$LDO(j,z),LD(j,z,t)];
+ EQ72(z,t)..       LS(z,t) =e= SUM[j$LDO(j,z),LD(j,z,t)+LBS(j,z,t)];
 
  EQ73(k,z,t)$KSO(k,z)..
-                   KS(k,z,t) =e= SUM[j$KDO(k,j,z),KD(k,j,z,t)];
+                   KS(k,z,t) =e= SUM[j$KDO(k,j,z),KD(k,j,z,t)+KBS(k,j,z,t)];
 
  EQ74(z,t)..       IT(z,t) =e= SH(z,t)+SG(z,t)-CAB(z,t);
 
@@ -2583,7 +2654,7 @@ $OFFTEXT
                                                  tmrg(i,ij,zj,z)*IM(ij,zj,z,t)];
 
 * Given equations 33, 34 and 77, equation 80 is redundant
-* EQ80..          SUM[z,SROW(z)/e(z)] =e= 0;
+*EQ80..          SUM[z,SROW(z,t)/e(z,t)] =e= 0;
 
 *==============================================================================
 *   5.3.7 Gross domestic product
@@ -2602,7 +2673,8 @@ $OFFTEXT
                 +SUM[i$MRGNO(i,z),e(z,t)*PWMG(i,t)*MRGN(i,z,t)]
                 -SUM[(i,zj)$IMO(i,zj,z),e(z,t)*IM(i,zj,z,t)
                     *(PWM(i,zj,z,t)+SUM[ij,PWMG(ij,t)*tmrg(ij,i,zj,z)])]
-                -TCTAX(z,t) ;
+                -TCTAX(z,t) -SUM(i3,MARKUP(i3,z,t));
+* GDP_MP, GDP_IB, GDP_FD      
 
  EQ85(t)..          GDP_BP_W(t) =e= SUM[z,GDP_BP(z,t)/e(z,t)];
 
@@ -2654,34 +2726,33 @@ $OFFTEXT
 *==============================================================================
 *   5.3.10 Backstop technology
 *==============================================================================
- EQ98(i3,z,t)..    C_Conventional(i3,z,t) =e= (1-penetration_rate(i3,z,t)*switch(i3,z,t))*[C(i3,z,t)+CG(i3,z,t)+INV(i3,z,t)+DIT(i3,z,t)];
+ EQ98(i3,z,t)..    C_Conventional(i3,z,t) =e= (1-penetration_rate(i3,z,t))*[C(i3,z,t)+CG(i3,z,t)+INV(i3,z,t)+DIT(i3,z,t)];
 
- EQ99(i3,z,t)..    XDBS(i3,z,t) =e= penetration_rate(i3,z,t)*switch(i3,z,t)*[C(i3,z,t)+CG(i3,z,t)+INV(i3,z,t)+DIT(i3,z,t)];
+ EQ99(i3,z,t)..    XDBS(i3,z,t) =e= penetration_rate(i3,z,t)*[C(i3,z,t)+CG(i3,z,t)+INV(i3,z,t)+DIT(i3,z,t)];
 
  EQ100(j,z,t)..    XDBS2(j,z,t) =e= sum{i3$COMtoIND(j,i3),XDBS(i3,z,t)};
 
- EQ101(j,z,t)..    LBS(j,z,t) =e= 0.1*XDBS2(j,z,t);
-
- EQ102(k,j,z,t)..  KBS(k,j,z,t) =e= 0.1*XDBS2(j,z,t)*KDO(k,j,z)/sum(kj,KDO(kj,j,z));
+ EQ101(j,z,t)..    LBS(j,z,t) =e= Lab_Share(j,z)*XDBS2(j,z,t);
+ 
+ EQ102(k,j,z,t)..  KBS(k,j,z,t) =e= Cap_Share(j,z)*XDBS2(j,z,t)*KDO(k,j,z)/sum(kj,KDO(kj,j,z));
 
  EQ103(i3,z,t)..   CLBS(i3,z,t)  =e= sum{j$INDtoCOM(i3,j),LBS(j,z,t)*WC(j,z,t)};
 
  EQ104(i3,z,t)..   CKBS(i3,z,t)  =e= sum{k,sum{j$INDtoCOM(i3,j),KBS(k,j,z,t)*RC(j,z,t)}};
  
- EQ105(i3,z,t)..   MARKUP(i3,z,t) =e= {PC(i3,z,t)*XDBS(i3,z,t)-CLBS(i3,z,t)-CKBS(i3,z,t)}*switch(i3,z,t) ; 
+ EQ105(i3,z,t)..   MARKUP(i3,z,t) =e= {PC(i3,z,t)*XDBS(i3,z,t)-CLBS(i3,z,t)-CKBS(i3,z,t)}; 
 
 *================================================================================
 * 6 Labour Supply
 *================================================================================
  EQ106(z,t)..  LS(z,t) =e= LST(z,t) *((W(z,t)/PIXCON(z,t)) / (W_lag(z,t)/PIXCON_lag(z,t)))**elasLS(z);
-* EQ106(z,t)..  elasLS(z)*(LS(z,t)/ LST(z,t) -1) =e= (((W(z,t)/PIXCON(z,t))-(W_lag(z,t)/PIXCON_lag(z,t)))/(W_lag(z,t)/PIXCON_lag(z,t)));
 
 *==============================================================================
 * 7 PERMET
 *==============================================================================
  EQ107(j,z,t).. PERMIT(j,z,t) =e= sum(ene, CO2FACTOR2(ene,j,z,t)*DE(ene,j,z,t));
  
- EQ108(z,t)..  PERMIT_TOTAL(z,t) =E=  sum(j,PERMIT(j,z,t))  ;
+ EQ108(z,t)..  PERMIT_TOTAL(z,t) =e=  sum(j,PERMIT(j,z,t))  ;
 
  EQ108_1(t).. PERMIT_NEA_TOTAL(t) =e= sum(NEA, PERMIT_TOTAL(NEA,t)); 
 
@@ -2726,11 +2797,11 @@ option cns = conopt4;
 *option profiletol=10;
 
 *Fast solve option
-*option profile=0;
-*option limrow=0, limcol=0, solprint = off;
-*$Offlisting
-*$Offsymlist
-*$Offinclude 
+option profile=0;
+option limrow=0, limcol=0, solprint = off;
+$Offlisting
+$Offsymlist
+$Offinclude 
 
 MODEL CGE World wide dynamic model /all/ ;
 CGE.holdfixed=1;
@@ -2745,6 +2816,7 @@ T(time) = YES;
 *==============================================================================
 *   6.1.1 Initialisation
 *==============================================================================
+
 $INCLUDE INIT_new.gms
 
 *==============================================================================
@@ -2766,14 +2838,14 @@ $offText
 
  ttdh0.fx(z,time)                = ttdh0O(z);
  ttdh1.fx(z,time)                = ttdh1O(z);
- ttic.fx(i,z,time)                 = tticO(i,z);
+ ttic.fx(i,z,time)               = tticO(i,z);
  ttim.fx(i,zj,z,time)            = ttimO(i,zj,z);
- ttix.fx(i,z,zj,time)             = ttixO(i,z,zj);
+ ttix.fx(i,z,zj,time)            = ttixO(i,z,zj);
  ttik.fx('land',j,z,time)        = ttikO('land',j,z);
  ttik.fx('natr',j,z,time)        = ttikO('natr',j,z);
  ttiw.fx(j,z,time)               = ttiwO(j,z);
-* ttik.fx(k,j,z,time)              = ttikO(k,j,z);
-* ttip.fx(j,z,time)                = ttipO(j,z);
+* ttik.fx(k,j,z,time)            = ttikO(k,j,z);
+* ttip.fx(j,z,time)              = ttipO(j,z);
  CTAX.fX(z,time)                 = CTAX0(z); 
 
 *==============================================================================
@@ -2787,24 +2859,23 @@ $offText
 
  A_VA.L(z,t1)          = 1;
  A_VA.L(z,time)$[ord(time) gt 1]
-                            = A_VA.L(z,time-1);
+                       = A_VA.L(z,time-1);
 
 * Domestic savings rates are made to follow the evolution anticipated by FBQF
 * and the intercept for the household savings function is endogenously
 * determined from the added constraint labeled CALEQ1:
  sh1.fx(z,t1)          = sh1O(z);
  sh1.fx(z,time)$[ord(time) gt 1]
-                           = sh1.l(z,time-1)*[1+g_SDR(z,time-1)];
+                       = sh1.l(z,time-1)*[1+g_SDR(z,time-1)];
 
  sh0.l(z,t1)           = sh0O(z);
  sh0.l(z,time)$[ord(time) gt 1]
-                          = sh0.l(z,time-1)*[1+growthz(z)];
+                       = sh0.l(z,time-1)*[1+growthz(z)];
 
 *==============================================================================
 *   6.1.4 Other exogenous variables
 *==============================================================================
- CABX.FX(z1,time)    = CABXO(z1)*cabix(z1,time);
-
+ CABX.FX(z1,time)     = CABXO(z1)*cabix(z1,time);
                     
  CMIN.FX(i,z,t1)      = CMINO(i,z);
  CMIN.FX(i,z,time)$[ord(time) gt 1]
@@ -2815,33 +2886,33 @@ $offText
  KD.fx(k,j,z,time)${[ord(time) gt 1] and KDO(k,j,z)}
                       = KD.l(k,j,z,time-1)*[1-delta(z)]+IND.l(k,j,z,time-1);
 
- LST.FX(z,t1)       = LSTO(z);
+ LST.FX(z,t1)         = LSTO(z);
  LST.FX(z,time)$[ord(time) gt 1]
                       = LST.l(z,time-1)*[1+g_POP(z,time)];
 
- LS_lag(z,t1)    = LSO(z);
+ LS_lag(z,t1)         = LSO(z);
  LS_lag(z,time)$[ord(time) gt 1]
                       = LS.l(z,time-1);
 
- LST_lag(z,t1)   = LSTO(z);
+ LST_lag(z,t1)        = LSTO(z);
  LST_lag(z,time)$[ord(time) gt 1]
                       = LST.l(z,time-1);
 
- W_lag(z,t1)       = WO_lag(z);
+ W_lag(z,t1)          = WO_lag(z);
  W_lag(z,time)$[ord(time) gt 1]
-                     = W.l(z,time-1);
+                      = W.l(z,time-1);
                       
- PIXCON_lag(z,t1)   = PIXCONO_lag(z);
+ PIXCON_lag(z,t1)     = PIXCONO_lag(z);
  PIXCON_lag(z,time)$[ord(time) gt 1]
-                    = PIXCON.l(z,time-1); 
+                      = PIXCON.l(z,time-1); 
  
- ttik_lag.fx(j,z,t1)  =ttikO('cap',j,z);
+ ttik_lag.fx(j,z,t1)  = ttikO('cap',j,z);
  ttik_lag.fx(j,z,time)$[ord(time) gt 1]
-                     =ttik.l('cap',j,z,time-1);
+                      = ttik.l('cap',j,z,time-1);
  
- ttip_lag.fx(j,z,t1)  =ttipO(j,z);
+ ttip_lag.fx(j,z,t1)  = ttipO(j,z);
  ttip_lag.fx(j,z,time)$[ord(time) gt 1]
-                     =ttip.l(j,z,time-1);
+                      = ttip.l(j,z,time-1);
 *==============================================================================
 *   CTAX
 *============================================================================== 
@@ -2860,8 +2931,8 @@ $offText
 *==============================================================================
 *   AEEI
 *============================================================================== 
- AEEI(z,time) = 1;
-* AEEI(z,time) = AEEI_low(z,time);
+AEEI(z,time) = 1;
+*AEEI(z,time) = AEEI_low(z,time);
 
 *=============================================================================
 * Solar & Wind Productivity Shock
@@ -2872,85 +2943,142 @@ $offText
 *                           = B_VA_t('24_eSolar','01_KOR',time-1)*[1+solar_growth];
 
  B_VA_t('23_eWind',z,time)$[ord(time) gt 1]
-                        = B_VA_t('23_eWind',z,time-1)*[1+0.02];
+                        = B_VA_t('23_eWind',z,time-1)*[1+SolarWind_TFP_BAU];
 
  B_VA_t('24_eSolar',z,time)$[ord(time) gt 1]
-                        = B_VA_t('24_eSolar',z,time-1)*[1+0.02];
+                        = B_VA_t('24_eSolar',z,time-1)*[1+SolarWind_TFP_BAU];
+
+
+*==============================================================================
+*  Marginal abatement curves for emissions
+*============================================================================== 
+* 1. Calculate carbon tax impact factor
+CTAX_CO2(ene,j7,PERMIT_Z,time)$[ord(time) gt 2]  =(1+ CTAX.L(PERMIT_Z,time))**gamma_CO2(ene,j7,PERMIT_Z);
+
+* 2. Calculate target CO2 factor based on tax
+CO2FACTOR2_Star(ene,j7,PERMIT_Z,time)$[ord(time) gt 2]= 
+    CO2FACTOR(ene,j7,PERMIT_Z) * exp(
+        alpha_CO2(ene,j7,PERMIT_Z) - alpha_CO2(ene,j7,PERMIT_Z) * CTAX_CO2(ene,j7,PERMIT_Z,time)
+    );
+
+* 3. Apply partial adjustment to CO2 factor
+CO2FACTOR2(ene,j7,PERMIT_Z,time)$[ord(time) gt 2]= 
+    CO2FACTOR2(ene,j7,PERMIT_Z,time-1) + adjustment_factor * (CO2FACTOR2_Star(ene,j7,PERMIT_Z,time) - CO2FACTOR2(ene,j7,PERMIT_Z,time-1));
+
+* 4. Apply minimum floor constraint (Corrected logic and syntax)
+* If CO2FACTOR2 calculated above is less than MINCO2FACTOR, set it to MINCO2FACTOR.
+CO2FACTOR2(ene,j7,PERMIT_Z,time)$[CO2FACTOR2(ene,j7,PERMIT_Z,time) < MINCO2FACTOR(ene,j7,PERMIT_Z)] = MINCO2FACTOR(ene,j7,PERMIT_Z);
 
 *==============================================================================
 *Backstop technologies
 *==============================================================================
-penetration_rate(i3,z,time)$[CTAX.L(z,time) gt 1.0] = penetration_rate(i3,z,time-1)+0.03;
-
-
-if ((CTAX.L('01_KOR',time) gt 1.0), switch(i3,'01_KOR',time) = 1  ;
-else switch(i3,'01_KOR',time) = 0 ;
+$ontext
+if ((CTAX.L('01_KOR',time) gt trigger_price), switch(i3,'01_KOR',time) = 1  ;
+else switch(i3, '01_KOR', time)$[ (switch(i3, '01_KOR', time-1) = 1) OR (CTAX.L('01_KOR', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('02_CHN',time) gt 1.0), switch(i3,'02_CHN',time) = 1  ;
-else switch(i3,'02_CHN',time) = 0 ;
+if ((CTAX.L('02_CHN',time) gt trigger_price), switch(i3,'02_CHN',time) = 1  ;
+else switch(i3, '02_CHN', time)$[ (switch(i3, '02_CHN', time-1) = 1) OR (CTAX.L('02_CHN', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('03_JPN',time) gt 1.0), switch(i3,'03_JPN',time) = 1  ;
-else switch(i3,'03_JPN',time) = 0 ;
+if ((CTAX.L('03_JPN',time) gt trigger_price), switch(i3,'03_JPN',time) = 1  ;
+else switch(i3, '03_JPN', time)$[ (switch(i3, '03_JPN', time-1) = 1) OR (CTAX.L('03_JPN', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('04_RUS',time) gt 1.0), switch(i3,'04_RUS',time) = 1  ;
-else switch(i3,'04_RUS',time) = 0 ;
+if ((CTAX.L('04_RUS',time) gt trigger_price), switch(i3,'04_RUS',time) = 1  ;
+else switch(i3, '04_RUS', time)$[ (switch(i3, '04_RUS', time-1) = 1) OR (CTAX.L('04_RUS', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('05_MNG',time) gt 1.0), switch(i3,'05_MNG',time) = 1  ;
-else switch(i3,'05_MNG',time) = 0 ;
+if ((CTAX.L('05_MNG',time) gt trigger_price), switch(i3,'05_MNG',time) = 1  ;
+else switch(i3, '05_MNG', time)$[ (switch(i3, '05_MNG', time-1) = 1) OR (CTAX.L('05_MNG', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('06_PRK',time) gt 1.0), switch(i3,'06_PRK',time) = 1  ;
-else switch(i3,'06_PRK',time) = 0 ;
+if ((CTAX.L('06_PRK',time) gt trigger_price), switch(i3,'06_PRK',time) = 1  ;
+else switch(i3, '06_PRK', time)$[ (switch(i3, '06_PRK', time-1) = 1) OR (CTAX.L('06_PRK', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('07_NAM',time) gt 1.0), switch(i3,'07_NAM',time) = 1  ;
-else switch(i3,'07_NAM',time) = 0 ;
+if ((CTAX.L('07_NAM',time) gt trigger_price), switch(i3,'07_NAM',time) = 1  ;
+else switch(i3, '07_NAM', time)$[ (switch(i3, '07_NAM', time-1) = 1) OR (CTAX.L('07_NAM', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('08_LAM',time) gt 1.0), switch(i3,'08_LAM',time) = 1  ;
-else switch(i3,'08_LAM',time) = 0 ;
+if ((CTAX.L('08_LAM',time) gt trigger_price), switch(i3,'08_LAM',time) = 1  ;
+else switch(i3, '08_LAM', time)$[ (switch(i3, '08_LAM', time-1) = 1) OR (CTAX.L('08_LAM', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('09_WEU',time) gt 1.0), switch(i3,'09_WEU',time) = 1  ;
-else switch(i3,'09_WEU',time) = 0 ;
+if ((CTAX.L('09_WEU',time) gt trigger_price), switch(i3,'09_WEU',time) = 1  ;
+else switch(i3, '09_WEU', time)$[ (switch(i3, '09_WEU', time-1) = 1) OR (CTAX.L('09_WEU', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('10_EEU',time) gt 1.0), switch(i3,'10_EEU',time) = 1  ;
-else switch(i3,'10_EEU',time) = 0 ;
+if ((CTAX.L('10_EEU',time) gt trigger_price), switch(i3,'10_EEU',time) = 1  ;
+else switch(i3, '10_EEU', time)$[ (switch(i3, '10_EEU', time-1) = 1) OR (CTAX.L('10_EEU', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('11_FSU',time) gt 1.0), switch(i3,'11_FSU',time) = 1  ;
-else switch(i3,'11_FSU',time) = 0 ;
+if ((CTAX.L('11_FSU',time) gt trigger_price), switch(i3,'11_FSU',time) = 1  ;
+else switch(i3, '11_FSU', time)$[ (switch(i3, '11_FSU', time-1) = 1) OR (CTAX.L('11_FSU', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('12_MEA',time) gt 1.0), switch(i3,'12_MEA',time) = 1  ;
-else switch(i3,'12_MEA',time) = 0 ;
+if ((CTAX.L('12_MEA',time) gt trigger_price), switch(i3,'12_MEA',time) = 1  ;
+else switch(i3, '12_MEA', time)$[ (switch(i3, '12_MEA', time-1) = 1) OR (CTAX.L('12_MEA', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('13_AFR',time) gt 1.0), switch(i3,'13_AFR',time) = 1  ;
-else switch(i3,'13_AFR',time) = 0 ;
+if ((CTAX.L('13_AFR',time) gt trigger_price), switch(i3,'13_AFR',time) = 1  ;
+else switch(i3, '13_AFR', time)$[ (switch(i3, '13_AFR', time-1) = 1) OR (CTAX.L('13_AFR', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('14_CPA',time) gt 1.0), switch(i3,'14_CPA',time) = 1  ;
-else switch(i3,'14_CPA',time) = 0 ;
+if ((CTAX.L('14_CPA',time) gt trigger_price), switch(i3,'14_CPA',time) = 1  ;
+else switch(i3, '14_CPA', time)$[ (switch(i3, '14_CPA', time-1) = 1) OR (CTAX.L('14_CPA', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('15_SAS',time) gt 1.0), switch(i3,'15_SAS',time) = 1  ;
-else switch(i3,'15_SAS',time) = 0 ;
+if ((CTAX.L('15_SAS',time) gt trigger_price), switch(i3,'15_SAS',time) = 1  ;
+else switch(i3, '15_SAS', time)$[ (switch(i3, '15_SAS', time-1) = 1) OR (CTAX.L('15_SAS', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('16_PAS',time) gt 1.0), switch(i3,'16_PAS',time) = 1  ;
-else switch(i3,'16_PAS',time) = 0 ;
+if ((CTAX.L('16_PAS',time) gt trigger_price), switch(i3,'16_PAS',time) = 1  ;
+else switch(i3, '16_PAS', time)$[ (switch(i3, '16_PAS', time-1) = 1) OR (CTAX.L('16_PAS', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('17_PAO',time) gt 1.0), switch(i3,'17_PAO',time) = 1  ;
-else switch(i3,'17_PAO',time) = 0 ;
+if ((CTAX.L('17_PAO',time) gt trigger_price), switch(i3,'17_PAO',time) = 1  ;
+else switch(i3, '17_PAO', time)$[ (switch(i3, '17_PAO', time-1) = 1) OR (CTAX.L('17_PAO', time) >  trigger_price) ] = 1;
 );
+$offtext
 
+*2025 = 7
+*2030 = 12
+*2035 = 17
+*2040 = 22
+*2045 = 27
+*2050 = 32
+Start_Year(i3,'01_KOR') = 33;
+Start_Year(i3,'02_CHN') = 33;
+Start_Year(i3,'03_JPN') = 33;
+Start_Year(i3,'04_RUS') = 33;
+Start_Year(i3,'05_MNG') = 33;
+Start_Year(i3,'06_PRK') = 33;
+Start_Year(i3,'07_NAM') = 33;
+Start_Year(i3,'08_LAM') = 33;
+Start_Year(i3,'09_WEU') = 33; 
+Start_Year(i3,'10_EEU') = 33;
+Start_Year(i3,'11_FSU') = 33;
+Start_Year(i3,'12_MEA') = 33;
+Start_Year(i3,'13_AFR') = 33;
+Start_Year(i3,'14_CPA') = 33;
+Start_Year(i3,'15_SAS') = 33;
+Start_Year(i3,'16_PAS') = 33;
+Start_Year(i3,'17_PAO') = 33;
+
+Max_Pen(i3,z)                     = 0.90;
+Max_Pen('11_CHEMICAL',z)  = 0.75;
+Max_Pen('12_NONMET',z)    = 0.75;
+Max_Pen('20_LTRP',z)          = 0.85;
+*Max_Pen('13_IRONSTL',z)    = 0.80;
+*Max_Pen('21_WTRP',z)        = 0.90;
+*Max_Pen('22_ATRP',z)         = 0.90;
+
+Growth_Coeff(i3,z)  = 0.6;
+Inflection_Lapse(i3,z) = 10;
+
+penetration_rate(i3,z,time)$[ord(time) >= Start_Year(i3, z)] =
+    Max_Pen(i3,z) / (1 + exp(-Growth_Coeff(i3,z) * ( (ord(time) - Start_Year(i3, z)) - Inflection_Lapse(i3,z) )));
 *==============================================================================
 *   6.1.5 Resolution
 *==============================================================================
@@ -2979,13 +3107,13 @@ PARAMETER
 ;
 
  A_VA_RES(z,time)      = A_VA.l(z,time);
- GX(z,time)                 = G.l(z,time);
- G_REALX(z,time)        = G_REAL.l(z,time);
- INDX(k,pub,z,time)     = IND.l(k,pub,z,time);
- sh1X(z,time)              = sh1.l(z,time);
- sh0X(z,time)              = sh0.l(z,time);
- phi_BAU(z,time)         = phi.l(z,time);
- valCTAX(z,time)          = CTAX.l(z,time);
+ GX(z,time)            = G.l(z,time);
+ G_REALX(z,time)       = G_REAL.l(z,time);
+ INDX(k,pub,z,time)    = IND.l(k,pub,z,time);
+ sh1X(z,time)          = sh1.l(z,time);
+ sh0X(z,time)          = sh0.l(z,time);
+ phi_BAU(z,time)       = phi.l(z,time);
+ valCTAX(z,time)       = CTAX.l(z,time);
 
 execute_unload 'Input_CGE/B_line_GTAP11c_new.gdx',
  A_VA_RES, GX, G_REALX, INDX, delta, XST, VA, LS, KS, LD, KD, IND, EX, g_GDP, g_POP, GDP_BP, RC, IT, SH, SG, CABX, R, PK, sigma_LD, sigma_INV,

@@ -25,7 +25,7 @@ $LOAD A_VA_RES, GX, G_REALX, INDX, sh1X, sh0X
 *  6.2.1.1.2 Choice of multifactor productivity
 *==============================================================================
 * If you want to reproduce the real GDP projections, set:
- A_VA.FX(z,time)  = A_VA_RES(z,time);
+ A_VA.FX(z,time)     = A_VA_RES(z,time);
 * Otherwise, simply put A_VA equal to one:
 * A_VA.FX(z,time)    = 1;
 
@@ -43,7 +43,7 @@ $LOAD A_VA_RES, GX, G_REALX, INDX, sh1X, sh0X
 *$ontext
 * FP CLOSURE: fixed PIXGDPs; numeraire is exchange rate of reference region
 * The exchange rates are endogenous, except for the reference region.
- e.FX(zr,time)      = eO(zr);
+ e.FX(zr,time)          = eO(zr);
  PIXGDP.FX(z,time)  = PIXGDPO(z)/sum(zr,eO(zr));
 *$offtext
 
@@ -58,20 +58,20 @@ $offtext
 *   6.2.1.4 Other exogenous variables
 *==============================================================================
  G_REAL.FX(z,time)            = G_REALX(z,time);
- IND.fx(k,pub,z,time)          = INDX(k,pub,z,time);
- sh0.fx(z,time)                   = sh0X(z,time);
- sh1.fx(z,time)                   = sh1X(z,time);
- ttdh0.fx(z,time)                 = ttdh0O(z);
- ttdh1.fx(z,time)                 = ttdh1O(z);
- ttic.fx(i,z,time)                  = tticO(i,z);
- ttim.fx(i,zj,z,time)             = ttimO(i,zj,z);
- ttix.fx(i,z,zj,time)              = ttixO(i,z,zj);
- ttik.fx('land',j,z,time)         = ttikO('land',j,z);
- ttik.fx('natr',j,z,time)         = ttikO('natr',j,z);
- ttiw.fx(j,z,time)                = ttiwO(j,z);
-* ttik.fx(k,j,z,time)              = ttikO(k,j,z);
-* ttip.fx(j,z,time)                = ttipO(j,z);
- CTAX.fX(z,time)                 = CTAX0(z);
+ IND.fx(k,pub,z,time)         = INDX(k,pub,z,time);
+ sh0.fx(z,time)               = sh0X(z,time);
+ sh1.fx(z,time)               = sh1X(z,time);
+ ttdh0.fx(z,time)             = ttdh0O(z);
+ ttdh1.fx(z,time)             = ttdh1O(z);
+ ttic.fx(i,z,time)            = tticO(i,z);
+ ttim.fx(i,zj,z,time)         = ttimO(i,zj,z);
+ ttix.fx(i,z,zj,time)         = ttixO(i,z,zj);
+ ttik.fx('land',j,z,time)     = ttikO('land',j,z);
+ ttik.fx('natr',j,z,time)     = ttikO('natr',j,z);
+ ttiw.fx(j,z,time)            = ttiwO(j,z);
+* ttik.fx(k,j,z,time)          = ttikO(k,j,z);
+* ttip.fx(j,z,time)            = ttipO(j,z);
+ CTAX.fX(z,time)              = CTAX0(z);
  
 *==============================================================================
 *   6.2.2 Solution
@@ -117,7 +117,7 @@ $offtext
 *==============================================================================
 *   6.2.2.2 Variables fixed each period according to their lagged values
 *==============================================================================
- CABX.FX(z1,time) = CABXO(z1)*cabix(z1,time);
+ CABX.FX(z1,time)   = CABXO(z1)*cabix(z1,time);
                       
  CMIN.FX(i,z,t1)    = CMINO(i,z);
  CMIN.FX(i,z,time)$[ord(time) gt 1]
@@ -171,11 +171,11 @@ $offtext
 * PERMIT_TOTAL.fx(z,time)$[ord(time) gt 1]
 *                             = PERMIT_TOTALO(Z)*PERMIT_Cal(z,time);  
 
- recycle_gov(z,time)     = 1;          
- recycle_hou(z,time)     = 0;           
- recycle_labor(z,time)   = 0;         
- recycle_capital(z,time) = 0;        
- recycle_ptax(z,time)    = 0;            
+ recycle_gov(z,time)     = 0 ;          
+ recycle_hou(z,time)     = 1 ;           
+ recycle_labor(z,time)   = 0 ;         
+ recycle_capital(z,time) = 0 ;        
+ recycle_ptax(z,time)    = 0 ;               
 
 *==============================================================================
 *   AEEI
@@ -192,84 +192,141 @@ $offtext
 *                           = B_VA_t('24_eSolar','01_KOR',time-1)*[1+solar_growth];
 
  B_VA_t('23_eWind',z,time)$[ord(time) gt 1]
-                        = B_VA_t('23_eWind',z,time-1)*[1+0.02];
+                        = B_VA_t('23_eWind',z,time-1)*[1+SolarWind_TFP_BAU];
 
  B_VA_t('24_eSolar',z,time)$[ord(time) gt 1]
-                        = B_VA_t('24_eSolar',z,time-1)*[1+0.02];
+                        = B_VA_t('24_eSolar',z,time-1)*[1+SolarWind_TFP_BAU];
+
+*==============================================================================
+*  Marginal abatement curves for emissions
+*============================================================================== 
+* 1. Calculate carbon tax impact factor
+CTAX_CO2(ene,j7,PERMIT_Z,time)$[ord(time) gt 2]  =(1+ CTAX.L(PERMIT_Z,time))**gamma_CO2(ene,j7,PERMIT_Z);
+
+* 2. Calculate target CO2 factor based on tax
+CO2FACTOR2_Star(ene,j7,PERMIT_Z,time)$[ord(time) gt 2]= 
+    CO2FACTOR(ene,j7,PERMIT_Z) * exp(
+        alpha_CO2(ene,j7,PERMIT_Z) - alpha_CO2(ene,j7,PERMIT_Z) * CTAX_CO2(ene,j7,PERMIT_Z,time)
+    );
+
+* 3. Apply partial adjustment to CO2 factor
+CO2FACTOR2(ene,j7,PERMIT_Z,time)$[ord(time) gt 2]= 
+    CO2FACTOR2(ene,j7,PERMIT_Z,time-1) + adjustment_factor * (CO2FACTOR2_Star(ene,j7,PERMIT_Z,time) - CO2FACTOR2(ene,j7,PERMIT_Z,time-1));
+
+* 4. Apply minimum floor constraint (Corrected logic and syntax)
+* If CO2FACTOR2 calculated above is less than MINCO2FACTOR, set it to MINCO2FACTOR.
+CO2FACTOR2(ene,j7,PERMIT_Z,time)$[CO2FACTOR2(ene,j7,PERMIT_Z,time) < MINCO2FACTOR(ene,j7,PERMIT_Z)] = MINCO2FACTOR(ene,j7,PERMIT_Z);
 
 *==============================================================================
 *Backstop technologies
 *==============================================================================
-penetration_rate(i3,z,time)$[CTAX.L(z,time) gt 1.0] = penetration_rate(i3,z,time-1)+0.03;
-
-if ((CTAX.L('01_KOR',time) gt 1.0), switch(i3,'01_KOR',time) = 1  ;
-else switch(i3,'01_KOR',time) = 0 ;
+$ontext
+if ((CTAX.L('01_KOR',time) gt trigger_price), switch(i3,'01_KOR',time) = 1  ;
+else switch(i3, '01_KOR', time)$[ (switch(i3, '01_KOR', time-1) = 1) OR (CTAX.L('01_KOR', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('02_CHN',time) gt 1.0), switch(i3,'02_CHN',time) = 1  ;
-else switch(i3,'02_CHN',time) = 0 ;
+if ((CTAX.L('02_CHN',time) gt trigger_price), switch(i3,'02_CHN',time) = 1  ;
+else switch(i3, '02_CHN', time)$[ (switch(i3, '02_CHN', time-1) = 1) OR (CTAX.L('02_CHN', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('03_JPN',time) gt 1.0), switch(i3,'03_JPN',time) = 1  ;
-else switch(i3,'03_JPN',time) = 0 ;
+if ((CTAX.L('03_JPN',time) gt trigger_price), switch(i3,'03_JPN',time) = 1  ;
+else switch(i3, '03_JPN', time)$[ (switch(i3, '03_JPN', time-1) = 1) OR (CTAX.L('03_JPN', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('04_RUS',time) gt 1.0), switch(i3,'04_RUS',time) = 1  ;
-else switch(i3,'04_RUS',time) = 0 ;
+if ((CTAX.L('04_RUS',time) gt trigger_price), switch(i3,'04_RUS',time) = 1  ;
+else switch(i3, '04_RUS', time)$[ (switch(i3, '04_RUS', time-1) = 1) OR (CTAX.L('04_RUS', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('05_MNG',time) gt 1.0), switch(i3,'05_MNG',time) = 1  ;
-else switch(i3,'05_MNG',time) = 0 ;
+if ((CTAX.L('05_MNG',time) gt trigger_price), switch(i3,'05_MNG',time) = 1  ;
+else switch(i3, '05_MNG', time)$[ (switch(i3, '05_MNG', time-1) = 1) OR (CTAX.L('05_MNG', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('06_PRK',time) gt 1.0), switch(i3,'06_PRK',time) = 1  ;
-else switch(i3,'06_PRK',time) = 0 ;
+if ((CTAX.L('06_PRK',time) gt trigger_price), switch(i3,'06_PRK',time) = 1  ;
+else switch(i3, '06_PRK', time)$[ (switch(i3, '06_PRK', time-1) = 1) OR (CTAX.L('06_PRK', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('07_NAM',time) gt 1.0), switch(i3,'07_NAM',time) = 1  ;
-else switch(i3,'07_NAM',time) = 0 ;
+if ((CTAX.L('07_NAM',time) gt trigger_price), switch(i3,'07_NAM',time) = 1  ;
+else switch(i3, '07_NAM', time)$[ (switch(i3, '07_NAM', time-1) = 1) OR (CTAX.L('07_NAM', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('08_LAM',time) gt 1.0), switch(i3,'08_LAM',time) = 1  ;
-else switch(i3,'08_LAM',time) = 0 ;
+if ((CTAX.L('08_LAM',time) gt trigger_price), switch(i3,'08_LAM',time) = 1  ;
+else switch(i3, '08_LAM', time)$[ (switch(i3, '08_LAM', time-1) = 1) OR (CTAX.L('08_LAM', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('09_WEU',time) gt 1.0), switch(i3,'09_WEU',time) = 1  ;
-else switch(i3,'09_WEU',time) = 0 ;
+if ((CTAX.L('09_WEU',time) gt trigger_price), switch(i3,'09_WEU',time) = 1  ;
+else switch(i3, '09_WEU', time)$[ (switch(i3, '09_WEU', time-1) = 1) OR (CTAX.L('09_WEU', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('10_EEU',time) gt 1.0), switch(i3,'10_EEU',time) = 1  ;
-else switch(i3,'10_EEU',time) = 0 ;
+if ((CTAX.L('10_EEU',time) gt trigger_price), switch(i3,'10_EEU',time) = 1  ;
+else switch(i3, '10_EEU', time)$[ (switch(i3, '10_EEU', time-1) = 1) OR (CTAX.L('10_EEU', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('11_FSU',time) gt 1.0), switch(i3,'11_FSU',time) = 1  ;
-else switch(i3,'11_FSU',time) = 0 ;
+if ((CTAX.L('11_FSU',time) gt trigger_price), switch(i3,'11_FSU',time) = 1  ;
+else switch(i3, '11_FSU', time)$[ (switch(i3, '11_FSU', time-1) = 1) OR (CTAX.L('11_FSU', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('12_MEA',time) gt 1.0), switch(i3,'12_MEA',time) = 1  ;
-else switch(i3,'12_MEA',time) = 0 ;
+if ((CTAX.L('12_MEA',time) gt trigger_price), switch(i3,'12_MEA',time) = 1  ;
+else switch(i3, '12_MEA', time)$[ (switch(i3, '12_MEA', time-1) = 1) OR (CTAX.L('12_MEA', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('13_AFR',time) gt 1.0), switch(i3,'13_AFR',time) = 1  ;
-else switch(i3,'13_AFR',time) = 0 ;
+if ((CTAX.L('13_AFR',time) gt trigger_price), switch(i3,'13_AFR',time) = 1  ;
+else switch(i3, '13_AFR', time)$[ (switch(i3, '13_AFR', time-1) = 1) OR (CTAX.L('13_AFR', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('14_CPA',time) gt 1.0), switch(i3,'14_CPA',time) = 1  ;
-else switch(i3,'14_CPA',time) = 0 ;
+if ((CTAX.L('14_CPA',time) gt trigger_price), switch(i3,'14_CPA',time) = 1  ;
+else switch(i3, '14_CPA', time)$[ (switch(i3, '14_CPA', time-1) = 1) OR (CTAX.L('14_CPA', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('15_SAS',time) gt 1.0), switch(i3,'15_SAS',time) = 1  ;
-else switch(i3,'15_SAS',time) = 0 ;
+if ((CTAX.L('15_SAS',time) gt trigger_price), switch(i3,'15_SAS',time) = 1  ;
+else switch(i3, '15_SAS', time)$[ (switch(i3, '15_SAS', time-1) = 1) OR (CTAX.L('15_SAS', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('16_PAS',time) gt 1.0), switch(i3,'16_PAS',time) = 1  ;
-else switch(i3,'16_PAS',time) = 0 ;
+if ((CTAX.L('16_PAS',time) gt trigger_price), switch(i3,'16_PAS',time) = 1  ;
+else switch(i3, '16_PAS', time)$[ (switch(i3, '16_PAS', time-1) = 1) OR (CTAX.L('16_PAS', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('17_PAO',time) gt 1.0), switch(i3,'17_PAO',time) = 1  ;
-else switch(i3,'17_PAO',time) = 0 ;
+if ((CTAX.L('17_PAO',time) gt trigger_price), switch(i3,'17_PAO',time) = 1  ;
+else switch(i3, '17_PAO', time)$[ (switch(i3, '17_PAO', time-1) = 1) OR (CTAX.L('17_PAO', time) >  trigger_price) ] = 1;
 );
+$offtext
 
+*2025 = 7
+*2030 = 12
+*2035 = 17
+*2040 = 22
+*2045 = 27
+*2050 = 32
+Start_Year(i3,'01_KOR') = 33;
+Start_Year(i3,'02_CHN') = 33;
+Start_Year(i3,'03_JPN') = 33;
+Start_Year(i3,'04_RUS') = 33;
+Start_Year(i3,'05_MNG') = 33;
+Start_Year(i3,'06_PRK') = 33;
+Start_Year(i3,'07_NAM') = 33;
+Start_Year(i3,'08_LAM') = 33;
+Start_Year(i3,'09_WEU') = 33; 
+Start_Year(i3,'10_EEU') = 33;
+Start_Year(i3,'11_FSU') = 33;
+Start_Year(i3,'12_MEA') = 33;
+Start_Year(i3,'13_AFR') = 33;
+Start_Year(i3,'14_CPA') = 33;
+Start_Year(i3,'15_SAS') = 33;
+Start_Year(i3,'16_PAS') = 33;
+Start_Year(i3,'17_PAO') = 33;
+
+Max_Pen(i3,z)                     = 0.90;
+Max_Pen('11_CHEMICAL',z)  = 0.75;
+Max_Pen('12_NONMET',z)    = 0.75;
+Max_Pen('20_LTRP',z)          = 0.85;
+*Max_Pen('13_IRONSTL',z)    = 0.80;
+*Max_Pen('21_WTRP',z)        = 0.90;
+*Max_Pen('22_ATRP',z)         = 0.90;
+
+Growth_Coeff(i3,z)  = 0.6;
+Inflection_Lapse(i3,z) = 10;
+
+penetration_rate(i3,z,time)$[ord(time) >= Start_Year(i3, z)] =
+    Max_Pen(i3,z) / (1 + exp(-Growth_Coeff(i3,z) * ( (ord(time) - Start_Year(i3, z)) - Inflection_Lapse(i3,z) )));
 *==============================================================================
 *   6.2.2.3 Resolution
 *==============================================================================

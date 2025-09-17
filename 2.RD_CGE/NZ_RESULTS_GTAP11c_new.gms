@@ -222,6 +222,7 @@ PARAMETER
  valCKBS(i3,z,time,scen)
  valMARKUP(i3,z,time,scen)
  valMARKUP_RATIO(i3,z,time,scen)
+ valStart_Year(i3,z,scen)
 ;
 
 *==============================================================================
@@ -509,7 +510,7 @@ PARAMETER
  valCKBS(i3,z,time,'NZ')   = CKBS.l(i3,z,time) ;
  valMARKUP(i3,z,time,'NZ') = MARKUP.l(i3,z,time) ;
  valMARKUP_RATIO(i3,z,time,'NZ')  =  valPC(i3,z,time,'NZ')*valXDBS(i3,z,time,'NZ') / (valCLBS(i3,z,time,'NZ') +valCKBS(i3,z,time,'NZ')+0.000000000001 )  ;
-
+ valStart_Year(i3,z,'NZ') = Start_Year(i3,z);
 *$Offtext 
 *=====================================================================================================
 
@@ -699,11 +700,10 @@ PARAMETER
  valCKBS,
  valMARKUP,
  valMARKUP_RATIO,
+ valStart_Year,
  valPERMIT,
  valPERMIT_TOTAL,
  valPERMIT_NEA_TOTAL,
- valCO2FACTOR,
- valAbateCost,
- valrebatetot
+ valCO2FACTOR
  ;
 *$Offtext 

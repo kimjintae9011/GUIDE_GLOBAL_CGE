@@ -167,11 +167,11 @@ $offtext
  PERMIT_TOTAL.fx(PERMIT_Z,time)$[ord(time) gt 1]
                       = PERMIT_TOTALO(PERMIT_Z)*PERMIT_NDC_old(PERMIT_Z,time);  
 
- recycle_gov(z,time)     = 1;          
- recycle_hou(z,time)     = 0;           
- recycle_labor(z,time)   = 0;         
- recycle_capital(z,time) = 0;        
- recycle_ptax(z,time)    = 0;    
+ recycle_gov(z,time)     = 0 ;          
+ recycle_hou(z,time)     = 1 ;           
+ recycle_labor(z,time)   = 0 ;         
+ recycle_capital(z,time) = 0 ;        
+ recycle_ptax(z,time)    = 0 ;    
                 
 *==============================================================================
 *  AEEI
@@ -183,10 +183,10 @@ $offtext
 * Solar & Wind Productivity Shock
 *=============================================================================
  B_VA_t('23_eWind',z,time)$[ord(time) gt 1]
-                        = B_VA_t('23_eWind',z,time-1)*[1+0.02];
+                        = B_VA_t('23_eWind',z,time-1)*[1+SolarWind_TFP_NDC];
 
  B_VA_t('24_eSolar',z,time)$[ord(time) gt 1]
-                        = B_VA_t('24_eSolar',z,time-1)*[1+0.02];
+                        = B_VA_t('24_eSolar',z,time-1)*[1+SolarWind_TFP_NDC];
 
 *==============================================================================
 *  Marginal abatement curves for emissions
@@ -211,77 +211,107 @@ CO2FACTOR2(ene,j7,PERMIT_Z,time)$[CO2FACTOR2(ene,j7,PERMIT_Z,time) < MINCO2FACTO
 *==============================================================================
 * Backstop technologies
 *==============================================================================
-*$ontext
-penetration_rate(i3,z,time)$[CTAX.L(z,time) gt 1.0] = penetration_rate(i3,z,time-1)+0.03;
-
-if ((CTAX.L('01_KOR',time) gt 1.0), switch(i3,'01_KOR',time) = 1  ;
-else switch(i3,'01_KOR',time) = 0 ;
+$ontext
+if ((CTAX.L('01_KOR',time) gt trigger_price), switch(i3,'01_KOR',time) = 1  ;
+else switch(i3, '01_KOR', time)$[ (switch(i3, '01_KOR', time-1) = 1) OR (CTAX.L('01_KOR', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('02_CHN',time) gt 1.0), switch(i3,'02_CHN',time) = 1  ;
-else switch(i3,'02_CHN',time) = 0 ;
+if ((CTAX.L('02_CHN',time) gt trigger_price), switch(i3,'02_CHN',time) = 1  ;
+else switch(i3, '02_CHN', time)$[ (switch(i3, '02_CHN', time-1) = 1) OR (CTAX.L('02_CHN', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('03_JPN',time) gt 1.0), switch(i3,'03_JPN',time) = 1  ;
-else switch(i3,'03_JPN',time) = 0 ;
+if ((CTAX.L('03_JPN',time) gt trigger_price), switch(i3,'03_JPN',time) = 1  ;
+else switch(i3, '03_JPN', time)$[ (switch(i3, '03_JPN', time-1) = 1) OR (CTAX.L('03_JPN', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('04_RUS',time) gt 1.0), switch(i3,'04_RUS',time) = 1  ;
-else switch(i3,'04_RUS',time) = 0 ;
+if ((CTAX.L('04_RUS',time) gt trigger_price), switch(i3,'04_RUS',time) = 1  ;
+else switch(i3, '04_RUS', time)$[ (switch(i3, '04_RUS', time-1) = 1) OR (CTAX.L('04_RUS', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('05_MNG',time) gt 1.0), switch(i3,'05_MNG',time) = 1  ;
-else switch(i3,'05_MNG',time) = 0 ;
+if ((CTAX.L('05_MNG',time) gt trigger_price), switch(i3,'05_MNG',time) = 1  ;
+else switch(i3, '05_MNG', time)$[ (switch(i3, '05_MNG', time-1) = 1) OR (CTAX.L('05_MNG', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('06_PRK',time) gt 1.0), switch(i3,'06_PRK',time) = 1  ;
-else switch(i3,'06_PRK',time) = 0 ;
+if ((CTAX.L('06_PRK',time) gt trigger_price), switch(i3,'06_PRK',time) = 1  ;
+else switch(i3, '06_PRK', time)$[ (switch(i3, '06_PRK', time-1) = 1) OR (CTAX.L('06_PRK', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('07_NAM',time) gt 1.0), switch(i3,'07_NAM',time) = 1  ;
-else switch(i3,'07_NAM',time) = 0 ;
+if ((CTAX.L('07_NAM',time) gt trigger_price), switch(i3,'07_NAM',time) = 1  ;
+else switch(i3, '07_NAM', time)$[ (switch(i3, '07_NAM', time-1) = 1) OR (CTAX.L('07_NAM', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('08_LAM',time) gt 1.0), switch(i3,'08_LAM',time) = 1  ;
-else switch(i3,'08_LAM',time) = 0 ;
+if ((CTAX.L('08_LAM',time) gt trigger_price), switch(i3,'08_LAM',time) = 1  ;
+else switch(i3, '08_LAM', time)$[ (switch(i3, '08_LAM', time-1) = 1) OR (CTAX.L('08_LAM', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('09_WEU',time) gt 1.0), switch(i3,'09_WEU',time) = 1  ;
-else switch(i3,'09_WEU',time) = 0 ;
+if ((CTAX.L('09_WEU',time) gt trigger_price), switch(i3,'09_WEU',time) = 1  ;
+else switch(i3, '09_WEU', time)$[ (switch(i3, '09_WEU', time-1) = 1) OR (CTAX.L('09_WEU', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('10_EEU',time) gt 1.0), switch(i3,'10_EEU',time) = 1  ;
-else switch(i3,'10_EEU',time) = 0 ;
+if ((CTAX.L('10_EEU',time) gt trigger_price), switch(i3,'10_EEU',time) = 1  ;
+else switch(i3, '10_EEU', time)$[ (switch(i3, '10_EEU', time-1) = 1) OR (CTAX.L('10_EEU', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('11_FSU',time) gt 1.0), switch(i3,'11_FSU',time) = 1  ;
-else switch(i3,'11_FSU',time) = 0 ;
+if ((CTAX.L('11_FSU',time) gt trigger_price), switch(i3,'11_FSU',time) = 1  ;
+else switch(i3, '11_FSU', time)$[ (switch(i3, '11_FSU', time-1) = 1) OR (CTAX.L('11_FSU', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('12_MEA',time) gt 1.0), switch(i3,'12_MEA',time) = 1  ;
-else switch(i3,'12_MEA',time) = 0 ;
+if ((CTAX.L('12_MEA',time) gt trigger_price), switch(i3,'12_MEA',time) = 1  ;
+else switch(i3, '12_MEA', time)$[ (switch(i3, '12_MEA', time-1) = 1) OR (CTAX.L('12_MEA', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('13_AFR',time) gt 1.0), switch(i3,'13_AFR',time) = 1  ;
-else switch(i3,'13_AFR',time) = 0 ;
+if ((CTAX.L('13_AFR',time) gt trigger_price), switch(i3,'13_AFR',time) = 1  ;
+else switch(i3, '13_AFR', time)$[ (switch(i3, '13_AFR', time-1) = 1) OR (CTAX.L('13_AFR', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('14_CPA',time) gt 1.0), switch(i3,'14_CPA',time) = 1  ;
-else switch(i3,'14_CPA',time) = 0 ;
+if ((CTAX.L('14_CPA',time) gt trigger_price), switch(i3,'14_CPA',time) = 1  ;
+else switch(i3, '14_CPA', time)$[ (switch(i3, '14_CPA', time-1) = 1) OR (CTAX.L('14_CPA', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('15_SAS',time) gt 1.0), switch(i3,'15_SAS',time) = 1  ;
-else switch(i3,'15_SAS',time) = 0 ;
+if ((CTAX.L('15_SAS',time) gt trigger_price), switch(i3,'15_SAS',time) = 1  ;
+else switch(i3, '15_SAS', time)$[ (switch(i3, '15_SAS', time-1) = 1) OR (CTAX.L('15_SAS', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('16_PAS',time) gt 1.0), switch(i3,'16_PAS',time) = 1  ;
-else switch(i3,'16_PAS',time) = 0 ;
+if ((CTAX.L('16_PAS',time) gt trigger_price), switch(i3,'16_PAS',time) = 1  ;
+else switch(i3, '16_PAS', time)$[ (switch(i3, '16_PAS', time-1) = 1) OR (CTAX.L('16_PAS', time) >  trigger_price) ] = 1;
 );
 
-if ((CTAX.L('17_PAO',time) gt 1.0), switch(i3,'17_PAO',time) = 1  ;
-else switch(i3,'17_PAO',time) = 0 ;
+if ((CTAX.L('17_PAO',time) gt trigger_price), switch(i3,'17_PAO',time) = 1  ;
+else switch(i3, '17_PAO', time)$[ (switch(i3, '17_PAO', time-1) = 1) OR (CTAX.L('17_PAO', time) >  trigger_price) ] = 1;
 );
-*$offtext
+$offtext
+
+*2025 = 7
+*2030 = 12
+*2035 = 17
+*2040 = 22
+*2045 = 27
+*2050 = 32
+Start_Year(i3,'01_KOR') = 17;
+Start_Year(i3,'02_CHN') = 22;
+Start_Year(i3,'03_JPN') = 17;
+Start_Year(i3,'04_RUS') = 27;
+Start_Year(i3,'05_MNG') = 27;
+Start_Year(i3,'06_PRK') = 33;
+Start_Year(i3,'07_NAM') = 12;
+Start_Year(i3,'08_LAM') = 27;
+Start_Year(i3,'09_WEU') = 12; 
+Start_Year(i3,'10_EEU') = 12;
+Start_Year(i3,'11_FSU') = 27;
+Start_Year(i3,'12_MEA') = 27;
+Start_Year(i3,'13_AFR') = 27;
+Start_Year(i3,'14_CPA') = 27;
+Start_Year(i3,'15_SAS') = 27;
+Start_Year(i3,'16_PAS') = 27;
+Start_Year(i3,'17_PAO') = 17;
+
+Max_Pen(i3,z) = 0.50;
+Growth_Coeff(i3,z)  = 0.6;
+Inflection_Lapse(i3,z) = 10;
+
+penetration_rate(i3,z,time)$[ord(time) >= Start_Year(i3, z)] =
+    Max_Pen(i3,z) / (1 + exp(-Growth_Coeff(i3,z) * ( (ord(time) - Start_Year(i3, z)) - Inflection_Lapse(i3,z) )));
+    
 *==============================================================================
 * 6.2.2.3 Resolution
 *==============================================================================

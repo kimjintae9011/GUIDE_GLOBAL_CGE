@@ -197,13 +197,13 @@ p7_LIGNITE       Lignite
 p8_PATFUEL       Patent fuel
 *p9_OVENCOKE      Coke oven coke
 *p10_GASCOKE      Gas coke
-p11_COALTAR      Coal tar
-p12_BKB          Brown coal briquettes
+*p11_COALTAR      Coal tar
+*p12_BKB          Brown coal briquettes
 *p13_GASWKSGS     Gas works gas
 *p14_COKEOVGS     Coke oven gas
-p15_BLFURGS      Blast furnace gas
-p16_OGASES       Other recovered gases
-p17_PEAT 
+*p15_BLFURGS      Blast furnace gas
+*p16_OGASES       Other recovered gases
+*p17_PEAT 
 /
 
 p_coal3(product)
@@ -238,13 +238,13 @@ p7_LIGNITE       Lignite
 *p8_PATFUEL       Patent fuel
 *p9_OVENCOKE      Coke oven coke
 *p10_GASCOKE      Gas coke
-p11_COALTAR      Coal tar
+*p11_COALTAR      Coal tar
 *p12_BKB          Brown coal briquettes
 *p13_GASWKSGS     Gas works gas
 *p14_COKEOVGS     Coke oven gas
-p15_BLFURGS      Blast furnace gas
-p16_OGASES       Other recovered gases
-p17_PEAT 
+*p15_BLFURGS      Blast furnace gas
+*p16_OGASES       Other recovered gases
+*p17_PEAT 
 /
 
 p_coal_TES(product)
