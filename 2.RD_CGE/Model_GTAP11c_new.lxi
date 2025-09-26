@@ -1,0 +1,140 @@
+B 3 C o m p i l a t i o n
+B 4653 E x e c u t i o n
+I 4653 TCoke_Share
+I 4665 TBlast_Share
+I 4674 Coal_DIO
+I 4787 CoalR_DIO
+I 4900 CoalR_CO
+I 4911 Gas_DIO
+I 4960 GasR_DIO
+I 5007 GasR_CO
+I 5015 Oil_DIO
+I 5037 OilR_DIO
+I 5059 Oilp_DIO
+I 5307 Oilp_CO
+I 5323 OilpR_DIO
+I 5570 OilpR_CO
+I 5586 Elec_DIO
+I 5629 Elec_CO
+I 5637 ElecR_DIO
+I 5680 ElecR_CO
+I 5688 Waste_DIO
+I 5743 WasteR_DIO
+I 5797 WasteR_CO
+I 5801 Bio_DIO
+I 5896 BioR_DIO
+I 5983 BioR_CO
+I 5994 Charcoal_DIO
+I 6012 CharcoalR_DIO
+I 6030 CharcoalR_CO
+I 6037 Geo_DIO
+I 6054 GeoR_DIO
+I 6071 GeoR_CO
+I 6078 Solar_DIO
+I 6100 SolarR_DIO
+I 6121 SolarR_CO
+I 6128 NCoal_DIO
+I 6136 NCoalR_DIO
+I 6144 NGas_DIO
+I 6153 NGasR_DIO
+I 6162 NOil_DIO
+I 6169 NOilR_DIO
+I 6176 NOilp_DIO
+I 6245 NOilpR_DIO
+B 6317 Range Statistics    SOLVE CGE Using CNS From line 5275
+B 6328 Model Statistics    SOLVE CGE Using CNS From line 5275
+B 6348 Solution Report     SOLVE CGE Using CNS From line 5275
+B 6396 Range Statistics    SOLVE CGE Using CNS From line 5275
+B 6407 Model Statistics    SOLVE CGE Using CNS From line 5275
+B 6427 Solution Report     SOLVE CGE Using CNS From line 5275
+B 6475 Range Statistics    SOLVE CGE Using CNS From line 5275
+B 6486 Model Statistics    SOLVE CGE Using CNS From line 5275
+B 6506 Solution Report     SOLVE CGE Using CNS From line 5275
+B 6554 Range Statistics    SOLVE CGE Using CNS From line 5275
+B 6565 Model Statistics    SOLVE CGE Using CNS From line 5275
+B 6585 Solution Report     SOLVE CGE Using CNS From line 5275
+B 6633 Range Statistics    SOLVE CGE Using CNS From line 5275
+B 6644 Model Statistics    SOLVE CGE Using CNS From line 5275
+B 6664 Solution Report     SOLVE CGE Using CNS From line 5275
+B 6712 Range Statistics    SOLVE CGE Using CNS From line 5275
+B 6723 Model Statistics    SOLVE CGE Using CNS From line 5275
+B 6743 Solution Report     SOLVE CGE Using CNS From line 5275
+B 6791 Range Statistics    SOLVE CGE Using CNS From line 5275
+B 6802 Model Statistics    SOLVE CGE Using CNS From line 5275
+B 6822 Solution Report     SOLVE CGE Using CNS From line 5275
+B 6870 Range Statistics    SOLVE CGE Using CNS From line 5275
+B 6881 Model Statistics    SOLVE CGE Using CNS From line 5275
+B 6901 Solution Report     SOLVE CGE Using CNS From line 5275
+B 6949 Range Statistics    SOLVE CGE Using CNS From line 5275
+B 6960 Model Statistics    SOLVE CGE Using CNS From line 5275
+B 6980 Solution Report     SOLVE CGE Using CNS From line 5275
+B 7028 Range Statistics    SOLVE CGE Using CNS From line 5275
+B 7039 Model Statistics    SOLVE CGE Using CNS From line 5275
+B 7059 Solution Report     SOLVE CGE Using CNS From line 5275
+B 7107 Range Statistics    SOLVE CGE Using CNS From line 5275
+B 7118 Model Statistics    SOLVE CGE Using CNS From line 5275
+B 7138 Solution Report     SOLVE CGE Using CNS From line 5275
+B 7186 Range Statistics    SOLVE CGE Using CNS From line 5275
+B 7197 Model Statistics    SOLVE CGE Using CNS From line 5275
+B 7217 Solution Report     SOLVE CGE Using CNS From line 5275
+B 7265 Range Statistics    SOLVE CGE Using CNS From line 5275
+B 7276 Model Statistics    SOLVE CGE Using CNS From line 5275
+B 7296 Solution Report     SOLVE CGE Using CNS From line 5275
+B 7344 Range Statistics    SOLVE CGE Using CNS From line 5275
+B 7355 Model Statistics    SOLVE CGE Using CNS From line 5275
+B 7375 Solution Report     SOLVE CGE Using CNS From line 5275
+B 7423 Range Statistics    SOLVE CGE Using CNS From line 5275
+B 7434 Model Statistics    SOLVE CGE Using CNS From line 5275
+B 7454 Solution Report     SOLVE CGE Using CNS From line 5275
+B 7502 Range Statistics    SOLVE CGE Using CNS From line 5275
+B 7513 Model Statistics    SOLVE CGE Using CNS From line 5275
+B 7533 Solution Report     SOLVE CGE Using CNS From line 5275
+B 7581 Range Statistics    SOLVE CGE Using CNS From line 5275
+B 7592 Model Statistics    SOLVE CGE Using CNS From line 5275
+B 7612 Solution Report     SOLVE CGE Using CNS From line 5275
+B 7660 Range Statistics    SOLVE CGE Using CNS From line 5275
+B 7671 Model Statistics    SOLVE CGE Using CNS From line 5275
+B 7691 Solution Report     SOLVE CGE Using CNS From line 5275
+B 7739 Range Statistics    SOLVE CGE Using CNS From line 5275
+B 7750 Model Statistics    SOLVE CGE Using CNS From line 5275
+B 7770 Solution Report     SOLVE CGE Using CNS From line 5275
+B 7818 Range Statistics    SOLVE CGE Using CNS From line 5275
+B 7829 Model Statistics    SOLVE CGE Using CNS From line 5275
+B 7849 Solution Report     SOLVE CGE Using CNS From line 5275
+B 7897 Range Statistics    SOLVE CGE Using CNS From line 5275
+B 7908 Model Statistics    SOLVE CGE Using CNS From line 5275
+B 7928 Solution Report     SOLVE CGE Using CNS From line 5275
+B 7976 Range Statistics    SOLVE CGE Using CNS From line 5275
+B 7987 Model Statistics    SOLVE CGE Using CNS From line 5275
+B 8007 Solution Report     SOLVE CGE Using CNS From line 5275
+B 8055 Range Statistics    SOLVE CGE Using CNS From line 5275
+B 8066 Model Statistics    SOLVE CGE Using CNS From line 5275
+B 8086 Solution Report     SOLVE CGE Using CNS From line 5275
+B 8134 Range Statistics    SOLVE CGE Using CNS From line 5275
+B 8145 Model Statistics    SOLVE CGE Using CNS From line 5275
+B 8165 Solution Report     SOLVE CGE Using CNS From line 5275
+B 8213 Range Statistics    SOLVE CGE Using CNS From line 5275
+B 8224 Model Statistics    SOLVE CGE Using CNS From line 5275
+B 8244 Solution Report     SOLVE CGE Using CNS From line 5275
+B 8292 Range Statistics    SOLVE CGE Using CNS From line 5275
+B 8303 Model Statistics    SOLVE CGE Using CNS From line 5275
+B 8323 Solution Report     SOLVE CGE Using CNS From line 5275
+B 8371 Range Statistics    SOLVE CGE Using CNS From line 5275
+B 8382 Model Statistics    SOLVE CGE Using CNS From line 5275
+B 8402 Solution Report     SOLVE CGE Using CNS From line 5275
+B 8450 Range Statistics    SOLVE CGE Using CNS From line 5275
+B 8461 Model Statistics    SOLVE CGE Using CNS From line 5275
+B 8481 Solution Report     SOLVE CGE Using CNS From line 5275
+B 8529 Range Statistics    SOLVE CGE Using CNS From line 5275
+B 8540 Model Statistics    SOLVE CGE Using CNS From line 5275
+B 8560 Solution Report     SOLVE CGE Using CNS From line 5275
+B 8608 Range Statistics    SOLVE CGE Using CNS From line 5275
+B 8619 Model Statistics    SOLVE CGE Using CNS From line 5275
+B 8639 Solution Report     SOLVE CGE Using CNS From line 5275
+B 8687 Range Statistics    SOLVE CGE Using CNS From line 5275
+B 8698 Model Statistics    SOLVE CGE Using CNS From line 5275
+B 8718 Solution Report     SOLVE CGE Using CNS From line 5275
+B 8766 Range Statistics    SOLVE CGE Using CNS From line 5275
+B 8777 Model Statistics    SOLVE CGE Using CNS From line 5275
+B 8797 Solution Report     SOLVE CGE Using CNS From line 5275
+B 8845 E x e c u t i o n
