@@ -1,1 +1,14 @@
-site_name: My Project Name
+site_name: GUIDE-GLOBAL-CGE 모형
+
+theme:
+  name: material
+
+nav:
+  - '소개': 'index.md'
+  - '1. 정태 CGE': '1_STATIC_CGE.md'
+  - '2. 축차동태 CGE': '2_RD_CGE.md'
+  - '3. 북한 SAM 업데이트': '3_SAM.md'
+  - '4. GreenEcos UI CGE': '4_GREENECOS_UI.md'
+  - '5. 과거 개발 파일': '5_Past_files.md'
+  - '6. 데이터 관리 스크립트': '6_Input_data.md'
+  - '7. 동북아 탄소 시장 CGE': '7_RD_CGE_ICM.md'  
