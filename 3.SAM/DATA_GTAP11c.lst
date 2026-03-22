@@ -1,4 +1,4 @@
-GAMS 45.7.0  64fbf3ce Jan 18, 2024          WEX-WEI x86 64bit/MS Windows - 09/16/25 17:34:15 Page 1
+GAMS 45.7.0  64fbf3ce Jan 18, 2024          WEX-WEI x86 64bit/MS Windows - 03/16/26 14:30:36 Page 1
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
 C o m p i l a t i o n
 
@@ -2501,83 +2501,154 @@ INCLUDE    C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\DATA_ReGen.gms
 2454  INVO(i,z) = SUM[(C1,INV1)$[sam_sce14(i,C1)], SAM1(C1,INV1,Z)];
 2455  DIO(i,j,z) = SUM[(C1,A1)$[sam_sce14(i,C1)$sam_sce13(j,A1)], SAM1(C1,A1,Z)];
 2456  IMO(i,zj,z) = SUM[(World1,C1)$[sam_sce24(zj,World1)$sam_sce14(i,C1)], SAM1(World1,C1,Z)];
-2457  EXO(i,zj,z) = IMO(i,zj,z);
-2458  EXTO(i,z) = SUM(zj, EXO(i,z,zj));
-2459  tmrg('20_LTRP',ij,zj,z) = SUM[(MAR1,C1)$[sam_sce21(zj,MAR1)$sam_sce14(ij,C1)],SAM1(MAR1,C1,Z)];
-2460  tmrg('21_WTRP',ij,zj,z) = SUM[(MAR2,C1)$[sam_sce22(zj,MAR2)$sam_sce14(ij,C1)],SAM1(MAR2,C1,Z)];
-2461  tmrg('22_ATRP',ij,zj,z) = SUM[(MAR3,C1)$[sam_sce23(zj,MAR3)$sam_sce14(ij,C1)],SAM1(MAR3,C1,Z)];
-2462  MRGNO('20_LTRP',z) = SAM1('51_c_LTRP','150_M1c20_L_pvst',Z);
-2463  MRGNO('21_WTRP',z) = SAM1('52_c_WTRP','151_M2c21_W_pvst',Z);
-2464  MRGNO('22_ATRP',z) = SAM1('53_c_ATRP','152_M3c22_A_pvst',Z);
-2465  TIMO(i,zj,z) = SUM[(ITAX1,C1)$[sam_sce19(zj,ITAX1)$sam_sce14(i,C1)], SAM1(ITAX1,C1,Z)];
-2466  TIXO(i,z,zj) = SUM[(ETAX1,C1)$[sam_sce20(zJ,ETAX1)$sam_sce14(i,C1)], SAM1(ETAX1,C1,Z)];
-2467  TIWO2(l,j,z) = SUM[(tf1,A1)$[sam_sce17(l,tf1)$sam_sce13(j,A1)], SAM1(tf1,A1,Z)];
-2468  TIWO2_J(l,z) = SUM(j, TIWO2(l,j,z));
-2469  TIWO(j,z) = SUM(l, TIWO2(l,j,z));
-2470  TIWO_J(z) = SUM(j, TIWO(j,z));
-2471  TIKO(k,j,z) = SUM[(tf2,A1)$[sam_sce18(k,tf2)$sam_sce13(j,A1)], SAM1(tf2,A1,Z)];
-2472  TIKO_J(k,z) = SUM(j, TIKO(k,j,z));
-2473  TIPO(j,z) = SUM[(PTX1,A1)$[sam_sce13(j,A1)], SAM1(PTX1,A1,Z)];
-2474  TICO(i,z) = SUM[(PTX1,C1)$[sam_sce14(i,C1)], SAM1(PTX1,C1,Z)];
-2475  TDHO(z) = SUM[(DTX1),SAM1(DTX1,'175_TOT',Z)];
-2476  DTAX('land',z) = SAM1('172_DIRTAX','55_Land',Z);
-2477  DTAX('slab ',z) = SAM1('172_DIRTAX','56_UnSkLab',Z);
-2478  DTAX('ulab',z) = SAM1('172_DIRTAX','57_SkLab',Z);
-2479  DTAX('cap',z) = SAM1('172_DIRTAX','58_Capital',Z);
-2480  DTAX('natr',z) = SAM1('172_DIRTAX','59_NatRes',Z);
-2481  LDO2(l,j,Z) = SUM[(L1,A1)$[sam_sce15(l,L1)$sam_sce13(j,A1)], SAM1(L1,A1,Z)];
-2482  LDO2_J(l,z) = SUM(j,LDO2(l,j,z));
-2483  LDO(j,z) = SUM(l,LDO2(l,j,z));
-2484  LDO_J(z) = SUM(j,LDO(j,z));
-2485  RKDO(k,j,Z) = SUM[(K1,A1)$[sam_sce16(k,K1)$sam_sce13(j,A1)], SAM1(K1,A1,Z)];
-2486  * Once again, to avoid descrepencies, domestic purchases are calculated by substracting imports, transport margins and indirect taxes from total domestic absorption.
-2487  DDO(i,Z) = CO(i,Z)+CGO(i,Z)+INVO(i,Z)+SUM[j,DIO(i,j,Z)]-TICO(i,Z)-SUM[zj,TIMO(i,zj,Z)]-SUM[zj,IMO(i,zj,Z)]-SUM[(ij,zj),tmrg(ij,i,zj,Z)];
-2488  MAKE(j,i,z) = SUM[(A1,C1)$[sam_sce13(j,A1)$sam_sce14(i,C1)], SAM1(A1,C1,Z)];
-2489   
-2490  *==============================================================================
-2491  * Equilibrate data
-2492  *==============================================================================
-2493  * Equilibrium on the world margin market
-2494  *  The first step would be to equilibrate international markets. As there is a small difference between supply of margins and demand, we chose to adjust
-2495  *  the supply side by increasing or reducing each region's production proportionately.
-2496  MRGNO(i,z)$MRGNO(i,z) = MRGNO(i,z)*SUM[(ij,zj,zjj),tmrg(i,ij,zj,zjj)] /SUM[zjj,MRGNO(i,zjj)];
-2497   
-2498  *Equilibrium in each region
-2499  *  As exports have already been set equal to imports, the remaining differences would appear in the national data. Total production is first set equal to
-2500  *  the sum of production for the domestic market (DSO), adjusted production of margins (MRGNO) and exports.
-2501  DSO_I(i,z) = DDO(i,Z);
-2502  XSO_I(i,z) = DDO(i,z)+MRGNO(i,z)+SUM[zj,EXO(i,z,zj)-TIXO(i,z,zj)];
-2503  XSO(j,i,z) = XSO_I(i,z)*[MAKE(j,i,z)/sum(jj,MAKE(jj,i,z))];
-2504  XSTO(j,z) = SUM(i, XSO(j,i,z));
-2505  EXTO(i,z) = SUM[zj,EXO(i,z,zj)];
-2506  DSO(j,i,z) = DDO(i,z)*[MAKE(j,i,z)/sum(jj,MAKE(jj,i,z))];
-2507   
-2508  *Balancing
-2509  * The operating surplus is the variable that was used to equilibrate the regional data.
-2510  * As all other variables (income, savings and so on) will be calculated based on the variables described in these steps, there should not be any other descrepency.
-2511  RKDO('cap',j,z) = XSTO(j,z)-SUM[i,DIO(i,j,z)]-LDO(j,z)-TIWO(j,z)-TIPO(j,z)-SUM[k,TIKO(k,j,z)]-RKDO('land',j,z) -RKDO('natr',j,z);
-2512  TotalCost(j,z) = SUM[i,DIO(i,j,z)]+LDO(j,z)+TIWO(j,z)+TIPO(j,z)+SUM[k,TIKO(k,j,z)+RKDO(k,j,z)];
-2513   
-2514  *================================================================================
-2515  execute_unload 'Input_CGE\DATA_AGG-2019_GTAP11c_Regen.gdx',
-2516   
-2517  *Sets
-2518   J, I, BUS, PUB, F, L, K, Z, ZR, Z1, Zrich, Zother
-2519   
-2520  *Benchmark variables and parameters
-2521   CO, CGO, DDO, DEPO, DIO, DSO,DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, POPO, RKDO,
-2522   TDHO, DTAX, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, tssm, tssd, tmrg, XSO, XSO_I, XSTO, EXTO, TotalCost,
-2523   sigma_M1, sigma_M2, sigma_VA, sigma_KLE, Q_GTAP, KLE_GTAP, SH_Q, SH_VA, SH_KLE, ESUBD, ELFKLE,
-2524   
-2525  *Employment
-2526   EMPLOY,
-2527   
-2528  *Backstop technology
-2529  Cap_Share, Lab_Share,
-2530   
-2531  *Parameters for RD-CGE
-2532   TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_medium, AEEI_high, PERMIT_NDC_old, PERMIT_NZ ;
-GAMS 45.7.0  64fbf3ce Jan 18, 2024          WEX-WEI x86 64bit/MS Windows - 09/16/25 17:34:15 Page 2
+2457   
+2458  Parameter EXOPRK(i);
+2459   
+2460   EXOPRK(i) = SUM[(C1)$[sam_sce14(i,C1)], SAM1(C1,'154_ww_r_02CHN','06_PRK')];
+2461   
+2462  *lt Strictly less than
+2463   IMO(i,zj, z)$(IMO(i, zj, z) lt 0.1) = 0.1 ;
+2464   IMO(i,zj,z)$sameas(zj,z) = 0 ;
+2465  *------------------------------------------------------------------------------
+2466  * 2.4.5-A 북한 무역 행렬 초기화 및 새로운 SAM 데이터 이식
+2467  *------------------------------------------------------------------------------
+2468  * (1) 북한과 관련된 모든 수입 흐름을 0.1로 초기화 (마카오 노이즈 제거)
+2469  IMO(i,"06_PRK",z) = 0.1;
+2470  IMO(i,"06_PRK","02_CHN") =  EXOPRK(i);
+2471   
+2472   IMO(i,zj, z)$(IMO(i, zj, z) lt 0.1) = 0.1 ;
+2473   IMO(i,zj,z)$sameas(zj,z) = 0 ;
+2474   
+2475  EXO(i,zj,z) = IMO(i,zj,z);
+2476  EXTO(i,z) = SUM(zj, EXO(i,z,zj));
+2477  tmrg('20_LTRP',ij,zj,z) = SUM[(MAR1,C1)$[sam_sce21(zj,MAR1)$sam_sce14(ij,C1)],SAM1(MAR1,C1,Z)];
+2478  tmrg('21_WTRP',ij,zj,z) = SUM[(MAR2,C1)$[sam_sce22(zj,MAR2)$sam_sce14(ij,C1)],SAM1(MAR2,C1,Z)];
+2479  tmrg('22_ATRP',ij,zj,z) = SUM[(MAR3,C1)$[sam_sce23(zj,MAR3)$sam_sce14(ij,C1)],SAM1(MAR3,C1,Z)];
+2480  MRGNO('20_LTRP',z) = SAM1('51_c_LTRP','150_M1c20_L_pvst',Z);
+2481  MRGNO('21_WTRP',z) = SAM1('52_c_WTRP','151_M2c21_W_pvst',Z);
+2482  MRGNO('22_ATRP',z) = SAM1('53_c_ATRP','152_M3c22_A_pvst',Z);
+2483  TIMO(i,zj,z) = SUM[(ITAX1,C1)$[sam_sce19(zj,ITAX1)$sam_sce14(i,C1)], SAM1(ITAX1,C1,Z)];
+2484  TIXO(i,z,zj) = SUM[(ETAX1,C1)$[sam_sce20(zJ,ETAX1)$sam_sce14(i,C1)], SAM1(ETAX1,C1,Z)];
+2485   
+2486  TIXO(i,z,zj)$(sameas(z,'06_PRK') or sameas(zj,'06_PRK')) = 0;
+2487  * 북한 관련 수출세 일단 0으로 초기화
+2488   
+2489  TIWO2(l,j,z) = SUM[(tf1,A1)$[sam_sce17(l,tf1)$sam_sce13(j,A1)], SAM1(tf1,A1,Z)];
+2490  TIWO2_J(l,z) = SUM(j, TIWO2(l,j,z));
+2491  TIWO(j,z) = SUM(l, TIWO2(l,j,z));
+2492  TIWO_J(z) = SUM(j, TIWO(j,z));
+2493  TIKO(k,j,z) = SUM[(tf2,A1)$[sam_sce18(k,tf2)$sam_sce13(j,A1)], SAM1(tf2,A1,Z)];
+2494  TIKO_J(k,z) = SUM(j, TIKO(k,j,z));
+2495  TIPO(j,z) = SUM[(PTX1,A1)$[sam_sce13(j,A1)], SAM1(PTX1,A1,Z)];
+2496  TICO(i,z) = SUM[(PTX1,C1)$[sam_sce14(i,C1)], SAM1(PTX1,C1,Z)];
+2497  TDHO(z) = SUM[(DTX1),SAM1(DTX1,'175_TOT',Z)];
+2498  DTAX('land',z) = SAM1('172_DIRTAX','55_Land',Z);
+2499  DTAX('slab ',z) = SAM1('172_DIRTAX','56_UnSkLab',Z);
+2500  DTAX('ulab',z) = SAM1('172_DIRTAX','57_SkLab',Z);
+2501  DTAX('cap',z) = SAM1('172_DIRTAX','58_Capital',Z);
+2502  DTAX('natr',z) = SAM1('172_DIRTAX','59_NatRes',Z);
+2503  LDO2(l,j,Z) = SUM[(L1,A1)$[sam_sce15(l,L1)$sam_sce13(j,A1)], SAM1(L1,A1,Z)];
+2504  LDO2_J(l,z) = SUM(j,LDO2(l,j,z));
+2505  LDO(j,z) = SUM(l,LDO2(l,j,z));
+2506  LDO_J(z) = SUM(j,LDO(j,z));
+2507  RKDO(k,j,Z) = SUM[(K1,A1)$[sam_sce16(k,K1)$sam_sce13(j,A1)], SAM1(K1,A1,Z)];
+2508  * Once again, to avoid descrepencies, domestic purchases are calculated by substracting imports, transport margins and indirect taxes from total domestic absorption.
+2509  DDO(i,Z) = CO(i,Z)+CGO(i,Z)+INVO(i,Z)+SUM[j,DIO(i,j,Z)]-TICO(i,Z)-SUM[zj,TIMO(i,zj,Z)]-SUM[zj,IMO(i,zj,Z)]-SUM[(ij,zj),tmrg(ij,i,zj,Z)];
+2510  MAKE(j,i,z) = SUM[(A1,C1)$[sam_sce13(j,A1)$sam_sce14(i,C1)], SAM1(A1,C1,Z)];
+2511   
+      *==============================================================================
+      * Equilibrate data
+      *==============================================================================
+      * Equilibrium on the world margin market
+      *  The first step would be to equilibrate international markets. As there is a small difference between supply of margins and demand, we chose to adjust
+      *  the supply side by increasing or reducing each region's production proportionately.
+      MRGNO(i,z)$MRGNO(i,z) = MRGNO(i,z)*SUM[(ij,zj,zjj),tmrg(i,ij,zj,zjj)] /SUM[zjj,MRGNO(i,zjj)];
+       
+      *Equilibrium in each region
+      *  As exports have already been set equal to imports, the remaining differences would appear in the national data. Total production is first set equal to
+      *  the sum of production for the domestic market (DSO), adjusted production of margins (MRGNO) and exports.
+      DSO_I(i,z) = DDO(i,Z);
+      XSO_I(i,z) = DDO(i,z)+MRGNO(i,z)+SUM[zj,EXO(i,z,zj)-TIXO(i,z,zj)]; 
+      XSO(j,i,z) = XSO_I(i,z)*[MAKE(j,i,z)/sum(jj,MAKE(jj,i,z))];
+      XSTO(j,z) = SUM(i, XSO(j,i,z));
+      EXTO(i,z) = SUM[zj,EXO(i,z,zj)];
+      DSO(j,i,z) = DDO(i,z)*[MAKE(j,i,z)/sum(jj,MAKE(jj,i,z))];
+       
+      *Balancing
+      * The operating surplus is the variable that was used to equilibrate the regional data.
+      * As all other variables (income, savings and so on) will be calculated based on the variables described in these steps, there should not be any other descrepency.
+      RKDO('cap',j,z) = XSTO(j,z)-SUM[i,DIO(i,j,z)]-LDO(j,z)-TIWO(j,z)-TIPO(j,z)-SUM[k,TIKO(k,j,z)]-RKDO('land',j,z) -RKDO('natr',j,z);
+      TotalCost(j,z) = SUM[i,DIO(i,j,z)]+LDO(j,z)+TIWO(j,z)+TIPO(j,z)+SUM[k,TIKO(k,j,z)+RKDO(k,j,z)];
+2537   
+2538  *==============================================================================
+2539  * Equilibrate data (수정본: 북한 스케일 다운 방어 로직 포함)
+2540  *==============================================================================
+2541  * (1) 마진 보정 전의 원래 글로벌 마진 공급량 기억
+2542  *PARAMETER MRGNO_OLD(i, z);
+2543  *MRGNO_OLD(i, z) = MRGNO(i, z);
+2544   
+2545  * (2) 기존 코드: 북한의 마진 수요 감소에 맞춰 글로벌 마진 공급량을 자동으로 줄임
+2546  *MRGNO(i,z)$MRGNO(i,z) = MRGNO(i,z)*SUM[(ij,zj,zjj),tmrg(i,ij,zj,zjj)] /SUM[zjj,MRGNO(i,zjj)];
+2547   
+2548  * (3) [추가] 증발한 마진 공급량 및 파트너국 수출량 계산
+2549  PARAMETER
+2550      TRADE_LOSS_EX(i, z)  "증발한 파트너 국가의 대북 수출액"
+2551  *    MARGIN_LOSS(i, z)    "증발한 파트너 국가의 운송 마진 공급액"
+2552  ;
+2553   
+2554  * 마진 손실량 = 원래 공급량 - 북한 수요 감소 반영 후 쪼그라든 공급량
+2555  *MARGIN_LOSS(i, z) = MRGNO_OLD(i, z) - MRGNO(i, z);
+2556   
+2557  * 수출 손실량 = 원래 대북 수출량(SAM0) - 수정된 대북 수출량(SAM1)
+2558  TRADE_LOSS_EX(i, z)$(not sameas(z,'06_PRK')) =
+2559      SUM[(WORLD1,C1)$[sam_sce24(z,WORLD1)$sam_sce14(i,C1)], SAM0(WORLD1,C1,'06_PRK')]
+2560    - SUM[(WORLD1,C1)$[sam_sce24(z,WORLD1)$sam_sce14(i,C1)], SAM1(WORLD1,C1,'06_PRK')];
+2561   
+2562  * (4) [핵심] 증발한 수출 및 마진 물량을 파트너 국가의 내수(DDO, CO)가 흡수하게 하여 RKDO 방어
+2563  DDO(i, z)$(not sameas(z,'06_PRK')) = DDO(i, z) + TRADE_LOSS_EX(i, z) ;
+2564  CO(i, z)$(not sameas(z,'06_PRK'))  = CO(i, z)  + TRADE_LOSS_EX(i, z) ;
+2565   
+2566  *DDO(i, z)$(not sameas(z,'06_PRK')) = DDO(i, z) + TRADE_LOSS_EX(i, z) + MARGIN_LOSS(i, z);
+2567  *CO(i, z)$(not sameas(z,'06_PRK'))  = CO(i, z)  + TRADE_LOSS_EX(i, z) + MARGIN_LOSS(i, z);
+2568   
+2569  * for Data Balancing in 2019 Database
+2570  TIPO('17_OTHERIND ','06_PRK')       =  -7.66751 -0.1;
+2571  TIPO('22_eOil','06_PRK')       =-0.696132 -3.00982-0.2-0.05;
+2572  TIPO('13_IRONSTL','06_PRK')       =  -0.0799852 -0.1;
+2573   
+2574  *------------------------------------------------------------------------------
+2575  * 이후 기존 잔차 및 밸런싱 코드 정상 작동 (XSO, RKDO 붕괴 방지됨)
+2576  *------------------------------------------------------------------------------
+2577  DSO_I(i,z) = DDO(i,Z);
+2578  XSO_I(i,z) = DDO(i,z)+MRGNO(i,z)+SUM[zj,EXO(i,z,zj)-TIXO(i,z,zj)];
+2579  XSO(j,i,z) = XSO_I(i,z)*[MAKE(j,i,z)/sum(jj,MAKE(jj,i,z))];
+2580  XSTO(j,z)  = SUM(i, XSO(j,i,z));
+2581  EXTO(i,z)  = SUM[zj,EXO(i,z,zj)];
+2582  DSO(j,i,z) = DDO(i,z)*[MAKE(j,i,z)/sum(jj,MAKE(jj,i,z))];
+2583   
+2584  RKDO('cap',j,z) = XSTO(j,z)-SUM[i,DIO(i,j,z)]-LDO(j,z)-TIWO(j,z)-TIPO(j,z)-SUM[k,TIKO(k,j,z)]-RKDO('land',j,z) -RKDO('natr',j,z);
+2585  TotalCost(j,z)  = SUM[i,DIO(i,j,z)]+LDO(j,z)+TIWO(j,z)+TIPO(j,z)+SUM[k,TIKO(k,j,z)+RKDO(k,j,z)];
+2586   
+2587  *================================================================================
+2588  execute_unload 'Input_CGE\DATA_AGG-2019_GTAP11c_Regen.gdx',
+2589   
+2590  *Sets
+2591   J, I, BUS, PUB, F, L, K, Z, ZR, Z1, Zrich, Zother
+2592   
+2593  *Benchmark variables and parameters
+2594   CO, CGO, DDO, DEPO, DIO, DSO,DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, POPO, RKDO,
+2595   TDHO, DTAX, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, tssm, tssd, tmrg, XSO, XSO_I, XSTO, EXTO, TotalCost,
+2596   sigma_M1, sigma_M2, sigma_VA, sigma_KLE, Q_GTAP, KLE_GTAP, SH_Q, SH_VA, SH_KLE, ESUBD, ELFKLE,
+2597   
+2598  *Employment
+2599   EMPLOY,
+2600   
+2601  *Backstop technology
+2602  Cap_Share, Lab_Share,
+2603   
+2604  *Parameters for RD-CGE
+2605   TOT_POP, g_GDP, g_POP, g_SDR, AEEI_low, AEEI_medium, AEEI_high, PERMIT_NDC_old, PERMIT_NZ ;
+GAMS 45.7.0  64fbf3ce Jan 18, 2024          WEX-WEI x86 64bit/MS Windows - 03/16/26 14:30:36 Page 2
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
 Include File Summary
 
@@ -2601,13 +2672,13 @@ Include File Summary
     15     2235 INCLUDE        1    1230  .C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\DATA_ReGen.gms
 
 
-COMPILATION TIME     =        6.578 SECONDS     21 MB  45.7.0 64fbf3ce WEX-WEI
-GAMS 45.7.0  64fbf3ce Jan 18, 2024          WEX-WEI x86 64bit/MS Windows - 09/16/25 17:34:15 Page 3
+COMPILATION TIME     =        6.047 SECONDS     21 MB  45.7.0 64fbf3ce WEX-WEI
+GAMS 45.7.0  64fbf3ce Jan 18, 2024          WEX-WEI x86 64bit/MS Windows - 03/16/26 14:30:36 Page 3
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
 E x e c u t i o n
 
 
-EXECUTION TIME       =        1.235 SECONDS     89 MB  45.7.0 64fbf3ce WEX-WEI
+EXECUTION TIME       =        1.234 SECONDS     89 MB  45.7.0 64fbf3ce WEX-WEI
 
 
 USER: Medium MUD - 10 User License                   S220825|0002AO-WIN

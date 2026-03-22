@@ -875,6 +875,57 @@ sigma_LD(j,z)  = 0.5;
  elasLS(z) = 0.5 ; 
 
  growthz(z)     = 0.02 ;
+ 
+*==============================================================================
+* Calibration of Own-price elasticities for KOR
+*==============================================================================
+
+*Elec
+ sigma_KLE('01_AGRICULT','01_KOR')        = 0.5 ;
+ sigma_KLE('05_MINING  ','01_KOR')        = 0.5 ;
+ sigma_KLE('06_FOODPRO ','01_KOR')        = 0.5 ;
+ sigma_KLE('07_TEXTILES','01_KOR')        = 0.5 ;
+ sigma_KLE('08_WOODPRO','01_KOR')        = 0.5 ;
+ sigma_KLE('09_PAPERPRO','01_KOR')        = 0.5 ;
+ sigma_KLE('11_CHEMICAL','01_KOR')        = 0.5 ;
+ sigma_KLE('12_NONMET','01_KOR')         = 0.5 ;
+ sigma_KLE('13_IRONSTL','01_KOR')         = 0.5 ;
+ sigma_KLE('14_NONFERR','01_KOR')         = 0.5 ;
+ sigma_KLE('15_MACHINE','01_KOR')         = 0.5 ;
+ sigma_KLE('16_TRANSEQ','01_KOR')         = 0.5 ;
+ sigma_KLE('17_OTHERIND','01_KOR')        = 0.5 ;
+ sigma_KLE('31_SER ','01_KOR')                 = 0.5 ;
+
+ sigma_ENER_elec(j,'01_KOR') = 0.1 ;
+
+ sigma_Y('18_ELEC','01_KOR') = 0.1* sigma_Y('18_ELEC','01_KOR'); 
+
+
+*Coal
+ sigma_KLE('20_eCoal','01_KOR')                 = 1.2;
+ sigma_ENER_elec('20_eCoal','01_KOR')       = 0.4;
+ sigma_ENER_nelec('20_eCoal','01_KOR')      = 0.4 ;
+ sigma_ENER_coalgas('20_eCoal','01_KOR')  = 0.4;
+ sigma_ENER_oilprod('20_eCoal','01_KOR')   = 0.4 ;
+
+*Gas
+ sigma_ENER_coalgas(j,'01_KOR')  = 0.2;
+ sigma_ENER_nelec(j,'01_KOR') = 0.5 ;
+ 
+ sigma_Y('04_GAS','01_KOR') = 0.1* sigma_Y('04_GAS','01_KOR');
+
+*PetrolCoal
+ sigma_KLE('10_PETROLCOAL','01_KOR')     = 0.5 ;
+ sigma_KLE('11_CHEMICAL','01_KOR')         = 0.5 ;
+ sigma_KLE('22_eOil','01_KOR')         = 0.5 ;
+ sigma_KLE('28_LTRP','01_KOR')                 = 0.5 ;
+
+ sigma_ENER_nelec(j,'01_KOR') = 0.5 ;
+ sigma_ENER_oilprod(j,'01_KOR')   = 0.1 ;
+
+ sigma_Y('10_PETROLCOAL','01_KOR') = 0.1* sigma_Y('10_PETROLCOAL','01_KOR'); 
+
+
 *==============================================================================
 *   Rescaling 
 *==============================================================================

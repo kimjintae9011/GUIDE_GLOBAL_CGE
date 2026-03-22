@@ -1,6 +1,8 @@
 auxiliary files = sambal;
-File INFILE = SAM0.har;
-Updated File INFILE = SAM1.har;
+!File INFILE = SAM0.har;
+File INFILE = SAM0_NEW.har;
+!Updated File INFILE = SAM1.har;
+Updated File INFILE = SAM1_NEW.har;
 start with MMNZ = 21251 ; ! suitable for SAM size 64*64 
 method = Gragg;
 steps = 13 15 17;
@@ -40,21 +42,21 @@ xSet EXOFACTOR  # factors #
 
 xSubset EXOFACTOR is subset of ACC; 
 
-swap fsam(EXOGENE,"ww_r_01KOR")    =p_sam(EXOGENE,"ww_r_01KOR");
-swap fsam(EXOGENE,"ww_r_02CHN")    =p_sam(EXOGENE,"ww_r_02CHN");
-swap fsam(EXOGENE,"ww_r_03JPN")    =p_sam(EXOGENE,"ww_r_03JPN");
-swap fsam(EXOGENE,"ww_r_04RUS")    =p_sam(EXOGENE,"ww_r_04RUS");
-swap fsam(EXOGENE,"ww_r_05MNG")    =p_sam(EXOGENE,"ww_r_05MNG");
-swap fsam(EXOGENE,"ww_r_07NAM")    =p_sam(EXOGENE,"ww_r_07NAM");
-swap fsam(EXOGENE,"ww_r_08LAM")    =p_sam(EXOGENE,"ww_r_08LAM");
-swap fsam(EXOGENE,"ww_r_09WEU")    =p_sam(EXOGENE,"ww_r_09WEU");
-swap fsam(EXOGENE,"ww_r_10EEU")    =p_sam(EXOGENE,"ww_r_10EEU");
-swap fsam(EXOGENE,"ww_r_11FSU")    =p_sam(EXOGENE,"ww_r_11FSU");
-swap fsam(EXOGENE,"ww_r_12MEA")    =p_sam(EXOGENE,"ww_r_12MEA");
-swap fsam(EXOGENE,"ww_r_13AFR")    =p_sam(EXOGENE,"ww_r_13AFR");
-swap fsam(EXOGENE,"ww_r_15SAS")    =p_sam(EXOGENE,"ww_r_15SAS");
-swap fsam(EXOGENE,"ww_r_16PAS")    =p_sam(EXOGENE,"ww_r_16PAS");
-swap fsam(EXOGENE,"ww_r_17PAO")    =p_sam(EXOGENE,"ww_r_17PAO");
+!swap fsam(EXOGENE,"ww_r_01KOR")    =p_sam(EXOGENE,"ww_r_01KOR");
+!swap fsam(EXOGENE,"ww_r_02CHN")    =p_sam(EXOGENE,"ww_r_02CHN");
+!swap fsam(EXOGENE,"ww_r_03JPN")    =p_sam(EXOGENE,"ww_r_03JPN");
+!swap fsam(EXOGENE,"ww_r_04RUS")    =p_sam(EXOGENE,"ww_r_04RUS");
+!swap fsam(EXOGENE,"ww_r_05MNG")    =p_sam(EXOGENE,"ww_r_05MNG");
+!swap fsam(EXOGENE,"ww_r_07NAM")    =p_sam(EXOGENE,"ww_r_07NAM");
+!swap fsam(EXOGENE,"ww_r_08LAM")    =p_sam(EXOGENE,"ww_r_08LAM");
+!swap fsam(EXOGENE,"ww_r_09WEU")    =p_sam(EXOGENE,"ww_r_09WEU");
+!swap fsam(EXOGENE,"ww_r_10EEU")    =p_sam(EXOGENE,"ww_r_10EEU");
+!swap fsam(EXOGENE,"ww_r_11FSU")    =p_sam(EXOGENE,"ww_r_11FSU");
+!swap fsam(EXOGENE,"ww_r_12MEA")    =p_sam(EXOGENE,"ww_r_12MEA");
+!swap fsam(EXOGENE,"ww_r_13AFR")    =p_sam(EXOGENE,"ww_r_13AFR");
+!swap fsam(EXOGENE,"ww_r_15SAS")    =p_sam(EXOGENE,"ww_r_15SAS");
+!swap fsam(EXOGENE,"ww_r_16PAS")    =p_sam(EXOGENE,"ww_r_16PAS");
+!swap fsam(EXOGENE,"ww_r_17PAO")    =p_sam(EXOGENE,"ww_r_17PAO");
 
 swap fsam("Land","a_AGRICULT")     =p_sam("Land","a_AGRICULT")   ;
 swap fsam("UnSkLab",EXOACT)        =p_sam("UnSkLab",EXOACT)      ;

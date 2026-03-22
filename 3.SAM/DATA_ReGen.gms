@@ -219,6 +219,24 @@ CGO(i,z) = SUM[(C1,GOV1)$[sam_sce14(i,C1)], SAM1(C1,GOV1,Z)];
 INVO(i,z) = SUM[(C1,INV1)$[sam_sce14(i,C1)], SAM1(C1,INV1,Z)];
 DIO(i,j,z) = SUM[(C1,A1)$[sam_sce14(i,C1)$sam_sce13(j,A1)], SAM1(C1,A1,Z)];
 IMO(i,zj,z) = SUM[(World1,C1)$[sam_sce24(zj,World1)$sam_sce14(i,C1)], SAM1(World1,C1,Z)];
+
+Parameter EXOPRK(i);
+
+ EXOPRK(i) = SUM[(C1)$[sam_sce14(i,C1)], SAM1(C1,'154_ww_r_02CHN','06_PRK')];
+ 
+*lt Strictly less than
+ IMO(i,zj, z)$(IMO(i, zj, z) lt 0.1) = 0.1 ;
+ IMO(i,zj,z)$sameas(zj,z) = 0 ;
+*------------------------------------------------------------------------------
+* 2.4.5-A 북한 무역 행렬 초기화 및 새로운 SAM 데이터 이식
+*------------------------------------------------------------------------------
+* (1) 북한과 관련된 모든 수입 흐름을 0.1로 초기화 (마카오 노이즈 제거)
+IMO(i,"06_PRK",z) = 0.1;
+IMO(i,"06_PRK","02_CHN") =  EXOPRK(i);
+
+ IMO(i,zj, z)$(IMO(i, zj, z) lt 0.1) = 0.1 ;
+ IMO(i,zj,z)$sameas(zj,z) = 0 ;
+
 EXO(i,zj,z) = IMO(i,zj,z);
 EXTO(i,z) = SUM(zj, EXO(i,z,zj));
 tmrg('20_LTRP',ij,zj,z) = SUM[(MAR1,C1)$[sam_sce21(zj,MAR1)$sam_sce14(ij,C1)],SAM1(MAR1,C1,Z)];
@@ -229,6 +247,10 @@ MRGNO('21_WTRP',z) = SAM1('52_c_WTRP','151_M2c21_W_pvst',Z);
 MRGNO('22_ATRP',z) = SAM1('53_c_ATRP','152_M3c22_A_pvst',Z);
 TIMO(i,zj,z) = SUM[(ITAX1,C1)$[sam_sce19(zj,ITAX1)$sam_sce14(i,C1)], SAM1(ITAX1,C1,Z)];
 TIXO(i,z,zj) = SUM[(ETAX1,C1)$[sam_sce20(zJ,ETAX1)$sam_sce14(i,C1)], SAM1(ETAX1,C1,Z)];
+
+TIXO(i,z,zj)$(sameas(z,'06_PRK') or sameas(zj,'06_PRK')) = 0;
+* 북한 관련 수출세 일단 0으로 초기화
+
 TIWO2(l,j,z) = SUM[(tf1,A1)$[sam_sce17(l,tf1)$sam_sce13(j,A1)], SAM1(tf1,A1,Z)];
 TIWO2_J(l,z) = SUM(j, TIWO2(l,j,z));
 TIWO(j,z) = SUM(l, TIWO2(l,j,z));
@@ -252,6 +274,7 @@ RKDO(k,j,Z) = SUM[(K1,A1)$[sam_sce16(k,K1)$sam_sce13(j,A1)], SAM1(K1,A1,Z)];
 DDO(i,Z) = CO(i,Z)+CGO(i,Z)+INVO(i,Z)+SUM[j,DIO(i,j,Z)]-TICO(i,Z)-SUM[zj,TIMO(i,zj,Z)]-SUM[zj,IMO(i,zj,Z)]-SUM[(ij,zj),tmrg(ij,i,zj,Z)];
 MAKE(j,i,z) = SUM[(A1,C1)$[sam_sce13(j,A1)$sam_sce14(i,C1)], SAM1(A1,C1,Z)];
 
+$Ontext
 *==============================================================================
 * Equilibrate data
 *==============================================================================
@@ -275,6 +298,56 @@ DSO(j,i,z) = DDO(i,z)*[MAKE(j,i,z)/sum(jj,MAKE(jj,i,z))];
 * As all other variables (income, savings and so on) will be calculated based on the variables described in these steps, there should not be any other descrepency.
 RKDO('cap',j,z) = XSTO(j,z)-SUM[i,DIO(i,j,z)]-LDO(j,z)-TIWO(j,z)-TIPO(j,z)-SUM[k,TIKO(k,j,z)]-RKDO('land',j,z) -RKDO('natr',j,z);
 TotalCost(j,z) = SUM[i,DIO(i,j,z)]+LDO(j,z)+TIWO(j,z)+TIPO(j,z)+SUM[k,TIKO(k,j,z)+RKDO(k,j,z)];
+$Offtext
+
+*==============================================================================
+* Equilibrate data (수정본: 북한 스케일 다운 방어 로직 포함)
+*==============================================================================
+* (1) 마진 보정 전의 원래 글로벌 마진 공급량 기억
+*PARAMETER MRGNO_OLD(i, z);
+*MRGNO_OLD(i, z) = MRGNO(i, z);
+
+* (2) 기존 코드: 북한의 마진 수요 감소에 맞춰 글로벌 마진 공급량을 자동으로 줄임
+*MRGNO(i,z)$MRGNO(i,z) = MRGNO(i,z)*SUM[(ij,zj,zjj),tmrg(i,ij,zj,zjj)] /SUM[zjj,MRGNO(i,zjj)];
+
+* (3) [추가] 증발한 마진 공급량 및 파트너국 수출량 계산
+PARAMETER
+    TRADE_LOSS_EX(i, z)  "증발한 파트너 국가의 대북 수출액"
+*    MARGIN_LOSS(i, z)    "증발한 파트너 국가의 운송 마진 공급액"
+;
+
+* 마진 손실량 = 원래 공급량 - 북한 수요 감소 반영 후 쪼그라든 공급량
+*MARGIN_LOSS(i, z) = MRGNO_OLD(i, z) - MRGNO(i, z);
+
+* 수출 손실량 = 원래 대북 수출량(SAM0) - 수정된 대북 수출량(SAM1)
+TRADE_LOSS_EX(i, z)$(not sameas(z,'06_PRK')) = 
+    SUM[(WORLD1,C1)$[sam_sce24(z,WORLD1)$sam_sce14(i,C1)], SAM0(WORLD1,C1,'06_PRK')]
+  - SUM[(WORLD1,C1)$[sam_sce24(z,WORLD1)$sam_sce14(i,C1)], SAM1(WORLD1,C1,'06_PRK')];
+
+* (4) [핵심] 증발한 수출 및 마진 물량을 파트너 국가의 내수(DDO, CO)가 흡수하게 하여 RKDO 방어
+DDO(i, z)$(not sameas(z,'06_PRK')) = DDO(i, z) + TRADE_LOSS_EX(i, z) ;
+CO(i, z)$(not sameas(z,'06_PRK'))  = CO(i, z)  + TRADE_LOSS_EX(i, z) ;
+
+*DDO(i, z)$(not sameas(z,'06_PRK')) = DDO(i, z) + TRADE_LOSS_EX(i, z) + MARGIN_LOSS(i, z);
+*CO(i, z)$(not sameas(z,'06_PRK'))  = CO(i, z)  + TRADE_LOSS_EX(i, z) + MARGIN_LOSS(i, z);
+
+* for Data Balancing in 2019 Database
+TIPO('17_OTHERIND ','06_PRK')       =  -7.66751 -0.1;
+TIPO('22_eOil','06_PRK')       =-0.696132 -3.00982-0.2-0.05;
+TIPO('13_IRONSTL','06_PRK')       =  -0.0799852 -0.1;
+
+*------------------------------------------------------------------------------
+* 이후 기존 잔차 및 밸런싱 코드 정상 작동 (XSO, RKDO 붕괴 방지됨)
+*------------------------------------------------------------------------------
+DSO_I(i,z) = DDO(i,Z);
+XSO_I(i,z) = DDO(i,z)+MRGNO(i,z)+SUM[zj,EXO(i,z,zj)-TIXO(i,z,zj)];
+XSO(j,i,z) = XSO_I(i,z)*[MAKE(j,i,z)/sum(jj,MAKE(jj,i,z))];
+XSTO(j,z)  = SUM(i, XSO(j,i,z));
+EXTO(i,z)  = SUM[zj,EXO(i,z,zj)];
+DSO(j,i,z) = DDO(i,z)*[MAKE(j,i,z)/sum(jj,MAKE(jj,i,z))];
+
+RKDO('cap',j,z) = XSTO(j,z)-SUM[i,DIO(i,j,z)]-LDO(j,z)-TIWO(j,z)-TIPO(j,z)-SUM[k,TIKO(k,j,z)]-RKDO('land',j,z) -RKDO('natr',j,z);
+TotalCost(j,z)  = SUM[i,DIO(i,j,z)]+LDO(j,z)+TIWO(j,z)+TIPO(j,z)+SUM[k,TIKO(k,j,z)+RKDO(k,j,z)];
 
 *================================================================================
 execute_unload 'Input_CGE\DATA_AGG-2019_GTAP11c_Regen.gdx',

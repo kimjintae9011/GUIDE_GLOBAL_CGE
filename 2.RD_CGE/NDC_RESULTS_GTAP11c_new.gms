@@ -489,11 +489,11 @@ PARAMETER
  valCTAX(z,time,'NDC') = CTAX.l(z,time) ;
  valTCTAX(z,time,'NDC') = TCTAX.l(z,time) ;
 * valTIW_Share(j,z,time,'NDC') = TIW_Share.l(j,z,time);
- valTIK_Share(j,z,time,'NDC') = TIK_Share.l(j,z,time);
- valTIP_Share(j,z,time,'NDC') = TIP_Share.l(j,z,time);
+* valTIK_Share(j,z,time,'NDC') = TIK_Share.l(j,z,time);
+* valTIP_Share(j,z,time,'NDC') = TIP_Share.l(j,z,time);
 * valdeltatiw(j,z,time,'NDC') = deltatiw.l(j,z,time);
- valdeltatik(j,z,time,'NDC') = deltatik.l(j,z,time);
- valdeltatip(j,z,time,'NDC') = deltatip.l(j,z,time);
+* valdeltatik(j,z,time,'NDC') = deltatik.l(j,z,time);
+* valdeltatip(j,z,time,'NDC') = deltatip.l(j,z,time);
  valrebatetot(z,time,'NDC') =sum(j, LaborRebate.l(j,z,time));
 
 *$Ontext

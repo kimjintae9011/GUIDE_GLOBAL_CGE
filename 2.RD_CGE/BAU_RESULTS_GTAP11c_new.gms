@@ -126,8 +126,10 @@ PARAMETER
  valYHK(z,time,scen)         Household capital income in region z
  valYHL(z,time,scen)         Household labor income in region z
  valYROW(z,time,scen)        Rest-of-the-world total income from region z
+ valLEON(z,time,scen)       Excess supply on the last market in region z
  valPERMIT_TOTAL(z,time,scen) Total emissions
  valCO2FACTOR(ene,j,z,time,scen) CO2 FACTOR
+ valLEON(z,time,scen)
 *=================== Energy ================================================================== 
  valAEEI(z,time,scen)         AEEI
  valEE(product,j,z,time,scen) Industry's energy consumption by regions 
@@ -364,8 +366,10 @@ PARAMETER
  valYHK(z,time,'bau')        = YHK.l(z,time);
  valYHL(z,time,'bau')        = YHL.l(z,time);
  valYROW(z,time,'bau')       = YROW.l(z,time);
+ valLEON(z,time,'bau')     = LEON.l(z,time) ;
  valPERMIT_TOTAL(z,time,'bau') = PERMIT_TOTAL.l(z,time);
  valCO2FACTOR(ene,j,z,time,'bau') = CO2FACTOR2(ene,j,z,time);
+ valLEON(z,time,'NZ') = LEON.l(z,time);
 *=============================== Energy =====================================================================
  valAEEI(z,time,'bau')                  =  AEEI(z,time);
 
@@ -670,13 +674,15 @@ PARAMETER
  valW,
  valWC,
  valWTI,
- valXS, 
+ valXS,
+ valXST,
  valYDH,  
  valYG,         
  valYH,        
  valYHK,       
  valYHL,        
  valYROW,
+ valLEON,
  valEE,
  valNE,
  valEH,
@@ -737,6 +743,7 @@ PARAMETER
  valTCO2_Marine,
  valTCO2_Aviation,
  valPERMIT_TOTAL,
- valCO2FACTOR
+ valCO2FACTOR,
+ valLEON
  ;
 *$Offtext

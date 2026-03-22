@@ -58,23 +58,21 @@ $offtext
 *==============================================================================
 *   6.2.1.4 Other exogenous variables
 *==============================================================================
- CABX.FX(z1,time)        = CABXO(z1)*cabix(z1,time);
- G_REAL.FX(z,time)      = G_REALX(z,time);
- IND.fx(k,pub,z,time)    = INDX(k,pub,z,time);
- sh0.fx(z,time)             = sh0X(z,time);
- sh1.fx(z,time)             = sh1X(z,time);
- ttdh0.fx(z,time)           = ttdh0O(z); 
- ttdh1.fx(z,time)           = ttdh1O(z);
- ttic.fx(i,z,time)            = tticO(i,z);
- ttim.fx(i,zj,z,time)        = ttimO(i,zj,z);
- ttix.fx(i,z,zj,time)         = ttixO(i,z,zj);
- ttik.fx('land',j,z,time)    = ttikO('land',j,z);
- ttik.fx('natr',j,z,time)    = ttikO('natr',j,z);
- ttiw.fx(j,z,time)           = ttiwO(j,z);
-* ttik.fx(k,j,z,time)        = ttikO(k,j,z);
-* ttip.fx(j,z,time)          = ttipO(j,z);
-
-* CTAX.fX(CTAX_Z,time)                     = CTAX0(CTAX_Z);
+ CABX.FX(z1,time)         = CABXO(z1)*cabix(z1,time);
+ G_REAL.FX(z,time)       = G_REALX(z,time);
+ IND.fx(k,pub,z,time)     = INDX(k,pub,z,time);
+ sh0.fx(z,time)              = sh0X(z,time);
+ sh1.fx(z,time)              = sh1X(z,time);
+ ttdh0.fx(z,time)            = ttdh0O(z); 
+ ttdh1.fx(z,time)            = ttdh1O(z);
+ ttic.fx(i,z,time)             = tticO(i,z);
+ ttim.fx(i,zj,z,time)         = ttimO(i,zj,z);
+ ttix.fx(i,z,zj,time)          = ttixO(i,z,zj);
+ ttik.fx('land',j,z,time)     = ttikO('land',j,z);
+ ttik.fx('natr',j,z,time)     = ttikO('natr',j,z);
+ ttik.fx('cap',j,z,time)      = ttikO('cap',j,z);
+ ttiw.fx(j,z,time)            = ttiwO(j,z);
+ ttip.fx(j,z,time)             = ttipO(j,z);
  PERMIT_TOTAL.fx(PERMIT_Z,time)   = PERMIT_TOTALO(PERMIT_Z) ;
 
 *==============================================================================
@@ -99,6 +97,21 @@ $INCLUDE INIT_new.gms
 *==============================================================================
 *   6.1.1.1 Lower bounds on some variables
 *==============================================================================
+
+*==============================================================================
+*   6.1.1.1 Bounds on variables
+*==============================================================================
+ DS.LO(j,i,z,time)$(ord(time) gt 1)  = 0.0001*DS.LO(j,i,z,time-1);
+ EX.LO(i,z,zj,time)$(ord(time) gt 1)  = 0.0001*EX.l(i,z,zj,time-1);
+ EXT.LO(i,z,time)$(ord(time) gt 1)    = 0.0001*EXT.l(i,z,time-1);
+ IM.LO(i,zj,z,time)$(ord(time) gt 1)  = 0.0001*IM.l(i,zj,z,time-1);
+ KDC.LO(j,z,time)$(ord(time) gt 1)    = 0.0001*KDC.l(j,z,time-1);
+ LDC.LO(j,z,time)$(ord(time) gt 1)    = 0.0001*LDC.l(j,z,time-1);
+ R.LO(k,j,z,time)$(ord(time) gt 1)    = 0.0001*R.l(k,j,z,time-1);
+ RC.LO(j,z,time)$(ord(time) gt 1)     = 0.0001*RC.l(j,z,time-1);
+* RTI.lo(k,bus,z,time)$(ord(time) gt 1)= 0.0001*RTI.l(k,bus,z,time-1);
+ U.LO(z,time)$(ord(time) gt 1)        = 0.0001*U.l(z,time-1);
+ WC.LO(j,z,time)$(ord(time) gt 1)     = 0.0001*WC.l(j,z,time-1);
 
 *==============================================================================
 *   6.1.3 Closures
@@ -148,18 +161,6 @@ $offtext
  PIXCON_lag(z,t1)   = PIXCONO_lag(z);
  PIXCON_lag(z,time)$[ord(time) gt 1]
                     = PIXCON.l(z,time-1); 
- 
-* ttiw_lag.fx(j,z,t1)  =ttiwO(j,z);
-* ttiw_lag.fx(j,z,time)$[ord(time) gt 1]
-*                     =ttiw.l(j,z,time-1);
- 
- ttik_lag.fx(j,z,t1)  = ttikO('cap',j,z);
- ttik_lag.fx(j,z,time)$[ord(time) gt 1]
-                     = ttik.l('cap',j,z,time-1);
-  
- ttip_lag.fx(j,z,t1)  =ttipO(j,z);
- ttip_lag.fx(j,z,time)$[ord(time) gt 1]
-                     = ttip.l(j,z,time-1);
 
 *==============================================================================
 *   CTAX and PERMIT
@@ -170,13 +171,14 @@ $offtext
  recycle_gov(z,time)     = 0 ;          
  recycle_hou(z,time)     = 1 ;           
  recycle_labor(z,time)   = 0 ;         
- recycle_capital(z,time) = 0 ;        
- recycle_ptax(z,time)    = 0 ;    
+* recycle_capital(z,time) = 0 ;        
+* recycle_ptax(z,time)    = 0 ;    
                 
 *==============================================================================
 *  AEEI
 *============================================================================== 
  AEEI(z,time) = 1;
+* AEEI(z,time) = AEEI_Low(z,time);
 * AEEI(z,time) = AEEI_Medium(z,time);
 
 *=============================================================================
@@ -204,82 +206,40 @@ CO2FACTOR2_Star(ene,j7,PERMIT_Z,time)$[ord(time) gt 2]=
 CO2FACTOR2(ene,j7,PERMIT_Z,time)$[ord(time) gt 2]= 
     CO2FACTOR2(ene,j7,PERMIT_Z,time-1) + adjustment_factor * (CO2FACTOR2_Star(ene,j7,PERMIT_Z,time) - CO2FACTOR2(ene,j7,PERMIT_Z,time-1));
 
-* 4. Apply minimum floor constraint (Corrected logic and syntax)
-* If CO2FACTOR2 calculated above is less than MINCO2FACTOR, set it to MINCO2FACTOR.
-CO2FACTOR2(ene,j7,PERMIT_Z,time)$[CO2FACTOR2(ene,j7,PERMIT_Z,time) < MINCO2FACTOR(ene,j7,PERMIT_Z)] = MINCO2FACTOR(ene,j7,PERMIT_Z);
+* 4. Apply Monotonic Decrease Constraint 
+* If CO2FACTOR2 calculated above is greater than the previous year's value, set it to the previous year's value.
+CO2FACTOR2(ene,j7,PERMIT_Z,time)$[ord(time) gt 2 and CO2FACTOR2(ene,j7,PERMIT_Z,time) > CO2FACTOR2(ene,j7,PERMIT_Z,time-1)] = CO2FACTOR2(ene,j7,PERMIT_Z,time-1);
+
+* 5. Apply minimum floor constraint (Original 4 step, now step 5)
+* If CO2FACTOR2 is less than MINCO2FACTOR, set it to MINCO2FACTOR.
+CO2FACTOR2(ene,j7,PERMIT_Z,time)$[ord(time) gt 2 and CO2FACTOR2(ene,j7,PERMIT_Z,time) < MINCO2FACTOR(ene,j7,PERMIT_Z)] = MINCO2FACTOR(ene,j7,PERMIT_Z);
+
+*==============================================================================
+*  Direct Air Capture
+*============================================================================== 
+Loop(z,
+   if ( (DAC_Start_Year(z) = 0) and (CTAX.L(z, time) > DAC_TRIGGER),
+             DAC_Start_Year(z) = ord(time);
+              switchDAC(z, time+1) = 1;
+        );
+
+        if (DAC_Start_Year(z) > 0,
+             switchDAC(z, time+1) = 1;
+        );
+
+        if (DAC_Start_Year(z) > 0,           
+            DAC_growth_rate(z, time+1) = DAC_Max_Pen(z) / 
+                (1 + exp( -DAC_Logistic_Coeff(z) * ( (ord(time) + 1 - DAC_Start_Year(z)) - DAC_Inflection(z) ) ));
+
+        else
+            DAC_growth_rate(z, time+1) = 0;
+        );
+      );    
 
 *==============================================================================
 * Backstop technologies
 *==============================================================================
-$ontext
-if ((CTAX.L('01_KOR',time) gt trigger_price), switch(i3,'01_KOR',time) = 1  ;
-else switch(i3, '01_KOR', time)$[ (switch(i3, '01_KOR', time-1) = 1) OR (CTAX.L('01_KOR', time) >  trigger_price) ] = 1;
-);
-
-if ((CTAX.L('02_CHN',time) gt trigger_price), switch(i3,'02_CHN',time) = 1  ;
-else switch(i3, '02_CHN', time)$[ (switch(i3, '02_CHN', time-1) = 1) OR (CTAX.L('02_CHN', time) >  trigger_price) ] = 1;
-);
-
-if ((CTAX.L('03_JPN',time) gt trigger_price), switch(i3,'03_JPN',time) = 1  ;
-else switch(i3, '03_JPN', time)$[ (switch(i3, '03_JPN', time-1) = 1) OR (CTAX.L('03_JPN', time) >  trigger_price) ] = 1;
-);
-
-if ((CTAX.L('04_RUS',time) gt trigger_price), switch(i3,'04_RUS',time) = 1  ;
-else switch(i3, '04_RUS', time)$[ (switch(i3, '04_RUS', time-1) = 1) OR (CTAX.L('04_RUS', time) >  trigger_price) ] = 1;
-);
-
-if ((CTAX.L('05_MNG',time) gt trigger_price), switch(i3,'05_MNG',time) = 1  ;
-else switch(i3, '05_MNG', time)$[ (switch(i3, '05_MNG', time-1) = 1) OR (CTAX.L('05_MNG', time) >  trigger_price) ] = 1;
-);
-
-if ((CTAX.L('06_PRK',time) gt trigger_price), switch(i3,'06_PRK',time) = 1  ;
-else switch(i3, '06_PRK', time)$[ (switch(i3, '06_PRK', time-1) = 1) OR (CTAX.L('06_PRK', time) >  trigger_price) ] = 1;
-);
-
-if ((CTAX.L('07_NAM',time) gt trigger_price), switch(i3,'07_NAM',time) = 1  ;
-else switch(i3, '07_NAM', time)$[ (switch(i3, '07_NAM', time-1) = 1) OR (CTAX.L('07_NAM', time) >  trigger_price) ] = 1;
-);
-
-if ((CTAX.L('08_LAM',time) gt trigger_price), switch(i3,'08_LAM',time) = 1  ;
-else switch(i3, '08_LAM', time)$[ (switch(i3, '08_LAM', time-1) = 1) OR (CTAX.L('08_LAM', time) >  trigger_price) ] = 1;
-);
-
-if ((CTAX.L('09_WEU',time) gt trigger_price), switch(i3,'09_WEU',time) = 1  ;
-else switch(i3, '09_WEU', time)$[ (switch(i3, '09_WEU', time-1) = 1) OR (CTAX.L('09_WEU', time) >  trigger_price) ] = 1;
-);
-
-if ((CTAX.L('10_EEU',time) gt trigger_price), switch(i3,'10_EEU',time) = 1  ;
-else switch(i3, '10_EEU', time)$[ (switch(i3, '10_EEU', time-1) = 1) OR (CTAX.L('10_EEU', time) >  trigger_price) ] = 1;
-);
-
-if ((CTAX.L('11_FSU',time) gt trigger_price), switch(i3,'11_FSU',time) = 1  ;
-else switch(i3, '11_FSU', time)$[ (switch(i3, '11_FSU', time-1) = 1) OR (CTAX.L('11_FSU', time) >  trigger_price) ] = 1;
-);
-
-if ((CTAX.L('12_MEA',time) gt trigger_price), switch(i3,'12_MEA',time) = 1  ;
-else switch(i3, '12_MEA', time)$[ (switch(i3, '12_MEA', time-1) = 1) OR (CTAX.L('12_MEA', time) >  trigger_price) ] = 1;
-);
-
-if ((CTAX.L('13_AFR',time) gt trigger_price), switch(i3,'13_AFR',time) = 1  ;
-else switch(i3, '13_AFR', time)$[ (switch(i3, '13_AFR', time-1) = 1) OR (CTAX.L('13_AFR', time) >  trigger_price) ] = 1;
-);
-
-if ((CTAX.L('14_CPA',time) gt trigger_price), switch(i3,'14_CPA',time) = 1  ;
-else switch(i3, '14_CPA', time)$[ (switch(i3, '14_CPA', time-1) = 1) OR (CTAX.L('14_CPA', time) >  trigger_price) ] = 1;
-);
-
-if ((CTAX.L('15_SAS',time) gt trigger_price), switch(i3,'15_SAS',time) = 1  ;
-else switch(i3, '15_SAS', time)$[ (switch(i3, '15_SAS', time-1) = 1) OR (CTAX.L('15_SAS', time) >  trigger_price) ] = 1;
-);
-
-if ((CTAX.L('16_PAS',time) gt trigger_price), switch(i3,'16_PAS',time) = 1  ;
-else switch(i3, '16_PAS', time)$[ (switch(i3, '16_PAS', time-1) = 1) OR (CTAX.L('16_PAS', time) >  trigger_price) ] = 1;
-);
-
-if ((CTAX.L('17_PAO',time) gt trigger_price), switch(i3,'17_PAO',time) = 1  ;
-else switch(i3, '17_PAO', time)$[ (switch(i3, '17_PAO', time-1) = 1) OR (CTAX.L('17_PAO', time) >  trigger_price) ] = 1;
-);
-$offtext
+ XDBS.fx(i,z,time)$(not I3(i)) = 0;
 
 *2025 = 7
 *2030 = 12
@@ -287,30 +247,53 @@ $offtext
 *2040 = 22
 *2045 = 27
 *2050 = 32
-Start_Year(i3,'01_KOR') = 17;
-Start_Year(i3,'02_CHN') = 22;
-Start_Year(i3,'03_JPN') = 17;
-Start_Year(i3,'04_RUS') = 27;
-Start_Year(i3,'05_MNG') = 27;
-Start_Year(i3,'06_PRK') = 33;
-Start_Year(i3,'07_NAM') = 12;
-Start_Year(i3,'08_LAM') = 27;
-Start_Year(i3,'09_WEU') = 12; 
-Start_Year(i3,'10_EEU') = 12;
-Start_Year(i3,'11_FSU') = 27;
-Start_Year(i3,'12_MEA') = 27;
-Start_Year(i3,'13_AFR') = 27;
-Start_Year(i3,'14_CPA') = 27;
-Start_Year(i3,'15_SAS') = 27;
-Start_Year(i3,'16_PAS') = 27;
-Start_Year(i3,'17_PAO') = 17;
 
-Max_Pen(i3,z) = 0.50;
-Growth_Coeff(i3,z)  = 0.6;
-Inflection_Lapse(i3,z) = 10;
+Start_Year(i3,z) = 33;
+
+*Start_Year(i3,'01_KOR') = 12;
+
+Start_Year(i3,z_early) = 12;
+Start_Year(i3,z_mid) = 22;
+Start_Year(i3,z_late_emerge) = 22;
+Start_Year(i3,z_late_emerge) = 27;
+Start_Year(i3,z_latest) = 32;
+
+*Start_Year(i3,z_early) = 33;
+*Start_Year(i3,z_mid) = 33;
+*Start_Year(i3,z_late_emerge) = 33;
+*Start_Year(i3,z_late_emerge) = 33;
+*Start_Year(i3,z_latest) = 33;
+
+Max_Pen(i3,z_early) = 0.9;
+Max_Pen(i3,z_mid) = 0.8;
+Max_Pen(i3,z_late_emerge) = 0.5;
+Max_Pen(i3,z_latest) = 0.1;
+
+Logistic_Coeff(i3,z_early) = 0.3;
+Logistic_Coeff(i3,z_mid) = 0.3;
+Logistic_Coeff(i3,z_late_emerge) = 0.2;
+Logistic_Coeff(i3,z_late_emerge) = 0.2;
+Logistic_Coeff(i3,z_latest) = 0.1;
+
+*Inflection_Lapse(i3,z) = 5;
+*Inflection_Lapse(i3,z) = 10;
+*Inflection_Lapse(i3,z) = 15;
+Inflection_Lapse(i3,z) = 20;
+*Inflection_Lapse(i3,z) = 35;
 
 penetration_rate(i3,z,time)$[ord(time) >= Start_Year(i3, z)] =
-    Max_Pen(i3,z) / (1 + exp(-Growth_Coeff(i3,z) * ( (ord(time) - Start_Year(i3, z)) - Inflection_Lapse(i3,z) )));
+*Linear
+*      penetration_rate(i3,z,time-1)+0.005;
+*Logistic
+    Max_Pen(i3,z) / (1 + exp(-Logistic_Coeff(i3,z) * ( (ord(time) - Start_Year(i3, z)) - Inflection_Lapse(i3,z) )));
+*Gompertz
+* Max_Pen(i3,z) * exp(-1 * exp(-Gompertz_Coeff(i3,z) * ( (ord(time) - Start_Year(i3, z)) - Inflection_Lapse(i3,z))));
+
+*=============================================================================
+* Remove CO2FACTOR
+*=============================================================================
+*CO2FACTOR2(ene,'10_PETROLCOAL','01_KOR',time)$[ord(time) gt 27]
+*                          = CO2FACTOR2(ene,'10_PETROLCOAL','01_KOR',time-1)*[1-0.50];        
     
 *==============================================================================
 * 6.2.2.3 Resolution

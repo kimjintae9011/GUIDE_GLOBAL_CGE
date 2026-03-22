@@ -46,6 +46,7 @@ PARAMETER
  valLD(j,z,time,scen)        Demand for type l labor by industry j in region z
  valLDC(j,z,time,scen)       Demand for composite labor by industry j in region z
  valLS(z,time,scen)          Supply of type l labor in region z
+ valLS2(z,time,scen)          Supply of type l labor in region z
  valLST(z,time,scen)         Supply of type l labor in region z
  valMRGN(i,z,time,scen)      Domestic production of commodity i in region z exported as international margin services
  valP(i,z,time,scen)         Basic price of industry j production in region z
@@ -112,6 +113,7 @@ PARAMETER
  valXS(j,i,z,time,scen)      Total output of commodity i by industry j in region z
  valXS_I(i,z,time,scen)      Total output of commodity i in region z
  valXST(j,z,time,scen)       Total output of industry j in region z
+ valXST2(j,z,time,scen)      Total output of industry j in region z including backstop
  valYDH(z,time,scen)         Household disposable income in region z
  valYG(z,time,scen)          Total government income in region z
  valYH(z,time,scen)          Household total income in region z
@@ -125,20 +127,23 @@ PARAMETER
  valPERMIT(j,z,time,scen)
  valCO2FACTOR(ene,j,z,time,scen) CO2 FACTOR
  valAbateCost(j,z,time,scen)
+ valLEON(z,time,scen)
+ valKD2(k,j,z,time,scen)      Demand for type k capital by industry j in region z
+ valKDC2(j,z,time,scen)       Demand for composite capital by industry j in region z
+ valLD2(j,z,time,scen)        Demand for type l labor by industry j in region z
+ valLDC2(j,z,time,scen)       Demand for composite labor by industry j in region z
+
 *=================== Energy ================================================================== 
  valAEEI(z,time,scen)         AEEI
  valEE(product,j,z,time,scen) Industry's energy consumption by regions 
  valNE(product,j,z,time,scen) Non-energy consumption by energy products 
  valEH(product,z,time,scen)   Household energy consumption by energy products
- 
  valTFC_product(product,time,z, scen)
  valTFC(time,z,scen)  Total final energy consumption by regions
- 
  valNEA_TFC(product,time,scen) NEA's total final energy consumption by energy products
  valKOR_TFC(product,time,scen) Korea's total final energy consumption by energy products
  valCHN_TFC(product,time,scen) China's total final energy consumption by energy products
  valJPN_TFC(product,time,scen) Japan's total final energy consumption by energy products
-
  valTES_coal(z,time, scen) Total Energy Supply coal
  valTES_gas(z,time, scen) Total Energy Supply gas
  valTES_oil(z,time, scen) Total Energy Supply oil
@@ -155,14 +160,11 @@ PARAMETER
  valTCO2NE(z,time,scen) Total CO2 emission from non-energy consumption by regions
  valTCO2H(z,time,scen) Household CO2 emission by regions
  valTCO2(z,time,scen) Total CO2 emission by regions
- 
  valCO2I2_FUELCOMB(j,z,time,scen) 
  valTCO2H_FUELCOMB(z,time,scen)  
  valTCO2I_FUELCOMB(z,time,scen)      
  valTCO2NE_FUELCOMB(z,time,scen)       
  valTCO2_FUELCOMB(z,time,scen)        
-
-
  valEndo_CO2(ene,j,z,time,scen) ktCO2
  valEndo_TotalCO2(z,time,scen)  ktCO2
 
@@ -210,6 +212,7 @@ PARAMETER
  valdeltatik(j,z,time,scen)
  valdeltatip(j,z,time,scen)
  valrebatetot(z,time,scen)
+
 *================== Backstop technology ===========================================================
  valswitch(i3,z,time,scen) switch
  valpenetration_rate(i3,z,time,scen)
@@ -221,14 +224,23 @@ PARAMETER
  valCLBS(i3,z,time,scen)
  valCKBS(i3,z,time,scen)
  valMARKUP(i3,z,time,scen)
- valMARKUP_RATIO(i3,z,time,scen)
+ valMARKUP2(z,time,scen) 
  valStart_Year(i3,z,scen)
+
+*================== DAC ===========================================================
+ valQ_DAC(z,time,scen)
+ valDAC_growth_rate(z,time,scen)
+ valDAC_elec(z,time,scen) 
+ valswitchDAC(z,time,scen)
+ 
+*================== Other ===========================================================
+ valaij2_t(ene,j,z,time,scen)
+ 
 ;
 
 *==============================================================================
 *   6.2.3.2 Assignment of solution values to result parameters
 *==============================================================================
-
  valA_VA(z,time,'NZ')       = A_VA.l(z,time);
  valC(i,z,time,'NZ')        = C.l(i,z,time);
  valCAB(z,time,'NZ')        = CAB.l(z,time);
@@ -338,6 +350,7 @@ PARAMETER
  valXS(j,i,z,time,'NZ')    = XS.l(j,i,z,time);
  valXS_I(i,z,time,'NZ')    = XS_I.l(i,z,time);
  valXST(j,z,time,'NZ')     = XST.l(j,z,time);
+ valXST2(j,z,time,'NZ')    = XST.l(j,z,time)+XDBS2.l(j,z,time);
  valYDH(z,time,'NZ')       = YDH.l(z,time);
  valYG(z,time,'NZ')        = YG.l(z,time);
  valYH(z,time,'NZ')        = YH.l(z,time);
@@ -346,12 +359,13 @@ PARAMETER
  valYROW(z,time,'NZ')      = YROW.l(z,time);
  valYROW2(z,time,'NZ')     = -1*e.l(z,time)*SUM[(i,zj)$EXO(i,z,zj), EX.l(i,z,zj,time)*PWX.l(i,z,zj,time)] ;
  valYROW3(z,time,'NZ')     = -1*e.l(z,time)*SUM[i$MRGNO(i,z),MRGN.l(i,z,time)*PWMG.l(i,time)] ;
- valPERMIT_TOTAL(PERMIT2_Z,time,'NZ') = PERMIT_TOTAL.l(PERMIT2_Z,time);
+ valPERMIT_TOTAL(PERMIT_Z,time,'NZ') = PERMIT_TOTAL.l(PERMIT_Z,time);
  valPERMIT_NEA_TOTAL(time,'NZ') =  PERMIT_NEA_TOTAL.l(time);
  valPERMIT(j,z,time,'NZ')     = PERMIT.l(j,z,time);
 * valTIW_Share(j,z,time,'NZ') = TIW_Share.l(j,z,time); 
 * valTIK_Share(k,j,z,time,'NZ') = TIK_Share.l(k,j,z,time); 
  valCO2FACTOR(ene,j,z,time,'NZ') = CO2FACTOR2(ene,j,z,time);
+ valLEON(z,time,'NZ') = LEON.l(z,time);
 *=============================== Energy =====================================================================
  valAEEI(z,time,'NZ')                  = AEEI(z,time);
  valEE(p_coal,j,z,time,'NZ')           =  EEI(p_coal,j,z)*DE.L('02_COAL',j,z,time);
@@ -489,13 +503,6 @@ PARAMETER
 *============================== Carbon Tax ============================================
  valCTAX(z,time,'NZ') = CTAX.l(z,time) ;
  valTCTAX(z,time,'NZ') = TCTAX.l(z,time) ;
-* valTIW_Share(j,z,time,'NZ') = TIW_Share.l(j,z,time);
- valTIK_Share(j,z,time,'NZ') = TIK_Share.l(j,z,time);
- valTIP_Share(j,z,time,'NZ') = TIP_Share.l(j,z,time);
-* valdeltatiw(j,z,time,'NZ') = deltatiw.l(j,z,time);
- valdeltatik(j,z,time,'NZ') = deltatik.l(j,z,time);
- valdeltatip(j,z,time,'NZ') = deltatip.l(j,z,time);
- valrebatetot(z,time,'NZ') =sum(j, LaborRebate.l(j,z,time));
 
 *$Ontext
 *================== Backstop technology ===========================================================
@@ -505,12 +512,24 @@ PARAMETER
  valXDBS(i3,z,time,'NZ')  = XDBS.l(i3,z,time) ;
  valXDBS2(j,z,time,'NZ')  = XDBS2.l(j,z,time) ; 
  valLBS(j,z,time,'NZ')      = LBS.l(j,z,time) ;
- valKBS(k,j,z,time,'NZ')      = KBS.l(k,j,z,time) ;
+ valKBS(k,j,z,time,'NZ')   = KBS.l(k,j,z,time) ;
+ valLD2(j,z,time,'NZ')      = LD.l(j,z,time)+LBS.l(j,z,time);
+ valLDC2(j,z,time,'NZ')    = LDC.l(j,z,time)+LBS.l(j,z,time);
+ valKD2(k,j,z,time,'NZ')   = KD.l(k,j,z,time)+KBS.l(k,j,z,time);
+ valKDC2(j,z,time,'NZ')    = KDC.l(j,z,time)+sum(k,KBS.l(k,j,z,time));
  valCLBS(i3,z,time,'NZ')   = CLBS.l(i3,z,time) ;
  valCKBS(i3,z,time,'NZ')   = CKBS.l(i3,z,time) ;
  valMARKUP(i3,z,time,'NZ') = MARKUP.l(i3,z,time) ;
- valMARKUP_RATIO(i3,z,time,'NZ')  =  valPC(i3,z,time,'NZ')*valXDBS(i3,z,time,'NZ') / (valCLBS(i3,z,time,'NZ') +valCKBS(i3,z,time,'NZ')+0.000000000001 )  ;
+ valMARKUP2(z,time,'NZ') = sum(i3,MARKUP.l(i3,z,time)) ;
  valStart_Year(i3,z,'NZ') = Start_Year(i3,z);
+ valaij2_t(ene,j,z,time,'NZ') = aij2_t(ene,j,z,time);
+
+*================== DAC=== ===========================================================
+ valQ_DAC(z,time,'NZ') = Q_DAC.l(z,time);
+ valDAC_growth_rate(z,time,'NZ')  = DAC_growth_rate(z,time);
+ valDAC_elec(z,time,'NZ') = Q_DAC.l(z,time)*DAC_Tech_Coeff('18_ELEC') ;
+ valswitchDAC(z,time,'NZ') = switchDAC(z,time);
+
 *$Offtext 
 *=====================================================================================================
 
@@ -555,9 +574,13 @@ PARAMETER
  valIT_REAL,
  valKD,
  valKDC,
+ valKD2,
+ valKDC2,
  valKS,
  valLD,
  valLDC,
+ valLD2,
+ valLDC2,
  valLS,
  valLST,
  valMRGN,
@@ -622,7 +645,9 @@ PARAMETER
  valW,
  valWC,
  valWTI,
- valXS, 
+ valXS,
+ valXST,
+ valXST2,
  valYDH,  
  valYG,         
  valYH,        
@@ -696,14 +721,22 @@ PARAMETER
  valXDBS2,
  valLBS,
  valKBS,
+* valEBS,
  valCLBS,
  valCKBS,
+* valCEBS,
  valMARKUP,
- valMARKUP_RATIO,
+* valMARKUP_RATIO,
  valStart_Year,
  valPERMIT,
  valPERMIT_TOTAL,
  valPERMIT_NEA_TOTAL,
- valCO2FACTOR
+ valQ_DAC,
+ valDAC_growth_rate,
+ valDAC_elec,
+ valswitchDAC,
+ valCO2FACTOR,
+ valaij2_t,
+ valLEON
  ;
 *$Offtext 

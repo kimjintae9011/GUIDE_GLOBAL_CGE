@@ -68,9 +68,9 @@ $offtext
  ttix.fx(i,z,zj,time)         = ttixO(i,z,zj);
  ttik.fx('land',j,z,time)     = ttikO('land',j,z);
  ttik.fx('natr',j,z,time)     = ttikO('natr',j,z);
+ ttik.fx('cap',j,z,time)      = ttikO('cap',j,z);
  ttiw.fx(j,z,time)            = ttiwO(j,z);
-* ttik.fx(k,j,z,time)          = ttikO(k,j,z);
-* ttip.fx(j,z,time)            = ttipO(j,z);
+ ttip.fx(j,z,time)            = ttipO(j,z);
  CTAX.fX(z,time)              = CTAX0(z);
  
 *==============================================================================
@@ -94,8 +94,19 @@ T(time) = YES;
 $INCLUDE INIT_new.gms
 
 *==============================================================================
-*   6.1.1.1 Lower bounds on some variables
+*   6.1.1.1 Bounds on variables
 *==============================================================================
+ DS.LO(j,i,z,time)$(ord(time) gt 1)  = 0.0001*DS.LO(j,i,z,time-1);
+ EX.LO(i,z,zj,time)$(ord(time) gt 1)  = 0.0001*EX.l(i,z,zj,time-1);
+ EXT.LO(i,z,time)$(ord(time) gt 1)    = 0.0001*EXT.l(i,z,time-1);
+ IM.LO(i,zj,z,time)$(ord(time) gt 1)  = 0.0001*IM.l(i,zj,z,time-1);
+ KDC.LO(j,z,time)$(ord(time) gt 1)    = 0.0001*KDC.l(j,z,time-1);
+ LDC.LO(j,z,time)$(ord(time) gt 1)    = 0.0001*LDC.l(j,z,time-1);
+ R.LO(k,j,z,time)$(ord(time) gt 1)    = 0.0001*R.l(k,j,z,time-1);
+ RC.LO(j,z,time)$(ord(time) gt 1)     = 0.0001*RC.l(j,z,time-1);
+ RTI.lo(k,bus,z,time)$(ord(time) gt 1)= 0.0001*RTI.l(k,bus,z,time-1);
+ U.LO(z,time)$(ord(time) gt 1)        = 0.0001*U.l(z,time-1);
+ WC.LO(j,z,time)$(ord(time) gt 1)     = 0.0001*WC.l(j,z,time-1);
 
 *==============================================================================
 *   6.1.3 Closures
@@ -148,20 +159,6 @@ $offtext
  PIXCON_lag(z,time)$[ord(time) gt 1]
                     = PIXCON.l(z,time-1);     
  
- ttik_lag.fx(j,z,t1)  =ttikO('cap',j,z);
- ttik_lag.fx(j,z,time)$[ord(time) gt 1]
-                     =ttik.l('cap',j,z,time-1);
- 
- ttip_lag.fx(j,z,t1)  =ttipO(j,z);
- ttip_lag.fx(j,z,time)$[ord(time) gt 1]
-                     =ttip.l(j,z,time-1);
- 
-*==============================================================================
-* For Own price elasticity experiment 
-*==============================================================================  
-*PC.fx("18_ELEC",z,time)$[ord(time) gt 1]
-*                     =PC.l("18_ELEC",z,time-1)*(1+0.01);
-
 *==============================================================================
 *   CTAX and PERMIT and TCTAX Recycling
 *==============================================================================  
@@ -220,82 +217,13 @@ CO2FACTOR2(ene,j7,PERMIT_Z,time)$[CO2FACTOR2(ene,j7,PERMIT_Z,time) < MINCO2FACTO
 *==============================================================================
 *Backstop technologies
 *==============================================================================
-$ontext
-if ((CTAX.L('01_KOR',time) gt trigger_price), switch(i3,'01_KOR',time) = 1  ;
-else switch(i3, '01_KOR', time)$[ (switch(i3, '01_KOR', time-1) = 1) OR (CTAX.L('01_KOR', time) >  trigger_price) ] = 1;
-);
-
-if ((CTAX.L('02_CHN',time) gt trigger_price), switch(i3,'02_CHN',time) = 1  ;
-else switch(i3, '02_CHN', time)$[ (switch(i3, '02_CHN', time-1) = 1) OR (CTAX.L('02_CHN', time) >  trigger_price) ] = 1;
-);
-
-if ((CTAX.L('03_JPN',time) gt trigger_price), switch(i3,'03_JPN',time) = 1  ;
-else switch(i3, '03_JPN', time)$[ (switch(i3, '03_JPN', time-1) = 1) OR (CTAX.L('03_JPN', time) >  trigger_price) ] = 1;
-);
-
-if ((CTAX.L('04_RUS',time) gt trigger_price), switch(i3,'04_RUS',time) = 1  ;
-else switch(i3, '04_RUS', time)$[ (switch(i3, '04_RUS', time-1) = 1) OR (CTAX.L('04_RUS', time) >  trigger_price) ] = 1;
-);
-
-if ((CTAX.L('05_MNG',time) gt trigger_price), switch(i3,'05_MNG',time) = 1  ;
-else switch(i3, '05_MNG', time)$[ (switch(i3, '05_MNG', time-1) = 1) OR (CTAX.L('05_MNG', time) >  trigger_price) ] = 1;
-);
-
-if ((CTAX.L('06_PRK',time) gt trigger_price), switch(i3,'06_PRK',time) = 1  ;
-else switch(i3, '06_PRK', time)$[ (switch(i3, '06_PRK', time-1) = 1) OR (CTAX.L('06_PRK', time) >  trigger_price) ] = 1;
-);
-
-if ((CTAX.L('07_NAM',time) gt trigger_price), switch(i3,'07_NAM',time) = 1  ;
-else switch(i3, '07_NAM', time)$[ (switch(i3, '07_NAM', time-1) = 1) OR (CTAX.L('07_NAM', time) >  trigger_price) ] = 1;
-);
-
-if ((CTAX.L('08_LAM',time) gt trigger_price), switch(i3,'08_LAM',time) = 1  ;
-else switch(i3, '08_LAM', time)$[ (switch(i3, '08_LAM', time-1) = 1) OR (CTAX.L('08_LAM', time) >  trigger_price) ] = 1;
-);
-
-if ((CTAX.L('09_WEU',time) gt trigger_price), switch(i3,'09_WEU',time) = 1  ;
-else switch(i3, '09_WEU', time)$[ (switch(i3, '09_WEU', time-1) = 1) OR (CTAX.L('09_WEU', time) >  trigger_price) ] = 1;
-);
-
-if ((CTAX.L('10_EEU',time) gt trigger_price), switch(i3,'10_EEU',time) = 1  ;
-else switch(i3, '10_EEU', time)$[ (switch(i3, '10_EEU', time-1) = 1) OR (CTAX.L('10_EEU', time) >  trigger_price) ] = 1;
-);
-
-if ((CTAX.L('11_FSU',time) gt trigger_price), switch(i3,'11_FSU',time) = 1  ;
-else switch(i3, '11_FSU', time)$[ (switch(i3, '11_FSU', time-1) = 1) OR (CTAX.L('11_FSU', time) >  trigger_price) ] = 1;
-);
-
-if ((CTAX.L('12_MEA',time) gt trigger_price), switch(i3,'12_MEA',time) = 1  ;
-else switch(i3, '12_MEA', time)$[ (switch(i3, '12_MEA', time-1) = 1) OR (CTAX.L('12_MEA', time) >  trigger_price) ] = 1;
-);
-
-if ((CTAX.L('13_AFR',time) gt trigger_price), switch(i3,'13_AFR',time) = 1  ;
-else switch(i3, '13_AFR', time)$[ (switch(i3, '13_AFR', time-1) = 1) OR (CTAX.L('13_AFR', time) >  trigger_price) ] = 1;
-);
-
-if ((CTAX.L('14_CPA',time) gt trigger_price), switch(i3,'14_CPA',time) = 1  ;
-else switch(i3, '14_CPA', time)$[ (switch(i3, '14_CPA', time-1) = 1) OR (CTAX.L('14_CPA', time) >  trigger_price) ] = 1;
-);
-
-if ((CTAX.L('15_SAS',time) gt trigger_price), switch(i3,'15_SAS',time) = 1  ;
-else switch(i3, '15_SAS', time)$[ (switch(i3, '15_SAS', time-1) = 1) OR (CTAX.L('15_SAS', time) >  trigger_price) ] = 1;
-);
-
-if ((CTAX.L('16_PAS',time) gt trigger_price), switch(i3,'16_PAS',time) = 1  ;
-else switch(i3, '16_PAS', time)$[ (switch(i3, '16_PAS', time-1) = 1) OR (CTAX.L('16_PAS', time) >  trigger_price) ] = 1;
-);
-
-if ((CTAX.L('17_PAO',time) gt trigger_price), switch(i3,'17_PAO',time) = 1  ;
-else switch(i3, '17_PAO', time)$[ (switch(i3, '17_PAO', time-1) = 1) OR (CTAX.L('17_PAO', time) >  trigger_price) ] = 1;
-);
-$offtext
-
 *2025 = 7
 *2030 = 12
 *2035 = 17
 *2040 = 22
 *2045 = 27
 *2050 = 32
+
 Start_Year(i3,'01_KOR') = 33;
 Start_Year(i3,'02_CHN') = 33;
 Start_Year(i3,'03_JPN') = 33;
@@ -314,19 +242,32 @@ Start_Year(i3,'15_SAS') = 33;
 Start_Year(i3,'16_PAS') = 33;
 Start_Year(i3,'17_PAO') = 33;
 
-Max_Pen(i3,z)                     = 0.90;
-Max_Pen('11_CHEMICAL',z)  = 0.75;
-Max_Pen('12_NONMET',z)    = 0.75;
-Max_Pen('20_LTRP',z)          = 0.85;
-*Max_Pen('13_IRONSTL',z)    = 0.80;
-*Max_Pen('21_WTRP',z)        = 0.90;
-*Max_Pen('22_ATRP',z)         = 0.90;
+Max_Pen(i3,z_early) = 0.6;
+Max_Pen(i3,z_mid) = 0.6;
+Max_Pen(i3,z_late_emerge) = 0.4;
+Max_Pen(i3,z_late_emerge) = 0.3;
+Max_Pen(i3,z_latest) = 0.1;
 
-Growth_Coeff(i3,z)  = 0.6;
-Inflection_Lapse(i3,z) = 10;
+Logistic_Coeff(i3,z_early) = 0.3;
+Logistic_Coeff(i3,z_mid) = 0.3;
+Logistic_Coeff(i3,z_late_emerge) = 0.2;
+Logistic_Coeff(i3,z_late_emerge) = 0.2;
+Logistic_Coeff(i3,z_latest) = 0.1;
+
+*Inflection_Lapse(i3,z) = 5;
+*Inflection_Lapse(i3,z) = 10;
+Inflection_Lapse(i3,z) = 15;
+*Inflection_Lapse(i3,z) = 20;
+*Inflection_Lapse(i3,z) = 35;
 
 penetration_rate(i3,z,time)$[ord(time) >= Start_Year(i3, z)] =
-    Max_Pen(i3,z) / (1 + exp(-Growth_Coeff(i3,z) * ( (ord(time) - Start_Year(i3, z)) - Inflection_Lapse(i3,z) )));
+*Linear
+*      penetration_rate(i3,z,time-1)+0.005;
+*Logistic
+    Max_Pen(i3,z) / (1 + exp(-Logistic_Coeff(i3,z) * ( (ord(time) - Start_Year(i3, z)) - Inflection_Lapse(i3,z) )));
+*Gompertz
+* Max_Pen(i3,z) * exp(-1 * exp(-Gompertz_Coeff(i3,z) * ( (ord(time) - Start_Year(i3, z)) - Inflection_Lapse(i3,z))));
+
 *==============================================================================
 *   6.2.2.3 Resolution
 *==============================================================================
