@@ -55,7 +55,7 @@
  PERMIT.L(j,z,t1)               = PERMITO(j,z);
  PERMIT_TOTAL.L(PERMIT_Z,t1)    = PERMIT_TOTALO(PERMIT_Z);
  PERMIT_NEA_TOTAL.L(t)          = PERMIT_NEA_TOTALO;
- CTAX.L(z,t1)                   = CTAX0(z);
+ CTAX.L(z,t1)                   = CTAXO(z);
  OBJ.L                          = OBJO;
  TSFD.L(BS,Z_GRN,t1)            = TSFO(BS,Z_GRN);
  VAT.L(BS,Z_GRN,t1)             = VATO(BS,Z_GRN);
@@ -124,7 +124,7 @@
  SG.L(z,t1)                     = SGO(z);
  SH.L(z,t1)                     = SHO(z);
  SROW.L(z,t1)                   = SROWO(z);
- TCTAX.L(z,t1)                  = TCTAX0(z);
+ TCTAX.L(z,t1)                  = TCTAXO(z);
  TDH.L(z,t1)                    = TDHO(z);
  TIC.L(i,z,t1)                  = TICO(i,z);
  TICT.L(z,t1)                   = TICTO(z);

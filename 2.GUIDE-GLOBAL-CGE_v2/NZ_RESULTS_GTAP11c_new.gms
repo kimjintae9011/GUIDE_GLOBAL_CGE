@@ -69,6 +69,7 @@ PARAMETER
  valPP(j,z,time,scen)        Unit cost of industry j in region z including taxes directly related to the use of capital and labor but excluding other taxes on production
  valPT(j,z,time,scen)        Basic price of industry js output
  valPVA(j,Z,time,scen)       Price of industry j value added in region z (including taxes on production directly related to the use of capital and labor)
+ valPVAT(BS,Z_GRN,time,scen)       Price of industry j value added in region z (including taxes on production directly related to the use of capital and labor)
  valPWM(i,zj,z,time,scen)    World price of commodity i imported from country zj by region z (expressed in international currency)
  valPWMG(i,time,scen)        World price of margin i (expressed in international currency)
  valPWX(i,z,zj,time,scen)    World price of commodity i exported to country zj by region z (expressed in international currency)
@@ -295,6 +296,7 @@ Avg_Tax_Wedge(ene,z,time)
  valPP(j,z,time,'NZ')       = PP.l(j,z,time);
  valPT(j,z,time,'NZ')       = PT.l(j,z,time);
  valPVA(j,Z,time,'NZ')      = PVA.l(j,Z,time);
+ valPVAT(BS, Z_GRN,time,'NZ') = PVAT.l(BS, Z_GRN,time) ;  
  valPWM(i,zj,z,time,'NZ')   = PWM.l(i,zj,z,time);
  valPWMG(i,time,'NZ')       = PWMG.l(i,time);
  valPWX(i,z,zj,time,'NZ')   = PWX.l(i,z,zj,time);
@@ -573,6 +575,7 @@ Avg_Tax_Wedge(ene,z,time)
  valPP,
  valPT,
  valPVA,
+ valPVAT,
  valPWM,
  valPWMG,
  valPWX,
@@ -688,7 +691,6 @@ Avg_Tax_Wedge(ene,z,time)
  valDAC_elec,
  valswitchDAC,
  valCO2FACTOR,
- valaij2_t,
  valLEON,
  PTSF,
  TSFD,
@@ -697,6 +699,10 @@ Avg_Tax_Wedge(ene,z,time)
  beta_VAT,
  Avg_Tax_Wedge,
  P_EFF_NZ,
- delta_t
+ delta_t,
+ beta_BS_t,
+ aij_t,
+ aij2_t,
+ Temp_Cap
  ;
 *$Offtext 

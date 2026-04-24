@@ -1,0 +1,146 @@
+#FILES
+Logical Name         In/Out Ud  Type Actual Name
+INFILE                In     y  HAR
+ The original SAM
+(Display)             Out    n  DIS
+(Solution)            Out    y  SL4
+(Equations)           Out    y  EQ4
+#TABFILE
+SAMBAL.tab
+#TMDATE
+at 23:07:12 on 31-MAR-2026
+#STIFILE
+TABmate.sif
+#SETS
+    3
+    1 ACC                 -1  u SAM accounts
+    2 INACTIVE            -1  u
+    3 ACTIVE              -1  u
+#VARIABLES
+         9
+    1 p_SAM                   -1     2 ? Social Accounting Matrix
+    1    1
+    2 c_ROWTOT                -1     1 ? Current row total
+    1
+    3 c_COLTOT                -1     1 ? Current col total
+    1
+    4 c_DIFF                  -1     1 ? Imbalance = ROWTOT-COLTOT
+    1
+    5 mult                    -1     1 ? Percent change in Multipliers (initial value = 1)
+    1
+    6 fmult                   -1     1 ? Slack to allow extra constraint
+    1
+    7 fsam                    -1     2 ? Slack to allow extra constraint
+    1    1
+    8 ShockDiff               -1     1 ? variable to shock
+    1
+    9 slack                    1     0 ? Slack variable to accommodate not-quite-independent shocks
+#VCSTAT
+ccccccccc
+#VCTP
+pcccpppcc
+#SUBSETS
+     2
+     1     2     1
+     2     3     1
+#COEFFICIENTS
+    6
+    1 SAM             2 r y y  Social Accounting Matrix
+    1    1
+    2 ROWTOT          1 r n y  Current row total
+    1
+    3 COLTOT          1 r n y  Current col total
+    1
+    4 DIFF            1 r n y  Imbalance = ROWTOT-COLTOT
+    1
+    5 Z               2 r n n  Error weights
+    1    1
+    6 ZZ              2 r n n  Sign-adjusted error weights
+    1    1
+#EQUATIONS
+    7
+    1 E_ROWTOT                   -1  1
+    1
+    2 E_COLTOT                   -1  1
+    1
+    3 E_DIFF                     -1  1
+    1
+    4 E_p_SAM                    -1  2
+    1    1
+    5 E_slack                     1  0
+    6 E_multA                    -1  1
+    2
+    7 E_multB                    -1  1
+    3
+#READS
+    1
+    1     1 SAM               1 INFILE               SAM0 a h     2
+     1     1
+#READ(EXTRA)
+    1
+    1 el
+ ACC          INFILE               ACC 
+#NCVARIABLES
+    0
+#STATEMENTS
+      15   1 df                                                 15  29    0 n
+      16   1 df                                                 16  29    0 n
+      17   1 df                                                 17  29    0 n
+      18   1 df                                                 18  30    0 n
+      19   1 df                                                 19  32    0 n
+      21   1 fl                                                 21  33    0 n
+      23   1 st ACC                                             23  69    0 n
+      25   1 vr p_SAM                SAM                        27  62    0 n
+      25   1 cs SAM                                             27  62    0 n
+      28   1 rd SAM                  a                          28  40    0 n
+      31   1 vr c_ROWTOT             ROWTOT                     32  45    0 n
+      31   1 cs ROWTOT                                          32  45    0 n
+      33   2 vr c_COLTOT             COLTOT                     33  45    0 n
+      33   2 cs COLTOT                                          33  45    0 n
+      34   2 vr c_DIFF               DIFF                       34  52    0 n
+      34   2 cs DIFF                                            34  52    0 n
+      35   1 fm                                                 36  54    0 n
+      35   1 eq E_ROWTOT                                        36  54    0 n
+      37   1 fm                                                 38  54    0 n
+      37   1 eq E_COLTOT                                        38  54    0 n
+      39   1 fm                                                 40  55    0 n
+      39   1 eq E_DIFF                                          40  55    0 n
+      42   1 cs Z                                               42  60    0 n
+      43   1 fm                                                 43  48    0 n
+      54   1 cs ZZ                                              54  75    0 n
+      55   1 fm                                                 56  70    0 n
+      57   1 vr mult                                            59  73    0 n
+      60   1 vr fmult                                           61  55    0 n
+      62   1 vr fsam                                            63  55    0 n
+      64   1 eq E_p_SAM                                         65  78    0 n
+      75   1 eq E_slack                                         76  62    0 n
+      82   1 st INACTIVE                                        83  58    0 n
+      82   1 fm                                                 83  58    0 n
+      82   1 ss                                                 83  58    0 n
+      84   1 eq E_multA                                         84  56    0 n
+      94   1 st ACTIVE                                          94  31    0 n
+      94   1 ss                                                 94  31    0 n
+      95   1 vr ShockDiff            DIFF                       96  74    0 n
+      97   1 vr slack                                           97  78    0 n
+      98   1 eq E_multB                                         99  68    0 n
+       0   1 ud SAM                  ap                          0   0    0 n
+       0   1 ud ROWTOT               ac                          0   0    0 n
+       0   1 ud COLTOT               ac                          0   0    0 n
+       0   1 ud DIFF                 ac                          0   0    0 n
+       0   1 en DIFF                 ac                          0   0    0 n
+#GPVER
+  121004
+#PRVER
+    7000
+#FINAL_LEVEL
+ lv c p_SAM           SAM
+ lv c c_ROWTOT        ROWTOT
+ lv c c_COLTOT        COLTOT
+ lv c c_DIFF          DIFF
+ ln c mult
+ ln c fmult
+ ln c fsam
+ ol c ShockDiff       DIFF
+ ln c slack
+#CSPSIM
+nnnnnn

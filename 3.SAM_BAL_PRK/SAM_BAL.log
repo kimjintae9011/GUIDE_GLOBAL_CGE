@@ -1,12 +1,11 @@
-
---- Job DATA_GTAP11c.gms Start 03/16/26 14:30:36 45.7.0 64fbf3ce WEX-WEI x86 64bit/MS Windows
+--- Job DATA_GTAP11c.gms Start 04/06/26 13:03:37 45.7.0 64fbf3ce WEX-WEI x86 64bit/MS Windows
 --- Applying:
     C:\GAMS\45\gmsprmNT.txt
     C:\Users\kimc0\Documents\GAMS\gamsconfig.yaml
 --- GAMS Parameters defined
-    Input C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\DATA_GTAP11c.gms
+    Input C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\DATA_GTAP11c.gms
     PageSize 0
-    ScrDir C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\225a\
+    ScrDir C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\225a\
     SysDir C:\GAMS\45\
     LogOption 3
     ErrMsg 1
@@ -27,9 +26,9 @@ GAMS 45.7.0   Copyright (C) 1987-2024 GAMS Development. All rights reserved
 --- DATA_GTAP11c.gms(33) 2 Mb
 --- call har2gdx Input_GTAP11DB\basedata2019_250422.har Input_CGE\GTAP11c_basedata2019.gdx
 Running program: C:\GAMS\45\har2gdx.exe
- Input file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_GTAP11DB\basedata2019_250422.har
-Output file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\GTAP11c_basedata2019.gdx
-Deleted existing file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\GTAP11c_basedata2019.gdx
+ Input file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\Input_GTAP11DB\basedata2019_250422.har
+Output file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\Input_CGE\GTAP11c_basedata2019.gdx
+Deleted existing file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\Input_CGE\GTAP11c_basedata2019.gdx
 Read HAR file OK
 Above is DLL version: GDX Library C++ V7 (AUDIT) Thu Jan 18 08:14:50 2024 UnknownInstructionSet Windows
 Built set library OK: 6 sets
@@ -89,15 +88,15 @@ Writing header TFRV  as GAMS parameter TFRV
 Writing header MFRV  as GAMS parameter MFRV
 39 real matrices were stored in GDX.
 GDX file is V7, ComprLev 0
-Finished OK: created file C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\GTAP11c_basedata2019.gdx
+Finished OK: created file C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\Input_CGE\GTAP11c_basedata2019.gdx
 There were no warnings.
-Finished OK; created file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\GTAP11c_basedata2019.gdx
+Finished OK; created file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\Input_CGE\GTAP11c_basedata2019.gdx
 --- DATA_GTAP11c.gms(34) 2 Mb
 --- call har2gdx Input_GTAP11DB\parameter2019_250422.prm Input_CGE\GTAP11c_Parameters2019.gdx
 Running program: C:\GAMS\45\har2gdx.exe
- Input file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_GTAP11DB\parameter2019_250422.prm
-Output file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\GTAP11c_Parameters2019.gdx
-Deleted existing file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\GTAP11c_Parameters2019.gdx
+ Input file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\Input_GTAP11DB\parameter2019_250422.prm
+Output file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\Input_CGE\GTAP11c_Parameters2019.gdx
+Deleted existing file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\Input_CGE\GTAP11c_Parameters2019.gdx
 Read HAR file OK
 Above is DLL version: GDX Library C++ V7 (AUDIT) Thu Jan 18 08:14:50 2024 UnknownInstructionSet Windows
 Built set library OK: 10 sets
@@ -177,68 +176,68 @@ Writing header ESBV  as GAMS parameter ESUBVA
 Writing header EKLE  as GAMS parameter ELFKLE
 51 real matrices were stored in GDX.
 GDX file is V7, ComprLev 0
-Finished OK: created file C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\GTAP11c_Parameters2019.gdx
+Finished OK: created file C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\Input_CGE\GTAP11c_Parameters2019.gdx
 There were no warnings.
-Finished OK; created file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\GTAP11c_Parameters2019.gdx
+Finished OK; created file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\Input_CGE\GTAP11c_Parameters2019.gdx
 --- DATA_GTAP11c.gms(318) 3 Mb
---- GDXin=C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\GTAP11c_basedata2019.gdx
---- GDX File ($gdxIn) C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\GTAP11c_basedata2019.gdx
+--- GDXin=C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\Input_CGE\GTAP11c_basedata2019.gdx
+--- GDX File ($gdxIn) C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\Input_CGE\GTAP11c_basedata2019.gdx
 --- DATA_GTAP11c.gms(1032) 20 Mb
---- GDXin=C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\GTAP11c_Parameters2019.gdx
---- GDX File ($gdxIn) C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\GTAP11c_Parameters2019.gdx
+--- GDXin=C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\Input_CGE\GTAP11c_Parameters2019.gdx
+--- GDX File ($gdxIn) C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\Input_CGE\GTAP11c_Parameters2019.gdx
 --- DATA_GTAP11c.gms(1124) 20 Mb
 --- call gdxxrw Input_CGE\Backstop_technology.xlsx @Input_CGE\Backstop_technology.txt output = Input_CGE\Backstop_technology.gdx
 
 GDXXRW           45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
-Input file : C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\Backstop_technology.xlsx
-Output file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\Backstop_technology.gdx
+Input file : C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\Input_CGE\Backstop_technology.xlsx
+Output file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\Input_CGE\Backstop_technology.gdx
 Total time = 1203 Ms
 --- DATA_GTAP11c.gms(1125) 20 Mb
---- GDXin=C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\Backstop_technology.gdx
---- GDX File ($gdxIn) C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\Backstop_technology.gdx
+--- GDXin=C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\Input_CGE\Backstop_technology.gdx
+--- GDX File ($gdxIn) C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\Input_CGE\Backstop_technology.gdx
 --- DATA_GTAP11c.gms(1161) 20 Mb
 --- call gdxxrw Input_CGE\Projection.xlsx @Input_CGE\Projection.txt output = Input_CGE\Projection.gdx
 
 GDXXRW           45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
-Input file : C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\Projection.xlsx
-Output file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\Projection.gdx
-Total time = 1781 Ms
+Input file : C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\Input_CGE\Projection.xlsx
+Output file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\Input_CGE\Projection.gdx
+Total time = 1390 Ms
 --- DATA_GTAP11c.gms(1162) 20 Mb
---- GDXin=C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\Projection.gdx
---- GDX File ($gdxIn) C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\Projection.gdx
+--- GDXin=C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\Input_CGE\Projection.gdx
+--- GDX File ($gdxIn) C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\Input_CGE\Projection.gdx
 --- DATA_GTAP11c.gms(1168) 21 Mb
 --- call gdxxrw Input_CGE\Employment.xlsx @Input_CGE\Employment.txt output = Input_CGE\Employment.gdx
 
 GDXXRW           45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
-Input file : C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\Employment.xlsx
-Output file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\Employment.gdx
-Total time = 1140 Ms
+Input file : C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\Input_CGE\Employment.xlsx
+Output file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\Input_CGE\Employment.gdx
+Total time = 1203 Ms
 --- DATA_GTAP11c.gms(1169) 21 Mb
---- GDXin=C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\Employment.gdx
---- GDX File ($gdxIn) C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\Employment.gdx
+--- GDXin=C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\Input_CGE\Employment.gdx
+--- GDX File ($gdxIn) C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\Input_CGE\Employment.gdx
 --- DATA_GTAP11c.gms(1225) 21 Mb
 --- . DATA_SamBal.gms(995) 21 Mb
 --- call gdxxrw Input_CGE\PRK_SAM.xlsx @Input_CGE\PRK_SAM.txt output = Input_CGE\PRK_SAM.gdx
 
 GDXXRW           45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
-Input file : C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\PRK_SAM.xlsx
-Output file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\PRK_SAM.gdx
-Total time = 1219 Ms
+Input file : C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\Input_CGE\PRK_SAM.xlsx
+Output file: C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\Input_CGE\PRK_SAM.gdx
+Total time = 1282 Ms
 --- . DATA_SamBal.gms(996) 21 Mb
---- GDXin=C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\PRK_SAM.gdx
---- GDX File ($gdxIn) C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\PRK_SAM.gdx
---- . DATA_SamBal.gms(1005) 21 Mb
+--- GDXin=C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\Input_CGE\PRK_SAM.gdx
+--- GDX File ($gdxIn) C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\Input_CGE\PRK_SAM.gdx
+--- . DATA_SamBal.gms(1007) 21 Mb
 --- DATA_GTAP11c.gms(1230) 21 Mb
 --- . DATA_ReGen.gms(370) 21 Mb
 --- DATA_GTAP11c.gms(1230) 21 Mb
---- Starting execution: elapsed 0:00:06.067
+--- Starting execution: elapsed 0:00:05.855
 --- DATA_GTAP11c.gms(1204) 32 Mb
---- GDX File (execute_unload) C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\DATA_AGG-2019_GTAP11c.gdx
+--- GDX File (execute_unload) C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\Input_CGE\DATA_AGG-2019_GTAP11c.gdx
 --- DATA_GTAP11c.gms(2173) 69 Mb
---- GDX File (execute_unload) C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\SAM_Initial.gdx
+--- GDX File (execute_unload) C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\SAM_Initial.gdx
 --- DATA_GTAP11c.gms(2226) 88 Mb
---- GDX File (execute_unload) C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\SAM_BAL.gdx
---- DATA_GTAP11c.gms(2588) 89 Mb
---- GDX File (execute_unload) C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM\Input_CGE\DATA_AGG-2019_GTAP11c_Regen.gdx
+--- GDX File (execute_unload) C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\SAM_BAL.gdx
+--- DATA_GTAP11c.gms(2590) 89 Mb
+--- GDX File (execute_unload) C:\Users\kimc0\GUIDE_GLOBAL_CGE\3.SAM_BAL_PRK\Input_CGE\DATA_AGG-2019_GTAP11c_Regen.gdx
 *** Status: Normal completion
---- Job DATA_GTAP11c.gms Stop 03/16/26 14:30:43 elapsed 0:00:07.285
+--- Job DATA_GTAP11c.gms Stop 04/06/26 13:03:45 elapsed 0:00:07.390

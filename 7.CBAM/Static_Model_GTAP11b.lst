@@ -1,0 +1,3240 @@
+GAMS 45.7.0  64fbf3ce Jan 18, 2024          WEX-WEI x86 64bit/MS Windows - 04/17/26 10:11:13 Page 1
+PEP model w-1
+World wide model, static version, October 2013
+
+
+   3   
+   4  *==============================================================================*
+   5  *                                                                              *
+   6  *           Except where otherwise noted, this work is licensed under          *
+   7  *               http://creativecommons.org/licenses/by-nc-sa/3.0/              *
+   8  *                                                                              *
+   9  *                                                                              *
+  10  *  You are free to share, to copy, distribute and transmit the work under      *
+  11  *  the following conditions:                                                   *
+  12  *                                                                              *
+  13  *  - Attribution:         You must attribute the work to:                      *
+  14  *                         Veronique Robichaud, Andre Lemelin,                  *
+  15  *                         Helene Maisonnave and Bernard Decaluwe.              *
+  16  *  - Noncommercial:       You may not use this work for commercial purposes.   *
+  17  *  - Share Alike:         If you alter, transform, or build upon this work,    *
+  18  *                         you may distribute the resulting work only under     *
+  19  *                         the same or similar license to this one.             *
+  20  *                                                                              *
+  21  *==============================================================================*
+  22   
+  23  * NOTE: section and subsection titles of the program are preceded and followed
+  24  *       by this line:
+  25  *==============================================================================
+  26  *       to facilitate jumping from one to the next with repeat search.
+  27   
+  28  *==============================================================================
+  29  * 1 Set definition
+  30  *==============================================================================
+  31  * The sets are defined in the DATA_AGG-2007.gms file and are stored in the
+  32  * DATA_AGG-2007.GDX output file. Any changes in the aggregation of industries
+  33  * and/or region is thus automatically taken into account in the current file.
+  34   
+  35  SET
+  36   J               All industries
+  37   I               All commodities
+  38   I1(I)           All commodities except agriculture (agr)
+  39   BUS(J)          Private industries
+  40   PUB(J)          Public industries
+  41   F               Production factors
+  42   L(F)            Labor categories
+  43   K(F)            Capital categories
+  44   Z               Regions
+  45   ZR(Z)           Reference country (USA)
+  46   Z1(Z)           All regions except reference region
+  47   Zrich(Z)        Rich regions
+  48   Zother(Z)       Non-rich regions
+  49   sim             simulation
+  50   
+GDXIN   C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Input_w-1\DATA_AGG_250804.gdx
+--- LOAD  J = 1:J
+--- LOAD  I = 2:I
+--- LOAD  I1 = 3:I1
+--- LOAD  BUS = 4:BUS
+--- LOAD  PUB = 5:PUB
+--- LOAD  F = 6:F
+--- LOAD  L = 7:L
+--- LOAD  K = 8:K
+--- LOAD  Z = 9:Z
+--- LOAD  ZR = 10:ZR
+--- LOAD  Z1 = 11:Z1
+--- LOAD  Zrich = 12:Zrich
+--- LOAD  Zother = 13:Zother
+  53   
+  54   
+  55  TND(J) TnD
+  56  /
+  57   18_TnD         Transmission and Distribution
+  58  /
+  59   
+  60   
+  61  POWER(J) POWER industries aggregated
+  62  /
+  63   19_eCoal Coal generation
+  64   20_eGas  Gas generation
+  65   21_eOil  Oil generation
+  66   22_eNFs   Non-fossil fuels generation
+  67  /
+  68   
+  69   
+  70  I2(I) Non-electricity commodities
+  71  /
+  72   01_AGRICULT    Agricultural forest and fishery goods
+  73   02_COAL        Coal
+  74   03_OIL         Crude petroleum
+  75   04_GAS         Natural gas Gas distribution
+  76   05_MINING      Mined and quarried goods
+  77   06_FOODPRO     Food beverages and tobacco products
+  78   07_TEXTILES    Textile and leather products
+  79   08_WOODPRO     Wood products
+  80   09_PAPERPRO    Paper products
+  81   10_PETROLCOAL  Petroleum and coal products
+  82   11_CHEMICAL    Chemical products
+  83   12_NONMET      Non-metallic mineral products
+  84   13_IRONSTL     Primary iron and steel products
+  85   14_NONFERR     Non-ferrous metal products
+  86   15_MACHINE     Fabricated metal products Electronic and electrical equipment Machinery and equipment
+  87   16_TRANSEQ     Motor vehicles Other transport equipment
+  88   17_OTHERIND    Other manufactured products Water supply
+  89  * 18_ELEC        Electricity
+  90   19_CONSTRUC    Construction
+  91   20_LTRP        Land transport service(road rail)
+  92   21_WTRP        Water transport service
+  93   22_ATRP        Air transport service
+  94   23_SER         Service
+  95  /
+  96   
+  97   I3(I) Non CBAM commodities
+  98  /
+  99   01_AGRICULT    Agricultural forest and fishery goods
+ 100   02_COAL        Coal
+ 101   03_OIL         Crude petroleum
+ 102   04_GAS         Natural gas Gas distribution
+ 103   05_MINING      Mined and quarried goods
+ 104   06_FOODPRO     Food beverages and tobacco products
+ 105   07_TEXTILES    Textile and leather products
+ 106   08_WOODPRO     Wood products
+ 107   09_PAPERPRO    Paper products
+ 108   10_PETROLCOAL  Petroleum and coal products
+ 109  * 11_CHEMICAL    Chemical products
+ 110  * 12_NONMET      Non-metallic mineral products
+ 111  * 13_IRONSTL     Primary iron and steel products
+ 112  * 14_NONFERR     Non-ferrous metal products
+ 113   15_MACHINE     Fabricated metal products Electronic and electrical equipment Machinery and equipment
+ 114   16_TRANSEQ     Motor vehicles Other transport equipment
+ 115   17_OTHERIND    Other manufactured products Water supply
+ 116   18_ELEC        Electricity
+ 117   19_CONSTRUC    Construction
+ 118   20_LTRP        Land transport service(road rail)
+ 119   21_WTRP        Water transport service
+ 120   22_ATRP        Air transport service
+ 121   23_SER         Service
+ 122  /
+ 123   
+ 124   I4(I) CBAM commodities
+ 125  /
+ 126  11_CHEMICAL    Chemical products
+ 127  12_NONMET      Non-metallic mineral products
+ 128  13_IRONSTL     Primary iron and steel products
+ 129  14_NONFERR     Non-ferrous metal products
+ 130  /
+ 131   
+ 132  ENE(I) Energy commodities
+ 133  /
+ 134   02_COAL         Coal
+ 135   03_OIL          Crude petroleum
+ 136   04_GAS          Natural gas
+ 137   10_PETROLCOAL   Petroleum and coal products
+ 138   18_ELEC         Electricity
+ 139  /
+ 140   
+ 141  NENE(I) Non-energy commodities
+ 142  /
+ 143   01_AGRICULT    Agricultural forest and fishery goods
+ 144  * 02_COAL        Coal
+ 145  * 03_OIL         Crude petroleum
+ 146  * 04_GAS         Natural gas Gas distribution
+ 147   05_MINING      Mined and quarried goods
+ 148   06_FOODPRO     Food beverages and tobacco products
+ 149   07_TEXTILES    Textile and leather products
+ 150   08_WOODPRO     Wood products
+ 151   09_PAPERPRO    Paper products
+ 152  * 10_PETROLCOAL  Petroleum and coal products
+ 153   11_CHEMICAL    Chemical products
+ 154   12_NONMET      Non-metallic mineral products
+ 155   13_IRONSTL     Primary iron and steel products
+ 156   14_NONFERR     Non-ferrous metal products
+ 157   15_MACHINE     Fabricated metal products Electronic and electrical equipment Machinery and equipment
+ 158   16_TRANSEQ     Motor vehicles Other transport equipment
+ 159   17_OTHERIND    Other manufactured products Water supply
+ 160  * 18_ELEC        Electricity
+ 161   19_CONSTRUC    Construction
+ 162   20_LTRP        Land transport service(road rail)
+ 163   21_WTRP        Water transport service
+ 164   22_ATRP        Air transport service
+ 165   23_SER         Service
+ 166  /
+ 167   
+ 168  J2(J) Industries
+ 169  /
+ 170  * 01_AGRICULT    Agricultural forest and fishery goods
+ 171  * 02_COAL        Coal
+ 172  * 03_OIL         Crude petroleum
+ 173  * 04_GAS         Natural gas Gas distribution
+ 174  * 05_MINING      Mined and quarried goods
+ 175  * 06_FOODPRO     Food beverages and tobacco products
+ 176   07_TEXTILES    Textile and leather products
+ 177   08_WOODPRO     Wood products
+ 178   09_PAPERPRO    Paper products
+ 179  * 10_PETROLCOAL  Petroleum and coal products
+ 180   11_CHEMICAL    Chemical products
+ 181  * 12_NONMET      Non-metallic mineral products
+ 182  * 13_IRONSTL     Primary iron and steel products
+ 183   14_NONFERR     Non-ferrous metal products
+ 184   15_MACHINE     Fabricated metal products Electronic and electrical equipment Machinery and equipment
+ 185   16_TRANSEQ     Motor vehicles Other transport equipment
+ 186  * 17_OTHERIND    Other manufactured products Water supply
+ 187  *  18_TnD         Transmission and Distribution
+ 188  *  19_eNuclear    Nuclear generation
+ 189  *  20_eCoal       Coal generation
+ 190  *  21_eGas        Gas generation
+ 191  *  22_eOil        Oil generation
+ 192  *  23_eWind       Wind generation
+ 193  *  24_eSolar      Solar generation
+ 194  *  25_eHydro      Hydro generation
+ 195  *  26_eOther      Other generation
+ 196   23_CONSTRUC    Construction
+ 197  * 28_LTRP        Land transport service(road rail)
+ 198   25_WTRP        Water transport service
+ 199   26_ATRP        Air transport service
+ 200   27_SER         Service
+ 201  /
+ 202   
+ 203   
+ 204   
+ 205  J3(J) Energy Industries
+ 206  /
+ 207   01_AGRICULT    Agricultural forest and fishery goods
+ 208   02_COAL        Coal
+ 209   03_OIL         Crude petroleum
+ 210   04_GAS         Natural gas Gas distribution
+ 211   05_MINING      Mined and quarried goods
+ 212   06_FOODPRO     Food beverages and tobacco products
+ 213   10_PETROLCOAL  Petroleum and coal products
+ 214   12_NONMET
+ 215   13_IRONSTL     Primary iron and steel products
+ 216   17_OTHERIND    Other manufactured products Water supply
+ 217   18_TnD         Transmission and Distribution
+ 218   19_eCoal       Coal generation
+ 219   20_eGas        Gas generation
+ 220   21_eOil        Oil generation
+ 221   22_eNFs        Non-fossil fuel generation
+ 222   24_LTRP        Land transport service(road rail)
+ 223  /
+ 224   
+ 225   
+ 226  J4(J) Energy Transformation Industries
+ 227  /
+ 228   10_PETROLCOAL  Petroleum and coal products
+ 229   19_eCoal Coal generation
+ 230   20_eGas  Gas generation
+ 231   21_eOil  Oil generation
+ 232   22_eNFs   Non-fossil fuel generation
+ 233   /
+ 234   
+ 235   
+ 236  J5(J) Industries
+ 237  /
+ 238   01_AGRICULT    Agricultural forest and fishery goods
+ 239   02_COAL        Coal
+ 240   03_OIL         Crude petroleum
+ 241   04_GAS         Natural gas Gas distribution
+ 242   05_MINING      Mined and quarried goods
+ 243   06_FOODPRO     Food beverages and tobacco products
+ 244   07_TEXTILES    Textile and leather products
+ 245   08_WOODPRO     Wood products
+ 246   09_PAPERPRO    Paper products
+ 247   11_CHEMICAL    Chemical products
+ 248   12_NONMET      Non-metallic mineral products
+ 249   13_IRONSTL     Primary iron and steel products
+ 250   14_NONFERR     Non-ferrous metal products
+ 251   15_MACHINE     Fabricated metal products Electronic and electrical equipment  Machinery and equipment
+ 252   16_TRANSEQ     Motor vehicles Other transport equipment
+ 253   17_OTHERIND    Other manufactured products Water supply
+ 254   23_CONSTRUC    Construction
+ 255   24_LTRP        Land transport service(road rail)
+ 256   25_WTRP        Water transport service
+ 257   26_ATRP        Air transport service
+ 258   27_SER         Service
+ 259  /
+ 260   
+ 261  J6(J) Agriculture
+ 262  /01_AGRICULT    Agricultural forest and fishery goods
+ 263  /
+ 264   
+ 265  J7(J) Aggregated Energy Industry
+ 266  /02_COAL
+ 267  03_OIL
+ 268  04_GAS
+ 269  19_eCoal
+ 270  20_eGas
+ 271  21_eOil
+ 272  /
+ 273   
+ 274  J8(J) Aggregated Manufacturing
+ 275  /05_MINING
+ 276  06_FOODPRO
+ 277  07_TEXTILES
+ 278  08_WOODPRO
+ 279  09_PAPERPRO
+ 280  10_PETROLCOAL
+ 281  11_CHEMICAL
+ 282  12_NONMET
+ 283  13_IRONSTL
+ 284  14_NONFERR
+ 285  15_MACHINE
+ 286  16_TRANSEQ
+ 287  17_OTHERIND
+ 288  23_CONSTRUC
+ 289  /
+ 290   
+ 291  J9(J) Aggregated Transportation
+ 292  /
+ 293  24_LTRP
+ 294  25_WTRP
+ 295  26_ATRP
+ 296  /
+ 297   
+ 298  J10(J) Aggregated Building
+ 299  /
+ 300  27_SER
+ 301  /
+ 302   
+ 303   
+ 304  J11(J) CBAM industries
+ 305  /
+ 306  11_CHEMICAL
+ 307  12_NONMET
+ 308  13_IRONSTL
+ 309  14_NONFERR
+ 310  /
+ 311   
+ 312  Z2(Z) Asia countries
+ 313  /
+ 314   01_KOR
+ 315   02_CHN
+ 316   03_JPN
+ 317   04_IND
+ 318   05_RUS
+ 319  /
+ 320   
+ 321   
+ 322  Elec(J) Electricity Industries
+ 323  /
+ 324   19_eCoal Coal generation
+ 325   20_eGas  Gas generation
+ 326   21_eOil  Oil generation
+ 327   22_eNFs   Non-fossil fuel generation
+ 328  /
+ 329   
+ 330  eNFs(j) Non-fossil fuel industries
+ 331  /22_eNFs/
+ 332   
+ 333  ***Mapping for CBAM
+ 334   
+ 335  z3(z) CBAM importing regions
+ 336  /
+ 337  07_EU  European Union
+ 338  /
+ 339   
+ 340  z4(z) CBAM exporting regions
+ 341  /
+ 342   01_KOR
+ 343   02_CHN
+ 344   03_JPN
+ 345  * 04_IND
+ 346   05_RUS
+ 347   06_USA
+ 348  * 07_EU
+ 349   08_OHI
+ 350   09_OUMIC
+ 351  * 10_OLMIC
+ 352  * 11_OLI
+ 353  /
+ 354   
+ 355   
+ 356  z5(z) recipients of CBAM revenue
+ 357  /
+ 358  04_IND
+ 359  10_OLMIC
+ 360  11_OLI
+ 361  /
+ 362   
+ 363   
+ 364  INDtoCOM(j,i) Industries to commodities
+ 365  /
+ 366  01_AGRICULT. (01_AGRICULT)
+ 367  02_COAL. (02_COAL)
+ 368  03_OIL.  (03_OIL)
+ 369  04_GAS.  (04_GAS)
+ 370  05_MINING.   (05_MINING)
+ 371  06_FOODPRO.  (06_FOODPRO)
+ 372  07_TEXTILES. (07_TEXTILES)
+ 373  08_WOODPRO.  (08_WOODPRO)
+ 374  09_PAPERPRO. (09_PAPERPRO)
+ 375  10_PETROLCOAL.   (10_PETROLCOAL)
+ 376  11_CHEMICAL. (11_CHEMICAL)
+ 377  12_NONMET.   (12_NONMET)
+ 378  13_IRONSTL.  (13_IRONSTL)
+ 379  14_NONFERR.  (14_NONFERR)
+ 380  15_MACHINE.  (15_MACHINE)
+ 381  16_TRANSEQ.  (16_TRANSEQ)
+ 382  17_OTHERIND. (17_OTHERIND)
+ 383  19_eCoal.    (18_ELEC)
+ 384  20_eGas. (18_ELEC)
+ 385  21_eOil. (18_ELEC)
+ 386  22_eNFs. (18_ELEC)
+ 387  23_CONSTRUC. (19_CONSTRUC)
+ 388  24_LTRP. (20_LTRP)
+ 389  25_WTRP. (21_WTRP)
+ 390  26_ATRP. (22_ATRP)
+ 391  27_SER.  (23_SER)
+ 392  /
+ 393   
+ 394  ALIAS (j,jj)
+ 395  ALIAS (i,ii,ij)
+ 396  ALIAS (l,lj)
+ 397  ALIAS (k,kj)
+ 398  ALIAS (z,zj,zjj)
+ 399  ALIAS (power, power2)
+ 400  ALIAS (ENE,ENE2)
+ 401  ALIAS (Elec, Elecc)
+ 402  ;
+ 403  *$exit
+ 404   
+ 405  set sim /1*12/;
+ 406   
+ 407  *==============================================================================
+ 408  * 2 Declaration of parameters and benchmark variables
+ 409  *==============================================================================
+ 410  PARAMETER
+ 411  *==============================================================================
+ 412  *  2.1 Parameters
+ 413  *==============================================================================
+ 414   A_K(z)               Scale parameter (price of new capital)
+ 415   aij(i,j,z)           Input output coefficient
+ 416   aij2(i,j,z)          Input output coefficient (intermediate energy)
+ 417   B_KD(j,z)            Scale parameter (CES - composite capital)
+ 418   B_LD(j,z)            Scale parameter (CES - composite labor)
+ 419   B_M1(i,z)            Scale parameter (CES - composite commodity)
+ 420   B_M2(i,z)            Scale parameter (CES - composite import)
+ 421   B_VA(j,z)            Scale parameter (CES - value added)
+ 422   B_KLE(j,z)           Scale parameter (CES - composite KLE)
+ 423   B_ENER(j,z)          Scale parameter (CES - composite ENER)
+ 424   B_X1(i,z)            Scale parameter (CET - total output)
+ 425   B_X2(i,z)            Scale parameter (CET - composite export)
+ 426   B_X3(i,z)            Scale parameter (CES - top level)
+ 427   B_X4(z)              Scale parameter (CES - Aggregated Electricity)
+ 428   beta_D_X1(i,z)       Share parameter (CET - total output - local sales)
+ 429   beta_EX_X1(i,z)      Share parameter (CET - total output - export)
+ 430   beta_X2(i,z,zj)      Share parameter (CET - composite export)
+ 431   beta_X3(j,i,z)       Share parameter (CES - top level)
+ 432   beta_X4(power, z)    Share parameter (CES - Aggregated Electricity)
+ 433   beta_KD(k,j,z)       Share parameter (CES - composite capital)
+ 434   beta_LD(l,j,z)       Share parameter (CES - composite labor)
+ 435   beta_M1(i,z)         Share parameter (CES - composite commodity)
+ 436   beta_M2(i,zj,z)      Share parameter (CES - composite import)
+ 437   beta_VA(j,z)         Share parameter (CES - value added)
+ 438   beta_KLE(j,z)        Share parameter (CES - KLE composite)
+ 439   beta_ENER(ene,j,z)   Share parameter (CES - ENER composite)
+ 440   delta(z)             Depreciation rate of capital in country z
+ 441   eta                  Price elasticity of indexed transfers and parameters
+ 442   frisch(z)            Frisch parameter (LES function)
+ 443   gamma_GVT(i,z)       Share of commodity i in total current public expenditures on goods and services
+ 444   gamma_INV(i,z)       Share of commodity i in total investment expenditures
+ 445   gamma_LES(i,z)       Marginal share of commodity i in household consumption budget
+ 446   io(j,z)              Coefficient (Leontief - intermediate consumption)
+ 447   io2(j,z)             Coefficient (Leontief - intermediate energy consumption)
+ 448   v(j,z)               value added Coefficient (Leontief)
+ 449   v2(j,z)              KLE Share parameter (Leontief)
+ 450   kmob                 Flag parameter (1 if capital is mobile)
+ 451   RES                  Rescaling factor
+ 452   rho_KD(j,z)          Elasticity paameter (CES - composite capital)
+ 453   rho_LD(j,z)          Elasticity parameter (CES - composite labor)
+ 454   rho_M1(i,z)          Elasticity parameter (CES - composite commodity)
+ 455   rho_M2(i,z)          Elasticity parameter (CES - composite import)
+ 456   rho_VA(j,z)          Elasticity parameter (CES - value added)
+ 457   rho_KLE(j,z)         Elasticity parameter (CES - KLE)
+ 458   rho_ENER(j,z)        Elasticity parameter (CES - ENER)
+ 459   rho_X1(i,z)          Elasticity parameter (CET - composite export)
+ 460   rho_X2(i,z)          Elasticity parameter (CET - composite export)
+ 461   rho_X3(i,z)          Elasticity parameter (CES - top level)
+ 462   rho_X4(z)            Elasticity parameter (CES - Aggregated Electricity)
+ 463   sigma_KD(j,z)        Elasticity (CES - composite capital)
+ 464   sigma_LD(j,z)        Elasticity (CES - composite labor)
+ 465   sigma_M1(i,z)        Elasticity (CES - composite commodity)
+ 466   sigma_M2(i,z)        Elasticity (CES - composite import)
+ 467   sigma_VA(j,z)        Elasticity (CES - value added)
+ 468   sigma_KLE(j,z)       Elasticity (CES - kle)
+ 469   sigma_ENER(j,z)      Elasticity (CES - within energy)
+ 470   sigma_X0(j,z)        Elasticity (CET - exports and local sales)
+ 471   sigma_X1(i,z)        Elasticity (CET - total output)
+ 472   sigma_X2(i,z)        Elasticity (CET - composite export)
+ 473   sigma_X3(i,z)        Elasticity (CES - top level)
+ 474   sigma_X4(z)          Elasticity (CES - Aggregated Electricity)
+ 475   sigma_Y(i,z)         Income elasticity of consumption
+ 476   tmrg(i,ij,zj,z)      Rate of margin i applied to commodity ij imported from country zj
+ 477   TnDShare(z)          T&D share of Aggregated electricity
+ 478   PowerShare(z)        Power Industries share of Aggregated electricity
+ 479   theta2(j,i,z)        Export share of composite activity
+ 480  * L_EFF(l,j,z)         Efficiency adjusted labor
+ 481  * LDCO_EFF(j,z)        Composite labor
+ 482   
+ 483  *==============================================================================
+ 484  *  2.2 Variables - Benchmark
+ 485  *==============================================================================
+ 486  *  Benchmark values of variables are parameters. Their acronyms are the
+ 487  *  corresponding variable names,followed by the letter "O".
+ 488   
+ 489  *==============================================================================
+ 490  *   2.2.1 Volume variables
+ 491  *==============================================================================
+ 492   CABXO(z)        Current account balance of region z in terms of the international currency (pseudo-volume variable)
+ 493   CO(i,z)         Consumption of commodity i by households in region z
+ 494   CGO(i,z)        Public consumption of commodity i in region z
+ 495   CIO(j,z)        Total intermediate consumption of industry j in region z
+ 496   CEO(j,z)        Total energy intermediate consumption of industry j in region z
+ 497   CMINO(i,z)      Minimum consumption of commodity i by households in region z
+ 498   CTH_REALO(z)    Real household consumption in region z
+ 499   DDO(i,z)        Domestic demand for commodity i produced locally in region z
+ 500   DIO(i,j,z)      Intermediate consumption of commodity i by industry j in region z
+ 501   DEO(ene,j,z)    Intermediate energy consumption of commodity i by industry j in region z
+ 502   DITO(i,z)       Total intermediate demand of commodity i in region z
+ 503   DSO(j,i,z)      Supply of commodity i by sector j to the domestic market
+ 504   DSO_I(i,z)      Supply of commodity i to the domestic market of region z
+ 505   DSO_J(j,z)      Supply of activity j to the domestic market of region z
+ 506   EXO(i,z,zj)     Quantity of product i exported by country z to country zj
+ 507   EXTO(i,z)       Supply of composite commodity i by region z to the export market
+ 508   EXTTO(j,i,z)    Supply of activity j to the export market i of region z
+ 509   G_REALO(z)      Current real government expenditures on goods and services in region z
+ 510   GDP_BP_REALO(z) Real GDP at basic prices
+ 511   GDP_MP_REALO(z) Real GDP at market prices
+ 512   GDP_BP_W_REALO  Real GDP at basic prices
+ 513   IMO(i,zj,z)     Quantity of product i imported by country z from country zj
+ 514   IMO2(zj,z)      Quantity of product i imported by country z from country zj
+ 515   IMTO(i,z)       Quantity demanded of composite imports of commodity i by region z
+ 516   INVO(i,z)       Final demand of commodity i for investment purposes (GFCF) in region z
+ 517   IT_REALO(z)     Real gross fixed capital formation
+ 518   KDO(k,j,z)      Demand for type k capital by industry j in region z
+ 519   KDCO(j,z)       Demand for composite capital by industry j in region z
+ 520   KSO(k,z)        Supply of type k capital in region z
+ 521   KSTO(z)         Total supply of capital in region z
+ 522   LDO(l,j,z)      Demand for type l labor by industry j in region z
+ 523   LDCO(j,z)       Demand for composite labor by industry j in region z
+ 524   LSO(l,z)        Supply of type l labor in region z
+ 525   MRGNO(i,z)      Domestic production of commodity i in region z exported as international margin services
+ 526   POPO(z)         Population in 2019
+ 527   QO(i,z)         Quantity demanded of composite commodity i in region z
+ 528   VAO(j,z)        Value added of industry j in region z
+ 529   KLEO(j,z)       KLE of industry j in region z
+ 530   XSO_I(i,z)      Commoidty i total production
+ 531   XSO(j,i,z)      Total output of industry j in region z
+ 532   XSTO(j,z)       Total output of industry j
+ 533   POWERQO(z)      Total power output in region z
+ 534   
+ 535  *==============================================================================
+ 536  *   2.2.2 Price variables
+ 537  *==============================================================================
+ 538   eO(z)           Exchange rate (price of international currency in terms of region z local currency)
+ 539   PO(i,z)         Basic price of commodity i in region z
+ 540   PO2(j,i,z)      Basic price of industry j production of commodity i
+ 541   PO3(i,j,z)
+ 542   PO4(i,j,z)
+ 543   PPOWERO(z)
+ 544   PIO(i,z)        Basic price of commodity is output
+ 545   PTO(j,z)        Basic price of industry js output
+ 546   PCO(i,z)        Purchaser price of composite commodity i (including all taxes and margins) in region z
+ 547   PCIO(j,z)       Intermediate consumption price index of industry j in region z
+ 548   PCEO(j,z)       Intermediate energy consumption price index of industry j in region z
+ 549   PDO(i,z)        Price of local product i sold on region z domestic market (including all taxes)
+ 550   PEO(i,z,zj)     Price received for commodity i exported to region zj by region z (excluding export taxes)
+ 551   PETO(i,z)       Border price of composite commodity i exported by region z
+ 552   PIXCONO(z)      Consumer price index in region z
+ 553   PIXGDPO(z)      GDP deflator in region z
+ 554   PIXGDP_WO       World GDP deflator
+ 555   PIXGVTO(z)      Public expenditures price index in region z
+ 556   PIXINVO(z)      Investment price index in region z
+ 557   PKO(z)          Price of new capital in region z
+ 558   PLO(i,z)        Price of local product i (excluding all taxes on products) in region z
+ 559   PMO(i,zj,z)     Price of commodity i imported by region z from region zj (including all taxes duties and margins)
+ 560   PMTO(i,z)       Price of composite commodity i imported by region z (including all taxes duties and margins)
+ 561   PPO(j,z)        Unit cost of industry j in region z including taxes directly related to the use of capital and labor but excluding other taxes on production
+ 562   PVAO(j,Z)       Price of industry j value added in region z (including taxes on production directly related to the use of capital and labor)
+ 563   PKLEO(j,z)      Price of industry j KLE in region z
+ 564   PWMO(i,zj,z)    World price of commodity i imported from country zj by region z (expressed in international currency)
+ 565   PWMGO(i)        World price of margin i (expressed in international currency)
+ 566   PWXO(i,z,zj)    World price of commodity i exported to country zj by region z (expressed in international currency)
+ 567   RO(k,j,z)       Rental rate of type k capital in industry j of region z
+ 568   RCO(j,z)        Rental rate of industry j composite capital in region z
+ 569   RKO(k,z)        Rental rate of type k capital in region z
+ 570   RTIO(k,j,z)     Rental rate paid by industry j for type k capital in region z including capital taxes
+ 571   WO(l,z)         Wage rate of type l labor in region z
+ 572   WCO(j,z)        Wage rate of industry j composite labor in region z
+ 573   WTIO(l,j,z)     Wage rate paid z by industry j for type l labor in region including payroll taxes
+ 574   
+ 575   
+ 576  *==============================================================================
+ 577  *   2.2.3 Nominal (value) variables
+ 578  *==============================================================================
+ 579   CABO(z)         Current account balance of region z
+ 580   CTHO(z)         Consumption budget of households in region z
+ 581   DEPO(z)         Amount of depreciation (capital consumption allowance) in region z
+ 582   GO(z)           Current government expenditures on goods and services in region z
+ 583   GDP_BPO(z)      Region z GDP at basic prices
+ 584   GDP_BP_WO       World GDP at basic prices
+ 585   GDP_FDO(z)      Region z GDP at purchasers prices from the perspective of final demand
+ 586   GDP_IBO(z)      Region z GDP at market prices (income-based)
+ 587   GDP_MPO(z)      Region z GDP at market prices
+ 588   ITO(z)          Total investment expenditures in region z
+ 589   RKDO(k,j,z)     Type k capital income in industry j in region z
+ 590   SGO(z)          Government savings in region z
+ 591   SHO(z)          Household savings in region z
+ 592   SROWO(z)        Rest-of-the-world savings with respect to region z
+ 593   TDHO(z)         Household income taxes in region z
+ 594   TICO(i,z)       Government revenue from indirect taxes on commodity i in region z
+ 595   TICTO(z)        Total government receipts of indirect taxes on commodities in region z
+ 596   TIKO(k,j,z)     Government revenue from taxes on type k capital used by industry j in region z
+ 597   TIKTO(z)        Total government revenue from from taxes on capital in region z
+ 598   TIMO(i,zj,z)    Government revenue from duties on commodity i imported from region zj by region z
+ 599   TIMTO(z)        Total government revenue from import duties in region z
+ 600   TIPO(j,z)       Government revenue from taxes on industry j production in region z (excluding taxes directly related to the use of capital and labor)
+ 601   TIPTO(z)        Total government revenue from production taxes in region z (excluding taxes directly related to the use of capital and labor)
+ 602   TIWO(l,j,z)     Government revenue from payroll taxes on type l labor in industry j of region z
+ 603   TIWTO(z)        Total government revenue from payroll taxes in region z
+ 604   TIXO(i,z,zj)    Government revenue from export taxes on commodity i exported by region z to region zj
+ 605   TIXTO(z)        Total government revenue from export taxes in region z
+ 606   TPRCTSO(z)      Total government revenue from taxes on products and imports in region z
+ 607   TPRODNO(z)      Total government revenue from other taxes on production in region z
+ 608   YDHO(z)         Household disposable income in region z
+ 609   YGO(z)          Total government income in region z
+ 610   YHO(z)          Household total income in region z
+ 611   YHKO(z)         Household capital income in region z
+ 612   YHLO(z)         Household labor income in region z
+ 613   YROWO(z)        Rest-of-the-world total income from region z
+ 614   
+ 615  *==============================================================================
+ 616  *   2.2.4 Rates and intercepts
+ 617  *==============================================================================
+ 618   sh0O(z)         Intercept (household savings)
+ 619   sh1O(z)         Slope (household savings)
+ 620   ttdh0O(z)       Intercept (household income tax)
+ 621   ttdh1O(z)       Slope (household income tax)
+ 622   tticO(i,z)      Tax rate on commodity i
+ 623   ttikO(k,j,z)    Tax rate on capital k used in industry j
+ 624   ttimO(i,zj,z)   Rate of taxes and duties on imports of commodity i from country zj
+ 625   ttipO(j,z)      Tax rate on the production of industry j
+ 626   ttiwO(l,j,z)    Tax rate on type l worker compensation in industry j
+ 627   ttixO(i,z,zj)   Export tax rate on exported commodity i
+ 628   
+ 629   
+ 630  *==============================================================================
+ 631  *   2.2.5 Utility Variable
+ 632  *==============================================================================
+ 633   UUO(z)         Utility of region z
+ 634   epO(z)         Expenditure funtion of region z
+ 635   sigma_w(i,z)
+ 636   
+ 637  *==============================================================================
+ 638  *   2.2.6 Tax rebate
+ 639  *==============================================================================
+ 640   ttip_shareO(j,z)
+ 641   deltattipO(j,z)
+ 642   
+ 643   ttiw_shareO(l,j,z)
+ 644   deltattiwO(l,j,z)
+ 645  *==============================================================================
+ 646  *   2.2.7 CBAM
+ 647  *==============================================================================
+ 648   TCBAMO(z)      Total CBAM imposition of destination region z
+ 649   TMO(z)         Total taxs and duties on imports of destination region z
+ 650  ;
+ 651   
+ 652   
+ 653  Scalar
+ 654   Tiny small figure / 0.000000000001/ ;
+ 655   
+ 656  *==============================================================================
+ 657  * 3 Data
+ 658  *==============================================================================
+ 659  *  3.1 Data input from GTAP8.1
+ 660  *==============================================================================
+ 661  *   3.1.1 Reading data aggregated with DATA_AGG-2007.gms
+ 662  *==============================================================================
+ 663  *  The PEP w-1 model uses aggregated data from GTAP8.1. The following file
+ 664  *  includes data for some variables and substitution elasticities.
+GDXIN   C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Input_w-1\DATA_AGG_250804.gdx
+--- LOAD  CO = 14:CO
+--- LOAD  CGO = 15:CGO
+--- LOAD  DDO = 16:DDO
+--- LOAD  DEPO = 17:DEPO
+--- LOAD  DIO = 18:DIO
+--- LOAD  DSO = 19:DSO
+--- LOAD  DSO_I = 20:DSO_I
+--- LOAD  EXO = 21:EXO
+--- LOAD  IMO = 22:IMO
+--- LOAD  INVO = 23:INVO
+--- LOAD  KSTO = 24:KSTO
+--- LOAD  LDO = 25:LDO
+--- LOAD  MRGNO = 26:MRGNO
+--- LOAD  XSO = 40:XSO
+--- LOAD  XSO_I = 41:XSO_I
+--- LOAD  XSTO = 42:XSTO
+--- LOAD  RKDO = 28:RKDO
+--- LOAD  POPO = 27:POPO
+--- LOAD  TDHO = 29:TDHO
+--- LOAD  TICO = 31:TICO
+--- LOAD  TIKO = 32:TIKO
+--- LOAD  TIMO = 33:TIMO
+--- LOAD  TIPO = 34:TIPO
+--- LOAD  TIWO = 35:TIWO
+--- LOAD  TIXO = 36:TIXO
+--- LOAD  tmrg = 39:tmrg
+--- LOAD  sigma_M1 = 44:sigma_M1
+--- LOAD  sigma_M2 = 45:sigma_M2
+--- LOAD  sigma_VA = 46:sigma_VA
+ 669   
+ 670   
+ 671  display sigma_M1, sigma_M2, sigma_VA ;
+ 672   
+ 673  sigma_M1('04_GAS',Z) = 6;
+ 674   
+ 675  *==============================================================================
+ 676  *   3.1.2 Rescaling the variables
+ 677  *==============================================================================
+ 678  * GTAP 8.1 data are in millions of (2004 and 2007) US dollars
+ 679  * (see www.gtap.agecon.purdue.edu/resources/download/5679.pdf)
+ 680  * With RES = 10000, model results are in tens of billions (10G$)= 백억
+ 681  RES              = 10000;
+ 682  *RES = 1;
+ 683  * NOTE: In GTAP parlance, "agents' prices" are prices paid by buyers, and
+ 684  *       "market prices" are prices received by sellers.
+ 685   
+ 686  * Household consumption = GTAP domestic purchases (VDPA) + import purchases (VIPA)
+ 687  * by households at agents' prices.
+ 688  CO(i,z)          = CO(i,z)/RES;
+ 689   
+ 690  * Public final consumption = domestic purchases (VDGA) + import purchases (VIGA)
+ 691  * by government at agents' prices.
+ 692  CGO(i,z)         = CGO(i,z)/RES;
+ 693   
+ 694  * Domestic purchases = domestic absorption:
+ 695  * (CO + CGO + INVO + DIO) - [ imports (IMO) + transport margins (tmrg)
+ 696  *                              + indirect taxes (TICO + TIMO) ]
+ 697  DDO(i,z)         = DDO(i,z)/RES;
+ 698   
+ 699  * Capital depreciation (DEP)
+ 700  DEPO(z)          = DEPO(z)/RES;
+ 701   
+ 702  * Intermediate consumption = domestic purchases (VDFA) + import purchases (VIFA)
+ 703  * by firms belonging to sectors other than CGDS, at agents' prices.
+ 704  DIO(i,j,z)       = DIO(i,j,z)/RES;
+ 705   
+ 706  * Domestic supply = domestic demand (DDO) in GTAP_AGG.gms
+ 707  DSO(j,i,z)        = DSO(j,i,z)/RES;
+ 708  DSO_I(i,z)        = DSO_I(i,z)/RES;
+ 709   
+ 710  * Exports = exports at world prices (VXWD) = imports at world prices
+ 711  * Note: the GTAP variable VXWD is NOT used in the DATA_AGG.gms program; the
+ 712  * value recorded in DATA_AGG.gdx is actually identical to IMO
+ 713  EXO(i,z,zj)      = EXO(i,z,zj)/RES;
+ 714   
+ 715  * Imports = imports at world prices (VIWS) - sum of transport margins on imports (VTWR)
+ 716  IMO(i,z,zj)      = IMO(i,z,zj)/RES;
+ 717   
+ 718  * Demand for investment purposes = domestic purchases (VDFA)+ import purchases (VIFA)
+ 719  * by firms of the CGDS sector at agents' prices.
+ 720  INVO(i,z)        = INVO(i,z)/RES;
+ 721   
+ 722  * Total capital stock at the beginning of the period (VKB)
+ 723  KSTO(z)          = KSTO(z)/RES;
+ 724   
+ 725  * Labor demand = Remuneration of labor at market prices, before taxes
+ 726  * (components of VFM, "primary factor purchases, by households, at market prices")
+ 727  LDO(l,j,z)       = LDO(l,j,z)/RES;
+ 728   
+ 729  * Supply of transport margins at market prices (VST), adjusted proportionately
+ 730  * so that MRGNO = sum of tmrg for every margin commodity
+ 731  MRGNO(i,z)       = MRGNO(i,z)/RES;
+ 732   
+ 733  * Remuneration of capital at market prices, before taxes
+ 734  * (components of VFM, "primary factor purchases, by households, at market prices")
+ 735  RKDO(k,j,z)      = RKDO(k,j,z)/RES;
+ 736  *RKDO('cap', '29_WTRP','15_RestofWorld') = eps;
+ 737  * Direct taxes = factor payment at market prices (VFM)
+ 738  *                - primary factor sales at agents' prices (EVOA)
+ 739  TDHO(z)          = TDHO(z)/RES;
+ 740   
+ 741  * Domestic taxes on commodities = demand at agents' prices - demand at market prices:
+ 742  * Include 6 pairs of GTAP components
+ 743  *       VDPA - VDPM
+ 744  *       VIPA - VIPM
+ 745  *       VDGA - VDGM
+ 746  *       VIGA - VIGM
+ 747  *       VDFA - VDFM
+ 748  *       VIFA - VIFM
+ 749  TICO(i,z)        = TICO(i,z)/RES;
+ 750   
+ 751  * Net taxes on factor of production = factor employment tax revenue (FTRV)
+ 752  *                                     - factor-based subsidies (FBEP).
+ 753  TIKO(k,j,z)      = TIKO(k,j,z)/RES;
+ 754   
+ 755  * Import duties = "ordinary" import duties (TFRV)
+ 756  TIMO(i,z,zj)     = TIMO(i,z,zj)/RES;
+ 757   
+ 758  * Taxes on production = MINUS "ordinary output subsidies" (OSEP)
+ 759  TIPO(j,z)        = TIPO(j,z)/RES;
+ 760   
+ 761  * Net taxes on factor of production = factor employment tax revenue (FTRV)
+ 762  *                                     - factor-based subsidies (FBEP).
+ 763  TIWO(l,j,z)      = TIWO(l,j,z)/RES;
+ 764   
+ 765  * Taxes on exports = export tax equivalent of the Multi-Fiber Agreement (MFA)
+ 766  * quota premium(MFRV) + "ordinary" export taxes (XTRV)
+ 767  TIXO(i,z,zj)     = TIXO(i,z,zj)/RES;
+ 768   
+ 769  * Transport margins at world prices = sum of margins on imports (VTWR)
+ 770  tmrg(i,ij,z,zj)  = tmrg(i,ij,z,zj)/RES;
+ 771   
+ 772  * Domestic output = domestic supply (DSO) + supply of transport margins (MRGNO)
+ 773  *                   + exports (EXO) - taxes on exports (TIXO)
+ 774   
+ 775  XSO_I(i,z)        = XSO_I(i,z)/RES;
+ 776  XSO(j,i,z)        = XSO(j,i,z)/RES;
+ 777  XSTO(j,z)         = XSTO(j,z)/RES;
+ 778   
+ 779  *==============================================================================
+ 780  *  3.3 Exogenous prices and parameters
+ 781  *==============================================================================
+ 782   
+ 783  *  Price elasticity (should be equal to one to verify homogeneity)
+ 784  eta = 1;
+ 785   
+ 786  *==============================================================================
+ 787  * CES and CET elasticities
+ 788  *==============================================================================
+ 789  * CES elasticities are defined using GTAP8.1 data for imports
+ 790  * (sigma_M1 and sigma_M2) and value added (sigma_VA)
+ 791  * Other exogenous parameters can be defined if the Excel file VAL_PAR.XLS
+ 792  PARAMETER
+ 793  PARZ;
+ 794  *$exit
+ 795   
+ 797  *$exit
+**** File: C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Input_w-1\VAL_PAR_250805.gdx
+**** Msg : No such file or directory
+ 798  $GDXIN Input_w-1\VAL_PAR_250805.gdx
+****                                    $510
+**** 510  Unable to open gdx file for $GDXIN
+ 799  $LOAD sigma_KD, sigma_LD, sigma_KLE, sigma_X1, sigma_X2, sigma_X3, sigma_X0, sigma_y, PARZ
+****      $502
+**** 502  GDXIN  file not open - ignore rest of line
+ 800   
+ 801  *------------------------------------------------------------------------------
+ 802  * CES - composite capital
+ 803  * We assume that the elasticity between the different type of capital
+ 804  * is twice that used for value added.
+ 805  * If the user wishes to assume otherwise, he can fill the appropriate area in
+ 806  * the Excel file VAL_PAR.xls and delete following line:
+ 807   sigma_KD(j,z)   = 2*sigma_VA(j,z);
+ 808   
+ 809   sigma_M1('04_GAS',Z) = 6;
+ 810   
+ 811  * CES - IMP sourcing
+ 812   sigma_M2('03_OIL',Z) = 2;
+ 813   sigma_M2('04_GAS',Z) = 2;
+ 814   
+ 815   sigma_X2(i,Z)  = 2;
+ 816   
+ 817  * CES - composite Power sector
+ 818   sigma_X4(z)    = 2;
+ 819   
+ 820  * sigma_KD(j,z)   = 0.5;
+ 821  *------------------------------------------------------------------------------
+ 822  * CES - composite labor
+ 823  * We assume that the elasticity between the different type of labor
+ 824  * is twice that used for value added.
+ 825  * If the user wishes to assume otherwise, he can fill the appropriate area in
+ 826  * the Excel file VAL_PAR.xls and delete following line:
+ 827   sigma_LD(j,z)   = 2*sigma_VA(j,z);
+ 828   
+ 829  * sigma_LD(j,z)   = 0.5;
+ 830  *------------------------------------------------------------------------------
+ 831  * CES - composite KLE, KE, ENER
+ 832   sigma_KLE('10_PETROLCOAL',z)  = 0.9 ;
+ 833   sigma_ENER(j,z) = 0.9 ;
+ 834   
+ 835  *------------------------------------------------------------------------------
+ 836  * CET - total output
+ 837  * We arbitrarily assume that the transformation elasticity between total exports,
+ 838  * domestic supply and margins is equal to 2 for all sectors and all region.
+ 839  * If the user wishes to assume otherwise, he can fill the appropriate area in
+ 840  * the Excel file VAL_PAR.xls.
+ 841   
+ 842  *------------------------------------------------------------------------------
+ 843  * CET - exports
+ 844  * We arbitrarily assume that the transformation elasticity between exports
+ 845  * to the different partners is equal to 3 for all sectors and all region.
+ 846  * If the user wishes to assume otherwise, he can fill the appropriate area in
+ 847  * the Excel file VAL_PAR.xls.
+ 848   
+ 849  *------------------------------------------------------------------------------
+ 850  * LES parameters - Frisch
+ 851  * We assume that the Frisch parameter is -1.1 for rich regions/countries and
+ 852  * -1.5 for other regions/countries.
+ 853   frisch(zrich)   = -1.1;
+ 854   frisch(zother)  = -1.5;
+ 855   
+ 856  * If the user wishes to assume otherwise, he can fill the appropriate area in
+ 857  * the Excel file VAL_PAR.xls, delete the previous 2 lines and uncomment the
+ 858  * following line:
+ 859   frisch(z)      = PARZ(z,'frisch');
+****                       $141       $116
+**** 116  Label is unknown
+**** 141  Symbol declared but no values have been assigned. Check for missing
+****         data definition, assignment, data loading or implicit assignment
+****         via a solve statement. Suppress with $onImplicitAssign.
+****         A wild shot: You may have spurious commas in the explanatory
+****         text of a declaration. Check symbol reference list.
+ 860   
+ 861  *------------------------------------------------------------------------------
+ 862  * LES parameters - Income elasticity of consumption
+ 863  * We arbitrarily assume that the income elasticity between is the same for all
+ 864  * region/country.
+ 865  * If the user wishes to assume otherwise, he can fill the appropriate area in
+ 866  * the Excel file VAL_PAR.xls.
+ 867   
+ 868  *------------------------------------------------------------------------------
+ 869  *  Slopes of taxation functions
+ 870  *   One can either choose to assign a value to the intercept and calibrate
+ 871  *   the slopes accordingly, or the other way around. This type of modelling
+ 872  *   can be useful to take into account known marginal savings or taxation rates
+ 873  *   or to deal with negative average saving rates in cases where savings are
+ 874  *   negative for some household groups.
+ 875  *   When no further information is available, one can simply set the intercepts
+ 876  *   to zero and calibrate an average rate: this is what we do here for ttdh0O.
+ 877  *   If the user wishes to assume otherwise, he can fill the appropriate area in
+ 878  *   the Excel file VAL_PAR.xls.
+ 879  * ttdh0O(z)       = PARZ(z,'ttdh0O');
+ 880   
+ 881   ttdh0O(z)       = 0;
+ 882  *   The slope ttdh1O is calibrated below in the mane GAMS file
+ 883   
+ 884  *------------------------------------------------------------------------------
+ 885  *  Elasticity - Investment demand function
+ 886  * We arbitrarily assume that this elasticity is equal to 2 for all types of
+ 887  * capital, all sectors and all regions.
+ 888  * If the user wishes to assume otherwise, he can fill the appropriate area in
+ 889  * the Excel file VAL_PAR.xls.
+ 890   
+ 891  *------------------------------------------------------------------------------
+ 892  * Also we need to assign values to some prices
+ 893  * All of the prices below, EXCEPT eO, may be set at arbitrary values
+ 894  * without loss of generality.
+ 895  *
+ 896  * In the case of eO, although exchange rates may be given arbitrary values
+ 897  * in the model, they must all be equal for calibration at this stage. The reason
+ 898  * is that the supply of margin transport services MRGNO must equal global demand.
+ 899  * Since there is a single world price for international transport margins
+ 900  * (rather than bilateral world prices for other commodities) the unit of
+ 901  * measurement of the volume of margin services must be the same for all regions,
+ 902  * and in turn, that implies that the divisor that converts the nominal value to
+ 903  * volume be the same for all regions. Since that divisor involves the exchange
+ 904  * rate, all exchange rates must be equal.
+ 905   
+ 906  * Normally, prices that may be given arbitrary values are set at 1:
+ 907   eO(z)           = 1;
+ 908   PEO(i,z,zj)     = 1;
+ 909   PLO(i,z)        = 1;
+ 910   PWMGO(i)        = 1;
+ 911   WO(l,z)         = 1;
+ 912   
+ 913  *==============================================================================
+ 914  * 4 Calibration
+ 915  *==============================================================================
+ 916  *  4.1 Calculation of income and savings related variables and parameters
+ 917  *==============================================================================
+ 918   YHKO(z)         = SUM[(k,j),RKDO(k,j,z)];
+ 919   YHLO(z)         = SUM[(l,j),LDO(l,j,z)];
+ 920   YHO(z)          = YHLO(z)+YHKO(z);
+ 921   YDHO(z)         = YHO(z)-TDHO(z);
+ 922   CTHO(z)         = SUM[i,CO(i,z)];
+ 923   SHO(z)          = YDHO(z)-CTHO(z);
+ 924   
+ 925   TICTO(z)        = SUM[i,TICO(i,z)];
+ 926   TIMTO(z)        = SUM[(i,zj),TIMO(i,zj,z)];
+ 927   TIWTO(z)        = SUM[(l,j),TIWO(l,j,z)];
+ 928   TIKTO(z)        = SUM[(k,j),TIKO(k,j,z)];
+ 929   TIPTO(z)        = SUM[j,TIPO(j,z)];
+ 930   TIXTO(z)        = SUM[(i,zj),TIXO(i,z,zj)];
+ 931   TPRODNO(z)      = TIKTO(z)+TIWTO(z)+TIPTO(z);
+ 932   TPRCTSO(z)      = TICTO(z)+TIMTO(z)+TIXTO(z);
+ 933   YGO(z)          = TDHO(z)+TPRCTSO(z)+TPRODNO(z);
+ 934   GO(z)           = SUM[i,CGO(i,z)];
+ 935   SGO(z)          = YGO(z)-GO(z);
+ 936   
+ 937   YROWO(z)        = SUM[(i,zj),IMO(i,zj,z)]+SUM[(i,ij,zj),tmrg(i,ij,zj,z)];
+ 938   SROWO(z)        = YROWO(z)-SUM[(i,zj),EXO(i,z,zj)]-SUM[i,MRGNO(i,z)];
+ 939   CABO(z)         = -SROWO(z);
+ 940   
+ 941   ITO(z)          = SHO(z)+SGO(z)+SROWO(z);
+ 942   
+ 943  *==============================================================================
+ 944  *  4.2 Calibration of parameters and other variables
+ 945  *==============================================================================
+ 946  *  4.2.1 Calibration of investment and government spending shares
+ 947  *==============================================================================
+ 948   gamma_GVT(i,z)  = CGO(i,z)/SUM[ij,CGO(ij,z)];
+ 949   gamma_INV(i,z)  = INVO(i,z)/SUM[ij,INVO(ij,z)] ;
+ 950   
+ 951  *==============================================================================
+ 952  *  4.2.2 Calibration of other prices and revised volumes (part 1)
+ 953  *==============================================================================
+ 954   LDO(l,j,z)      = LDO(l,j,z)/WO(l,z);
+ 955   LDCO(j,z)       = SUM[l,LDO(l,j,z)];
+ 956   LDCO('01_AGRICULT','01_KOR')       = 1.629;
+ 957   LSO(l,z)        = SUM[j,LDO(l,j,z)];
+ 958   EXO(i,z,zj)     = [EXO(i,z,zj)-TIXO(i,z,zj)]/PEO(i,z,zj);
+ 959   EXTO(i,z)       = SUM[zj,EXO(i,z,zj)];
+ 960   
+ 961   PWXO(i,z,zj)$EXO(i,z,zj)
+ 962                   = {[PEO(i,z,zj)*EXO(i,z,zj)+TIXO(i,z,zj)]/EXO(i,z,zj)}/eO(z);
+ 963   
+ 964   PETO(i,z)       = SUM[zj,PEO(i,z,zj)*EXO(i,z,zj)]/EXTO(i,z);
+ 965   PWMO(i,z,zj)    = PWXO(i,z,zj);
+ 966   IMO(i,zj,z)     = EXO(i,zj,z);
+ 967   IMTO(i,z)       = SUM[zj,IMO(i,zj,z)];
+ 968   
+ 969   DSO(j,i,z)       = DSO(j,i,z)/PLO(i,z);
+ 970   DSO_I(i,z)       = SUM(j,DSO(j,i,z));
+ 971   DSO_J(j,z)       = SUM(i,DSO(j,i,z));
+ 972   QO(i,z)         = IMTO(i,z)+DDO(i,z);
+ 973   
+ 974   MRGNO(i,z)$MRGNO(i,z)
+ 975                   = MRGNO(i,z)/[eO(z)*PWMGO(i)];
+ 976   
+ 977   XSO_I(i,z)      = EXTO(i,z)+DDO(i,z)+MRGNO(i,z);
+ 978   XSTO(j,z)       = sum(i, XSO(j,i,z));
+ 979   
+ 980   IMO2(zj,z)      = sum(i,IMO(i,zj,z));
+ 981   
+ 982   PO(i,z)        = [PETO(i,z)*EXTO(i,z)+PLO(i,z)*DSO_I(i,z)
+ 983                    +eO(z)*PWMGO(i)*MRGNO(i,z)]/XSO_I(i,z);
+ 984   
+ 985   PO2(j,i,z)$XSO(j,i,z) = 1;
+ 986   
+ 987   PO3(i,j,z)$XSO(j,i,z) = 1;
+ 988   
+ 989   PIO(i,z)       = SUM[j$XSO(j,i,z),PO2(J,I,z)*XSO(j,i,z)]/XSO_I(i,z);
+ 990   
+ 991   PTO(j,z)       = SUM[i$XSO(j,i,z),PO2(j,i,z)*XSO(j,i,z)]/XSTO(j,z);
+ 992   
+ 993   PPO(j,z)       = [SUM[l,TIWO(l,j,z)+WO(l,z)*LDO(l,j,z)]
+ 994                    +SUM[k,TIKO(k,j,z)+RKDO(k,j,z)]
+ 995                    +SUM[nene,DIO(nene,j,z)]+SUM[ene,DIO(ene,j,z)]]/XSTO(j,z);
+ 996   
+ 997   
+ 998   theta2(j,i,z) = DSO(j,i,z)/sum(jj, DSO(jj,i,z));
+ 999   
+1000   EXTTO(j,i,z)$DSO(j,i,z) = theta2(j,i,z)*EXTO(i,z);
+1001   
+1002  *==============================================================================
+1003  *  4.3 Calibration of tax rates, margins, prices and volumes
+1004  *==============================================================================
+1005  *  4.3.1 Margin rates and tax rates
+1006  *==============================================================================
+1007   ttixO(i,z,zj)   = [eO(z)*PWXO(i,z,zj)/PEO(i,z,zj)]-1;
+1008   tticO(i,z)      = TICO(i,z)/{PLO(i,z)*DDO(i,z)
+1009                     +SUM[zj,IMO(i,zj,z)*eO(z)*PWMO(i,zj,z)
+1010                     +TIMO(i,zj,z)+SUM[ij,tmrg(ij,i,zj,z)]]};
+1011   
+1012   tmrg(i,ij,zj,z)$IMO(ij,zj,z)
+1013                   = tmrg(i,ij,zj,z)/(PWMGO(i)*eO(z)*IMO(ij,zj,z));
+1014   
+1015   ttimO(i,zj,z)$IMO(i,zj,z)
+1016                   = TIMO(i,zj,z)/{IMO(i,zj,z)*eO(z)*(PWMO(i,zj,z)
+1017                    +SUM[ij,PWMGO(ij)*tmrg(ij,i,zj,z)])};
+1018   
+1019   ttiwO(l,j,z)$LDO(l,j,z)
+1020                   = TIWO(l,j,z)/[WO(l,z)*LDO(l,j,z)];
+1021   
+1022   ttikO(k,j,z)$RKDO(k,j,z)
+1023                   = TIKO(k,j,z)/RKDO(k,j,z);
+1024   
+1025   ttipO(j,z)   = [PTO(j,z)/PPO(j,z)]-1;
+1026   
+1027   ttdh1O(z)       = [TDHO(z)-ttdh0O(z)]/YHO(z);
+1028   
+1029  *==============================================================================
+1030  *  4.9 CO2 emission
+1031  *==============================================================================
+INCLUDE    C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Input_WEB\Static_DATA_WEB_2017.gms
+      set z
+      /
+       01_KOR   
+       02_CHN   
+       03_JPN   
+       04_IND   
+       05_RUS    
+       06_USA    
+       07_EU    
+       08_OHI   
+       09_OUMIC 
+       10_OLMIC 
+       11_OLI 
+      /
+       
+      ;
+       
+      Set
+       
+      j
+      /
+       01_AGRICULT
+       02_COAL
+       03_OIL
+       04_GAS
+       05_MINING
+       06_FOODPRO
+       07_TEXTILES
+       08_WOODPRO
+       09_PAPERPRO
+       10_PETROLCOAL
+       11_CHEMICAL
+       12_NONMET
+       13_IRONSTL
+       14_NONFERR
+       15_MACHINE
+       16_TRANSEQ
+       17_OTHERIND
+       18_TnD
+       19_eCoal
+       20_eGas
+       21_eOil
+       22_eNFs
+       23_CONSTRUC
+       24_LTRP
+       25_WTRP
+       26_ATRP
+       27_SER
+      /
+      ;
+1085   
+1086  Set flow, commodity
+1087   
+1088  flow flow
+1089  /
+1090  f1_INDPROD      Production
+1091  f2_IMPORTS      Imports
+1092  f3_EXPORTS      Exports
+1093  f5_MARBUNK      International marine bunkers
+1094  f4_AVBUNK       International aviation bunkers
+1095  f6_STOCKCHA     Stock changes
+1096  f7_TES          Total energy supply
+1097  f8_TRANSFER     Transfers
+1098  f9_STATDIFF     Statistical differences
+1099  f10_TOTTRANF    Transformation process
+1100  f11_MAINELEC    Main activity producer electricity plants
+1101  f12_AUTOELEC    Autoproducer electricity plants
+1102  f13_MAINCHP     Main activity producer CHP plants
+1103  f14_AUTOCHP     Autoproducer CHP plants
+1104  f15_MAINHEAT    Main activity producer heat plants
+1105  f16_AUTOHEAT    Autoproducer heat plants
+1106  f17_THEAT       Heat pumps
+1107  f19_TBOILER     Electric boilers
+1108  f18_TELE        Chemical heat for electricity production
+1109  f20_TBLASTFUR   Blast furances
+1110  f21_TGASWKS     Gas works
+1111  f22_TCOKEOVS    Coke ovens
+1112  f23_TPATFUEL    Patent fuel plants
+1113  f24_TBKB        BKB peat briquettes
+1114  f25_TREFINER    Oil refineries
+1115  f26_TPETCHEM    Petrochemical plants
+1116  f27_TCOALLIQ    Coal liquefaction
+1117  f28_TGTL        Gas-to-liquids plants
+1118  f29_TBLENDGAS   For blened natural gas
+1119  f30_TCHARCOAL   Charocal production plants
+1120  f31_TNONSPEC    Non-specific transformation
+1121  f32_TOTENGY     Energy industry own use
+1122  f33_EMINES      Coal mines
+1123  f34_EOILGASEX   Oil and gas extraction
+1124  f35_EBLASTFUR   Blast furances
+1125  f36_EGASWKS     Gas works
+1126  f37_EBIOGAS     Gasfication plants for biogases
+1127  f38_ECOKEOVS    Coke ovens
+1128  f39_EPATFUEL    Patent fuel plants
+1129  f40_EBKB        BKB peat briquettes
+1130  f41_EREFINER    Oil refineries
+1131  f42_ECOALLIQ    Coal liquefaction plants
+1132  f43_ELNG        Liqefaction regasification plants
+1133  f44_EGTL        Gas to liquids plants
+1134  f45_EPOWERPLT   Own use in electricity CHP and heat plants
+1135  f46_EPUMPST     Pumped storage plants
+1136  f47_ENUC        Nuclear industry
+1137  f48_ECHARCOAL   Charcoal production plants
+1138  f49_ENONSPEC    Non specified
+1139  f50_DISTLOSS    Losses
+1140  f51_TFC         Total final consumption
+1141  f52_AGRICULT    Agriculture forestry
+1142  f53_FISHING     Fishing
+1143  f54_MINING      Mining and quarrying
+1144  f55_FOODPRO     Food and tobacco
+1145  f56_TEXTILES    Textile and leather
+1146  f57_WOODPRO     Wood and wood products
+1147  f58_PAPERPRO    Paper pulp and print
+1148  f59_CHEMICAL    Chemical and petrochemical
+1149  f60_NONMET      Non metallic minerals
+1150  f61_IRONSTL     Iron and steel
+1151  f62_NONFERR     Non ferrous metals
+1152  f63_MACHINE     Machinery
+1153  f64_TRANSEQ     Transport equipment
+1154  f65_INONSPEC    Industry not elsewhere specified
+1155  f66_CONSTRUC    Construction
+1156  f67_COMMPUB     Commerical and public services
+1157  f68_ONONSPEC    Final consumption not elsewhere specified
+1158  f69_RESIDENT    Residential
+1159  f70_ROAD        Road
+1160  f71_RAIL        Rail
+1161  f72_DOMESAIR    Domestic aviation
+1162  f73_DOMESNAV    Domestic navigation
+1163  f74_PIPELINE    Pipeline transport
+1164  f75_TRNONSPE    Transport not elsewhere
+1165  f76_NEMINING    Non energy use in mining and quarrying
+1166  f77_NEFOODPRO   Non energy use in food beverages tobacco
+1167  f78_NETEXTILES  Non energy use in textiles and leather
+1168  f79_NEWOODPRO   Non energy use in wood and wood products
+1169  f80_NEPAPERPRO  Non energy use in paper pulp and printing
+1170  f81_NECHEM      Non energy use in chemical petrochemical
+1171  f82_NENONMET    Non energy use in non metallic minerals
+1172  f83_NEIRONSTL   Non energy use in iron and steel
+1173  f84_NENONFERR   Non energy use in non ferrous metals
+1174  f85_NEMACHINE   Non energy use in machinery
+1175  f86_NETRANSEQ   Non energy use in transport equipment
+1176  f87_NEINONSPEC  Non energy use in non specified industry
+1177  f88_NECONSTRUC  Non energy use in construction
+1178  f89_NEOTHER     Non energy use in other residential commerical public services agriculture forestry and fishing
+1179  f90_NETRANS     Non energy use in transport
+1180  f91_TOTIND      Industry
+1181  f92_MANUFACT    Mnaufacturing
+1182  f93_TOTTRANS    Transport
+1183  f94_NONENUSE    Non energy use
+1184  f95_NEINTREN    Non energy use industry transformation energy
+1185  f96_NEIND       Non energy use in industry
+1186  f97_WORLDAV     World aviation bunkers
+1187  f98_WORLDMAR    World marine bunkers
+1188  f99_ELOUTPUT    Electrictiy output GWh
+1189  f100_ELMAINE    Electrictiy output GWh main activity producer electrictiy plants
+1190  f101_ELAUTOE    Electrictiy output GWh autoproducer electricity plants
+1191  f102_ELMAINC    Electrictiy output GWh main activty producer CHP plants
+1192  f103_ELAUTOC    Electrictiy output GWh autoproducer CHP plants
+1193  f104_HEATOUT    Heat output
+1194  f105_HEMAINC    Heat output main activity producer CHP plants
+1195  f106_HEAUTOC    Heat output autoproducer CHP plants
+1196  f107_HEMAINH    Heat output main activity producer heat plants
+1197  f108_HEAUTOH    Heat output autoproducer heat plants
+1198  /
+1199   
+1200  product energy product
+1201  /
+1202  p1_HARDCOAL      Hard coal
+1203  p2_BROWN         Brown coal
+1204  p3_ANTCOAL       Anthracite
+1205  p4_COKCOAL       Coking coal
+1206  p5_BITCOAL       Other bittuminous coal
+1207  p6_SUBCOAL       Sub-bituminous coal
+1208  p7_LIGNITE       Lignite
+1209  p8_PATFUEL       Patent fuel
+1210  p9_OVENCOKE      Coke oven coke
+1211  p10_GASCOKE      Gas coke
+1212  p11_COALTAR      Coal tar
+1213  p12_BKB          Brown coal briquettes
+1214  p13_GASWKSGS     Gas works gas
+1215  p14_COKEOVGS     Coke oven gas
+1216  p15_BLFURGS      Blast furnace gas
+1217  p16_OGASES       Other recovered gases
+1218  p17_PEAT         Peat
+1219  p18_PEATPROD     Peat products
+1220  p19_OILSHALE     Oil shale and oil sands
+1221  p20_NATGAS       Natural gas
+1222  p21_CRNGFEED     Crude NGL feedstock
+1223  p22_CRUDEOIL     Curde oil
+1224  p23_NGL          Natural gas liquids
+1225  p24_REFFEEDS     Refinery feedstocks
+1226  p25_ADDITIVE     Addtitives blending components
+1227  p26_NONCRUDE     Other hydrocarbons
+1228  p27_REFINGAS     Refinery gas
+1229  p28_ETHANE       Ethane
+1230  p29_LPG          Liquefied petroleum gases(LPG)
+1231  p30_NONBIOGASO   Motor gasoline (excl. biofuels)
+1232  p31_AVGAS        Aviation gasoline
+1233  p32_JETGAS       Jet fuel Gasoline tpye
+1234  p33_NONBIOJETK   Jet fuel Kerosene type (excl. biofuels)
+1235  p34_OTHKERO      Kerosene
+1236  p35_NONBIODIES   Diesel oil (excl. biofuels)
+1237  p36_RESFUEL      Fuel oil
+1238  p37_NAPHTHA      Naphtha
+1239  p38_WHITESP      Solvent (White spirit and industrial sprit SBP)
+1240  p39_LUBRIC       Lubricants
+1241  p40_BITUMEN      Bitumen (Asphalt)
+1242  p41_PARWAX       Paraffin waxes
+1243  p42_PETCOKE      Petroleum coke
+1244  p43_ONONSPEC     Other oil products
+1245  p44_INDWASTE     Industrial waste
+1246  p45_MUNWASTER    Municipal waste(renewable)
+1247  p46_MUNWASTEN    Municipal waste(non-renewable)
+1248  p47_PRIMSBIO     Primary solid biofuels
+1249  p48_BIOGASES     Biogases
+1250  p49_BIOGASOL     Biogasoline
+1251  p50_BIODIESEL    Biodiesels
+1252  p51_BIOJETKERO   Bio jet kerosene
+1253  p52_OBIOLIQ      Other liquid biofuels
+1254  p53_RENEWNS      Non-specified primary biofuels and waste
+1255  p54_CHARCOAL     Charcoal
+1256  p55_NUCLEAR      Nuclear
+1257  p56_HYDRO        Hydro
+1258  p57_GEOTHERM     Geothermal
+1259  p58_SOLARPV      Solar photovaltaics
+1260  p59_SOLARTH      Solar thermal
+1261  p60_TIDE         Tide wave and ocean
+1262  p61_WIND         Wind
+1263  p62_OTHER        Other sources includes production not included elsewhere such as fuel cells
+1264  p63_ELECTR       Electricity
+1265  p64_HEAT         Heat
+1266  p65_HEATNS       Heat output from non-specified combustible fuels
+1267  p66_TOTAL        Total
+1268  p67_MANGAS       Elec heat output from non-specified manufactured gases
+1269  p68_MRENEW       Memo Renewable
+1270  /
+1271   
+1272  *===========================Products Mapping====================================
+1273  p_coal(product)
+1274  /
+1275  p1_HARDCOAL      Hard coal
+1276  p2_BROWN         Brown coal
+1277  p3_ANTCOAL       Anthracite
+1278  p4_COKCOAL       Coking coal
+1279  p5_BITCOAL       Other bittuminous coal
+1280  p6_SUBCOAL       Sub-bituminous coal
+1281  p7_LIGNITE       Lignite
+1282  p8_PATFUEL       Patent fuel
+1283  *p9_OVENCOKE      Coke oven coke
+1284  *p10_GASCOKE      Gas coke
+1285  p11_COALTAR      Coal tar
+1286  p12_BKB          Brown coal briquettes
+1287  *p13_GASWKSGS     Gas works gas
+1288  *p14_COKEOVGS     Coke oven gas
+1289  p15_BLFURGS      Blast furnace gas
+1290  p16_OGASES       Other recovered gases
+1291  /
+1292   
+1293  p_coal3(product)
+1294  /
+1295  p1_HARDCOAL      Hard coal
+1296  p2_BROWN         Brown coal
+1297  p3_ANTCOAL       Anthracite
+1298  p4_COKCOAL       Coking coal
+1299  p5_BITCOAL       Other bittuminous coal
+1300  p6_SUBCOAL       Sub-bituminous coal
+1301  p7_LIGNITE       Lignite
+1302  p8_PATFUEL       Patent fuel
+1303  p9_OVENCOKE      Coke oven coke
+1304  p10_GASCOKE      Gas coke
+1305  p11_COALTAR      Coal tar
+1306  p12_BKB          Brown coal briquettes
+1307  p13_GASWKSGS     Gas works gas
+1308  p14_COKEOVGS     Coke oven gas
+1309  p15_BLFURGS      Blast furnace gas
+1310  p16_OGASES       Other recovered gases
+1311  /
+1312   
+1313  p_oil(product)
+1314  /
+1315  p22_CRUDEOIL     Curde oil
+1316  /
+1317   
+1318  p_gasoil(product)
+1319  /
+1320  p20_NATGAS       Natural gas
+1321  p22_CRUDEOIL     Curde oil
+1322  /
+1323   
+1324  p_gas(product)
+1325  /
+1326  p13_GASWKSGS     Gas works gas
+1327  p20_NATGAS       Natural gas
+1328  p23_NGL          Natural gas liquids
+1329  /
+1330   
+1331  p_oilproduct(product)
+1332  /
+1333  p9_OVENCOKE      Coke oven coke
+1334  p10_GASCOKE      Gas coke
+1335  p14_COKEOVGS     Coke oven gas
+1336  p24_REFFEEDS     Refinery feedstocks
+1337  p27_REFINGAS     Refinery gas
+1338  p28_ETHANE       Ethane
+1339  p29_LPG          Liquefied petroleum gases(LPG)
+1340  p30_NONBIOGASO   Motor gasoline (excl. biofuels)
+1341  p31_AVGAS        Aviation gasoline
+1342  p32_JETGAS       Jet fuel Gasoline tpye
+1343  p33_NONBIOJETK   Jet fuel Kerosene type (excl. biofuels)
+1344  p34_OTHKERO      Kerosene
+1345  p35_NONBIODIES   Diesel oil (excl. biofuels)
+1346  p36_RESFUEL      Fuel oil
+1347  p37_NAPHTHA      Naphtha
+1348  p38_WHITESP      Solvent (White spirit and industrial sprit SBP)
+1349  p39_LUBRIC       Lubricants
+1350  p40_BITUMEN      Bitumen (Asphalt)
+1351  p41_PARWAX       Paraffin waxes
+1352  p42_PETCOKE      Petroleum coke
+1353  p43_ONONSPEC     Other oil products
+1354  /
+1355   
+1356  p_liquid(p_oilproduct)
+1357  /
+1358  p29_LPG          Liquefied petroleum gases(LPG)
+1359  p30_NONBIOGASO   Motor gasoline (excl. biofuels)
+1360  p31_AVGAS        Aviation gasoline
+1361  p32_JETGAS       Jet fuel Gasoline tpye
+1362  p33_NONBIOJETK   Jet fuel Kerosene type (excl. biofuels)
+1363  p34_OTHKERO      Kerosene
+1364  p35_NONBIODIES   Diesel oil (excl. biofuels)
+1365  p36_RESFUEL      Fuel oil
+1366  /
+1367   
+1368  p_oilproduct_feed(product)
+1369  /
+1370  p37_NAPHTHA      Naphtha
+1371  p38_WHITESP      Solvent (White spirit and industrial sprit SBP)
+1372  p39_LUBRIC       Lubricants
+1373  p40_BITUMEN      Bitumen (Asphalt)
+1374  p41_PARWAX       Paraffin waxes
+1375  p42_PETCOKE      Petroleum coke
+1376  p43_ONONSPEC     Other oil products
+1377  /
+1378   
+1379  p_nuclear(product)
+1380  /
+1381  p55_NUCLEAR      Nuclear
+1382  /
+1383   
+1384  p_solar(product)
+1385  /
+1386  p58_SOLARPV      Solar photovaltaics
+1387  p61_WIND      Solar thermal
+1388  /
+1389   
+1390  p_wind(product)
+1391  /
+1392  p61_WIND         Wind
+1393  /
+1394   
+1395  p_hydro(product)
+1396  /
+1397  p56_HYDRO        Hydro
+1398  /
+1399   
+1400  p_elecother(product)
+1401  /
+1402  p44_INDWASTE     Industrial waste
+1403  p45_MUNWASTER    Municipal waste(renewable)
+1404  p46_MUNWASTEN    Municipal waste(non-renewable)
+1405  p47_PRIMSBIO     Primary solid biofuels
+1406  p48_BIOGASES     Biogases
+1407  p49_BIOGASOL     Biogasoline
+1408  p50_BIODIESEL    Biodiesels
+1409  p51_BIOJETKERO   Bio jet kerosene
+1410  p52_OBIOLIQ      Other liquid biofuels
+1411  p57_GEOTHERM     Geothermal
+1412  p60_TIDE         Tide wave and ocean
+1413  p62_OTHER        Other sources includes production not included elsewhere such as fuel cells
+1414  /
+1415   
+1416  p_elecheat(product)
+1417  /
+1418  p63_ELECTR    Electricity
+1419  p64_HEAT      Heat
+1420  /
+1421   
+1422  p_elec(product)
+1423  /
+1424  p63_ELECTR    Electricity
+1425  /
+1426   
+1427  p_heat(product)
+1428  /
+1429  p64_HEAT      Heat
+1430  /
+1431   
+1432  p_ftotal(product)
+1433  /
+1434  p1_HARDCOAL      Hard coal
+1435  p2_BROWN         Brown coal
+1436  p3_ANTCOAL       Anthracite
+1437  p4_COKCOAL       Coking coal
+1438  p5_BITCOAL       Other bittuminous coal
+1439  p6_SUBCOAL       Sub-bituminous coal
+1440  p7_LIGNITE       Lignite
+1441  p8_PATFUEL       Patent fuel
+1442  *p9_OVENCOKE      Coke oven coke
+1443  *p10_GASCOKE      Gas coke
+1444  *p11_COALTAR      Coal tar
+1445  p12_BKB          Brown coal briquettes
+1446  *p13_GASWKSGS     Gas works gas
+1447  *p14_COKEOVGS     Coke oven gas
+1448  *p15_BLFURGS      Blast furnace gas
+1449  *p16_OGASES       Other recovered gases
+1450   
+1451  p13_GASWKSGS     Gas works gas
+1452  p20_NATGAS       Natural gas
+1453  p23_NGL          Natural gas liquids
+1454   
+1455  p29_LPG          Liquefied petroleum gases(LPG)
+1456  p30_NONBIOGASO   Motor gasoline (excl. biofuels)
+1457  p31_AVGAS        Aviation gasoline
+1458  p32_JETGAS       Jet fuel Gasoline tpye
+1459  p33_NONBIOJETK   Jet fuel Kerosene type (excl. biofuels)
+1460  p34_OTHKERO      Kerosene
+1461  p35_NONBIODIES   Diesel oil (excl. biofuels)
+1462  p36_RESFUEL      Fuel oil
+1463   
+1464  p63_ELECTR    Electricity
+1465  p64_HEAT      Heat
+1466   
+1467  /
+1468   
+1469  p_coal_agg(product)
+1470  /p3_ANTCOAL
+1471  p4_COKCOAL
+1472  p5_BITCOAL
+1473  p6_SUBCOAL
+1474  p7_LIGNITE
+1475  p8_PATFUEL
+1476  p9_OVENCOKE
+1477  p10_GASCOKE
+1478  p11_COALTAR
+1479  p12_BKB
+1480  p13_GASWKSGS
+1481  p14_COKEOVGS
+1482  p15_BLFURGS
+1483  p16_OGASES
+1484  /
+1485   
+1486  p_natgas(product)
+1487  /p20_NATGAS
+1488  /
+1489   
+1490  p_crudeoil(product)
+1491  /p22_CRUDEOIL
+1492  /
+1493   
+1494  p_oilproduct_agg(product)
+1495  /
+1496  p23_NGL
+1497  p27_REFINGAS
+1498  p28_ETHANE
+1499  p29_LPG
+1500  p30_NONBIOGASO
+1501  p31_AVGAS
+1502  p33_NONBIOJETK
+1503  p34_OTHKERO
+1504  p35_NONBIODIES
+1505  p36_RESFUEL
+1506  p37_NAPHTHA
+1507  p38_WHITESP
+1508  p39_LUBRIC
+1509  p40_BITUMEN
+1510  p42_PETCOKE
+1511  p43_ONONSPEC
+1512  /
+1513   
+1514   
+1515   
+1516   
+1517  *===========================Flows Mapping====================================
+1518  f_balstfur(flow)
+1519  /
+1520  f20_TBLASTFUR   Blast furances
+1521  /
+1522   
+1523  f_cokeoven(flow)
+1524  /
+1525  f22_TCOKEOVS    Coke ovens
+1526  /
+1527   
+1528  f_eblastcoke(flow)
+1529  /
+1530  f35_EBLASTFUR   Blast furances
+1531  f38_ECOKEOVS    Coke ovens
+1532  /
+1533   
+1534  f_tpetrochem(flow)
+1535  /
+1536  f26_TPETCHEM    Petrochemical plants
+1537  /
+1538   
+1539  f_prod(flow)
+1540  /
+1541  f1_INDPROD      Production
+1542  /
+1543   
+1544  f_agri(flow)
+1545  /
+1546  f52_AGRICULT    Agriculture forestry
+1547  f53_FISHING     Fishing
+1548  /
+1549   
+1550  f_coa(flow)
+1551  /
+1552  f33_EMINES      Coal mines
+1553  /
+1554   
+1555  f_oil(flow)
+1556  /
+1557  f34_EOILGASEX   Oil and gas extraction
+1558  /
+1559   
+1560  f_gas(flow)
+1561  /
+1562  f21_TGASWKS     Gas works
+1563  f34_EOILGASEX   Oil and gas extraction
+1564  f36_EGASWKS     Gas works
+1565  /
+1566   
+1567  f_mining(flow)
+1568  /
+1569  f54_MINING      Mining and quarrying
+1570  /
+1571   
+1572  f_foodpro(flow)
+1573  /
+1574  f55_FOODPRO     Food and tobacco
+1575  /
+1576   
+1577  f_textiles(flow)
+1578  /
+1579  f56_TEXTILES    Textile and leather
+1580  /
+1581   
+1582  f_woodpro(flow)
+1583  /
+1584  f57_WOODPRO     Wood and wood products
+1585  /
+1586   
+1587  f_paperpro(flow)
+1588  /
+1589  f58_PAPERPRO    Paper pulp and print
+1590  /
+1591   
+1592  f_petrolcoal(flow)
+1593  /
+1594  *f20_TBLASTFUR   Blast furances
+1595  *f22_TCOKEOVS    Coke ovens
+1596  *f23_TPATFUEL    Patent fuel plants
+1597  *f24_TBKB        BKB peat briquettes
+1598  *f25_TREFINER    Oil refineries
+1599  *f26_TPETCHEM    Petrochemical plants
+1600  *f27_TCOALLIQ    Coal liquefaction
+1601  *f28_TGTL        Gas-to-liquids plants
+1602   
+1603  *f33_EMINES      Coal mines
+1604  *f34_EOILGASEX   Oil and gas extraction
+1605  *f35_EBLASTFUR   Blast furances
+1606  *f36_EGASWKS     Gas works
+1607  *f37_EBIOGAS     Gasfication plants for biogases
+1608  *f38_ECOKEOVS    Coke ovens
+1609  *f39_EPATFUEL    Patent fuel plants
+1610  *f40_EBKB        BKB peat briquettes
+1611  f41_EREFINER    Oil refineries
+1612  f42_ECOALLIQ    Coal liquefaction plants
+1613  *f43_ELNG        Liqefaction regasification plants
+1614  *f44_EGTL        Gas to liquids plants
+1615  *f45_EPOWERPLT   Own use in electricity CHP and heat plants
+1616  *f46_EPUMPST     Pumped storage plants
+1617  *f47_ENUC        Nuclear industry
+1618  *f48_ECHARCOAL   Charcoal production plants
+1619  *f49_ENONSPEC    Non specified
+1620  *f50_DISTLOSS    Losses
+1621  /
+1622   
+1623  *https://www.gtap.agecon.purdue.edu/databases/contribute/concordinfo.asp
+1624  *p_c Petroleum & Coke: manufacture of coke and refined petroleum products
+1625  *1910 Manufacture of coke oven products
+1626  *1920 Manufacture of refined petroleum products
+1627   
+1628  f_chemical(flow)
+1629  /
+1630  f59_CHEMICAL    Chemical and petrochemical
+1631  /
+1632   
+1633  f_nonmet(flow)
+1634  /
+1635  f60_NONMET      Non metallic minerals
+1636  /
+1637   
+1638  f_ironstl(flow)
+1639  /
+1640  f61_IRONSTL     Iron and steel
+1641  /
+1642   
+1643  f_nonferr(flow)
+1644  /
+1645  f62_NONFERR     Non ferrous metals
+1646  /
+1647   
+1648  f_machine(flow)
+1649  /
+1650  f63_MACHINE     Machinery
+1651  /
+1652   
+1653  f_transeq(flow)
+1654  /
+1655  f64_TRANSEQ     Transport equipment
+1656  /
+1657   
+1658  f_otherind(flow)
+1659  /
+1660  f65_INONSPEC    Industry not elsewhere specified
+1661  /
+1662   
+1663  f_elec(flow)
+1664  /
+1665  f11_MAINELEC    Main activity producer electricity plants
+1666  *f12_AUTOELEC    Autoproducer electricity plants
+1667  f13_MAINCHP     Main activity producer CHP plants
+1668  *f14_AUTOCHP     Autoproducer CHP plants
+1669  f15_MAINHEAT    Main activity producer heat plants
+1670  *f16_AUTOHEAT    Autoproducer heat plants
+1671  *f17_THEAT       Heat pumps
+1672  *f19_TBOILER     Electric boilers
+1673  *f45_EPOWERPLT   Own use in electricity CHP and heat plants
+1674  *f46_EPUMPST     Pumped storage plants
+1675  /
+1676   
+1677  f_construc(flow)
+1678  /
+1679  f66_CONSTRUC    Construction
+1680  /
+1681   
+1682  f_ser(flow)
+1683  /
+1684  f67_COMMPUB     Commerical and public services
+1685  f68_ONONSPEC    Final consumption not elsewhere specified
+1686  /
+1687   
+1688  f_household(flow)
+1689  /
+1690  f69_RESIDENT    Residential
+1691  /
+1692   
+1693  f_roadrail(flow)
+1694  /
+1695  f70_ROAD        Road
+1696  f71_RAIL        Rail
+1697  f74_PIPELINE    Pipeline transport
+1698  f75_TRNONSPE    Transport not elsewhere
+1699  /
+1700   
+1701  f_domeair(flow)
+1702  /
+1703  f72_DOMESAIR    Domestic aviation
+1704  /
+1705   
+1706  f_domewater(flow)
+1707  /
+1708  f73_DOMESNAV    Domestic navigation
+1709  /
+1710   
+1711  *Non-energy
+1712  f_nemining(flow)
+1713  /
+1714  f76_NEMINING    Non energy use in mining and quarrying
+1715  /
+1716   
+1717  f_nefoodpro(flow)
+1718  /
+1719  f77_NEFOODPRO   Non energy use in food beverages tobacco
+1720  /
+1721   
+1722  f_netextiles(flow)
+1723  /
+1724  f78_NETEXTILES  Non energy use in textiles and leather
+1725  /
+1726   
+1727  f_newoodpro(flow)
+1728  /
+1729  f79_NEWOODPRO   Non energy use in wood and wood products
+1730  /
+1731   
+1732  f_nepaperpro(flow)
+1733  /
+1734  f80_NEPAPERPRO  Non energy use in paper pulp and printing
+1735  /
+1736   
+1737  f_nechemical(flow)
+1738  /
+1739  f81_NECHEM      Non energy use in chemical petrochemical
+1740  /
+1741   
+1742  f_nenonmet(flow)
+1743  /
+1744  f82_NENONMET    Non energy use in non metallic minerals
+1745  /
+1746   
+1747  f_neironstl(flow)
+1748  /
+1749  f83_NEIRONSTL   Non energy use in iron and steel
+1750  /
+1751   
+1752  f_nenonferr(flow)
+1753  /
+1754  f84_NENONFERR   Non energy use in non ferrous metals
+1755  /
+1756   
+1757  f_nemachine(flow)
+1758  /
+1759  f85_NEMACHINE   Non energy use in machinery
+1760  /
+1761   
+1762  f_netranseq(flow)
+1763  /
+1764  f86_NETRANSEQ   Non energy use in transport equipment
+1765  /
+1766   
+1767  f_neotherind(flow)
+1768  /
+1769  f87_NEINONSPEC  Non energy use in non specified industry
+1770  /
+1771   
+1772  f_neconstruc(flow)
+1773  /
+1774  f88_NECONSTRUC  Non energy use in construction
+1775  /
+1776   
+1777  f_netransport(flow)
+1778  /
+1779  f90_NETRANS     Non energy use in transport
+1780  /
+1781   
+1782  f_neother(flow)
+1783  /
+1784  f89_NEOTHER     Non energy use in other residential commerical public services agriculture forestry and fishing
+1785  /
+1786   
+1787  f_elecoutput(flow)
+1788  /
+1789  f99_ELOUTPUT    Electrictiy output GWh
+1790  /
+1791   
+1792  type
+1793  /
+1794  CO2EF,
+1795  CH4EF,
+1796  N2OEF,
+1797  Stored_rate
+1798  /
+1799   
+1800  punit
+1801  /
+1802  physical
+1803  /
+1804   
+1805   
+1806  ;
+1807   
+1808  Alias(p_coal, p_coal2);
+1809  Alias(p_coal3, p_coal4);
+1810  Alias(p_gas, p_gas2);
+1811  Alias(p_oil, p_oil2);
+1812  Alias(p_oilproduct, p_oilproduct2);
+1813  Alias(p_elecheat, p_elecheat2);
+1814   
+1815  *=== Import from Excel using GDX utilities
+1816  *Unit 2017 ktoe
+1817  Parameter
+1818  WEB_KOR(flow,product),
+1819  WEB_CHN(flow,product),
+1820  WEB_JPN(flow,product),
+1821  WEB_IND(flow,product),
+1822  WEB_RUS(flow,product),
+1823  WEB_USA(flow,product),
+1824  WEB_EU(flow,product),
+1825  WEB_OHI(flow,product),
+1826  WEB_OUMIC(flow,product),
+1827  WEB_OLMIC(flow,product),
+1828  WEB_OLI(flow,product),
+1829  GHGsEF(product,type) kgC per TJ,
+1830  physical_unit(product,punit)
+1831  ;
+1832   
+1833   
+      $onEcho > Input_WEB/WEB_2017_250805.txt
+      par=WEB_KOR        rng=r1_KOR!A1:BQ109
+      par=WEB_CHN        rng=r2_CHN!A1:BQ109
+      par=WEB_JPN        rng=r3_JPN!A1:BQ109
+      par=WEB_IND        rng=r4_IND!A1:BQ109
+      par=WEB_RUS        rng=r5_RUS!A1:BQ109
+      par=WEB_USA        rng=r6_US!A1:BQ109
+      par=WEB_EU         rng=r7_EU!A1:BQ109
+      par=WEB_OHI        rng=r8_OHI!A1:BQ109
+      par=WEB_OUMIC      rng=r9_OUMIC!A1:BQ109
+      par=WEB_OLMIC      rng=r10_OLMIC!A1:BQ109
+      par=WEB_OLI        rng=r11_OLI!A1:BQ109
+      par=GHGsEF         rng=EF!A1:E69
+      par=physical_unit  rng=Physical_Unit!A1:B69
+      $offEcho
+1851   
+1852  *$call  gdxxrw Input_WEB/WEB_250805.xlsx @Input_WEB/WEB_2017_250805.txt trace=0 output=Input_WEB/WEB_250805.gdx
+**** File: C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Input_WEB\WEB_250805.gdx
+**** Msg : No such file or directory
+1853  $gdxIn Input_WEB/WEB_250805.gdx
+****                                $510
+**** LINE    821 INCLUDE     C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Input_WEB\Static_DATA_WEB_2017.gms
+**** LINE   1032 INPUT       C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Static_Model_GTAP11b.gms
+**** 510  Unable to open gdx file for $GDXIN
+1854  $load  WEB_KOR, WEB_CHN, WEB_JPN, WEB_IND, WEB_RUS, WEB_USA, WEB_EU, WEB_OHI, WEB_OUMIC, WEB_OLMIC, WEB_OLI, GHGsEF, physical_unit
+****      $502
+**** LINE    822 INCLUDE     C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Input_WEB\Static_DATA_WEB_2017.gms
+**** LINE   1032 INPUT       C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Static_Model_GTAP11b.gms
+**** 502  GDXIN  file not open - ignore rest of line
+1855   
+1856   
+1857   
+1858  Parameter WEB(flow,product,z);
+1859   
+1860  WEB(flow,product,'01_KOR') =  WEB_KOR(flow,product);
+****                                      $141
+**** LINE    828 INCLUDE     C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Input_WEB\Static_DATA_WEB_2017.gms
+**** LINE   1032 INPUT       C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Static_Model_GTAP11b.gms
+**** 141  Symbol declared but no values have been assigned. Check for missing
+****         data definition, assignment, data loading or implicit assignment
+****         via a solve statement. Suppress with $onImplicitAssign.
+****         A wild shot: You may have spurious commas in the explanatory
+****         text of a declaration. Check symbol reference list.
+1861  WEB(flow,product,'02_CHN') =  WEB_CHN(flow,product);
+****                                      $141
+**** LINE    829 INCLUDE     C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Input_WEB\Static_DATA_WEB_2017.gms
+**** LINE   1032 INPUT       C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Static_Model_GTAP11b.gms
+**** 141  Symbol declared but no values have been assigned. Check for missing
+****         data definition, assignment, data loading or implicit assignment
+****         via a solve statement. Suppress with $onImplicitAssign.
+****         A wild shot: You may have spurious commas in the explanatory
+****         text of a declaration. Check symbol reference list.
+1862  WEB(flow,product,'03_JPN') =  WEB_JPN(flow,product);
+****                                      $141
+**** LINE    830 INCLUDE     C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Input_WEB\Static_DATA_WEB_2017.gms
+**** LINE   1032 INPUT       C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Static_Model_GTAP11b.gms
+**** 141  Symbol declared but no values have been assigned. Check for missing
+****         data definition, assignment, data loading or implicit assignment
+****         via a solve statement. Suppress with $onImplicitAssign.
+****         A wild shot: You may have spurious commas in the explanatory
+****         text of a declaration. Check symbol reference list.
+1863  WEB(flow,product,'04_IND') =  WEB_IND(flow,product);
+****                                      $141
+**** LINE    831 INCLUDE     C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Input_WEB\Static_DATA_WEB_2017.gms
+**** LINE   1032 INPUT       C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Static_Model_GTAP11b.gms
+**** 141  Symbol declared but no values have been assigned. Check for missing
+****         data definition, assignment, data loading or implicit assignment
+****         via a solve statement. Suppress with $onImplicitAssign.
+****         A wild shot: You may have spurious commas in the explanatory
+****         text of a declaration. Check symbol reference list.
+1864  WEB(flow,product,'05_RUS') =  WEB_RUS(flow,product);
+****                                      $141
+**** LINE    832 INCLUDE     C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Input_WEB\Static_DATA_WEB_2017.gms
+**** LINE   1032 INPUT       C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Static_Model_GTAP11b.gms
+**** 141  Symbol declared but no values have been assigned. Check for missing
+****         data definition, assignment, data loading or implicit assignment
+****         via a solve statement. Suppress with $onImplicitAssign.
+****         A wild shot: You may have spurious commas in the explanatory
+****         text of a declaration. Check symbol reference list.
+1865  WEB(flow,product,'06_USA') =  WEB_USA(flow,product);
+****                                      $141
+**** LINE    833 INCLUDE     C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Input_WEB\Static_DATA_WEB_2017.gms
+**** LINE   1032 INPUT       C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Static_Model_GTAP11b.gms
+**** 141  Symbol declared but no values have been assigned. Check for missing
+****         data definition, assignment, data loading or implicit assignment
+****         via a solve statement. Suppress with $onImplicitAssign.
+****         A wild shot: You may have spurious commas in the explanatory
+****         text of a declaration. Check symbol reference list.
+1866  WEB(flow,product,'07_EU')  =  WEB_EU(flow,product);
+****                                     $141
+**** LINE    834 INCLUDE     C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Input_WEB\Static_DATA_WEB_2017.gms
+**** LINE   1032 INPUT       C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Static_Model_GTAP11b.gms
+**** 141  Symbol declared but no values have been assigned. Check for missing
+****         data definition, assignment, data loading or implicit assignment
+****         via a solve statement. Suppress with $onImplicitAssign.
+****         A wild shot: You may have spurious commas in the explanatory
+****         text of a declaration. Check symbol reference list.
+1867  WEB(flow,product,'08_OHI') =  WEB_OHI(flow,product);
+****                                      $141
+**** LINE    835 INCLUDE     C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Input_WEB\Static_DATA_WEB_2017.gms
+**** LINE   1032 INPUT       C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Static_Model_GTAP11b.gms
+**** 141  Symbol declared but no values have been assigned. Check for missing
+****         data definition, assignment, data loading or implicit assignment
+****         via a solve statement. Suppress with $onImplicitAssign.
+****         A wild shot: You may have spurious commas in the explanatory
+****         text of a declaration. Check symbol reference list.
+1868  WEB(flow,product,'09_OUMIC') =  WEB_OUMIC(flow,product);
+****                                          $141
+**** LINE    836 INCLUDE     C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Input_WEB\Static_DATA_WEB_2017.gms
+**** LINE   1032 INPUT       C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Static_Model_GTAP11b.gms
+**** 141  Symbol declared but no values have been assigned. Check for missing
+****         data definition, assignment, data loading or implicit assignment
+****         via a solve statement. Suppress with $onImplicitAssign.
+****         A wild shot: You may have spurious commas in the explanatory
+****         text of a declaration. Check symbol reference list.
+1869  WEB(flow,product,'10_OLMIC') =  WEB_OLMIC(flow,product);
+****                                          $141
+**** LINE    837 INCLUDE     C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Input_WEB\Static_DATA_WEB_2017.gms
+**** LINE   1032 INPUT       C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Static_Model_GTAP11b.gms
+**** 141  Symbol declared but no values have been assigned. Check for missing
+****         data definition, assignment, data loading or implicit assignment
+****         via a solve statement. Suppress with $onImplicitAssign.
+****         A wild shot: You may have spurious commas in the explanatory
+****         text of a declaration. Check symbol reference list.
+1870  WEB(flow,product,'11_OLI')   =  WEB_OLI(flow,product);
+****                                        $141
+**** LINE    838 INCLUDE     C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Input_WEB\Static_DATA_WEB_2017.gms
+**** LINE   1032 INPUT       C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Static_Model_GTAP11b.gms
+**** 141  Symbol declared but no values have been assigned. Check for missing
+****         data definition, assignment, data loading or implicit assignment
+****         via a solve statement. Suppress with $onImplicitAssign.
+****         A wild shot: You may have spurious commas in the explanatory
+****         text of a declaration. Check symbol reference list.
+1871   
+1872   
+1873  execute_unload 'Input_WEB/DATA_WEB_250805.gdx';
+1874   
+1875  *$exit
+1876   
+1877  Parameter
+1878   TCoke_Share(f_cokeoven,product,z)
+1879   TBlast_Share(f_balstfur,product,z)
+1880  ;
+1881   
+1882   
+1883   
+1884  Parameter
+1885   Coal_DIO(p_coal,j,z)            Intermediate consumption of coal products by industry j in region z
+1886   Coal_CO(p_coal,z)               Household consumption of coal products in region z
+1887   CoalR_DIO(p_coal,j,z)           Intermediate consumption ratio of coal products by industry j in region z
+1888   CoalR_CO(p_coal,z)              Household consumption ratio of coal products in region z
+1889   
+1890   Gas_DIO(p_gas,j,z)              Intermediate consumption of gas products by industry j in region z
+1891   Gas_CO(p_gas,z)                 Household consumption of gas products in region z
+1892   GasR_DIO(p_gas,j,z)             Intermediate consumption ratio of gas products by industry j in region z
+1893   GasR_CO(p_gas,z)                Household consumption ratio of gas products in region z
+1894   
+1895   Oil_DIO(p_oil,j,z)              Intermediate consumption of crudeoil by industry j in region z
+1896   Oil_CO(p_oil,z)                 Household consumption of crudeoil in region z
+1897   OilR_DIO(p_oil,j,z)             Intermediate consumption ratio of crudeoil by industry j in region z
+1898   
+1899   Oilp_DIO(p_oilproduct,j,z)      Intermediate consumption of petrolcoal by industry j in region z
+1900   Oilp_CO(p_oilproduct,z)         Household consumption of petrolcoal products in region z
+1901   OilpR_DIO(p_oilproduct,j,z)     Intermediate consumption ratio of petrolcoal products by industry j in region z
+1902   OilpR_CO(p_oilproduct,z)        Household consumption ratio of petrolcoal products in region z
+1903   
+1904   Elec_DIO(p_elecheat,j,z)        Intermediate consumption of electricity by industry j in region z
+1905   Elec_CO(p_elecheat,z)           Household consumption of electricity in region z
+1906   ElecR_DIO(p_elecheat,j,z)       Intermediate consumption ratio of electricity by industry j in region z
+1907   ElecR_CO(p_elecheat,z)          Household consumption ratio of electricity in region z
+1908   
+1909   NCoal_DIO(p_coal,j,z)           Intermediate consumption of non energy coal products by industry j in region z
+1910   NCoalR_DIO(p_coal,j,z)          Intermediate consumption ratio of non energy coal products by industry j in region z
+1911   
+1912   NGas_DIO(p_gas,j,z)             Intermediate consumption of non energy gas products by industry j in region z
+1913   NGasR_DIO(p_gas,j,z)            Intermediate consumption ratio of non energy gas products by industry j in region z
+1914   
+1915   NOil_DIO(p_oil,j,z)             Intermediate consumption of non energy oil by industry j in region z
+1916   NOilR_DIO(p_oil,j,z)            Intermediate consumption ratio of non-energy oil by industry j in region z
+1917   
+1918   NOilp_DIO(p_oilproduct,j,z)     Intermediate consumption of non energy oilproducts by industry j in region z
+1919   NOilpR_DIO(p_oilproduct,j,z)    Intermediate consumption ratio of non energy oilproducts by industry j in region z
+1920   
+1921   Coal_Total(p_coal,z)
+1922   Gas_Total(p_gas,z)
+1923   Oilp_Total(p_oilproduct,z)
+1924   ELec_Total(p_elecheat,z)
+1925   NCoal_Total(p_coal,z)
+1926   NGas_Total(p_gas,z)
+1927   NOilp_Total(p_oilproduct,z)
+1928   
+1929   
+1930   ElecCoalGWh(j,z)    Coal Output GWh
+1931   ElecGasGWh(j,z)     Gas Output GWh
+1932   ElecOilGWh(j,z)     Oil Output GWh
+1933   ElecNFsGWh(j,z)
+1934   
+1935  ;
+1936  *
+1937   
+1938  *f_balstfur(flow)
+1939  *f_cokeoven(flow)
+1940  * WEB(f_balstfur, 'p4_COKCOAL', z) = WEB(f_cokeoven, 'p66_TOTAL', z) ;
+1941  * WEB(f_cokeoven, 'p4_COKCOAL', z) = WEB(f_cokeoven, 'p66_TOTAL', z) ;
+1942   
+1943   TCoke_Share(f_cokeoven,p_coal,z)$(WEB(f_cokeoven, p_coal, z) lt 0)  = WEB(f_cokeoven, p_coal, z)$(WEB(f_cokeoven, p_coal, z) lt 0)/sum(p_coal2, WEB(f_cokeoven, p_coal2, z)$(WEB(f_cokeoven, p_coal2, z) lt 0)) ;
+1944   TBlast_Share(f_balstfur,p_coal,z)$(WEB(f_balstfur, p_coal, z) lt 0) = WEB(f_balstfur, p_coal, z)$(WEB(f_balstfur, p_coal, z) lt 0)/sum(p_coal2, WEB(f_balstfur, p_coal2, z)$(WEB(f_balstfur, p_coal2, z) lt 0)) ;
+1945   
+1946  display TCoke_Share, TBlast_Share ;
+1947   
+1948  *Coal
+1949   Coal_DIO(p_coal,'01_AGRICULT',z) = sum((f_agri), WEB(f_agri, p_coal, z));
+1950   Coal_DIO(p_coal,'02_COAL',z) = -1*sum((f_coa), WEB(f_coa, p_coal, z));
+1951   Coal_DIO(p_coal,'03_OIL',z) = -1*sum((f_oil), WEB(f_oil, p_coal, z));
+1952   Coal_DIO(p_coal,'04_GAS',z) = -1*sum((f_gas), WEB(f_gas, p_coal, z));
+1953   Coal_DIO(p_coal,'05_MINING',z) = sum((f_mining), WEB(f_mining, p_coal, z));
+1954   Coal_DIO(p_coal,'06_FOODPRO',z) = sum((f_foodpro), WEB(f_foodpro, p_coal, z));
+1955   Coal_DIO(p_coal,'07_TEXTILES',z) = sum((f_textiles), WEB(f_textiles, p_coal, z));
+1956   Coal_DIO(p_coal,'08_WOODPRO',z) = sum((f_woodpro), WEB(f_woodpro, p_coal, z));
+1957   Coal_DIO(p_coal,'09_PAPERPRO',z) = sum((f_paperpro), WEB(f_paperpro, p_coal, z));
+1958   Coal_DIO(p_coal,'10_PETROLCOAL',z) = -1*sum((f_petrolcoal), WEB(f_petrolcoal, p_coal, z));
+1959   Coal_DIO(p_coal,'11_CHEMICAL',z) = sum((f_chemical), WEB(f_chemical, p_coal, z));
+1960   Coal_DIO(p_coal,'12_NONMET',z) = sum((f_nonmet), WEB(f_nonmet, p_coal, z));
+1961   Coal_DIO(p_coal,'13_IRONSTL',z) = sum((f_ironstl), WEB(f_ironstl, p_coal, z))
+1962   + sum(f_cokeoven, -1*TCoke_Share(f_cokeoven,p_coal,z)*WEB(f_cokeoven, 'p66_TOTAL', z))
+1963   + sum(f_balstfur, -1*TBlast_Share(f_balstfur,p_coal,z)*WEB(f_balstfur, 'p66_TOTAL', z))
+1964   + sum((f_Eblastcoke), -1*WEB(f_Eblastcoke, p_coal, z))
+1965  ;
+1966   
+1967   Coal_DIO(p_coal,'14_NONFERR',z) = sum((f_nonferr), WEB(f_nonferr, p_coal, z));
+1968   Coal_DIO(p_coal,'15_MACHINE',z) = sum((f_machine), WEB(f_machine, p_coal, z));
+1969   Coal_DIO(p_coal,'16_TRANSEQ',z) = sum((f_transeq), WEB(f_transeq, p_coal, z));
+1970   Coal_DIO(p_coal,'17_OTHERIND',z) = sum((f_otherind), WEB(f_otherind, p_coal, z));
+1971   Coal_DIO(p_coal,'18_TnD',z) = 0 ;
+1972   Coal_DIO(p_coal,'19_eCoal',z) = -1*sum((f_elec), WEB(f_elec, p_coal, z));
+1973   Coal_DIO(p_coal,'20_eGas',z) = 0 ;
+1974   Coal_DIO(p_coal,'21_eOil',z) = 0 ;
+1975   Coal_DIO(p_coal,'22_eNFs',z) = 0 ;
+1976   Coal_DIO(p_coal,'23_CONSTRUC',z) = sum((f_construc), WEB(f_construc, p_coal, z));
+1977   Coal_DIO(p_coal,'24_LTRP',z) = sum((f_roadrail), WEB(f_roadrail, p_coal, z));
+1978   Coal_DIO(p_coal,'25_WTRP',z) = sum((f_domewater), WEB(f_domewater, p_coal, z));
+1979   Coal_DIO(p_coal,'26_ATRP',z) = sum((f_domeair), WEB(f_domeair, p_coal, z));
+1980   Coal_DIO(p_coal,'27_SER',z) = sum((f_ser), WEB(f_ser, p_coal, z));
+1981   Coal_CO(p_coal,z) = sum((f_household), WEB(f_household, p_coal, z));
+1982   
+1983  *Ratio
+1984  Loop(j,
+1985      CoalR_DIO(p_coal,j,z)$(Coal_DIO(p_coal,j,z) gt 0)
+1986           = Coal_DIO(p_coal,j,z)/sum(p_coal2, Coal_DIO(p_coal2,j,z));
+1987       );
+1988   
+1989   CoalR_CO(p_coal,z)$(Coal_CO(p_coal,z) gt 0)  = Coal_CO(p_coal,z)/ sum(p_coal2, Coal_CO(p_coal2,z));
+1990   
+1991  display Coal_DIO, CoalR_DIO, CoalR_CO ;
+1992   
+1993  *Gas
+1994   Gas_DIO(p_gas,'01_AGRICULT',z) = sum((f_agri), WEB(f_agri, p_gas, z));
+1995   Gas_DIO(p_gas,'02_COAL',z) = -1*sum((f_coa), WEB(f_coa, p_gas, z));
+1996   Gas_DIO(p_gas,'03_OIL',z) = -1*sum((f_oil), WEB(f_oil, p_gas, z));
+1997   Gas_DIO(p_gas,'04_GAS',z) = -1*sum((f_gas), WEB(f_gas, p_gas, z));
+1998   Gas_DIO(p_gas,'05_MINING',z) = sum((f_mining), WEB(f_mining, p_gas, z));
+1999   Gas_DIO(p_gas,'06_FOODPRO',z) = sum((f_foodpro), WEB(f_foodpro, p_gas, z));
+2000   Gas_DIO(p_gas,'07_TEXTILES',z) = sum((f_textiles), WEB(f_textiles, p_gas, z));
+2001   Gas_DIO(p_gas,'08_WOODPRO',z) = sum((f_woodpro), WEB(f_woodpro, p_gas, z));
+2002   Gas_DIO(p_gas,'09_PAPERPRO',z) = sum((f_paperpro), WEB(f_paperpro, p_gas, z));
+2003   Gas_DIO(p_gas,'10_PETROLCOAL',z) = -1*sum((f_petrolcoal), WEB(f_petrolcoal, p_gas, z));
+2004   Gas_DIO(p_gas,'11_CHEMICAL',z) = sum((f_chemical), WEB(f_chemical, p_gas, z));
+2005   Gas_DIO(p_gas,'12_NONMET',z) = sum((f_nonmet), WEB(f_nonmet, p_gas, z));
+2006   Gas_DIO(p_gas,'13_IRONSTL',z) = sum((f_ironstl), WEB(f_ironstl, p_gas, z));
+2007   Gas_DIO(p_gas,'14_NONFERR',z) = sum((f_nonferr), WEB(f_nonferr, p_gas, z));
+2008   Gas_DIO(p_gas,'15_MACHINE',z) = sum((f_machine), WEB(f_machine, p_gas, z));
+2009   Gas_DIO(p_gas,'16_TRANSEQ',z) = sum((f_transeq), WEB(f_transeq, p_gas, z));
+2010   Gas_DIO(p_gas,'17_OTHERIND',z) = sum((f_otherind), WEB(f_otherind, p_gas, z));
+2011   Gas_DIO(p_gas,'18_TnD',z) = 0 ;
+2012   Gas_DIO(p_gas,'19_eCoal',z) = 0;
+2013   Gas_DIO(p_gas,'20_eGas',z) = -1*sum((f_elec), WEB(f_elec, p_gas, z)) ;
+2014   Gas_DIO(p_gas,'21_eOil',z) = 0 ;
+2015   Gas_DIO(p_gas,'22_eNFs',z) = 0 ;
+2016   Gas_DIO(p_gas,'23_CONSTRUC',z) = sum((f_construc), WEB(f_construc, p_gas, z));
+2017   Gas_DIO(p_gas,'24_LTRP',z) = sum((f_roadrail), WEB(f_roadrail, p_gas, z));
+2018   Gas_DIO(p_gas,'25_WTRP',z) = sum((f_domewater), WEB(f_domewater, p_gas, z));
+2019   Gas_DIO(p_gas,'26_ATRP',z) = sum((f_domeair), WEB(f_domeair, p_gas, z));
+2020   Gas_DIO(p_gas,'27_SER',z) = sum((f_ser), WEB(f_ser, p_gas, z));
+2021   Gas_CO(p_gas,z) = sum((f_household), WEB(f_household, p_gas, z));
+2022   
+2023  *Ratio
+2024  Loop(j,
+2025      GasR_DIO(p_gas,j,z)$(Gas_DIO(p_gas,j,z) gt 0)
+2026           = Gas_DIO(p_gas,j,z)/sum(p_gas2, Gas_DIO(p_gas2,j,z));
+2027       );
+2028   
+2029   GasR_CO(p_gas,z)$(Gas_CO(p_gas,z) gt 0)  = Gas_CO(p_gas,z)/ sum(p_gas2, Gas_CO(p_gas2,z));
+2030   
+2031   
+2032  display Gas_DIO, GasR_DIO, GasR_CO ;
+2033   
+2034  *Oil
+2035   Oil_DIO(p_oil,'01_AGRICULT',z) = sum((f_agri), WEB(f_agri, p_oil, z));
+2036   Oil_DIO(p_oil,'02_COAL',z) = -1*sum((f_coa), WEB(f_coa, p_oil, z));
+2037   Oil_DIO(p_oil,'03_OIL',z) = -1*sum((f_oil), WEB(f_oil, p_oil, z));
+2038   Oil_DIO(p_oil,'04_GAS',z) = -1*sum((f_gas), WEB(f_gas, p_oil, z));
+2039   Oil_DIO(p_oil,'05_MINING',z) = sum((f_mining), WEB(f_mining, p_oil, z));
+2040   Oil_DIO(p_oil,'06_FOODPRO',z) = sum((f_foodpro), WEB(f_foodpro, p_oil, z));
+2041   Oil_DIO(p_oil,'07_TEXTILES',z) = sum((f_textiles), WEB(f_textiles, p_oil, z));
+2042   Oil_DIO(p_oil,'08_WOODPRO',z) = sum((f_woodpro), WEB(f_woodpro, p_oil, z));
+2043   Oil_DIO(p_oil,'09_PAPERPRO',z) = sum((f_paperpro), WEB(f_paperpro, p_oil, z));
+2044   Oil_DIO(p_oil,'10_PETROLCOAL',z) = -1*sum((f_petrolcoal), WEB(f_petrolcoal, p_oil, z));
+2045   Oil_DIO(p_oil,'11_CHEMICAL',z) = sum((f_chemical), WEB(f_chemical, p_oil, z));
+2046   Oil_DIO(p_oil,'12_NONMET',z) = sum((f_nonmet), WEB(f_nonmet, p_oil, z));
+2047   Oil_DIO(p_oil,'13_IRONSTL',z) = sum((f_ironstl), WEB(f_ironstl, p_oil, z));
+2048   Oil_DIO(p_oil,'14_NONFERR',z) = sum((f_nonferr), WEB(f_nonferr, p_oil, z));
+2049   Oil_DIO(p_oil,'15_MACHINE',z) = sum((f_machine), WEB(f_machine, p_oil, z));
+2050   Oil_DIO(p_oil,'16_TRANSEQ',z) = sum((f_transeq), WEB(f_transeq, p_oil, z));
+2051   Oil_DIO(p_oil,'17_OTHERIND',z) = sum((f_otherind), WEB(f_otherind, p_oil, z));
+2052   Oil_DIO(p_oil,'18_TnD',z) = 0 ;
+2053   Oil_DIO(p_oil,'19_eCoal',z) = 0 ;
+2054   Oil_DIO(p_oil,'20_eGas',z) = 0 ;
+2055   Oil_DIO(p_oil,'21_eOil',z) = 0 ;
+2056   Oil_DIO(p_oil,'22_eNFs',z) = 0 ;
+2057   Oil_DIO(p_oil,'23_CONSTRUC',z) = sum((f_construc), WEB(f_construc, p_oil, z));
+2058   Oil_DIO(p_oil,'24_LTRP',z) = sum((f_roadrail), WEB(f_roadrail, p_oil, z));
+2059   Oil_DIO(p_oil,'25_WTRP',z) = sum((f_domewater), WEB(f_domewater, p_oil, z));
+2060   Oil_DIO(p_oil,'26_ATRP',z) = sum((f_domeair), WEB(f_domeair, p_oil, z));
+2061   Oil_DIO(p_oil,'27_SER',z) = sum((f_ser), WEB(f_ser, p_oil, z));
+2062   Oil_CO(p_oil,z) = sum((f_household), WEB(f_household, p_oil, z));
+2063   
+2064  *Ratio
+2065  Loop(j,
+2066      OilR_DIO(p_oil,j,z)$(Oil_DIO(p_oil,j,z) gt 0)
+2067           = Oil_DIO(p_oil,j,z)/sum(p_oil2, Oil_DIO(p_oil2,j,z));
+2068       );
+2069   
+2070  display Oil_DIO, OilR_DIO ;
+2071   
+2072  *Oilproducts
+2073   Oilp_DIO(p_oilproduct,'01_AGRICULT',z) = sum((f_agri), WEB(f_agri, p_oilproduct, z));
+2074   Oilp_DIO(p_oilproduct,'02_COAL',z) = -1*sum((f_coa), WEB(f_coa, p_oilproduct, z));
+2075   Oilp_DIO(p_oilproduct,'03_OIL',z) = -1*sum((f_oil), WEB(f_oil, p_oilproduct, z));
+2076   Oilp_DIO(p_oilproduct,'04_GAS',z) = -1*sum((f_gas), WEB(f_gas, p_oilproduct, z));
+2077   Oilp_DIO(p_oilproduct,'05_MINING',z) = sum((f_mining), WEB(f_mining, p_oilproduct, z));
+2078   Oilp_DIO(p_oilproduct,'06_FOODPRO',z) = sum((f_foodpro), WEB(f_foodpro, p_oilproduct, z));
+2079   Oilp_DIO(p_oilproduct,'07_TEXTILES',z) = sum((f_textiles), WEB(f_textiles, p_oilproduct, z));
+2080   Oilp_DIO(p_oilproduct,'08_WOODPRO',z) = sum((f_woodpro), WEB(f_woodpro, p_oilproduct, z));
+2081   Oilp_DIO(p_oilproduct,'09_PAPERPRO',z) = sum((f_paperpro), WEB(f_paperpro, p_oilproduct, z));
+2082   Oilp_DIO(p_oilproduct,'10_PETROLCOAL',z) = -1*sum((f_petrolcoal), WEB(f_petrolcoal, p_oilproduct, z));
+2083   
+2084   Oilp_DIO(p_oilproduct,'11_CHEMICAL',z) = sum((f_chemical), WEB(f_chemical, p_oilproduct, z))
+2085  * + sum(f_tpetrochem, -1*WEB(f_tpetrochem, p_oilproduct, z)$(WEB(f_tpetrochem, p_oilproduct, z) lt 0))
+2086   ;
+2087   
+2088   Oilp_DIO(p_oilproduct,'12_NONMET',z) = sum((f_nonmet), WEB(f_nonmet, p_oilproduct, z));
+2089   Oilp_DIO(p_oilproduct,'13_IRONSTL',z) = sum((f_ironstl), WEB(f_ironstl, p_oilproduct, z));
+2090   Oilp_DIO(p_oilproduct,'14_NONFERR',z) = sum((f_nonferr), WEB(f_nonferr, p_oilproduct, z));
+2091   Oilp_DIO(p_oilproduct,'15_MACHINE',z) = sum((f_machine), WEB(f_machine, p_oilproduct, z));
+2092   Oilp_DIO(p_oilproduct,'16_TRANSEQ',z) = sum((f_transeq), WEB(f_transeq, p_oilproduct, z));
+2093   Oilp_DIO(p_oilproduct,'17_OTHERIND',z) = sum((f_otherind), WEB(f_otherind, p_oilproduct, z));
+2094   Oilp_DIO(p_oilproduct,'18_TnD',z) = 0 ;
+2095   Oilp_DIO(p_oilproduct,'19_eCoal',z) = 0 ;
+2096   Oilp_DIO(p_oilproduct,'20_eGas',z) = 0 ;
+2097   Oilp_DIO(p_oilproduct,'21_eOil',z) = -1*sum((f_elec), WEB(f_elec, p_oilproduct, z)) ;
+2098   Oilp_DIO(p_oilproduct,'22_eNFs',z) = 0 ;
+2099   Oilp_DIO(p_oilproduct,'23_CONSTRUC',z) = sum((f_construc), WEB(f_construc, p_oilproduct, z));
+2100   Oilp_DIO(p_oilproduct,'24_LTRP',z) = sum((f_roadrail), WEB(f_roadrail, p_oilproduct, z));
+2101   Oilp_DIO(p_oilproduct,'25_WTRP',z) = sum((f_domewater), WEB(f_domewater, p_oilproduct, z));
+2102   Oilp_DIO(p_oilproduct,'26_ATRP',z) = sum((f_domeair), WEB(f_domeair, p_oilproduct, z));
+2103   Oilp_DIO(p_oilproduct,'27_SER',z) = sum((f_ser), WEB(f_ser, p_oilproduct, z));
+2104   Oilp_CO(p_oilproduct,z) = sum((f_household), WEB(f_household, p_oilproduct, z));
+2105   
+2106  *Ratio
+2107  Loop(j,
+2108      OilpR_DIO(p_oilproduct,j,z)$(Oilp_DIO(p_oilproduct,j,z) gt 0)
+2109           = Oilp_DIO(p_oilproduct,j,z)/sum(p_oilproduct2, Oilp_DIO(p_oilproduct2,j,z));
+2110       );
+2111   
+2112   OilpR_CO(p_oilproduct,z)$(Oilp_CO(p_oilproduct,z) gt 0)  = Oilp_CO(p_oilproduct,z)/ sum(p_oilproduct2, Oilp_CO(p_oilproduct2,z));
+2113   
+2114   
+2115  display Oilp_DIO, Oilp_CO, OilpR_DIO, OilpR_CO ;
+2116   
+2117  *Electricity/Heat
+2118   Elec_DIO(p_elecheat,'01_AGRICULT',z) = sum((f_agri), WEB(f_agri, p_elecheat, z));
+2119   Elec_DIO(p_elecheat,'02_COAL',z) = -1*sum((f_coa), WEB(f_coa, p_elecheat, z));
+2120   Elec_DIO(p_elecheat,'03_OIL',z) = -1*sum((f_oil), WEB(f_oil, p_elecheat, z));
+2121   Elec_DIO(p_elecheat,'04_GAS',z) = -1*sum((f_gas), WEB(f_gas, p_elecheat, z));
+2122   Elec_DIO(p_elecheat,'05_MINING',z) = sum((f_mining), WEB(f_mining, p_elecheat, z));
+2123   Elec_DIO(p_elecheat,'06_FOODPRO',z) = sum((f_foodpro), WEB(f_foodpro, p_elecheat, z));
+2124   Elec_DIO(p_elecheat,'07_TEXTILES',z) = sum((f_textiles), WEB(f_textiles, p_elecheat, z));
+2125   Elec_DIO(p_elecheat,'08_WOODPRO',z) = sum((f_woodpro), WEB(f_woodpro, p_elecheat, z));
+2126   Elec_DIO(p_elecheat,'09_PAPERPRO',z) = sum((f_paperpro), WEB(f_paperpro, p_elecheat, z));
+2127   Elec_DIO(p_elecheat,'10_PETROLCOAL',z) = -1*sum((f_petrolcoal), WEB(f_petrolcoal, p_elecheat, z));
+2128   Elec_DIO(p_elecheat,'11_CHEMICAL',z) = sum((f_chemical), WEB(f_chemical, p_elecheat, z));
+2129   Elec_DIO(p_elecheat,'12_NONMET',z) = sum((f_nonmet), WEB(f_nonmet, p_elecheat, z));
+2130   Elec_DIO(p_elecheat,'13_IRONSTL',z) = sum((f_ironstl), WEB(f_ironstl, p_elecheat, z));
+2131   Elec_DIO(p_elecheat,'14_NONFERR',z) = sum((f_nonferr), WEB(f_nonferr, p_elecheat, z));
+2132   Elec_DIO(p_elecheat,'15_MACHINE',z) = sum((f_machine), WEB(f_machine, p_elecheat, z));
+2133   Elec_DIO(p_elecheat,'16_TRANSEQ',z) = sum((f_transeq), WEB(f_transeq, p_elecheat, z));
+2134   Elec_DIO(p_elecheat,'17_OTHERIND',z) = sum((f_otherind), WEB(f_otherind, p_elecheat, z));
+2135   Elec_DIO(p_elecheat,'18_TnD',z) = 0 ;
+2136   Elec_DIO(p_elecheat,'19_eCoal',z) = 0;
+2137   Elec_DIO(p_elecheat,'20_eGas',z) = 0 ;
+2138   Elec_DIO(p_elecheat,'21_eOil',z) = 0 ;
+2139   Elec_DIO(p_elecheat,'22_eNFs',z) = 0 ;
+2140   Elec_DIO(p_elecheat,'23_CONSTRUC',z) = sum((f_construc), WEB(f_construc, p_elecheat, z));
+2141   Elec_DIO(p_elecheat,'24_LTRP',z) = sum((f_roadrail), WEB(f_roadrail, p_elecheat, z));
+2142   Elec_DIO(p_elecheat,'25_WTRP',z) = sum((f_domewater), WEB(f_domewater, p_elecheat, z));
+2143   Elec_DIO(p_elecheat,'26_ATRP',z) = sum((f_domeair), WEB(f_domeair, p_elecheat, z));
+2144   Elec_DIO(p_elecheat,'27_SER',z) = sum((f_ser), WEB(f_ser, p_elecheat, z));
+2145   Elec_CO(p_elecheat,z) = sum((f_household), WEB(f_household, p_elecheat, z));
+2146   
+2147  *Ratio
+2148  Loop(j,
+2149      ElecR_DIO(p_elecheat,j,z)$(Elec_DIO(p_elecheat,j,z) gt 0)
+2150           = Elec_DIO(p_elecheat,j,z)/sum(p_elecheat2, Elec_DIO(p_elecheat2,j,z));
+2151       );
+2152   
+2153   ElecR_CO(p_elecheat,z)$(Elec_CO(p_elecheat,z) gt 0)  = Elec_CO(p_elecheat,z)/ sum(p_elecheat2, Elec_CO(p_elecheat2,z));
+2154   
+2155  display Elec_DIO, Elec_CO, ElecR_DIO, ElecR_CO ;
+2156   
+2157  *Coal non-energy
+2158   NCoal_DIO(p_coal,'05_MINING',z) = sum(f_nemining, WEB(f_nemining, p_coal, z));
+2159   NCoal_DIO(p_coal,'06_FOODPRO',z) = sum(f_nefoodpro, WEB(f_nefoodpro, p_coal, z));
+2160   NCoal_DIO(p_coal,'07_TEXTILES',z) = sum(f_netextiles, WEB(f_netextiles, p_coal, z));
+2161   NCoal_DIO(p_coal,'08_WOODPRO',z) = sum(f_newoodpro, WEB(f_newoodpro, p_coal, z));
+2162   NCoal_DIO(p_coal,'09_PAPERPRO',z) = sum(f_nepaperpro, WEB(f_nepaperpro, p_coal, z));
+2163   NCoal_DIO(p_coal,'11_CHEMICAL',z) = sum(f_nechemical, WEB(f_nechemical, p_coal, z));
+2164   NCoal_DIO(p_coal,'12_NONMET',z) = sum(f_nenonmet, WEB(f_nenonmet, p_coal, z));
+2165   NCoal_DIO(p_coal,'13_IRONSTL',z) = sum(f_neironstl, WEB(f_neironstl, p_coal, z));
+2166   NCoal_DIO(p_coal,'14_NONFERR',z) = sum(f_nenonferr, WEB(f_nenonferr, p_coal, z));
+2167   NCoal_DIO(p_coal,'15_MACHINE',z) = sum(f_nemachine, WEB(f_nemachine, p_coal, z));
+2168   NCoal_DIO(p_coal,'16_TRANSEQ',z) = sum(f_netranseq, WEB(f_netranseq, p_coal, z));
+2169   NCoal_DIO(p_coal,'17_OTHERIND',z) = sum(f_neotherind, WEB(f_neotherind, p_coal, z));
+2170   NCoal_DIO(p_coal,'23_CONSTRUC',z) = sum(f_neconstruc, WEB(f_neconstruc, p_coal, z));
+2171   NCoal_DIO(p_coal,'24_LTRP',z) = sum(f_netransport, WEB(f_netransport, p_coal, z));
+2172  * NEC_DIO(p_coal,'29_WTRP',z) = sum((f_domewater), domewater_fne_coal(f_domewater, p_coal, z));
+2173  * NEC_DIO(p_coal,'30_ATRP',z) = sum((f_domeair), domeair_fne_coal(f_domeair, p_coal, z));
+2174   NCoal_DIO(p_coal,'27_SER',z) = sum(f_neother, WEB(f_neother, p_coal, z));
+2175  * NEC_CO(p_coal,z) = sum((f_household), household_fne_coal(f_household, p_coal, z));
+2176   
+2177  *Ratio
+2178  Loop(j,
+2179      NCoalR_DIO(p_coal,j,z)$(NCoal_DIO(p_coal,j,z) gt 0)
+2180           = NCoal_DIO(p_coal,j,z)/sum(p_coal2, NCoal_DIO(p_coal2,j,z));
+2181       );
+2182   
+2183  display NCoal_DIO, NCoalR_DIO ;
+2184   
+2185  *Gas non-energy
+2186   NGas_DIO(p_gas,'05_MINING',z) = sum(f_nemining, WEB(f_nemining, p_gas, z));
+2187   NGas_DIO(p_gas,'06_FOODPRO',z) = sum(f_nefoodpro, WEB(f_nefoodpro, p_gas, z));
+2188   NGas_DIO(p_gas,'07_TEXTILES',z) = sum(f_netextiles, WEB(f_netextiles, p_gas, z));
+2189   NGas_DIO(p_gas,'08_WOODPRO',z) = sum(f_newoodpro, WEB(f_newoodpro, p_gas, z));
+2190   NGas_DIO(p_gas,'09_PAPERPRO',z) = sum(f_nepaperpro, WEB(f_nepaperpro, p_gas, z));
+2191   NGas_DIO(p_gas,'11_CHEMICAL',z) = sum(f_nechemical, WEB(f_nechemical, p_gas, z));
+2192   NGas_DIO(p_gas,'12_NONMET',z) = sum(f_nenonmet, WEB(f_nenonmet, p_gas, z));
+2193   NGas_DIO(p_gas,'13_IRONSTL',z) = sum(f_neironstl, WEB(f_neironstl, p_gas, z));
+2194   NGas_DIO(p_gas,'14_NONFERR',z) = sum(f_nenonferr, WEB(f_nenonferr, p_gas, z));
+2195   NGas_DIO(p_gas,'15_MACHINE',z) = sum(f_nemachine, WEB(f_nemachine, p_gas, z));
+2196   NGas_DIO(p_gas,'16_TRANSEQ',z) = sum(f_netranseq, WEB(f_netranseq, p_gas, z));
+2197   NGas_DIO(p_gas,'17_OTHERIND',z) = sum(f_neotherind, WEB(f_neotherind, p_gas, z));
+2198   NGas_DIO(p_gas,'23_CONSTRUC',z) = sum(f_neconstruc, WEB(f_neconstruc, p_gas, z));
+2199   NGas_DIO(p_gas,'24_LTRP',z) = sum(f_netransport, WEB(f_netransport, p_gas, z));
+2200  * NEG_DIO(p_gas,'29_WTRP',z) = sum((f_domewater), domewater_fne_gas(f_domewater, p_gas, z));
+2201  * NEG_DIO(p_gas,'30_ATRP',z) = sum((f_domeair), domeair_fne_gas(f_domeair, p_gas, z));
+2202   NGas_DIO(p_gas,'27_SER',z) = sum(f_neother, WEB(f_neother, p_gas, z));
+2203  * NEG_CO(p_gas,z) = sum((f_household), household_fne_gas(f_household, p_gas, z));
+2204   
+2205  *Ratio
+2206  Loop(j,
+2207      NGasR_DIO(p_gas,j,z)$(NGas_DIO(p_gas,j,z) gt 0)
+2208           = NGas_DIO(p_gas,j,z)/sum(p_gas2, NGas_DIO(p_gas2,j,z));
+2209       );
+2210   
+2211  display NGas_DIO, NGasR_DIO ;
+2212   
+2213  *Oil non-energy
+2214   NOil_DIO(p_oil,'05_MINING',z) = sum(f_nemining, WEB(f_nemining, p_oil, z));
+2215   NOil_DIO(p_oil,'06_FOODPRO',z) = sum(f_nefoodpro, WEB(f_nefoodpro, p_oil, z));
+2216   NOil_DIO(p_oil,'07_TEXTILES',z) = sum(f_netextiles, WEB(f_netextiles, p_oil, z));
+2217   NOil_DIO(p_oil,'08_WOODPRO',z) = sum(f_newoodpro, WEB(f_newoodpro, p_oil, z));
+2218   NOil_DIO(p_oil,'09_PAPERPRO',z) = sum(f_nepaperpro, WEB(f_nepaperpro, p_oil, z));
+2219   NOil_DIO(p_oil,'11_CHEMICAL',z) = sum(f_nechemical, WEB(f_nechemical, p_oil, z));
+2220   NOil_DIO(p_oil,'12_NONMET',z) = sum(f_nenonmet, WEB(f_nenonmet, p_oil, z));
+2221   NOil_DIO(p_oil,'13_IRONSTL',z) = sum(f_neironstl, WEB(f_neironstl, p_oil, z));
+2222   NOil_DIO(p_oil,'14_NONFERR',z) = sum(f_nenonferr, WEB(f_nenonferr, p_oil, z));
+2223   NOil_DIO(p_oil,'15_MACHINE',z) = sum(f_nemachine, WEB(f_nemachine, p_oil, z));
+2224   NOil_DIO(p_oil,'16_TRANSEQ',z) = sum(f_netranseq, WEB(f_netranseq, p_oil, z));
+2225   NOil_DIO(p_oil,'17_OTHERIND',z) = sum(f_neotherind, WEB(f_neotherind, p_oil, z));
+2226   NOil_DIO(p_oil,'23_CONSTRUC',z) = sum(f_neconstruc, WEB(f_neconstruc, p_oil, z));
+2227   NOil_DIO(p_oil,'24_LTRP',z) = sum(f_netransport, WEB(f_netransport, p_oil, z));
+2228  * NEP_DIO(p_oil,'29_WTRP',z) = sum((f_domewater), domewater_fne_oilproduct(f_domewater, p_oilproduct, z));
+2229  * NEP_DIO(p_oil,'30_ATRP',z) = sum((f_domeair), domeair_fne_oilproduct(f_domeair, p_oilproduct, z));
+2230   NOil_DIO(p_oil,'27_SER',z) = sum(f_neother, WEB(f_neother, p_oil, z) );
+2231  * NEP_CO(p_oillz) = sum((f_household), household_fne_oilproduct(f_household, p_oilproduct, z));
+2232   
+2233  *Ratio
+2234  Loop(j,
+2235      NOilR_DIO(p_oil,j,z)$(NOil_DIO(p_oil,j,z) gt 0)
+2236           = NOil_DIO(p_oil,j,z)/sum(p_oil2, NOil_DIO(p_oil2,j,z));
+2237       );
+2238   
+2239  display NOil_DIO, NOilR_DIO ;
+2240   
+2241  *Oilproducts non-energy
+2242   NOilp_DIO(p_oilproduct,'05_MINING',z) = sum(f_nemining, WEB(f_nemining, p_oilproduct, z));
+2243   NOilp_DIO(p_oilproduct,'06_FOODPRO',z) = sum(f_nefoodpro, WEB(f_nefoodpro, p_oilproduct, z));
+2244   NOilp_DIO(p_oilproduct,'07_TEXTILES',z) = sum(f_netextiles, WEB(f_netextiles, p_oilproduct, z));
+2245   NOilp_DIO(p_oilproduct,'08_WOODPRO',z) = sum(f_newoodpro, WEB(f_newoodpro, p_oilproduct, z));
+2246   NOilp_DIO(p_oilproduct,'09_PAPERPRO',z) = sum(f_nepaperpro, WEB(f_nepaperpro, p_oilproduct, z));
+2247   NOilp_DIO(p_oilproduct,'11_CHEMICAL',z) = sum(f_nechemical, WEB(f_nechemical, p_oilproduct, z));
+2248   NOilp_DIO(p_oilproduct,'12_NONMET',z) = sum(f_nenonmet, WEB(f_nenonmet, p_oilproduct, z));
+2249   NOilp_DIO(p_oilproduct,'13_IRONSTL',z) = sum(f_neironstl, WEB(f_neironstl, p_oilproduct, z));
+2250   NOilp_DIO(p_oilproduct,'14_NONFERR',z) = sum(f_nenonferr, WEB(f_nenonferr, p_oilproduct, z));
+2251   NOilp_DIO(p_oilproduct,'15_MACHINE',z) = sum(f_nemachine, WEB(f_nemachine, p_oilproduct, z));
+2252   NOilp_DIO(p_oilproduct,'16_TRANSEQ',z) = sum(f_netranseq, WEB(f_netranseq, p_oilproduct, z));
+2253   NOilp_DIO(p_oilproduct,'17_OTHERIND',z) = sum(f_neotherind, WEB(f_neotherind, p_oilproduct, z));
+2254   NOilp_DIO(p_oilproduct,'23_CONSTRUC',z) = sum(f_neconstruc, WEB(f_neconstruc, p_oilproduct, z));
+2255   NOilp_DIO(p_oilproduct,'24_LTRP',z) = sum(f_netransport, WEB(f_netransport, p_oilproduct, z));
+2256  * NEP_DIO(p_oilproduct,'29_WTRP',z) = sum((f_domewater), domewater_fne_oilproduct(f_domewater, p_oilproductproduct, z));
+2257  * NEP_DIO(p_oilproduct,'30_ATRP',z) = sum((f_domeair), domeair_fne_oilproduct(f_domeair, p_oilproductproduct, z));
+2258   NOilp_DIO(p_oilproduct,'27_SER',z) = sum(f_neother, WEB(f_neother, p_oilproduct, z) );
+2259  * NEP_CO(p_oilproductlz) = sum((f_household), household_fne_oilproduct(f_household, p_oilproductproduct, z));
+2260   
+2261  *Ratio
+2262  Loop(j,
+2263      NOilpR_DIO(p_oilproduct,j,z)$(NOilp_DIO(p_oilproduct,j,z) gt 0)
+2264           = NOilp_DIO(p_oilproduct,j,z)/sum(p_oilproduct2, NOilp_DIO(p_oilproduct2,j,z));
+2265       );
+2266   
+2267  display NOilp_DIO, NOilpR_DIO ;
+2268   
+2269   
+2270   Coal_Total(p_coal,z) = sum(j,Coal_DIO(p_coal,j,z)) + Coal_CO(p_coal,z) ;
+2271   Gas_Total(p_gas,z) = sum(j, Gas_DIO(p_gas,j,z)) + Gas_CO(p_gas,z) ;
+2272   Oilp_Total(p_oilproduct,z) = sum(j, Oilp_DIO(p_oilproduct,j,z)) + Oilp_CO(p_oilproduct,z) ;
+2273   ELec_Total(p_elecheat,z) = sum(j, ELec_DIO(p_elecheat,j,z)) + ELec_CO(p_elecheat,z) ;
+2274   NCoal_Total(p_coal,z) = sum(j, NCoal_DIO(p_coal,j,z)) ;
+2275   NGas_Total(p_gas,z) = sum(j, NGas_DIO(p_gas,j,z)) ;
+2276   NOilp_Total(p_oilproduct,z) = sum(j, NOilp_DIO(p_oilproduct,j,z)) ;
+2277   
+2278  *=============================Eelectricity============================================================
+2279   
+2280   ElecCoalGWh('19_eCoal',z)    = sum((f_elecoutput, p_coal), WEB(f_elecoutput, p_coal,z));
+2281   ElecGasGWh('20_eGas',z)      = sum((f_elecoutput, p_gas), WEB(f_elecoutput, p_gas,z));
+2282   ElecOilGWh('21_eOil',z)      = sum((f_elecoutput, p_oilproduct), WEB(f_elecoutput, p_oilproduct,z));
+2283   ElecNFsGWh('22_eNFs',z)      = sum((f_elecoutput, p_nuclear), WEB(f_elecoutput, p_nuclear,z)) + sum((f_elecoutput, p_wind), WEB(f_elecoutput, p_wind,z))+ sum((f_elecoutput, p_solar), WEB(f_elecoutput, p_solar,z)) + sum((f_elecoutput, p_hydro), WEB(f_elecoutput, p_Hydro,z)) +  sum((f_elecoutput, p_elecother), WEB(f_elecoutput, p_elecother,z));
+2284   
+2285   
+2286  execute_unload 'Input_WEB/DATA_WEB_250805_2.gdx',
+2287  *Sets
+2288  product, p_coal, p_oil, p_oilproduct, p_gas, p_elecheat, flow, f_elec,  f_agri, f_mining, f_foodpro, f_textiles, f_woodpro,f_paperpro,
+2289  f_chemical, f_nonmet, f_ironstl, f_nonferr, f_machine, f_transeq, f_otherind,
+2290  f_construc, f_ser, f_household, f_roadrail, f_domeair,  f_domewater,
+2291  f_nemining, f_nefoodpro, f_netextiles, f_newoodpro, f_nepaperpro,
+2292  f_nechemical,f_nenonmet, f_neironstl, f_nenonferr, f_nemachine,
+2293  f_netranseq, f_neotherind, f_neconstruc, f_netransport, f_neother,
+2294   
+2295  *WEB
+2296  WEB,
+2297  Coal_DIO, Coal_CO, CoalR_DIO, CoalR_CO,
+2298  Gas_DIO, Gas_CO, GasR_DIO, GasR_CO,
+2299  Oil_DIO, Oil_CO, OilR_DIO,
+2300  Oilp_DIO, Oilp_CO, OilpR_DIO, OilpR_CO,
+2301  Elec_DIO, Elec_CO, ElecR_DIO,ElecR_CO,
+2302  NCoal_DIO, NCoalR_DIO, NGas_DIO, NGasR_DIO,
+2303  NOil_DIO, NOilR_DIO, NOilp_DIO, NOilpR_DIO,
+2304   
+2305  Coal_Total, Gas_Total, Oilp_Total, Elec_Total, NCoal_Total, NGas_Total, NOilp_Total,
+2306   
+2307  ElecCoalGWh, ElecGasGWh, ElecOilGWh, ElecNFsGWh
+2308  ;
+2309  *$exit
+2310   
+2311  *$exit
+2312  **********   UNIT     **************
+2313  **DIO = ktoe
+2314  **XSTO = 10billion$
+2315  **CO2IO = ktCO2
+2316  **CO2ICO= tCO2/$
+2317  ************************************
+2318  Parameter
+2319   
+2320   CO2IO(product,j,z) ktCO2 emission for industry j sector
+2321   CO2HO(product,z)   ktCO2 direct emission for residendital sector
+2322   TCO2IO(j,z)        ktCO2 total emission for industry sector j in region z
+2323   CO2ICO(i,zj)       carbon content for commodity i in region z (tCO2 per$)
+2324  * TCO2ICO(j,zj)      carbon content for industry sector j in region z (ktCO2 per 10 billion$ = tco2/million$ after scaling down with 1e-7)
+2325   TCO2IO2(i,zj)
+2326   XSTO2(i,zj)
+2327   CP0(z)              CBAM carbon price per ton CO2 ($ per tCO2)
+2328   
+2329   
+2330  * CH4IO(product,j,z) tCO2eq direct emission for industry j sector
+2331  * CH4HO(product,z)   tCO2eq direct emission for residendital sector
+2332   
+2333  * N2OIO(product,j,z) tCO2eq direct emission for industry j sector
+2334  * N2OHO(product,z)   tCO2eq direct emission for residendital sector
+2335   GWP(type)          GWP 100 AR5
+2336   ;
+2337   
+2338   GWP('CO2EF') = 1;
+2339   GWP('CH4EF') = 28;
+2340   GWP('N2OEF') = 265;
+2341   
+2342   
+2343   
+2344  ***Direct emissions
+2345   CO2IO(p_coal,j,z)$Coal_DIO(p_coal,j,z) = Coal_DIO(p_coal,j,z)*41.868*GHGsEF(p_coal,'CO2EF')*1*(44/12)*0.001*GWP('CO2EF') ;
+****                                                                             $141
+**** LINE   1067 INPUT       C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Static_Model_GTAP11b.gms
+**** 141  Symbol declared but no values have been assigned. Check for missing
+****         data definition, assignment, data loading or implicit assignment
+****         via a solve statement. Suppress with $onImplicitAssign.
+****         A wild shot: You may have spurious commas in the explanatory
+****         text of a declaration. Check symbol reference list.
+2346   CO2IO(p_gas,j,z)$Gas_DIO(p_gas,j,z)  = Gas_DIO(p_gas,j,z)*41.868*GHGsEF(p_gas,'CO2EF')*1*(44/12)*0.001*GWP('CO2EF') ;
+2347   CO2IO(p_oilproduct,j,z)$Oilp_DIO(p_oilproduct,j,z)  = Oilp_DIO(p_oilproduct,j,z)*41.868*GHGsEF(p_oilproduct,'CO2EF')*1*(44/12)*0.001*GWP('CO2EF') ;
+2348   
+2349   CO2HO(p_coal,z)$Coal_CO(p_coal,z) = Coal_CO(p_coal,z)*41.868*GHGsEF(p_coal,'CO2EF')*1*(44/12)*0.001*GWP('CO2EF') ;
+2350   CO2HO(p_gas,z)$Gas_CO(p_gas,z) = Gas_CO(p_gas,z)*41.868*GHGsEF(p_gas,'CO2EF')*1*(44/12)*0.001*GWP('CO2EF') ;
+2351   CO2HO(p_oilproduct,z)$Oilp_CO(p_oilproduct,z) = Oilp_CO(p_oilproduct,z)*41.868*GHGsEF(p_oilproduct,'CO2EF')*1*(44/12)*0.001*GWP('CO2EF') ;
+2352   
+2353  ***Indirect emissions
+2354   CO2IO(p_elec,j,z) = {sum((p_coal,elec),CO2IO(p_coal,elec,z))+sum((p_oilproduct,elec),CO2IO(p_oilproduct,elec,z))+sum((p_gas,elec),CO2IO(p_gas,elec,z))}*{sum(p_elecheat,Elec_DIO(p_elecheat,j,z))/sum((p_elecheat,jj),Elec_DIO(p_elecheat,jj,z))};
+2355   
+2356  ***Total emissions
+2357   TCO2IO(j,z)  = sum(product, CO2IO(product,j,z));
+2358   
+2359  ***carbon content
+2360  * CO2ICO(i,zj)  = TCO2IO(j,zj)*10**7/XSTO(j,zj);
+2361   XSTO2(i,zj)   = sum(j$(INDtoCOM(j,i)),XSTO(j,zj));
+2362   TCO2IO2(i,z)  = sum(j$(INDtoCOM(j,i)),TCO2IO(j,z));
+2363   CO2ICO(i,zj)  = TCO2IO2(i,zj)/XSTO2(i,zj)*1e-7;
+2364   CO2ICO(i3,zj) = 0 ;
+2365   CP0(z)=0;
+2366   
+2367   
+2368  * CH4IO(p_coal,j,z)$Coal_DIO(p_coal,j,z) = Coal_DIO(p_coal,j,z)*41.868*GHGsEF(p_coal,'CH4EF')*1000*0.000001*GWP('CH4EF') ;
+2369  * CH4IO(p_gas,j,z)$Gas_DIO(p_gas,j,z)  = Gas_DIO(p_gas,j,z)*41.868*GHGsEF(p_gas,'CH4EF')*1000*0.000001*GWP('CH4EF') ;
+2370  * CH4IO(p_oilproduct,j,z)$Oilp_DIO(p_oilproduct,j,z) = Oilp_DIO(p_oilproduct,j,z)*41.868*GHGsEF(p_oilproduct,'CH4EF')*1000*0.000001*GWP('CH4EF') ;
+2371   
+2372  * CH4HO(p_coal,z)$Coal_CO(p_coal,z) = Coal_CO(p_coal,z)*41.868*GHGsEF(p_coal,'CH4EF')*1000*0.000001*GWP('CH4EF') ;
+2373  * CH4HO(p_gas,z)$Gas_CO(p_gas,z) = Gas_CO(p_gas,z)*41.868*GHGsEF(p_gas,'CH4EF')*1000*0.000001*GWP('CH4EF') ;
+2374  * CH4HO(p_oilproduct,z)$Oilp_CO(p_oilproduct,z) = Oilp_CO(p_oilproduct,z)*41.868*GHGsEF(p_oilproduct,'CH4EF' )*1000*0.000001*GWP('CH4EF') ;
+2375   
+2376  * N2OIO(p_coal,j,z)$Coal_DIO(p_coal,j,z) = Coal_DIO(p_coal,j,z)*41.868*GHGsEF(p_coal,'N2OEF')*1000*0.000001*GWP('N2OEF') ;
+2377  * N2OIO(p_gas,j,z)$Gas_DIO(p_gas,j,z)  = Gas_DIO(p_gas,j,z)*41.868*GHGsEF(p_gas,'N2OEF')*1000*0.000001*GWP('N2OEF') ;
+2378  * N2OIO(p_oilproduct,j,z)$Oilp_DIO(p_oilproduct,j,z)  = Oilp_DIO(p_oilproduct,j,z)*41.868*GHGsEF(p_oilproduct,'N2OEF')*1000*0.000001*GWP('N2OEF') ;
+2379   
+2380  * N2OHO(p_coal,z)$Coal_CO(p_coal,z) = Coal_CO(p_coal,z)*41.868*GHGsEF(p_coal,'N2OEF')*1000*0.000001*GWP('N2OEF') ;
+2381  * N2OHO(p_gas,z)$Gas_CO(p_gas,z) = Gas_CO(p_gas,z)*41.868*GHGsEF(p_gas,'N2OEF')*1000*0.000001*GWP('N2OEF') ;
+2382  * N2OHO(p_oilproduct,z)$Oilp_CO(p_oilproduct,z) = Oilp_CO(p_oilproduct,z)*41.868*GHGsEF(p_oilproduct,'N2OEF')*1000*0.000001*GWP('N2OEF') ;
+2383   
+2384   
+2385  *execute_unload 'cbam', CO2IO, CO2ICO, XSTO2;
+2386  *execute_unload 'DIO_wKLEM', DEO, DIO ;
+2387   
+2388  *==============================================================================
+2389  *  4.3.2 Calibration of other prices and revised volumes (part 2)
+2390  *==============================================================================
+2391   PDO(i,z)        = PLO(i,z)*(1+tticO(i,z));
+2392   PMO(i,zj,z)     = eO(z)*(1+tticO(i,z))*(1+ttimO(i,zj,z))
+2393                     *(PWMO(i,zj,z)+SUM[ij,PWMGO(ij)*tmrg(ij,i,zj,z)]+CP0(zj)*CO2ICO(i,zj)*eO(z)*PWMO(i,zj,z));
+2394   PMTO(i,z)       = SUM[zj,PMO(i,zj,z)*IMO(i,zj,z)]/IMTO(i,z);
+2395   PCO(i,z)        = [PMTO(i,z)*IMTO(i,z)+PDO(i,z)*DDO(i,z)]/QO(i,z);
+2396   CO(i,z)         = CO(i,z)/PCO(i,z);
+2397   CGO(i,z)        = CGO(i,z)/PCO(i,z);
+2398   DIO(nene,j,z)   = DIO(nene,j,z)/PCO(nene,z);
+2399   DEO(ene,j,z)    = DIO(ene,j,z)/PCO(ene,z);
+2400   INVO(i,z)       = INVO(i,z)/PCO(i,z);
+2401   CIO(j,z)        = SUM[nene,DIO(nene,j,z)];
+2402   CEO(j,z)        = SUM[ene,DEO(ene,j,z)];
+2403   
+2404   DITO(nene,z)     = SUM[j,DIO(nene,j,z)];
+2405   DITO(ene,z)      = SUM[j,DEO(ene,j,z)];
+2406   
+2407   PO4(ene,j,z)    = PCO(ene,z);
+2408   
+2409   PCIO(j,z)       = SUM[nene,PCO(nene,z)*DIO(nene,j,z)]/CIO(j,z);
+2410   PCEO(j,z)       = SUM[ene,PCO(ene,z)*DEO(ene,j,z)]/CEO(j,z) ;
+2411   
+2412   WTIO(l,j,z)     = WO(l,z)*(1+ttiwO(l,j,z));
+2413   
+2414   WCO(j,z)$LDCO(j,z)
+2415                   = SUM[l,WTIO(l,j,z)*LDO(l,j,z)]/LDCO(j,z);
+2416   
+2417  *==============================================================================
+2418  *  4.3.3 Calibration of other prices and revised volumes (part 3)
+2419  *==============================================================================
+2420  * The price of capital is arbitrary:
+2421   PKO(z) = 1;
+2422   
+2423  * The calibration of depreciation rates is based on two hypotheses:
+2424  * 1. The rate of depreciation is the same for all types of capital and all
+2425  *    industries in each region (this hypothesis is made to accommodate the fact
+2426  *    that, in the GTAP data base, capital consumption allowance is not detailed;
+2427  *    as a matter of fact, the GTAP capital consumption allowance is set at
+2428  *    4% of the value of the capital stock).
+2429  * 2. The rental rate of capital is uniform across industries and types of
+2430  *    capital in each region.
+2431  * These hypotheses lead to the following formula:
+2432   
+2433  * From GTAP, we know KSTO.
+2434   KSTO(z)         = KSTO(z)/PKO(z);
+2435   
+2436  * Assuming a uniform depreciation rate for all types
+2437  * of capital and all industries:
+2438   delta(z)        = DEPO(z)/[PKO(z)*KSTO(z)];
+2439   
+2440  *display delta, DEPO, PKO, KSTO ;
+2441   
+2442  * From GTAP, we know KSTO. Assuming a uniform rental rate R for all types
+2443  * of capital and all industries:
+2444   RKO(k,z)        = SUM[(kj,jj),RKDO(kj,jj,z)]/KSTO(z);
+2445   RKO(k,z)        =1;
+2446   
+2447   RO(k,j,z)$RKDO(k,j,z)
+2448                   = RKO(k,z);
+2449   
+2450  * Then from the GTAP value of income paid to capital RKD we calibrate KDO:
+2451   KDO(k,j,z)$RKDO(k,j,z)
+2452                   = RKDO(k,j,z)/RO(k,j,z);
+2453   
+2454  * The supply of capital is equal to demand:
+2455   KSO(k,z)        = SUM[j,KDO(k,j,z)];
+2456   
+2457   A_K(z)          = 1/PKO(z)*{PROD[i$gamma_INV(i,z),(PCO(i,Z)/gamma_INV(i,z))
+2458                     **gamma_INV(i,z)]};
+2459   
+2460   KDCO(j,z)       = SUM[k,KDO(k,j,z)];
+2461   
+2462   RTIO(k,j,z)     = RO(k,j,z)*(1+ttikO(k,j,z));
+2463   RCO(j,z)$KDCO(j,z)
+2464                   = SUM[k,RTIO(k,j,z)*KDO(k,j,z)]/KDCO(j,z);
+2465   
+2466  *display KDO, RKDO, RO
+2467   
+2468  *==============================================================================
+2469  *  4.3.4 Calibration of other prices and revised volumes (part 4)
+2470  *==============================================================================
+2471   VAO(j,z)        = LDCO(j,z)+KDCO(j,z);
+2472   
+2473   
+2474   PVAO(j,z)       = [WCO(j,z)*LDCO(j,z)+RCO(j,z)*KDCO(j,z)]/VAO(j,z);
+2475   
+2476  * PIXGDPO is tautologically equal to 1, based on its formula
+2477  * PIXGDPO(z)      = {SUM[j,{(PVAO(j,z)*VAO(j,z)+TIPO(j,z))/VAO(j,z)}*VAO(j,z)]
+2478  *                   /SUM[j,{(PVAO(j,z)*VAO(j,z)+TIPO(j,z))/VAO(j,z)}*VAO(j,z)]
+2479  *                   *SUM[j,{(PVAO(j,z)*VAO(j,z)+TIPO(j,z))/VAO(j,z)}*VAO(j,z)]
+2480  *                   /SUM[j,{(PVAO(j,z)*VAO(j,z)+TIPO(j,z))/VAO(j,z)}*VAO(j,z)]}**0.5;
+2481   PIXGDPO(z)      = 1;
+2482   
+2483  * PIXGDP_WO is tautologically equal to 1, based on its formula
+2484  * PIXGDP_WO       = {SUM[(j,z),{(PVAO(j,z)*VAO(j,z)+TIPO(j,z))/VAO(j,z)}*VAO(j,z)/eO(z)]
+2485  *                   /SUM[(j,z),{(PVAO(j,z)*VAO(j,z)+TIPO(j,z))/VAO(j,z)}*VAO(j,z)/eO(z)]
+2486  *                   *SUM[(j,z),{(PVAO(j,z)*VAO(j,z)+TIPO(j,z))/VAO(j,z)}*VAO(j,z)/eO(z)]
+2487  *                   /SUM[(j,z),{(PVAO(j,z)*VAO(j,z)+TIPO(j,z))/VAO(j,z)}*VAO(j,z)]/eO(z)}**0.5;
+2488   PIXGDP_WO       = 1;
+2489   
+2490  * PIXCONO(z) is tautologically equal to 1, based on its formula
+2491  * PIXCONO(z)      = SUM[i,PCO(i,z)*CO(i,z)]
+2492  *                  /SUM[i,PCO(i,z)*CO(i,z)];
+2493   PIXCONO(z)      = 1;
+2494   
+2495  * PIXINVO(z) is tautologically equal to 1, based on its formula
+2496  * PIXINVO(z)      = PROD[i$gamma_INV(i,z),(PCO(i,z)/PCO(i,z))**gamma_INV(i,z)];
+2497   PIXINVO(z)      = 1;
+2498   
+2499  * PIXGVTO(z) is tautologically equal to 1, based on its formula
+2500  * PIXGVTO(z)      = PROD[i$gamma_GVT(i,z),(PCO(i,z)/PCO(i,z))**gamma_GVT(i,z)];
+2501   PIXGVTO(z)      = 1;
+2502   
+2503   
+2504  *==============================================================================
+2505  *  4.4 Calibration of function parameters
+2506  *==============================================================================
+2507  *   4.4.1 Leontief functions
+2508  *==============================================================================
+2509   io(j,z)       = CIO(j,z)/XSTO(j,z) ;
+2510   
+2511   io2(j,z)      = CEO(j,z)/XSTO(j,z) ;
+2512   
+2513   v(j,z)        = VAO(j,z)/XSTO(j,z) ;
+2514   
+2515   v2(j,z)       = (CEO(j,z)+VAO(j,z))/XSTO(j,z) ;
+2516   
+2517   aij(nene,j,z)  = DIO(nene,j,z)/CIO(j,z);
+2518  * aij2(ene,j,z)   = DIO(ene,j,z)/CEO(j,z);
+2519   aij2(ene,j,z)   = DEO(ene,j,z)/CEO(j,z);
+2520   
+2521  *==============================================================================
+2522  *   4.4.2 Calibration of CET parameters
+2523  *==============================================================================
+2524  *    4.4.2.0 CET between total exports and local production
+2525  *==============================================================================
+2526  * rho_X0(j,z)       = (1+sigma_X0(j,z))/sigma_X0(j,z);
+2527   
+2528  * beta_X0(j,i,z)$XSO(j,i,z)
+2529  *                 = PO2(j,i,z)*XSO(j,i,z)**(1-rho_X0(j,z))/
+2530  *                   SUM[ij$XSO(j,ij,z),PO2(j,ij,z)*XSO(j,ij,z)**(1-rho_X0(j,z))];
+2531   
+2532  * B_X0(j,z)       = XSTO(j,z)
+2533  *                  /SUM[ij$XSO(j,ij,z),beta_X0(j,ij,z)*XSO(j,ij,z)**rho_X0(j,z)
+2534  *                  ]**(1/rho_X0(j,z));
+2535   
+2536  *sigma_X1(i,z) = 1;
+2537  *==============================================================================
+2538  *    4.4.2.1 CET between total exports, domestic supply and margins
+2539  *==============================================================================
+2540   rho_X1(i,z)     = (1+sigma_X1(i,z))/sigma_X1(i,z);
+****                               $141
+**** LINE   1262 INPUT       C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Static_Model_GTAP11b.gms
+**** 141  Symbol declared but no values have been assigned. Check for missing
+****         data definition, assignment, data loading or implicit assignment
+****         via a solve statement. Suppress with $onImplicitAssign.
+****         A wild shot: You may have spurious commas in the explanatory
+****         text of a declaration. Check symbol reference list.
+2541   
+2542   beta_EX_X1(i,z)$MRGNO(i,z)
+2543                   = [PETO(i,z)*EXTO(i,z)$EXTO(i,z)**(1-rho_X1(i,z))]/
+2544                     [PETO(i,z)*EXTO(i,z)$EXTO(i,z)**(1-rho_X1(i,z))+
+2545                     PLO(i,z)*DSO_I(i,z)**(1-rho_X1(i,z))+
+2546                     eO(z)*PWMGO(i)*MRGNO(i,z)$MRGNO(i,z)**(1-rho_X1(i,z))+Tiny];
+2547   
+2548   beta_EX_X1(i,z)$(MRGNO(i,z) eq 0)
+2549                   = [PETO(i,z)*EXTO(i,z)$EXTO(i,z)**(1-rho_X1(i,z))]/
+2550                     [PETO(i,z)*EXTO(i,z)$EXTO(i,z)**(1-rho_X1(i,z))+
+2551                     PLO(i,z)*DSO_I(i,z)**(1-rho_X1(i,z))+Tiny];
+2552   
+2553   beta_D_X1(i,z)$MRGNO(i,z)
+2554                   = [PLO(i,z)*DSO_I(i,z)**(1-rho_X1(i,z))]/
+2555                     [PETO(i,z)*EXTO(i,z)**(1-rho_X1(i,z))+
+2556                     PLO(i,z)*DSO_I(i,z)**(1-rho_X1(i,z))+
+2557                     eO(z)*PWMGO(i)*MRGNO(i,z)**(1-rho_X1(i,z))];
+2558   
+2559   beta_D_X1(i,z)$(MRGNO(i,z) eq 0)
+2560                   = [PLO(i,z)*DSO_I(i,z)**(1-rho_X1(i,z))]/
+2561                     [PETO(i,z)*EXTO(i,z)**(1-rho_X1(i,z))+
+2562                     PLO(i,z)*DSO_I(i,z)**(1-rho_X1(i,z))];
+2563   
+2564   B_X1(i,z)       = XSO_I(i,z)/[beta_EX_X1(i,z)*EXTO(i,z)**rho_X1(i,z)
+2565                    +beta_D_X1(i,z)*DSO_I(i,z)**rho_X1(i,z)+(1-beta_EX_X1(i,z)
+2566                    -beta_D_X1(i,z))*MRGNO(i,z)**rho_X1(i,z)]**(1/rho_X1(i,z));
+2567   
+2568  *==============================================================================
+2569  *    4.4.2.2 CET between exports to different trading partners
+2570  *==============================================================================
+2571   rho_X2(i,z)     = (1+sigma_X2(i,z))/sigma_X2(i,z);
+2572   
+2573   beta_X2(i,z,zj)$EXO(i,z,zj)
+2574                   = [PEO(i,z,zj)*EXO(i,z,zj)**(1-rho_X2(i,z))]/
+2575                     SUM[zjj$EXO(i,z,zjj),PEO(i,z,zjj)*EXO(i,z,zjj)
+2576                     **(1-rho_X2(i,z))];
+2577   B_X2(i,z)       = EXTO(i,z)/{SUM[zj,beta_X2(i,z,zj)*EXO(i,z,zj)**rho_X2(i,z)]
+2578                     **(1/rho_X2(i,z))};
+2579   
+2580   
+2581  *==============================================================================
+2582  *   4.4.3 Calibration of CES parameters
+2583  *==============================================================================
+2584  *    4.4.3.0 Composite output
+2585  *==============================================================================
+2586   rho_X3(i,z)   = (1-sigma_X3(i,z))/sigma_X3(i,z);
+****                             $141
+**** LINE   1308 INPUT       C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Static_Model_GTAP11b.gms
+**** 141  Symbol declared but no values have been assigned. Check for missing
+****         data definition, assignment, data loading or implicit assignment
+****         via a solve statement. Suppress with $onImplicitAssign.
+****         A wild shot: You may have spurious commas in the explanatory
+****         text of a declaration. Check symbol reference list.
+2587   
+2588   beta_X3(j,i,z)$XSO(j,i,z)
+2589                 = [PO2(j,i,z)*XSO(j,i,z)**(1+rho_X3(i,z))]/
+2590                     SUM[jj$XSO(jj,i,z),PO2(jj,i,z)*XSO(jj,i,z)**(1+rho_X3(i,z))];
+2591   
+2592   B_X3(i,z)     = XSO_I(i,z)
+2593                    /SUM[jj$XSO(jj,i,z),beta_X3(jj,i,z)*XSO(jj,i,z)**(-rho_X3(i,z))
+2594                    ]**(-1/rho_X3(i,z));
+2595   
+2596   POWERQO(Z) = SUM(POWER, XSO(power,'18_ELEC',z));
+2597   
+2598   sigma_X4(z) = 2;
+2599   
+2600   rho_X4(z)   = (1-sigma_X4(z))/sigma_X4(z);
+2601   
+2602   beta_X4(power,z)
+2603                 = [PO2(power,'18_ELEC',z)*XSO(power,'18_ELEC',z)**(1+rho_X4(z))]/
+2604                     SUM[power2$XSO(power2,'18_ELEC',z),PO2(power2,'18_ELEC',z)*XSO(power2,'18_ELEC',z)**(1+rho_X4(z))];
+2605   
+2606   B_X4(z)     = POWERQO(Z)
+2607                    /SUM[power2$XSO(power2,'18_ELEC',z),beta_X4(power2,z)*XSO(power2,'18_ELEC',z)**(-rho_X4(z))
+2608                    ]**(-1/rho_X4(z));
+2609   
+2610   TnDShare(z) = XSO('18_TnD','18_ELEC',z) / XSO_I('18_ELEC',z);
+2611   
+2612   PPOWERO(z) = 1;
+2613   
+2614  *==============================================================================
+2615  *    4.4.3.1 Composite good
+2616  *==============================================================================
+2617   rho_M1(i,z)     = (1-sigma_m1(i,z))/sigma_m1(i,z);
+2618   beta_M1(i,z)    = PMTO(i,z)*IMTO(i,z)**(rho_M1(i,z)+1)/
+2619                    {PDO(i,z)*DDO(i,z)**(rho_M1(i,z)+1)
+2620                    +PMTO(i,z)*IMTO(i,z)**(rho_M1(i,z)+1)};
+2621   B_M1(i,z)       = QO(i,z)/{beta_M1(i,z)*IMTO(i,z)**(-rho_M1(i,z))
+2622                    +(1-beta_M1(i,z))*DDO(i,z)**(-rho_M1(i,z))}**(-1/rho_M1(i,z));
+2623   
+2624  *==============================================================================
+2625  *    4.4.3.2 CES between imports from different trading partners
+2626  *==============================================================================
+2627   rho_M2(i,z)     = (1-sigma_M2(i,z))/sigma_M2(i,z);
+2628   beta_M2(i,zj,z)$IMO(i,zj,z)
+2629                   = [PMO(i,zj,z)*IMO(i,zj,z)**(rho_M2(i,z)+1)]/
+2630                     SUM[zjj$IMO(i,zjj,z),PMO(i,zjj,z)*IMO(i,zjj,z)
+2631                      **(rho_M2(i,z)+1)];
+2632   B_M2(i,z)       = IMTO(i,z)/{SUM[zj$IMO(i,zj,z),beta_M2(i,zj,z)*IMO(i,zj,z)
+2633                     **(-rho_M2(i,z))]**(-1/rho_M2(i,z))};
+2634   
+2635  *==============================================================================
+2636  *    4.4.3.3 Composite capital
+2637  *==============================================================================
+2638   rho_KD(j,z)     = (1-sigma_KD(j,z))/sigma_KD(j,z);
+2639   
+2640   
+2641   
+2642   
+2643   beta_KD(k,j,z)$KDO(k,j,z)
+2644                   = [RTIO(k,j,z)*KDO(k,j,z)**(1+rho_KD(j,z))]/
+2645                     SUM[kj$KDO(kj,j,z),RTIO(kj,j,z)*KDO(kj,j,z)**(1+rho_KD(j,z))];
+2646   
+2647   B_KD(j,z)$KDCO(j,z)
+2648                   = KDCO(j,z)/{SUM[k$KDO(k,j,z),beta_KD(k,j,z)*KDO(k,j,z)
+2649                     **(-rho_KD(j,z))]**(-1/rho_KD(j,z))};
+2650   
+2651   
+2652  *==============================================================================
+2653  *    4.4.3.4 Composite labor
+2654  *==============================================================================
+2655   rho_LD(j,z)     = (1-sigma_LD(j,z))/sigma_LD(j,z);
+2656   
+2657   beta_LD(l,j,z)$LDO(l,j,z)  = [WTIO(l,j,z)*LDO(l,j,z)**(1+rho_LD(j,z))]/
+2658                    SUM[lj$LDO(lj,j,z),WTIO(lj,j,z)*LDO(lj,j,z)
+2659                     **(1+rho_LD(j,z))];
+2660   B_LD(j,z)$LDCO(j,z)
+2661                   = LDCO(j,z)/{SUM[l$LDO(l,j,z),beta_LD(l,j,z)*LDO(l,j,z)
+2662                     **(-rho_LD(j,z))]**(-1/rho_LD(j,z))};
+2663   
+2664   
+2665  *===============================================================================
+2666  *   Composite E
+2667  *===============================================================================
+2668   rho_ENER(j,z)   = (1-sigma_ENER(j,z))/sigma_ENER(j,z);
+2669   
+2670   beta_ENER(ene,j,z)$DEO(ene,j,z)
+2671                   = [PO4(ene,j,z)*DEO(ene,j,z)**(1+rho_ENER(j,z))]/
+2672                     SUM[ene2$DIO(ene,j,z),DEO(ene2,j,z)**(1+rho_ENER(j,z))];
+2673   
+2674   
+2675   
+2676   B_ENER(j,z)$CEO(j,z)    = CEO(j,z)/{SUM[ene$DEO(ene,j,z),beta_ENER(ene,j,z)*DEO(ene,j,z)
+2677                     **(-rho_ENER(j,z))]**(-1/rho_ENER(j,z))};
+2678   
+2679   
+2680  *DISPLAY DIO, DEO, rho_ENER, beta_ENER, B_ENER;
+2681   
+2682  *==============================================================================
+2683  *    4.4.3.5 Value added
+2684  *==============================================================================
+2685   sigma_VA('10_PETROLCOAL',z) = 1.260;
+2686   
+2687   
+2688   rho_VA(j,z)     = (1-sigma_VA(j,z))/sigma_VA(j,z);
+2689   
+2690   
+2691   beta_VA(j,z)$KDCO(j,z)
+2692                   = WCO(j,z)*LDCO(j,z)**(rho_VA(j,z)+1)/
+2693                    {WCO(j,z)*LDCO(j,z)**(rho_VA(j,z)+1)+
+2694                     RCO(j,z)*KDCO(j,z)**(rho_VA(j,z)+1)};
+2695   
+2696   
+2697   B_VA(j,z)$KDCO(j,z)
+2698                   = VAO(j,z)
+2699                     /{[beta_VA(j,z)*LDCO(j,z)**(-rho_VA(j,z))+
+2700                     (1-beta_VA(j,z))*KDCO(j,z)**(-rho_VA(j,z))
+2701                     ]**(-1/rho_VA(j,z))};
+2702   
+2703   
+2704   
+2705   
+2706  *==============================================================================
+2707  *    Composite KLE
+2708  *==============================================================================
+2709   KLEO(j,z)       = CEO(j,z) + VAO(j,z) ;
+2710   
+2711   PKLEO(j,z)      = [PCEO(j,z)*CEO(j,z)+PVAO(j,z)*VAO(j,z)]/KLEO(j,z);
+2712   
+2713   rho_KLE(j,z)    = (1-sigma_KLE(j,z))/sigma_KLE(j,z);
+2714   
+2715   beta_KLE(j,z)$KLEO(j,z)
+2716                   = PVAO(j,z)*VAO(j,z)**(rho_KLE(j,z)+1)/
+2717                    {PVAO(j,z)*VAO(j,z)**(rho_KLE(j,z)+1)+
+2718                     PCEO(j,z)*CEO(j,z)**(rho_KLE(j,z)+1)};
+2719   B_KLE(j,z)$KLEO(j,z)
+2720                   = KLEO(j,z)
+2721                     /{[beta_KLE(j,z)*VAO(j,z)**(-rho_KLE(j,z))+
+2722                     (1-beta_KLE(j,z))*CEO(j,z)**(-rho_KLE(j,z))
+2723                     ]**(-1/rho_KLE(j,z))};
+2724   
+2725  display KLEO, PKLEO, rho_KLE, beta_KLE, B_KLE;
+2726  *==============================================================================
+2727  *   4.4.4 Calibration of LES parameters
+2728  *==============================================================================
+2729  *   As the assigned values of income elasticities may not result in
+2730  *   consumption shares that add up to 1, this first step
+2731  *   adjusts the elasticities proportionally
+2732   sigma_Y(i,z)    = sigma_Y(i,z)/{SUM[ij,sigma_Y(ij,z)*PCO(ij,z)*CO(ij,z)]
+****                           $141
+**** LINE   1454 INPUT       C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Static_Model_GTAP11b.gms
+**** 141  Symbol declared but no values have been assigned. Check for missing
+****         data definition, assignment, data loading or implicit assignment
+****         via a solve statement. Suppress with $onImplicitAssign.
+****         A wild shot: You may have spurious commas in the explanatory
+****         text of a declaration. Check symbol reference list.
+2733                     /CTHO(z)};
+2734   gamma_LES(i,z)  = PCO(i,z)*CO(i,z)*sigma_Y(i,z)/CTHO(z);
+2735   CMINO(i,z)      = CO(i,z)+gamma_LES(i,z)*CTHO(z)/{PCO(i,z)*frisch(z)};
+2736   
+2737   
+2738  *==============================================================================
+2739  *  4.5 Calibration of gross domestic products
+2740  *==============================================================================
+2741   GDP_BPO(z)      = SUM[j,PVAO(j,z)*VAO(j,z)]+TIPTO(z);
+2742   GDP_MPO(z)      = GDP_BPO(z)+TPRCTSO(z);
+2743   GDP_IBO(z)      = SUM[(l,j),WO(l,z)*LDO(l,j,z)]+SUM[(k,j),RO(k,j,z)*KDO(k,j,z)]
+2744                     +TPRODNO(z)+TPRCTSO(z);
+2745   GDP_FDO(z)      = SUM[i,PCO(i,z)*(CO(i,z)+CGO(i,z)+INVO(i,z))]
+2746                    +eO(z)*SUM[(i,zj),PWXO(i,z,zj)*EXO(i,z,zj)]
+2747                    +eO(z)*SUM[i,PWMGO(i)*MRGNO(i,z)]
+2748                    -eO(z)*SUM[(i,zj),IMO(i,zj,z)*(PWMO(i,zj,z)
+2749                    +SUM{ij,PWMGO(ij)*tmrg(ij,i,zj,z)})];
+2750   GDP_BP_WO       = SUM[z,GDP_BPO(z)/eO(z)];
+2751   
+2752   
+2753  *==============================================================================
+2754  *  4.5 Calibration of real (volume) variables computed from price indices
+2755  *==============================================================================
+2756   CABXO(z)        = CABO(z)/[PIXGDP_WO*eO(z)];
+2757   CTH_REALO(z)    = CTHO(z)/PIXCONO(z);
+2758   G_REALO(z)      = GO(z)/PIXGVTO(z);
+2759   GDP_BP_REALO(z) = GDP_BPO(z)/PIXGDPO(z);
+2760   GDP_BP_W_REALO  = GDP_BP_WO/PIXGDP_WO;
+2761   GDP_MP_REALO(z) = GDP_MPO(z)/PIXCONO(z);
+2762   IT_REALO(z)     = ITO(z)/PIXINVO(z);
+2763   
+2764  *==============================================================================
+2765  *  4.7 Parameters of the household savings function
+2766  *==============================================================================
+2767   sh1O(z)         = [SHO(z)+SGO(z)]/GDP_IBO(z);
+2768   sh0O(z)         = SHO(z)-sh1O(z)*YDHO(z);
+2769   
+2770  *==============================================================================
+2771  *  4.8 Calibration of indexed transfers and parameters
+2772  *==============================================================================
+2773   ttdh0O(z)       = ttdh0O(z)/PIXCONO(z)**eta;
+2774   sh0O(z)         = sh0O(z)/PIXCONO(z)**eta;
+2775   
+2776  *==============================================================================
+2777  * Calibration of Utility Function
+2778  *==============================================================================
+2779  * sigma_w(i,z)   = CO(i,z)/sum(ii,CO(ii,z));
+2780  * UUO(z)          = prod(i,CO(i,z)**sigma_w(i,z));
+2781  * epO(z)          = UUO(z) / prod(i,sigma_w(i,z)**sigma_w(i,z));
+2782   
+2783  * display sigma_w, UUO, epO;
+2784   
+2785   
+2786  *==============================================================================
+2787  *  4.10 Energy
+2788  *==============================================================================
+2789  Parameter
+2790   EEI(product,j,z)  Energy intensity by industry sector ktoe per 10 billion $
+2791   NEI(product,j,z)  Non-Energy intensity by production sectos ktoe per 10 billion $
+2792   EHI(product,z)    Energy intensity by household ktoe per 10 billion $
+2793   
+2794   EEO(product,j,z)  Initial Industry energy consumption in region z ktoe
+2795   NEO(product,j,z)  Initial Industry non energy consumption in region z ktoe
+2796   EHO(product,z)    Initial Household energy consumption in region z ktoe
+2797  ;
+2798   
+2799   EEI(p_coal,j,z)$(DEO('02_COAL',j,z) gt 0)               = Coal_DIO(p_coal,j,z)/DEO('02_COAL',j,z);
+2800   EEI(p_oil,j,z)$(DEO('03_OIL',j,z) gt 0)                 = Oil_DIO(p_oil,j,z)/DEO('03_OIL',j,z);
+2801   EEI(p_gas,j,z)$(DEO('04_GAS',j,z) gt 0)                 = Gas_DIO(p_gas,j,z)/DEO('04_GAS',j,z);
+2802   EEI(p_oilproduct,j,z)$(DEO('10_PETROLCOAL',j,z) gt 0)   = Oilp_DIO(p_oilproduct,j,z)/DEO('10_PETROLCOAL',j,z);
+2803   EEI(p_elecheat,j,z)$(DEO('18_ELEC',j,z) gt 0)           = Elec_DIO(p_elecheat,j,z)/DEO('18_ELEC',j,z);
+2804   
+2805   NEI(p_coal,j,z)$(DEO('02_COAL',j,z) gt 0)              = NCoal_DIO(p_coal,j,z)/DEO('02_COAL',j,z);
+2806   NEI(p_oil,j,z)$(DEO('03_OIL',j,z) gt 0)                = NOil_DIO(p_oil,j,z)/DEO('03_OIL',j,z);
+2807   NEI(p_gas,j,z)$(DEO('04_GAS',j,z) gt 0)                = NGas_DIO(p_gas,j,z)/DEO('04_GAS',j,z);
+2808   NEI(p_oilproduct,j,z)$(DEO('10_PETROLCOAL',j,z) gt 0)  = NOilp_DIO(p_oilproduct,j,z)/DEO('10_PETROLCOAL',j,z);
+2809   
+2810   EHI(p_coal,z)$(CO('02_COAL',z) gt 0)                    = Coal_CO(p_coal,z)/CO('02_COAL',z);
+2811   EHI(p_oil,z)$(CO('03_OIL',z) gt 0)                      = Oil_CO(p_oil,z)/CO('03_OIL',z);
+2812   EHI(p_gas,z)$(CO('04_GAS',z) gt 0)                      = Gas_CO(p_gas,z)/CO('04_GAS',z);
+2813   EHI(p_oilproduct,z)$(CO('10_PETROLCOAL',z) gt 0)        = Oilp_CO(p_oilproduct,z)/CO('10_PETROLCOAL',z);
+2814   EHI(p_elecheat,z)$(CO('18_ELEC',z) gt 0)                = Elec_CO(p_elecheat,z)/CO('18_ELEC',z);
+2815   
+2816   EEO(p_coal,j,z)       = Coal_DIO(p_coal,j,z) ;
+2817   EEO(p_gas,j,z)        = Gas_DIO(p_gas,j,z) ;
+2818   EEO(p_oil,j,z)        = Oil_DIO(p_oil,j,z) ;
+2819   EEO(p_oilproduct,j,z) = Oilp_DIO(p_oilproduct,j,z) ;
+2820   EEO(p_elecheat,j,z)   = Elec_DIO(p_elecheat,j,z) ;
+2821   
+2822   NEO(p_coal,j,z)       = NCoal_DIO(p_coal,j,z) ;
+2823   NEO(p_gas,j,z)        = NGas_DIO(p_gas,j,z) ;
+2824   NEO(p_oilproduct,j,z) = NOilp_DIO(p_oilproduct,j,z) ;
+2825   
+2826   EHO(p_coal,z)         = Coal_CO(p_coal,z) ;
+2827   EHO(p_gas,z)          = Gas_CO(p_gas,z) ;
+2828   EHO(p_oil,z)          = Oil_CO(p_oil,z) ;
+2829   EHO(p_oilproduct,z)   = Oilp_CO(p_oilproduct,z) ;
+2830   EHO(p_elecheat,z)     = Elec_CO(p_elecheat,z) ;
+2831   
+2832  *display EEI, EHI, EEO, NEO, EHO, GDPPPP, GHGsEF, CO2HO ;
+2833  *execute_unload 'GHGs emission',
+2834  *CO2HO, CO2IO, CH4IO, CH4HO, N2OIO, N2OHO
+2835   
+2836  *==============================================================================
+2837  *  4.11 CO2FACTOR and CTAX
+2838  *==============================================================================
+2839  Parameters
+2840   CO2FACTOR(ene,j,z)     CO2 emissions factor (tCO2 per 100$)
+2841   CTAX0(z)               initial Carbon tax 100$ per ton CO2
+2842   TCTAX0(z)              initial Government Revenue from Carbon tax
+2843  ;
+2844   
+2845   CO2FACTOR(ene,j,z) = 0 ;
+2846   CO2FACTOR('02_COAL',j,z)$DEO('02_COAL',j,z) = [sum(p_coal,CO2IO(p_coal,j,z))/DEO('02_COAL',j,z)]*(1000/(10**8));
+2847   CO2FACTOR('04_GAS',j,z)$DEO('04_GAS',j,z) = [sum(p_gas,CO2IO(p_gas,j,z))/DEO('04_GAS',j,z)]*(1000/(10**8));
+2848   CO2FACTOR('10_PETROLCOAL',j,z)$DEO('10_PETROLCOAL',j,z) = [sum(p_oilproduct,CO2IO(p_oilproduct,j,z))/DEO('10_PETROLCOAL',j,z)]*(1000/(10**8));
+2849   
+2850   CO2FACTOR('10_PETROLCOAL','10_PETROLCOAL',z) = 0;
+2851   
+2852   CTAX0(z) = 0;
+2853   TCTAX0(z) = 0;
+2854   
+2855   TCBAMO(z3) = sum((i,zj), CP0(zj)*CO2ICO(i,zj)*IMO(i,zj,z3)*PWMO(i,zj,z3));
+2856   
+2857   ttip_shareO(j,z) = XSTO(j,z)/sum(jj, XSTO(j,z));
+2858   deltattipO(j,z)  = -ttip_shareO(j,z)*TCBAMO(z)/(XSTO(j,z)*PPO(j,z));
+2859   
+2860   ttiw_shareO(l,j,z) = LDO(l,j,z)/SUM((lj,jj),LDO(l,jj,z));
+2861   deltattiwO(l,j,z)  = -ttiw_shareO(l,j,z)*TCBAMO(z)/WO(l,z)*LDO(l,j,z);
+2862   
+2863   
+2864  *Reporting
+2865  PARAMETER
+2866   
+2867   ElecTDI(z)                   Total electricity consumption in region z by all industries
+2868   ElecRI(j,z)                  Share of electricity used by industry j in total electricity consumption in region z
+2869   valCO2INDI(product,j,z,sim)  Indirect CO2 emission by product for energy use industry j in region z (KtCO2 per $1)
+2870   valCO2INDNE(product,j,z,sim) Indirect CO2 emission by product for non energy use industry j in region z
+2871   valCO2INDI2(j,z,sim)         Indirect CO2 emission for energy use industry j in region z
+2872   valCO2INDNE2(j,z,sim)        Indirect CO2 emission for non energy use industry j in region z
+2873   valTCO2INDI(z,sim)           Indirect CO2 emission for energy use industry in region z
+2874   valTCO2INDNE(z,sim)          Indirect CO2 emission for non energy use industry in region z
+2875   valCO2C(j,z,sim)             Carbon content of industry j in region z
+2876   
+2877   valTFC_com(product,z,sim) Total final consumption by energy commodities
+2878   valTFC_ind(j,z,sim) Total final consumption by industry
+2879   valTFC(z,sim) Total final consumption in region z
+2880   valEE(product,j,z,sim)
+2881   valNE(product,j,z,sim)
+2882   valEH(product,z,sim)
+2883   valCO2I(product,j,z,sim)
+2884   valCO2NE(product,j,z,sim)
+2885   valCO2H(product,z,sim)
+2886   valCH4I(product,j,z,sim)
+2887   valCH4H(product,z,sim)
+2888   valN2OI(product,j,z,sim)
+2889   valN2OH(product,z,sim)
+2890   valCO2I2(j,z,sim)
+2891   valCO2NE2(j,z,sim)
+2892   valTCO2I(z,sim)
+2893   valTCO2NE(z,sim)
+2894   valTCO2H(z,sim)
+2895   valTCO2(z,sim)
+2896   valGDP_BP(z,sim)
+2897   valGDP_BP_REAL(z,sim)  Real GDP at basic prices
+2898   valPIXGDP(z,sim)       GDP deflator in region z
+2899   valCTAX(z,sim)
+2900   valCP(z,sim)
+2901   valTCTAX(z,sim)
+2902   valPC(i,z,sim)         Purchaser price of composite commodity i (including all taxes and margins) in region z
+2903   valSH(z,sim)           Household savings in region z
+2904   valSH(z,sim)           Household savings in region z
+2905   valPOWER(power,i,z,sim)
+2906   valKOR_TFC(product,sim)
+2907   valKLE(j,z,sim)        Value added of industry j in region z
+2908   valTCO22(j,z,sim)
+2909   valTCBAM(z,sim)
+2910   valC(i,z,sim)          Consumption of commodity i by households in region z
+2911   valCAB(z,sim)          Current account balance of region z
+2912   valCABX(z,sim)         Current account balance of region z in terms of the international currency
+2913   valCG(i,z,sim)         Public consumption of commodity i in region z
+2914   valCI(j,z,sim)         Total intermediate consumption of industry j in region z
+2915   valCE(j,z,sim)         Total intermediate energy consumption of industry j in region z
+2916   valCMIN(i,z,sim)       Minimum consumption of commodity i by households in region z
+2917   valCTH(z,sim)          Consumption budget of households in region z
+2918   valCTH_REAL(z,sim)     Real household consumption in region z
+2919   valDD(i,z,sim)         Domestic demand for commodity i produced locally in region z
+2920   valDEP(z,sim)          Amount of depreciation (capital consumption allowance) in region z
+2921   valDI(nene,j,z,sim)    Intermediate consumption of commodity i by industry j in region z
+2922   valDE(ene,j,z,sim)     Intermediate energy consumption of commodity i by industry j in region z
+2923   valDIT(i,z,sim)        Total intermediate demand of commodity i in region z
+2924   valDS(j,i,z,sim)       Supply of commodity i by sector j to the domestic market in region z
+2925   valDS_I(i,z,sim)       Supply of commodity i to the domestic market of region z
+2926   vale(z,sim)            Exchange rate (price of international currency in terms of region z local currency)
+2927   valEX(i,z,zj,sim)      Quantity of product i exported by country z to country zj
+2928   valEXT(i,z,sim)        Supply of composite commodity i by region z to the export market
+2929   valG(z,sim)            Current government expenditures on goods and services in region z
+2930   valG_REAL(z,sim)       Current real government expenditures on goods and services in region z
+2931   valGDP_BP(z,sim)       Region z GDP at basic prices
+2932   valGDP_BP_REAL(z,sim)  Real GDP at basic prices
+2933   valGDP_BP_W(sim)       World GDP at basic prices
+2934   valGDP_BP_W_REAL(sim)  Real world GDP at basic prices
+2935   valGDP_FD(z,sim)       Region z GDP at purchasers prices from the perspective of final demand
+2936   valGDP_IB(z,sim)       Region z GDP at market prices (income-based)
+2937   valGDP_MP(z,sim)       Region z GDP at market prices
+2938   valGDP_MP_REAL(z,sim)  Real GDP at market prices
+2939   valIM(i,zj,z,sim)      Quantity of product i imported by country z from country zj
+2940   valIMT(i,z,sim)        Quantity demanded of composite imports of commodity i by region z
+2941   valINV(i,z,sim)        Final demand of commodity i for investment purposes (GFCF) in region z
+2942   valIT(z,sim)           Total investment expenditures in region z
+2943   valIT_REAL(z,sim)      Real gross fixed capital formation
+2944   valKD(k,j,z,sim)       Demand for type k capital by industry j in region z
+2945   valKDC(j,z,sim)        Demand for composite capital by industry j in region z
+2946   valKS(k,z,sim)         Supply of type k capital in region z
+2947   valLD(l,j,z,sim)       Demand for type l labor by industry j in region z
+2948   valLDC(j,z,sim)        Demand for composite labor by industry j in region z
+2949   valLS(l,z,sim)         Supply of type l labor in region z
+2950   valMRGN(i,z,sim)       Domestic production of commodity i in region z exported as international margin services
+2951   valP(i,z,sim)          Basic price of commodity i production in region z
+2952   valPT(j,z,sim)         Basic price of industry j production in region z
+2953   valP2(j,i,z,sim)       Basic price of industry j's production of commodity i
+2954   valP4(ene,j,z,sim)     Intermediate energy price by industry j in region z
+2955   valPC(i,z,sim)         Purchaser price of composite commodity i (including all taxes and margins) in region z
+2956   valPCI(j,z,sim)        Intermediate consumption price index of industry j in region z
+2957   valPCE(j,z,sim)        Intermediate energy consumption price index of industry j in region z
+2958   valPD(i,z,sim)         Price of local product i sold on region z domestic market (including all taxes)
+2959   valPE(i,z,zj,sim)      Price received for commodity i exported to region zj by region z (excluding export taxes)
+2960   valPET(i,z,sim)        Border price of composite commodity i exported by region z
+2961   valPIXCON(z,sim)       Consumer price index in region z
+2962   valPIXGDP(z,sim)       GDP deflator in region z
+2963   valPIXGDP_W(sim)       World GDP deflator
+2964   valPIXGVT(z,sim)       Public expenditures price index in region z
+2965   valPIXINV(z,sim)       Investment price index in region z
+2966   valPK(z,sim)           Price of new capital in region z
+2967   valPL(i,z,sim)         Price of local product i (excluding all taxes on products) in region z
+2968   valPM(i,zj,z,sim)      Price of commodity i imported by region z from region zj (including all taxes duties and margins)
+2969   valPMT(i,z,sim)        Price of composite commodity i imported by region z (including all taxes duties and margins)
+2970   valPP(j,z,sim)         Unit cost of industry j in region z including taxes directly related to the use of capital and labor but excluding other taxes on production
+2971   valPVA(j,z,sim)        Price of industry j value added in region z (including taxes on production directly related to the use of capital and labor)
+2972   valPKLE(j,z,sim)       Price of industry j KLE in region z
+2973   valPWM(i,zj,z,sim)     World price of commodity i imported from country zj by region z (expressed in international currency)
+2974   valPWMG(i,sim)         World price of margin i (expressed in international currency)
+2975   valPWX(i,z,zj,sim)     World price of commodity i exported to country zj by region z (expressed in international currency)
+2976   valQ(i,z,sim)          Quantity demanded of composite commodity i in region z
+2977   valR(k,j,z,sim)        Rental rate of type k capital in industry j of region z
+2978   valRC(j,z,sim)         Rental rate of industry j composite capital in region z
+2979   valRK(k,z,sim)         Rental rate of type k capital in region z
+2980   valRTI(k,j,z,sim)      Rental rate paid by industry j for type k capital in region z including capital taxes
+2981   valSG(z,sim)           Government savings in region z
+2982   valSH(z,sim)           Household savings in region z
+2983   valsh0(z,sim)          Intercept (household savings)
+2984   valsh1(z,sim)          Slope (household savings)
+2985   valSROW(z,sim)         Rest-of-the-world savings with respect to region z
+2986   valTCTAX(z,sim)        Government revenue from Carbon tax
+2987   valTDH(z,sim)          Household income taxes in region z
+2988   valTIC(i,z,sim)        Government revenue from indirect taxes on commodity i in region z
+2989   valTICT(z,sim)         Total government receipts of indirect taxes on commodities in region z
+2990   valTIK(k,j,z,sim)      Government revenue from taxes on type k capital used by industry j in region z
+2991   valTIKT(z,sim)         Total government revenue from from taxes on capital in region z
+2992   valTIM(i,zj,z,sim)     Government revenue from duties on commodity i imported from region zj by region z
+2993   valTIMT(z,sim)         Total government revenue from import duties in region z
+2994   valTIP(j,z,sim)        Government revenue from taxes on industry j production in region z (excluding taxes directly related to the use of capital and labor)
+2995   valTIPT(z,sim)         Total government revenue from production taxes in region z (excluding taxes directly related to the use of capital and labor)
+2996   valTIW(l,j,z,sim)      Government revenue from payroll taxes on type l labor in industry j of region z
+2997   valTIWT(z,sim)         Total government revenue from payroll taxes in region z
+2998   valTIX(i,z,zj,sim)     Government revenue from export taxes on commodity i exported by region z to region zj
+2999   valTIXT(z,sim)         Total government revenue from export taxes in region z
+3000   valTPRCTS(z,sim)       Total government revenue from taxes on products and imports in region z
+3001   valTPRODN(z,sim)       Total government revenue from other taxes on production in region z
+3002   valttdh0(z,sim)        Intercept (household income tax)
+3003   valttdh1(z,sim)        Slope (household income tax)
+3004   valttic(i,z,sim)       Tax rate on commodity i
+3005   valttik(k,j,z,sim)     Tax rate on capital k used in industry j
+3006   valttim(i,zj,z,sim)    Rate of taxes and duties on imports of commodity i from country zj
+3007   valttip(j,z,sim)       Tax rate on the production of industry j
+3008   valttiw(l,j,z,sim)     Tax rate on type l worker compensation in industry j
+3009   valttix(i,z,zj,sim)    Export tax rate on exported commodity i
+3010   valVA(j,z,sim)         Value added of industry j in region z
+3011   valKLE(j,z,sim)        KLE of industry j in region z
+3012   valW(l,z,sim)          Wage rate of type l labor in region z
+3013   valWC(j,z,sim)         Wage rate of industry j composite labor in region z
+3014   valWTI(l,j,z,sim)      Wage rate paid z by industry j for type l labor in region including payroll taxes
+3015   valXS(j,i,z,sim)       Total output of industry j by commodity i in region z
+3016   valXS_I(i,z,sim)       Total output of commodity i in region z
+3017   valXST(j,z,sim)        Total output of industry j in region z
+3018   valYDH(z,sim)          Household disposable income in region z
+3019   valYG(z,sim)           Total government income in region z
+3020   valYH(z,sim)           Household total income in region z
+3021   valYHK(z,sim)          Household capital income in region z
+3022   valYHL(z,sim)          Household labor income in region z
+3023   valYROW(z,sim)         Rest-of-the-world total income from region z
+3024   valTCO2(z,sim)         Total CO2 emission of region z
+3025  * valep(z,sim)           Expenditure function of region z
+3026  * valUU(z,sim)           Utility of region z
+3027    valEV(z,sim)           Equivalent variation of region z
+3028    valgamma_LES(i,z,sim)
+3029  ;
+3030   
+EXIT C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Static_Model_GTAP11b.gms
+
+**** LIST OF STRAY NAMES - CHECK DECLARATIONS FOR SPURIOUS COMMAS
+**** STRAY NAME commodity OF TYPE SET  
+
+**** 21 ERROR(S)   0 WARNING(S)
+GAMS 45.7.0  64fbf3ce Jan 18, 2024          WEX-WEI x86 64bit/MS Windows - 04/17/26 10:11:13 Page 2
+PEP model w-1
+Include File Summary
+
+
+   SEQ   GLOBAL TYPE      PARENT   LOCAL  FILENAME
+
+     1        1 INPUT          0       0  C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Static_Model_GTAP11b.gms
+     2       51 GDXIN          1      51  C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Input_w-1\DATA_AGG_250804.gdx
+     3      665 GDXIN          1     665  C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Input_w-1\DATA_AGG_250804.gdx
+     4      796 CALL           1     796  gdxxrw Input_w-1\VAL_PAR_250805.xls @Input_w-1\VAL_PAR_250805.txt trace=0 output=Input_w-1\VAL_PAR_250805.gdx  use of capital and labor)  labor) uction 
+     5     1032 INCLUDE        1    1032  .C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Input_WEB\Static_DATA_WEB_2017.gms
+     6     3031 EXIT           1    1753  C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Static_Model_GTAP11b.gms
+
+
+COMPILATION TIME     =        0.094 SECONDS      4 MB  45.7.0 64fbf3ce WEX-WEI
+
+
+USER: Medium MUD - 10 User License                   S220825|0002AO-WIN
+      Konkuk University, Dept of Technology Fusion Engineering  DC16297
+      License for teaching and research at degree granting institutions
+
+
+**** FILE SUMMARY
+
+Input      C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Static_Model_GTAP11b.gms
+Output     C:\Users\kimc0\GUIDE_GLOBAL_CGE\CBAM\Static_Model_GTAP11b.lst
+
+**** USER ERROR(S) ENCOUNTERED

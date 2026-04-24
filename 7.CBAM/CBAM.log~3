@@ -1,0 +1,875 @@
+
+--- Job 4_Static_Model_GTAP11b_CBAM_LAB.gms Start 04/21/26 15:29:31 45.7.0 64fbf3ce WEX-WEI x86 64bit/MS Windows
+--- Applying:
+    C:\GAMS\45\gmsprmNT.txt
+--- GAMS Parameters defined
+    Input C:\Users\kimc0\CBAM\4_Static_Model_GTAP11b_CBAM_LAB.gms
+    PageSize 0
+    ScrDir C:\Users\kimc0\CBAM\225a\
+    SysDir C:\GAMS\45\
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+*** License file too old for this version of GAMS.
+*** Maintenance expired 25 days ago.
+Licensee: Medium MUD - 10 User License                   S220825|0002AO-WIN
+          Konkuk University, Dept of Technology Fusion Engineering  DC16297
+          C:\GAMS\45\gamslice.txt
+          License Admin: MInyoung Choi, mychoi1119@naver.com               
+          The maintenance period of the license expired on Sep 19, 2023
+          Please contact GAMS or your distributor for further information
+Processor information: 1 socket(s), 12 core(s), and 20 thread(s) available
+GAMS 45.7.0   Copyright (C) 1987-2024 GAMS Development. All rights reserved
+--- Starting compilation
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(44) 2 Mb
+--- GDXin=C:\Users\kimc0\CBAM\Input_w-1\DATA_AGG_250804.gdx
+--- GDX File ($gdxIn) C:\Users\kimc0\CBAM\Input_w-1\DATA_AGG_250804.gdx
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(437) 3 Mb
+--- GDXin=C:\Users\kimc0\CBAM\Input_w-1\DATA_AGG_250804.gdx
+--- GDX File ($gdxIn) C:\Users\kimc0\CBAM\Input_w-1\DATA_AGG_250804.gdx
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(494) 4 Mb
+--- call gdxxrw Input_w-1\VAL_PAR_250805.xls @Input_w-1\VAL_PAR_250805.txt trace=0 output=Input_w-1\VAL_PAR_250805.gdx
+**** could not open file: Input_w-1\VAL_PAR_250805.txt
+Version information:
+GDXXRW           45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+Example call:
+   GDXXRW data.xls Par=X Rng=sheet2!b2 Dim=2
+Reading or Writing a spreadsheet:
+   GAMS type
+      Par=<id>                 : parameter
+      Set=<id>                 : set
+      Set=<id> Values=<VType>  : set with data option
+                                 reading from Excel    writing to Excel
+                                 <VType> = NoData      = NoData
+                                         = YN          = YN
+                                         = Sparse      = String
+                                         = Dense                                          
+      DSet=<id>                : domain-set, dim=1, duplicates allowed
+      Var=<id>                 : variable
+      Equ=<id>                 : equation
+   Dimensions:
+      Dim=<integer>            : dimension
+      CDim=<integer>           : number of rows for the column
+      RDim=<integer>           : number of columns for the row
+   Range:
+      Rng=<excel-range>        : Sheet is optional
+                               : Top left corner or a block
+      IgnoreRows=n,m:n         : One or more rows to be ignored when reading the symbol
+      IgnoreColumns=A,A:B      : One or more columns to be ignored when reading the symbol
+   Implied merged cells:
+      ColMerge=<integer>       : Number of columns that propagate cells in a row header
+   Directives:
+      @<filename>              : read parameters from file
+      Index=<excel-range>      : read parameters from spreadsheet
+   Empty Rows or Columns:
+      SkipEmpty=<integer>      : Also SE=<integer>
+                                 0 Empty row/column is end of data
+                                 n N empty rows/columns will be ignored
+   Use merged cell values:
+      CMerge=<integer>         : 0 Do not use merged cell value
+                                 1 In row and column headers only
+                                 2 All cells
+   Process acronyms:
+      Acronyms=<integer>       : 0 Do not process acronyms
+                                 1 Process acronyms
+   Create Excel filter(s):
+      Filter=<integer>         : 0 Do not create filter (default)
+                                 >0 Create filter for symbols that follow
+
+Immediate Options:
+   Files:
+      Input=<filename>         : input file
+      Output=<filename>        : output file
+      Log=<filename>           : log file
+      LogAppend=<filename>     : Append to log file
+      PassWord=<password>      : Specify password for Excel file
+   Debugging:
+      Trace=<integer>
+   Excel:
+      UpdLinks=<integer>       : 0 Do not update any references
+                                 1 External references=Y, remote references=N
+                                 2 External references=N, remote references=Y
+                                 3 Updates both remote and external references
+      RunMacros=<integer>      : 0 Do not execute any macros
+                                 1 Executes Auto_open macro
+                                 2 Executes Auto_close macro
+                                 3 Executes Auto_open and Auto_close macro
+      RWait=<integer>          : Introduce a delay (in ms) after opening file
+      CheckDate                : Write result file only if the input file is
+                                 more recent than the output file
+      UseRC                    : Use R1C1 notation for cells and ranges
+Reading from a spreadsheet:
+      Squeeze=flag             : Also SQ; default=Y
+                                 N Store default values
+                                 Y Default values are not stored
+      TrimLeft=flag            : default=Y
+                                 N Trailing blanks only are trimmed when reading labels and text from Excel
+                                 Y Leading and trailing blanks are trimmed when reading labels and text from Excel
+      AllUELs=flag             : default=Y
+                                 N UELS not used for data are not stored
+                                 Y All UELs of the range are stored
+      MaxDupeErrors=<integer>  : Number of allowed duplicate data entries
+      NaIn=<string>            : Specify additional string to recognize NA
+      DSetText=flag            : default=N
+                                 N Do not try to read explanatory text
+                                 Y Read explanatory text right next/below to UEL
+Writing to a spreadsheet:
+   Data merging:
+      Merge                    : Write matching rows/labels only
+      Clear                    : Like Merge, but clear data before writing
+      ReCalc=flag              : 0 No automatic recalculation for every write
+                               : 1 Do not change recalculation
+   Text=<string>               : Write text string in a cell; specify Rng for location
+   HText=<string>              : Write text strings in a row; specify Rng for location
+   VText=<string>              : Write text strings in a column; specify Rng for location
+   TextId=<string>             : Write identifier and explanatory text;
+                                 specify Rng for location
+      Link=<string>            : Hyperlink
+      LinkId=<id>              : Hyperlink to symbol written
+   Output Strings:
+      ResetOut
+      EpsOut=<string>
+      NaOut=<string>
+      MInfOut=<string>
+      PInfOut=<string>
+      UndfOut=<string>
+      ZeroOut=<string>
+   Default Values:
+      Squeeze=flag             : Also SQ; default=Y
+                                 N Write all values including defaults
+                                 Y Write non-default values only
+   IntAsText=flag              : Write UELs as text when an integer; default=Y
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(495) 4 Mb
+--- GDXin=C:\Users\kimc0\CBAM\Input_w-1\VAL_PAR_250805.gdx
+--- GDX File ($gdxIn) C:\Users\kimc0\CBAM\Input_w-1\VAL_PAR_250805.gdx
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(646) 4 Mb
+--- . Static_DATA_WEB_2017.gms(820) 4 Mb
+--- call gdxxrw Input_WEB/WEB_250805.xlsx @Input_WEB/WEB_2017_250805.txt trace=0 output=Input_WEB/WEB_250805.gdx
+**** could not open file: Input_WEB/WEB_2017_250805.txt
+Version information:
+GDXXRW           45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+Example call:
+   GDXXRW data.xls Par=X Rng=sheet2!b2 Dim=2
+Reading or Writing a spreadsheet:
+   GAMS type
+      Par=<id>                 : parameter
+      Set=<id>                 : set
+      Set=<id> Values=<VType>  : set with data option
+                                 reading from Excel    writing to Excel
+                                 <VType> = NoData      = NoData
+                                         = YN          = YN
+                                         = Sparse      = String
+                                         = Dense                                          
+      DSet=<id>                : domain-set, dim=1, duplicates allowed
+      Var=<id>                 : variable
+      Equ=<id>                 : equation
+   Dimensions:
+      Dim=<integer>            : dimension
+      CDim=<integer>           : number of rows for the column
+      RDim=<integer>           : number of columns for the row
+   Range:
+      Rng=<excel-range>        : Sheet is optional
+                               : Top left corner or a block
+      IgnoreRows=n,m:n         : One or more rows to be ignored when reading the symbol
+      IgnoreColumns=A,A:B      : One or more columns to be ignored when reading the symbol
+   Implied merged cells:
+      ColMerge=<integer>       : Number of columns that propagate cells in a row header
+   Directives:
+      @<filename>              : read parameters from file
+      Index=<excel-range>      : read parameters from spreadsheet
+   Empty Rows or Columns:
+      SkipEmpty=<integer>      : Also SE=<integer>
+                                 0 Empty row/column is end of data
+                                 n N empty rows/columns will be ignored
+   Use merged cell values:
+      CMerge=<integer>         : 0 Do not use merged cell value
+                                 1 In row and column headers only
+                                 2 All cells
+   Process acronyms:
+      Acronyms=<integer>       : 0 Do not process acronyms
+                                 1 Process acronyms
+   Create Excel filter(s):
+      Filter=<integer>         : 0 Do not create filter (default)
+                                 >0 Create filter for symbols that follow
+
+Immediate Options:
+   Files:
+      Input=<filename>         : input file
+      Output=<filename>        : output file
+      Log=<filename>           : log file
+      LogAppend=<filename>     : Append to log file
+      PassWord=<password>      : Specify password for Excel file
+   Debugging:
+      Trace=<integer>
+   Excel:
+      UpdLinks=<integer>       : 0 Do not update any references
+                                 1 External references=Y, remote references=N
+                                 2 External references=N, remote references=Y
+                                 3 Updates both remote and external references
+      RunMacros=<integer>      : 0 Do not execute any macros
+                                 1 Executes Auto_open macro
+                                 2 Executes Auto_close macro
+                                 3 Executes Auto_open and Auto_close macro
+      RWait=<integer>          : Introduce a delay (in ms) after opening file
+      CheckDate                : Write result file only if the input file is
+                                 more recent than the output file
+      UseRC                    : Use R1C1 notation for cells and ranges
+Reading from a spreadsheet:
+      Squeeze=flag             : Also SQ; default=Y
+                                 N Store default values
+                                 Y Default values are not stored
+      TrimLeft=flag            : default=Y
+                                 N Trailing blanks only are trimmed when reading labels and text from Excel
+                                 Y Leading and trailing blanks are trimmed when reading labels and text from Excel
+      AllUELs=flag             : default=Y
+                                 N UELS not used for data are not stored
+                                 Y All UELs of the range are stored
+      MaxDupeErrors=<integer>  : Number of allowed duplicate data entries
+      NaIn=<string>            : Specify additional string to recognize NA
+      DSetText=flag            : default=N
+                                 N Do not try to read explanatory text
+                                 Y Read explanatory text right next/below to UEL
+Writing to a spreadsheet:
+   Data merging:
+      Merge                    : Write matching rows/labels only
+      Clear                    : Like Merge, but clear data before writing
+      ReCalc=flag              : 0 No automatic recalculation for every write
+                               : 1 Do not change recalculation
+   Text=<string>               : Write text string in a cell; specify Rng for location
+   HText=<string>              : Write text strings in a row; specify Rng for location
+   VText=<string>              : Write text strings in a column; specify Rng for location
+   TextId=<string>             : Write identifier and explanatory text;
+                                 specify Rng for location
+      Link=<string>            : Hyperlink
+      LinkId=<id>              : Hyperlink to symbol written
+   Output Strings:
+      ResetOut
+      EpsOut=<string>
+      NaOut=<string>
+      MInfOut=<string>
+      PInfOut=<string>
+      UndfOut=<string>
+      ZeroOut=<string>
+   Default Values:
+      Squeeze=flag             : Also SQ; default=Y
+                                 N Write all values including defaults
+                                 Y Write non-default values only
+   IntAsText=flag              : Write UELs as text when an integer; default=Y
+--- . Static_DATA_WEB_2017.gms(821) 4 Mb
+--- GDXin=C:\Users\kimc0\CBAM\Input_WEB\WEB_250805.gdx
+--- GDX File ($gdxIn) C:\Users\kimc0\CBAM\Input_WEB\WEB_250805.gdx
+--- . Static_DATA_WEB_2017.gms(1278) 4 Mb
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(2412) 5 Mb
+--- Starting execution: elapsed 0:00:00.073
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(1487) 7 Mb
+--- GDX File (execute_unload) C:\Users\kimc0\CBAM\Input_WEB\DATA_WEB_250805.gdx
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(1900) 7 Mb
+--- GDX File (execute_unload) C:\Users\kimc0\CBAM\Input_WEB\DATA_WEB_250805_2.gdx
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(2340) 8 Mb
+--- GDX File (execute_unload) C:\Users\kimc0\CBAM\Calibration.gdx
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3469) 13 Mb
+--- Generating CNS model CBAM
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3472) 32 Mb
+---   42,200 rows  42,200 columns  205,343 non-zeroes
+---   361,583 nl-code  120,734 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 3.287E-04, 7.084E+02] - Zero values observed as well
+--- Bound     [min, max] : [ 9.646E-16, 2.264E-03]
+--- Matrix    [min, max] : [ 1.953E-20, 7.613E+03] - Zero values observed as well
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3472) 28 Mb
+--- Executing CONOPT4 (Solvelink=5): elapsed 0:00:00.231
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+    24 constant coefficients less than 1.0E-20 (=Tol_Zero) have been removed.
+    205319 coefficients left.
+ 
+    The user model has 42200 constraints and 42200 variables
+    with 205319 Jacobian elements, 120734 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          8.1402077306E-02 (Input point)
+ 
+    The pre-triangular part of the model has 2121 constraints and variables.
+    The post-triangular part of the model has 941 constraints and variables.
+ 
+    Preprocessed model has 39138 constraints and 39138 variables
+    with 185060 Jacobian elements, 106927 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      8.1402077305E-02 (Full preprocessed model)
+                      8.1402067583E-02 (After scaling)
+       1   1       0  2.5771449137E-12                 1.0E+00     1 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model CBAM
+--- Executing after solve: elapsed 0:00:00.425
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3481) 28 Mb
+--- Generating CNS model CBAM
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3511) 35 Mb
+--- LOOPS sim = 1
+---   42,200 rows  42,200 columns  205,343 non-zeroes
+---   361,583 nl-code  120,734 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 3.287E-04, 7.084E+02] - Zero values observed as well
+--- Bound     [min, max] : [ 9.646E-16, 2.264E-03]
+--- Matrix    [min, max] : [ 1.953E-20, 7.613E+03] - Zero values observed as well
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3511) 31 Mb
+--- Executing CONOPT4 (Solvelink=5): elapsed 0:00:00.532
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+    24 constant coefficients less than 1.0E-20 (=Tol_Zero) have been removed.
+    205319 coefficients left.
+ 
+    The user model has 42200 constraints and 42200 variables
+    with 205319 Jacobian elements, 120734 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          5.6890962138E-11 (Input point)
+ 
+    The pre-triangular part of the model has 2121 constraints and variables.
+    The post-triangular part of the model has 941 constraints and variables.
+ 
+    Preprocessed model has 39138 constraints and 39138 variables
+    with 185060 Jacobian elements, 106927 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      5.6478958096E-11 (Full preprocessed model)
+                      2.5771449137E-12 (After scaling)
+       1   1       0  2.5771449137E-12                 0.0E+00     1 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model CBAM
+--- Executing after solve: elapsed 0:00:00.872
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3481) 32 Mb
+--- Generating CNS model CBAM
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3511) 39 Mb
+--- LOOPS sim = 2
+---   42,200 rows  42,200 columns  205,490 non-zeroes
+---   362,480 nl-code  120,881 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 3.287E-04, 7.084E+02] - Zero values observed as well
+--- Bound     [min, max] : [ 9.646E-16, 2.264E-03]
+--- Matrix    [min, max] : [ 1.953E-20, 7.613E+03] - Zero values observed as well
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3511) 35 Mb
+--- Executing CONOPT4 (Solvelink=5): elapsed 0:00:01.018
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+    24 constant coefficients less than 1.0E-20 (=Tol_Zero) have been removed.
+    205466 coefficients left.
+ 
+    The user model has 42200 constraints and 42200 variables
+    with 205466 Jacobian elements, 120881 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          3.8825902487E+01 (Input point)
+ 
+    The pre-triangular part of the model has 2119 constraints and variables.
+    The post-triangular part of the model has 941 constraints and variables.
+ 
+    Preprocessed model has 39140 constraints and 39140 variables
+    with 185245 Jacobian elements, 107098 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      3.8825902487E+01 (Full preprocessed model)
+                      9.8090654642E+00 (After scaling)
+       1   0       0  5.0392484000E-01                 1.0E+00     4 F  F
+       2   1       0  7.3285324539E-10                 1.0E+00     9 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model CBAM
+--- Executing after solve: elapsed 0:00:01.500
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3481) 35 Mb
+--- Generating CNS model CBAM
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3511) 40 Mb
+--- LOOPS sim = 3
+---   42,200 rows  42,200 columns  205,490 non-zeroes
+---   362,480 nl-code  120,881 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 3.287E-04, 7.084E+02] - Zero values observed as well
+--- Bound     [min, max] : [ 9.646E-16, 2.264E-03]
+--- Matrix    [min, max] : [ 1.950E-20, 7.638E+03] - Zero values observed as well
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3511) 37 Mb
+--- Executing CONOPT4 (Solvelink=5): elapsed 0:00:01.662
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+    24 constant coefficients less than 1.0E-20 (=Tol_Zero) have been removed.
+    205466 coefficients left.
+ 
+    The user model has 42200 constraints and 42200 variables
+    with 205466 Jacobian elements, 120881 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          6.3798285062E+00 (Input point)
+ 
+    The pre-triangular part of the model has 2119 constraints and variables.
+    The post-triangular part of the model has 941 constraints and variables.
+ 
+    Preprocessed model has 39140 constraints and 39140 variables
+    with 185245 Jacobian elements, 107098 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      6.3798285062E+00 (Full preprocessed model)
+                      1.6995054942E+00 (After scaling)
+       1   1       0  4.1648549127E-10                 1.0E+00    10 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model CBAM
+--- Executing after solve: elapsed 0:00:02.043
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3481) 37 Mb
+--- Generating CNS model CBAM
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3511) 42 Mb
+--- LOOPS sim = 4
+---   42,200 rows  42,200 columns  205,490 non-zeroes
+---   362,480 nl-code  120,881 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 3.287E-04, 7.084E+02] - Zero values observed as well
+--- Bound     [min, max] : [ 9.646E-16, 2.264E-03]
+--- Matrix    [min, max] : [ 1.950E-20, 7.642E+03] - Zero values observed as well
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3511) 39 Mb
+--- Executing CONOPT4 (Solvelink=5): elapsed 0:00:02.221
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+    24 constant coefficients less than 1.0E-20 (=Tol_Zero) have been removed.
+    205466 coefficients left.
+ 
+    The user model has 42200 constraints and 42200 variables
+    with 205466 Jacobian elements, 120881 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          6.2133895615E+00 (Input point)
+ 
+    The pre-triangular part of the model has 2119 constraints and variables.
+    The post-triangular part of the model has 941 constraints and variables.
+ 
+    Preprocessed model has 39140 constraints and 39140 variables
+    with 185245 Jacobian elements, 107098 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      6.2133895615E+00 (Full preprocessed model)
+                      1.4680944184E+00 (After scaling)
+       1   1       0  1.8944283386E-10                 1.0E+00    10 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model CBAM
+--- Executing after solve: elapsed 0:00:02.585
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3481) 39 Mb
+--- Generating CNS model CBAM
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3511) 45 Mb
+--- LOOPS sim = 5
+---   42,200 rows  42,200 columns  205,490 non-zeroes
+---   362,480 nl-code  120,881 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 3.287E-04, 7.084E+02] - Zero values observed as well
+--- Bound     [min, max] : [ 9.646E-16, 2.264E-03]
+--- Matrix    [min, max] : [ 1.950E-20, 7.646E+03] - Zero values observed as well
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3511) 41 Mb
+--- Executing CONOPT4 (Solvelink=5): elapsed 0:00:02.762
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+    24 constant coefficients less than 1.0E-20 (=Tol_Zero) have been removed.
+    205466 coefficients left.
+ 
+    The user model has 42200 constraints and 42200 variables
+    with 205466 Jacobian elements, 120881 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          6.0670203196E+00 (Input point)
+ 
+    The pre-triangular part of the model has 2119 constraints and variables.
+    The post-triangular part of the model has 941 constraints and variables.
+ 
+    Preprocessed model has 39140 constraints and 39140 variables
+    with 185245 Jacobian elements, 107098 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      6.0670203196E+00 (Full preprocessed model)
+                      1.4225097310E+00 (After scaling)
+       1   1       0  1.1162101248E-09                 1.0E+00     9 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model CBAM
+--- Executing after solve: elapsed 0:00:03.138
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3481) 41 Mb
+--- Generating CNS model CBAM
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3511) 46 Mb
+--- LOOPS sim = 6
+---   42,200 rows  42,200 columns  205,490 non-zeroes
+---   362,480 nl-code  120,881 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 3.287E-04, 7.084E+02] - Zero values observed as well
+--- Bound     [min, max] : [ 9.646E-16, 2.264E-03]
+--- Matrix    [min, max] : [ 1.951E-20, 7.650E+03] - Zero values observed as well
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3511) 42 Mb
+--- Executing CONOPT4 (Solvelink=5): elapsed 0:00:03.297
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+    24 constant coefficients less than 1.0E-20 (=Tol_Zero) have been removed.
+    205466 coefficients left.
+ 
+    The user model has 42200 constraints and 42200 variables
+    with 205466 Jacobian elements, 120881 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          5.9370113162E+00 (Input point)
+ 
+    The pre-triangular part of the model has 2119 constraints and variables.
+    The post-triangular part of the model has 941 constraints and variables.
+ 
+    Preprocessed model has 39140 constraints and 39140 variables
+    with 185245 Jacobian elements, 107098 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      5.9370113162E+00 (Full preprocessed model)
+                      1.3821704277E+00 (After scaling)
+       1   1       0  5.9818937861E-10                 1.0E+00     9 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model CBAM
+--- Executing after solve: elapsed 0:00:03.678
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3481) 43 Mb
+--- Generating CNS model CBAM
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3511) 48 Mb
+--- LOOPS sim = 7
+---   42,200 rows  42,200 columns  205,490 non-zeroes
+---   362,480 nl-code  120,881 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 3.287E-04, 7.084E+02] - Zero values observed as well
+--- Bound     [min, max] : [ 9.646E-16, 2.264E-03]
+--- Matrix    [min, max] : [ 1.951E-20, 7.654E+03] - Zero values observed as well
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3511) 45 Mb
+--- Executing CONOPT4 (Solvelink=5): elapsed 0:00:03.850
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+    24 constant coefficients less than 1.0E-20 (=Tol_Zero) have been removed.
+    205466 coefficients left.
+ 
+    The user model has 42200 constraints and 42200 variables
+    with 205466 Jacobian elements, 120881 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          5.8205616837E+00 (Input point)
+ 
+    The pre-triangular part of the model has 2119 constraints and variables.
+    The post-triangular part of the model has 941 constraints and variables.
+ 
+    Preprocessed model has 39140 constraints and 39140 variables
+    with 185245 Jacobian elements, 107098 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      5.8205616837E+00 (Full preprocessed model)
+                      1.3461799626E+00 (After scaling)
+       1   1       0  4.0715437489E-10                 1.0E+00     9 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model CBAM
+--- Executing after solve: elapsed 0:00:04.208
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3481) 45 Mb
+--- Generating CNS model CBAM
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3511) 50 Mb
+--- LOOPS sim = 8
+---   42,200 rows  42,200 columns  205,490 non-zeroes
+---   362,480 nl-code  120,881 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 3.287E-04, 7.084E+02] - Zero values observed as well
+--- Bound     [min, max] : [ 9.646E-16, 2.264E-03]
+--- Matrix    [min, max] : [ 1.951E-20, 7.658E+03] - Zero values observed as well
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3511) 47 Mb
+--- Executing CONOPT4 (Solvelink=5): elapsed 0:00:04.365
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+    24 constant coefficients less than 1.0E-20 (=Tol_Zero) have been removed.
+    205466 coefficients left.
+ 
+    The user model has 42200 constraints and 42200 variables
+    with 205466 Jacobian elements, 120881 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          5.7155099702E+00 (Input point)
+ 
+    The pre-triangular part of the model has 2119 constraints and variables.
+    The post-triangular part of the model has 941 constraints and variables.
+ 
+    Preprocessed model has 39140 constraints and 39140 variables
+    with 185245 Jacobian elements, 107098 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      5.7155099702E+00 (Full preprocessed model)
+                      1.3138435408E+00 (After scaling)
+       1   1       0  2.3560817243E-10                 1.0E+00     9 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model CBAM
+--- Executing after solve: elapsed 0:00:04.728
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3481) 47 Mb
+--- Generating CNS model CBAM
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3511) 52 Mb
+--- LOOPS sim = 9
+---   42,200 rows  42,200 columns  205,490 non-zeroes
+---   362,480 nl-code  120,881 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 3.287E-04, 7.084E+02] - Zero values observed as well
+--- Bound     [min, max] : [ 9.646E-16, 2.264E-03]
+--- Matrix    [min, max] : [ 1.952E-20, 7.661E+03] - Zero values observed as well
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3511) 48 Mb
+--- Executing CONOPT4 (Solvelink=5): elapsed 0:00:04.901
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+    24 constant coefficients less than 1.0E-20 (=Tol_Zero) have been removed.
+    205466 coefficients left.
+ 
+    The user model has 42200 constraints and 42200 variables
+    with 205466 Jacobian elements, 120881 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          5.6201563948E+00 (Input point)
+ 
+    The pre-triangular part of the model has 2119 constraints and variables.
+    The post-triangular part of the model has 941 constraints and variables.
+ 
+    Preprocessed model has 39140 constraints and 39140 variables
+    with 185245 Jacobian elements, 107098 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      5.6201563948E+00 (Full preprocessed model)
+                      1.2846128532E+00 (After scaling)
+       1   1       0  1.4134223615E-10                 1.0E+00     9 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model CBAM
+--- Executing after solve: elapsed 0:00:05.268
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3481) 49 Mb
+--- Generating CNS model CBAM
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3511) 54 Mb
+--- LOOPS sim = 10
+---   42,200 rows  42,200 columns  205,490 non-zeroes
+---   362,480 nl-code  120,881 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 3.287E-04, 7.084E+02] - Zero values observed as well
+--- Bound     [min, max] : [ 9.646E-16, 2.264E-03]
+--- Matrix    [min, max] : [ 1.952E-20, 7.665E+03] - Zero values observed as well
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3511) 50 Mb
+--- Executing CONOPT4 (Solvelink=5): elapsed 0:00:05.449
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+    24 constant coefficients less than 1.0E-20 (=Tol_Zero) have been removed.
+    205466 coefficients left.
+ 
+    The user model has 42200 constraints and 42200 variables
+    with 205466 Jacobian elements, 120881 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          5.5331420592E+00 (Input point)
+ 
+    The pre-triangular part of the model has 2119 constraints and variables.
+    The post-triangular part of the model has 941 constraints and variables.
+ 
+    Preprocessed model has 39140 constraints and 39140 variables
+    with 185245 Jacobian elements, 107098 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      5.5331420592E+00 (Full preprocessed model)
+                      1.2580483369E+00 (After scaling)
+       1   1       0  1.4668163414E-09                 1.0E+00     8 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model CBAM
+--- Executing after solve: elapsed 0:00:05.814
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3481) 50 Mb
+--- Generating CNS model CBAM
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3511) 56 Mb
+--- LOOPS sim = 11
+---   42,200 rows  42,200 columns  205,490 non-zeroes
+---   362,480 nl-code  120,881 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 3.287E-04, 7.084E+02] - Zero values observed as well
+--- Bound     [min, max] : [ 9.646E-16, 2.264E-03]
+--- Matrix    [min, max] : [ 1.952E-20, 7.668E+03] - Zero values observed as well
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3511) 52 Mb
+--- Executing CONOPT4 (Solvelink=5): elapsed 0:00:06.015
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+    24 constant coefficients less than 1.0E-20 (=Tol_Zero) have been removed.
+    205466 coefficients left.
+ 
+    The user model has 42200 constraints and 42200 variables
+    with 205466 Jacobian elements, 120881 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          5.4533647496E+00 (Input point)
+ 
+    The pre-triangular part of the model has 2119 constraints and variables.
+    The post-triangular part of the model has 941 constraints and variables.
+ 
+    Preprocessed model has 39140 constraints and 39140 variables
+    with 185245 Jacobian elements, 107098 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      5.4533647496E+00 (Full preprocessed model)
+                      1.1597969071E+00 (After scaling)
+       1   1       0  9.9375211682E-10                 1.0E+00     8 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model CBAM
+--- Executing after solve: elapsed 0:00:06.391
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3481) 52 Mb
+--- Generating CNS model CBAM
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3511) 58 Mb
+--- LOOPS sim = 12
+---   42,200 rows  42,200 columns  205,490 non-zeroes
+---   362,480 nl-code  120,881 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 3.287E-04, 7.084E+02] - Zero values observed as well
+--- Bound     [min, max] : [ 9.646E-16, 2.264E-03]
+--- Matrix    [min, max] : [ 1.953E-20, 7.672E+03] - Zero values observed as well
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3511) 54 Mb
+--- Executing CONOPT4 (Solvelink=5): elapsed 0:00:06.595
+
+CONOPT 4         45.7.0 64fbf3ce Jan 18, 2024          WEI x86 64bit/MS Window
+
+ 
+ 
+    C O N O P T   version 4.31
+    Copyright (C) ARKI Consulting and Development A/S
+                  Bagsvaerdvej 246 A
+                  DK-2880 Bagsvaerd, Denmark
+ 
+    24 constant coefficients less than 1.0E-20 (=Tol_Zero) have been removed.
+    205466 coefficients left.
+ 
+    The user model has 42200 constraints and 42200 variables
+    with 205466 Jacobian elements, 120881 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          5.3799188014E+00 (Input point)
+ 
+    The pre-triangular part of the model has 2119 constraints and variables.
+    The post-triangular part of the model has 941 constraints and variables.
+ 
+    Preprocessed model has 39140 constraints and 39140 variables
+    with 185245 Jacobian elements, 107098 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      5.3799188014E+00 (Full preprocessed model)
+                      1.0204770292E+00 (After scaling)
+       1   1       0  6.8809541513E-10                 1.0E+00     8 F  T
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model CBAM
+--- Executing after solve: elapsed 0:00:06.970
+--- 4_Static_Model_GTAP11b_CBAM_LAB.gms(3673) 54 Mb
+--- GDX File (execute_unload) C:\Users\kimc0\CBAM\Output_w-1\4_CBAM_LAB.gdx
+*** Status: Normal completion
+--- Job 4_Static_Model_GTAP11b_CBAM_LAB.gms Stop 04/21/26 15:29:38 elapsed 0:00:07.052

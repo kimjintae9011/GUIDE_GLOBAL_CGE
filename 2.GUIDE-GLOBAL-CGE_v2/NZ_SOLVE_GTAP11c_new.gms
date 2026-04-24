@@ -21,21 +21,39 @@ PARAMETER
 phi_trans(time) "Transition scalar for structural change";
 ;
 
-* Declare parameters for TSF growth (Place at the top of your scenario file)
-PARAMETER 
-    TSF_Growth_Rate(BS, z, time)  "Calculated annual growth rate of TSF by backstop sector"
-    Max_TSF_Growth                "Maximum annual upper bound (Cap) for the physical expansion of TSF" / 0.30 /
-    Adj_Speed                     "Investment adjustment speed parameter" / 0.5 /
-;
 
 PARAMETER
     delta_t(j, z, time)  "산업별, 연도별 감가상각률"
     delta_base(z)        "기존의 거시 기본 감가상각률 (예: 0.04)"
-    penalty_rate         "조기 폐기(좌초자산) 패널티 상각률 (예: 0.05)" / 0.05 /
+    penalty_rate(j)         "조기 폐기(좌초자산) 패널티 상각률 (예: 0.05)"
 ;
+
+PARAMETER 
+Signal(BS, Z_GRN, time)
+alpha_val(BS)
+Shift_Factor(time) 
+;
+
+
+Parameter Transfer_Amount(BS, Conv, I_BS, Z_GRN) "Conv에서 BS로 넘겨줄 Beta 총량";
+
+Parameter gr_BVAT(time) "신기술 생산성의 연도별 성장률";
+
+Parameter Temp_Cap(BS, Z_GRN, time);
+
+Scalar Target_Conv_Beta / 0.10 /; 
+
+penalty_rate(j) = 0.05;
+
+gr_BVAT(time) = 0.0; 
+gr_BVAT(time)$(time.val <= 22) = 0.03;  
+gr_BVAT(time)$(time.val >= 23) = 0.01;  
+
+Temp_Cap(BS, Z_GRN, time) = 0.5;
 
 delta_base(z) = delta(z);
 delta_t(j, z, time) = delta_base(z);
+alpha_val(BS) = 3.0 ;
 
 $GDXIN Input_CGE\B_line_GTAP11c_new.gdx
 $LOAD A_VA_RES, GX, G_REALX, INDX, sh1X, sh0X
@@ -93,7 +111,6 @@ $offtext
  ttiw.fx(j,z,time)            = ttiwO(j,z);
  ttip.fx(j,z,time)            = ttipO(j,z);
  PERMIT_TOTAL.fx(PERMIT_Z,time)   = PERMIT_TOTALO(PERMIT_Z) ;
-* CTAX.fX(CTAX_Z,time)                     = CTAX0(CTAX_Z);
 
 *==============================================================================
 *   6.2.2 Solution
@@ -135,23 +152,16 @@ $offtext
 * [Dynamic Update] 탄소 가격 1.0 ($100) 돌파 시 기존 산업 가속 상각 (조기 폐기)
 * ==============================================================================
 LOOP(Z_GRN,
-    IF(CTAX.l(Z_GRN, time) >= 1.0,
         LOOP(j,
 * 해당 산업이 DIRTY 집합에 속해 있을 때만 패널티 부여!
             IF(DIRTY(j), 
-                delta_t(j, Z_GRN, time) = delta_base(Z_GRN) + penalty_rate;
+                delta_t(j, Z_GRN, time)$[ord(time) gt 1] = delta_base(Z_GRN) + penalty_rate(j);
             ELSE
 * DIRTY가 아닌 일반 산업(서비스업 등)과 백스톱(BS)은 정상 상각률 유지
                 delta_t(j, Z_GRN, time) = delta_base(Z_GRN);
+                    );
+                );
             );
-        );
-    ELSE
-        LOOP(j,
-            delta_t(j, Z_GRN, time) = delta_base(Z_GRN);
-        );
-    );
-);
-
 *==============================================================================
 *   6.2.2.2 Variables fixed each period according to their lagged values
 *==============================================================================                     
@@ -207,6 +217,9 @@ KD.fx(k,j,z,time)${[ord(time) gt 1] and KDO(k,j,z)}
 
  B_VA_t('24_eSolar',z,time)$[ord(time) gt 1]
                         = B_VA_t('24_eSolar',z,time-1)*[1+SolarWind_TFP_NZ];
+
+ B_VA_t('18_TnD',z,time)$[ord(time) gt 1]
+                        = B_VA_t('18_TnD',z,time-1)*[1+SolarWind_TFP_NZ];
 
 *==============================================================================
 *  Marginal abatement curves for emissions
@@ -269,12 +282,39 @@ Loop(z,
 * [Dynamic Update] Exogenous Supply Expansion of Sector-Specific Technology Specific Factors (TSF)
 *==============================================================================
 LOOP(Z_GRN,
-    IF(CTAX.L(Z_GRN, time-1) > 1.0,
-    TSFS(BS,Z_GRN, time) = TSFS(BS,Z_GRN, time-1)*1.30;
-    B_VAT_t(BS, Z_GRN, time) = B_VAT_t(BS, Z_GRN, time-1)*(1+0.03) ;
-    B_VA_t(Conv, Z_GRN, time) = B_VA_t(Conv, Z_GRN, time-1)*(1-0.03) ;
+* 1. 가격 신호(Signal) 계산
+    Signal(BS, Z_GRN, time)$[ord(time) gt 1] 
+        = MAX( 0, ( SUM(Conv$map_Conv(BS, Conv), PP.L(Conv, Z_GRN, time-1)) / PP.L(BS, Z_GRN, time-1) ) - 1 );
+    
+    Temp_Cap(BS, Z_GRN, time)$[PTSF.L(BS, Z_GRN, time-1) > 3.0] = 0.5 + 1.0 * (PTSF.L(BS, Z_GRN, time-1) - 3.0);
+    Temp_Cap(BS, Z_GRN, time) = MIN( 0.3, Temp_Cap(BS, Z_GRN, time) );
+
+* ====================================================================
+* 2. [핵심] PTSF 절대 가격에 연동된 3단계 스마트 공급 통제
+* ====================================================================
+   
+* [🟢 녹색불] 정상적인 투자 확대: 가격이 0.15 초과일 때만 복리 성장
+    TSFS(BS, Z_GRN, time)$[ord(time) gt 1 and PTSF.L(BS, Z_GRN, time-1) > 0.15] 
+        = TSFS(BS, Z_GRN, time-1) * [ 1 + MIN( Temp_Cap(BS, Z_GRN, time), alpha_val(BS) * Signal(BS, Z_GRN, time) ) ];
+        
+* [🟡 노란불] 투자 관망 (현상 유지): 가격이 0.1 ~ 0.15 사이로 진입하면 성장률을 0으로 묶음
+    TSFS(BS, Z_GRN, time)$[ord(time) gt 1 and PTSF.L(BS, Z_GRN, time-1) <= 0.15 and PTSF.L(BS, Z_GRN, time-1) >= 0.1] 
+        = TSFS(BS, Z_GRN, time-1);
+        
+* [🔴 빨간불] 초과 공급 해소 (자본 감가상각): 가격이 0.1 미만으로 붕괴하면 기존 자본을 매년 5%씩 폐기
+    TSFS(BS, Z_GRN, time)$[ord(time) gt 1 and PTSF.L(BS, Z_GRN, time-1) < 0.1] 
+        = TSFS(BS, Z_GRN, time-1) * 0.95; 
+
+* 3. 하한선 방어 (초기 종잣값 밑으로는 절대 안 떨어지도록 보호)
+    TSFS(BS, Z_GRN, time)$[ord(time) gt 1] = MAX( TSFO(BS, Z_GRN), TSFS(BS, Z_GRN, time) );
     );
-);
+
+LOOP(Z_GRN,
+        B_VAT_t('32_BSCHEMICAL', Z_GRN, time)$[ord(time) gt 1] = B_VAT_t('32_BSCHEMICAL', Z_GRN, time-1) * (1 + gr_BVAT(time));
+        B_VAT_t('33_BSNONMET', Z_GRN, time)$[ord(time) gt 1]   = B_VAT_t('33_BSNONMET', Z_GRN, time-1)   * (1 + gr_BVAT(time));
+        B_VAT_t('34_BSIRONSTL', Z_GRN, time)$[ord(time) gt 1]  = B_VAT_t('34_BSIRONSTL', Z_GRN, time-1)  * (1 + gr_BVAT(time));
+        B_VA_t(Conv, Z_GRN, time)$[ord(time) gt 1] = B_VA_t(Conv, Z_GRN, time-1) * (1 - 0.02);
+    );
 
 *$ontext
 * ==============================================================================
@@ -316,13 +356,14 @@ LOOP(Z_GRN,
 * ① Green Chemicals (32_BSCHEMICAL): Feedstock switch to agriculture (biomass)
         aij_t('01_AGRICULT', '32_BSCHEMICAL', Z_GRN, time) 
             = aij('01_AGRICULT', '32_BSCHEMICAL', Z_GRN) + (aij('11_CHEMICAL', '32_BSCHEMICAL', Z_GRN) * phi_trans(time));
-        aij_t('11_CHEMICAL', '32_BSCHEMICAL', Z_GRN, time) = aij('11_CHEMICAL', '32_BSCHEMICAL', Z_GRN) * (1 - phi_trans(time));
+        aij_t('11_CHEMICAL', '32_BSCHEMICAL', Z_GRN, time)
+            = aij('11_CHEMICAL', '32_BSCHEMICAL', Z_GRN) * (1 - phi_trans(time));
 
-* ② Green Steel (34_BSIRONSTL): Shift 30% of mining input to scrap recycling (IRONSTL)
+* ② Green Steel (34_BSIRONSTL): Shift -30% of mining input to scrap recycling (IRONSTL)
         aij_t('13_IRONSTL', '34_BSIRONSTL', Z_GRN, time) 
-            = aij('13_IRONSTL', '34_BSIRONSTL', Z_GRN) + (aij('05_MINING', '34_BSIRONSTL', Z_GRN) * 0.3 * phi_trans(time));
+            = aij('13_IRONSTL', '34_BSIRONSTL', Z_GRN) - (aij('13_IRONSTL', '34_BSIRONSTL', Z_GRN) * 0.7 * phi_trans(time));
         aij_t('05_MINING', '34_BSIRONSTL', Z_GRN, time) 
-            = aij('05_MINING', '34_BSIRONSTL', Z_GRN) - (aij('05_MINING', '34_BSIRONSTL', Z_GRN) * 0.3 * phi_trans(time));
+            = aij('05_MINING', '34_BSIRONSTL', Z_GRN) - (aij('05_MINING', '34_BSIRONSTL', Z_GRN) * 0.5 * phi_trans(time));
 
 * ③ Green Land Transport (35_BS_LTRP): Shift 20% of services to electronic components (MACHINE)
         aij_t('15_MACHINE', '35_BS_LTRP', Z_GRN, time) 

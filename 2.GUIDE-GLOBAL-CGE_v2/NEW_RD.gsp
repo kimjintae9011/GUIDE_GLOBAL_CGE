@@ -22,14 +22,14 @@
         },
         {
             "codecMib": 106,
-            "file": "Output_CGE/NZ_Results_GTAP11c_new.gdx",
-            "name": "NZ_Results_GTAP11c_new.gdx",
+            "file": "Output_CGE/BAU_Results_GTAP11c_new.gdx",
+            "name": "BAU_Results_GTAP11c_new.gdx",
             "type": "gdx"
         },
         {
             "codecMib": 106,
-            "file": "Output_CGE/BAU_Results_GTAP11c_new.gdx",
-            "name": "BAU_Results_GTAP11c_new.gdx",
+            "file": "Output_CGE/NZ_Results_GTAP11c_new.gdx",
+            "name": "NZ_Results_GTAP11c_new.gdx",
             "type": "gdx"
         },
         {
@@ -79,12 +79,6 @@
             "file": "INIT_new.gms",
             "name": "INIT_new.gms",
             "type": "gms"
-        },
-        {
-            "codecMib": 106,
-            "file": "Model_GTAP11c_new_backstop.gdx",
-            "name": "Model_GTAP11c_new_backstop.gdx",
-            "type": "gdx"
         },
         {
             "codecMib": 106,

@@ -10,6 +10,18 @@
         },
         {
             "codecMib": 106,
+            "file": "Input_CGE/PRK_SAM.gdx",
+            "name": "PRK_SAM.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
+            "file": "Input_CGE/DATA_AGG-2019_GTAP11c.gdx",
+            "name": "DATA_AGG-2019_GTAP11c.gdx",
+            "type": "gdx"
+        },
+        {
+            "codecMib": 106,
             "file": "DATA_GTAP11c.gms",
             "name": "DATA_GTAP11c.gms",
             "type": "gms"

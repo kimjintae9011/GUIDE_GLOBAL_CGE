@@ -399,19 +399,19 @@ J6(J) Industries excluding specified energy-related industries
 
 J7(J) Industries MAC
 /
-* 01_AGRICULT    Agricultural forest and fishery goods
+ 01_AGRICULT    Agricultural forest and fishery goods
 * 02_COAL        Coal
 * 03_OIL         Crude petroleum
 * 04_GAS         Natural gas Gas distribution
-* 05_MINING      Mined and quarried goods
+ 05_MINING      Mined and quarried goods
  06_FOODPRO     Food beverages and tobacco products
  07_TEXTILES    Textile and leather products
  08_WOODPRO     Wood products
  09_PAPERPRO    Paper products
-*10_PETROLCOAL  Petroleum and coal products
-* 11_CHEMICAL    Chemical products
-* 12_NONMET      Non-metallic mineral products
-* 13_IRONSTL     Primary iron and steel products
+ 10_PETROLCOAL  Petroleum and coal products
+ 11_CHEMICAL    Chemical products
+ 12_NONMET      Non-metallic mineral products
+ 13_IRONSTL     Primary iron and steel products
  14_NONFERR     Non-ferrous metal products
  15_MACHINE     Fabricated metal products Electronic and electrical equipment Machinery and equipment
  16_TRANSEQ     Motor vehicles Other transport equipment
@@ -426,9 +426,9 @@ J7(J) Industries MAC
 * 25_eHydro      Hydro generation
 * 26_eOther      Other generation
 * 27_CONSTRUC    Construction
-* 28_LTRP        Land transport service(road rail)
-* 29_WTRP        Water transport service
-* 30_ATRP        Air transport service
+ 28_LTRP        Land transport service(road rail)
+ 29_WTRP        Water transport service
+ 30_ATRP        Air transport service
  31_SER         Service
 /
 
@@ -545,6 +545,18 @@ MAP_BS(*, *, *) Mapping backstop to conventional industry and commodity
   '36_BS_WTRP'    . '29_WTRP'     . '21_WTRP'
   '37_BS_ATRP'    . '30_ATRP'     . '22_ATRP'
 /
+
+
+MAP_Conv(*, *) Mapping backstop to conventional industry 
+/
+  '32_BSCHEMICAL' . '11_CHEMICAL'
+  '33_BSNONMET'   . '12_NONMET'   
+  '34_BSIRONSTL'  . '13_IRONSTL'  
+  '35_BS_LTRP'    . '28_LTRP'     
+  '36_BS_WTRP'    . '29_WTRP'     
+  '37_BS_ATRP'    . '30_ATRP'     
+/
+
 
 DIRTY(J)
 /
@@ -669,8 +681,9 @@ Z_GRN(z)
 02_CHN China
 03_JPN Japan
 07_NAM North America
-17_PAO Pacific OECD
 09_WEU Western Europe
+10_EEU Central and Eastern Europe
+17_PAO Pacific OECD
  /
 
 Z_OTH(z)
@@ -679,7 +692,6 @@ Z_OTH(z)
 05_MNG Mongolia
 06_PRK Peoples Republic of Korea
 08_LAM Latin America and the Caribbean
-10_EEU Central and Eastern Europe
 11_FSU Former Soviet Union
 12_MEA Middle East and North Africa
 13_AFR Sub-Saharan Africa
@@ -700,6 +712,7 @@ TIME Time periods
 *2019*2040
 *2019*2042
 *2019*2045
+*2019*2046
 *2019*2047
 *2019*2048
 2019*2050
@@ -1073,6 +1086,8 @@ $LOAD sigma_KD, sigma_LD, sigma_X1, sigma_X2, sigma_X3, sigma_X0, sigma_y, sigma
  
 * CES - composite K-L
  sigma_VA('10_PETROLCOAL',z) =0.2;
+* sigma_VA('12_NONMET ',z)     = 0.8;
+* sigma_VA('13_IRONSTL',z)     = 0.2; 
  sigma_VA('18_TnD',z)           = 0.2;
  sigma_VA('19_eNuclear',z)     = 0.2;
  sigma_VA('20_eCoal',z)          = 0.2;
@@ -1101,7 +1116,8 @@ $LOAD sigma_KD, sigma_LD, sigma_X1, sigma_X2, sigma_X3, sigma_X0, sigma_y, sigma
 * CES - DOM vs.IMP
  sigma_M1('03_OIL','06_PRK') = 0.5;
  sigma_M1('04_GAS',Z) = 6;
- sigma_M1('11_CHEMICAL','05_MNG') = 0.5;
+ sigma_M1('11_CHEMICAL','05_MNG') = 1.5;
+ sigma_M1('13_IRONSTL','05_MNG') = 1.5;
  
 * CES - IMP sourcing
  sigma_M2('03_OIL',Z) = 2;
@@ -1114,11 +1130,24 @@ $LOAD sigma_KD, sigma_LD, sigma_X1, sigma_X2, sigma_X3, sigma_X0, sigma_y, sigma
  sigma_X2(i,z)                 = 2;
 
 * CES - composite Power sector
- sigma_X4(z)                   = 3;
-
+ sigma_X4(z)                   = 2.5;
+ sigma_X4('07_NAM')       = 1.5;
+ sigma_X4('09_WEU')       = 1.5;
+ sigma_X4('16_PAS')        = 1.5;
+ 
 * CES - composite BS sector
  sigma_BS(BS, Z_GRN)    = 20;
- sigma_VAT(BS,Z_GRN)   = 0.5;
+ sigma_BS(BS, '07_NAM')    = 5;
+ sigma_BS(BS, '09_WEU')    = 5;
+  
+* sigma_VAT(BS,Z_GRN)   = 1.5;
+
+sigma_VAT('32_BSCHEMICAL',Z_GRN)   = 0.5;
+sigma_VAT('33_BSNONMET',Z_GRN)     = 0.5;
+sigma_VAT('34_BSIRONSTL',Z_GRN)     = 0.5;
+sigma_VAT('35_BS_LTRP',Z_GRN)         = 0.5;
+sigma_VAT('36_BS_WTRP',Z_GRN)        = 0.5;
+sigma_VAT('37_BS_ATRP',Z_GRN)         = 0.5;
 
 * Investment demand elasticity
  sigma_INV(k,j,z)              = 1.5;
@@ -1188,7 +1217,7 @@ PARAMETER
  SHR_MRGN(j, i, z)      Share of international transport margin for sector j !! [Added] Margin distribution share
 ;
 
-seed(BS) = 0.001;
+seed(BS) = 0.01;
 PTSFO(BS, Z_GRN) = 1.0;       
 Green_Markup(BS, Z_GRN) = 1.0;
 
@@ -1533,10 +1562,12 @@ SET sig_type "Types of Industry Elasticities" /
 /;
 
 PARAMETER Init_sigma_M1(ene,z) "Backup for initial sigma_M1";
+PARAMETER Init_sigma_M2(ene,z) "Backup for initial sigma_M2";
 PARAMETER Init_sigma_IND(j,z,sig_type) "Backup for initial industry nest sigmas";
 
 * Store the current (initial) parameter values before entering the loop
 Init_sigma_M1(ene,z) = sigma_M1(ene,z);
+Init_sigma_M2(ene,z) = sigma_M2(ene,z);
 Init_sigma_IND(j,z,'s_coalgas') = sigma_ENER_coalgas(j,z);
 Init_sigma_IND(j,z,'s_oilprod') = sigma_ENER_oilprod(j,z);
 Init_sigma_IND(j,z,'s_nelec')   = sigma_ENER_nelec(j,z);
@@ -1674,10 +1705,10 @@ DISPLAY Elas_Total_ECON, Elas_Total_DDO, Elas_Dom_HH, Elas_EXP;
 * ==============================================================================
 SET eval "Comparison Items" / Initial "Initial Value", Final "Final Value", Target "Target Value" /;
 PARAMETER Report_Elas(ene,z,eval) "Elasticity Comparison Report (Based on DDO)";
-PARAMETER Initial_Elas_DDO(ene,z) "Backup of initial elasticity";
+PARAMETER Initial_Elas_ECON(ene,z) "Backup of initial elasticity";
 
 * Backup initially calculated DDO elasticity before entering the loop
-Initial_Elas_DDO(ene,z) = Elas_Total_DDO(ene,z);
+Initial_Elas_ECON(ene,z) = Elas_Total_ECON(ene,z);
 
 * ==============================================================================
 * Step 0. Set Target Elasticities and Iterative Algorithm Parameters
@@ -1692,12 +1723,12 @@ TABLE Target_Elas(ene,z) "Target economy-wide elasticities by region and energy 
 ;
 
 * Set targets based on DDO
-Parameter Target_DDO(ene,z);
-Target_DDO('02_COAL',z) = Target_Elas('02_COAL',z);
-Target_DDO('03_OIL',z) = Target_Elas('03_OIL',z);
-Target_DDO('04_GAS',z) = Target_Elas('04_GAS',z);
-Target_DDO('10_PETROLCOAL',z) = Target_Elas('10_PETROLCOAL',z);
-Target_DDO('18_ELEC',z) = Target_Elas('18_ELEC',z);
+Parameter Target_ECON(ene,z);
+Target_ECON('02_COAL',z) = Target_Elas('02_COAL',z);
+Target_ECON('03_OIL',z) = Target_Elas('03_OIL',z);
+Target_ECON('04_GAS',z) = Target_Elas('04_GAS',z);
+Target_ECON('10_PETROLCOAL',z) = Target_Elas('10_PETROLCOAL',z);
+Target_ECON('18_ELEC',z) = Target_Elas('18_ELEC',z);
 
 SET iter "Maximum number of iterations" / 1*1000 /;
 SCALAR step "Update speed (Damping factor)" / 0.15 /;
@@ -1751,18 +1782,22 @@ LOOP(iter,
         + W_INV(ene,z) * Elas_Dom_INV(ene,z) 
         + W_GOV(ene,z) * Elas_Dom_GOV(ene,z);
 
+    Elas_EXP(ene,z)$EXTO(ene,z) = SUM(zj$EXO(ene,z,zj), (EXO(ene,z,zj)/EXTO(ene,z)) * (-sigma_M2(ene,zj)));
+    Elas_Total_ECON(ene,z) = W_DDO(ene,z) * Elas_Total_DDO(ene,z) + W_EXTO(ene,z) * Elas_EXP(ene,z);
+
 * --------------------------------------------------------------------------
 * 2. Calculate error ratio at the national level (Initialize first, keep 1.0 for fuels without target)
 * --------------------------------------------------------------------------
     Adj_Ratio(ene,z) = 1.0;
-    Adj_Ratio(ene,z)$(Elas_Total_DDO(ene,z) ne 0 and Target_DDO(ene,z) ne 0) = Target_DDO(ene,z) / Elas_Total_DDO(ene,z);
+    Adj_Ratio(ene,z)$(Elas_Total_ECON(ene,z) ne 0 and Target_ECON(ene,z) ne 0) = Target_ECON(ene,z) / Elas_Total_ECON(ene,z);
     Adj_Ratio(ene,z) = max(0.2, min(5.0, Adj_Ratio(ene,z)));
 
 * --------------------------------------------------------------------------
 * 3. Parameter Update (Reflecting high-precision industry-specific nest weights)
 * --------------------------------------------------------------------------
-    sigma_M1(ene,z)$(1 - S_DOM(ene,z) > 0.05) 
-        = sigma_M1(ene,z) * (1 + step * (Adj_Ratio(ene,z) - 1));
+    sigma_M1(ene,z)$(1 - S_DOM(ene,z) > 0.05) = sigma_M1(ene,z) * (1 + step * (Adj_Ratio(ene,z) - 1));
+*    sigma_M2(ene,z) = sigma_M2(ene,z) * (1 + step * (Adj_Ratio(ene,z) - 1));
+    sigma_M2(ene,z) = sigma_M1(ene,z) * (Init_sigma_M2(ene,z) / Init_sigma_M1(ene,z));
 
     LOOP(j2,
 * A. Derive weighted average error by nest within each industry (j2) (Follow the error of the fuel heavily consumed by the industry)
@@ -1789,12 +1824,47 @@ LOOP(iter,
 * --------------------------------------------------------------------------
 * 4. Logical Constraints for Parameters
 * --------------------------------------------------------------------------
-    sigma_M1(ene,z) = max(0.5, sigma_M1(ene,z));
-    sigma_ENER_coalgas(j,z) = max(0.5, min(1.5, sigma_ENER_coalgas(j,z)));
-    sigma_ENER_oilprod(j,z) = max(0.5, min(1.5, sigma_ENER_oilprod(j,z)));
-    sigma_ENER_nelec(j,z)   = max(0.5, min(1.5, sigma_ENER_nelec(j,z)));  
-    sigma_ENER_elec(j,z)    = max(0.5, min(1.5, sigma_ENER_elec(j,z)));
-    sigma_KLE(j,z)          = max(0.5, min(1.5, sigma_KLE(j,z)));
+*    sigma_M1(ene,z) = max(0.5, min(15.0, sigma_M1(ene,z)));
+*    sigma_M2(ene,z) = max(0.5, min(30.0, sigma_M2(ene,z)));
+    
+*    sigma_ENER_coalgas(j,z) = max(0.5, min(3.0, sigma_ENER_coalgas(j,z)));
+*    sigma_ENER_oilprod(j,z) = max(0.5, min(3.0, sigma_ENER_oilprod(j,z)));
+*    sigma_ENER_nelec(j,z)   = max(0.5, min(3.0, sigma_ENER_nelec(j,z)));  
+*    sigma_ENER_elec(j,z)    = max(0.5, min(3.0, sigma_ENER_elec(j,z)));
+*    sigma_KLE(j,z)          = max(0.5, min(3.0, sigma_KLE(j,z)));
+
+    sigma_M1(ene,z) = max(0.5, min(15.0, sigma_M1(ene,z)));
+    sigma_M2(ene,z) = max(0.5, min(30.0, sigma_M2(ene,z)));    
+    sigma_ENER_coalgas(j,z) = max(0.5, min(3.0, sigma_ENER_coalgas(j,z)));
+    sigma_ENER_oilprod(j,z) = max(0.5, min(3.0, sigma_ENER_oilprod(j,z)));
+    sigma_ENER_nelec(j,z)   = max(0.5, min(3.0, sigma_ENER_nelec(j,z)));  
+    sigma_ENER_elec(j,z)    = max(0.5, min(3.0, sigma_ENER_elec(j,z)));
+    sigma_KLE(j,z)          = max(0.5, min(3.0, sigma_KLE(j,z)));
+
+* [2단계] 대체탄력성 1.0 부근(0.9 ~ 1.1) 회피 조건 추가 (Deadzone 설정)
+* 값이 0.9 초과 1.0 이하인 경우 0.9로 고정
+* 값이 1.0 초과 1.1 미만인 경우 1.1로 고정
+
+    sigma_M1(ene,z)$(sigma_M1(ene,z) > 0.9 and sigma_M1(ene,z) <= 1.0) = 0.9;
+    sigma_M1(ene,z)$(sigma_M1(ene,z) > 1.0 and sigma_M1(ene,z) <  1.1) = 1.1;
+
+    sigma_M2(ene,z)$(sigma_M2(ene,z) > 0.9 and sigma_M2(ene,z) <= 1.0) = 0.9;
+    sigma_M2(ene,z)$(sigma_M2(ene,z) > 1.0 and sigma_M2(ene,z) <  1.1) = 1.1;
+
+    sigma_ENER_coalgas(j,z)$(sigma_ENER_coalgas(j,z) > 0.9 and sigma_ENER_coalgas(j,z) <= 1.0) = 0.9;
+    sigma_ENER_coalgas(j,z)$(sigma_ENER_coalgas(j,z) > 1.0 and sigma_ENER_coalgas(j,z) <  1.1) = 1.1;
+
+    sigma_ENER_oilprod(j,z)$(sigma_ENER_oilprod(j,z) > 0.9 and sigma_ENER_oilprod(j,z) <= 1.0) = 0.9;
+    sigma_ENER_oilprod(j,z)$(sigma_ENER_oilprod(j,z) > 1.0 and sigma_ENER_oilprod(j,z) <  1.1) = 1.1;
+
+    sigma_ENER_nelec(j,z)$(sigma_ENER_nelec(j,z) > 0.9 and sigma_ENER_nelec(j,z) <= 1.0) = 0.9;
+    sigma_ENER_nelec(j,z)$(sigma_ENER_nelec(j,z) > 1.0 and sigma_ENER_nelec(j,z) <  1.1) = 1.1;
+
+    sigma_ENER_elec(j,z)$(sigma_ENER_elec(j,z) > 0.9 and sigma_ENER_elec(j,z) <= 1.0) = 0.9;
+    sigma_ENER_elec(j,z)$(sigma_ENER_elec(j,z) > 1.0 and sigma_ENER_elec(j,z) <  1.1) = 1.1;
+
+    sigma_KLE(j,z)$(sigma_KLE(j,z) > 0.9 and sigma_KLE(j,z) <= 1.0) = 0.9;
+    sigma_KLE(j,z)$(sigma_KLE(j,z) > 1.0 and sigma_KLE(j,z) <  1.1) = 1.1;
 
 );
 
@@ -1802,12 +1872,17 @@ LOOP(iter,
 * [ADDITION] Generate consolidated report for elasticity parameter changes
 * ==============================================================================
 PARAMETER Report_sigma_M1(ene,z,eval_sig) "Report for Armington sigma_M1 changes";
+PARAMETER Report_sigma_M2(ene,z,eval_sig) "Report for Armington sigma_M2 changes";
 PARAMETER Report_sigma_IND(j,z,sig_type,eval_sig) "Report for Industry nest sigma changes";
 
 * 1. Generate report for sigma_M1
 Report_sigma_M1(ene,z,'Initial') = Init_sigma_M1(ene,z);
 Report_sigma_M1(ene,z,'Final')   = sigma_M1(ene,z);
 Report_sigma_M1(ene,z,'Diff')    = sigma_M1(ene,z) - Init_sigma_M1(ene,z);
+
+Report_sigma_M2(ene,z,'Initial') = Init_sigma_M2(ene,z);
+Report_sigma_M2(ene,z,'Final')   = sigma_M2(ene,z);
+Report_sigma_M2(ene,z,'Diff')    = sigma_M2(ene,z) - Init_sigma_M2(ene,z);
 
 * 2. Generate consolidated report for industry-specific elasticities
 Report_sigma_IND(j,z,'s_coalgas','Initial') = Init_sigma_IND(j,z,'s_coalgas');
@@ -1830,9 +1905,9 @@ Report_sigma_IND(j,z,'s_kle','Initial') = Init_sigma_IND(j,z,'s_kle');
 Report_sigma_IND(j,z,'s_kle','Final')   = sigma_KLE(j,z);
 Report_sigma_IND(j,z,'s_kle','Diff')    = sigma_KLE(j,z) - Init_sigma_IND(j,z,'s_kle');
 
-Report_Elas(ene,z,'Initial') = Initial_Elas_DDO(ene,z);
-Report_Elas(ene,z,'Final')   = Elas_Total_DDO(ene,z);
-Report_Elas(ene,z,'Target')  = Target_DDO(ene,z);
+Report_Elas(ene,z,'Initial') = Initial_Elas_ECON(ene,z);
+Report_Elas(ene,z,'Final')   = Elas_Total_ECON(ene,z);
+Report_Elas(ene,z,'Target')  = Target_ECON(ene,z);
 
 * Display results in the .lst file
 DISPLAY Report_sigma_M1, Report_sigma_IND;
@@ -2186,14 +2261,14 @@ PARAMETER
  EGIOtherGWh('26_eOther',z) = ElecOtherGWh('26_eOther',z) / DSO_J('26_eOther',z); 
 
 PARAMETER
- CTAX0(z)           Initial Carbon tax $ per ton CO2
- TCTAX0(z)          Initial Government Revenue from Carbon tax
+ CTAXO(z)           Initial Carbon tax $ per ton CO2
+ TCTAXO(z)          Initial Government Revenue from Carbon tax
  PERMITO(j,z)       CO2 emissions 
  PERMIT_TOTALO(z)   Total CO2 emissions (billion ton)
  PERMIT_NEA_TOTALO
 ;
- CTAX0(z)           = 0;
- TCTAX0(z)          = 0;
+ CTAXO(z)           = 0;
+ TCTAXO(z)          = 0;
  PERMITO(j,z)       = SUM(ene, CO2FACTOR(ene,j,z) * DEO(ene,j,z));
  PERMIT_TOTALO(z)   = SUM(j, PERMITO(j,z));
  PERMIT_NEA_TOTALO  = SUM(NEA, PERMIT_TOTALO(NEA));
@@ -2210,7 +2285,7 @@ PARAMETER
 ;
  alpha_CO2(ene,j,z)     = 0.15;
  gamma_CO2(ene,j,z)     = 1.5;
- MINCO2FACTOR(ene,j,z)  = CO2FACTOR(ene,j,z) * 0.1;
+ MINCO2FACTOR(ene,j,z)  = CO2FACTOR(ene,j,z) * 0.01;
 
 SCALAR
  adjustment_factor
@@ -2220,7 +2295,6 @@ SCALAR
  SolarWind_TFP_NZ
  residual_ratio
 ;
-
 
  adjustment_factor = 0.5;
  trigger_price     = 1.0;
@@ -2238,7 +2312,7 @@ SCALAR
 *============================================================================== 
 PARAMETER
  DAC_TRIGGER            DAC trigger Price (100$ per tCO2) 
- DAC_MAX                Maximum DAC yearly
+ DAC_MAX(z)                Maximum DAC yearly
  DAC_growth_rate(z,time)
  DAC_Max_Pen(z)         Maximum Penetration
  DAC_Logistic_Coeff(z)  Logistic Growth Rate
@@ -2253,7 +2327,9 @@ SCALAR DAC_Elec_Intensity   MWh needed per ton CO2 / 2.5 /;
 SCALAR Price_USD_MWh        USD per MWh / 107.14 /;
 
  DAC_TRIGGER               = 5.0;
- DAC_MAX                   = 2.0;
+ DAC_MAX(z)                   = sum(j,PERMITO(j,z))*0.3;
+ DAC_MAX('09_WEU')         = sum(j,PERMITO(j,'09_WEU'))*0.5;
+ DAC_MAX('03_JPN')          = sum(j,PERMITO(j,'03_JPN'))*0.5;
  DAC_growth_rate(z,time)   = 0;
  DAC_Max_Pen(z)            = 1.0;
  DAC_Logistic_Coeff(z)     = 0.3;
@@ -2588,7 +2664,6 @@ EQUATIONS
  EQA_4(z,time)           Second Nest - CES function - Aggregated-Electricity 
  EQA_5(POWER,i,z,time)   Second Nest - CES function - Aggregated-Electricity
  EQA_6(BS, Conv, I_BS, Z_GRN, time)       Second Nest - CES function - Aggregated-Backstop
-* EQA_7(BS,I_BS,Z_GRN,time) Second Nest - CES function - Aggregated-Backstop
  EQA_7_CONV(BS, Conv, I_BS, Z_GRN, time)
  EQA_7_BS(BS, Conv, I_BS, Z_GRN, time)
  EQB_1(i2,z,time)        Industry j production of commodity i (CES)
@@ -2622,7 +2697,6 @@ EQUATIONS
  EQ_PVAT(BS,Z_GRN, time)    Price of VAT composite
  EQ_VA_GRN(BS,Z_GRN, time)  Value added for Green Steel
  EQ_PP_GRN(BS,Z_GRN, time)  Producer price for Green Steel
-* EQ_PVA_GRN(BS,Z_GRN, time) PVA for Green Steel
 ;
 
 *==============================================================================
@@ -3004,18 +3078,6 @@ EQ52(j,z,t)..
  EQ64(i,z,t)..
     PC(i,z,t) * Q(i,z,t) =e= [PD(i,z,t) * DD(i,z,t)]$DDO(i,z) + [PMT(i,z,t) * IMT(i,z,t)]$IMTO(i,z);
 
-* EQ66(z,t)..
-*    PIXGDP(z,t) =e= {SUM[j$XSTO(j,z), {(PVA(j,z,t) * VA(j,z,t) + TIP(j,z,t)) / VA(j,z,t)} * VAO(j,z)]
-*                  / SUM[j$XSTO(j,z), {(PVAO(j,z) * VAO(j,z) + TIPO(j,z)) / VAO(j,z)} * VAO(j,z)]
-*                  * SUM[j$XSTO(j,z), {(PVA(j,z,t) * VA(j,z,t) + TIP(j,z,t)) / VA(j,z,t)} * VA(j,z,t)]
-*                  / SUM[j$XSTO(j,z), {(PVAO(j,z) * VAO(j,z) + TIPO(j,z)) / VAO(j,z)} * VA(j,z,t)]}**0.5;
-
-* EQ67(t)..
-*    PIXGDP_W(t) =e= {SUM[(j,z)$XSTO(j,z), {(PVA(j,z,t) * VA(j,z,t) + TIP(j,z,t)) / VA(j,z,t)} * VAO(j,z) / e(z,t)]
-*                  / SUM[(j,z)$XSTO(j,z), {(PVAO(j,z) * VAO(j,z) + TIPO(j,z)) / VAO(j,z)} * VAO(j,z) / eO(z)]
-*                  * SUM[(j,z)$XSTO(j,z), {(PVA(j,z,t) * VA(j,z,t) + TIP(j,z,t)) / VA(j,z,t)} * VA(j,z,t) / e(z,t)]
-*                  / SUM[(j,z)$XSTO(j,z), {(PVAO(j,z) * VAO(j,z) + TIPO(j,z)) / VAO(j,z)} * VA(j,z,t) / eO(z)]}**0.5;
-
 EQ66(z,t)..
     PIXGDP(z,t) =e= { 
       ( SUM[j$XSTO(j,z), {(PVA(j,z,t) * VA(j,z,t) + TIP(j,z,t)) / VA(j,z,t)} * VAO(j,z)] 
@@ -3192,7 +3254,7 @@ EQ71(i1,z,t)..
 * 9 DAC
 *==============================================================================
  EQ118(z,t)..
-    QDAC(z,t) =e= DAC_MAX * DAC_growth_rate(z,t) * switchDAC(z,t);
+    QDAC(z,t) =e= DAC_MAX(z) * DAC_growth_rate(z,t) * switchDAC(z,t);
 
  EQ_OBJ..
     OBJ =e= 1.0;
@@ -3205,12 +3267,6 @@ EQ71(i1,z,t)..
                                            + PCI(BS, Z_GRN, t) * CI(BS, Z_GRN, t)
                                            + PCE(BS, Z_GRN, t) * CE(BS, Z_GRN, t);
 
-* EQ_PVA_GRN(BS, Z_GRN, t)..
-*    PVA(BS, Z_GRN, t) =e= (1 / B_VA(BS, Z_GRN)) * ( 
-*                          (beta_VA(BS, Z_GRN)**sigma_VA(BS, Z_GRN)) * WC(BS, Z_GRN, t)**(1 - sigma_VA(BS, Z_GRN))
-*                        + ((1 - beta_VA(BS, Z_GRN))**sigma_VA(BS, Z_GRN)) * RC(BS, Z_GRN, t)**(1 - sigma_VA(BS, Z_GRN)) 
-*                        )**(1 / (1 - sigma_VA(BS, Z_GRN)));
-
  EQ_VA_GRN(BS, Z_GRN, t)..
     VA(BS, Z_GRN, t) =e= VAT(BS, Z_GRN, t) 
                        * (beta_VAT(BS, Z_GRN) * PVAT(BS, Z_GRN, t) / PVA(BS, Z_GRN, t))**sigma_VAT(BS, Z_GRN) 
@@ -3218,12 +3274,6 @@ EQ71(i1,z,t)..
 
  EQ_VAT_REQ(BS, Z_GRN, t)..
     VAT(BS, Z_GRN, t) =e= v_vat(BS, Z_GRN) * XST(BS, Z_GRN, t);
-
-* EQ_PVAT(BS, Z_GRN, t)..
-*    PVAT(BS, Z_GRN, t) =e= (1 / B_VAT_t(BS, Z_GRN, t)) * (
-*                           (beta_VAT(BS, Z_GRN)**sigma_VAT(BS, Z_GRN)) * PVA(BS, Z_GRN, t)**(1 - sigma_VAT(BS, Z_GRN)) 
-*                         + ((1 - beta_VAT(BS, Z_GRN))**sigma_VAT(BS, Z_GRN)) * PTSF(BS, Z_GRN, t)**(1 - sigma_VAT(BS, Z_GRN)) 
-*                         )**(1 / (1 - sigma_VAT(BS, Z_GRN)));
 
 EQ_PVAT(BS, Z_GRN, t)..
     PVAT(BS, Z_GRN, t) * VAT(BS, Z_GRN, t) =e= PVA(BS, Z_GRN, t) * VA(BS, Z_GRN, t)

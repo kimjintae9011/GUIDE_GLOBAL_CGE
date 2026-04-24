@@ -1,0 +1,1 @@
+execute 'gdxmerge S3_Isolated_NZ.gdx, S3_Isolated_NZ_2.gdx';
