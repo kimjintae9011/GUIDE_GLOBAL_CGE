@@ -1,0 +1,121 @@
+shock avareg("r_01KOR")  = <p01>;
+shock avareg("r_02CHN")  = <p02>;
+shock avareg("r_03JPN")  = <p03>; 
+shock avareg("r_04RUS")  = <p04>;
+shock avareg("r_05MNG")  = <p05>;
+shock avareg("r_06PRK")  = <p06>;
+shock avareg("r_07NAM")  = <p07>;
+shock avareg("r_08LAM")  = <p08>;
+shock avareg("r_09WEU")  = <p09>;
+shock avareg("r_10EEU")  = <p10>;
+shock avareg("r_11FSU")  = <p11>;
+shock avareg("r_12MEA")  = <p12>;
+shock avareg("r_13AFR")  = <p13>;
+shock avareg("r_14CPA")  = <p14>;
+shock avareg("r_15SAS")  = <p15>;
+shock avareg("r_16PAS")  = <p16>;
+shock avareg("r_17PAO")  = <p17>;
+solution file = <p18>;
+
+!===============================================================================
+!           CMF file for running the GTAPv7 model outside of RunGTAP             
+!===============================================================================
+
+auxiliary files = gtapv7;           
+check-on-read elements = warn; 
+cpu=yes; 
+log file = yes;  
+start with MMNZ = 700000000;
+
+! -----------
+! Input files
+! ----------- 
+File GTAPSETS = SETS-72x17.har; 
+File GTAPDATA = BASEDATA-72x17.har;
+File GTAPPARM = Default-72x17.prm;
+
+! ------------
+! Updated file
+! ------------ 
+Updated File GTAPDATA = <CMF>.UPD;
+
+! ------------
+! Output files
+! ------------ 
+File GTAPVOL = GTAPVOL-<CMF>.har; ! Volume changes
+File WELVIEW = WELVIEW-<CMF>.har; ! Welfare decomposition summary
+File GTAPSUM = SUMMARY-<CMF>.har; ! Summary checks/diagnostics
+
+! ---------------
+! Solution method
+! ---------------
+Method = johansen;
+!Method = Gragg;
+!Steps = 3 5 7;
+
+!Method = Euler;
+!Steps = 10;
+
+!automatic accuracy = yes;
+!subintervals = 5;
+!accuracy figures = 5;
+!accuracy percent = 95;
+!accuracy figures = 6;
+!accuracy percent = 99;
+
+Exogenous  ! Standard GE closure: psave varies by region, pfactwld is numeraire
+    afall  !COMM*ACTS*REG intermediate input c augmenting tech change by act. a in r
+    afcom  !COMM intermediate tech change of input c, worldwide
+    afeall !ENDW*ACTS*REG primary factor e augmenting tech change for act. a in r 
+    afecom !ENDW factor input tech change of endwowment e, worldwide 
+    afereg !REG factor input tech change in region r
+    afesec !ACTS factor input tech change of act. a, worldwide
+    afreg  !REG intermediate tech change in region r
+    afsec  !ACTS intermediate tech change of act. a, worldwide 
+    aintall !ACTS*REG comp. interm. input augmenting tech change of act. a in r
+    aintreg 
+    aintsec 
+    ams 
+    aoall 
+    aoreg 
+    aosec
+    atd 
+    atf 
+    atm 
+    ats 
+    au
+    avareg !REG value added tech change in region r
+    avasec !ACTS value added tech change for act. a, worldwide
+    cgdslack
+    dpgov 
+    dppriv 
+    dpsave
+    endwslack !ENDWMS*REG slack variable in endowment market clearing condition 
+    incomeslack !REG slack variable in the expression for regional income
+    pfactwld 
+    pop 
+    profitslack 
+    psaveslack !REG slack variable for the saving price equation #;
+    qe   !ENDWMS*REG supply of mobile and sluggish endowment e in region r 
+    qesf !ENDWMS*REG fixed endowment e in act. a in region 
+    tinc 
+    tm 
+    tms 
+    to 
+    tp
+    tradslack 
+    tx 
+    txs
+    ;
+Rest Endogenous;
+
+Swap qe = pe ;
+
+Verbal Description = update shocks;
+
+!===============================================================================
+!                               Shock statements                                
+!===============================================================================
+Shock pop = file SHOCKS-72x17.har header "POP";
+
+

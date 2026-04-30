@@ -2964,8 +2964,8 @@ SCEN  List of scenarios
 *==============================================================================
 *  6.2 BAU scenario and Results
 *==============================================================================
-$INCLUDE BAU_SOLVE_GTAP11c_new.gms
-$INCLUDE BAU_RESULTS_GTAP11c_new.gms
+*$INCLUDE BAU_SOLVE_GTAP11c_new.gms
+*$INCLUDE BAU_RESULTS_GTAP11c_new.gms
 *$INCLUDE BAU_RESULTS_IPCC_new.gms
 *$INCLUDE BAU_RESULTS_GreenEcos_new.gms
 *$INCLUDE BAU_RESULTS_AQLinkage_new.gms
@@ -2982,8 +2982,8 @@ $INCLUDE BAU_RESULTS_GTAP11c_new.gms
 *==============================================================================
 *  6.4 NZ scenarios and Results
 *==============================================================================
-*$INCLUDE NZ_SOLVE_GTAP11c_new.gms
-*$INCLUDE NZ_RESULTS_GTAP11c_new.gms
+$INCLUDE NZ_SOLVE_GTAP11c_new.gms
+$INCLUDE NZ_RESULTS_GTAP11c_new.gms
 *$INCLUDE NZ_RESULTS_IPCC_new.gms
-*$INCLUDE NZ_RESULTS_GreenEcos_new.gms
+$INCLUDE NZ_RESULTS_GreenEcos_new.gms
 *$INCLUDE NZ_RESULTS_AQLinkage_new.gms

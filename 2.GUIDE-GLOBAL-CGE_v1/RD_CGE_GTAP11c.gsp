@@ -34,12 +34,6 @@
         },
         {
             "codecMib": 106,
-            "file": "Output_CGE/NDC_Results_GTAP11c_new.gdx",
-            "name": "NDC_Results_GTAP11c_new.gdx",
-            "type": "gdx"
-        },
-        {
-            "codecMib": 106,
             "file": "BAU_RESULTS_GTAP11c_new.gms",
             "name": "BAU_RESULTS_GTAP11c_new.gms",
             "type": "gms"
@@ -55,12 +49,6 @@
             "file": "CAL_B_line_GTAP11c_new.gms",
             "name": "CAL_B_line_GTAP11c_new.gms",
             "type": "gms"
-        },
-        {
-            "codecMib": 106,
-            "file": "Calibration_Check_GTAP11c.gdx",
-            "name": "Calibration_Check_GTAP11c.gdx",
-            "type": "gdx"
         },
         {
             "codecMib": 106,
@@ -120,6 +108,12 @@
             "codecMib": 106,
             "file": "NDC_SOLVE_GTAP11c_new.gms",
             "name": "NDC_SOLVE_GTAP11c_new.gms",
+            "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "NZ_RESULTS_GreenEcos_new.gms",
+            "name": "NZ_RESULTS_GreenEcos_new.gms",
             "type": "gms"
         },
         {

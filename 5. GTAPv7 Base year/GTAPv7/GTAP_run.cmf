@@ -1,0 +1,63 @@
+!===============================================================================
+!           CMF file for running the GTAPv7 model outside of RunGTAP             
+!===============================================================================
+
+auxiliary files = gtapv7;           
+check-on-read elements = warn; 
+cpu=yes; 
+log file = yes;  
+start with MMNZ = 700000000;
+
+File GTAPSETS = SETS-72x17.har; 
+File GTAPDATA = BASEDATA-72x17.har;
+File GTAPPARM = Default-72x17.prm;
+
+Updated File GTAPDATA = <CMF>.UPD;
+File GTAPVOL = GTAPVOL-<CMF>.har;
+File WELVIEW = WELVIEW-<CMF>.har;
+File GTAPSUM = SUMMARY-<CMF>.har;
+
+!Method = Gragg;
+!Steps = 3 5 7;
+!automatic accuracy = yes;
+!accuracy figures = 6;
+!accuracy percent = 99;
+
+Method = Euler;
+Steps = 10;
+!Steps = 20;
+
+Exogenous
+    afall afcom afeall afecom afereg afesec afreg afsec
+    aintall aintreg aintsec ams aoall aoreg aosec atd atf atm ats au
+    avareg avasec cgdslack dpgov dppriv dpsave endwslack incomeslack pfactwld pop
+    profitslack psaveslack qe qesf tinc tm tms to tp tradslack tx txs;
+Rest Endogenous;
+
+Swap tm("gas","r_14CPA")  = qms("gas","r_14CPA")  ; 
+Swap tm("eGAS","r_14CPA") = qms("eGAS","r_14CPA")  ; 
+
+Verbal Description = update shocks;
+Shock pop = file SHOCKS-72x17.har header "POP";
+Shock qe = file SHOCKS-72x17.har header "QE";
+!===============================================================================
+!                               Shock statements                                 
+!===============================================================================
+shock avareg("r_01KOR") = -0.13800482924510887;
+shock avareg("r_02CHN") = 4.082073240011861;
+shock avareg("r_03JPN") = 0.3753911372478776;
+shock avareg("r_04RUS") = -5.042496163830584;
+shock avareg("r_05MNG") = -9.655123824333142;
+shock avareg("r_06PRK") = -42.10387705569119;
+shock avareg("r_07NAM") = 0.6547053779447235;
+shock avareg("r_08LAM") = -4.271875040729968;
+shock avareg("r_09WEU") = 0.24096002519384527;
+shock avareg("r_10EEU") = 3.1331963917769245;
+shock avareg("r_11FSU") = 1.1833949353117907;
+shock avareg("r_12MEA") = -7.4030069627726505;
+shock avareg("r_13AFR") = -0.5388928305021911;
+shock avareg("r_14CPA") = 23.27851567884938;
+shock avareg("r_15SAS") = 3.473317653642731;
+shock avareg("r_16PAS") = 0.47557576132813856;
+shock avareg("r_17PAO") = -4.106611686776001;
+solution file = sim109;

@@ -22,8 +22,8 @@ xSubset EXOGENE  is subset of ACC;
 
 xSet WW_R  # ww_r_country #
 (ww_r_01KOR, ww_r_02CHN, ww_r_03JPN, ww_r_04RUS, ww_r_05MNG, ww_r_06PRK
-,ww_r_07NAM, ww_r_08LAM, ww_r_09WEU, ww_r_10EEU, ww_r_11FSU, ww_r_12MEA, ww_r_13AFR
-,ww_r_14CPA, ww_r_15SAS, ww_r_16PAS,ww_r_17PAO); 
+,ww_r_07NAM, ww_r_08LAM, ww_r_09WEU, ww_r_10EEU, ww_r_11CAS, ww_r_12MEA, ww_r_13AFR
+,ww_r_14CLV, ww_r_15SAS, ww_r_16APC,ww_r_17ANZ); 
 
 xSubset WW_R is subset of ACC; 
 
@@ -65,6 +65,9 @@ swap fsam("NatRes","a_COAL")       =p_sam("NatRes","a_COAL")     ;
 swap fsam("NatRes","a_OIL")        =p_sam("NatRes","a_OIL")      ;
 swap fsam("NatRes","a_GAS")        =p_sam("NatRes","a_GAS")      ;
 swap fsam("NatRes","a_MINING")     =p_sam("NatRes","a_MINING")   ;
+
+swap fsam(EXOGENE,"a_eCoal")     =p_sam(EXOGENE,"a_eCoal")   ;
+
 
 FINAL_LEVEL ShockDiff = uniform 0;  ! to eliminate (row-col) differences !
 
