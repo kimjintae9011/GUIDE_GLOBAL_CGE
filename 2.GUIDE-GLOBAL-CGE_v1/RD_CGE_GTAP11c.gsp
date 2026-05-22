@@ -124,6 +124,12 @@
         },
         {
             "codecMib": 106,
+            "file": "NZ_RESULTS_IPCC_new.gms",
+            "name": "NZ_RESULTS_IPCC_new.gms",
+            "type": "gms"
+        },
+        {
+            "codecMib": 106,
             "file": "NZ_SOLVE_GTAP11c_new.gms",
             "name": "NZ_SOLVE_GTAP11c_new.gms",
             "type": "gms"

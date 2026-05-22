@@ -1,9 +1,0 @@
-par=GDP         	rng=GDP_Projection!A1:CN18
-par=TOT_POP     	rng=TOT_POP_Projection!A1:CN18
-par=g_SDR       	rng=g_SDR!A1:CN18
-par=CTAX_BAU  	        rng=CTAX_BAU!A1:CN18
-par=PERMIT_NDC  	rng=PERMIT_NDC!A1:CN18
-par=PERMIT_NZ   	rng=PERMIT_NZ!A1:CN18
-par=AEEI_BAU   	        rng=AEEI_BAU!A1:CN18
-par=AEEI_NDC   	        rng=AEEI_NDC!A1:CN18
-par=AEEI_NZ   	        rng=AEEI_NZ!A1:CN18

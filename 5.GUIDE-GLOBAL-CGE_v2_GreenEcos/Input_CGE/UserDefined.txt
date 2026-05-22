@@ -1,0 +1,3 @@
+par=CTAX_UserDefined          rng=CTAX_UserDefined!A1:CN18
+par=AEEI_UserDefined          rng=AEEI_UserDefined!A1:CN18
+par=SolarWindTFP_UserDefined  rng=SolarWindTFP_UserDefined!A1:CN18

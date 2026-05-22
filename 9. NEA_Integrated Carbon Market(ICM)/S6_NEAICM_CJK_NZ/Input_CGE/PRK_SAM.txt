@@ -1,2 +1,0 @@
-par=SAM1_06_PRK rng=Sheet1!A1:FT176
-
