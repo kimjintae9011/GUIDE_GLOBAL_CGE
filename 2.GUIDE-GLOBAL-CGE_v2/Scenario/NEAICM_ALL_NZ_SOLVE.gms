@@ -1,5 +1,9 @@
 * Initialize Parameters
-AEEI(z,time) = AEEI_UserDefined(z,time);
+SW_GLOBAL = 0;
+SW_NEAICM = 1;
+SW_NEAICMCJK = 0;
+
+AEEI(z,time) = AEEI_NZ(z,time);
 
 penalty_rate(j) = 0.05;
 
@@ -48,9 +52,10 @@ ttik.fx('natr',j,z,time)       = ttikO('natr',j,z);
 ttik.fx('cap',j,z,time)        = ttikO('cap',j,z);
 ttiw.fx(j,z,time)              = ttiwO(j,z);
 ttip.fx(j,z,time)              = ttipO(j,z);
-*PERMIT_TOTAL.fx(PERMIT_Z,time) = PERMIT_TOTALO(PERMIT_Z);
-CTAX.fx(z,time) = CTAXO(z);
+CTAX.lo(z,time) = -inf;
+CTAX.up(z,time) = +inf;
 K_idle.fx(k,j,z,time) = 0;
+*PERMIT_TOTAL.fx(PERMIT_Z,time) = PERMIT_TOTALO(PERMIT_Z);
 
 *==============================================================================
 * Solution (Loop over time periods)
@@ -110,17 +115,17 @@ $INCLUDE INIT.gms
 *==============================================================================
 * CTAX and PERMIT
 *============================================================================== 
-*    PERMIT_TOTAL.fx(PERMIT_Z,time)$[ord(time) gt 1] = PERMIT_TOTALO(PERMIT_Z) *  PERMIT_UserDefined(PERMIT_Z,time) ;  
-    CTAX.fx(PERMIT_Z,time) = CTAX_UserDefined(PERMIT_Z,time);
+*    PERMIT_TOTAL.fx(PERMIT_Z,time)$[ord(time) gt 1] = PERMIT_TOTALO(PERMIT_Z) * PERMIT_NZ(PERMIT_Z,time);  
+
     recycle_gov(z,time) = 0;          
     recycle_hou(z,time) = 1;           
 
 *=============================================================================
 * Solar & Wind Productivity Shock
 *=============================================================================
-    B_VA_t('18_TnD',z,time)$[ord(time) gt 1]     = B_VA_t('18_TnD',z,time-1) * [1 + SolarWindTFP_UserDefined(z,time)];
-    B_VA_t('23_eWind',z,time)$[ord(time) gt 1]  = B_VA_t('23_eWind',z,time-1) * [1 + SolarWindTFP_UserDefined(z,time)];
-    B_VA_t('24_eSolar',z,time)$[ord(time) gt 1]  = B_VA_t('24_eSolar',z,time-1) * [1 + SolarWindTFP_UserDefined(z,time)];
+    B_VA_t('18_TnD',z,time)$[ord(time) gt 1]     = B_VA_t('18_TnD',z,time-1) * [1 + SolarWind_TFP_NZ];
+    B_VA_t('23_eWind',z,time)$[ord(time) gt 1]  = B_VA_t('23_eWind',z,time-1) * [1 + SolarWind_TFP_NZ];
+    B_VA_t('24_eSolar',z,time)$[ord(time) gt 1]  = B_VA_t('24_eSolar',z,time-1) * [1 + SolarWind_TFP_NZ];
 
 *=============================================================================
 * Household Emission AEEI
@@ -159,7 +164,8 @@ $INCLUDE INIT.gms
 * Power Sector Issue
 *============================================================================== 
 * j5와 Z_GRN에 속하는 섹터와 지역에 대해서만 루프 실행
-loop((j,z)$[ j5(j) and Z_GRN(z) ],
+*loop((j,z)$[ j5(j) and Z_GRN(z) ],
+loop((j,z)$[ j5(j) ],
     
 * [핵심 보완] 기준연도(t=1)에는 이전 연도가 없으므로 무조건 정상 체제로 세팅
     if(ord(time) eq 1,

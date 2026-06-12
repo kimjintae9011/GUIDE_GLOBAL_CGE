@@ -140,7 +140,7 @@
  valEE(p_waste,j,z,time,'%CurrentSce%')      = valAEEI(z,time,'%CurrentSce%')*EEI(p_waste,j,z)*valXST(j,z,time,'%CurrentSce%');
  valEE(p_bio,j,z,time,'%CurrentSce%')        = valAEEI(z,time,'%CurrentSce%')*EEI(p_bio,j,z)*valXST(j,z,time,'%CurrentSce%') ;
  valEE(p_charcoal,j,z,time,'%CurrentSce%')   = valAEEI(z,time,'%CurrentSce%')*EEI(p_charcoal,j,z)*valXST(j,z,time,'%CurrentSce%');
- valEE(p_ren,j,z,time,'%CurrentSce%')      = valAEEI(z,time,'%CurrentSce%')*EEI(p_ren,j,z)*valXST(j,z,time,'%CurrentSce%');
+ valEE(p_rennuc,j,z,time,'%CurrentSce%')      = valAEEI(z,time,'%CurrentSce%')*EEI(p_rennuc,j,z)*valXST(j,z,time,'%CurrentSce%');
 
  valNE(p_coal,j,z,time,'%CurrentSce%')       = valAEEI(z,time,'%CurrentSce%')*NEI(p_coal,j,z)*DE.L('02_COAL',j,z,time);
  valNE(p_oil,j,z,time,'%CurrentSce%')        = valAEEI(z,time,'%CurrentSce%')*NEI(p_oil,j,z)*DE.L('03_OIL',j,z,time);
@@ -156,7 +156,7 @@
  valEH(p_waste,z,time,'%CurrentSce%')        = valAEEI(z,time,'%CurrentSce%')*EHI(p_waste,z)*TOT_POP(z,time);
  valEH(p_bio,z,time,'%CurrentSce%')          = valAEEI(z,time,'%CurrentSce%')*EHI(p_bio,z)*TOT_POP(z,time) ;
  valEH(p_charcoal,z,time,'%CurrentSce%')     = valAEEI(z,time,'%CurrentSce%')*EHI(p_charcoal,z)*TOT_POP(z,time) ;
- valEH(p_ren,z,time,'%CurrentSce%')        = valAEEI(z,time,'%CurrentSce%')*EHI(p_ren,z)*TOT_POP(z,time) ;
+ valEH(p_rennuc,z,time,'%CurrentSce%')        = valAEEI(z,time,'%CurrentSce%')*EHI(p_rennuc,z)*TOT_POP(z,time) ;
 
  valMarinebunker(product,z,time,'%CurrentSce%')   = valAEEI(z,time,'%CurrentSce%')*(valMRGN('21_WTRP',z,time,'%CurrentSce%')/valMRGN('21_WTRP',z,'2019','%CurrentSce%')) * Marinebunker(product,z); 
  valAviationbunker(product,z,time,'%CurrentSce%') = valAEEI(z,time,'%CurrentSce%')*(valMRGN('21_WTRP',z,time,'%CurrentSce%')/valMRGN('21_WTRP',z,'2019','%CurrentSce%')) * Aviationbunker(product,z); 
@@ -220,24 +220,38 @@ valTES(z,time,'%CurrentSce%') =
  valCO2FACTOR(ene,j,z,time,'%CurrentSce%')   = CO2FACTOR2(ene,j,z,time);
  valCO2FACTORHH(ene,z,time,'%CurrentSce%') = CO2FACTORHH2(ene,z,time) ;
  valCTAX(z,time,'%CurrentSce%')              = CTAX.l(z,time) ;
+ valGLOBAL_CTAX(time,'%CurrentSce%')   = GLOBAL_CTAX.l(time) ; 
+ valNEA_CTAX(time,'%CurrentSce%')         = NEA_CTAX.l(time) ; 
+ valNEACJK_CTAX(time,'%CurrentSce%')    = NEACJK_CTAX.l(time) ; 
  valTCTAX(z,time,'%CurrentSce%')             = TCTAX.l(z,time) ;
  valPERMIT_TOTAL(PERMIT_Z,time,'%CurrentSce%') = PERMIT_TOTAL.l(PERMIT_Z,time)*10;
- valswitchDAC(z,time,'%CurrentSce%')               = switchDAC(z,time);
+ valGLOBALPERMIT_TOTAL(time,'%CurrentSce%') = sum(PERMIT_Z, PERMIT_TOTAL.l(PERMIT_Z,time))*10;
+ valREVENUE_SHARE_VAR(z,time,'%CurrentSce%') =  REVENUE_SHARE_VAR.L(z,time);
+ valNEW_PERMIT_CAP_VAR(z,time,'%CurrentSce%') = NEW_PERMIT_CAP_VAR.L(z,time);
+ valNetTrade_PERMIT(z,time,'%CurrentSce%') = NTRD_PERMIT.l(z,time)*10;
+ valEXP_PERMIT(z,time,'%CurrentSce%')$(ord(time) > 1) = max(0, NTRD_PERMIT.l(z,time)*10);
+ valIMP_PERMIT(z,time,'%CurrentSce%')$(ord(time) > 1) = abs(min(0, NTRD_PERMIT.l(z,time)*10));
+ valEXP_PERMIT_VAL(z,time,'%CurrentSce%') = valEXP_PERMIT(z,time,'%CurrentSce%') * GLOBAL_CTAX.l(time)*100;
+ valIMP_PERMIT_VAL(z,time,'%CurrentSce%') = valIMP_PERMIT(z,time,'%CurrentSce%') * GLOBAL_CTAX.l(time)*100; 
+ valNetTrade_NEA_PERMIT(z,time,'%CurrentSce%') = NTRD_NEA_PERMIT.l(z,time)*10;
+ valEXP_NEA_PERMIT(z,time,'%CurrentSce%')$(ord(time) > 1) = max(0, NTRD_NEA_PERMIT.l(z,time)*10);
+ valIMP_NEA_PERMIT(z,time,'%CurrentSce%')$(ord(time) > 1) = abs(min(0, NTRD_NEA_PERMIT.l(z,time)*10));
+ valEXP_NEA_PERMIT_VAL(z,time,'%CurrentSce%') = valEXP_NEA_PERMIT(z,time,'%CurrentSce%') * NEA_CTAX.l(time)*100;
+ valIMP_NEA_PERMIT_VAL(z,time,'%CurrentSce%') = valIMP_NEA_PERMIT(z,time,'%CurrentSce%') * NEA_CTAX.l(time)*100; 
+ valNetTrade_NEACJK_PERMIT(z,time,'%CurrentSce%') = NTRD_NEACJK_PERMIT.l(z,time)*10;
+ valEXP_NEACJK_PERMIT(z,time,'%CurrentSce%')$(ord(time) > 1) = max(0, NTRD_NEACJK_PERMIT.l(z,time)*10);
+ valIMP_NEACJK_PERMIT(z,time,'%CurrentSce%')$(ord(time) > 1) = abs(min(0, NTRD_NEACJK_PERMIT.l(z,time)*10));
+ valEXP_NEACJK_PERMIT_VAL(z,time,'%CurrentSce%') = valEXP_NEACJK_PERMIT(z,time,'%CurrentSce%') * NEACJK_CTAX.l(time)*100;
+ valIMP_NEACJK_PERMIT_VAL(z,time,'%CurrentSce%') = valIMP_NEACJK_PERMIT(z,time,'%CurrentSce%') * NEACJK_CTAX.l(time)*100; 
  valQDAC(z,time,'%CurrentSce%')                      = QDAC.l(z,time)*10;
+ valswitchDAC(z,time,'%CurrentSce%')               = switchDAC(z,time);
  valDAC_growth_rate(z,time,'%CurrentSce%')     = DAC_growth_rate(z,time);
  valDAC_elec(z,time,'%CurrentSce%')                 = QDAC.l(z,time)*DAC_Tech_Coeff('18_ELEC') ;
-
  valEndoAbate_IND(ene,j,z,time,'%CurrentSce%') = valCO2FACTOR(ene,j,z,time,'%CurrentSce%')/ MAX(1e-6, CO2FACTOR2(ene,j,z,'2019'));
  valEndoAbate_HH(ene,z,time,'%CurrentSce%')    = valCO2FACTORHH(ene,z,time,'%CurrentSce%') / MAX(1e-6, CO2FACTORHH2(ene,z,'2019'));
 
-valNONCO2_RR(z,time,'%CurrentSce%') =  min(1,  (valGDP_MP_REAL(z,time,'%CurrentSce%')/valGDP_MP_REAL(z,'2019','%CurrentSce%'))**gdpelas(z)* (1-(1-(valCTAX(z,time,'%CurrentSce%')-valCTAX(z,time,'BaU')+1)**ghgelas(z))));
+ valNONCO2_RR(z,time,'%CurrentSce%') =  min(1,  (valGDP_MP_REAL(z,time,'%CurrentSce%')/valGDP_MP_REAL(z,'2019','%CurrentSce%'))**gdpelas(z)* (1-(1-(valCTAX(z,time,'%CurrentSce%')-valCTAX(z,time,'BaU')+1)**ghgelas(z))));    
 
-*valNONCO2_RR(z,time,'%CurrentSce%') = 
-*    min(1,  
-*        (valGDP_MP_REAL(z,time,'%CurrentSce%') / valGDP_MP_REAL(z,'2019','%CurrentSce%'))**gdpelas(z) 
-*        * ( 1 - max(1, (valCTAX(z,time,'%CurrentSce%') - valCTAX(z,time,'BaU') + 1))**ghgelas(z) )
-*    );
-    
  valEndo_CO2IND(ene,j,z,time,'%CurrentSce%') = (DE.L(ene,j,z,time)*CO2FACTOR2(ene,j,z,time))*10*1000;
  valEndo_CO2HH(ene,z,time,'%CurrentSce%')    = (C.L(ene,z,time)*CO2FACTORHH2(ene,z,time))*10*1000;
  valEndo_EneCO2(ene,z,time,'%CurrentSce%')   = (sum(j,valEndo_CO2IND(ene,j,z,time,'%CurrentSce%'))+valEndo_CO2HH(ene,z,time,'%CurrentSce%'));
@@ -355,7 +369,7 @@ valNONCO2_RR(z,time,'%CurrentSce%') =  min(1,  (valGDP_MP_REAL(z,time,'%CurrentS
 *==============================================================================
 execute_unload 'Output_CGE/PRIM_%CurrentSce%.gdx',
 * To reduce the .gdx file size
-* valDI,valPE, valPM, valPWX, valPWM, valIM, valEX, valttim, valttix,  valTIM, valTIX, valRTI, valTIK, valttik,valIND, valKD, valR, 
+ valDI,valPE, valPM, valPWX, valPWM, valIM, valEX, valttim, valttix,  valTIM, valTIX, valRTI, valTIK, valttik,valIND, valKD, valR, 
  valA_VA, valC, valCAB, valCABX, valCG, valCI, valCE, valCMIN, valCTH, valCTH_REAL, 
  valDD, valDEP, valDE, valDIT, valDS, valDS_I, vale,  valEXT, 
  valG, valG_REAL, valGDP_BP, valGDP_BP_REAL, valGDP_BP_W, valGDP_BP_W_REAL, 
@@ -368,8 +382,12 @@ execute_unload 'Output_CGE/PRIM_%CurrentSce%.gdx',
  valTIMT, valTIP, valTIPT, valTIW, valTIWT, valTIXT, valTPRCTS, 
  valTPRODN, valttdh0, valttdh1, valttic,  valttip, valttiw, 
  valU, valVA, valKLE, valW, valWC, valWTI, valXS, valXST, valYDH, valYG, valYH, 
- valYHK, valYHL, valYROW, valCTAX, valTCTAX, valPERMIT_TOTAL, valQDAC, 
- valDAC_growth_rate, valDAC_elec, valswitchDAC, valCO2FACTOR, valEndo_CO2IND, 
+ valYHK, valYHL, valYROW, valCTAX, valGlobal_CTAX, valNEA_CTAX, valNEACJK_CTAX, valTCTAX, valPERMIT_TOTAL,
+ valGLOBALPERMIT_TOTAL, valREVENUE_SHARE_VAR, valNEW_PERMIT_CAP_VAR,
+ valNetTrade_PERMIT, valEXP_PERMIT, valIMP_PERMIT, valEXP_PERMIT_VAL, valIMP_PERMIT_VAL,
+ valNetTrade_NEA_PERMIT, valEXP_NEA_PERMIT, valIMP_NEA_PERMIT, valEXP_NEA_PERMIT_VAL, valIMP_NEA_PERMIT_VAL,
+ valNetTrade_NEACJK_PERMIT, valEXP_NEACJK_PERMIT, valIMP_NEACJK_PERMIT, valEXP_NEACJK_PERMIT_VAL, valIMP_NEACJK_PERMIT_VAL,
+ valQDAC, valDAC_growth_rate, valDAC_elec, valswitchDAC, valCO2FACTOR, valEndo_CO2IND, 
  valEndo_CO2HH,  valEndo_EneCO2, valEndo_TotalCO2, valEndo_GlobalTotalCO2,
  valEndoAbate_IND, valEndoAbate_HH, valNONCO2_RR,
  valLEON, valPTSF, valTSFD, valTSFS, 
@@ -385,6 +403,6 @@ execute_unload 'Output_CGE/PRIM_%CurrentSce%.gdx',
  valTCH4_Aviation, valN2OI, valN2OH, valN2OI2, valN2OI3, valTN2OI, valTN2OH, 
  valTN2O, valN2O_Marine, valN2O_Aviation, valTN2O_Marine, valTN2O_Aviation, 
  valGlobal_CO2, valGlobal_CH4, valGlobal_N2O, valGlobal_GHG
-  valPOWER, valElecGen,
-  valPOP
+ valPOWER, valElecGen,
+ valPOP
  ;

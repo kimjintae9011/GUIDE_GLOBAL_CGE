@@ -1,4 +1,8 @@
 * Initialize Parameters
+SW_GLOBAL = 0;
+SW_NEAICM = 0;
+SW_NEAICMCJK= 0;
+
 AEEI(z,time) = AEEI_NDC(z,time);
 
 penalty_rate(j) = 0.05;
@@ -51,6 +55,7 @@ ttip.fx(j,z,time)              = ttipO(j,z);
 PERMIT_TOTAL.fx(PERMIT_Z,time) = PERMIT_TOTALO(PERMIT_Z);
 CTAX.lo(z,time) = -inf;
 CTAX.up(z,time) = +inf;
+K_idle.fx(k,j,z,time) = 0;
 
 *==============================================================================
 * Solution (Loop over time periods)

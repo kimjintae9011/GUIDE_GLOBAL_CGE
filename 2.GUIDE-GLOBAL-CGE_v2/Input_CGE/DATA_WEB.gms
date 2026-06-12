@@ -112,7 +112,7 @@ p_biowastecharcoal(product)
 p_elecheat(product) "Electricity and Heat" 
 / p66_ELECTRICITY, p67_HEAT, p57_HEAT_COMBUSTIBLES_NS /
 
-p_ren(product) "Renewable and Nuclear energy" 
+p_rennuc(product) "Renewable and Nuclear energy" 
 / p55_RENEWABLES_TOTAL, p58_NUCLEAR, p59_HYDRO, p60_GEOTHERMAL, 
   p61_SOLAR_PV, p62_SOLAR_THERMAL, p63_TIDE_WAVE_OCEAN, p64_WIND, p65_OTH_ENSOURC /
 
@@ -249,7 +249,7 @@ Alias(p_elecheat, p_elecheat2);
 Alias(p_waste, p_waste2);
 Alias(p_bio, p_bio2);
 Alias(p_charcoal, p_charcoal2);
-Alias(p_ren, p_ren2);
+Alias(p_rennuc, p_rennuc2);
 
 Parameter
 WEB(flow,product,z),
@@ -292,7 +292,7 @@ Parameter
  Bio_DIO(p_bio,j,z), Bio_CO(p_bio,z), BioR_DIO(p_bio,j,z), BioR_CO(p_bio,z)
  Elec_DIO(p_elecheat,j,z), Elec_CO(p_elecheat,z), ElecR_DIO(p_elecheat,j,z), ElecR_CO(p_elecheat,z)
  Charcoal_DIO(p_charcoal,j,z), Charcoal_CO(p_charcoal,z), CharcoalR_DIO(p_charcoal,j,z), CharcoalR_CO(p_charcoal,z)
- Ren_DIO(p_ren,j,z), Ren_CO(p_ren,z), RenR_DIO(p_ren,j,z), RenR_CO(p_ren,z)
+ Ren_DIO(p_rennuc,j,z), Ren_CO(p_rennuc,z), RenR_DIO(p_rennuc,j,z), RenR_CO(p_rennuc,z)
 
 * Bunkers
  Coal_Marine(p_coal,z), Coal_Aviation(p_coal,z)
@@ -304,7 +304,7 @@ Parameter
 * Totals
  Coal_Total(p_coal,z), Gas_Total(p_gas,z), Oil_Total(p_oil,z), Oilp_Total(p_oilproduct,z)
  Waste_Total(p_waste,z), Bio_Total(p_bio,z), Charcoal_Total(p_charcoal,z)
- ELec_Total(p_elecheat,z), Ren_Total(p_ren,z)
+ ELec_Total(p_elecheat,z), Ren_Total(p_rennuc,z)
  NCoal_Total(p_coal,z), NGas_Total(p_gas,z), NOilp_Total(p_oilproduct,z)
  
 * Primary Energy Supply
@@ -621,29 +621,29 @@ Coke_Prod_Iron(p_oilproduct, z) =
  Charcoal_CO(p_charcoal,z)                  = sum((f_household), WEB(f_household, p_charcoal, z));
 
 * ------------------- RENEWABLE & NUCLEAR -------------------
- Ren_DIO(p_ren,'01_AGRICULT',z)   = sum((f_agri), WEB(f_agri, p_ren, z));
- Ren_DIO(p_ren,'02_COAL',z)       = sum((f_coa), WEB(f_coa, p_ren, z));
- Ren_DIO(p_ren,'03_OIL',z)        = sum((f_oil), WEB(f_oil, p_ren, z));
- Ren_DIO(p_ren,'04_GAS',z)        = sum((f_gas), WEB(f_gas, p_ren, z));
- Ren_DIO(p_ren,'05_MINING',z)     = sum((f_mining), WEB(f_mining, p_ren, z));
- Ren_DIO(p_ren,'06_FOODPRO',z)    = sum((f_foodpro), WEB(f_foodpro, p_ren, z));
- Ren_DIO(p_ren,'07_TEXTILES',z)   = sum((f_textiles), WEB(f_textiles, p_ren, z));
- Ren_DIO(p_ren,'08_WOODPRO',z)    = sum((f_woodpro), WEB(f_woodpro, p_ren, z));
- Ren_DIO(p_ren,'09_PAPERPRO',z)   = sum((f_paperpro), WEB(f_paperpro, p_ren, z));
- Ren_DIO(p_ren,'10_PETROLCOAL',z) = sum((f_petrolcoal), WEB(f_petrolcoal, p_ren, z));
- Ren_DIO(p_ren,'11_CHEMICAL',z)   = sum((f_chemical), WEB(f_chemical, p_ren, z));
- Ren_DIO(p_ren,'12_NONMET',z)     = sum((f_nonmet), WEB(f_nonmet, p_ren, z));
- Ren_DIO(p_ren,'13_IRONSTL',z)    = sum((f_ironstl), WEB(f_ironstl, p_ren, z));
- Ren_DIO(p_ren,'14_NONFERR',z)    = sum((f_nonferr), WEB(f_nonferr, p_ren, z));
- Ren_DIO(p_ren,'15_MACHINE',z)    = sum((f_machine), WEB(f_machine, p_ren, z));
- Ren_DIO(p_ren,'16_TRANSEQ',z)    = sum((f_transeq), WEB(f_transeq, p_ren, z));
- Ren_DIO(p_ren,'17_OTHERIND',z)   = sum((f_otherind), WEB(f_otherind, p_ren, z));
- Ren_DIO(p_ren,'27_CONSTRUC',z)   = sum((f_construc), WEB(f_construc, p_ren, z));
- Ren_DIO(p_ren,'28_LTRP',z)       = sum((f_roadrail), WEB(f_roadrail, p_ren, z));
- Ren_DIO(p_ren,'29_WTRP',z)       = sum((f_domewater), WEB(f_domewater, p_ren, z));
- Ren_DIO(p_ren,'30_ATRP',z)       = sum((f_domeair), WEB(f_domeair, p_ren, z));
- Ren_DIO(p_ren,'31_SER',z)        = sum((f_ser), WEB(f_ser, p_ren, z));
- Ren_CO(p_ren,z)                  = sum((f_household), WEB(f_household, p_ren, z));
+ Ren_DIO(p_rennuc,'01_AGRICULT',z)   = sum((f_agri), WEB(f_agri, p_rennuc, z));
+ Ren_DIO(p_rennuc,'02_COAL',z)       = sum((f_coa), WEB(f_coa, p_rennuc, z));
+ Ren_DIO(p_rennuc,'03_OIL',z)        = sum((f_oil), WEB(f_oil, p_rennuc, z));
+ Ren_DIO(p_rennuc,'04_GAS',z)        = sum((f_gas), WEB(f_gas, p_rennuc, z));
+ Ren_DIO(p_rennuc,'05_MINING',z)     = sum((f_mining), WEB(f_mining, p_rennuc, z));
+ Ren_DIO(p_rennuc,'06_FOODPRO',z)    = sum((f_foodpro), WEB(f_foodpro, p_rennuc, z));
+ Ren_DIO(p_rennuc,'07_TEXTILES',z)   = sum((f_textiles), WEB(f_textiles, p_rennuc, z));
+ Ren_DIO(p_rennuc,'08_WOODPRO',z)    = sum((f_woodpro), WEB(f_woodpro, p_rennuc, z));
+ Ren_DIO(p_rennuc,'09_PAPERPRO',z)   = sum((f_paperpro), WEB(f_paperpro, p_rennuc, z));
+ Ren_DIO(p_rennuc,'10_PETROLCOAL',z) = sum((f_petrolcoal), WEB(f_petrolcoal, p_rennuc, z));
+ Ren_DIO(p_rennuc,'11_CHEMICAL',z)   = sum((f_chemical), WEB(f_chemical, p_rennuc, z));
+ Ren_DIO(p_rennuc,'12_NONMET',z)     = sum((f_nonmet), WEB(f_nonmet, p_rennuc, z));
+ Ren_DIO(p_rennuc,'13_IRONSTL',z)    = sum((f_ironstl), WEB(f_ironstl, p_rennuc, z));
+ Ren_DIO(p_rennuc,'14_NONFERR',z)    = sum((f_nonferr), WEB(f_nonferr, p_rennuc, z));
+ Ren_DIO(p_rennuc,'15_MACHINE',z)    = sum((f_machine), WEB(f_machine, p_rennuc, z));
+ Ren_DIO(p_rennuc,'16_TRANSEQ',z)    = sum((f_transeq), WEB(f_transeq, p_rennuc, z));
+ Ren_DIO(p_rennuc,'17_OTHERIND',z)   = sum((f_otherind), WEB(f_otherind, p_rennuc, z));
+ Ren_DIO(p_rennuc,'27_CONSTRUC',z)   = sum((f_construc), WEB(f_construc, p_rennuc, z));
+ Ren_DIO(p_rennuc,'28_LTRP',z)       = sum((f_roadrail), WEB(f_roadrail, p_rennuc, z));
+ Ren_DIO(p_rennuc,'29_WTRP',z)       = sum((f_domewater), WEB(f_domewater, p_rennuc, z));
+ Ren_DIO(p_rennuc,'30_ATRP',z)       = sum((f_domeair), WEB(f_domeair, p_rennuc, z));
+ Ren_DIO(p_rennuc,'31_SER',z)        = sum((f_ser), WEB(f_ser, p_rennuc, z));
+ Ren_CO(p_rennuc,z)                  = sum((f_household), WEB(f_household, p_rennuc, z));
 
 *==============================================================================
 * Calculated Totals
@@ -684,7 +684,7 @@ Loop(j,
   WasteR_DIO(p_waste,j,z)$(Waste_DIO(p_waste,j,z) > 0)         = Waste_DIO(p_waste,j,z)/sum(p_waste2, Waste_DIO(p_waste2,j,z));
   BioR_DIO(p_bio,j,z)$(Bio_DIO(p_bio,j,z) > 0)                 = Bio_DIO(p_bio,j,z)/sum(p_bio2, Bio_DIO(p_bio2,j,z));
   CharcoalR_DIO(p_charcoal,j,z)$(Charcoal_DIO(p_charcoal,j,z) > 0) = Charcoal_DIO(p_charcoal,j,z)/sum(p_charcoal2, Charcoal_DIO(p_charcoal2,j,z));
-  RenR_DIO(p_ren,j,z)$(Ren_DIO(p_ren,j,z) > 0)                 = Ren_DIO(p_ren,j,z)/sum(p_ren2, Ren_DIO(p_ren2,j,z));
+  RenR_DIO(p_rennuc,j,z)$(Ren_DIO(p_rennuc,j,z) > 0)                 = Ren_DIO(p_rennuc,j,z)/sum(p_rennuc2, Ren_DIO(p_rennuc2,j,z));
 
 * Non-energy intermediate consumption ratios
   NCoalR_DIO(p_coal,j,z)$(NCoal_DIO(p_coal,j,z) > 0)           = NCoal_DIO(p_coal,j,z)/sum(p_coal2, NCoal_DIO(p_coal2,j,z));
@@ -701,7 +701,7 @@ ElecR_CO(p_elecheat,z)$(Elec_CO(p_elecheat,z) > 0)             = Elec_CO(p_elech
 WasteR_CO(p_waste,z)$(Waste_CO(p_waste,z) > 0)                 = Waste_CO(p_waste,z)/ sum(p_waste2, Waste_CO(p_waste2,z));
 BioR_CO(p_bio,z)$(Bio_CO(p_bio,z) > 0)                         = Bio_CO(p_bio,z)/ sum(p_bio2, Bio_CO(p_bio2,z));
 CharcoalR_CO(p_charcoal,z)$(Charcoal_CO(p_charcoal,z) > 0)     = Charcoal_CO(p_charcoal,z)/ sum(p_charcoal2, Charcoal_CO(p_charcoal2,z));
-RenR_CO(p_ren,z)$(Ren_CO(p_ren,z) > 0)                         = Ren_CO(p_ren,z)/ sum(p_ren2, Ren_CO(p_ren2,z));
+RenR_CO(p_rennuc,z)$(Ren_CO(p_rennuc,z) > 0)                         = Ren_CO(p_rennuc,z)/ sum(p_rennuc2, Ren_CO(p_rennuc2,z));
 
 *==============================================================================
 * Electricity Generation and Loss Calculation (GWh)

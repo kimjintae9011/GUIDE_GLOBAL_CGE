@@ -1,8 +1,4 @@
 * Initialize Parameters
-SW_GLOBAL = 0;
-SW_NEAICM = 0;
-SW_NEAICMCJK= 0;
-
 AEEI(z,time) = AEEI_BAU(z,time);
 
 gr_BVAT(time) = 0.0; 
@@ -40,7 +36,6 @@ ttik.fx('cap',j,z,time)     = ttikO('cap',j,z);
 ttiw.fx(j,z,time)           = ttiwO(j,z);
 ttip.fx(j,z,time)           = ttipO(j,z);
 CTAX.fX(z,time)             = CTAXO(z);
-K_idle.fx(k,j,z,time) = 0;
 
 *==============================================================================
 * Resolution (Loop over time periods for the BAU Scenario)

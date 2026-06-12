@@ -55,6 +55,7 @@
  PERMIT.L(j,z,t1)               = PERMITO(j,z);
  PERMIT_TOTAL.L(PERMIT_Z,t1)    = PERMIT_TOTALO(PERMIT_Z);
  CTAX.L(z,t1)                 = CTAXO(z);
+ GLOBAL_CTAX.L(t1)      = 0 ;
  OBJ.L                          = OBJO;
  TSFD.L(BS,Z_GRN,t1)   = TSFO(BS,Z_GRN);
  VAT.L(BS,Z_GRN,t1)      = VATO(BS,Z_GRN);
@@ -210,6 +211,7 @@ IF{ord(time) gt 1,
     PERMIT.L(j,z,time)          = PERMIT.L(j,z,time-1);
     PERMIT_TOTAL.L(PERMIT_Z,time) = PERMIT_TOTAL.L(PERMIT_Z,time-1);
     CTAX.L(z,time)              = CTAX.L(z,time-1);
+    GLOBAL_CTAX.L(time) =  GLOBAL_CTAX.L(time-1) ;
     TSFD.L(BS,Z_GRN,time)       = TSFD.L(BS,Z_GRN,time-1);
     VAT.L(BS,Z_GRN,time)        = VAT.L(BS,Z_GRN,time-1);
  

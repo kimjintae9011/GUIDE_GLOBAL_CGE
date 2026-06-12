@@ -1,5 +1,5 @@
 {
-    "file": "Run_Master.gms",
+    "file": "Run_Master2.gms",
     "name": "GUIDE-GLBOAL-CGE-V2",
     "nodes": [
         {
@@ -64,6 +64,12 @@
         },
         {
             "codecMib": 106,
+            "file": "Results_format/RunResults.gms",
+            "name": "RunResults.gms",
+            "type": "gms"
+        },
+        {
+            "codecMib": 106,
             "file": "Scenario/BAU_SOLVE.gms",
             "name": "BAU_SOLVE.gms",
             "type": "gms"
@@ -90,6 +96,48 @@
             "codecMib": 106,
             "file": "Scenario/UserDefined_SOLVE.gms",
             "name": "UserDefined_SOLVE.gms",
+            "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "Scenario/Global_NZ_SOLVE.gms",
+            "name": "Global_NZ_SOLVE.gms",
+            "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "Scenario/Isolated_NZ_SOLVE.gms",
+            "name": "Isolated_NZ_SOLVE.gms",
+            "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "Scenario/Fragmented_NZ_SOLVE.gms",
+            "name": "Fragmented_NZ_SOLVE.gms",
+            "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "Scenario/NEAICM_ALL_NZ_SOLVE.gms",
+            "name": "NEAICM_ALL_NZ_SOLVE.gms",
+            "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "Scenario/NEAICM_CJK_NZ_SOLVE.gms",
+            "name": "NEAICM_CJK_NZ_SOLVE.gms",
+            "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "Scenario/ScenarioList.gms",
+            "name": "ScenarioList.gms",
+            "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "Scenario/RunScenario.gms",
+            "name": "RunScenario.gms",
             "type": "gms"
         },
         {
@@ -132,6 +180,18 @@
             "codecMib": 106,
             "file": "Run_Master.lst",
             "name": "Run_Master.lst",
+            "type": "lst"
+        },
+        {
+            "codecMib": 106,
+            "file": "Run_Master2.gms",
+            "name": "Run_Master2.gms",
+            "type": "gms"
+        },
+        {
+            "codecMib": 106,
+            "file": "Run_Master2.lst",
+            "name": "Run_Master2.lst",
             "type": "lst"
         },
         {

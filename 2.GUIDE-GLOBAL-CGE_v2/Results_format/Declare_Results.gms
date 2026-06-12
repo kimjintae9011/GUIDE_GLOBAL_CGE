@@ -157,8 +157,29 @@ PARAMETER
  valCO2FACTOR(ene,j,z,time,scen)  Industry CO2 FACTOR
  valCO2FACTORHH(ene,z,time,scen)  Household CO2 FACTOR 
  valCTAX(z,time,scen)                Carbon Tax Rate (100$ per ton CO2)
+ valGlobal_CTAX(time,scen)        Global Carbon Tax Rate (100$ per ton CO2)
+ valNEA_CTAX(time,scen)           NEA_ALL Carbon Tax Rate (100$ per ton CO2)
+ valNEACJK_CTAX(time,scen)      NEA_CJK Carbon Tax Rate (100$ per ton CO2)
  valTCTAX(z,time,scen)               Total Carbon Tax Revenue
  valPERMIT_TOTAL(z,time,scen)        Total emission permits (MtCO2)
+ valGLOBALPERMIT_TOTAL(time,scen)        Global Total emission permits (MtCO2)
+ valREVENUE_SHARE_VAR(z,time,scen)  Share of global emission cap allocated to region z (Ratio)
+ valNEW_PERMIT_CAP_VAR(z,time,scen) Newly allocated emission permit cap for region z (Quantity)
+ valNetTrade_PERMIT(z,time,scen) Net emission permit trade (MtCO2)
+ valEXP_PERMIT(z,time,scen)         Export volume of emission permits (Sales Positive Quantity MtCO2)
+ valIMP_PERMIT(z,time,scen)         Import volume of emission permits (Purchases Positive Quantity MtCO2)
+ valEXP_PERMIT_VAL(z,time,scen)     Value of emission permit exports (Revenue Million $)
+ valIMP_PERMIT_VAL(z,time,scen)     Value of emission permit imports (Cost Million $)
+ valNetTrade_NEA_PERMIT(z,time,scen) Net emission permit trade NEA (MtCO2)
+ valEXP_NEA_PERMIT(z,time,scen)         Export volume of emission permits NEA (Sales Positive Quantity MtCO2)
+ valIMP_NEA_PERMIT(z,time,scen)         Import volume of emission permits NEA (Purchases Positive Quantity MtCO2)
+ valEXP_NEA_PERMIT_VAL(z,time,scen)     Value of emission permit exports NEA (Revenue Million $)
+ valIMP_NEA_PERMIT_VAL(z,time,scen)     Value of emission permit imports NEA (Cost Million $)
+ valNetTrade_NEACJK_PERMIT(z,time,scen) Net emission permit trade NEACJK(MtCO2)
+ valEXP_NEACJK_PERMIT(z,time,scen)         Export volume of emission permits NEACJK(Sales Positive Quantity MtCO2)
+ valIMP_NEACJK_PERMIT(z,time,scen)         Import volume of emission permits NEACJK(Purchases Positive Quantity MtCO2)
+ valEXP_NEACJK_PERMIT_VAL(z,time,scen)     Value of emission permit exports NEACJK(Revenue Million $)
+ valIMP_NEACJK_PERMIT_VAL(z,time,scen)     Value of emission permit imports NEACJK(Cost Million $)
  valQDAC(z,time,scen)                Direct Air Capture (DAC) deployment quantity MtCO2eq
  valDAC_growth_rate(z,time,scen)     DAC technology growth rate
  valDAC_elec(z,time,scen)            DAC electricity consumption

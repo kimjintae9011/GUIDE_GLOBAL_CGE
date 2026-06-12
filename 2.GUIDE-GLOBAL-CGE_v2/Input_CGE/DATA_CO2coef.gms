@@ -35,7 +35,7 @@ EEI(p_elecheat,j,z)$(DEO('18_ELEC',j,z) > 0)
 EEI(p_waste,j,z)$(XSTO(j,z) > 0)    = Waste_DIO(p_waste,j,z) / XSTO(j,z);
 EEI(p_bio,j,z)$(XSTO(j,z) > 0)      = Bio_DIO(p_bio,j,z) / XSTO(j,z);
 EEI(p_charcoal,j,z)$(XSTO(j,z) > 0) = Charcoal_DIO(p_charcoal,j,z) / XSTO(j,z);
-EEI(p_ren,j,z)$(XSTO(j,z) > 0)      = Ren_DIO(p_ren,j,z) / XSTO(j,z);
+EEI(p_rennuc,j,z)$(XSTO(j,z) > 0)      = Ren_DIO(p_rennuc,j,z) / XSTO(j,z);
 
 * -------------------------------------------------------------------
 * 1.2 Non-Energy Intensity
@@ -56,7 +56,7 @@ EHI(p_elecheat,z)$(CO('18_ELEC',z) > 0)         = Elec_CO(p_elecheat,z) / CO('18
 EHI(p_waste,z)    = Waste_CO(p_waste,z) / TOT_POP(z,'2019');
 EHI(p_bio,z)      = Bio_CO(p_bio,z) / TOT_POP(z,'2019');
 EHI(p_charcoal,z) = Charcoal_CO(p_charcoal,z) / TOT_POP(z,'2019');
-EHI(p_ren,z)      = Ren_CO(p_ren,z) / TOT_POP(z,'2019');
+EHI(p_rennuc,z)      = Ren_CO(p_rennuc,z) / TOT_POP(z,'2019');
 
 * -------------------------------------------------------------------
 * 1.4 Initial Energy Consumption Assignments
@@ -69,7 +69,7 @@ EEO(p_elecheat,j,z)   = Elec_DIO(p_elecheat,j,z) ;
 EEO(p_waste,j,z)      = Waste_DIO(p_waste,j,z) ;
 EEO(p_bio,j,z)        = Bio_DIO(p_bio,j,z) ;
 EEO(p_charcoal,j,z)   = Charcoal_DIO(p_charcoal,j,z) ;
-EEO(p_ren,j,z)        = Ren_DIO(p_ren,j,z) ;
+EEO(p_rennuc,j,z)        = Ren_DIO(p_rennuc,j,z) ;
 
 NEO(p_coal,j,z)       = NCoal_DIO(p_coal,j,z) ;
 NEO(p_gas,j,z)        = NGas_DIO(p_gas,j,z) ;
@@ -83,7 +83,7 @@ EHO(p_elecheat,z)     = Elec_CO(p_elecheat,z) ;
 EHO(p_waste,z)        = Waste_CO(p_waste,z);
 EHO(p_bio,z)          = Bio_CO(p_bio,z);
 EHO(p_charcoal,z)     = Charcoal_CO(p_charcoal,z);
-EHO(p_ren,z)          = Ren_CO(p_ren,z);
+EHO(p_rennuc,z)          = Ren_CO(p_rennuc,z);
  
 Marinebunker(p_gas,z)          = gas_Marine(p_gas,z);
 Marinebunker(p_oilproduct,z)   = Oilp_Marine(p_oilproduct,z);

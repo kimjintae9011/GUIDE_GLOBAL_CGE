@@ -40,12 +40,6 @@
         },
         {
             "codecMib": 106,
-            "file": "GLOBAL_NZ_Model.lst",
-            "name": "GLOBAL_NZ_Model.lst",
-            "type": "lst"
-        },
-        {
-            "codecMib": 106,
             "file": "GLOBAL_NZ_RESULTS.gms",
             "name": "GLOBAL_NZ_RESULTS.gms",
             "type": "gms"

@@ -12,12 +12,14 @@ $setglobal run_base   1
 * run_base  Baseline 시나리오를 Calibration 합니다.
 
 * --- Scenarios ---
+$setglobal RUN_FROZEN        1
 $setglobal RUN_BAU             1
 $setglobal RUN_NDC            1
 $setglobal RUN_NZ              1
-$setglobal RUN_UD             1
+$setglobal RUN_UD             0
 
-* RUN_BAU  BAU 시나리오를 구동합니다.
+* RUN_FROZEN Frozen 시나리오를 구동합니다.
+* RUN_BAU  BAU (Reference or Current Policy) 시나리오를 구동합니다.
 * RUN_NDC NDC 시나리오를 구동합니다.
 * RUN_NZ   NZ 시나리오를 구동합니다.
 * RUN_UD UserDefined 시나리오를 구동합니다.
@@ -48,7 +50,7 @@ $if errorlevel 1 $abort "CAL_B_line.gms Failed!"
 $include "Sets.gms"
 
 * 시나리오 집합을 명시적으로 선언 (User Defined 추가)
-Set scen "Scenarios" / BAU, NDC, NZ, UD /;
+Set scen "Scenarios" / Frozen, BAU, NDC, NZ, UD /;
 
 $include "Par.gms"
 $include "Model.gms"
@@ -84,8 +86,20 @@ $gdxin
 * ==============================================================================
 * [5] Scenario Execution (시나리오 순차 구동 및 결과 추출)
 * ==============================================================================
-* --- BAU 시나리오 ---
+* --- Frozen 시나리오 ---
+$ifthen %RUN_FROZEN% == 1
+$include "Scenario/FROZEN_Solve.gms"
+
+$setglobal CurrentSce "FROZEN"
+$if %OUT_PRIM% == 1  $include "Results_format/CGE_PRIM_Results.gms"
+$if %OUT_IAMC% == 1  $include "Results_format/IAMC.gms"
+$if %OUT_IPCC% == 1  $include "Results_format/IPCC.gms"
+$if %OUT_db_CGE% == 1  $include "Results_format/db_CGE.gms"
+$endif
+
+* --- BAU (Reference) 시나리오 ---
 $ifthen %RUN_BAU% == 1
+$include "Scenario/Reset_Closure.gms"
 $include "Scenario/BAU_Solve.gms"
 
 $setglobal CurrentSce "BAU"

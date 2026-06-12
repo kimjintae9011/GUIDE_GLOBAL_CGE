@@ -13,7 +13,7 @@ $setglobal run_base   0
 
 * --- Core Scenarios ---
 $setglobal RUN_BAU           0
-$setglobal RUN_NDC           0
+$setglobal RUN_NDC           1
 $setglobal RUN_NZ             0
 $setglobal RUN_UD             0
 
@@ -23,12 +23,12 @@ $setglobal RUN_UD             0
 * RUN_UD UserDefined 시나리오를 구동합니다.
 
 * --- GTAP Conference 29th---
-$setglobal RUN_BAU                        1
-$setglobal RUN_Global_NZ               1
-$setglobal RUN_Isolated_NZ             1
-$setglobal RUN_Fragmented_NZ       1
-$setglobal RUN_NEAICM_ALL_NZ      1
-$setglobal RUN_NEAICM_CJK_NZ      1
+$setglobal RUN_BAU                        0
+$setglobal RUN_Global_NZ               0
+$setglobal RUN_Isolated_NZ             0
+$setglobal RUN_Fragmented_NZ       0
+$setglobal RUN_NEAICM_ALL_NZ      0
+$setglobal RUN_NEAICM_CJK_NZ      0
 
 * --- Result Formats ---
 $setglobal OUT_PRIM      1
@@ -92,96 +92,6 @@ $load A_VA_RES, GX, G_REALX, sh1X, sh0X
 $gdxin  
 
 * ------------------------------------------------------------------------------
-* [5] Scenario Execution (시나리오 순차 구동 및 결과 추출)
+* [5] Scenario Execution
 * ------------------------------------------------------------------------------
-* --- BAU 시나리오 ---
-$ifthen %RUN_BAU% == 1
-$include "Scenario/BAU_Solve.gms"
-
-$setglobal CurrentSce "BAU"
-$if %OUT_PRIM% == 1  $include "Results_format/CGE_PRIM_Results.gms"
-$if %OUT_IAMC% == 1  $include "Results_format/IAMC.gms"
-$if %OUT_IPCC% == 1  $include "Results_format/IPCC.gms"
-$if %OUT_db_CGE% == 1  $include "Results_format/db_CGE.gms"
-$endif
-
-* --- NDC 시나리오 ---
-$ifthen %RUN_NDC% == 1    
-$include "Scenario/Reset_Closure.gms"
-$include "Scenario/NDC_Solve.gms"
-
-$setglobal CurrentSce "NDC"
-$if %OUT_PRIM% == 1  $include "Results_format/CGE_PRIM_Results.gms"
-$if %OUT_IAMC% == 1  $include "Results_format/IAMC.gms"
-$if %OUT_IPCC% == 1  $include "Results_format/IPCC.gms"
-$if %OUT_db_CGE% == 1  $include "Results_format/db_CGE.gms"
-$endif
-
-* --- NZ 시나리오 ---
-$ifthen %RUN_NZ% == 1    
-$include "Scenario/Reset_Closure.gms"
-$include "Scenario/NZ_Solve.gms"
-
-$setglobal CurrentSce "NZ"
-$if %OUT_PRIM% == 1  $include "Results_format/CGE_PRIM_Results.gms"
-$if %OUT_IAMC% == 1  $include "Results_format/IAMC.gms"
-$if %OUT_IPCC% == 1  $include "Results_format/IPCC.gms"
-$if %OUT_db_CGE% == 1  $include "Results_format/db_CGE.gms"
-$endif
-
-* --- UserDefined 시나리오 ---
-$ifthen %RUN_UD% == 1    
-$include "Scenario/Reset_Closure.gms"
-$include "Scenario/UserDefined_Solve.gms"
-
-$setglobal CurrentSce "UD"
-$if %OUT_PRIM% == 1  $include "Results_format/CGE_PRIM_Results.gms"
-$if %OUT_IAMC% == 1  $include "Results_format/IAMC.gms"
-$if %OUT_IPCC% == 1  $include "Results_format/IPCC.gms"
-$if %OUT_db_CGE% == 1  $include "Results_format/db_CGE.gms"
-$endif
-
-* --- Global_NZ 시나리오 ---
-$ifthen %RUN_Global_NZ% == 1    
-$include "Scenario/Reset_Closure.gms"
-$include "Scenario/Global_NZ_Solve.gms"
-
-$setglobal CurrentSce "Global_NZ"
-$if %OUT_PRIM% == 1  $include "Results_format/CGE_PRIM_Results.gms"
-$endif
-
-* --- Isolated_NZ 시나리오 ---
-$ifthen %RUN_Isolated_NZ% == 1    
-$include "Scenario/Reset_Closure.gms"
-$include "Scenario/Isolated_NZ_Solve.gms"
-
-$setglobal CurrentSce "Isolated_NZ"
-$if %OUT_PRIM% == 1  $include "Results_format/CGE_PRIM_Results.gms"
-$endif
-
-* --- Fragmented_NZ 시나리오 ---
-$ifthen %RUN_Fragmented_NZ% == 1    
-$include "Scenario/Reset_Closure.gms"
-$include "Scenario/Fragmented_NZ_Solve.gms"
-
-$setglobal CurrentSce "Fragmented_NZ"
-$if %OUT_PRIM% == 1  $include "Results_format/CGE_PRIM_Results.gms"
-$endif
-
-* --- NEAICM_ALL_NZ 시나리오 ---
-$ifthen %RUN_NEAICM_ALL_NZ% == 1    
-$include "Scenario/Reset_Closure.gms"
-$include "Scenario/NEAICM_ALL_NZ_Solve.gms"
-
-$setglobal CurrentSce "NEAICM_ALL_NZ"
-$if %OUT_PRIM% == 1  $include "Results_format/CGE_PRIM_Results.gms"
-$endif
-
-* --- NEAICM_CJK_NZ 시나리오 ---
-$ifthen %RUN_NEAICM_CJK_NZ% == 1    
-$include "Scenario/Reset_Closure.gms"
-$include "Scenario/NEAICM_CJK_NZ_SOLVE.gms"
-
-$setglobal CurrentSce "NEAICM_CJK_NZ"
-$if %OUT_PRIM% == 1  $include "Results_format/CGE_PRIM_Results.gms"
-$endif
+$include "Scenario/ScenarioList.gms"

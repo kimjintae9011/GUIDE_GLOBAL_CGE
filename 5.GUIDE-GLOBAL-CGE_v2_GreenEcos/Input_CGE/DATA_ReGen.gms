@@ -99,13 +99,13 @@ sam_sce19(zj,ITAX1)
 08_LAM. 67_tmm_r_08LAM
 09_WEU. 68_tmm_r_09WEU
 10_EEU. 69_tmm_r_10EEU
-11_CAS. 70_tmm_r_11CAS
+11_RFSU. 70_tmm_r_11RFSU
 12_MEA. 71_tmm_r_12MEA
 13_AFR. 72_tmm_r_13AFR
-14_CLV. 73_tmm_r_14CLV
+14_RCPA. 73_tmm_r_14RCPA
 15_SAS. 74_tmm_r_15SAS
-16_APC. 75_tmm_r_16APC
-17_ANZ. 76_tmm_r_17ANZ
+16_RPAS. 75_tmm_r_16RPAS
+17_RPAO. 76_tmm_r_17RPAO
 /
 
 sam_sce20(z,ETAX1)
@@ -120,13 +120,13 @@ sam_sce20(z,ETAX1)
 08_LAM.  84_tee_r_08LAM
 09_WEU. 85_tee_r_09WEU
 10_EEU.  86_tee_r_10EEU
-11_CAS.  87_tee_r_11CAS
+11_RFSU.  87_tee_r_11RFSU
 12_MEA. 88_tee_r_12MEA
 13_AFR.  89_tee_r_13AFR
-14_CLV.  90_tee_r_14CLV
+14_RCPA.  90_tee_r_14RCPA
 15_SAS.  91_tee_r_15SAS
-16_APC.  92_tee_r_16APC
-17_ANZ.  93_tee_r_17ANZ
+16_RPAS.  92_tee_r_16RPAS
+17_RPAO.  93_tee_r_17RPAO
 /
 
 sam_sce21(zj,MAR1) Mapping of sectors
@@ -141,13 +141,13 @@ sam_sce21(zj,MAR1) Mapping of sectors
 08_LAM.  120_M1c20__R8r
 09_WEU. 123_M1c20__R9r
 10_EEU.  126_M1c20__R10r
-11_CAS.  129_M1c20__R11r
+11_RFSU.  129_M1c20__R11r
 12_MEA.  132_M1c20__R12r
 13_AFR.  135_M1c20__R13r
-14_CLV.  138_M1c20__R14r
+14_RCPA.  138_M1c20__R14r
 15_SAS.  141_M1c20__R15r
-16_APC.  144_M1c20__R16r
-17_ANZ.  147_M1c20__R17r
+16_RPAS.  144_M1c20__R16r
+17_RPAO.  147_M1c20__R17r
 /
 
 sam_sce22(zj,MAR2) Mapping of sectors
@@ -162,13 +162,13 @@ sam_sce22(zj,MAR2) Mapping of sectors
 08_LAM.   121_M2c21__R8r
 09_WEU.  124_M2c21__R9r
 10_EEU.   127_M2c21__R10r
-11_CAS.   130_M2c21__R11r
+11_RFSU.   130_M2c21__R11r
 12_MEA.  133_M2c21__R12r
 13_AFR.   136_M2c21__R13r
-14_CLV.   139_M2c21__R14r
+14_RCPA.   139_M2c21__R14r
 15_SAS.   142_M2c21__R15r
-16_APC.   145_M2c21__R16r
-17_ANZ.   148_M2c21__R17r
+16_RPAS.   145_M2c21__R16r
+17_RPAO.   148_M2c21__R17r
 /
 
 sam_sce23(zj,MAR3) Mapping of sectors
@@ -183,13 +183,13 @@ sam_sce23(zj,MAR3) Mapping of sectors
 08_LAM.  122_M3c22__R8r
 09_WEU. 125_M3c22__R9r
 10_EEU.  128_M3c22__R10r
-11_CAS.  131_M3c22__R11r
+11_RFSU.  131_M3c22__R11r
 12_MEA.  134_M3c22__R12r
 13_AFR.   137_M3c22__R13r
-14_CLV.   140_M3c22__R14r
+14_RCPA.   140_M3c22__R14r
 15_SAS.   143_M3c22__R15r
-16_APC.   146_M3c22__R16r
-17_ANZ.   149_M3c22__R17r
+16_RPAS.   146_M3c22__R16r
+17_RPAO.   149_M3c22__R17r
 /
 
 sam_sce24(z, WORLD1) Mapping of sectors
@@ -204,13 +204,13 @@ sam_sce24(z, WORLD1) Mapping of sectors
 08_LAM.  160_ww_r_08LAM
 09_WEU. 161_ww_r_09WEU
 10_EEU.  162_ww_r_10EEU
-11_CAS.  163_ww_r_11CAS
+11_RFSU.  163_ww_r_11RFSU
 12_MEA. 164_ww_r_12MEA
 13_AFR. 165_ww_r_13AFR
-14_CLV. 166_ww_r_14CLV
+14_RCPA. 166_ww_r_14RCPA
 15_SAS. 167_ww_r_15SAS
-16_APC. 168_ww_r_16APC
-17_ANZ. 169_ww_r_17ANZ
+16_RPAS. 168_ww_r_16RPAS
+17_RPAO. 169_ww_r_17RPAO
 /
 ;
 
@@ -320,7 +320,7 @@ execute_unload 'Input_CGE\DATA_AGG-2019_GTAP11c_Regen_V2.gdx',
  sigma_M1, sigma_M2, sigma_Y, sigma_VA, sigma_KLE, Q_GTAP, KLE_GTAP, SH_Q, SH_VA, SH_KLE, ESUBD, ELFKLE,
 
 *Parameters for RD-CGE
- TOT_POP, g_GDP, g_POP, g_SDR, CTAX_BAU, PERMIT_NDC, PERMIT_NZ, AEEI_BAU, AEEI_NDC, AEEI_NZ, EMPLOY,
+ TOT_POP, g_GDP, g_POP, g_SDR, CTAX_BAU, PERMIT_REF, PERMIT_NDC, PERMIT_NZ, AEEI_BAU, AEEI_NDC, AEEI_NZ, EMPLOY,
  
 *UserDefined
  CTAX_UserDefined, AEEI_UserDefined, SolarWindTFP_UserDefined

@@ -1,240 +1,338 @@
 *==============================================================================
 * Extended Energy Balances (WEB) Mapping & Allocation
 *==============================================================================
-
+* IEA Wrold Energy Balance 2022 edition 
 Set flow flow
 /
-f1_INDPROD, f2_IMPORTS, f3_EXPORTS, f4_BUNKERS_MARINE, f5_BUNKERS_AVIATION, 
-f6_STCHANAT, f7_TES, f8_TRANSFERS, f9_STATDIFF, f10_TOTTRANF, f11_MAINELEC, 
-f12_AUTOELEC, f13_MAINCHP, f14_AUTOCHP, f15_MAINHEAT, f16_AUTOHEAT, f17_THEAT, 
-f18_TBOILER, f19_TELE, f20_TBLASTFUR, f21_TGASWKS, f22_TCOKEOVS, f23_TPATFUEL, 
-f24_TBKB, f25_TREFINER, f26_TPETCHEM, f27_TCOALLIQ, f28_TGTL, f29_TBLENDGAS, 
-f30_TCHARCOAL, f31_TNONSPEC, f32_TOTENGY, f33_EMINES, f34_EOILGASEX, f35_EBLASTFUR, 
-f36_EGASWKS, f37_EBIOGAS, f38_ECOKEOVS, f39_EPATFUEL, f40_EBKB, f41_EREFINER, 
-f42_ECOALLIQ, f43_ELNG, f44_EGTL, f45_EPOWERPLT, f46_EPUMPST, f47_ENUC, 
-f48_ECHARCOAL, f49_ENONSPEC, f50_DISTLOSS, f51_TFC, f52_TOTIND, f53_MINING, 
-f54_CONSTRUC, f55_MANUFACT, f56_IRONSTL, f57_CHEMICAL, f58_NONFERR, f59_NONMET, 
-f60_TRANSEQ, f61_MACHINE, f62_FOODPRO, f63_PAPERPRO, f64_WOODPRO, f65_TEXTILES, 
-f66_INONSPEC, f67_TOTTRANS, f68_WORLDAV, f69_DOMESAIR, f70_ROAD, f71_RAIL, 
-f72_PIPELINE, f73_WORLDMAR, f74_DOMESNAV, f75_TRNONSPE, f76_RESIDENT, f77_COMMPUB, 
-f78_AGRI_FOREST, f79_FISHING, f80_ONONSPEC, f81_NE_TOT, f82_NE_IND_TRANSF, 
-f83_NE_IND, f84_NE_IRONSTL, f85_NE_CHEM, f86_NE_NONFERR, f87_NE_NONMET, 
-f88_NE_TRANSEQ, f89_NE_MACHINE, f90_NE_MINING, f91_NE_FOODPRO, f92_NE_PAPERPRO, 
-f93_NE_WOODPRO, f94_NE_CONSTRUC, f95_NE_TEXTILES, f96_NE_INONSPEC, f97_NE_TRANS, 
-f98_NE_OTHER, f99_ELOUTPUT, f100_ELMAINE, f101_ELAOUTOE, f102_ELMAINC, f103_ELAUTOC,
-f104_HEATOUT, f105_HEMAINC, f106_HEAUTOC, f107_HEMAINH, f108_HEAUTOH
+f1_INDPROD      Production
+f2_IMPORTS      Imports
+f3_EXPORTS      Exports
+f4_MARBUNK      International marine bunkers
+f5_AVBUNK       International aviation bunkers
+f6_STOCKCHA     Stock changes
+f7_TES          Total energy supply
+f8_TRANSFER     Transfers
+f9_STATDIFF     Statistical differences
+f10_TOTTRANF    Transformation process
+f11_MAINELEC    Main activity producer electricity plants
+f12_AUTOELEC    Autoproducer electricity plants
+f13_MAINCHP     Main activity producer CHP plants
+f14_AUTOCHP     Autoproducer CHP plants
+f15_MAINHEAT    Main activity producer heat plants
+f16_AUTOHEAT    Autoproducer heat plants
+f17_THEAT       Heat pumps
+f19_TBOILER     Electric boilers
+f18_TELE        Chemical heat for electricity production
+f20_TBLASTFUR   Blast furnaces
+f21_TGASWKS     Gas works
+f22_TCOKEOVS    Coke ovens
+f23_TPATFUEL    Patent fuel plants
+f24_TBKB        BKB peat briquettes
+f25_TREFINER    Oil refineries
+f26_TPETCHEM    Petrochemical plants
+f27_TCOALLIQ    Coal liquefaction
+f28_TGTL        Gas-to-liquids plants
+f29_TBLENDGAS   For blended natural gas
+f30_TCHARCOAL   Charcoal production plants
+f31_TNONSPEC    Non-specific transformation
+f32_TOTENGY     Energy industry own use
+f33_EMINES      Coal mines
+f34_EOILGASEX   Oil and gas extraction
+f35_EBLASTFUR   Blast furances
+f36_EGASWKS     Gas works
+f37_EBIOGAS     Gasfication plants for biogases
+f38_ECOKEOVS    Coke ovens
+f39_EPATFUEL    Patent fuel plants
+f40_EBKB        BKB peat briquettes
+f41_EREFINER    Oil refineries
+f42_ECOALLIQ    Coal liquefaction plants
+f43_ELNG        Liquefaction regasification plants
+f44_EGTL        Gas to liquids plants
+f45_EPOWERPLT   Own use in electricity CHP and heat plants
+f46_EPUMPST     Pumped storage plants
+f47_ENUC        Nuclear industry
+f48_ECHARCOAL   Charcoal production plants
+f49_ENONSPEC    Non specified
+f50_DISTLOSS    Losses
+f51_TFC         Total final consumption
+f52_AGRICULT    Agriculture forestry
+f53_FISHING     Fishing
+f54_MINING      Mining and quarrying
+f55_FOODPRO     Food and tobacco
+f56_TEXTILES    Textile and leather
+f57_WOODPRO     Wood and wood products
+f58_PAPERPRO    Paper pulp and print
+f59_CHEMICAL    Chemical and petrochemical
+f60_NONMET      Non metallic minerals
+f61_IRONSTL     Iron and steel
+f62_NONFERR     Non ferrous metals
+f63_MACHINE     Machinery
+f64_TRANSEQ     Transport equipment
+f65_INONSPEC    Industry not elsewhere specified
+f66_CONSTRUC    Construction
+f67_COMMPUB     Commercial and public services
+f68_ONONSPEC    Final consumption not elsewhere specified
+f69_RESIDENT    Residential
+f70_ROAD        Road
+f71_RAIL        Rail
+f72_DOMESAIR    Domestic aviation
+f73_DOMESNAV    Domestic navigation
+f74_PIPELINE    Pipeline transport
+f75_TRNONSPE    Transport not elsewhere
+f76_NEMINING    Non energy use in mining and quarrying
+f77_NEFOODPRO   Non energy use in food beverages tobacco
+f78_NETEXTILES  Non energy use in textiles and leather
+f79_NEWOODPRO   Non energy use in wood and wood products
+f80_NEPAPERPRO  Non energy use in paper pulp and printing
+f81_NECHEM      Non energy use in chemical petrochemical
+f82_NENONMET    Non energy use in non metallic minerals
+f83_NEIRONSTL   Non energy use in iron and steel
+f84_NENONFERR   Non energy use in non ferrous metals
+f85_NEMACHINE   Non energy use in machinery
+f86_NETRANSEQ   Non energy use in transport equipment
+f87_NEINONSPEC  Non energy use in non specified industry
+f88_NECONSTRUC  Non energy use in construction
+f89_NEOTHER     Non energy use in other residential commercial public services agriculture forestry and fishing
+f90_NETRANS     Non energy use in transport
+f91_TOTIND      Industry
+f92_MANUFACT    Manufacturing
+f93_TOTTRANS    Transport
+f94_NONENUSE    Non energy use
+f95_NEINTREN    Non energy use industry transformation energy
+f96_NEIND       Non energy use in industry
+f97_WORLDAV     World aviation bunkers
+f98_WORLDMAR    World marine bunkers
+f99_ELOUTPUT    Electricity output GWh 
+f100_ELMAINE    Electricity output GWh main activity producer electricity plants
+f101_ELAUTOE    Electrictiy output GWh autoproducer electricity plants
+f102_ELMAINC    Electricity output GWh main activity producer CHP plants
+f103_ELAUTOC    Electricity output GWh autoproducer CHP plants
+f104_HEATOUT    Heat output
+f105_HEMAINC    Heat output main activity producer CHP plants
+f106_HEAUTOC    Heat output autoproducer CHP plants
+f107_HEMAINH    Heat output main activity producer heat plants
+f108_HEAUTOH    Heat output autoproducer heat plants
 /
 
 product energy product
 /
-p1_HARDCOAL_ND, p2_BROWNCOAL_ND, p3_ANTHRACITE, p4_COKING_COAL, p5_OTH_BITCOAL, 
-p6_SUB_BITCOAL, p7_LIGNITE, p8_PATENT_FUEL, p9_COKE_OVEN_COKE_OTH, p10_GAS_COKE, 
-p11_COAL_TAR, p12_BKB, p13_GASWORKS_GAS, p14_COKE_OVEN_GAS, p15_BLAST_FURNACE_GAS, 
-p16_OTH_RECOVGASES, p17_PEAT, p18_PEAT_PRODUCTS, p19_OIL_SHALE, p20_NATURAL_GAS, 
-p21_OIL_PRIM_PRODUCTS_ND, p22_CRUDE_OIL, p23_NGL, p24_REFINERY_FEEDSTOCKS, 
-p25_ADDITIVES, p26_HYDROCARBONS_OTHER, p27_REFINERY_GAS, p28_ETHANE, p29_LPG, 
-p30_MOTOR_GASOLINE_NONBIO, p31_AVIATION_GASOLINE, p32_GASOLINE_JET, 
-p33_KEROSENE_JET_NONBIO, p34_KEROSENE_OTHER, p35_GAS_DIESEL_OIL_NONBIO, 
-p36_FUEL_OIL_RESIDUAL, p37_NAPHTHA, p38_WHITE_SPIRIT, p39_LUBRICANTS, p40_BITUMEN, 
-p41_PARAFFIN_WAXES, p42_PETROLEUM_COKE, p43_OTH_SEC_OIL_PRODS_ND, 
-p44_WASTE_INDUSTRIAL_NONREN, p45_WASTE_MUNICIPAL_REN, p46_WASTE_MUNICIPAL_NONREN, 
-p47_PRIMARY_SOLID_BIOFUEL, p48_BIOGASES, p49_BIOGASOLINE, p50_BIODIESEL, 
-p51_KEROSENE_JET_BIO, p52_LIQBIOFUEL_OTH, p53_BIOFUEL_NONSPEC, p54_CHARCOAL, 
-p55_RENEWABLES_TOTAL, p56_MANUFACTURED_GAS_OUTPUT, p57_HEAT_COMBUSTIBLES_NS, 
-p58_NUCLEAR, p59_HYDRO, p60_GEOTHERMAL, p61_SOLAR_PV, p62_SOLAR_THERMAL, 
-p63_TIDE_WAVE_OCEAN, p64_WIND, p65_OTH_ENSOURC, p66_ELECTRICITY, p67_HEAT
+p1_HARDCOAL      Hard coal
+p2_BROWN         Brown coal
+p3_ANTCOAL       Anthracite
+p4_COKCOAL       Coking coal
+p5_BITCOAL       Other bituminous coal
+p6_SUBCOAL       Sub-bituminous coal
+p7_LIGNITE       Lignite
+p8_PATFUEL       Patent fuel
+p9_OVENCOKE      Coke oven coke
+p10_GASCOKE      Gas coke
+p11_COALTAR      Coal tar
+p12_BKB          Brown coal briquettes
+p13_GASWKSGS     Gas works gas
+p14_COKEOVGS     Coke oven gas
+p15_BLFURGS      Blast furnace gas
+p16_OGASES       Other recovered gases
+p17_PEAT         Peat
+p18_PEATPROD     Peat products
+p19_OILSHALE     Oil shale and oil sands
+p20_NATGAS       Natural gas
+p21_CRNGFEED     Crude NGL feedstock
+p22_CRUDEOIL     Crude oil
+p23_NGL          Natural gas liquids
+p24_REFFEEDS     Refinery feedstocks
+p25_ADDITIVE     Additives blending components
+p26_NONCRUDE     Other hydrocarbons
+p27_REFINGAS     Refinery gas
+p28_ETHANE       Ethane
+p29_LPG          Liquefied petroleum gases(LPG)
+p30_NONBIOGASO   Motor gasoline (excl. biofuels)
+p31_AVGAS        Aviation gasoline
+p32_JETGAS       Jet fuel Gasoline type
+p33_NONBIOJETK   Jet fuel Kerosene type (excl. biofuels)
+p34_OTHKERO      Kerosene
+p35_NONBIODIES   Diesel oil (excl. biofuels)
+p36_RESFUEL      Fuel oil
+p37_NAPHTHA      Naphtha
+p38_WHITESP      Solvent (White spirit and industrial spirit SBP)
+p39_LUBRIC       Lubricants
+p40_BITUMEN      Bitumen (Asphalt)
+p41_PARWAX       Paraffin waxes
+p42_PETCOKE      Petroleum coke
+p43_ONONSPEC     Other oil products
+p44_INDWASTE     Industrial waste
+p45_MUNWASTER    Municipal waste(renewable)
+p46_MUNWASTEN    Municipal waste(non-renewable)
+p47_PRIMSBIO     Primary solid biofuels
+p48_BIOGASES     Biogases
+p49_BIOGASOL     Biogasoline
+p50_BIOJETKERO   Bio jet kerosene
+p51_BIODIESEL    Biodiesels
+p52_OBIOLIQ      Other liquid biofuels
+p53_RENEWNS      Non-specified primary biofuels and waste
+p54_CHARCOAL     Charcoal
+p55_NUCLEAR      Nuclear
+p56_HYDRO        Hydro
+p57_GEOTHERM     Geothermal
+p58_SOLARPV      Solar photovoltaics
+p59_SOLARTH      Solar thermal
+p60_TIDE         Tide wave and ocean
+p61_WIND         Wind
+p62_OTHER        Other sources
+p63_ELECTR       Electricity
+p64_HEAT         Heat
+p65_HEATNS       Heat output from non-specified combustible fuels
+p66_TOTAL        Total
+p67_MANGAS       Elec heat output from non-specified manufactured gases
+p68_MRENEW       Memo Renewable
 /
 
 *=========================== Products Mapping ===================================
 * [Primary Energy]
-p_coal(product) "02_COAL (Primary coal and peat)" / 
-  p1_HARDCOAL_ND, p2_BROWNCOAL_ND, p3_ANTHRACITE, p4_COKING_COAL, 
-  p5_OTH_BITCOAL, p6_SUB_BITCOAL, p7_LIGNITE, p17_PEAT, p18_PEAT_PRODUCTS, p19_OIL_SHALE /
+p_coal(product) 02_COAL (Primary coal and peat) / 
+  p1_HARDCOAL, p2_BROWN, p3_ANTCOAL, p4_COKCOAL, p5_BITCOAL, p6_SUBCOAL, p7_LIGNITE,
+  p17_PEAT, p18_PEATPROD, p19_OILSHALE /
 
-p_oil(product) "03_OIL (Crude oil and primary products)" / 
-  p21_OIL_PRIM_PRODUCTS_ND, p22_CRUDE_OIL, p23_NGL, 
-  p24_REFINERY_FEEDSTOCKS, p25_ADDITIVES, p26_HYDROCARBONS_OTHER /
+p_oil(product) 03_OIL (Crude oil and primary products) / 
+  p21_CRNGFEED, p22_CRUDEOIL, p23_NGL, p24_REFFEEDS, p25_ADDITIVE, p26_NONCRUDE /
 
-p_gas(product) "04_GAS (Natural gas)" / 
-  p20_NATURAL_GAS /
+p_gas(product) 04_GAS (Natural gas) / 
+  p20_NATGAS /
 
 * [Secondary Energy]
-p_oilproduct(product) "10_PETROLCOAL (Refined petroleum and coal products)" /
-  p8_PATENT_FUEL, p9_COKE_OVEN_COKE_OTH, p10_GAS_COKE, p11_COAL_TAR, p12_BKB,
-  p13_GASWORKS_GAS, p14_COKE_OVEN_GAS, p15_BLAST_FURNACE_GAS, p16_OTH_RECOVGASES, 
-  p56_MANUFACTURED_GAS_OUTPUT, p27_REFINERY_GAS, p28_ETHANE, p29_LPG, 
-  p30_MOTOR_GASOLINE_NONBIO, p31_AVIATION_GASOLINE, p32_GASOLINE_JET, 
-  p33_KEROSENE_JET_NONBIO, p34_KEROSENE_OTHER, p35_GAS_DIESEL_OIL_NONBIO, 
-  p36_FUEL_OIL_RESIDUAL, p37_NAPHTHA, p38_WHITE_SPIRIT, p39_LUBRICANTS, p40_BITUMEN, 
-  p41_PARAFFIN_WAXES, p42_PETROLEUM_COKE, p43_OTH_SEC_OIL_PRODS_ND /
+p_oilproduct(product) 10_PETROLCOAL (Refined petroleum and coal products) /
+ p8_PATFUEL, p9_OVENCOKE, p10_GASCOKE, p11_COALTAR, p12_BKB, p13_GASWKSGS, p14_COKEOVGS , p15_BLFURGS, p16_OGASES,       
+ p27_REFINGAS, p28_ETHANE, p29_LPG, p30_NONBIOGASO, p31_AVGAS, p32_JETGAS, p33_NONBIOJETK, p34_OTHKERO, p35_NONBIODIES,   
+ p36_RESFUEL, p37_NAPHTHA, p38_WHITESP, p39_LUBRIC, p40_BITUMEN, p41_PARWAX, p42_PETCOKE, p43_ONONSPEC /    
 
-p_liquids(product)
-/
-  p21_OIL_PRIM_PRODUCTS_ND, p22_CRUDE_OIL, p23_NGL, 
-  p24_REFINERY_FEEDSTOCKS, p25_ADDITIVES, p26_HYDROCARBONS_OTHER ,
-  p56_MANUFACTURED_GAS_OUTPUT, p27_REFINERY_GAS, p28_ETHANE, p29_LPG, 
-  p30_MOTOR_GASOLINE_NONBIO, p31_AVIATION_GASOLINE, p32_GASOLINE_JET, 
-  p33_KEROSENE_JET_NONBIO, p34_KEROSENE_OTHER, p35_GAS_DIESEL_OIL_NONBIO, 
-  p36_FUEL_OIL_RESIDUAL, p37_NAPHTHA, p38_WHITE_SPIRIT, p39_LUBRICANTS, p40_BITUMEN, 
-  p41_PARAFFIN_WAXES, p42_PETROLEUM_COKE, p43_OTH_SEC_OIL_PRODS_ND
-/
+p_liquids(product) /
+  p21_CRNGFEED, p22_CRUDEOIL, p23_NGL, p24_REFFEEDS, p25_ADDITIVE, p26_NONCRUDE,
+  p67_MANGAS, p27_REFINGAS, p28_ETHANE, p29_LPG, p30_NONBIOGASO, p31_AVGAS, p32_JETGAS, 
+  p33_NONBIOJETK, p34_OTHKERO, p35_NONBIODIES, p36_RESFUEL, p37_NAPHTHA, p38_WHITESP, 
+  p39_LUBRIC, p40_BITUMEN, p41_PARWAX, p42_PETCOKE, p43_ONONSPEC /
 
-p_liquid(p_oilproduct)
-/
- p29_LPG,  p30_MOTOR_GASOLINE_NONBIO, p31_AVIATION_GASOLINE, p32_GASOLINE_JET, 
- p33_KEROSENE_JET_NONBIO, p34_KEROSENE_OTHER, p35_GAS_DIESEL_OIL_NONBIO, 
- p36_FUEL_OIL_RESIDUAL
-/
+p_liquid(p_oilproduct) /
+ p29_LPG, p30_NONBIOGASO, p31_AVGAS, p32_JETGAS, p33_NONBIOJETK, p34_OTHKERO, 
+ p35_NONBIODIES, p36_RESFUEL /
 
-p_oilproduct_feed(product)
-/
- p37_NAPHTHA, p38_WHITE_SPIRIT, p39_LUBRICANTS, p40_BITUMEN, 
- p41_PARAFFIN_WAXES, p42_PETROLEUM_COKE, p43_OTH_SEC_OIL_PRODS_ND
-/
+p_oilproduct_feed(product) /
+ p37_NAPHTHA, p38_WHITESP, p39_LUBRIC, p40_BITUMEN, 
+ p41_PARWAX, p42_PETCOKE, p43_ONONSPEC /
 
 * [Other Energy & Utilities]
-p_waste(product) "Waste energy" 
-/ p44_WASTE_INDUSTRIAL_NONREN, p45_WASTE_MUNICIPAL_REN, p46_WASTE_MUNICIPAL_NONREN /
+p_waste(product) Waste energy /
+ p44_INDWASTE, p45_MUNWASTER, p46_MUNWASTEN /
 
-p_bio(product) "Bio energy" 
-/ p47_PRIMARY_SOLID_BIOFUEL, p48_BIOGASES, p49_BIOGASOLINE, p50_BIODIESEL, 
-  p51_KEROSENE_JET_BIO, p52_LIQBIOFUEL_OTH, p53_BIOFUEL_NONSPEC /
+p_bio(product) Bio energy /
+ p47_PRIMSBIO, p48_BIOGASES, p49_BIOGASOL, p50_BIOJETKERO, p51_BIODIESEL, p52_OBIOLIQ, p53_RENEWNS /
 
-p_charcoal(product) "Charcoal" / p54_CHARCOAL /
+p_charcoal(product) Charcoal /
+ p54_CHARCOAL /
 
-p_biowastecharcoal(product)
-/
- p44_WASTE_INDUSTRIAL_NONREN, p45_WASTE_MUNICIPAL_REN, p46_WASTE_MUNICIPAL_NONREN,
- p47_PRIMARY_SOLID_BIOFUEL, p48_BIOGASES, p49_BIOGASOLINE, p50_BIODIESEL, 
- p51_KEROSENE_JET_BIO, p52_LIQBIOFUEL_OTH, p53_BIOFUEL_NONSPEC , p54_CHARCOAL
-/
+p_biowastecharcoal(product) /
+ p44_INDWASTE, p45_MUNWASTER, p46_MUNWASTEN, p47_PRIMSBIO, p48_BIOGASES, 
+ p49_BIOGASOL, p50_BIOJETKERO, p51_BIODIESEL, p52_OBIOLIQ, p53_RENEWNS, p54_CHARCOAL /
 
-p_elecheat(product) "Electricity and Heat" 
-/ p66_ELECTRICITY, p67_HEAT, p57_HEAT_COMBUSTIBLES_NS /
+p_elecheat(product) Electricity and Heat /
+ p63_ELECTR, p64_HEAT, p65_HEATNS /
 
-p_ren(product) "Renewable and Nuclear energy" 
-/ p55_RENEWABLES_TOTAL, p58_NUCLEAR, p59_HYDRO, p60_GEOTHERMAL, 
-  p61_SOLAR_PV, p62_SOLAR_THERMAL, p63_TIDE_WAVE_OCEAN, p64_WIND, p65_OTH_ENSOURC /
+p_ren(product) Renewable and Nuclear energy /
+ p68_MRENEW, p55_NUCLEAR, p56_HYDRO, p57_GEOTHERM, p58_SOLARPV, p59_SOLARTH, p60_TIDE, p61_WIND, p62_OTHER /
 
-p_irongas(product) "By-product gas from iron and steel"
-/ p14_COKE_OVEN_GAS, p15_BLAST_FURNACE_GAS, p16_OTH_RECOVGASES /
+p_irongas(product) By-product gas from iron and steel /
+ p14_COKEOVGS, p15_BLFURGS, p16_OGASES /
 
-p_fuelcomb(product)
-/
-p1_HARDCOAL_ND, p2_BROWNCOAL_ND, p3_ANTHRACITE, p4_COKING_COAL, p5_OTH_BITCOAL, 
-p6_SUB_BITCOAL, p7_LIGNITE, p8_PATENT_FUEL, p9_COKE_OVEN_COKE_OTH, p10_GAS_COKE, 
-p11_COAL_TAR, p12_BKB, p13_GASWORKS_GAS, p14_COKE_OVEN_GAS, p15_BLAST_FURNACE_GAS, 
-p16_OTH_RECOVGASES, p17_PEAT, p18_PEAT_PRODUCTS, p19_OIL_SHALE, p20_NATURAL_GAS, 
-p21_OIL_PRIM_PRODUCTS_ND, p22_CRUDE_OIL, p23_NGL, p24_REFINERY_FEEDSTOCKS, 
-p25_ADDITIVES, p26_HYDROCARBONS_OTHER, p27_REFINERY_GAS, p28_ETHANE, p29_LPG, 
-p30_MOTOR_GASOLINE_NONBIO, p31_AVIATION_GASOLINE, p32_GASOLINE_JET, 
-p33_KEROSENE_JET_NONBIO, p34_KEROSENE_OTHER, p35_GAS_DIESEL_OIL_NONBIO, 
-p36_FUEL_OIL_RESIDUAL, p37_NAPHTHA, p38_WHITE_SPIRIT, p39_LUBRICANTS, p40_BITUMEN, 
-p41_PARAFFIN_WAXES, p42_PETROLEUM_COKE, p43_OTH_SEC_OIL_PRODS_ND, 
-p44_WASTE_INDUSTRIAL_NONREN, p45_WASTE_MUNICIPAL_REN, p46_WASTE_MUNICIPAL_NONREN, 
-p47_PRIMARY_SOLID_BIOFUEL, p48_BIOGASES, p49_BIOGASOLINE, p50_BIODIESEL, 
-p51_KEROSENE_JET_BIO, p52_LIQBIOFUEL_OTH, p53_BIOFUEL_NONSPEC, p54_CHARCOAL, 
-p55_RENEWABLES_TOTAL, p56_MANUFACTURED_GAS_OUTPUT, p57_HEAT_COMBUSTIBLES_NS,
-p66_ELECTRICITY, p67_HEAT
-/
+p_fuelcomb(product) /
+ p1_HARDCOAL, p2_BROWN, p3_ANTCOAL, p4_COKCOAL, p5_BITCOAL, p6_SUBCOAL, p7_LIGNITE, p8_PATFUEL, p9_OVENCOKE, p10_GASCOKE, p11_COALTAR, p12_BKB, p13_GASWKSGS, p14_COKEOVGS, p15_BLFURGS, p16_OGASES, p17_PEAT, p18_PEATPROD, p19_OILSHALE, p20_NATGAS, p21_CRNGFEED, p22_CRUDEOIL, p23_NGL, p24_REFFEEDS, p25_ADDITIVE, p26_NONCRUDE, p27_REFINGAS, p28_ETHANE, p29_LPG, p30_NONBIOGASO, p31_AVGAS, p32_JETGAS, p33_NONBIOJETK, p34_OTHKERO, p35_NONBIODIES, p36_RESFUEL, p37_NAPHTHA, p38_WHITESP, p39_LUBRIC, p40_BITUMEN, p41_PARWAX, p42_PETCOKE, p43_ONONSPEC, p44_INDWASTE, p45_MUNWASTER, p46_MUNWASTEN, p47_PRIMSBIO, p48_BIOGASES, p49_BIOGASOL, p50_BIOJETKERO, p51_BIODIESEL, p52_OBIOLIQ, p53_RENEWNS, p54_CHARCOAL, p68_MRENEW, p67_MANGAS, p65_HEATNS, p63_ELECTR, p64_HEAT /
 
-p_nuclear(product) /p58_NUCLEAR /
-p_wind(product) /p64_WIND/
-p_solar(product)/p61_SOLAR_PV, p62_SOLAR_THERMAL/
-p_hydro(product) /p59_HYDRO /
-p_geo(product) /p60_GEOTHERMAL/
+p_nuclear(product) /p55_NUCLEAR/
+p_wind(product) /p61_WIND/
+p_solar(product) /p58_SOLARPV, p59_SOLARTH/
+p_hydro(product) /p56_HYDRO/
+p_geo(product) /p57_GEOTHERM/
 
 * [Power Generation Fuel Sets]
-p_coal_power(product) "Coal and coal-derived by-product gases for Power Generation"
-/
-  p1_HARDCOAL_ND, p2_BROWNCOAL_ND, p3_ANTHRACITE, p4_COKING_COAL, 
-  p5_OTH_BITCOAL, p6_SUB_BITCOAL, p7_LIGNITE, p17_PEAT, p18_PEAT_PRODUCTS, p19_OIL_SHALE,
-  p13_GASWORKS_GAS, p14_COKE_OVEN_GAS,  p15_BLAST_FURNACE_GAS,  p16_OTH_RECOVGASES    
-/ 
+p_coal_power(product) Coal and coal-derived by-product gases for Power Generation /
+  p1_HARDCOAL, p2_BROWN, p3_ANTCOAL, p4_COKCOAL, p5_BITCOAL, p6_SUBCOAL, p7_LIGNITE, 
+  p17_PEAT, p18_PEATPROD, p19_OILSHALE, p13_GASWKSGS, p14_COKEOVGS, p15_BLFURGS, p16_OGASES / 
 
-p_oil_power(product) "Products strictly used for Oil-fired power generation"
-/
-  p27_REFINERY_GAS,  p29_LPG,  p30_MOTOR_GASOLINE_NONBIO,  p31_AVIATION_GASOLINE,      
-  p32_GASOLINE_JET, p33_KEROSENE_JET_NONBIO,  p34_KEROSENE_OTHER,        
-  p35_GAS_DIESEL_OIL_NONBIO,  p36_FUEL_OIL_RESIDUAL,     
-  p37_NAPHTHA, p38_WHITE_SPIRIT, p39_LUBRICANTS, p40_BITUMEN,                 
-  p41_PARAFFIN_WAXES, p42_PETROLEUM_COKE, p43_OTH_SEC_OIL_PRODS_ND    
-/ 
+p_oil_power(product) Products strictly used for Oil-fired power generation /
+  p27_REFINGAS, p29_LPG, p30_NONBIOGASO, p31_AVGAS, p32_JETGAS, p33_NONBIOJETK, 
+  p34_OTHKERO, p35_NONBIODIES, p36_RESFUEL, p37_NAPHTHA, p38_WHITESP, p39_LUBRIC, 
+  p40_BITUMEN, p41_PARWAX, p42_PETCOKE, p43_ONONSPEC / 
 
-p_other_power(product)
-/p63_TIDE_WAVE_OCEAN,  p65_OTH_ENSOURC, p67_HEAT
-/
+p_other_power(product) /
+ p60_TIDE, p62_OTHER, p64_HEAT /
 
 *=========================== Flows Mapping ======================================
 * 1. Energy Demand Sectors
-f_agri(flow)       "01_AGRICULT" / f78_AGRI_FOREST, f79_FISHING /
-f_mining(flow)     "05_MINING" / f53_MINING /
-f_foodpro(flow)    "06_FOODPRO" / f62_FOODPRO /
-f_textiles(flow)   "07_TEXTILES" / f65_TEXTILES /
-f_woodpro(flow)    "08_WOODPRO" / f64_WOODPRO /
-f_paperpro(flow)   "09_PAPERPRO" / f63_PAPERPRO /
-f_chemical(flow)   "11_CHEMICAL" / f57_CHEMICAL, f26_TPETCHEM /
-f_nonmet(flow)     "12_NONMET" / f59_NONMET /
-f_nonferr(flow)    "14_NONFERR" / f58_NONFERR /
-f_machine(flow)    "15_MACHINE" / f61_MACHINE /
-f_transeq(flow)    "16_TRANSEQ" / f60_TRANSEQ /
-f_otherind(flow)   "17_OTHERIND" / f66_INONSPEC, f31_TNONSPEC, f49_ENONSPEC /
-f_construc(flow)   "27_CONSTRUC" / f54_CONSTRUC /
-f_roadrail(flow)   "28_LTRP" / f70_ROAD, f71_RAIL, f72_PIPELINE, f75_TRNONSPE /
-f_domewater(flow)  "29_WTRP" / f74_DOMESNAV /
-f_domeair(flow)    "30_ATRP" / f69_DOMESAIR /
-f_ser(flow)        "31_SER" / f77_COMMPUB, f80_ONONSPEC /
+f_agri(flow)       01_AGRICULT / f52_AGRICULT, f53_FISHING /
+f_mining(flow)     05_MINING / f54_MINING /
+f_foodpro(flow)    06_FOODPRO / f55_FOODPRO /
+f_textiles(flow)   07_TEXTILES / f56_TEXTILES /
+f_woodpro(flow)    08_WOODPRO / f57_WOODPRO /
+f_paperpro(flow)   09_PAPERPRO / f58_PAPERPRO /
+f_chemical(flow)   11_CHEMICAL / f59_CHEMICAL, f26_TPETCHEM /
+f_nonmet(flow)     12_NONMET / f60_NONMET /
+f_nonferr(flow)    14_NONFERR / f62_NONFERR /
+f_machine(flow)    15_MACHINE / f63_MACHINE /
+f_transeq(flow)    16_TRANSEQ / f64_TRANSEQ /
+f_otherind(flow)   17_OTHERIND / f65_INONSPEC, f31_TNONSPEC, f49_ENONSPEC /
+f_construc(flow)   27_CONSTRUC / f66_CONSTRUC /
+f_roadrail(flow)   28_LTRP / f70_ROAD, f71_RAIL, f74_PIPELINE, f75_TRNONSPE /
+f_domewater(flow)  29_WTRP / f73_DOMESNAV /
+f_domeair(flow)    30_ATRP / f72_DOMESAIR /
+f_ser(flow)        31_SER / f67_COMMPUB, f68_ONONSPEC /
 
 * 2. Energy Transformation and Own Use
-f_coa(flow)        "02_COAL (Own use in coal mines)" / f33_EMINES /
-f_oil(flow)        "03_OIL (Own use in oil and gas extraction)" / f34_EOILGASEX /
-f_gas(flow)        "04_GAS (Gas works and own use)" / f36_EGASWKS, f43_ELNG, f21_TGASWKS, f29_TBLENDGAS /
-f_petrolcoal(flow) "10_PETROLCOAL (Refineries and coal transformation)" / f23_TPATFUEL, f24_TBKB, f25_TREFINER, f27_TCOALLIQ, f28_TGTL, f30_TCHARCOAL, f39_EPATFUEL, f40_EBKB, f41_EREFINER, f42_ECOALLIQ, f44_EGTL, f48_ECHARCOAL /
+f_coa(flow)        02_COAL (Own use in coal mines) / f33_EMINES /
+f_oil(flow)        03_OIL (Own use in oil and gas extraction) / f34_EOILGASEX /
+f_gas(flow)        04_GAS (Gas works and own use) / f36_EGASWKS, f43_ELNG, f21_TGASWKS, f29_TBLENDGAS /
+f_petrolcoal(flow) 10_PETROLCOAL (Refineries and coal transformation) / f23_TPATFUEL, f24_TBKB, f25_TREFINER, f27_TCOALLIQ, f28_TGTL, f30_TCHARCOAL, f39_EPATFUEL, f40_EBKB, f41_EREFINER, f42_ECOALLIQ, f44_EGTL, f48_ECHARCOAL /
 
 * 13_IRONSTL (Complex mapping for iron and steel)
-f_ironstl(flow)    "13_IRONSTL (Final consumption)" / f56_IRONSTL /
-f_cokeoven(flow)   "13_IRONSTL (Coke oven transformation)" / f22_TCOKEOVS, f38_ECOKEOVS /
-f_blastfur(flow)   "13_IRONSTL (Blast furnace transformation)" / f20_TBLASTFUR /
-f_Eblastcoke(flow) "13_IRONSTL (Blast furnace own use)" / f35_EBLASTFUR /
+f_ironstl(flow)    13_IRONSTL (Final consumption) / f61_IRONSTL /
+f_cokeoven(flow)   13_IRONSTL (Coke oven transformation) / f22_TCOKEOVS, f38_ECOKEOVS /
+f_blastfur(flow)   13_IRONSTL (Blast furnace transformation) / f20_TBLASTFUR /
+f_Eblastcoke(flow) 13_IRONSTL (Blast furnace own use) / f35_EBLASTFUR /
 
 * 3. Power, Heat, and T&D
-f_elec(flow)       "19~26 Power generation sectors" / f11_MAINELEC, f12_AUTOELEC, f13_MAINCHP, f14_AUTOCHP, f15_MAINHEAT, f16_AUTOHEAT, f17_THEAT, f18_TBOILER, f19_TELE, f45_EPOWERPLT, f47_ENUC /
-f_tnd(flow)        "18_TnD (Transmission and distribution)" / f50_DISTLOSS, f46_EPUMPST /
+f_elec(flow)       "19~26 Power generation sectors" / f11_MAINELEC, f12_AUTOELEC, f13_MAINCHP, f14_AUTOCHP, f15_MAINHEAT, f16_AUTOHEAT, f17_THEAT, f19_TBOILER, f18_TELE, f45_EPOWERPLT, f47_ENUC /
+f_tnd(flow)        18_TnD (Transmission and distribution) / f50_DISTLOSS, f46_EPUMPST /
 
 * 4. Household
-f_household(flow)       "Household consumption" / f76_RESIDENT /
+f_household(flow)  Household consumption / f69_RESIDENT /
 
 * 5. Non-Energy (NE) Sectors
-f_nemining(flow)    "05_MINING (NE)" / f90_NE_MINING /
-f_nefoodpro(flow)   "06_FOODPRO (NE)" / f91_NE_FOODPRO /
-f_netextiles(flow)  "07_TEXTILES (NE)" / f95_NE_TEXTILES /
-f_newoodpro(flow)   "08_WOODPRO (NE)" / f93_NE_WOODPRO /
-f_nepaperpro(flow)  "09_PAPERPRO (NE)" / f92_NE_PAPERPRO /
-f_nechemical(flow)  "11_CHEMICAL (NE)" / f85_NE_CHEM /
-f_nenonmet(flow)    "12_NONMET (NE)" / f87_NE_NONMET /
-f_neironstl(flow)   "13_IRONSTL (NE)" / f84_NE_IRONSTL /
-f_nenonferr(flow)   "14_NONFERR (NE)" / f86_NE_NONFERR /
-f_nemachine(flow)   "15_MACHINE (NE)" / f89_NE_MACHINE /
-f_netranseq(flow)   "16_TRANSEQ (NE)" / f88_NE_TRANSEQ /
-f_neotherind(flow)  "17_OTHERIND (NE)" / f96_NE_INONSPEC /
-f_neconstruc(flow)  "27_CONSTRUC (NE)" / f94_NE_CONSTRUC /
-f_netransport(flow) "28~30_TRP (NE)" / f97_NE_TRANS /
-f_neother(flow)     "31_SER (NE)" / f98_NE_OTHER /
+f_nemining(flow)    05_MINING (NE) / f76_NEMINING /
+f_nefoodpro(flow)   06_FOODPRO (NE) / f77_NEFOODPRO /
+f_netextiles(flow)  07_TEXTILES (NE) / f78_NETEXTILES /
+f_newoodpro(flow)   08_WOODPRO (NE) / f79_NEWOODPRO /
+f_nepaperpro(flow)  09_PAPERPRO (NE) / f80_NEPAPERPRO /
+f_nechemical(flow)  11_CHEMICAL (NE) / f81_NECHEM /
+f_nenonmet(flow)    12_NONMET (NE) / f82_NENONMET /
+f_neironstl(flow)   13_IRONSTL (NE) / f83_NEIRONSTL /
+f_nenonferr(flow)   14_NONFERR (NE) / f84_NENONFERR /
+f_nemachine(flow)   15_MACHINE (NE) / f85_NEMACHINE /
+f_netranseq(flow)   16_TRANSEQ (NE) / f86_NETRANSEQ /
+f_neotherind(flow)  17_OTHERIND (NE) / f87_NEINONSPEC /
+f_neconstruc(flow)  27_CONSTRUC (NE) / f88_NECONSTRUC /
+f_netransport(flow) 28~30_TRP (NE) / f90_NETRANS /
+f_neother(flow)     31_SER (NE) / f89_NEOTHER /
 
-*6. Primary Energy Supply 
-f_TES(flow)         "Total energy supply" / f7_TES /
+* 6. Primary Energy Supply 
+f_TES(flow)         Total energy supply / f7_TES /
 
-*7. Electricity Supply Sector (Generation GWH)
-f_elecoutput(flow) "Electrictiy output GWh" /f99_ELOUTPUT/
+* 7. Electricity Supply Sector (Generation GWH)
+f_elecoutput(flow) Electrictiy output GWh / f99_ELOUTPUT /
 
-*8. Heat Supply Sector
-f_heatoutput(flow) "Heat Supply KTOE" /f104_HEATOUT/
+* 8. Heat Supply Sector
+f_heatoutput(flow) Heat Supply KTOE / f104_HEATOUT /
 
-*9. International Marine bunkers
-f_marine_bunker(flow) "International marine bunkers" / f4_BUNKERS_MARINE, f73_WORLDMAR /
+* 9. International Marine bunkers
+f_marine_bunker(flow) International marine bunkers / f4_MARBUNK, f98_WORLDMAR /
 
-*10. International Aviation bunkers
-f_aviation_bunker(flow) "International aviation bunkers" / f5_BUNKERS_AVIATION, f68_WORLDAV /
+* 10. International Aviation bunkers
+f_aviation_bunker(flow) International aviation bunkers / f5_AVBUNK, f97_WORLDAV /
 
 *=========================== Emission Factor Types ==============================
 type / CO2EF, Stored_rate, CH4EF_Energy, N2OEF_Energy, CH4EF_Industry, 
@@ -254,17 +352,17 @@ Alias(p_ren, p_ren2);
 Parameter
 WEB(flow,product,z),
 WEB_KOR(flow,product), WEB_CHN(flow,product), WEB_JPN(flow,product), WEB_RUS(flow,product), WEB_MNG(flow,product), WEB_PRK(flow,product), 
-WEB_NAM(flow,product), WEB_LAM(flow,product), WEB_WEU(flow,product), WEB_EEU(flow,product), WEB_CAS(flow,product), WEB_MEA(flow,product), 
-WEB_AFR(flow,product), WEB_CLV(flow,product), WEB_SAS(flow,product), WEB_APC(flow,product), WEB_ANZ(flow,product)
+WEB_NAM(flow,product), WEB_LAM(flow,product), WEB_WEU(flow,product), WEB_EEU(flow,product), WEB_RFSU(flow,product), WEB_MEA(flow,product), 
+WEB_AFR(flow,product), WEB_RCPA(flow,product), WEB_SAS(flow,product), WEB_RPAS(flow,product), WEB_RPAO(flow,product)
 ;
 * Unit: 2019 ktoe
 
 Parameter
-GHGsEF(product,type) "kgC per TJ" ;
+GHGsEF(product,type) kgC per TJ ;
 
-$call csv2gdx Input_CGE/2019_WorldEnergyBalance.csv output=Input_CGE/2019_WorldEnergyBalance.gdx id=WEB index=1,2,3 values=4 useHeader=yes
+$call csv2gdx Input_CGE/2019_WorldEnergyBalance_22e.csv output=Input_CGE/2019_WorldEnergyBalance_22e.gdx id=WEB index=1,2,3 values=4 useHeader=yes
 
-$gdxIn Input_CGE/2019_WorldEnergyBalance.gdx
+$gdxIn Input_CGE/2019_WorldEnergyBalance_22e.gdx
 $load WEB
 $gdxIn
 
@@ -313,8 +411,8 @@ Parameter
  TES_Waste(product,z), TES_Other(product,z)
 ;
 
-Parameter Gas_Prod_Iron(product, z) "By-product gas production in the iron and steel sector (ktoe)";
-Parameter Coke_Prod_Iron(product, z) "Coke production in the iron and steel sector (ktoe)";
+Parameter Gas_Prod_Iron(product, z) By-product gas production in the iron and steel sector (ktoe);
+Parameter Coke_Prod_Iron(product, z) Coke production in the iron and steel sector (ktoe);
 
 Gas_Prod_Iron(p_irongas, z) = 
       sum(f_cokeoven, WEB(f_cokeoven, p_irongas, z)$(WEB(f_cokeoven, p_irongas, z) > 0))
@@ -708,8 +806,8 @@ RenR_CO(p_ren,z)$(Ren_CO(p_ren,z) > 0)                         = Ren_CO(p_ren,z)
 *==============================================================================
 
 * 1. Electricity Generation by Product (Unit: GWh)
-Parameter Elec_Gen_ByProd_GWh(product, z) "Electricity generation by product (GWh)";
-Parameter Total_Elec_Gen_GWh(z)           "Total electricity generation by region (GWh)";
+Parameter Elec_Gen_ByProd_GWh(product, z) Electricity generation by product (GWh);
+Parameter Total_Elec_Gen_GWh(z)           Total electricity generation by region (GWh);
 
 * Extract total electricity output (f99_ELOUTPUT) directly from WEB data.
 Elec_Gen_ByProd_GWh(product, z) = WEB('f99_ELOUTPUT', product, z);
@@ -717,23 +815,22 @@ Elec_Gen_ByProd_GWh(product, z) = WEB('f99_ELOUTPUT', product, z);
 * Total electricity generation by region.
 Total_Elec_Gen_GWh(z) = sum(product, Elec_Gen_ByProd_GWh(product, z));
 
-
 * 2. Total Electricity Consumption (Unit Conversion: ktoe to GWh)
-* Extract only 'p66_ELECTRICITY' from previously allocated Elec_DIO and Elec_CO.
+* Extract only 'p63_ELECTR' from previously allocated Elec_DIO and Elec_CO.
 * Exclude Transmission and Distribution (18_TnD) as it is treated as a loss.
-Parameter Total_Elec_Cons_ktoe(z) "Total electricity consumption (ktoe)";
-Parameter Total_Elec_Cons_GWh(z)  "Total electricity consumption (GWh)";
+Parameter Total_Elec_Cons_ktoe(z) Total electricity consumption (ktoe);
+Parameter Total_Elec_Cons_GWh(z)  Total electricity consumption (GWh);
 
 Total_Elec_Cons_ktoe(z) = 
-    sum(j$(not sameas(j,'18_TnD')), Elec_DIO('p66_ELECTRICITY',j,z)) 
-    + Elec_CO('p66_ELECTRICITY',z);
+    sum(j$(not sameas(j,'18_TnD')), Elec_DIO('p63_ELECTR',j,z)) 
+    + Elec_CO('p63_ELECTR',z);
 
 Total_Elec_Cons_GWh(z) = Total_Elec_Cons_ktoe(z) * 11.63;
 
 * 3. Electricity Loss and Loss Rate Calculation (Unit: GWh, %)
-Parameter Elec_Loss_Gap_GWh(z)  "Total electricity loss based on generation-consumption gap (GWh)";
-Parameter Elec_Loss_Rate(z)     "Total electricity loss rate (%)";
-Parameter Dist_Loss_WEB_GWh(z)  "Official T&D loss reported in IEA WEB (GWh)";
+Parameter Elec_Loss_Gap_GWh(z)  Total electricity loss based on generation-consumption gap (GWh);
+Parameter Elec_Loss_Rate(z)     Total electricity loss rate (%);
+Parameter Dist_Loss_WEB_GWh(z)  Official T&D loss reported in IEA WEB (GWh);
 
 * (A) Calculated Total Gap (Includes T&D loss, own use, and statistical differences)
 Elec_Loss_Gap_GWh(z) = Total_Elec_Gen_GWh(z) - Total_Elec_Cons_GWh(z);
@@ -744,15 +841,15 @@ Elec_Loss_Rate(z)$(Total_Elec_Gen_GWh(z) > 0)
 
 * (B) Reported T&D Loss from IEA WEB ('f50_DISTLOSS' for comparison)
 * Multiply by -1 to convert original negative values to positive.
-Dist_Loss_WEB_GWh(z) = -1 * WEB('f50_DISTLOSS', 'p66_ELECTRICITY', z) * 11.63;
+Dist_Loss_WEB_GWh(z) = -1 * WEB('f50_DISTLOSS', 'p63_ELECTR', z) * 11.63;
 
 *==============================================================================
 * Heat Generation and Loss Calculation (ktoe)
 *==============================================================================
 
 * 1. Heat Generation by Product (Unit: ktoe)
-Parameter Heat_Gen_ByProd_ktoe(product, z) "Heat generation by product (ktoe)";
-Parameter Total_Heat_Gen_ktoe(z)           "Total heat generation by region (ktoe)";
+Parameter Heat_Gen_ByProd_ktoe(product, z) Heat generation by product (ktoe);
+Parameter Total_Heat_Gen_ktoe(z)           Total heat generation by region (ktoe);
 
 * Extract total heat output (f104_HEATOUT) from WEB data.
 Heat_Gen_ByProd_ktoe(product, z) = WEB('f104_HEATOUT', product, z);
@@ -761,19 +858,19 @@ Heat_Gen_ByProd_ktoe(product, z) = WEB('f104_HEATOUT', product, z);
 Total_Heat_Gen_ktoe(z) = sum(product, Heat_Gen_ByProd_ktoe(product, z));
 
 * 2. Total Heat Consumption (Unit: ktoe)
-* Aggregate 'p67_HEAT' and 'p57_HEAT_COMBUSTIBLES_NS' from the p_elecheat group.
-Parameter Total_Heat_Cons_ktoe(z) "Total heat consumption (ktoe)";
+* Aggregate 'p64_HEAT' and 'p65_HEATNS' from the p_elecheat group.
+Parameter Total_Heat_Cons_ktoe(z) Total heat consumption (ktoe);
 
 Total_Heat_Cons_ktoe(z) = 
-    sum(j$(not sameas(j,'18_TnD')), Elec_DIO('p67_HEAT',j,z)) 
-  + sum(j$(not sameas(j,'18_TnD')), Elec_DIO('p57_HEAT_COMBUSTIBLES_NS',j,z))
-  + Elec_CO('p67_HEAT',z)
-  + Elec_CO('p57_HEAT_COMBUSTIBLES_NS',z);
+    sum(j$(not sameas(j,'18_TnD')), Elec_DIO('p64_HEAT',j,z)) 
+  + sum(j$(not sameas(j,'18_TnD')), Elec_DIO('p65_HEATNS',j,z))
+  + Elec_CO('p64_HEAT',z)
+  + Elec_CO('p65_HEATNS',z);
 
 * 3. Heat Loss and Loss Rate Calculation (Unit: ktoe, %)
-Parameter Heat_Loss_Gap_ktoe(z)      "Total heat loss based on generation-consumption gap (ktoe)";
-Parameter Heat_Loss_Rate(z)          "Total heat loss rate (%)";
-Parameter Dist_Loss_WEB_Heat_ktoe(z) "Official heat distribution loss reported in IEA WEB (ktoe)";
+Parameter Heat_Loss_Gap_ktoe(z)      Total heat loss based on generation-consumption gap (ktoe);
+Parameter Heat_Loss_Rate(z)          Total heat loss rate (%);
+Parameter Dist_Loss_WEB_Heat_ktoe(z) Official heat distribution loss reported in IEA WEB (ktoe);
 
 * (A) Calculated Total Gap (Includes distribution loss, own use, and statistical differences)
 Heat_Loss_Gap_ktoe(z) = Total_Heat_Gen_ktoe(z) - Total_Heat_Cons_ktoe(z);
@@ -785,8 +882,8 @@ Heat_Loss_Rate(z)$(Total_Heat_Gen_ktoe(z) > 0)
 * (B) Reported Heat Distribution Loss from IEA WEB ('f50_DISTLOSS' for comparison)
 * Multiply by -1 to convert original negative values to positive.
 Dist_Loss_WEB_Heat_ktoe(z) = 
-    -1 * WEB('f50_DISTLOSS', 'p67_HEAT', z) 
-    -1 * WEB('f50_DISTLOSS', 'p57_HEAT_COMBUSTIBLES_NS', z);
+    -1 * WEB('f50_DISTLOSS', 'p64_HEAT', z) 
+    -1 * WEB('f50_DISTLOSS', 'p65_HEATNS', z);
 
 *=============================Eelectricity============================================================
  Parameter
@@ -816,7 +913,7 @@ Dist_Loss_WEB_Heat_ktoe(z) =
  ElecOtherGWh('26_eOther',z)  = sum((f_elecoutput, p_other_power), WEB(f_elecoutput, p_other_power,z)); 
 
 *==============================================================================
-*  Electricity Generation coefficients
+* Electricity Generation coefficients
 *==============================================================================
 Parameter
  EGINucGWh(j,z)    Nuclear GWh per billion $
@@ -839,9 +936,9 @@ Parameter
  EGIWindGWh('23_eWind',z)   = ElecWindGWh('23_eWind',z)/XSTO('23_eWind',z); 
  EGISolarGWh('24_eSolar',z) = ElecSolarGWh('24_eSolar',z)/XSTO('24_eSolar',z); 
  EGIHydroGWh('25_eHydro',z) = ElecHydroGWh('25_eHydro',z)/XSTO('25_eHydro',z); 
- EGIWasteGWh('26_eOther',z) = ElecWasteGWh('26_eOther',z)/XSTO('26_eOther',z); 
- EGIBioGWh('26_eOther',z)   = ElecBioGWh('26_eOther',z)/XSTO('26_eOther',z); 
- EGIGeoGWh('26_eOther',z)   = ElecGeoGWh('26_eOther',z)/XSTO('26_eOther',z); 
+ EGIWasteGWh('26_eOther',z) = ElecwasteGWh('26_eOther',z)/XSTO('26_eOther',z); 
+ EGIBioGWh('26_eOther',z)   = ElecbioGWh('26_eOther',z)/XSTO('26_eOther',z); 
+ EGIGeoGWh('26_eOther',z)   = ElecgeoGWh('26_eOther',z)/XSTO('26_eOther',z); 
  EGIOtherGWh('26_eOther',z) = ElecOtherGWh('26_eOther',z)/XSTO('26_eOther',z); 
 
 *==============================================================================
@@ -870,7 +967,8 @@ Charcoal_DIO, Charcoal_CO, CharcoalR_DIO, CharcoalR_CO,
 Ren_DIO, Ren_CO, RenR_DIO, RenR_CO,
 NCoal_DIO, NCoalR_DIO, NGas_DIO, NGasR_DIO,
 NOil_DIO, NOilR_DIO, NOilp_DIO, NOilpR_DIO,
-Coal_Total, Gas_Total, Oilp_Total, Elec_Total, NCoal_Total, NGas_Total, NOilp_Total,
-ElecNucGWh, ElecCoalGWh, ElecGasGWh, ElecOilGWh, ElecSolarGWh, ElecWindGWh, ElecHydroGWh, ElecwasteGWh, ElecbioGWh, ElecgeoGWh, ElecOtherGWh
+Coal_Total, Gas_Total, Oilp_Total, ELec_Total, NCoal_Total, NGas_Total, NOilp_Total,
+ElecNucGWh, ElecCoalGWh, ElecGasGWh, ElecOilGWh, ElecSolarGWh, ElecWindGWh, ElecHydroGWh, ElecwasteGWh, ElecbioGWh, ElecgeoGWh, ElecOtherGWh,
 Coal_Marine, Coal_Aviation, Gas_Marine, Gas_Aviation, Oilp_Marine, Oilp_Aviation, Bio_Marine, Bio_Aviation,
-TES_Coal, TES_Gas, TES_Oil, TES_Oilproduct,  EGIOtherGWh
+TES_Coal, TES_Gas, TES_Oil, TES_Oilproduct, EGIOtherGWh
+;

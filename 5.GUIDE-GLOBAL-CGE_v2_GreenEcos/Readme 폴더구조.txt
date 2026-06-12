@@ -12,7 +12,7 @@
  ├── Data_Processing/             [데이터 전처리 및 캘리브레이션]
  │    ├── DATA_GTAPSAM.gms        (북한 SAM Importing)
  │    ├── DATA_ReGen.gms          (북한 SAM 수정에 따른 타지역 자료 정산/수정)
- │    ├── DATA_WEB_2025.gms       (IEA World Energy Balance 데이터 가공)
+ │    ├── DATA_WEB_22e.gms        (IEA World Energy Balance 2022 edition 데이터 가공)
  │    ├── DATA_CO2coef.gms        (WEB 데이터를 CGE 모형 입력자료로 매핑)
  │    ├── CAL_B_line.gms          (Baseline Calibration 구동)
  │    └── INIT.gms                (Dynamic 풀이를 위한 초기값 지정)
@@ -27,7 +27,8 @@
  │
  ├── Scenario/                    [시나리오별 충격 및 구동]
  │    ├── Reset_Closure.gms       (시나리오 간 Closure Swap 초기화)
- │    ├── BAU_Solve.gms           (BAU 시나리오 구동)
+ │    ├── FROZEN_Solve.gms        (FROZEN 시나리오 구동)
+ │    ├── BAU_Solve.gms           (BAU Reference or Current Policy 시나리오 구동)
  │    ├── NDC_Solve.gms           (NDC 시나리오 구동)
  │    └── NZ_Solve.gms            (Net Zero 시나리오 구동)
  │

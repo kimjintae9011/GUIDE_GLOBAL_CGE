@@ -3,15 +3,15 @@ import pandas as pd
 import os
 
 # 1. 처리할 GDX 파일 리스트 및 출력 폴더 설정
-gdx_files = ["Output_CGE/IAMC_UD.gdx", "Output_CGE/IPCC_UD.gdx", "Output_CGE/db_CGE_UD.gdx"]
+gdx_files = ["Output_CGE/IAMC_NZ.gdx", "Output_CGE/IPCC_NZ.gdx", "Output_CGE/db_CGE_NZ.gdx"]
 csv_output_dir = "Output_CGE/CSV_Results"
 excel_output_dir = "Output_CGE/Excel_Results" # 엑셀 파일 전용 폴더
 
 # [추가] 파일명 변환 딕셔너리 (원본 GDX 이름: 원하는 결과물 이름)
 filename_mapping = {
-    "db_CGE_UD": "03-1. db_CGE_output",
-    "IAMC_UD": "GreenEcos_GUIDE-GLOBAL-CGE_IAMC",
-    "IPCC_UD": "GreenEcos_GUIDE-GLOBAL-CGE_GHG_Inventory"
+    "db_CGE_NZ": "03-1. db_CGE_output",
+    "IAMC_NZ": "GreenEcos_GUIDE-GLOBAL-CGE_IAMC",
+    "IPCC_NZ": "GreenEcos_GUIDE-GLOBAL-CGE_GHG_Inventory"
 }
 
 # 출력 폴더 생성
@@ -50,13 +50,13 @@ for gdx_file in gdx_files:
                     # ==========================================
                     # [열 이름 변경 로직]
                     # ==========================================
-                    if original_filename == "db_CGE_UD" and len(df.columns) == 7:
+                    if original_filename == "db_CGE_NZ" and len(df.columns) == 7:
                         df.columns = ['CGE_variable', 'CGE_commodity', 'CGE_industry', 'Country', 'Year', 'Scenario', 'Value']
                         
-                    if original_filename == "IAMC_UD" and len(df.columns) == 7:
+                    if original_filename == "IAMC_NZ" and len(df.columns) == 7:
                         df.columns = ['Model', 'Scenario', 'Region', 'Results', 'Unit', 'Time', 'Value']
 
-                    if original_filename == "IPCC_UD" and len(df.columns) == 10:
+                    if original_filename == "IPCC_NZ" and len(df.columns) == 10:
                         df.columns = ['Model','Scenario','Region','IPCC06_Sector','IPCC06_Code','IPCC06_Category','Substance','Unit','Time','Value']
                     # ==========================================
                     

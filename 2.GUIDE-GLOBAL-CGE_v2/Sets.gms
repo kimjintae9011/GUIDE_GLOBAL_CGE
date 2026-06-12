@@ -167,7 +167,7 @@ J6(J) All industries excluding power generation sectors
 / 01_AGRICULT, 02_COAL, 03_OIL, 04_GAS, 05_MINING, 06_FOODPRO, 07_TEXTILES, 08_WOODPRO, 09_PAPERPRO, 10_PETROLCOAL, 11_CHEMICAL, 12_NONMET, 13_IRONSTL, 14_NONFERR, 15_MACHINE, 16_TRANSEQ, 17_OTHERIND, 27_CONSTRUC, 28_LTRP, 29_WTRP, 30_ATRP, 31_SER, 32_BSCHEMICAL, 33_BSNONMET, 34_BSIRONSTL, 35_BS_LTRP, 36_BS_WTRP, 37_BS_ATRP /
 
 J7(J) Industries subject to Marginal Abatement Cost (MAC) curves
-/ 01_AGRICULT, 02_COAL, 03_OIL, 04_GAS, 05_MINING, 06_FOODPRO, 07_TEXTILES, 08_WOODPRO, 09_PAPERPRO, 10_PETROLCOAL, 11_CHEMICAL, 12_NONMET, 13_IRONSTL, 14_NONFERR, 15_MACHINE, 16_TRANSEQ, 17_OTHERIND, 27_CONSTRUC, 28_LTRP, 29_WTRP, 30_ATRP, 31_SER /
+/ 01_AGRICULT, 02_COAL, 03_OIL, 04_GAS, 05_MINING, 06_FOODPRO, 07_TEXTILES, 08_WOODPRO, 09_PAPERPRO, 10_PETROLCOAL, 11_CHEMICAL, 12_NONMET, 13_IRONSTL, 14_NONFERR, 15_MACHINE, 16_TRANSEQ, 17_OTHERIND, 20_eCoal, 21_eGas, 22_eOil, 27_CONSTRUC, 28_LTRP, 29_WTRP, 30_ATRP, 31_SER /
 
 TND(J) Electricity Transmission and Distribution
 / 18_TnD /
@@ -241,8 +241,14 @@ MAP_Conv(*, *) 1:1 Mapping: Backstop Industry . Conventional Industry
 NEA(Z) Northeast Asian countries (Core regions for carbon market linkage)
 / 01_KOR, 02_CHN, 03_JPN, 04_RUS, 05_MNG, 06_PRK /
 
+CJK(Z) China Japan Korea (Core regions for carbon market linkage)
+/ 01_KOR, 02_CHN, 03_JPN /
+
 PERMIT_Z(z) Regions participating in the emission trading scheme (Carbon Market)
 / 01_KOR, 02_CHN, 03_JPN, 04_RUS, 05_MNG, 06_PRK, 07_NAM, 08_LAM, 09_WEU, 10_EEU, 11_CAS, 12_MEA, 13_AFR, 14_CLV, 15_SAS, 16_APC, 17_ANZ /
+
+PERMIT_Z2(z) Regions participating in the emission trading scheme (Carbon Market)
+/ 01_KOR, 02_CHN, 03_JPN, 07_NAM, 08_LAM, 09_WEU, 10_EEU, 11_CAS, 12_MEA, 13_AFR, 14_CLV, 15_SAS, 16_APC, 17_ANZ /
 
 Z_GRN(z) Advanced economies with high elasticity for backstop technology adoption
  / 01_KOR, 02_CHN, 03_JPN, 07_NAM, 09_WEU, 17_ANZ /
@@ -365,7 +371,8 @@ Unit_IAMC
 
 year_IAMC(time)
 /
- 2019, 2020, 2025, 2030, 2035, 2040, 2045, 2050
+ 2019
+* ,2020, 2025, 2030, 2035, 2040, 2045, 2050
 /
 
 Agriculture(J) Industries
@@ -635,7 +642,8 @@ Unit_IPCC
 
 year_IPCC(time)
 /
- 2019, 2020, 2025, 2030, 2035, 2040, 2045, 2050
+ 2019
+* , 2020, 2025, 2030, 2035, 2040, 2045, 2050
 /
 
 ;

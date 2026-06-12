@@ -97,13 +97,13 @@ Z Regions
  08_LAM Latin America and the Caribbean
  09_WEU Western Europe
  10_EEU Central and Eastern Europe
- 11_CAS Central Asia Surrounds
+ 11_RFSU Rest of Former Soviet Union
  12_MEA Middle East and North Africa
  13_AFR Sub-Saharan Africa
- 14_CLV Cambodia Laos Vietnam
+ 14_RCPA Rest of Centrally Planned Asia and China
  15_SAS South Asia
- 16_APC Asia-Pacific
- 17_ANZ Australia and New Zealand
+ 16_RPAS Rest of Other Pacific Asia
+ 17_RPAO Rest of Pacific OECD
 /
 
 *------------------------------------------------------------------------------
@@ -242,13 +242,13 @@ NEA(Z) Northeast Asian countries (Core regions for carbon market linkage)
 / 01_KOR, 02_CHN, 03_JPN, 04_RUS, 05_MNG, 06_PRK /
 
 PERMIT_Z(z) Regions participating in the emission trading scheme (Carbon Market)
-/ 01_KOR, 02_CHN, 03_JPN, 04_RUS, 05_MNG, 06_PRK, 07_NAM, 08_LAM, 09_WEU, 10_EEU, 11_CAS, 12_MEA, 13_AFR, 14_CLV, 15_SAS, 16_APC, 17_ANZ /
+/ 01_KOR, 02_CHN, 03_JPN, 04_RUS, 05_MNG, 06_PRK, 07_NAM, 08_LAM, 09_WEU, 10_EEU, 11_RFSU, 12_MEA, 13_AFR, 14_RCPA, 15_SAS, 16_RPAS, 17_RPAO /
 
 Z_GRN(z) Advanced economies with high elasticity for backstop technology adoption
- / 01_KOR, 02_CHN, 03_JPN, 07_NAM, 09_WEU, 17_ANZ /
+ / 01_KOR, 02_CHN, 03_JPN, 07_NAM, 09_WEU, 17_RPAO /
 
 Z_OTH(z) Developing or fossil-dependent economies with lower transition elasticities
-/ 04_RUS, 05_MNG, 06_PRK, 08_LAM, 10_EEU, 11_CAS, 12_MEA, 13_AFR, 14_CLV, 15_SAS, 16_APC /
+/ 04_RUS, 05_MNG, 06_PRK, 08_LAM, 10_EEU, 11_RFSU, 12_MEA, 13_AFR, 14_RCPA, 15_SAS, 16_RPAS /
 
 TIME Time periods
 / 2019*2050/
@@ -286,7 +286,7 @@ model_IAMC
 
 Country(z)
 / '01_KOR', '02_CHN', '03_JPN', '04_RUS', '05_MNG', '06_PRK', '07_NAM', '08_LAM', '09_WEU', '10_EEU',
- '11_CAS', '12_MEA', '13_AFR', '14_CLV', '15_SAS','16_APC','17_ANZ'/
+ '11_RFSU', '12_MEA', '13_AFR', '14_RCPA', '15_SAS','16_RPAS','17_RPAO'/
 
 variable_IAMC
 /

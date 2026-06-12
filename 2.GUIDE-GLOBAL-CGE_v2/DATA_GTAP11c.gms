@@ -1176,15 +1176,22 @@ AEEI_NZ(z,time) = ALL_DATA('AEEI_NZ', z, time);
 * UserDefined Parameter
 *==============================================================================
 PARAMETER
-    CTAX_UserDefined(z,time) UserDefined CTAX
-    AEEI_UserDefined(z,time)     UserDefined AEEI
-    SolarWindTFP_UserDefined(z,time)  UserDefined SolarWind_TFP
-
-;
-
+* --- User-Defined Policy & Tech Inputs ---
+    CTAX_UserDefined(z,time)         Carbon tax path by region
+    AEEI_UserDefined(z,time)         Autonomous Energy Efficiency Improvement (AEEI) rate
+    SolarWindTFP_UserDefined(z,time)  Total Factor Productivity (TFP) for solar and wind power
+* --- Core Emission Scenarios ---
+    BAU_EMISSION(z,time)              Business-As-Usual emissions by region
+    NZ_EMISSION(z,time)                Net-Zero target emissions by region
+* --- Macro/Regional Emission Targets ---
+    NZ_GlobalEMISSION(time)          Global Net-Zero emission trajectory
+    NZ_NEAEMISSION(time)              Northeast Asia regional Net-Zero trajectory
+    NZ_NEACJKEMISSION(time)        China-Japan-Korea (CJK) Net-Zero trajectory
+    
 $call gdxxrw Input_CGE\UserDefined.xlsx @Input_CGE\UserDefined.txt output = Input_CGE\UserDefined.gdx 
 $gdxIn Input_CGE\UserDefined.gdx
 $load CTAX_UserDefined, AEEI_UserDefined, SolarWindTFP_UserDefined
+$load BAU_EMISSION, NZ_EMISSION, NZ_GlobalEMISSION, NZ_NEAEMISSION, NZ_NEACJKEMISSION
 
 *==============================================================================
 * GTAPSAM

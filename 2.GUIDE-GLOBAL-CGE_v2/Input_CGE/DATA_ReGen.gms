@@ -323,5 +323,6 @@ execute_unload 'Input_CGE\DATA_AGG-2019_GTAP11c_Regen_V2.gdx',
  TOT_POP, g_GDP, g_POP, g_SDR, CTAX_BAU, PERMIT_NDC, PERMIT_NZ, AEEI_BAU, AEEI_NDC, AEEI_NZ, EMPLOY,
  
 *UserDefined
- CTAX_UserDefined, AEEI_UserDefined, SolarWindTFP_UserDefined
+ CTAX_UserDefined, AEEI_UserDefined, SolarWindTFP_UserDefined,
+ BAU_EMISSION, NZ_EMISSION, NZ_GlobalEMISSION, NZ_NEAEMISSION, NZ_NEACJKEMISSION
 ;

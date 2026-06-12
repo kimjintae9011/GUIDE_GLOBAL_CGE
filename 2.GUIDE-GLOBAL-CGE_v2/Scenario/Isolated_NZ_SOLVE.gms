@@ -1,5 +1,9 @@
 * Initialize Parameters
-AEEI(z,time) = AEEI_UserDefined(z,time);
+SW_GLOBAL = 0;
+SW_NEAICM = 0;
+SW_NEAICMCJK= 0;
+
+AEEI(z,time) = AEEI_NZ(z,time);
 
 penalty_rate(j) = 0.05;
 
@@ -48,9 +52,10 @@ ttik.fx('natr',j,z,time)       = ttikO('natr',j,z);
 ttik.fx('cap',j,z,time)        = ttikO('cap',j,z);
 ttiw.fx(j,z,time)              = ttiwO(j,z);
 ttip.fx(j,z,time)              = ttipO(j,z);
-*PERMIT_TOTAL.fx(PERMIT_Z,time) = PERMIT_TOTALO(PERMIT_Z);
-CTAX.fx(z,time) = CTAXO(z);
-K_idle.fx(k,j,z,time) = 0;
+PERMIT_TOTAL.fx(PERMIT_Z,time) = PERMIT_TOTALO(PERMIT_Z);
+CTAX.lo(z,time) = -inf;
+CTAX.up(z,time) = +inf;
+K_idle.fx(k,j,z,time)        = 0;
 
 *==============================================================================
 * Solution (Loop over time periods)
@@ -110,17 +115,17 @@ $INCLUDE INIT.gms
 *==============================================================================
 * CTAX and PERMIT
 *============================================================================== 
-*    PERMIT_TOTAL.fx(PERMIT_Z,time)$[ord(time) gt 1] = PERMIT_TOTALO(PERMIT_Z) *  PERMIT_UserDefined(PERMIT_Z,time) ;  
-    CTAX.fx(PERMIT_Z,time) = CTAX_UserDefined(PERMIT_Z,time);
+    PERMIT_TOTAL.fx(PERMIT_Z,time)$[ord(time) gt 1] = PERMIT_TOTALO(PERMIT_Z) * PERMIT_NZ(PERMIT_Z,time);  
+
     recycle_gov(z,time) = 0;          
     recycle_hou(z,time) = 1;           
 
 *=============================================================================
 * Solar & Wind Productivity Shock
 *=============================================================================
-    B_VA_t('18_TnD',z,time)$[ord(time) gt 1]     = B_VA_t('18_TnD',z,time-1) * [1 + SolarWindTFP_UserDefined(z,time)];
-    B_VA_t('23_eWind',z,time)$[ord(time) gt 1]  = B_VA_t('23_eWind',z,time-1) * [1 + SolarWindTFP_UserDefined(z,time)];
-    B_VA_t('24_eSolar',z,time)$[ord(time) gt 1]  = B_VA_t('24_eSolar',z,time-1) * [1 + SolarWindTFP_UserDefined(z,time)];
+    B_VA_t('18_TnD',z,time)$[ord(time) gt 1]     = B_VA_t('18_TnD',z,time-1) * [1 + SolarWind_TFP_NZ];
+    B_VA_t('23_eWind',z,time)$[ord(time) gt 1]  = B_VA_t('23_eWind',z,time-1) * [1 + SolarWind_TFP_NZ];
+    B_VA_t('24_eSolar',z,time)$[ord(time) gt 1]  = B_VA_t('24_eSolar',z,time-1) * [1 + SolarWind_TFP_NZ];
 
 *=============================================================================
 * Household Emission AEEI
@@ -148,18 +153,20 @@ $INCLUDE INIT.gms
     CO2FACTOR2(ene,j7,PERMIT_Z,time)$[ord(time) gt 2 and CO2FACTOR2(ene,j7,PERMIT_Z,time) < MINCO2FACTOR(ene,j7,PERMIT_Z)] = MINCO2FACTOR(ene,j7,PERMIT_Z);
 
 * [B] Power Sector: Linear reduction from 2040 (t=22) to 2050 (t=32)
+* 2030 t=12
 * Before 2035: Maintain existing intensity
-    CO2FACTOR2(ene,j5,Z_GRN,time)$[ord(time) le 22] = CO2FACTOR(ene,j5,Z_GRN);
-  
+*    CO2FACTOR2(ene,j5,Z_GRN,time)$[ord(time) le 12] = CO2FACTOR(ene,j5,Z_GRN);  
 * 2040 (t=22) ~ 2050 (t=32): Decrease linearly
-    CO2FACTOR2(ene,j5,Z_GRN,time)$[ord(time) gt 22 and ord(time) le 32] 
-      = CO2FACTOR(ene,j5,Z_GRN) * ( 1 - 0.8* (ord(time) - 22) / 10 );
-      
+*    CO2FACTOR2(ene,j5,Z_GRN,time)$[ord(time) gt 12 and ord(time) le 32] 
+*      = CO2FACTOR(ene,j5,Z_GRN) * ( 1 - 0.95* (ord(time) - 12) / 10 );
+
+*    CO2FACTOR2(ene,j5,PERMIT_Z,time)$[ord(time) gt 22 and ord(time) le 32] 
+*        = CO2FACTOR(ene,j5,PERMIT_Z) * MAX(0.01, 1 - 0.98 * (ord(time) - 22) / 10);      
 *==============================================================================
-* Power Sector Issue
+* Power Sector Issue XST
 *============================================================================== 
-* j5와 Z_GRN에 속하는 섹터와 지역에 대해서만 루프 실행
-loop((j,z)$[ j5(j) and Z_GRN(z) ],
+*$Ontext
+loop((j,z)$[ j5(j) AND Z_GRN(Z)],
     
 * [핵심 보완] 기준연도(t=1)에는 이전 연도가 없으므로 무조건 정상 체제로 세팅
     if(ord(time) eq 1,
@@ -169,8 +176,8 @@ loop((j,z)$[ j5(j) and Z_GRN(z) ],
         
 * 기준연도 이후(t > 1)부터 스왑 로직 작동
     else
-* [A] 정상 체제: 직전 연도 산출량이 기준연도의 2%보다 클 때
-        if( XST.l(j,z,time-1) > 0.01 * XSTO(j,z),
+* [A] 정상 체제: 직전 연도 산출량이 기준연도의 5%보다 클 때
+        if( XST.l(j,z,time-1) > 0.01*XSTO(j,z),
             
 * 산출량(XST)은 내생변수 (주석 해제 필수!)
             XST.lo(j,z,time) = -inf;
@@ -179,11 +186,11 @@ loop((j,z)$[ j5(j) and Z_GRN(z) ],
 * ttip는 외생변수 (기존 정책 세율로 고정)
             ttip.fx(j,z,time) = ttipO(j,z);
 
-* [B] 퇴출 체제 (Variable Swap): 2% 이하로 떨어졌을 때
+* [B] 퇴출 체제 (Variable Swap): 1% 이하로 떨어졌을 때
         else
             
-* 산출량(XST)을 외생변수로 고정 (2% 강제 가동 유지)
-            XST.fx(j,z,time) = 0.01 * XSTO(j,z);
+* 산출량(XST)을 외생변수로 고정 (1% 강제 가동 유지)
+            XST.fx(j,z,time) = 0.01*XSTO(j,z);
             
 * ttip를 내생변수로 풀어줌 (모형이 마이너스 보조금 규모를 스스로 계산)
             ttip.lo(j,z,time) = -inf;
@@ -191,7 +198,33 @@ loop((j,z)$[ j5(j) and Z_GRN(z) ],
         );
     );
 );
-   
+
+*==============================================================================
+* Power Sector Issue R
+*============================================================================== 
+loop((k,j,z)$[ j5(j)AND Z_GRN(Z) ],
+    
+    if(ord(time) eq 1,
+           R.lo(k,j,z,time) = -inf;
+           R.up(k,j,z,time) = +inf;
+           K_idle.fx(k,j,z,time) = 0;   
+        
+    else
+        if( XST.l(j,z,time-1) > 0.01*XSTO(j,z),
+            
+            R.lo(k,j,z,time) = -inf;
+            R.up(k,j,z,time) = +inf;
+            K_idle.fx(k,j,z,time) = 0;  
+        else
+            
+            R.fx(k,j,z,time) = 1e-14;         
+
+            K_idle.lo(k,j,z,time) = 0;
+            K_idle.up(k,j,z,time) = +inf;
+        );
+    );
+);
+*$Offtext   
 *==============================================================================
 * Direct Air Capture (DAC)
 *============================================================================== 

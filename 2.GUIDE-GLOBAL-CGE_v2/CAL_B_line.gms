@@ -12,7 +12,6 @@ $TITLE     GUIDE_GLOBAL_CGE Baseline Calibration GTAP11c
 *==============================================================================
 $INCLUDE Sets.gms
 $INCLUDE PAR.gms
-
 *==============================================================================
 * Variables (Grouped for Readability)
 *==============================================================================
@@ -48,6 +47,7 @@ VARIABLES
  INV(i,z,time)           Final demand of commodity i for investment purposes (GFCF) in region z
  IT_REAL(z,time)         Real gross fixed capital formation
  KD(k,j,z,time)          Demand for type k capital by industry j in region z
+ K_idle(k,j,z,time)      Idel Capital Slack variable
  KDC(j,z,time)           Demand for composite capital by industry j in region z
  KS(k,z,time)            Supply of type k capital in region z
  LD(j,z,time)            Demand for type l labor by industry j in region z
@@ -153,11 +153,19 @@ VARIABLES
  YROW(z,time)            Rest-of-the-world total income from region z
 
 * --- [4] Policy & Other Variables ---
- CTAX(z,time)            Carbon tax in region z
- TCTAX(z,time)           Government revenue from Carbon tax
- PERMIT(j,z,time)        Permits by sector
- PERMIT_TOTAL(z,time)    Total permits
- REBATE(z,time)          Carbon tax rebate
+ CTAX(z,time)               Carbon tax in region z
+ TCTAX(z,time)              Government revenue from Carbon tax
+ GLOBAL_CTAX(time)          Global uniform carbon tax
+ NEA_CTAX(time)             Uniform carbon tax for the Northeast Asia (NEA) region 
+ NEACJK_CTAX(time)          Uniform carbon tax for the Northeast Asia (CJK) region 
+ PERMIT(j,z,time)           Emission permits used allocated by sector j in region z
+ PERMIT_TOTAL(z,time)       Total emission permits in region z
+ REBATE(z,time)             Carbon tax revenue rebate recycling amount in region z
+ REVENUE_SHARE_VAR(z,time)  Regional share of global linked carbon tax revenue
+ NEW_PERMIT_CAP_VAR(z,time) Adjusted permit cap capacity for region z
+ NTRD_PERMIT(z,time)        Net traded permits in region z (Global market)
+ NTRD_NEA_PERMIT(z,time)    Net traded permits within the Northeast Asia (NEA) market
+ NTRD_NEACJK_PERMIT(z,time) Net traded permits within the Northeast Asia (NEACJK) market
  phi(z,time)             Scale variable (allocation of investment to industries)
  sh0(z,time)             Intercept (household savings)
  sh1(z,time)             Slope (household savings)
@@ -325,11 +333,24 @@ EQUATIONS
  EQ_DYN_LS(z,time)             Labor supply
 
 * --- Climate Policy (CTAX, Permits, DAC) ---
- EQ_POL_PERMIT(j,z,time)       Permit calculation by sector
- EQ_POL_PERMIT_TOT(z,time)     Total permits
- EQ_POL_REBATE(z,time)         Carbon tax rebate
- EQ_POL_QDAC(z,time)           DAC volume
- EQ_OBJ                        Objective function
+ EQ_OBJ                                 Objective function 
+ EQ_POL_PERMIT(j,z,time)                Emissions permit allocation or requirement by sector (j) and region (z)
+ EQ_POL_PERMIT_TOT(z,time)              Total domestic emissions permit cap for region (z)
+ EQ_POL_Global_Cap(time)                Global carbon emissions cap across all regions
+ EQ_POL_Global_PriceSync(z,time)        Spatial price equalization condition for a unified global carbon market
+ EQ_POL_PERMIT_NetTrade(z,time)         Net exports imports of emissions permits in the global market
+ EQ_POL_Rev_Share(z,time)               International permit trading revenue sharing rule among regions
+ EQ_POL_NewCap_VAR(z,time)              Endogenous adjustment equation for regional caps based on trading transfers
+ EQ_POL_NEA_PERMIT(time)                Aggregate regional emissions cap for the entire Northeast Asia (NEA) bloc
+ EQ_POL_NEA_PriceSync(z,time)           Carbon price equalization among participating NEA regions
+ EQ_POL_NEA_PERMIT_NetTrade(z,time)     Net permit trade balance within the NEA regional market
+ EQ_POL_NONNEA_PERMIT(z,time)           Independent domestic emissions constraints for non-participating NEA regions
+ EQ_POL_NEACJK_PERMIT(time)             Aggregate regional emissions cap strictly for China Japan and Korea (CJK)
+ EQ_POL_NEACJK_PriceSync(z,time)        Carbon price equalization exclusively within the CJK trilateral bloc
+ EQ_POL_NEACJK_PERMIT_NetTrade(z,time)  Net permit trade balance among CJK countries
+ EQ_POL_NONNEACJK_PERMIT(z,time)        Independent domestic emissions constraints for all non-CJK regions
+ EQ_POL_REBATE(z,time)                  Carbon tax revenue recycling or permit auction proceeds rebate mechanism
+ EQ_POL_QDAC(z,time)                    Endogenous volume of Direct Air Capture (DAC) deployment
 
 * --- Green Steel (VAT Nest) ---
  EQ_TSFMKT(BS,Z_GRN,time)   TSF Market clearing condition
@@ -440,7 +461,7 @@ EQ_PRD_CES_ENE_LVL7(ene6,j2,z,t)..
                         * DEoilpetrol(j2,z,t);
 
 *==============================================================================
-*Income and savings
+* Income and savings
 *==============================================================================
 EQ_INC_YH(z,t)..
     YH(z,t) =e= YHL(z,t) + YHK(z,t) + REBATE(z,t) * recycle_hou(z,t) 
@@ -530,7 +551,10 @@ EQ_INC_YROW(z,t)..
 
 EQ_SAV_SROW(z,t)..
     SROW(z,t) =e= YROW(z,t) - e(z,t) * SUM[(i,zj)$EXO(i,z,zj), EX(i,z,zj,t) * PWX(i,z,zj,t)]
-                  - e(z,t) * SUM[i$MRGNO(i,z), MRGN(i,z,t) * PWMG(i,t)];
+                  - e(z,t) * SUM[i$MRGNO(i,z), MRGN(i,z,t) * PWMG(i,t)]
+                  - SW_GLOBAL*[(NTRD_PERMIT(z,t)) * GLOBAL_CTAX(t)]
+                  - SW_NEAICM*[NTRD_NEA_PERMIT(z,t)*NEA_CTAX(t)]$NEA(z)
+                  - SW_NEAICMCJK *[NTRD_NEACJK_PERMIT(z,t) * NEACJK_CTAX(t)]$CJK(z);
 
 EQ_SAV_CAB(z,t)..
     SROW(z,t) =e= -CAB(z,t);
@@ -771,7 +795,7 @@ EQ_MKT_LS(z,t)..
     LS(z,t) =e= SUM[j$LDO(j,z), LD(j,z,t)] ;
 
 EQ_MKT_KS(k,z,t)$KSO(k,z)..
-    KS(k,z,t) =e= SUM[j$KDO(k,j,z), KD(k,j,z,t)] ;
+    KS(k,z,t) =e= SUM[j$KDO(k,j,z), KD(k,j,z,t)+K_idle(k,j,z,t)] ;
 
 EQ_MKT_IT(z,t)..
     IT(z,t) =e= SH(z,t) + SG(z,t) - CAB(z,t);
@@ -881,12 +905,57 @@ EQ_POL_PERMIT(j,z,t)..
 EQ_POL_PERMIT_TOT(z,t)..
     PERMIT_TOTAL(z,t) =e= SUM(j, PERMIT(j,z,t)) - QDAC(z,t) * switchDAC(z,t);
 
+*Global Integrated Carbon Market
+EQ_POL_Global_PriceSync(z,t)$SW_GLOBAL..
+    CTAX(z,t) =e= GLOBAL_CTAX(t);
+
+EQ_POL_Global_Cap(t)$SW_GLOBAL.. 
+    SUM(z, PERMIT_TOTAL(z,t)) =e= NZ_GLOBALEMISSION(t)/10;
+
+EQ_POL_Rev_Share(z,t)$SW_GLOBAL..
+    REVENUE_SHARE_VAR(z,t) =e= (BAU_EMISSION(z,t)/10 - PERMIT_TOTAL(z,t))/(SUM(zj, BAU_EMISSION(zj,t)/10 - PERMIT_TOTAL(zj,t)));
+
+EQ_POL_NewCap_VAR(z,t)$SW_GLOBAL..
+    NEW_PERMIT_CAP_VAR(z,t) =e= (NZ_GLOBALEMISSION(t)/10)*REVENUE_SHARE_VAR(z,t);
+
+EQ_POL_PERMIT_NetTrade(z,t)$SW_GLOBAL..
+    NTRD_PERMIT(z,t) =e= (NEW_PERMIT_CAP_VAR(z,t) - PERMIT_TOTAL(z,t));
+
+*NEA Integrated Carbon Market
+EQ_POL_NEA_PriceSync(z,t)$(SW_NEAICM and NEA(z))..
+    CTAX(z, t) =e= NEA_CTAX(t);
+
+EQ_POL_NEA_PERMIT(t)$SW_NEAICM.. 
+    SUM(z$NEA(z), PERMIT_TOTAL(z, t)) =e= NZ_NEAEMISSION(t)/10;
+
+EQ_POL_NONNEA_PERMIT(z,t)$(SW_NEAICM and not NEA(z))..
+    PERMIT_TOTAL(z, t) =e= NZ_EMISSION(z, t)/10;
+
+EQ_POL_NEA_PERMIT_NetTrade(z,t)$(SW_NEAICM and NEA(z))..
+    NTRD_NEA_PERMIT(z,t) =e= (NZ_EMISSION(z,t)/10 - PERMIT_TOTAL(z,t));
+
+*NEA CJK Integrated Carbon Market
+EQ_POL_NEACJK_PriceSync(z,t)$(SW_NEAICMCJK and CJK(z))..
+    CTAX(z, t) =e= NEACJK_CTAX(t);
+
+EQ_POL_NEACJK_PERMIT(t)$SW_NEAICMCJK.. 
+    SUM(z$CJK(z), PERMIT_TOTAL(z, t)) =e= NZ_NEACJKEMISSION(t)/10;
+
+EQ_POL_NONNEACJK_PERMIT(z,t)$(SW_NEAICMCJK and not CJK(z))..
+    PERMIT_TOTAL(z, t) =e= NZ_EMISSION(z, t)/10;
+
+EQ_POL_NEACJK_PERMIT_NetTrade(z,t)$(SW_NEAICMCJK and CJK(z))..
+    NTRD_NEACJK_PERMIT(z,t) =e= (NZ_EMISSION(z,t)/10 - PERMIT_TOTAL(z,t));
+
 *==============================================================================
 * Carbon Tax Revenue Recycling
 *==============================================================================
 EQ_POL_REBATE(z,t)..
-    REBATE(z,t) =e= TCTAX(z,t);
-
+    REBATE(z,t) =e= TCTAX(z,t)
+                          + SW_GLOBAL * (NTRD_PERMIT(z,t) * GLOBAL_CTAX(t))
+                          + SW_NEAICM *[ (NTRD_NEA_PERMIT(z,t) * NEA_CTAX(t))]$NEA(z)
+                          + SW_NEAICMCJK *[ (NTRD_NEACJK_PERMIT(z,t) * NEACJK_CTAX(t))]$CJK(z);
+   
 *==============================================================================
 * DAC
 *==============================================================================
@@ -990,8 +1059,8 @@ $INCLUDE INIT.gms
     ttik.fx('cap',j,z,time)   = ttikO('cap',j,z);
     ttiw.fx(j,z,time)         = ttiwO(j,z);
     ttip.fx(j,z,time)         = ttipO(j,z);
-    CTAX.fx(z,time)           = CTAXO(z);
-
+    CTAX.fx(z,time)        = CTAXO(z);
+    K_idle.fx(k,j,z,time)   = 0;
 *==============================================================================
 * Fixing GDP_BP_REAL and sh1, initializing A_VA and sh0
 *==============================================================================

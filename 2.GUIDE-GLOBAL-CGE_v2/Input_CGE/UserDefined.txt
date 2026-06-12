@@ -1,3 +1,8 @@
-par=CTAX_UserDefined          rng=CTAX_UserDefined!A1:CN18
-par=AEEI_UserDefined          rng=AEEI_UserDefined!A1:CN18
-par=SolarWindTFP_UserDefined  rng=SolarWindTFP_UserDefined!A1:CN18
+par=CTAX_UserDefined          rng=CTAX_UserDefined!A1:CN18 rdim=1 cdim=1
+par=AEEI_UserDefined          rng=AEEI_UserDefined!A1:CN18 rdim=1 cdim=1
+par=SolarWindTFP_UserDefined  rng=SolarWindTFP_UserDefined!A1:CN18 rdim=1 cdim=1
+par=BAU_EMISSION              rng=BAU_EMISSION!A1:CN18 rdim=1 cdim=1
+par=NZ_EMISSION               rng=NZ_EMISSION!A1:CN18 rdim=1 cdim=1
+par=NZ_GLOBALEMISSION         rng=NZ_GLOBALEMISSION!A1:B33 rdim=1 cdim=0
+par=NZ_NEAEMISSION            rng=NZ_NEAEMISSION!A1:B33 rdim=1 cdim=0
+par=NZ_NEACJKEMISSION         rng=NZ_NEACJKEMISSION!A1:B33 rdim=1 cdim=0

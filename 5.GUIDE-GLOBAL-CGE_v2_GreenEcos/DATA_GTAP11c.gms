@@ -259,13 +259,13 @@ Z Regions
  08_LAM Latin America and the Caribbean
  09_WEU Western Europe
  10_EEU Central and Eastern Europe
- 11_CAS Central Asia Surrounds
+ 11_RFSU Rest of Former Soviet Union
  12_MEA Middle East and North Africa
  13_AFR Sub-Saharan Africa
- 14_CLV Cambodia Laos Vietnam
+ 14_RCPA Rest of Centrally Planned Asia and China
  15_SAS South Asia
- 16_APC Asia-Pacific
- 17_ANZ Australia and New Zealand
+ 16_RPAS Rest of Other Pacific Asia
+ 17_RPAO Rest of Pacific OECD
 /
 
 Z1(Z) All regions except reference region
@@ -280,13 +280,13 @@ Z1(Z) All regions except reference region
  08_LAM Latin America and the Caribbean
  09_WEU Western Europe
  10_EEU Central and Eastern Europe
- 11_CAS Central Asia Surrounds
+ 11_RFSU Rest of Former Soviet Union
  12_MEA Middle East and North Africa
  13_AFR Sub-Saharan Africa
- 14_CLV Cambodia Laos Vietnam
+ 14_RCPA Rest of Centrally Planned Asia and China
  15_SAS South Asia
- 16_APC Asia-Pacific
- 17_ANZ Australia and New Zealand
+ 16_RPAS Rest of Other Pacific Asia
+ 17_RPAO Rest of Pacific OECD
 /
 
 ZR(Z) Reference country
@@ -340,13 +340,13 @@ z2reg(z,reg) Mapping of regions
  08_LAM. (r_08LAM)
  09_WEU. (r_09WEU)
  10_EEU. (r_10EEU)
- 11_CAS. (r_11FSU)
+ 11_RFSU. (r_11FSU)
  12_MEA. (r_12MEA)
  13_AFR. (r_13AFR)
- 14_CLV. (r_14CPA)
+ 14_RCPA. (r_14CPA)
  15_SAS. (r_15SAS)
- 16_APC. (r_16PAS)
- 17_ANZ. (r_17PAO)
+ 16_RPAS. (r_16PAS)
+ 17_RPAO. (r_17PAO)
 /
 
 j2acts(j,acts) Mapping of sectors
@@ -962,12 +962,12 @@ TIPO('19_eNuclear','06_PRK')  = -4.99124 -0.1;
 TIPO('23_eWind','06_PRK')     = -4.99122 -0.1;
 TIPO('24_eSolar','06_PRK')    = -4.92509 -0.1;
 TIPO('19_eNuclear','05_MNG')  = -4.81788 -0.1;
-TIPO('19_eNuclear','17_ANZ')  = -4.80275 -0.1;
+TIPO('19_eNuclear','17_RPAO')  = -4.80275 -0.1;
 TIPO('26_eOther','05_MNG')    = -4.80001 -0.1;
 TIPO('21_eGas','05_MNG')      = -4.78731 -0.1;
-TIPO('19_eNuclear','14_CLV')  = -4.63479 -0.1;
+TIPO('19_eNuclear','14_RCPA')  = -4.63479 -0.1;
 TIPO('21_eGas','06_PRK')      = -4.12172 -0.1;
-TIPO('24_eSolar','14_CLV')    = -3.06953 -0.1;
+TIPO('24_eSolar','14_RCPA')    = -3.06953 -0.1;
 TIPO('26_eOther','06_PRK')    = -2.96659 -0.1;
 TIPO('14_NONFERR','06_PRK')   = -2.12762 -0.1;
 TIPO('10_PETROLCOAL','06_PRK')= -1.82929 -0.1;
@@ -1129,7 +1129,7 @@ $LOAD ESUBD, ESUBM, INCPAR, ESUBVA, ELFKLE
 *==============================================================================
 * Projections used in Recursive Dynamic model
 *==============================================================================
-SET field / GDP, TOT_POP, g_GDP, g_POP, g_SDR, CTAX_BAU, PERMIT_NDC, PERMIT_NZ, AEEI_BAU, AEEI_NDC, AEEI_NZ /;
+SET field / GDP, TOT_POP, g_GDP, g_POP, g_SDR, CTAX_BAU, PERMIT_REF, PERMIT_NDC, PERMIT_NZ, AEEI_BAU, AEEI_NDC, AEEI_NZ /;
 
 PARAMETER ALL_DATA(field, z, time) "Integrated Projections Data";
 
@@ -1153,6 +1153,7 @@ PARAMETER
     g_POP(z,time)        Population growth rate
     g_SDR(z,time)        Domestic savings rate growth rate
     CTAX_BAU(z,time)     BAU CTAX
+    PERMIT_REF(z,time)   REF Emission Constraint
     PERMIT_NDC(z,time)   NDC Emission Constraint
     PERMIT_NZ(z,time)     NZ Emission Constraint
     AEEI_BAU(z,time)     AEEI BAU
@@ -1166,6 +1167,7 @@ g_GDP(z,time)      = ALL_DATA('g_GDP', z, time);
 g_POP(z,time)      = ALL_DATA('g_POP', z, time);
 g_SDR(z,time)      = ALL_DATA('g_SDR', z, time);
 CTAX_BAU(z,time) = ALL_DATA('CTAX_BAU', z, time);
+PERMIT_REF(z,time) = ALL_DATA('PERMIT_REF', z, time);
 PERMIT_NDC(z,time) = ALL_DATA('PERMIT_NDC', z, time);
 PERMIT_NZ(z,time) = ALL_DATA('PERMIT_NZ', z, time);
 AEEI_BAU(z,time) = ALL_DATA('AEEI_BAU', z, time);
@@ -1179,7 +1181,6 @@ PARAMETER
     CTAX_UserDefined(z,time) UserDefined CTAX
     AEEI_UserDefined(z,time)     UserDefined AEEI
     SolarWindTFP_UserDefined(z,time)  UserDefined SolarWind_TFP
-
 ;
 
 $call gdxxrw Input_CGE\UserDefined.xlsx @Input_CGE\UserDefined.txt output = Input_CGE\UserDefined.gdx 

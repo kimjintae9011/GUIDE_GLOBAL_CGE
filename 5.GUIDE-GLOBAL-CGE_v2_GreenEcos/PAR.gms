@@ -117,6 +117,7 @@ PARAMETER
 * --- [6] Energy, Emissions & Policy Flags ---
  AEEI(z,time)                    Autonomous Energy Efficiency Improvements
  CTAX_BAU(z,time)            Carbon Price $100 per tCO2eq
+ PERMIT_REF(z,time)        Emission Constraint REF
  PERMIT_NDC(z,time)        Emission Constraint NDC
  PERMIT_NZ(z,time)          Emission Constraint NZ
  AEEI_BAU(z,time)            Baseline AEEI
@@ -325,7 +326,7 @@ PARAMETER
 $GDXIN Input_CGE/DATA_AGG-2019_GTAP11c_Regen_V2.gdx
 $LOAD F, K, ZR, Z1, 
 $LOAD CO, CGO, DDO, DEPO, DIO, DSO, DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, XSO, XSO_I, XSTO, 
-$LOAD TOT_POP, g_GDP, g_POP, g_SDR, CTAX_BAU, PERMIT_NDC, PERMIT_NZ, AEEI_BAU, AEEI_NDC, AEEI_NZ, EMPLOY,
+$LOAD TOT_POP, g_GDP, g_POP, g_SDR, CTAX_BAU, PERMIT_REF, PERMIT_NDC, PERMIT_NZ, AEEI_BAU, AEEI_NDC, AEEI_NZ, EMPLOY,
 $LOAD  CTAX_UserDefined, AEEI_UserDefined, SolarWindTFP_UserDefined,
 $LOAD RKDO, TDHO, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, 
 $LOAD tmrg, sigma_M1, sigma_M2, sigma_y, sigma_VA, sigma_KLE, POPO
@@ -376,13 +377,13 @@ $LOAD tmrg, sigma_M1, sigma_M2, sigma_y, sigma_VA, sigma_KLE, POPO
  sigma_POWER('08_LAM')    = 3;
  sigma_POWER('09_WEU')   = 5;
  sigma_POWER('10_EEU')    = 3;
- sigma_POWER('11_CAS')    = 3;
+ sigma_POWER('11_RFSU')    = 3;
  sigma_POWER('12_MEA')    = 3;
  sigma_POWER('13_AFR')     = 3; 
- sigma_POWER('14_CLV')     = 3;
+ sigma_POWER('14_RCPA')     = 3;
  sigma_POWER('15_SAS')     = 3; 
- sigma_POWER('16_APC')     = 3;
- sigma_POWER('17_ANZ')     = 5;   
+ sigma_POWER('16_RPAS')     = 3;
+ sigma_POWER('17_RPAO')     = 5;   
 
 * CES - composite BS sector
  sigma_BS(BS, Z_GRN)       = 10;
@@ -425,13 +426,13 @@ $LOAD tmrg, sigma_M1, sigma_M2, sigma_y, sigma_VA, sigma_KLE, POPO
  frisch('08_LAM') = -1.50;
  frisch('09_WEU') = -1.20;
  frisch('10_EEU') = -1.40;
- frisch('11_CAS') = -1.60;
+ frisch('11_RFSU') = -1.60;
  frisch('12_MEA') = -1.60;
  frisch('13_AFR') = -1.90;
- frisch('14_CLV') = -1.70;
+ frisch('14_RCPA') = -1.70;
  frisch('15_SAS') = -1.80;
- frisch('16_APC') = -1.50;
- frisch('17_ANZ') = -1.20;
+ frisch('16_RPAS') = -1.50;
+ frisch('17_RPAO') = -1.20;
 
 * Labour supply 
  elasLS(z)                     = 0.1;
@@ -559,7 +560,7 @@ PPO_TEMP(j,z)$XSTO(j,z) = ( TIWO(j,z) + WO(z)*LDO(j,z)
                           + SUM(k, TIKO(k,j,z) + RKDO(k,j,z)) 
                           + SUM(i, DIO(i,j,z)) ) / XSTO(j,z);
 
-* 2. [Modified] Include cases where output is low (XSTO < 0.01) OR price distortion is extreme (PPO > 2.0)
+* 2. [Modified] Include RFSUes where output is low (XSTO < 0.01) OR price distortion is extreme (PPO > 2.0)
 LOOP((j,z)$( ( (XSTO(j,z) < micro_tol) or (PPO_TEMP(j,z) > 2.0) ) 
              and (PPO_TEMP(j,z) > 1.2 or PPO_TEMP(j,z) < 0.8) 
              and not (BS(j) and Z_OTH(z)) ),
@@ -904,7 +905,7 @@ DISPLAY Elas_Total_ECON, Elas_Total_DDO, Elas_Dom_HH, Elas_EXP;
 * Step 0. Set Target Elasticities and Iterative Algorithm Parameters
 * ==============================================================================
 TABLE Target_Elas(ene,z) Target economy-wide elasticities by region and energy commodity
-               01_KOR  02_CHN  03_JPN  04_RUS  05_MNG  06_PRK  07_NAM  08_LAM  09_WEU  10_EEU  11_CAS  12_MEA  13_AFR  14_CLV  15_SAS  16_APC  17_ANZ
+               01_KOR  02_CHN  03_JPN  04_RUS  05_MNG  06_PRK  07_NAM  08_LAM  09_WEU  10_EEU  11_RFSU  12_MEA  13_AFR  14_RCPA  15_SAS  16_RPAS  17_RPAO
 02_COAL         -0.88   -0.46   -0.74   -0.30   -0.58   -0.30   -0.97   -0.50   -1.03   -0.85   -0.67   -0.76   -0.82   -0.46   -0.71   -1.12   -0.80
 03_OIL          -0.52   -0.34   -0.54   -0.15   -0.66   -0.15   -0.92   -0.58   -0.74   -0.45   -0.15   -0.39   -0.95   -0.34   -0.98   -0.52   -0.99
 04_GAS          -0.74   -1.16   -0.52   -0.30   -0.67   -0.15   -0.73   -0.69   -0.85   -0.71   -0.57   -0.62   -0.69   -1.16   -0.18   -0.15   -1.25
@@ -1322,7 +1323,7 @@ rho_VAT(BS, Z_GRN)   = (1 - sigma_VAT(BS, Z_GRN)) / sigma_VAT(BS, Z_GRN);
 *==============================================================================
 * Energy & CO2 emission
 *==============================================================================
-$INCLUDE Input_CGE/DATA_WEB.gms
+$INCLUDE Input_CGE/DATA_WEB_22e.gms
 $INCLUDE Input_CGE/DATA_CO2coef.gms
 
 *==============================================================================
@@ -1395,7 +1396,7 @@ PARAMETER
  DAC_MAX(z)                  = sum(j,PERMITO(j,z))*0.2;
  DAC_MAX('07_NAM')           = sum(j,PERMITO(j,'07_NAM'))*0.6;
  DAC_MAX('09_WEU')           = sum(j,PERMITO(j,'09_WEU'))*0.6;
- DAC_MAX('17_ANZ')           = sum(j,PERMITO(j,'17_ANZ'))*0.6;
+ DAC_MAX('17_RPAO')           = sum(j,PERMITO(j,'17_RPAO'))*0.6;
  DAC_growth_rate(z,time)     = 0;
  DAC_Max_Pen(z)              = 1.0;
  DAC_Logistic_Coeff(z)       = 0.2;

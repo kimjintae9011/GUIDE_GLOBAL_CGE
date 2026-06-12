@@ -187,7 +187,7 @@ final_df = pd.concat(all_pivots, ignore_index=True)
 final_df = final_df[['Flow', 'Product', 'Region', 'Energy']]
 
 # CSV 파일로 저장
-output_csv = "2019_WorldEnergyBalance.csv"
+output_csv = "2019_WorldEnergyBalance_25e.csv"
 final_df.to_csv(output_csv, index=False, encoding='utf-8-sig')
 
 print(f"🎉 통합 CSV 생성 완료: {output_csv}")
@@ -236,7 +236,7 @@ world_df = pd.concat([WORLDBIG1, WORLDBIG2, WORLDBIG3], ignore_index=True)
 # 주의: 연도 필터링을 2019년 하나로 고정하지 않고, 트렌드를 볼 수 있도록 변경합니다.
 # (만약 앞선 코드에서 매핑을 이미 진행했다면 'TFC' 대신 'f51_TFC', 'TOTAL' 대신 'p66_TOTAL'을 입력하세요)
 tfc_df = world_df[
-    (world_df['Flow'] == 'TFC') & 
+    (world_df['Flow'] == 'TES') & 
     (world_df['Product'] == 'TOTAL') & 
     (world_df['Unit'] == 'KTOE') # TJ로 쓰셨다면 'TJ'로 변경
 ].copy()
@@ -252,7 +252,18 @@ nea_regions = {
     '03_JPN': ['JAPAN'], 
     '04_RUS': ['RUSSIA'],
     '05_MNG': ['MONGOLIA'], 
-    '06_PRK': ['KOREADPR']
+    '06_PRK': ['KOREADPR'],
+    '07_NAM': ['CANADA', 'USA'],
+    '08_LAM': ['ARGENTINA', 'BOLIVIA', 'BRAZIL', 'CHILE', 'COLOMBIA', 'COSTARICA', 'CUBA', 'DOMINICANREP', 'ECUADOR', 'GUATEMALA', 'GUYANA', 'HAITI', 'HONDURAS', 'JAMAICA', 'MEXICO', 'NICARAGUA', 'PANAMA', 'PERU', 'PARAGUAY', 'ELSALVADOR', 'SURINAME', 'TRINIDAD', 'URUGUAY', 'CURACAO', 'VENEZUELA', 'OTHERLATIN'],
+    '09_WEU': ['AUSTRIA', 'BELGIUM', 'GREECE', 'SWITZERLAND', 'CYPRUS', 'GERMANY', 'DENMARK', 'SPAIN', 'FINLAND', 'FRANCE', 'UK', 'IRELAND', 'ICELAND', 'ITALY', 'LUXEMBOURG', 'MALTA', 'NETHERLANDS', 'NORWAY', 'PORTUGAL', 'SWEDEN', 'TURKIYE', 'GIBRALTAR', 'GREENLAND'],
+    '10_EEU': ['ALBANIA', 'BULGARIA', 'BOSNIAHERZ', 'CZECH', 'ESTONIA', 'CROATIA', 'HUNGARY', 'LITHUANIA', 'LATVIA', 'NORTHMACED', 'MONTENEGRO', 'ROMANIA', 'POLAND', 'SERBIA', 'SLOVAKIA', 'SLOVENIA', 'KOSOVO'],
+    '11_CAS': ['ARMENIA', 'AZERBAIJAN', 'BELARUS', 'GEORGIA', 'KAZAKHSTAN', 'KYRGYZSTAN', 'MOLDOVA', 'TAJIKISTAN', 'TURKMENISTAN', 'UKRAINE', 'UZBEKISTAN'],
+    '12_MEA': ['UAE', 'BAHRAIN', 'ALGERIA', 'EGYPT', 'IRAN', 'IRAQ', 'ISRAEL', 'JORDAN', 'KUWAIT', 'LEBANON', 'LIBYA', 'MOROCCO', 'OMAN', 'QATAR', 'SAUDIARABIA', 'SUDAN', 'SSUDAN', 'TUNISIA', 'YEMEN', 'SYRIA', 'PALESTINE'],
+    '13_AFR': ['ANGOLA', 'BENIN', 'BOTSWANA', 'COTEIVOIRE', 'CAMEROON', 'CONGO_DRC', 'CONGO_REPUB', 'ERITREA', 'ETHIOPIA', 'GABON', 'GHANA', 'EQGUINEA', 'KENYA', 'MADAGASCAR', 'MOZAMBIQUE', 'MAURITIUS', 'NAMIBIA', 'NIGER', 'NIGERIA', 'RWANDA', 'SENEGAL', 'ESWATINI', 'TOGO', 'TANZANIA', 'UGANDA', 'SOUTHAFRICA', 'ZAMBIA', 'ZIMBABWE', 'OTHERAFRIC', 'BURKINAFASO', 'CHAD', 'MALI', 'MAURITANIA'],
+    '14_CLV': ['CAMBODIA', 'LAO', 'VIETNAM'],
+    '15_SAS': ['BANGLADESH', 'INDIA', 'SRILANKA', 'NEPAL', 'PAKISTAN'],
+    '16_APC': ['BRUNEI', 'INDONESIA', 'MYANMAR', 'MALAYSIA', 'PHILIPPINES', 'SINGAPORE', 'THAILAND', 'TAIPEI', 'OTHERASIA'],
+    '17_ANZ': ['AUSTRALIA', 'NEWZEALAND']
 }
 
 country_to_region = {}

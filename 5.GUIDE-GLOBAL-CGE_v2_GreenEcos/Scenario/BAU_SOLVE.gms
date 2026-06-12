@@ -35,7 +35,9 @@ ttik.fx('natr',j,z,time)    = ttikO('natr',j,z);
 ttik.fx('cap',j,z,time)     = ttikO('cap',j,z);
 ttiw.fx(j,z,time)           = ttiwO(j,z);
 ttip.fx(j,z,time)           = ttipO(j,z);
-CTAX.fX(z,time)             = CTAXO(z);
+PERMIT_TOTAL.fx(PERMIT_Z,time) = PERMIT_TOTALO(PERMIT_Z);
+CTAX.lo(z,time) = -inf;
+CTAX.up(z,time) = +inf;
 
 *==============================================================================
 * Resolution (Loop over time periods for the BAU Scenario)
@@ -73,11 +75,17 @@ $INCLUDE INIT.gms
     PIXCON_lag(z,t1) = PIXCONO_lag(z);
     PIXCON_lag(z,time)$[ord(time) gt 1] = PIXCON.l(z,time-1);     
  
-* --- Policy Recycling Assumptions ---
-    recycle_gov(z,time) = 0;          
-    recycle_hou(z,time) = 1;                              
+*==============================================================================
+* CTAX and PERMIT
+*============================================================================== 
+    PERMIT_TOTAL.fx(PERMIT_Z,time)$[ord(time) gt 1] = PERMIT_TOTALO(PERMIT_Z) * PERMIT_REF(PERMIT_Z,time);  
 
-* --- Solar & Wind Productivity Shock ---
+    recycle_gov(z,time) = 0;          
+    recycle_hou(z,time) = 1;           
+
+*=============================================================================
+* Solar & Wind Productivity Shock
+*=============================================================================
     B_VA_t('23_eWind',z,time)$[ord(time) gt 1]  = B_VA_t('23_eWind',z,time-1) * [1 + SolarWind_TFP_BAU];
     B_VA_t('24_eSolar',z,time)$[ord(time) gt 1] = B_VA_t('24_eSolar',z,time-1) * [1 + SolarWind_TFP_BAU];
     B_VA_t('18_TnD',z,time)$[ord(time) gt 1]    = B_VA_t('18_TnD',z,time-1) * [1 + SolarWind_TFP_BAU];

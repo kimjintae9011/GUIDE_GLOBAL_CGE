@@ -110,6 +110,7 @@ $offtext
  ttik.fx('cap',j,z,time)      = ttikO('cap',j,z);
  ttiw.fx(j,z,time)            = ttiwO(j,z);
  ttip.fx(j,z,time)            = ttipO(j,z);
+ K_idle.fx(k,j,z,time)        = 0;
 
 *==============================================================================
 *   6.2.2 Solution

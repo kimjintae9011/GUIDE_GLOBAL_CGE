@@ -1,4 +1,8 @@
 * Initialize Parameters
+SW_GLOBAL = 0;
+SW_NEAICM = 0;
+SW_NEAICMCJK= 0;
+
 AEEI(z,time) = AEEI_NZ(z,time);
 
 penalty_rate(j) = 0.05;
@@ -51,6 +55,7 @@ ttip.fx(j,z,time)              = ttipO(j,z);
 PERMIT_TOTAL.fx(PERMIT_Z,time) = PERMIT_TOTALO(PERMIT_Z);
 CTAX.lo(z,time) = -inf;
 CTAX.up(z,time) = +inf;
+K_idle.fx(k,j,z,time) = 0;
 
 *==============================================================================
 * Solution (Loop over time periods)
@@ -159,7 +164,8 @@ $INCLUDE INIT.gms
 * Power Sector Issue
 *============================================================================== 
 * j5와 Z_GRN에 속하는 섹터와 지역에 대해서만 루프 실행
-loop((j,z)$[ j5(j) and Z_GRN(z) ],
+*loop((j,z)$[ j5(j) and Z_GRN(z) ],
+loop((j,z)$[ j5(j) ],
     
 * [핵심 보완] 기준연도(t=1)에는 이전 연도가 없으므로 무조건 정상 체제로 세팅
     if(ord(time) eq 1,

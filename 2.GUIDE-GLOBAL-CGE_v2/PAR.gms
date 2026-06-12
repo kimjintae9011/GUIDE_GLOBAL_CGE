@@ -124,9 +124,14 @@ PARAMETER
  AEEI_NZ(z,time)              NZ AEEI
  recycle_gov(z,time)          Binary variable (0 if no use of CTAX Rebate)
  recycle_hou(z,time)          Binary variable (0 if no use of CTAX Rebate)
- CTAX_UserDefined(z,time) UserDefined CTAX
- AEEI_UserDefined(z,time)     UserDefined AEEI
- SolarWindTFP_UserDefined(z,time)  UserDefined SolarWind_TFP
+ CTAX_UserDefined(z,time)         Carbon tax path by region
+ AEEI_UserDefined(z,time)         Autonomous Energy Efficiency Improvement (AEEI) rate
+ SolarWindTFP_UserDefined(z,time)  Total Factor Productivity (TFP) for solar and wind power
+ BAU_EMISSION(z,time)              Business-As-Usual emissions by region
+ NZ_EMISSION(z,time)                Net-Zero target emissions by region
+ NZ_GlobalEMISSION(time)          Global Net-Zero emission trajectory
+ NZ_NEAEMISSION(time)              Northeast Asia regional Net-Zero trajectory
+ NZ_NEACJKEMISSION(time)        China-Japan-Korea (CJK) Net-Zero trajectory
 
 * --- [7] Other Coefficients & Rescaling ---
  aij(i,j,z)                   Input-output coefficient
@@ -326,7 +331,8 @@ $GDXIN Input_CGE/DATA_AGG-2019_GTAP11c_Regen_V2.gdx
 $LOAD F, K, ZR, Z1, 
 $LOAD CO, CGO, DDO, DEPO, DIO, DSO, DSO_I, EXO, IMO, INVO, KSTO, LDO, MRGNO, XSO, XSO_I, XSTO, 
 $LOAD TOT_POP, g_GDP, g_POP, g_SDR, CTAX_BAU, PERMIT_NDC, PERMIT_NZ, AEEI_BAU, AEEI_NDC, AEEI_NZ, EMPLOY,
-$LOAD  CTAX_UserDefined, AEEI_UserDefined, SolarWindTFP_UserDefined,
+$LOAD CTAX_UserDefined, AEEI_UserDefined, SolarWindTFP_UserDefined,
+$LOAD  BAU_EMISSION, NZ_EMISSION, NZ_GlobalEMISSION, NZ_NEAEMISSION, NZ_NEACJKEMISSION,
 $LOAD RKDO, TDHO, TICO, TIKO, TIMO, TIPO, TIWO, TIXO, 
 $LOAD tmrg, sigma_M1, sigma_M2, sigma_y, sigma_VA, sigma_KLE, POPO
 
@@ -340,6 +346,7 @@ $LOAD tmrg, sigma_M1, sigma_M2, sigma_y, sigma_VA, sigma_KLE, POPO
 * CES - composite K-L
  sigma_VA('10_PETROLCOAL',z)   = 0.2;
  sigma_VA('11_CHEMICAL',z)   = 0.2;
+ sigma_VA('13_IRONSTL','05_MNG')=0.2;
  sigma_VA('18_TnD',z)          = 0.2;
  sigma_VA('19_eNuclear',z)     = 0.2;
  sigma_VA('20_eCoal',z)        = 0.2;
@@ -356,34 +363,23 @@ $LOAD tmrg, sigma_M1, sigma_M2, sigma_y, sigma_VA, sigma_KLE, POPO
  sigma_KD(BS,Z)       = 0.5;
 
 * CES - composite ENER
- sigma_ENER_elec(j2,z)         = 1.5;
+ sigma_ENER_elec(j2,z)          = 1.5;
  sigma_ENER_nelec(j2,z)        = 0.5;
- sigma_ENER_coalgas(j2,z)      = 2.0;
+ sigma_ENER_coalgas(j2,z)     = 2.0;
  sigma_ENER_oilprod(j2,z)      = 0.5;
 
 * CES - Substitution between different industries producing the same commodity (Dummy)
  sigma_MultiOut(i,z)                 = 2;
 
 * CES - composite Power sector
- sigma_POWER(z)               = 3;
- sigma_POWER('01_KOR')    = 5;
- sigma_POWER('02_CHN')    = 5;
- sigma_POWER('03_JPN')     = 5;
- sigma_POWER('04_RUS')    = 3; 
- sigma_POWER('05_MNG')   = 3; 
- sigma_POWER('06_PRK')    = 0.5;
- sigma_POWER('07_NAM')   = 5;
- sigma_POWER('08_LAM')    = 3;
- sigma_POWER('09_WEU')   = 5;
- sigma_POWER('10_EEU')    = 3;
- sigma_POWER('11_CAS')    = 3;
- sigma_POWER('12_MEA')    = 3;
- sigma_POWER('13_AFR')     = 3; 
- sigma_POWER('14_CLV')     = 3;
- sigma_POWER('15_SAS')     = 3; 
- sigma_POWER('16_APC')     = 3;
- sigma_POWER('17_ANZ')     = 5;   
-
+ sigma_POWER(z)               = 5;
+* sigma_POWER('01_KOR')    = 3;
+* sigma_POWER('02_CHN')    = 3;
+* sigma_POWER('06_PRK')    = 0.5;
+* sigma_POWER('08_LAM')    = 1.5;
+ sigma_POWER('12_MEA')    = 1.5;
+ sigma_POWER('14_CLV')     = 1.5;
+  
 * CES - composite BS sector
  sigma_BS(BS, Z_GRN)       = 10;
 
@@ -396,14 +392,14 @@ $LOAD tmrg, sigma_M1, sigma_M2, sigma_y, sigma_VA, sigma_KLE, POPO
  sigma_VAT('37_BS_ATRP',Z_GRN)         = 0.5;
 
 * CES - DOM vs.IMP
-* sigma_M1('03_OIL','06_PRK') = 0.5;
-* sigma_M1('04_GAS',Z) = 6;
-* sigma_M1('11_CHEMICAL','05_MNG') = 1.5;
-* sigma_M1('13_IRONSTL','05_MNG') = 1.1;
+ sigma_M1('03_OIL','06_PRK') = 0.5;
+ sigma_M1('04_GAS',Z) = 6;
+ sigma_M1('11_CHEMICAL','05_MNG') = 1.5;
+ sigma_M1('13_IRONSTL','05_MNG') = 1.1;
  
 * CES - IMP sourcing
-* sigma_M2('03_OIL',Z) = 2;
-* sigma_M2('04_GAS',Z) = 2;
+ sigma_M2('03_OIL',Z) = 2;
+ sigma_M2('04_GAS',Z) = 2;
 
 * CET - Transformation between domestic sales and total exports.
  sigma_X1(i,z)                 = 2;
@@ -781,9 +777,35 @@ LOOP((j,z)$( ( (XSTO(j,z) < micro_tol) or (PPO_TEMP(j,z) > 2.0) )
 
 *$ontext 
 * ==============================================================================
+* [ADDITION] Backup setup of initial values for tracking parameter changes
+* ==============================================================================
+SET eval_sig "Evaluation items for sigmas" / Initial "Initial value", Final "Final value", Diff "Difference (Change)" /;
+SET sig_type "Types of Industry Elasticities" / 
+    s_coalgas "sigma_ENER_coalgas", 
+    s_oilprod "sigma_ENER_oilprod", 
+    s_nelec   "sigma_ENER_nelec", 
+    s_elec    "sigma_ENER_elec", 
+    s_kle     "sigma_KLE" 
+/;
+
+PARAMETER Init_sigma_M1(ene,z) "Backup for initial sigma_M1";
+PARAMETER Init_sigma_M2(ene,z) "Backup for initial sigma_M2";
+PARAMETER Init_sigma_IND(j,z,sig_type) "Backup for initial industry nest sigmas";
+
+* Store the current (initial) parameter values before entering the loop
+Init_sigma_M1(ene,z) = sigma_M1(ene,z);
+Init_sigma_M2(ene,z) = sigma_M2(ene,z);
+Init_sigma_IND(j,z,'s_coalgas') = sigma_ENER_coalgas(j,z);
+Init_sigma_IND(j,z,'s_oilprod') = sigma_ENER_oilprod(j,z);
+Init_sigma_IND(j,z,'s_nelec')   = sigma_ENER_nelec(j,z);
+Init_sigma_IND(j,z,'s_elec')    = sigma_ENER_elec(j,z);
+Init_sigma_IND(j,z,'s_kle')     = sigma_KLE(j,z);
+
+* ==============================================================================
 * Calculation of Economy-Wide Ex-ante Own-Price Elasticities for Energy
 * (Industries + Households + Government + Investment + Exports)
 * ==============================================================================
+
 PARAMETERS
 * 1. Industry Nest Shares
     S_E_KLE(j,z), S_NE_E(j,z), S_Elec_E(j,z)
@@ -791,31 +813,31 @@ PARAMETERS
     S_Coal_CG(j,z), S_Gas_CG(j,z), S_Oil_OP(j,z), S_Petrol_OP(j,z)
     
 * 2. Armington & Demand Shares
-    S_DOM(i,z)           Share of Domestic product in composite demand
-    W_IND(i,j,z)         Share of Industry j in Total Composite Demand QO
-    W_HH(i,z)            Share of Household in Total Composite Demand QO
-    W_INV(i,z)           Share of Investment in Total Composite Demand QO
-    W_GOV(i,z)           Share of Government in Total Composite Demand QO
-    W_DDO(i,z)           Share of Domestic Sales in Total Output
-    W_EXTO(i,z)          Share of Export Sales in Total Output
-    Val_Total(i,z)       Total Value of Domestic and Export Sales
+    S_DOM(i,z)           "Share of Domestic product in composite demand"
+    W_IND(i,j,z)         "Share of Industry j in Total Composite Demand QO"
+    W_HH(i,z)            "Share of Household in Total Composite Demand QO"
+    W_INV(i,z)           "Share of Investment in Total Composite Demand QO"
+    W_GOV(i,z)           "Share of Government in Total Composite Demand QO"
+    W_DDO(i,z)           "Share of Domestic Sales in Total Output"
+    W_EXTO(i,z)          "Share of Export Sales in Total Output"
+    Val_Total(i,z)       "Total Value of Domestic and Export Sales"
     
 * 3. Composite Price Elasticities by Agent (Imported + Domestic)
-    Elas_Comp_IND(ene,j,z) Composite elasticity for Industry
-    Elas_Comp_HH(ene,z)    Composite elasticity for Household (LES)
-    Elas_Comp_INV(ene,z)   Composite elasticity for Investment (Cobb-Douglas = -1)
-    Elas_Comp_GOV(ene,z)   Composite elasticity for Government (Cobb-Douglas = -1)
+    Elas_Comp_IND(ene,j,z) "Composite elasticity for Industry"
+    Elas_Comp_HH(ene,z)    "Composite elasticity for Household (LES)"
+    Elas_Comp_INV(ene,z)   "Composite elasticity for Investment (Cobb-Douglas = -1)"
+    Elas_Comp_GOV(ene,z)   "Composite elasticity for Government (Cobb-Douglas = -1)"
     
 * 4. Domestic Price Elasticities by Agent
-    Elas_Dom_IND(ene,j,z)  Domestic elasticity for Industry
-    Elas_Dom_HH(ene,z)     Domestic elasticity for Household
-    Elas_Dom_INV(ene,z)    Domestic elasticity for Investment
-    Elas_Dom_GOV(ene,z)    Domestic elasticity for Government
-    Elas_EXP(ene,z)        Export elasticity (based on importer's sigma_M2)
+    Elas_Dom_IND(ene,j,z)  "Domestic elasticity for Industry"
+    Elas_Dom_HH(ene,z)     "Domestic elasticity for Household"
+    Elas_Dom_INV(ene,z)    "Domestic elasticity for Investment"
+    Elas_Dom_GOV(ene,z)    "Domestic elasticity for Government"
+    Elas_EXP(ene,z)        "Export elasticity (based on importer's sigma_M2)"
     
 * 5. Economy-Wide Price Elasticities
-    Elas_Total_DDO(ene,z)  Weighted elasticity of Total Domestic Demand (DDO)
-    Elas_Total_ECON(ene,z) Economy-wide Ex-ante Price Elasticity of Energy Commodity
+    Elas_Total_DDO(ene,z)  "Weighted elasticity of Total Domestic Demand (DDO)"
+    Elas_Total_ECON(ene,z) "Economy-wide Ex-ante Price Elasticity of Energy Commodity"
 ;
 
 * ------------------------------------------------------------------------------
@@ -853,17 +875,22 @@ W_EXTO(ene,z)$Val_Total(ene,z) = (PETO(ene,z)*EXTO(ene,z)) / Val_Total(ene,z);
 Elas_Comp_IND('02_COAL',j2,z)$DEO('02_COAL',j2,z) = 
     - (1 - S_Coal_CG(j2,z)) * sigma_ENER_coalgas(j2,z) - S_Coal_CG(j2,z) * (1 - S_CG_NE(j2,z)) * sigma_ENER_nelec(j2,z)
     - S_Coal_CG(j2,z) * S_CG_NE(j2,z) * (1 - S_NE_E(j2,z)) * sigma_ENER_elec(j2,z) - S_Coal_CG(j2,z) * S_CG_NE(j2,z) * S_NE_E(j2,z) * (1 - S_E_KLE(j2,z)) * sigma_KLE(j2,z);
+
 Elas_Comp_IND('04_GAS',j2,z)$DEO('04_GAS',j2,z) = 
     - (1 - S_Gas_CG(j2,z)) * sigma_ENER_coalgas(j2,z) - S_Gas_CG(j2,z) * (1 - S_CG_NE(j2,z)) * sigma_ENER_nelec(j2,z)
     - S_Gas_CG(j2,z) * S_CG_NE(j2,z) * (1 - S_NE_E(j2,z)) * sigma_ENER_elec(j2,z) - S_Gas_CG(j2,z) * S_CG_NE(j2,z) * S_NE_E(j2,z) * (1 - S_E_KLE(j2,z)) * sigma_KLE(j2,z);
+
 Elas_Comp_IND('03_OIL',j2,z)$DEO('03_OIL',j2,z) = 
     - (1 - S_Oil_OP(j2,z)) * sigma_ENER_oilprod(j2,z) - S_Oil_OP(j2,z) * (1 - S_OP_NE(j2,z)) * sigma_ENER_nelec(j2,z)
     - S_Oil_OP(j2,z) * S_OP_NE(j2,z) * (1 - S_NE_E(j2,z)) * sigma_ENER_elec(j2,z) - S_Oil_OP(j2,z) * S_OP_NE(j2,z) * S_NE_E(j2,z) * (1 - S_E_KLE(j2,z)) * sigma_KLE(j2,z);
+
 Elas_Comp_IND('10_PETROLCOAL',j2,z)$DEO('10_PETROLCOAL',j2,z) = 
     - (1 - S_Petrol_OP(j2,z)) * sigma_ENER_oilprod(j2,z) - S_Petrol_OP(j2,z) * (1 - S_OP_NE(j2,z)) * sigma_ENER_nelec(j2,z)
     - S_Petrol_OP(j2,z) * S_OP_NE(j2,z) * (1 - S_NE_E(j2,z)) * sigma_ENER_elec(j2,z) - S_Petrol_OP(j2,z) * S_OP_NE(j2,z) * S_NE_E(j2,z) * (1 - S_E_KLE(j2,z)) * sigma_KLE(j2,z);
+
 Elas_Comp_IND('18_ELEC',j2,z)$DEO('18_ELEC',j2,z) = 
     - (1 - S_Elec_E(j2,z)) * sigma_ENER_elec(j2,z) - S_Elec_E(j2,z) * (1 - S_E_KLE(j2,z)) * sigma_KLE(j2,z);
+
 Elas_Comp_IND(ene,j3,z)$DEO(ene,j3,z) = 0;
 
 * 2. Household (LES Function)
@@ -901,9 +928,19 @@ Elas_Total_ECON(ene,z) =
 DISPLAY Elas_Total_ECON, Elas_Total_DDO, Elas_Dom_HH, Elas_EXP;
 
 * ==============================================================================
+* Set and Parameter Declaration for Comparison Report
+* ==============================================================================
+SET eval "Comparison Items" / Initial "Initial Value", Final "Final Value", Target "Target Value" /;
+PARAMETER Report_Elas(ene,z,eval) "Elasticity Comparison Report (Based on DDO)";
+PARAMETER Initial_Elas_ECON(ene,z) "Backup of initial elasticity";
+
+* Backup initially calculated DDO elasticity before entering the loop
+Initial_Elas_ECON(ene,z) = Elas_Total_ECON(ene,z);
+
+* ==============================================================================
 * Step 0. Set Target Elasticities and Iterative Algorithm Parameters
 * ==============================================================================
-TABLE Target_Elas(ene,z) Target economy-wide elasticities by region and energy commodity
+TABLE Target_Elas(ene,z) "Target economy-wide elasticities by region and energy commodity"
                01_KOR  02_CHN  03_JPN  04_RUS  05_MNG  06_PRK  07_NAM  08_LAM  09_WEU  10_EEU  11_CAS  12_MEA  13_AFR  14_CLV  15_SAS  16_APC  17_ANZ
 02_COAL         -0.88   -0.46   -0.74   -0.30   -0.58   -0.30   -0.97   -0.50   -1.03   -0.85   -0.67   -0.76   -0.82   -0.46   -0.71   -1.12   -0.80
 03_OIL          -0.52   -0.34   -0.54   -0.15   -0.66   -0.15   -0.92   -0.58   -0.74   -0.45   -0.15   -0.39   -0.95   -0.34   -0.98   -0.52   -0.99
@@ -920,19 +957,20 @@ Target_ECON('04_GAS',z) = Target_Elas('04_GAS',z);
 Target_ECON('10_PETROLCOAL',z) = Target_Elas('10_PETROLCOAL',z);
 Target_ECON('18_ELEC',z) = Target_Elas('18_ELEC',z);
 
-SET iter Maximum number of iterations / 1*1000 /;
-SCALAR step Update speed (Damping factor) / 0.15 /;
-PARAMETER Adj_Ratio(ene,z) Ratio to target;
-PARAMETER Ind_Total_Weight(ene,z) Total industry weight;
+SET iter "Maximum number of iterations" / 1*1000 /;
+SCALAR step "Update speed (Damping factor)" / 0.15 /;
+PARAMETER Adj_Ratio(ene,z) "Ratio to target";
+PARAMETER Ind_Total_Weight(ene,z) "Total industry weight";
+
 Ind_Total_Weight(ene,z) = SUM(j, W_IND(ene,j,z));
 
 * ==============================================================================
 * Declare temporary parameters before entering the loop (for calculating error weights by industry)
 * ==============================================================================
-PARAMETER Ind_Err_CG(j,z) Weighted average error of Coal-Gas nest by industry;
-PARAMETER Ind_Err_OP(j,z) Weighted average error of Oil products nest by industry;
-PARAMETER Ind_Err_NE(j,z) Weighted average error of Non-Elec nest by industry;
-PARAMETER Ind_Err_Tot(j,z) Weighted average error of total energy by industry;
+PARAMETER Ind_Err_CG(j,z) "Weighted average error of Coal-Gas nest by industry";
+PARAMETER Ind_Err_OP(j,z) "Weighted average error of Oil products nest by industry";
+PARAMETER Ind_Err_NE(j,z) "Weighted average error of Non-Elec nest by industry";
+PARAMETER Ind_Err_Tot(j,z) "Weighted average error of total energy by industry";
 
 * ==============================================================================
 * Algorithm Start
@@ -985,6 +1023,8 @@ LOOP(iter,
 * 3. Parameter Update (Reflecting high-precision industry-specific nest weights)
 * --------------------------------------------------------------------------
     sigma_M1(ene,z)$(1 - S_DOM(ene,z) > 0.05) = sigma_M1(ene,z) * (1 + step * (Adj_Ratio(ene,z) - 1));
+*    sigma_M2(ene,z) = sigma_M2(ene,z) * (1 + step * (Adj_Ratio(ene,z) - 1));
+    sigma_M2(ene,z) = sigma_M1(ene,z) * (Init_sigma_M2(ene,z) / Init_sigma_M1(ene,z));
 
     LOOP(j2,
 * A. Derive weighted average error by nest within each industry (j2) (Follow the error of the fuel heavily consumed by the industry)
@@ -994,16 +1034,16 @@ LOOP(iter,
         Ind_Err_Tot(j2,z) = S_Elec_E(j2,z)*Adj_Ratio('18_ELEC',z)  + S_NE_E(j2,z)*Ind_Err_NE(j2,z);
 
 * B. Parameter modification (Cross-application according to mathematical partial derivative structure)
-* Lower nests dominate the elasticity of minority fuels, so track errors inversely (Cross)
+* Lower nests dominate the elasticity of "minority" fuels, so track errors inversely (Cross)
         sigma_ENER_coalgas(j2,z) = sigma_ENER_coalgas(j2,z) * (1 + step * ( S_Coal_CG(j2,z)*Adj_Ratio('04_GAS',z) + S_Gas_CG(j2,z)*Adj_Ratio('02_COAL',z) - 1 ));
         sigma_ENER_oilprod(j2,z) = sigma_ENER_oilprod(j2,z) * (1 + step * ( S_Oil_OP(j2,z)*Adj_Ratio('10_PETROLCOAL',z) + S_Petrol_OP(j2,z)*Adj_Ratio('03_OIL',z) - 1 ));
-
-* Upper nests dominate the elasticity of majority fuels, so track the weighted average of the nest
+        
+* Upper nests dominate the elasticity of "majority" fuels, so track the weighted average of the nest
         sigma_ENER_nelec(j2,z) = sigma_ENER_nelec(j2,z) * (1 + step * (Ind_Err_NE(j2,z) - 1));
-
+        
 * Cross nest (Cross-application of errors between electricity and non-electricity)
         sigma_ENER_elec(j2,z) = sigma_ENER_elec(j2,z) * (1 + step * ( S_NE_E(j2,z)*Adj_Ratio('18_ELEC',z) + S_Elec_E(j2,z)*Ind_Err_NE(j2,z) - 1 ));
-
+        
 * Top KLE elasticity tracks the integrated energy error of the entire industry
         sigma_KLE(j2,z) = sigma_KLE(j2,z) * (1 + (step/2) * (Ind_Err_Tot(j2,z) - 1));
     );
@@ -1011,17 +1051,26 @@ LOOP(iter,
 * --------------------------------------------------------------------------
 * 4. Logical Constraints for Parameters
 * --------------------------------------------------------------------------
+*    sigma_M1(ene,z) = max(0.5, min(15.0, sigma_M1(ene,z)));
+*    sigma_M2(ene,z) = max(0.5, min(30.0, sigma_M2(ene,z)));
+    
+*    sigma_ENER_coalgas(j,z) = max(0.5, min(3.0, sigma_ENER_coalgas(j,z)));
+*    sigma_ENER_oilprod(j,z) = max(0.5, min(3.0, sigma_ENER_oilprod(j,z)));
+*    sigma_ENER_nelec(j,z)   = max(0.5, min(3.0, sigma_ENER_nelec(j,z)));  
+*    sigma_ENER_elec(j,z)    = max(0.5, min(3.0, sigma_ENER_elec(j,z)));
+*    sigma_KLE(j,z)          = max(0.5, min(3.0, sigma_KLE(j,z)));
+
     sigma_M1(ene,z) = max(0.5, min(15.0, sigma_M1(ene,z)));
     sigma_M2(ene,z) = max(0.5, min(30.0, sigma_M2(ene,z)));    
-    sigma_ENER_coalgas(j,z) = max(0.5, min(3.0, sigma_ENER_coalgas(j,z)));
-    sigma_ENER_oilprod(j,z) = max(0.5, min(3.0, sigma_ENER_oilprod(j,z)));
-    sigma_ENER_nelec(j,z)   = max(0.5, min(3.0, sigma_ENER_nelec(j,z)));  
-    sigma_ENER_elec(j,z)    = max(0.5, min(3.0, sigma_ENER_elec(j,z)));
-    sigma_KLE(j,z)          = max(0.5, min(3.0, sigma_KLE(j,z)));
+    sigma_ENER_coalgas(j,z) = max(0.5, min(1.5, sigma_ENER_coalgas(j,z)));
+    sigma_ENER_oilprod(j,z) = max(0.5, min(1.5, sigma_ENER_oilprod(j,z)));
+    sigma_ENER_nelec(j,z)   = max(0.5, min(1.5, sigma_ENER_nelec(j,z)));  
+    sigma_ENER_elec(j,z)    = max(0.5, min(1.5, sigma_ENER_elec(j,z)));
+    sigma_KLE(j,z)          = max(0.5, min(1.5, sigma_KLE(j,z)));
 
-* [Step 2] Add deadzone constraints to avoid elasticities near 1.0 (0.9 ~ 1.1)
-* Fix to 0.9 if value is > 0.9 and <= 1.0
-* Fix to 1.1 if value is > 1.0 and < 1.1
+* [2단계] 대체탄력성 1.0 부근(0.9 ~ 1.1) 회피 조건 추가 (Deadzone 설정)
+* 값이 0.9 초과 1.0 이하인 경우 0.9로 고정
+* 값이 1.0 초과 1.1 미만인 경우 1.1로 고정
 
     sigma_M1(ene,z)$(sigma_M1(ene,z) > 0.9 and sigma_M1(ene,z) <= 1.0) = 0.9;
     sigma_M1(ene,z)$(sigma_M1(ene,z) > 1.0 and sigma_M1(ene,z) <  1.1) = 1.1;
@@ -1045,7 +1094,51 @@ LOOP(iter,
     sigma_KLE(j,z)$(sigma_KLE(j,z) > 1.0 and sigma_KLE(j,z) <  1.1) = 1.1;
 
 );
-*$offtext
+
+* ==============================================================================
+* [ADDITION] Generate consolidated report for elasticity parameter changes
+* ==============================================================================
+PARAMETER Report_sigma_M1(ene,z,eval_sig) "Report for Armington sigma_M1 changes";
+PARAMETER Report_sigma_M2(ene,z,eval_sig) "Report for Armington sigma_M2 changes";
+PARAMETER Report_sigma_IND(j,z,sig_type,eval_sig) "Report for Industry nest sigma changes";
+
+* 1. Generate report for sigma_M1
+Report_sigma_M1(ene,z,'Initial') = Init_sigma_M1(ene,z);
+Report_sigma_M1(ene,z,'Final')   = sigma_M1(ene,z);
+Report_sigma_M1(ene,z,'Diff')    = sigma_M1(ene,z) - Init_sigma_M1(ene,z);
+
+Report_sigma_M2(ene,z,'Initial') = Init_sigma_M2(ene,z);
+Report_sigma_M2(ene,z,'Final')   = sigma_M2(ene,z);
+Report_sigma_M2(ene,z,'Diff')    = sigma_M2(ene,z) - Init_sigma_M2(ene,z);
+
+* 2. Generate consolidated report for industry-specific elasticities
+Report_sigma_IND(j,z,'s_coalgas','Initial') = Init_sigma_IND(j,z,'s_coalgas');
+Report_sigma_IND(j,z,'s_coalgas','Final')   = sigma_ENER_coalgas(j,z);
+Report_sigma_IND(j,z,'s_coalgas','Diff')    = sigma_ENER_coalgas(j,z) - Init_sigma_IND(j,z,'s_coalgas');
+
+Report_sigma_IND(j,z,'s_oilprod','Initial') = Init_sigma_IND(j,z,'s_oilprod');
+Report_sigma_IND(j,z,'s_oilprod','Final')   = sigma_ENER_oilprod(j,z);
+Report_sigma_IND(j,z,'s_oilprod','Diff')    = sigma_ENER_oilprod(j,z) - Init_sigma_IND(j,z,'s_oilprod');
+
+Report_sigma_IND(j,z,'s_nelec','Initial') = Init_sigma_IND(j,z,'s_nelec');
+Report_sigma_IND(j,z,'s_nelec','Final')   = sigma_ENER_nelec(j,z);
+Report_sigma_IND(j,z,'s_nelec','Diff')    = sigma_ENER_nelec(j,z) - Init_sigma_IND(j,z,'s_nelec');
+
+Report_sigma_IND(j,z,'s_elec','Initial') = Init_sigma_IND(j,z,'s_elec');
+Report_sigma_IND(j,z,'s_elec','Final')   = sigma_ENER_elec(j,z);
+Report_sigma_IND(j,z,'s_elec','Diff')    = sigma_ENER_elec(j,z) - Init_sigma_IND(j,z,'s_elec');
+
+Report_sigma_IND(j,z,'s_kle','Initial') = Init_sigma_IND(j,z,'s_kle');
+Report_sigma_IND(j,z,'s_kle','Final')   = sigma_KLE(j,z);
+Report_sigma_IND(j,z,'s_kle','Diff')    = sigma_KLE(j,z) - Init_sigma_IND(j,z,'s_kle');
+
+Report_Elas(ene,z,'Initial') = Initial_Elas_ECON(ene,z);
+Report_Elas(ene,z,'Final')   = Elas_Total_ECON(ene,z);
+Report_Elas(ene,z,'Target')  = Target_ECON(ene,z);
+
+* Display results in the .lst file
+DISPLAY Report_sigma_M1, Report_sigma_IND;
+
 *==============================================================================
 * Calibration of function parameters
 *==============================================================================
@@ -1366,7 +1459,7 @@ SCALAR
  trigger_price     = 1.0;
  SolarWind_TFP_BAU = 0.02;
  SolarWind_TFP_NDC = 0.02;
- SolarWind_TFP_NZ  = 0.04;
+ SolarWind_TFP_NZ  = 0.025;
  residual_ratio    = 0.05;
 
  TIWO_Share(j,z)   = LDO(j,z) / LSO(z);
@@ -1392,14 +1485,14 @@ PARAMETER
  SCALAR Price_USD_MWh        USD per MWh / 107.14 /;
 
  DAC_TRIGGER                 = 5.0;
- DAC_MAX(z)                  = sum(j,PERMITO(j,z))*0.2;
- DAC_MAX('07_NAM')           = sum(j,PERMITO(j,'07_NAM'))*0.6;
- DAC_MAX('09_WEU')           = sum(j,PERMITO(j,'09_WEU'))*0.6;
- DAC_MAX('17_ANZ')           = sum(j,PERMITO(j,'17_ANZ'))*0.6;
- DAC_growth_rate(z,time)     = 0;
+ DAC_MAX(z)                    = sum(j,PERMITO(j,z))*0.5;
+ DAC_MAX('07_NAM')        = sum(j,PERMITO(j,'07_NAM'))*0.9;
+ DAC_MAX('09_WEU')        = sum(j,PERMITO(j,'09_WEU'))*0.9;
+ DAC_MAX('17_ANZ')         = sum(j,PERMITO(j,'17_ANZ'))*0.9;
+ DAC_growth_rate(z,time)  = 0;
  DAC_Max_Pen(z)              = 1.0;
  DAC_Logistic_Coeff(z)       = 0.2;
- DAC_Inflection(z)           = 15;
+ DAC_Inflection(z)              = 15;
  DAC_Start_Year(z)           = 0;
  DAC_Tech_Coeff('18_ELEC')   = (DAC_Unit_Scale * DAC_Elec_Intensity * Price_USD_MWh) / 10**10;
  switchDAC(z,time)           = 0;
@@ -1519,5 +1612,9 @@ ghgelas(z) = -0.5 ;
 
 *NONCO2_coef('1.B.1','CO2',Country)
 
+*Swith Parameter 
+SCALAR SW_GLOBAL / 0 /;
+SCALAR SW_NEAICM / 0 /;
+SCALAR SW_NEAICMCJK / 0 /;
 
 execute_unload 'Output_CGE\Baseyear_Calibration.gdx' ;

@@ -22,15 +22,9 @@
         },
         {
             "codecMib": 106,
-            "file": "Input_CGE/DATA_WEB.gms",
-            "name": "DATA_WEB.gms",
+            "file": "Input_CGE/DATA_WEB_22e.gms",
+            "name": "DATA_WEB_22e.gms",
             "type": "gms"
-        },
-        {
-            "codecMib": 106,
-            "file": "Input_CGE/UserDefined.gdx",
-            "name": "UserDefined.gdx",
-            "type": "gdx"
         },
         {
             "codecMib": 106,
@@ -94,6 +88,12 @@
         },
         {
             "codecMib": 106,
+            "file": "Scenario/FROZEN_SOLVE.gms",
+            "name": "FROZEN_SOLVE.gms",
+            "type": "gms"
+        },
+        {
+            "codecMib": 106,
             "file": "CAL_B_line.gms",
             "name": "CAL_B_line.gms",
             "type": "gms"
@@ -127,12 +127,6 @@
             "file": "Run_Master.gms",
             "name": "Run_Master.gms",
             "type": "gms"
-        },
-        {
-            "codecMib": 106,
-            "file": "Run_Master.lst",
-            "name": "Run_Master.lst",
-            "type": "lst"
         },
         {
             "codecMib": 106,
